@@ -9,7 +9,7 @@
 6 verbose stack Error: ENOENT: no such file or directory, open 'D:\SAATYA-master\package.json'
 6 verbose stack     at Error (native)
 7 verbose cwd D:\SAATYA-master
-8 error Windows_NT 6.1.7601
+8 error Windows_NT 6.1.7601 
 9 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
 10 error node v4.4.7
 11 error npm  v2.15.8
