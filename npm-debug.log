@@ -1,5 +1,5 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe', 
 1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
 1 verbose cli   'install' ]
 2 info using npm@2.15.8
