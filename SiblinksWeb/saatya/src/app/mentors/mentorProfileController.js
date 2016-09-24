@@ -23,7 +23,7 @@ brotControllers.controller('MentorProfileController',
 
     function checkStudentSubscribe(){
       if (userType == 'S') {
-        MentorService.checkStudentSubscribe(mentorId, userId).then(function(data){
+        MentorService.checkStudentSubscribe(mentorId, userId).then(function(data){          
           $scope.subscribeInfo = data.data.request_data_result;
         });
       }

@@ -98,17 +98,17 @@ public interface VideoService {
      */
     public ResponseEntity<Response> getVideosBySubject(long userid, long subjectid);
 
-    public ResponseEntity<Response> getVideos(long id);
+    public ResponseEntity<Response> getVideos(long uid, int offset);
 
     public ResponseEntity<Response> getVideoById(long vid);
 
-    public ResponseEntity<Response> getVideosPlaylist(long id);
+    public ResponseEntity<Response> getVideosPlaylist(long uid, int offset);
 
-    public ResponseEntity<Response> getVideosTopRated(long id);
+    public ResponseEntity<Response> getVideosTopRated(long uid, int offset);
 
-    public ResponseEntity<Response> getVideosTopViewed(long id);
+    public ResponseEntity<Response> getVideosTopViewed(long uid, int offset);
 
-    public ResponseEntity<Response> getVideosRecently(long id);
+    public ResponseEntity<Response> getVideosRecently(long uid);
 
     public ResponseEntity<Response> insertVideo(RequestData request);
 

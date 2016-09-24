@@ -98,6 +98,34 @@ brotServices.factory('MentorService', ['$http', function($http) {
       url: NEW_SERVICE_URL + 'mentor/checkStudentSubcribe?mentorid='+mentorid+'&studentid='+studentid+''
     });
   }
+
+  factory.getStudentsSubscribe = function(mentorid, limit, offset){
+    return $http({
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'mentor/getStudentsSubcribe?mentorId='+mentorid+'&limit='+limit+'&offset='+offset+''
+    });
+  }
+
+  factory.getLatestRatings = function(mentorid){
+    return $http({
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'mentor/getLatestRatings?mentorid='+mentorid+''
+    });
+  }
+
+  factory.getLatestComments = function(mentorid, limit, offset){
+    return $http({
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'mentor/getLatestComments?mentorid='+mentorid+'&limit='+limit+'&offset='+offset+''
+    });
+  }
+
+  factory.getDashboardInfo = function(mentorid){
+    return $http({
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'mentor/getDashboardInfo?uid='+mentorid+''
+    });
+  }
     // factory.searchMentors = function(key) {
 
     //     var mentors;
