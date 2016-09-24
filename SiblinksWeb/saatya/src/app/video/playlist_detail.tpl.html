@@ -82,8 +82,10 @@
                     <div class="post-comment-wrapper">
                         <div class="video-details-description">
                             <h3>{{videoInfo.title}}</h3>
-                            <span>from </span><span class="own-video">{{videoInfo.firstName +" " + videoInfo.lastName}}
-                            </span><span class="video-time-add"> {{convertTime(videoInfo.timeStamp)}} ago</span>
+                            <span>from </span>
+                            <a href="#/mentorProfile/{{videoInfo.userid}}">
+                            <span class="own-video">{{videoInfo.firstName +" " + videoInfo.lastName}}
+                            </span></a><span class="video-time-add"> {{convertTime(videoInfo.timeStamp)}} ago</span>
                             <div class="video-mentor-details">
                                 <div class="videos-rate">
                                     <div class="video-details-sub">
@@ -134,11 +136,12 @@
                             <div class="post-footer">
                                 <div class="input-group">
                                     <!--<img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">-->
-                                    <input type="text" ng-model="txtComment" class="form-control"
-                                           placeholder="Add a comment" type="text" id="add-comment"/>
-                                    <button class="btn btn-primary" ng-disabled="!txtComment" ng-click="addComment()">
-                                        Add comment
-                                    </button>
+                                    <img  ng-if="userId" class="avatar" ng-src="{{avartar}}" alt="avatar">
+                                    <textarea ng-click="clickTxtComent()"  ng-if="userId" class="form-control" placeholder="Add a comment" type="text" id="add-comment"></textarea>
+                                    <div ng-if="userId" class="comment-action">
+                                        <button ng-click="cencelComment()" class="cancel">Cancel</button>
+                                        <button ng-click="addComment()" class="add-comment">Add comment</button>
+                                    </div>
                                 </div>
                                 <ul class="comments-list">
                                     <li class="comment" ng-repeat="comment in comments">
@@ -165,7 +168,7 @@
                     <h3>Related videos</h3>
                     <ul class="related-video-list" ng-repeat="videoRelate in videosRelated">
                         <li class="video-list-item">
-                            <div class="content-warpper" ng-click="viewVideo(videoRelate.vid)">
+                            <div class="content-warpper">
 
                                 <div class="thumb-video">
                                     <a href="#/detailVideo/{{videoRelate.vid}}">
@@ -177,8 +180,9 @@
                                         {{videoRelate.title}}</a>
                                     </p>
                                     <span class="owner-video">
-                                                        from<span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
-                                                    </span><br>
+                                                        from
+                                          <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
+                                                   </a> </span><br>
                                     <span class="view-count">
                                                         view: <span>{{videoRelate.numViews}}</span>
                                                     </span>

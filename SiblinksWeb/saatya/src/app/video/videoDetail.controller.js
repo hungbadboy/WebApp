@@ -4,7 +4,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
               VideoService, SubCategoryVideoService, StudentService,
               CommentService, videoDetailService) {
         $scope.userId = localStorage.getItem('userId');
-
+        $scope.avartar = localStorage.getItem('imageUrl');
 
         var videoid = $routeParams.videoid;
 
@@ -147,6 +147,14 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             });
 
         }
+
+        $scope.clickTxtComent = function(){
+            $(".comment-action").show();
+        };
+        $scope.cencelComment = function(){
+            $("#add-comment").val('');
+            $(".comment-action").hide();
+        };
 
         $scope.nextVideo = function (str) {
             if (!isEmpty($scope.videosRelatedError)) {
@@ -325,6 +333,8 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 
             videoDetailService.addCommentVideo($scope.userId, content, videoid).success(function (data) {
                 if (data.status == 'true') {
+                    $("#add-comment").val('');
+                    $(".comment-action").hide();
                     videoDetailService.getCommentVideoById(videoid).then(function (data) {
                         if (data.data.status == 'true') {
                             if (data.data.request_data_result.length == 0) {

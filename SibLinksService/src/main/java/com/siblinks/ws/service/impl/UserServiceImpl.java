@@ -1426,14 +1426,14 @@ public class UserServiceImpl implements UserService {
                 stream.write(uploadfile.getBytes());
                 stream.close();
 
-				Object[] queryParams = { service + filename, userid };
+				Object[] queryParams = { service + filename + ".png", userid };
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVARTAR_USER, queryParams);
             }
 
             catch (Exception e) {
                 e.printStackTrace();
             }
-            SimpleResponse reponse = new SimpleResponse("" + status, filename);
+            SimpleResponse reponse = new SimpleResponse("" + status, service + filename + ".png");
             return new ResponseEntity<Response>(reponse, HttpStatus.OK);
 
         } else {

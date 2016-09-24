@@ -29,7 +29,9 @@ brotControllers
                       StudentService, VideoService, myCache) {
 
                 var subjectid = $routeParams.subjectid;
-
+                if (isEmpty(subjectid)) {
+                    subjectid = "-1";
+                }
                 $scope.limitAnswes = 3;
                 var listPosted = [];
 
@@ -60,7 +62,7 @@ brotControllers
                         userId = -1;
                     }
                     if (isEmpty(subjectid)) {
-                        subjectid = -1;
+                        subjectid = "-1";
                     }
 
                     getQuestions(userId, limit, offset, ordertype, oldQid, subjectid);
@@ -137,7 +139,7 @@ brotControllers
                             if (!isLoadMore) {
                                 listPosted = [];
                             }
-                            if(result != null){
+                            if (result == null) {
                                 return;
                             }
                             for (var i = 0; i < result.question.length; i++) {

@@ -25,7 +25,7 @@
                             <div class="student-joined">
                                 <ul>
                                     <li class="student-question">
-                                        <h3>{{student.count_question}}</h3>
+                                        <h3 ng-controller="QuestionController">{{totalQuestion}}</h3>
                                         <span>questions</span>
                                     </li>
                                     <li class="student-question">
@@ -136,10 +136,10 @@
                         <!-- Content of question -->
                         <div class="tab-content">
                             <!-- Content Of My Question -->
-                            <div class="content-question col-md-12 tab-pane active" id="my-questions">
-                                <div class="content-question-wrapper" scroller="askQuestion.ListQA" data-on-total-scroll="getQuestionByUserId">
+                            <div ng-controller="QuestionController" class="content-question col-md-12 tab-pane active" id="my-questions">
+                                <div class="content-question-wrapper"  data-on-total-scroll="loadMorePost" scroller="askQuestion" >
                                     <!-- Question 01 -->
-                                    <div class="question question_01" ng-repeat="q in askQuestion.ListQA track by $index">
+                                    <div ng-if="askQuestion" class="question question_01" ng-repeat="q in askQuestion track by $index">
                                         <div class="number-question col-xs-1">
                                             <h4>{{$index+1}}</h4>
                                         </div>
