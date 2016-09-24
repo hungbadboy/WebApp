@@ -23,21 +23,27 @@ brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $h
         StudentService.loginUser(userName, password, function (data) {
             if (data.status == 'true') {
                 var dataUser = data;
+                var firstName = dataUser['firstName'];
+                var lastName = dataUser['lastName']
                 setStorage('userName', dataUser['username'], 30);
                 setStorage('userId', dataUser['userid'], 30);
                 setStorage('userType', dataUser['userType'], 10);
                 setStorage('imageUrl', dataUser['imageUrl'], 10);
-                setStorage('firstName', dataUser['firstName'], 30);
-                setStorage('lastname', dataUser['lastname'], 30);
+                setStorage('firstName', (firstName != null && firstName !== undefined)?firstName:'', 30);
+                setStorage('lastname', (lastName != null && lastName !== undefined)?lastName:'', 30);
+                setStorage('defaultSubjectId', dataUser['defaultSubjectId'], 10);
                 var nameHome = '';
-                if (dataUser['firstname'] == null || dataUser['lastname'] == null) {
+                if (firstName == null || firstName === undefined || lastName == null || lastName === undefined) {
                     nameHome = capitaliseFirstLetter(dataUser['username'].substring(0, dataUser['username'].indexOf('@')));
-                }
-                else {
-                    nameHome = capitaliseFirstLetter(dataUser['firstname']) + ' ' + capitaliseFirstLetter(dataUser['lastname']);
+                } else {
+                    nameHome = capitaliseFirstLetter(firstName) + ' ' + capitaliseFirstLetter(lastName);
                 }
                 setStorage('nameHome', nameHome, 30);
-                window.location.href = '/';
+                if (dataUser['userType'] == 'S') { // login student
+                	window.location.href = '/';
+                } else if(dataUser['userType'] == 'M') { // login mentor
+                	window.location.href = '/';
+                }
             } else {
                 $scope.loginMess = "Incorrect email or password";
             }
@@ -87,10 +93,15 @@ brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $h
 	                setStorage('imageUrl', dataUser['imageUrl'], 10);
 	                setStorage('firstName', dataUser['firstName'], 30);
 	                setStorage('lastname', dataUser['lastname'], 30);
+	                setStorage('defaultSubjectId', dataUser['defaultSubjectId'], 10);
 	                var nameHome = $scope.firstName + ' ' + $scope.lastName;
 	                setStorage('nameHome', nameHome, 30);
 	                $('#header .log_out .current').text(nameHome);
-	                window.location.href = '/';
+	                if (dataUser['userType'] == 'S') { // login student
+	                	window.location.href = '/';
+	                } else if(dataUser['userType'] == 'M') { // login mentor
+	                	window.location.href = '/';
+	                }
             	} else {
             		$scope.loginMess = 'Your email is already registered and not account Facebook';
             	}
@@ -127,11 +138,16 @@ brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $h
 	                        setStorage('nameHome', nameHome, 30);
 	                        setStorage('firstName', dataUser['firstName'], 30);
 	                        setStorage('lastname', dataUser['lastname'], 30);
-	                        $('#header .login').addClass('hide');
-	                        $('#header .log_out').removeClass('hide');
-	                        $('#header .log_out .current').text(nameHome);
+	                        setStorage('defaultSubjectId', dataUser['defaultSubjectId'], 10);
+	                        //$('#header .login').addClass('hide');
+	                        //$('#header .log_out').removeClass('hide');
+	                        //$('#header .log_out .current').text(nameHome);
 	
-	                        window.location.href = '/';
+	                        if (dataUser['userType'] == 'S') { // login student
+	                        	window.location.href = '/';
+	                        } else if(dataUser['userType'] == 'M') { // login mentor
+	                        	window.location.href = '/';
+	                        }
                     	} else {
                     		$scope.loginMess = 'Your email is already registered and not account Google';
                     	}

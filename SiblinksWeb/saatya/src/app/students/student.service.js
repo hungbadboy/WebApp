@@ -135,7 +135,7 @@ brotServices.factory('StudentService', ['$http', function($http) {
   };
 
   factory.uploadAvatar = function (fd) {
-    var url = NEW_SERVICE_URL + 'user/uploadFile';
+    var url = NEW_SERVICE_URL + 'user/uploadAvartar';
     var promise = $http({
       method: 'POST',
       url: url,

@@ -9,7 +9,7 @@ brotControllers.controller('UserHeaderController',
             var userId = "";
             $scope.imageUrl = "";
 
-            $scope.fullName = localStorage.getItem('firstName') + " " + localStorage.getItem('lastName');
+            $scope.fullName = localStorage.getItem('nameHome');
             
             if (localStorage.getItem('imageUrl') !== undefined && localStorage.getItem('imageUrl') !='undefined') {
             	$scope.imageUrl = localStorage.getItem('imageUrl')

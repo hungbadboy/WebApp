@@ -184,8 +184,9 @@ brotControllers.controller('StudentProfileController',
     $scope.onFileSelect = function ($files) {
         var fd = new FormData();
         if ($files != null) {
-            fd.append('uploadfile', $files[0]);
+        	fd.append('uploadfile', $files[0]);
             fd.append("userid",userId);
+            fd.append("imageUrl",localStorage.getItem('imageUrl'));
             StudentService.uploadAvatar(fd).then(function (data) {
                if(data.data.status=="true") {
                    $scope.student.imageUrl = data.data.request_data_result;
@@ -289,7 +290,7 @@ brotControllers.controller('StudentProfileController',
         console.log(student);
         StudentService.updateStudentProfile(student).then(function(data){
           if (data.data.request_data_result == "Success") {
-            window.location.href = '#/studentProfile';       
+            window.location.href = '#/studentProfile';
             window.location.reload();
           }
           else{

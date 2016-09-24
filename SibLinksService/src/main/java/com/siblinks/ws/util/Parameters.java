@@ -11,6 +11,8 @@ public class Parameters {
     public static final String USER_NAME = "username";
     public static final String PASSWORD = "password";
     public static final String USER_TYPE = "userType";
+    public static final String IMAGE_URL = "imageUrl";
+    public static final String DEFAULT_SUBJECT_ID = "defaultSubjectId";
     public static final String FIRST_NAME = "firstName";
     public static final String LAST_NAME = "lastName";
     public static final String REMEMBER_ME="remember-me";
