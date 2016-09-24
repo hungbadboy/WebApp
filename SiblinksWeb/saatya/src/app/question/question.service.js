@@ -236,12 +236,14 @@ brotServices.factory('QuestionsService', ['$http','$log', function($http, $log) 
   
   
   factory.getQuestionByUserId = function(userId, limit, offset,ordertype,oldQid,subid){
+	  	var rs;
 	    var promise = $http({
 	      method: 'GET',
 	      url: NEW_SERVICE_URL +'post/getStudentPosted?uid='+userId+'&limit='+limit+'&offset='
           +offset+'&orderType='+ ordertype+'&oldQid='+oldQid+''+'&subjectid='+subid
 	    }).success(function(json) {
-	    	promise = json;
+	      rs = json;
+	      return rs;
 	    });
 	    return promise;
   };
@@ -264,7 +266,7 @@ brotServices.factory('QuestionsService', ['$http','$log', function($http, $log) 
       url: NEW_SERVICE_URL + 'post/getAnswerByQid',
       data: {
         "request_data_type": "post",
-        "request_data_method": "getAnswerById",
+        "request_data_method": "getAnswerByQid",
         "request_data": {
           "pid": question_id,
           "type":type,

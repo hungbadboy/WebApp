@@ -1,3 +1,4 @@
+
 brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$location', '$sce', 'TeamMentorService','myCache','VideoService',
     function ($scope, $rootScope, $log, $location, $sce, TeamMentorService,myCache,VideoService) {
 
@@ -25,6 +26,26 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
         }
         $scope.isSubscribe = 0;
 
+        $scope.hoverSubcribe = function (isSubs,userid) {
+            if(isSubs != '1'||isEmpty(userid))
+            {
+                return ;
+            }
+            $("#subscribers_"+userid).attr("data-icon","M");
+
+            $("#span_"+userid).text("unsubscribe");
+
+        }
+        $scope.unHoverSubcribe = function (isSubs,userid) {
+            if(isSubs != '1'||isEmpty(userid))
+            {
+                return ;
+            }
+            $("#subscribers_"+userid).attr("data-icon","N");
+            $("#span_"+userid).text("subscribe");
+
+        }
+
         $scope.setSubscribeMentor = function (mentorId) {
             if(isEmpty(userId)){
                 return ;
@@ -33,15 +54,25 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
                 if(data.data.status =="true") {
                     if (data.data.request_data_type == "subs") {
                         $scope.isSubscribe = 1;
-                        $('#subscribers'+mentorId).addClass('unsubcrib');
+
+                        //$('#subscribers_'+mentorId).addClass('unsubcrib');
                     }
                     else {
-                        $scope.isSubscribe = -1;
-                        $('#subscribers'+mentorId).removeClass('unsubcrib');
+                        $scope.isSubscribe = 0;
+                        $("#subscribers_"+mentorId).attr("data-icon","N");
+                        $('#subscribers_'+mentorId).removeClass('unsubcrib');
                     }
+                    for(var i = 0;i < $scope.listTopmentors.length;i++){
+                        if(mentorId == $scope.listTopmentors[i].userid){
+                            $scope.listTopmentors[i].isSubs = $scope.isSubscribe;
+                        }
+                    }
+
+
                 }
             });
         };
+
 
         function selectMentorTop(limit, offset, type) {
             TeamMentorService.getTopMentorsByType(limit, offset, type,userId).then(function (data) {

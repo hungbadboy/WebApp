@@ -256,14 +256,21 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             });
 
         }
-        $scope.range = function (min, max, step) {
-            step = step || 1;
-            var input = [];
-            for (var i = min; i <= max; i += step) {
-                input.push(i);
+
+        $scope.hoverSubcribe = function () {
+            if(isEmpty($scope.userId)||$scope.isSubscribe=='0'){
+                return;
             }
-            return input;
-        };
+            $("#btnsubs").attr("data-icon","M");
+
+            $("#spansubs").text("Unsubscribe");
+        }
+        $scope.unHoverSubcribe = function () {
+            $("#btnsubs").attr("data-icon","N");
+
+            $("#spansubs").text("Subscribe");
+        }
+
 
 
         function onYouTubeIframeAPIReady(youtubeId) {

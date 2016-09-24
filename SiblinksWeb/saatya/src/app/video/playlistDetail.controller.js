@@ -496,6 +496,21 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
             }
         });
 
+        $scope.hoverSubcribe = function () {
+            if(isEmpty($scope.userId)||$scope.isSubscribe=='0'){
+                return;
+            }
+            $("#btnsubs").attr("data-icon","M");
+
+            $("#spansubs").text("Unsubscribe");
+        }
+        $scope.unHoverSubcribe = function () {
+            $("#btnsubs").attr("data-icon","N");
+
+            $("#spansubs").text("Subscribe");
+        }
+
+
         var discussNew = '';
         $scope.addVideoComment = function (video_title) {
             if ($scope.joinDiscussion != null) {

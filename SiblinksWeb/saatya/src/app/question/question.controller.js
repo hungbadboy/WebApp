@@ -202,7 +202,7 @@ brotControllers
                     }
                     var result = [];
                     if (imagePath != null && imagePath.indexOf(";") != -1) {
-                        for (var i = 0; i < imagePath.split(";"); i++) {
+                        for (var i = 0; i < imagePath.split(";").length; i++) {
                             var str = imagePath.split(";")[i];
                             if (!isEmpty(str)) {
                                 result.push(str);
