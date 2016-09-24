@@ -244,7 +244,7 @@ public class PostServiceImpl implements PostService {
 			
 			dao.insertUpdateObject(
 					SibConstants.SqlMapper.SQL_POST_EDIT,
-					new Object[] { fixFilePath(filePathEdited +filePath) ,content, subjectId, qid});
+					new Object[] { fixFilePath(filePathEdited + filePath) ,content, subjectId, qid});
 
 		} catch (IOException e1) {
 			status = false;
@@ -1848,7 +1848,7 @@ public class PostServiceImpl implements PostService {
 				}
 			}
 		}
-		return result;
+		return result+";";
 	}
 
 	private String fixFilePath(final String str) {

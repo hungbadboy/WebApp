@@ -132,15 +132,15 @@
                     <h3>Related videos</h3>
                     <ul class="related-video-list" ng-repeat="videoRelate in videosRelated">
                         <li class="video-list-item">
-                            <div class="content-warpper" ng-click="viewVideo(videoRelate.vid)">
+                            <div class="content-warpper">
 
                                     <div class="thumb-video" >
-                                        <img ng-src="{{videoRelate.image}}">
+                                        <a href="#/detailVideo/{{videoRelate.vid}}"><img ng-src="{{videoRelate.image}}"></a>
                                     </div>
                                     <div class="detail-video">
-                                        <p class="title-video">
+                                        <a href="#/detailVideo/{{videoRelate.vid}}"><p class="title-video">
                                             {{videoRelate.title}}
-                                        </p>
+                                        </p></a>
                                         <span class="owner-video">
                                                         from<span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
                                                     </span><br>

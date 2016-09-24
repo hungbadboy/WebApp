@@ -137,6 +137,9 @@ brotControllers
                             if (!isLoadMore) {
                                 listPosted = [];
                             }
+                            if(result != null){
+                                return;
+                            }
                             for (var i = 0; i < result.question.length; i++) {
                                 var objPosted = {};
                                 var questionData = result.question[i];

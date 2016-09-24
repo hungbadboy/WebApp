@@ -168,11 +168,13 @@
                             <div class="content-warpper" ng-click="viewVideo(videoRelate.vid)">
 
                                 <div class="thumb-video">
-                                    <img ng-src="{{videoRelate.image}}">
+                                    <a href="#/detailVideo/{{videoRelate.vid}}">
+                                    <img ng-src="{{videoRelate.image}}"></a>
                                 </div>
                                 <div class="detail-video">
                                     <p class="title-video">
-                                        {{videoRelate.title}}
+                                        <a href="#/detailVideo/{{videoRelate.vid}}">
+                                        {{videoRelate.title}}</a>
                                     </p>
                                     <span class="owner-video">
                                                         from<span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>

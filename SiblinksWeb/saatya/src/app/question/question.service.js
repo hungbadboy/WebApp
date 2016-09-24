@@ -236,14 +236,14 @@ brotServices.factory('QuestionsService', ['$http','$log', function($http, $log) 
   
   
   factory.getQuestionByUserId = function(userId, limit, offset,ordertype,oldQid,subid){
-	  	var rs;
+
 	    var promise = $http({
 	      method: 'GET',
 	      url: NEW_SERVICE_URL +'post/getStudentPosted?uid='+userId+'&limit='+limit+'&offset='
           +offset+'&orderType='+ ordertype+'&oldQid='+oldQid+''+'&subjectid='+subid
 	    }).success(function(json) {
-	      rs = json;
-	      return rs;
+          return json;
+
 	    });
 	    return promise;
   };
