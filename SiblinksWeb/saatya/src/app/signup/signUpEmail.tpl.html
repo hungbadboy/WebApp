@@ -1,0 +1,53 @@
+<div class="content account-user new-register">
+ <!-- Container -->
+ <div class="account-content">
+
+  <!-- Left side -->
+  <div class="account-user-img col-md-8">
+      <img src="assets/images/register.png">
+  </div><!-- End Left side -->
+
+  <!-- Right side -->
+  <div class="account-user-form col-md-4">
+      <!-- Form Sign in -->
+      <form action="" method="">
+          <div class="account-header-logo">
+      <img src="assets/images/login.png">
+          </div>
+          <div class="account-header-title">
+              <h4>Sign Up </h4>
+              <span>Students, create your account and enjoy</span>
+          </div>
+          <div ng-if="error!==undefined && error!=''" class="validate_error">
+              <span >{{ error }}</span>
+          </div>
+          <div class="account-info">
+              <p class="email-account">
+                  <input id="email" type="text" ng-model="user.email" placeholder="Your email">
+              </p>
+              <p class="pass-account">
+                  <input id="password" type="password" ng-model="user.password" placeholder="Password">
+              </p>
+              <p class="confirm-account">
+                  <input id="confirmpassword" type="password" ng-model="user.confirmpassword" placeholder="Confirm password">
+              </p>
+              <!-- <p>
+                  <input type="button" value="Register">
+              </p> -->
+              <p class="button-img">
+                  <button type="button" ng-click="SignUp(user)" class="regist">Register</button>
+              </p>
+              <div class="signin-another-way" ng>
+                  <span>or sign in with</span>
+                  <p>
+                  	<a href="" ng-click="loginFacebook()" class="facebook-account"><span data-icon="&#xe093;"></span></a>
+          			<a href="" ng-click="loginGoogle()" class="google-account"><span data-icon="&#xe096;"></span></a>
+                  </p>
+              </div>
+              <div class="no-account">Already have an account?<a href="#/signin"> Login</a></div>
+          </div>
+          
+      </form><!-- /End Form Sign in -->
+  </div><!-- /End Right side -->
+ </div><!-- End container -->
+</div>

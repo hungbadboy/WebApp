@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="baseLayout" template="/AdminLayout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/Header.jsp" />
+		<put-attribute name="menu" value="/Menu.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/Footer.jsp" />
+	</definition>
+	<definition name="welcome" extends="baseLayout">
+		<put-attribute name="title" value="Welcome" />
+		<put-attribute name="body" value="/brotHome.jsp" />
+	</definition>
+
+	<definition name="subjects" extends="baseLayout">
+		<put-attribute name="title" value="Manager Subject" />
+		<put-attribute name="body" value="/brotManageSubjects.jsp" />
+	</definition>
+	<definition name="videomanager" extends="baseLayout">
+		<put-attribute name="title" value="Manager Videos Admission" />
+		<put-attribute name="body" value="/brotManageVideos.jsp" />
+	</definition>
+	<definition name="usermanager" extends="baseLayout">
+		<put-attribute name="title" value="Manager Users" />
+		<put-attribute name="menu" value="/Menu.jsp" />
+		<put-attribute name="body" value="/brotManageUsers.jsp" />
+	</definition>
+	<definition name="qamanager" extends="baseLayout">
+		<put-attribute name="title" value="Manager Question and Answer" />
+		<put-attribute name="menu" value="/Menu.jsp" />
+		<put-attribute name="body" value="/brotManageQAndAns.jsp" />
+	</definition>
+	<definition name="colleageadmission" extends="baseLayout">
+		<put-attribute name="title" value="Manager Colleage Admission" />
+		<put-attribute name="body" value="/manageCollegeApplication.jsp" />
+	</definition>
+	<definition name="articals" extends="baseLayout">
+		<put-attribute name="title" value="Manager Artical" />
+		<put-attribute name="menu" value="/Menu.jsp" />
+		<put-attribute name="body" value="/brotManageArticles.jsp" />
+	</definition>
+	<definition name="comments" extends="baseLayout">
+		<put-attribute name="title" value="MANAGEER COMMENTS" />
+		<put-attribute name="body" value="brotManageComments" />
+	</definition>
+	<definition name="setting" extends="baseLayout">
+		<put-attribute name="title" value="MANAGEER COMMENTS" />
+		<put-attribute name="body" value="brotManageComments" />
+	</definition>
+	<definition name="coleageuniversity" extends="baseLayout">
+		<put-attribute name="title" value="MANAGEER COMMENTS" />
+		<put-attribute name="body" value="brotManageComments" />
+	</definition>
+	<definition name="menu" extends="baseLayout">
+		<put-attribute name="title" value="MANAGEER Menu" />
+		<put-attribute name="body" value="/brotAdministration.jsp" />
+	</definition>
+	<definition name="categorymgr" extends="baseLayout">
+		<put-attribute name="title" value="manager category" />
+		<put-attribute name="body" value="/brotManagerCategory.jsp" />
+	</definition>
+</tiles-definitions>

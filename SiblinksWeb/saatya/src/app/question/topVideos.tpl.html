@@ -1,0 +1,43 @@
+<div class="top-videos-wrapper col-xs-12" >
+<div class="top-videos-header">
+    <div class="top-videos-header-title">
+        <span><img src="assets/images/ask question/top-mentor.png"></span><h4>Top
+        Videos</h4>
+    </div>
+    <div class="see-more">
+        <p><a href="#/videos">See more</a></p>
+    </div>
+</div><!-- /End top-mentor-header -->
+<!-- List of top mentors -->
+<div class="top-videos-list">
+    <ul>
+        <li ng-repeat="video in listVideoRate track by $index">
+            <div class="video-thumnail">
+                <a href="#/videos/detailVideo/{{video.vid}}">
+                <img ng-src="{{video.image}}">
+                <div class="hover-video">
+                    <span data-icon="&#x45;"></span>
+                </div>
+        </a>
+            </div>
+            <div class="video-info">
+                <p class="video title">
+                    {{video.title}}
+                </p>
+                <div class="video-rate">
+                   <span id="rateSpan">Rate
+                     <div ng-if="video.rating" star-rating stars="5"
+                          outer-star-selection="stars"
+                          readonly="true"
+                          outer-percent="rating"
+                          rating-define="star"
+                          rating-stars="{{video.rating}}"
+                          star-radius="9" sel-color="gold"
+                          back-color="white"></div>
+                                </span>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div><!-- /End list of top mentors -->
+</div>

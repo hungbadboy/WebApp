@@ -1,0 +1,217 @@
+<div id="mentor_profile">
+	<div class="header_top">
+	        <div class="row" style="width: 963px; margin: 0 auto;">
+	          <div class="col-md-1 iconForum">
+	            <img src="assets/img/icon_chat.png">
+	          </div>
+	          <div class="col-md-4 textForum">
+	          	<span>Video Chat</span>
+	          </div>
+	          <div class="col-md-7 searchForum">
+	            <input class="searchbox" type="text" placeholder="Search for a topic by key word topic...">
+	          </div>
+	        </div>
+    </div>
+    <div class="menu">
+    	<div style="width: 963px; margin: 0 auto;">
+    		<span style="margin-bottom: 20px; display: inline-block;">Mentor</span>
+			<img src="assets/img/green_arrow.png">
+			<span>Mentors Name Profile</span>
+    	</div>
+	</div>
+	<div class="body">
+		<div class="left">
+			<div class="profile">
+				<div class="row infor">
+					<div class="col-md-2 avatar">
+						<span class="circle">
+							<img src="assets/img/spiderman.jpg">
+						</span>
+						<span>{{user.first_name}}</span>
+						<span style="margin-top:-4px;">{{user.last_name}}</span>
+					</div>
+					<div class="col-md-8 person">
+						<span class="item">
+							<img src="assets/img/calendar.png">
+							<span class="date">
+								<span class="name">Member since: </span>
+								<span class="value">{{user.date_of_birth}}</span>
+							</span>
+						</span>
+						<span class="item">
+							<img src="assets/img/university.png">
+							<span class="shool">
+								<span class="name">University: </span>
+								<span class="value">{{user.college_school_name}}</span>
+							 </span>
+						</span>
+						<span class="item">
+							<img src="assets/img/major.png">
+							<span class="major">
+								<span class="name">Major: </span>
+								<span class="value" ng-repeat="item in user.potential_college_majorList">
+									{{item}}<span ng-if="!$last">,</span>
+								</span>
+							</span>
+						</span>
+						<span class="item">
+							<img src="assets/img/activities.png">
+							<span class="activities">
+								<span class="name">Extracurricular Activities: </span>
+								<span class="value" ng-repeat="item in user.extra_curricular_activityList">
+									{{item}}<span ng-if="!$last">,</span>
+								</span>
+							</span>
+						</span>
+						<span class="item">
+							<img src="assets/img/Interestes.png">
+							<span class="interestes">
+								<span class="name">Tutoring Interestes: </span>
+								<span ng-repeat="item in user.help_in" class="value">{{item}}
+									<span ng-if="!$last">,</span>
+								</span>
+							</span>
+						</span>
+					</div>
+					<div class="col-md-2 btnChat">
+						<div class="chat">
+							<span class="small_circle"></span>
+							<span style="color: white; font-weight: 600; float:right; margin-right: 6px; font-size: 14px; position: absolute; top: 18px;">Chat Now</span>
+						</div>
+						<div class="request">
+							<span>REQUEST</span>
+							<span style="margin-top: -4px;">CALL</span>
+						</div>
+					</div>
+				</div>
+				<div class="buttom">
+					<span style="font-weight: 600;">BIO:</span>
+					<span style="color: #616161; font-size: 14px;">{{user.about_me}}</span>
+				</div>
+			</div>
+			<div class="row point">
+				<div class="col-md-8" style="padding-left:17px;">
+					<span class="total">
+						<span class="value">{{user.total_point}}</span>
+						<span class="lb">Total points</span>
+					</span>
+					<table>
+						<tr>
+							<td>
+								<span class="index" style="margin-bottom:40px;">
+									<span class="circle" style="background-color: #FE8F09;"></span>
+									<span class="subject">Maths:</span>
+									<span class="value">{{user.point.Maths}}</span>
+								</span>
+							</td>
+							<td>
+								<span class="index">
+									<span class="circle" style="background-color: #2ECEE4;"></span>
+									<span class="subject">Physics:</span>
+									<span class="value">{{user.point.Physics}}</span>
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="index" style="margin-bottom:40px;">
+									<span class="circle" style="background-color: #28AE61;"></span>
+									<span class="subject">Biology:</span>
+									<span class="value">{{user.point.Biology}}</span>
+								</span>
+							</td>
+							<td>
+								<span class="index" style="margin-bottom:40px;">
+									<span class="circle" style="background-color: #F1C433;"></span>
+									<span class="subject">Chemistry:</span>
+									<span class="value">{{user.point.Chemistry}}</span>
+								</span>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-md-4" style="padding:0px;">
+					<canvas id="chart" height="190px" width="190px"></canvas>
+				</div>
+			</div>
+			<div class="category row">
+				<div class="col-md-7" style=" padding: 0; ">
+					<div style="width: 40px; float: left;"><img src="assets/img/mentor_chat.png"></div>
+					
+					<div>
+						<span class="title">Mentor Videos</span>
+						<span class="number">({{listVideoMentor.count}} videos)</span>
+					</div>
+					
+				</div>
+				<div class="col-md-5" style=" padding: 0; margin-top: -5px;">
+					<span class="lb">Category: </span>
+					<!-- <select id="selectOption" class="slCategory">
+						<option>All</option>
+						<option>All1</option>
+					</select> -->
+
+					<div class="btn-group" style="margin-left: 5px;">
+						<button type="button" class="btn btnCategogy">All</button>
+						<button type="button" class="btn dropdown-toggle slCategory" data-toggle="dropdown">
+						    <span class="caret sl"></span>
+						    <span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<ul class="dropdown-menu" role="menu" style="min-width: 140px; width: 140px;">
+						    <li ng-repeat="item in listVideoMentor.response"><a href="#">{{item.subject_name}}</a></li>
+						    <!-- <li class="divider"></li>
+						    <li><a href="#">Separated link</a></li> -->
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="infor_video" ng-repeat="item in listVideoMentor.response">
+				<div class="video">
+					<img src="assets/img/video-item.png">
+				</div>
+				<div class="detail">
+					<a href="#/detailVideo/{{item.subject_id}}/{{item.subject_sub_category_id}}/{{item.video_id}}" class="title">{{item.video_name}}</a>
+					<span class="rating">
+						<img ng-repeat="rate in item.arr_rate track by $index" class="" src="{{rate}}">
+					</span>
+					<span class="lb">RATING: </span>
+
+					<span class="subject">Introduction to Biology</span>
+					<span class="content">{{item.description}}</span>
+				</div>
+			</div>
+		</div>
+		<!-- end .left -->
+		<div class="right">
+			<div style="margin-bottom: 10px;">
+				<span class="title">Mentor Reviews</span>
+				<span class="submit">SUBMIT A REVIEW</span>
+			</div>
+			<div class="student_infor" ng-class="{student_infor_first : $first, student_infor_last : $last}" ng-repeat="item in listMentorReview.response">
+				<span style="display: block;">
+					<span class="name">{{item.first_name}} {{item.last_name}}</span>
+					<span class="date">{{item.review_date}}</span>
+				</span>
+				<span class="rating" style="display: block; margin-top:2px;">
+					<span class="lb">RATING:</span>
+					<img ng-repeat="rate in item.arr_rate track by $index" class="" src="{{rate}}">
+				</span>
+				<span class="video_wacth" style="display: block;">
+					<span class="lb">Videos Watched: </span>
+					<span style="opacity: 0.8;">{{item.video_name}}</span>
+				</span>
+				<span class="review" style="display: block; margin-top: 9px; height: 36px; overflow: hidden;">
+					<span>{{item.description}}</span>
+				</span>
+				<span class="show_more">
+					<span class="lb" data-id="0" mentor-Profile-Att-Show-More>Show more</span>
+					<img src="assets/img/ico-more.png">
+				</span>
+			</div>
+			<!-- end .student_infor -->
+		</div>
+		<!-- end .right -->
+	<div class="clr"></div>
+	</div>
+</div>

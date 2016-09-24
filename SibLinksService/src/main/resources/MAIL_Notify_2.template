@@ -1,0 +1,49 @@
+<html>
+	<body >
+		<table cellspacing=5>
+			<tr>
+				<td colspan=2 style="font-size: 20px;">Open chat</td>
+			</tr>
+			
+		</table>
+		<br/>		
+
+	
+	---------------------------------------------------------------------------------------------------------------------------------
+<br>
+	
+	
+###MentorName### ,
+
+<br> <br>
+
+ Requesting for one on one chat, Please join the chat room. 
+
+<br> <br>
+
+
+
+ 
+ 
+ 
+ <a href="http://54.186.148.197:8080/Admin/requestMentorChat.jsp?roomid=###RoomId_ID###&mentorID=###Mentor_ID###&regId=###regId###">Click Here</a>
+ 
+
+
+ 
+ <br>
+ 
+
+
+
+<br><br>
+
+Regards
+###StudentName###
+
+<br>
+	---------------------------------------------------------------------------------------------------------------------------------
+	
+
+	</body>
+</html>

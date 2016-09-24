@@ -1,0 +1,34 @@
+{
+  "status": "SUCCESS",
+  "response":
+  [
+    {
+      "id" : 1, 
+      "name" : "Architecture"
+    },
+    {
+      "id" : 2,
+      "name" : "Divinity"
+    },
+    {
+      "id" : 3,
+      "name" : "English"
+    },
+    {
+      "id" : 4,
+      "name" : "History"
+    },
+    {
+      "id" : 5,
+      "name" : "Medicine"
+    },
+    {
+      "id" : 6,
+      "name" : "Sciences"
+    },
+    {
+      "id" : 7,
+      "name" : "Business"
+    }
+  ]
+}

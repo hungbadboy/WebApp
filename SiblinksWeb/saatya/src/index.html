@@ -1,0 +1,131 @@
+
+<html lang="en" ng-app="brotApp">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta property="og:title" content="SibLinks" />
+<meta property="og:image" content="http://img.youtube.com/vi/LukNyF-rEa8/0.jpg" />
+<meta name="google-signin-scope" content="profile email">
+<meta name="google-signin-client_id" content="667014101821-v1f9a583qgmt280gtci8n4a87k7uja2m.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+
+<title>SibLinks</title>
+<!-- compiled CSS --><% styles.forEach( function ( file ) { %>
+<link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+</head>
+<body class="home" ng-controller="MainController"  ng-body-click="bodyclick()">
+   <!-- Header -->
+   <header id="header" ng-controller="UserHeaderController">
+    <div class="module-navigation">
+        <div class="container clearfix">
+            <!-- logo -->
+            <div class="main-logo col-xs-3">
+                <a href="/">
+                    <img src="assets/images/logo.png" alt="Sib links" class="hidden-pc">
+                </a>
+            </div>
+            <!-- /logo -->
+            <!-- Menu navigation -->
+            <div class="navigation col-xs-9 ">
+                <nav class="navbar navbar-default">
+                    <!-- menu on mobile -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+
+                    <!-- Menu on desktop -->
+                    <div class="navbar-collapse">
+                        <ul class="mobimenu nav navbar-nav">
+                            <li ng-class="{active: isActive=='/'}" ><a href="#/">Home</a></li>
+                            <li ng-class="{active: isActive=='/ask_a_question' }" ><a href="#/ask_a_question/-1">Ask a Question</a></li>
+                            <li ng-class="{active: isActive=='/videos' }"><a href="#/videos">Videos</a></li>
+                            <li ng-class="{active: isActive=='/college_admission'}"><a href="#/college_admission">College Admission</a></li>
+                            <li ng-class="{active: isActive=='/team'}"><a href="#team">Our Team</a></li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <!-- nofitication of user -->
+                <div class="user-nofitication">
+                    <div id="notification" class="logined">
+                        <div class="notification">
+                            <img src="assets/images/bell.png"><span ng-if="countNotification > 0" ng-click="popupNotification()">{{countNotification}}</span>
+                        </div>
+                        <div class="user-login">
+                            <div class="user-img">
+                                 <span><img ng-src="{{imageUrl}}" ng-if="imageUrl" alt="{{fullName}}"></span>
+                             </div>
+                             <div class="profile-user" ng-click="showProfile()"><img src="assets/images/arrow.png" ></div>
+                             <div id="user-info" ng-hide="hiddenProfile" class="user-info">
+                                 <ul>
+                                     <li class="profile"><a href="#/studentProfile" ><span data-icon="&#xe08a;"></span>Profile</a></li>
+                                     <li class="setting"><a href="javascript:void(0);" ng-click="goToEditStudent()"><span data-icon="&#xe037;"></span>Setting</a></li>
+                                     <li class="logout"><a href="javascript:void(0)" ng-click="logout()"><span class="fa fa-power-off"></span>Logout</a></li>
+                                 </ul>
+                             </div> 
+                        </div>
+                    </div>
+                    <div id="login" class="no-login">
+                        <div class="register">
+                            <a href="#/signup">Register</a>
+                        </div>
+                        <div class="login">
+                            <a href="#/signin" data>Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /module-navigation -->
+    <div class="background-color"></div>
+</header>
+<!-- end #header -->
+ <!-- main start -->
+<main id="main" ng-view autoscroll="true"></main>
+<!-- end #main -->
+<!-- footer area -->
+<footer id="footer">
+    <div class="container">
+        <div class="row box-ft">
+            <div class="footer-logo col-md-6"> <!-- footer logo -->
+                <div>
+                	<img src="assets/images/logo-footer.png" alt="">&nbsp;&nbsp;&nbsp;
+	            	<span>Copyright 2016 <a href="/">siblinks.com</a>, made with <span data-icon="&#xe089;" id="heart"></span></i></span>
+	            </div>
+            </div>
+            <div class="col-md-6 footer-menu"> <!-- Footer menu -->
+                <a href="#/about">About us /</a>
+                <a href="#/contact">Contact Us /</a>
+                <a href="#/policy">Privacy Policy /</a>
+                <a href="#/terms">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</footer>
+   <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
+   <script type="text/javascript" src="<%= file %>"></script><% }); %>
+
+   <script type="text/javascript">
+       (function(d){
+           var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+           if (d.getElementById(id)) {return;}
+           js = d.createElement('script'); js.id = id; js.async = true;
+           js.src = "//connect.facebook.net/en_US/all.js";
+           ref.parentNode.insertBefore(js, ref);
+       }(document));
+
+       (function() {
+           var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+           po.src = 'https://apis.google.com/js/client.js?onload=onLoadCallback';
+           var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+       })();
+   </script>
+</body>
+</html>

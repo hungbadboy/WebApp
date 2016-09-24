@@ -1,0 +1,61 @@
+<div id="ask">
+  <div class="w965">
+    <div class="ask-top">
+      <h2>Ask our mentors</h2>
+      <p>Ask anything and your SibLinks from Harvard, Stanford and MIT will give informative and definitely non-parental answers.</p>
+    </div>
+    <div class="ask-search clearfix">
+      <span class="comma"></span>
+      <form>
+        <!-- <div class="select" onmouseout="jQuery('.select-list').addClass('hide')" onmouseover="jQuery('.select-list').removeClass('hide')">
+          <input type="hidden" name="select" id="select-city" value="" />
+          <div class="select-value">
+            
+          </div>
+        </div> -->
+        <select class="selectCategory" ng-model="selectCategory" style="float: left; margin-right: 10px; height: 60px; width: 145px;">
+          <!-- <option value="">SELECT CATEGORY</option> -->
+          <option value="{{sub[0].subject_id}}" ng-repeat="sub in subjects" ng-if="sub[0].isForum == 'Y'" ng-selected="{{sub[0].subject_id}} == 6">
+            {{sub[0].subject_name}}
+          </option>
+        </select>
+        <div class="search-inner">
+          <input type="text" id="search-text" class="search-text search_question" value="" placeholder="{{questionIndex}}" />
+        </div>
+        <img src="assets/img/black_pencil.png" style="float: right; cursor: pointer; margin-top: -2px;" ng-click="redirectForum()">
+        <!-- <input ng-click="redirectForum()" type="button" class="search-button" value="submit"/> -->
+      </form>
+    </div>
+
+    <div id="warning" class="alert alert-danger alterWarning" role="alert" ng-show="myVarU" style="margin: 7px 0 0 7px;">Please login before create question</div>
+    <div id="warning" class="alert alert-danger alterWarning" role="alert" ng-show="myVarQ" style="margin: 7px 0 0 7px;">Please enter your question</div>
+    <div id="warning" class="alert alert-danger alterWarning" role="alert" ng-show="myVarC" style="margin: 7px 0 0 7px;">Please choose category</div>
+    <div class="itemForumList">View previous <span class="itemForum" ng-repeat="sub in subjects" ng-if="sub[0].isForum == 'Y'" ng-click="gotoForum(sub[0].subject_id)">{{sub[0].subject_name}}</span>
+    </div>
+  </div>  
+</div>
+<!-- end #ask -->
+
+<div id="feature">
+  <div class="w965"> 
+    <div class="feature-item">
+      <h2>Video tutorials<span class="border-bottom"></span></h2>
+      <a href="/#/video_tutorial"><img class="img_tutorial" src="assets/img/tutorials.png"></a>
+      <p>Tutorial videos from the best and the brightest!</p>
+      <div class="subject">
+        <h3>Subjects include:</h3>
+        <a ng-if="item[0].subject_name != 'English' && item[0].isForum != 'Y'" ng-repeat="item in subjects" href="#/video_tutorial/?subjectId={{item[0].subject_id}}" class="ico-stick">{{item[0].subject_name}}</a>
+      </div>
+    </div>
+    <div class="feature-item">
+      <h2>College Admission Resource<span class="border-bottom"></span></h2>
+      <!-- <img src="assets/img/aw_note.png"> -->
+      <a href="/#/admission"><img src="assets/img/essay.png" style="width: 149px; height: 152px;"></a>
+      <p>Get <strong>Free</strong> editorial help from your Siblinks</p>
+      <div class="hide drag-drop">Drag and drop your essay here</div>
+      <div class="hide">or <a href="javascript:void(0);" ng-click="uploadEssay();">click here</a> to upload</div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+<div class="clr"></div>

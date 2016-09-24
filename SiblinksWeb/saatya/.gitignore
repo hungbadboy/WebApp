@@ -1,0 +1,17 @@
+*.pyc
+*.pyo
+
+# also exclude the dev sqlite3 db
+*.sqlite3
+node_modules/
+build/
+bin/
+
+# OS X file
+.DS_Store
+
+# PEM file
+demo.pem
+
+# facebookid
+src/app/config.js

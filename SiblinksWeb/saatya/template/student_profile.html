@@ -1,0 +1,277 @@
+<div id="student_profile" style="background-color: #EDEEF0;">
+	<div class="header_top">
+    <div class="row" style="width: 963px; margin: 0 auto;">
+      <div class="col-md-1 iconForum">
+        <img src="assets/img/mentor_profile.png">
+      </div>
+      <div class="col-md-4 textForum">
+      	<span>{{ title }}</span>
+      </div>
+      <!-- <div class="col-md-7 searchForum">
+        <input class="searchbox" type="text" placeholder="Search for a topic by key word topic...">
+      </div> -->
+    </div>
+  </div>
+   <div class="menu">
+  	<div style="width: 963px; margin: 0 auto;">
+  		<span style="margin-bottom: 20px; display: inline-block;">{{main}}</span>
+			<img src="assets/img/green_arrow.png">
+			<span>{{sub}}</span>
+  	</div>
+	</div>
+	<div class="body">
+		<div class="left">
+		<div class="profile">
+			<div class="row infor">
+				<div class="col-md-2 avatar">
+					<span class="circle">
+						<!-- <img src="assets/img/spiderman.jpg"> -->
+						<img ng-src="{{user[0][0].imageUrl}}">
+					</span>
+					<span>{{user[0][0].firstname}} {{user[0][0].lastName}}</span>
+					<!-- <span style="margin-top:-4px;">{{user[0][0].lastName}}</span> -->
+					<input type="submit" name="" ng-if="user[0][0].username == username" class="btnEdit pull-down" value="EDIT PROFILE" ng-click="goToEditStudent(user[0][0].username);">
+					<!-- <input type="submit" name="" class="btnEdit pull-down" ng-if="username == user.username" value="EDIT PROFILE" ng-click="goToEditStudent();"> -->
+				</div>
+				<div class="col-md-8 person">
+					<span class="item">
+						<img src="assets/img/calendar.png">
+						<span class="date">
+							<span class="name">Member since: </span>
+							<span class="value">{{user[0].registrationTime}}</span>
+						</span>
+					</span>
+					<span class="item">
+						<img src="assets/img/university.png">
+						<span class="shool">
+							<span class="name">High School: </span>
+							<span class="value">{{user[0][0].school}} &nbsp</span>
+						 </span>
+					</span>
+					<span class="item">
+						<img src="assets/img/acomplish.png">
+						<span class="major">
+							<span class="name">Accomplishments: </span>
+							<!-- <span class="value" ng-repeat="item in user.accomplishments">
+								{{item}}<span ng-if="!$last">,</span>
+							</span> -->
+							<span class="value">{{user[0][0].accomplishments}}</span>
+						</span>
+					</span>
+					<span class="item">
+						<img src="assets/img/major.png">
+						<span class="major">
+							<span class="name">Potential Major: </span>
+							<!-- <span class="value" ng-repeat="item in user.subjects">
+								{{item}}<span ng-if="!$last">,</span>
+							</span> -->
+							<span class="value" ng-repeat="item in user[0][1].majors">{{item.majorName}} &nbsp</span>
+							
+						</span>
+					</span>
+					<span class="item">
+						<img src="assets/img/activities.png">
+						<span class="activities">
+							<span class="name">Extracurricular Activities: </span>
+							<!-- <span class="value" ng-repeat="item in user.extra_curricular_activityList">
+								{{item}}<span ng-if="!$last">,</span>
+							</span> -->
+							<!-- <span class="value">Action, Reading, Running</span> -->
+							<span class="value" ng-repeat="item in user[0][1].activity">{{item.activityName}} &nbsp</span>
+						</span>
+					</span>
+					<span class="item">
+						<img src="assets/img/Interestes.png">
+						<span class="interestes">
+							<span class="name">Wants Help In: </span>
+							<!-- <span class="value">Biology, College Applications</span> -->
+							<!-- <span ng-repeat="item in user.helpsubjects" class="value">{{item}}
+								<span ng-if="!$last">,</span>
+							</span> -->
+							<span class="value" ng-repeat="item in user[0][1].help">{{item.subject}} &nbsp</span>
+
+						</span>
+					</span>
+				</div>
+				<!-- <div class="col-md-2 btnChat">
+					<div class="chat">
+						<span class="small_circle"></span>
+						<span style="color: white; font-weight: 600; float:right; margin-right: 6px; font-size: 14px; position: absolute; top: 18px;">Chat Now</span>
+					</div>
+					<div class="request">
+						<span>REQUEST</span>
+						<span style="margin-top: -4px;">CALL</span>
+					</div>
+				</div> -->
+			</div>
+			<div class="buttom">
+				<span style="font-weight: 600;">BIO: </span>
+				<span style="color: #616161; font-size: 14px;">{{user[0][0].bio}}</span>
+
+			</div>
+		</div>
+		<!-- end .profile -->
+
+		<div class="row point">
+			<div class="col-md-8" style="padding-left:17px;">
+				<span class="total">
+					<!-- <span class="value">{{user.total_point}}</span> -->
+					<span class="value">1,543</span>
+					<span class="lb">Total points</span>
+				</span>
+				<table>
+					<tr>
+						<td>
+							<span class="index" style="margin-bottom:40px;">
+								<span class="circle" style="background-color: #FE8F09;"></span>
+								<span class="subject">Maths:</span>
+								<!-- <span class="value">{{user.point.Maths}}</span> -->
+								<span class="value">675</span>
+							</span>
+						</td>
+						<td>
+							<span class="index">
+								<span class="circle" style="background-color: #2ECEE4;"></span>
+								<span class="subject">Physics:</span>
+								<!-- <span class="value">{{user.point.Physics}}</span> -->
+								<span class="value">675</span>
+							</span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span class="index" style="margin-bottom:40px;">
+								<span class="circle" style="background-color: #28AE61;"></span>
+								<span class="subject">Biology:</span>
+								<!-- <span class="value">{{user.point.Biology}}</span> -->
+								<span class="value">675</span>
+							</span>
+						</td>
+						<td>
+							<span class="index" style="margin-bottom:40px;">
+								<span class="circle" style="background-color: #F1C433;"></span>
+								<span class="subject">Chemistry:</span>
+								<!-- <span class="value">{{user.point.Chemistry}}</span> -->
+								<span class="value">675</span>
+							</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-md-4" style="padding:0px;">
+				<canvas id="chart" height="190px" width="190px"></canvas>
+			</div>
+		</div>
+		<!-- end .point -->
+		<div class="current_mentor" style="padding: 2px; margin-top: 22px; margin-bottom:15px; ">
+			<div style="width: 40px; float: left;"><img src="assets/img/current_mentor.png"></div>
+			<div>
+				<span class="title">Current Mentors</span>
+			</div>
+		</div>
+		<!-- end .current_mentor -->
+
+		<div class="wrap_cell_chating">
+			<div class="cell_chating" ng-class="{cell_chating_odd : $odd, cell_chating_even : $even}" ng-repeat="item in listCurrentMentor">
+	        	<div class="avatar">
+	          		<div>
+	          			<span class="circle"><img class="img_avatar" ng-src="{{item.imageUrl}}"></span>
+	          		</div>
+	        	</div>
+	        	<div class="info">
+	          		<div class="name">
+	          			<a style="color: #0C87B5;" href="#/mentorProfile/{{item.user_id}}" title=""> 
+	          				{{item.firstName}} {{item.lastName}}
+	          			</a>
+	          		</div>
+	          		<div style="color: #51626C;">{{item.school}}</div>
+	          		<div class="point">Point: {{item.points}}</div>
+	          		<div class="chat_icon">
+	            		<div class="chatnow"></div>
+	            			Chat Now
+	          		</div>
+	        	</div>
+	    	</div>
+	    	<div class="empty" ng-if="item == null">
+				{{errorDataMentor}}
+			</div>
+	    	<div class="clearfix"></div>
+		</div>
+		<!-- end .wrap_cell_chating -->
+		
+    <div class="current_mentor" style="padding: 2px; margin-top: 22px; margin-bottom:15px; display: inline-block; width: 100%; ">
+			<div style="width: 40px; float: left;"><img src="assets/img/recent_forum _posts.png"></div>
+			<div>
+				<span class="title">Recent Forum Posts</span>
+			</div>
+		</div>
+		<div class="wrap_data_forum">
+			<div class="forum_index" ng-class="{forum_index_first : $first, forum_index_last : $last}" ng-repeat="item in listPostQuestion">
+				<a href="" ng-click="questionDetail(item[0].subjectId, item[0].topicId, item[0].pid)"><span class="content">{{item[0].content}}</span></a>
+				<span class="number">
+					<img src="assets/img/ico-hit.png">
+					<span>+{{item[0].upvotes}}</span>
+				</span>
+				<span style="margin: 0 8px; font-size: 12px; font-weight: 600;">{{item[0].numViews}} VIEWS</span>
+				<a href="#" style="color: #1486B5;" ng-repeat="category in item.sub_categoriesList">
+					{{item[1].tag}}
+					<span ng-if="!$last">,</span>
+				</a>
+			</div>
+			<div style="float: right;">
+				<a href="" ng-if="countPost > 3" ng-click="prevPage()"><img src="assets/img/btn_prev.png" style="float: left; margin-top: 6px;"></a>
+				<span ng-if="countPost > 3" style="margin-top: 5px; margin-left: 5px;" ng-repeat="i in listPage" class="active" ng-class="addClassActive(i)" id="{{i}}" ng-click="showWithPage(i)">{{i}}</span>
+				<a href="" ng-if="countPost > 3" ng-click="nextPage()"><img class="btn_nxt" src="assets/img/btn_nxt.png" style="margin: 6px 0px 0px 5px;"></a>
+			</div>
+
+			<div class="empty" ng-if="errorDataPost !== undefined">
+				{{errorDataPost}}
+			</div>
+		</div>
+		<!-- end .wrap_data_forum -->
+	</div>
+	<div class="right">
+		<div class="essay" ng-if="userType == 'S'" ng-click="uploadEssay()">
+			Upload Essay
+		</div>
+		<div class="essay" ng-click="viewAllEssay()">
+			View Essay
+		</div>
+		<div style="margin-bottom: 10px;">
+			<span class="title">Mentor Reviewed</span>
+		</div>
+		<div class="student_infor" ng-class="{student_infor_first : $first, student_infor_last : $last}" ng-repeat="item in listMentorReview">
+			<span style="display: block;">
+				<span class="name">{{item.firstName}} {{item.lastName}}</span>
+				<span class="date">{{item.lastUpdateDate}}</span>
+			</span>
+			<span class="rating" style="display: block; margin-top:2px;">
+				<span class="lb">RATING:</span>
+				<img ng-repeat="rate in item.arr_rate track by $index" class="" ng-src="{{rate}}">
+			</span>
+			<span class="video_wacth" style="display: block;">
+				<span class="lb">Videos Watched: </span>
+				<span style="opacity: 0.8;">{{item.video_name}}</span>
+			</span>
+			<span class="review" style="display: block; margin-top: 9px; height: 36px; overflow: hidden;">
+				<span>{{item.notes}}</span>
+			</span>
+			<span class="show_more">
+				<span class="lb" data-id="0" student-Profile-Att-Show-More>Show more</span>
+				<img src="assets/img/ico-more.png">
+			</span>
+		</div>
+		<!-- end .student_infor -->
+		<div class="divLoadMore" ng-if="item != null" ng-click="loadMore($event, 20)">
+			<button class="loadmore">LOAD MORE</button>
+		</div>
+		<div class="empty" ng-if="item == null">
+			{{errorData}}
+		</div>
+	</div>
+	<!-- end .right -->
+
+	<div class="clr"></div>
+	</div>
+
+</div>

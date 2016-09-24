@@ -1,0 +1,345 @@
+    <div class="ask-a-question" id="student-profile">
+        <!-- Breadcrum -->
+        <div class="breadcrum">
+            <div class="container">
+                <h5>Siblinks <span>/ My Profile</span></h5>
+            </div>
+        </div><!-- /End Breadcrum -->
+        <!-- Container -->
+        <div class="container">
+            <!-- Content -->
+            <section class="content student-profile-content">
+                <div class="top-mentors-videos col-lg-4" id="student-profile-information">
+                    <div class="student-profile">
+                        <div class="student-header-detail">
+                            <div class="student-img">
+                                <img ng-src="{{student.imageUrl}}">
+                                <h3 class="student-name">{{student.fullName}}</h3>
+                                <p>freshman</p>
+                                <span class="changeImg">
+                                    <input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)"
+                                       accept='image/*'>
+                                    <label for="changeImg"><span data-icon="&#xe075;"></span></label>
+                                </span>
+                            </div>
+                            <div class="student-joined">
+                                <ul>
+                                    <li class="student-question">
+                                        <h3>{{student.count_question}}</h3>
+                                        <span>questions</span>
+                                    </li>
+                                    <li class="student-question">
+                                        <h3>{{student.count_essay}}</h3>
+                                        <span>essay</span>
+                                    </li>
+                                    <li class="student-question">
+                                        <h3>{{student.count_subscribe}}</h3>
+                                        <span>subcribed</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="student-info-detail">
+                            <div class="student-edu">
+                                <strong>High School</strong><br>
+                                <span>{{student.school}}</span>
+                            </div>
+                            <div class="student-info">
+                                <strong>About me</strong><br>
+                                <span>{{student.description}}</span>
+                            </div>
+                            <div class="student-sex">
+                                <strong>Sex:</strong>
+                                <span>{{student.gender}}</span>
+                            </div>
+                            <div class="student-bio">
+                                <strong>BIO:</strong>
+                                <span>{{student.bio}}</span>
+                            </div>
+                            <div class="student-sex">
+                                <strong>Since:</strong>
+                                <span>{{student.registrationTime}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Top mentor -->
+                    <div class="top-mentors" id="subcribles">
+                        <div class="top-mentor-wrapper col-xs-12" id="subcribles_wrapper">
+                            <!-- top-mentor-header -->
+                            <div class="top-mentor-header" id="subcribles_header">
+                                <div class="top-mentor-header-title">
+                                    <span><img src="assets/images/ask question/top-mentor.png"></span><h4>Subcrible</h4>
+                                </div>
+                                <div class="see-more">
+                                    <p>See More</p>
+                                </div>
+                            </div><!-- /End top-mentor-header -->
+                            <!-- List of top mentors -->
+                            <div class="top-mentors-list" ng-if="listMentorBySubs" ng-repeat="mentor in listMentorBySubs track by $index">
+                                <ul>
+                                    <li>
+                                        <div class="top-mentors-img online">
+                                            <img src="{{mentor.imageUrl}}">
+                                            <span class="offline"><img src="assets/images/ask question/offline.png"></span>
+                                        </div>
+                                        <div>
+                                            <div >
+                                                <div class="top-mentors-info">
+                                                    <p class="top-mentors-name">
+                                                        <strong>{{mentor.userName}}</strong>
+                                                    </p>
+                                                    <p class="top-mentors-essay" ng-repeat="subject in  mentor.listSubject" >
+                                                        <a href="{{subject.id}}">{{subject.name}} </a>
+                                                    </p>
+                                                    <p class="top-mentors-answed">
+                                                        {{mentor.numsub}} subcrible, {{mentor.numAnswers}} answed
+                                                    </p>
+
+                                                    <p class="subcribe" title="unsubcribe">
+                                                        <span data-icon="&#x4b;"></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div><!-- /End list of top mentors -->
+                        </div>
+                    </div><!-- /End top memtor -->
+                </div>
+                <!-- Question of user -->
+                <div class="questions col-lg-8">
+                    <div class="questions-wrapper col-md-12">
+                        <!-- head of question -->
+                        <div class="head-question">
+                            <ul class="nav nav-tabs">
+                                <li ng-repeat="section in sections" ng-class="{active : isSelected(section)}">
+                                    <a data-toggle="tab" ng-click="setMaster(section)">
+                                        <h5><span data-icon="&#x74;"></span>{{section.name}}</h5>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div><!-- /End head of question -->
+                        
+                        <!-- Content of question -->
+                        <div class="tab-content">
+                            <!-- Content Of My Question -->
+                            <div class="content-question col-md-12 tab-pane active" id="my-questions">
+                                <div class="content-question-wrapper" scroller="askQuestion.ListQA" data-on-total-scroll="getQuestionByUserId">
+                                    <!-- Question 01 -->
+                                    <div class="question question_01" ng-repeat="q in askQuestion.ListQA track by $index">
+                                        <div class="number-question col-xs-1">
+                                            <h4>{{$index+1}}</h4>
+                                        </div>
+                                        <div class="detail-question col-xs-offset-1">
+                                            <div class="infor-of-question col-xs-12">
+                                                <span>{{q.time}} </span><br>
+                                                <p>in <a href="/">{{q.subject}}</a></p>
+                                            </div>
+                                            <!-- Detail Content of Question -->
+                                            <div class="detail-content-question col-xs-12">
+                                                <p>{{q.content}}</p>
+                                            </div><!-- /End Detail Content of Question -->
+                                            <!-- Images of question -->
+                                            <div class="images-question">
+
+                                                <ul ng-if="q.image">
+                                                    <li class="item" ng-repeat="image in q.image">
+                                                        <div ng-mouseover="imageHoverIn(this)"
+                                                             ng-mouseleave="imageHoverOut()" class="item-img">
+                                                            <img ng-src="{{baseIMAGEQ+image}}"
+                                                                 ng-click="zoomImage(image)">
+                                                            <div ng-show="isShowImageHover">
+                                                                <img src="assets/images/ask question/look-img.png">
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+
+                                            </div><!-- /End Images of question -->
+
+                                            <!-- Answer of question -->
+                                            <div class="answer-question col-xs-12" >
+                                                <div class="number-answer">
+                                                    <div class="total-number-answer">
+                                                        <div  ng-class="{'has-answer': q.count_answer != '0' , 'no-answer': q.count_answer == '0'}" class="total-answer"><p>{{q.count_answer}} answers</p></div>
+                                                        <div class="total-view">&nbsp;&nbsp;&nbsp; {{q.numviews}} views</div>
+                                                    </div>
+                                                    <!-- Detail-answer-question -->
+                                                    <div class="detail-answer-question" ng-repeat="a in q.answers track by $index">
+                                                        <div class="mentor-answer">
+                                                            <div class="image-mentor">
+                                                                <!-- <img src="assets/images/user.jpg">-->
+                                                                <img src="{{a.avatar}}">
+                                                            </div>
+                                                            <div class="detail-mentor-answer">
+                                                                <div class="mentor-name">
+                                                                    <!-- <strong>Mentor name</strong>&nbsp;&nbsp;&nbsp;<span>asked 2 mins ago</span>&nbsp;&nbsp;&nbsp;<span>6 <span data-icon="&#xe089;" id="heart"></span></span>-->
+                                                                    <strong>{{a.name}}</strong>&nbsp;&nbsp;&nbsp;<span>answerd {{a.time}} ago</span>&nbsp;&nbsp;&nbsp;<span>{{a.countLike}} <span data-icon="&#xe089;" id="heart"></span></span>
+                                                                </div>
+                                                                <div class="mentor-answer">
+                                                                    <!-- <p>Ask anythink and your Siblinks from Havard, Stanford and MIT will give informative and definitely non-parental answers</p>-->
+                                                                    <p><div data-ng-bind-html="a.content"></div></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- /End Detail-answer-question -->
+                                                    <!-- <div class="load-more">
+                                                        <p>Load more comments</p>
+                                                    </div>-->
+                                                </div>
+                                            </div><!-- /End answer of question -->
+                                        </div>
+                                    </div><!-- End question 01 -->
+
+                                </div>
+                                <!-- POPUP of images's question -->
+                                <div class="popup-images">
+                                    <div class="popup-images-wrapper">
+                                        <ul id="bxslider">
+                                            <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
+                                            <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
+                                            <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
+                                            <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
+                                            <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
+                                            <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
+                                            <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
+                                            <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
+                                        </ul>
+                                        <!-- The thumbnails -->
+                                        <ul id="bxslider-pager">
+                                            <li data-slideIndex="0"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
+                                            <li data-slideIndex="1"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
+                                            <li data-slideIndex="2"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
+                                            <li data-slideIndex="3"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
+                                            <li data-slideIndex="4"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
+                                            <li data-slideIndex="5"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
+                                            <li data-slideIndex="5"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
+                                            <li data-slideIndex="5"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="close-popup-images">
+                                    </div>
+                                </div><!-- /End POPUP of images's question -->
+
+                                <div class="scroll-load-more col-md-12">
+                                    <p>Scroll to load more</p>
+                                </div>
+
+                            </div><!-- /End content of My Question -->
+
+                            <!-- Content Of Essay -->
+                            <div class="content-question col-md-12 tab-pane" id="essay">
+                                <div class="content-question-wrapper">
+                                    <!-- Essay 01 -->
+                                    <div class="question essay_01" ng-if="essays != 'No data found'" ng-repeat="essay in essays track by $index">
+                                        <div class="number-question col-xs-1">
+                                            <h4>{{index+1}}</h4>
+                                        </div>
+                                        <div class="detail-question col-xs-offset-1">
+                                            <div class="infor-of-question col-xs-12">
+                                                <h5 class="essay-title">{{essay.nameOfEssay}}</h5>
+                                                <p><span>{{convertUnixTimeToTime(essay.docSubmittedDate)}} </span></p>
+                                                <p ng-if="essay.status == 'R'">
+                                                    <span class="essay-reviewing">Reviewing</span><span>by mentor: </span><span class="mentor-review">{{essay.firstName +' '+ essay.lastName}}
+                                                    </span>
+                                                </p>
+                                                <p ng-if="essay.status == 'P'">
+                                                    <span class="essay-wait-review">Waiting for review</span><span>by mentor: </span><span class="mentor-review">{{essay.firstName +' '+ essay.lastName}}</span>
+                                                </p>
+                                                <p ng-if="essay.status == 'S'">
+                                                    <span class="essay-answers">Answered</span><span>by mentor: </span><span class="mentor-review">{{essay.firstName +' '+ essay.lastName}}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div><!-- End Essay 01 -->
+                                    <div ng-if="essays == 'No data found'">
+                                        <h5 class="essay-title">No data found</h5>
+                                    </div>
+                                </div>
+                                <div class="scroll-load-more col-md-12">
+                                    <p>Scroll to load more</p>
+                                </div>
+
+                            </div><!-- /End content of Essay -->
+
+                            <!-- Content Of Setting -->
+                            <div class="content-question col-md-12 tab-pane" id="setting">
+	                            <div class="user-profile-setting">
+	                               <ul class="nav nav-tabs">
+	                                   <li class="active">
+	                                       <a data-toggle="tab" href="/studentProfile/#perInfor">
+	                                           Personal Information
+	                                       </a>
+	                                   </li>
+	                                   <li>
+	                                       <a data-toggle="tab" href="/studentProfile/#changPass">
+	                                           Change password
+	                                       </a>
+	                                   </li>
+	                               </ul>
+                                   <div class="tab-content">
+                                         <div class="content-question tab-pane active" id="perInfor">
+                                             <form action="" method="">
+                                                 <div class="personal-information">
+                                                     <div class="left-form">
+                                                         <p><input type="text" placeholder="Firstname" name="firstname"></p>
+                                                         <p><input type="text" placeholder="Lastname" name="lastname"></p>
+                                                         <p><input type="email" placeholder="Email" name="email"></p>
+                                                         <p><input type="text" placeholder="High School" name="school"></p>
+                                                         <p class="favorite field">
+                                                             <p>Favourite field</p>
+                                                             <div ng-repeat="subject in subjects">
+	                                                             <input type="checkbox" value="{subject.id}" name="subjects[]">
+	                                                             <label>{subject.name}</label>
+                                                             </div>
+                                                         </p>
+                                                     </div>
+                                                     <div class="right-form">
+                                                         <p class="sex">
+                                                             <input type="radio" name="gender" value="male" checked><label>Male</label>
+                                                             <input type="radio" name="gender" value="female"><label> Female</label>
+                                                             <input type="radio" name="gender" value="other"><label> Other</label>
+                                                         </p>
+                                                         
+                                                         <p><input type="text" id="bio" ng-model="date" placeholder="BIO" brotdatepicker /></p>
+                                                         <p><textarea placeholder="About me..." name="aboutme"></textarea></p>
+                                                     </div>
+                                                     
+                                                     <div class="submit col-md-12">
+                                                         <button type="button" id="reset">Reset</button>
+                                                         <button type="button" id="update">Update</button>
+                                                     </div>
+                                                 </div>
+                                             </form>
+                                         </div>
+                                         <div class="content-question tab-pane" id="changPass">
+                                          	<div ng-if="msgSuccess" class="succesful">
+									          <span>{{msgSuccess}}</span>
+									        </div>
+										    <div ng-if="msgError" class="validate_error">
+										       <span>{{msgError}}</span>
+										    </div>
+                                             <form acition="" method="">
+                                             	<div class="change-password">
+                                                     <p><input id="currentPwd" type="password"  ng-model="currentPwd" placeholder="Current password" name="currentPwd"></p>
+                                                     <p><input id="newPwd" type="password" ng-model="newPwd" placeholder="New password" name="newPwd" ></p>
+                                                     <p><input id="confirmPwd" type="password"  ng-model="confirmPwd" placeholder="Confirm password" name="confirmPwd"></p>
+                                                 </div>
+                                                 <div class="submit col-md-12">
+                                                     <button type="button" ng-click="reset()">Reset</button>
+                                                     <button type="button" ng-click="changePassword(currentPwd,newPwd,confirmPwd)">Update</button>
+                                                 </div>
+                                             </form>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div><!-- /End Content Of Setting --> 
+                        </div>
+                    </div>
+                </div><!-- /End question of user -->
+            </section><!-- /End content -->
+        </div><!-- End container -->
+	</div>

@@ -1,0 +1,54 @@
+{
+  "status": "SUCCESS",
+    "response": 
+  [
+    {
+      "question" : "Quantum Computation: What are the most fundamental and important ideas/ theorems/ results of quantum computation?",
+      "view" : "13 view",
+      "subjectId" : "4",
+      "sub_categoriesList" : 
+      [
+        {
+          "name" : "Algebra",
+          "id" : 1
+        },
+        {
+          "name" : "Linear Inequalities",
+          "id" : 2
+        }
+      ]
+    },
+    {
+      "question" : "Quantum Computation: What are the most fundamental and important ideas/ theorems/ results of quantum computation?",
+      "view" : "3 view",
+      "subjectId" : "4",
+      "sub_categoriesList" : 
+      [
+        {
+          "name" : "Algebra",
+          "id" : 1
+        },
+        {
+          "name" : "Linear Equations",
+          "id" : 2
+        }
+      ]
+    },
+    {
+      "question" : "Quantum Computation: What are the most fundamental and important ideas/ theorems/ results of quantum computation?",
+      "view" : "11 view",
+      "subjectId" : "4",
+      "sub_categoriesList" : 
+      [
+        {
+          "name" : "Linear Inequalities",
+          "id" : 1
+        },
+        {
+          "name" : "Linear Equations",
+          "id" : 2
+        }
+      ]
+    }   
+  ]
+}

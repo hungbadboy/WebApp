@@ -1,0 +1,414 @@
+<div class="content">
+	<!-- Ask mentor section -->
+	<section class="ask-mentors">
+	    <div class="ask-mentors-wrapper container">
+	        <!-- Ask mentor content -->
+	        <div class="ask-mentors-content">
+	            <div class="ask-mentors-description col-lg-7 col-md-6">
+	                <h1>Ask our Mentors</h1>
+	                <h5>Ask anythink and your Siblinks from Havard, Stanford and MIT will give informative and definitely
+	                    non-parental answers</h5>
+	            </div>
+	            <div class="ask-mentors-form-question col-lg-4 col-md-5 col-md-offset-1">
+	                <div class="form-question">
+	                    <form action="" method="">
+	                        <p><h4>Ask a question?</h4></p>
+	                        <div ng-if="askErrorMsg" class="validate_error">
+	                        	<span>{{askErrorMsg}}</span>
+	                    	</div>
+	                        <p><div angucomplete-alt id="autocompleteCate" placeholder="Search category.." pause="300"
+	                                selected-object="selectedSubject"
+	                                local-data="subjects" search-fields="subject" title-field="subject"
+	                                image-field="image" minlength="0" input-class="form-control form-control-small"
+	                                match-class="highlight" />
+	                        </p>
+	                        <p><textarea id="autocompleteQuest_value" placeholder="{{questionIndex}}"></textarea></p>
+	                        <output class="upload-image " id="list">
+	                            <div ng-repeat="step in stepsModel track by $index">
+	                                <img class="thumb" ng-src="{{step}}" />
+	                                <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
+	                        </div>
+	                        </output>
+	                        <span class="add-img">
+	                                <input type="file" multiple id="files"  ng-file-select="onFileSelect($files)" accept='image/*'/>
+	                                <label for="files"><img src="assets/images/add-img.png"></label></span>
+	                        <p><button type="button" class="home-ask-now" ng-click="redirectForum()">Ask Now</button></p>
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</section>
+	<!-- /Ask mentor section -->
+	
+	<!-- Download section -->
+	<section class="download">
+		<div class="download-wrapper container">
+			<div class="ask-mentors-download">
+				<div class="ask-mentors-download-content col-md-7">
+					<h2><strong>Ask</strong> Anytime, Anywhere, Always</h2>
+				</div>
+				<div class="ask-mentors-download-images col-md-5">
+					<a href="">
+						<img src="assets/images/appstore.png"></a>
+					<a href="">
+						<img src="assets/images/app-store-android-download.png"></a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Tutorials section -->
+	<section class="tutorials">
+		<div class="tutorials-wrapper container">
+			<h1>Tutorials</h1>
+			<div class="tutorials-content">
+				<!-- tabs of tutorials -->
+				<ul class="nav nav-tabs col-md-offset-3 col-sm-offset-2">
+					<li class="active"><a data-toggle="tab" href="#all">All</a></li>
+					<li><a data-toggle="tab" href="#financial">Financial AID</a></li>
+					<li><a data-toggle="tab" href="#scholarship">Scholarship</a></li>
+					<li><a data-toggle="tab" href="#college-life">College life</a></li>
+					<li><a data-toggle="tab" href="#maths">Maths</a></li>
+				</ul>
+
+				<!-- Content of each tab -->
+				<div class="tab-content">
+					<!-- Content of tab All -->
+					<div id="all" class="tab-pane active">
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_04.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>You got a problem? Ask our Mentors.</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_03.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>We provide the most comprehensive tutorial video collection online</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_02.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>You need an expert to review you essay?</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_01.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>We will source advices from different mentors in seconds.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Content of tab Financial AID -->
+					<div id="financial" class="tab-pane">
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_04.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>Curabitur sed finibus quam</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_03.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>Curabitur sed finibus quam</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_02.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>Curabitur sed finibus quam</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Content of tab Scholarship -->
+					<div id="scholarship" class="tab-pane">
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_04.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>Curabitur sed finibus quam</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_03.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>Curabitur sed finibus quam</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Content of tab College life -->
+					<div id="college-life" class="tab-pane">
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_04.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>Curabitur sed finibus quam</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_03.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>Curabitur sed finibus quam</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_02.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>Curabitur sed finibus quam</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Content of tab Maths -->
+					<div id="maths" class="tab-pane">
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_04.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>Curabitur sed finibus quam</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_03.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>Curabitur sed finibus quam</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="item">
+								<div class="item-img">
+									<img src="assets/images/tutorial_02.png">
+									<div class="item-hover">
+										<a href="">
+											<img src="assets/images/tutorial_button.png"></a>
+									</div>
+								</div>
+								<div class="item-desciption">
+									<p>Curabitur sed finibus quam</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- /Tutorials section -->
+
+	<!-- Benefits section -->
+	<section class="benefits">
+		<div class="benefits-wrapper container">
+			<h1>Benefits</h1>
+			<!-- <Title header> -->
+			<div class="col-md-3">
+				<!-- Column benefit 1 -->
+				<div class="benefits-img">
+					<img src="assets/images/benefit_04.png">
+				</div>
+				<div class="benefits-description">
+					<p>Who doesn't want someone to help them navigate all the tricky moments in their life?<br />But finding the perfect mentor isn't as easy as just asking someone you admire to give you advice, is it? SibLinks has the answer.</p>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<!-- Column benefit 2 -->
+				<div class="benefits-img">
+					<img src="assets/images/benefit_03.png">
+				</div>
+				<div class="benefits-description">
+					<p>Get instant help from the most high-achieving college students for not only academic subjects, but also for help with their social lives.<br />The mentors are students from MIT, Harvard and Stanford, playing the roles of siblings in college reaching back to encourage and support high school students.</p>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<!-- Column benefit 3 -->
+				<div class="benefits-img">
+					<img src="assets/images/benefit_02.png">
+				</div>
+				<div class="benefits-description">
+					<p>SibLinks is the first networking environment in which high school students will have access to the most high-achieving college students. <br />SibLinks will connects you with experts for live help via screen sharing, video, and text chat.</p>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<!-- Column benefit 4 -->
+				<div class="benefits-img">
+					<img src="assets/images/benefit_01.png">
+				</div>
+				<div class="benefits-description">
+					<p>SibLinks is not just the platform that will connect high school students to a crowd of mentors.<br />It's your siblinks always with you to solve your problems.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- /Benefits section -->
+
+	<!-- Information Section  -->
+	<section class="information">
+		<div class="information-content container">
+			<!-- Content left -->
+			<div class="col-md-4 col-md-offset-1">
+				<h2>A New Paradigm of Mentoring</h2>
+				<p>Our venture is built around a fundamental premise that CROWD MENTORING will bring significant improvement to our education system</p>
+				<div class="information-messages-wrapper">
+					<div class="information-message-content">
+						<p>"What a sick app this is - I've been searching forever for something like this to come along - WOW"</p>
+						<p><span>
+                                    <img src="assets/images/about_user.png"></span> Anna Thompson - Havard Student</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="infor-img col-md-6">
+			<!-- Content right -->
+			<img src="assets/images/about_01.png">
+		</div>
+	</section>
+	<!-- /Information-->
+
+	<!-- About Section -->
+	<section class="about">
+		<div class="about-content container">
+			<!-- Content right -->
+			<div class="col-md-4 col-md-offset-7">
+				<h3>Education has always been a social activity, and networking is the natural next step of its evolution</h3>
+				<p>The central goal of the project is to create an educational network among high school students, among college mentors and between high school and college students</p>
+				<div class="about-messages-wrapper">
+					<div class="about-message-content">
+						<p>"What a sick app this is - I've been searching forever for something like this to come along - WOW"</p>
+						<p><span>
+                                    <img src="assets/images/about_user_02.png"></span> Anna Thompson - Havard Student</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="infor-img col-md-6">
+			<!-- Content left -->
+			<img src="assets/images/about_02.png">
+		</div>
+	</section>
+	<!-- /About Section -->
+
+	<!-- Idea section -->
+	<section class="idea">
+		<div class="container">
+			<h1>No matter what troubles you have,<br>
+				SibLinks is here to help you</h1>
+			<img src="assets/images/idea.png">
+			<div class="idea-images col-md-12">
+				<a href="">
+					<img src="assets/images/appstore.png"></a>
+				<a href="">
+					<img src="assets/images/app-store-android-download.png"></a>
+			</div>
+		</div>
+	</section>
+	<!-- /Idea section -->
+</div>

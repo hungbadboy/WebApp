@@ -1,0 +1,185 @@
+<head>	
+	<style type="text/css">
+		#tag ul {
+			list-style: none
+		}
+		#tag ul li {
+			display: inline;
+			border: 1px solid #ccc;
+			cursor: pointer;
+		}
+		.active {
+			color: red;
+		}
+		#tag {
+			text-align: right;
+			
+			z-index: 99999;
+    		position: relative;
+		}
+
+		.subject {
+			text-align: right;
+			
+			z-index: 99998;
+    		position: relative;
+    		border-bottom: 2px solid #000;
+    		padding: 5px;
+    		margin-bottom: 10px;
+		}
+		.upload{
+			z-index: 99997;
+    		position: relative;
+		}
+		/*#videoContent{
+			margin-top: 20px;
+		}*/
+		/*#videoContent .col-md-12 {
+			padding: 20px;
+		}*/
+		#videoContent .col-md-1 {
+			min-height: 81px;
+			display: table;
+		}
+		#videoContent .col-md-1 div{
+			display: table-cell;
+			vertical-align: middle;
+		}
+		#videoContent .col-md-12 {
+			/*margin-top: 20px; */
+		}
+		
+	</style>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			console.log("active");
+			$('.content .most_viewed').hide();
+			$('.content .top_rates').hide();
+		    $('#newest').click(function(){
+		        $('.content .newest').show();
+		        $('.content .most_viewed').hide();
+		        $('.content .top_rates').hide();
+		        $('#newest').addClass('active');
+		        $('#most_viewed').removeClass('active');
+		        $('#top_rates').removeClass('active');
+		    });
+		    $('#most_viewed').click(function(){
+		        $('.content .newest').hide();
+		        $('.content .most_viewed').show();
+		        $('.content .top_rates').hide();
+		        $('#newest').removeClass('active');
+		        $('#most_viewed').addClass('active');
+		        $('#top_rates').removeClass('active');
+		    });
+		    $('#top_rates').click(function(){
+		        $('.content .newest').hide();
+		        $('.content .most_viewed').hide();
+		        $('.content .top_rates').show();
+		        $('#newest').removeClass('active');
+		        $('#most_viewed').removeClass('active');
+		        $('#top_rates').addClass('active');
+		    });
+		});
+	</script>
+<head>
+
+<div id="videoContent" class="content w975" ng-controller="VideoController">
+
+	<div class="upload">
+		<a href="#/video_upload"><button>Upload new video</button></a>
+	</div>
+	<div class="subject">
+		Subjects:
+		<select class="subject_selection" ng-init="item = options[0]" ng-model="item" ng-change="loadVideosBySubject()">
+			<option value="0" >All</option>
+			<option value="2">Mathematics</option>
+			<option value="3">Chemistry</option>
+			<option value="4">Physics</option>
+			<option value="5">Biology</option>
+		</select>
+	</div>
+	<div id="tag">
+		<ul>
+			<li id="newest" class="active">Newest</li>
+			<li id="most_viewed">Most viewed</li>
+			<li id="top_rates">Top Rates</li>
+		</ul>
+	</div>
+	<div class="newest" ng-repeat="v in videos">		
+		<div class="col-md-12">
+          <div class="col-md-6">
+            <div class="col-md-1"><div><input type="checkbox" name=""></div></div>
+            <div class="col-md-3"><img src="{{v.image}}" style="width: 100%;"></div>
+            <div class="col-md-6">
+              <div> {{v.title}} </div>
+              <div>{{v.userName}}</div>
+              <div> {{v.timeStamp}}</div>
+              <div>*****</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="col-md-8">
+              <div class="col-md-12">Playlist(s): {{v.playlist}}</div>
+              <div class="col-md-12">{{v.numViews}} Views</div>
+              <div class="col-md-12">{{v.numComments}} Comments</div>
+            </div>
+            <div class="col-md-4">
+              <button class="col-md-12" ng-click="openModalUpdate(v.vid)">edit</button>
+              <button class="col-md-12" ng-click="delete(v.vid)">delete</button>
+            </div>
+          </div>
+        </div>		
+	</div>
+
+	<div class="most_viewed" ng-repeat="v in videosTopViewed">		
+		<div class="col-md-12">
+          <div class="col-md-6">
+            <div class="col-md-1"><div><input type="checkbox" name=""></div></div>
+            <div class="col-md-3"><img src="{{v.image}}" style="width: 100%;"></div>
+            <div class="col-md-6">
+              <div> {{v.title}} </div>
+              <div>{{v.userName}}</div>
+              <div> {{v.timeStamp}}</div>
+              <div>*****</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="col-md-8">
+              <div class="col-md-12">Playlist(s): {{v.playlist}}</div>
+              <div class="col-md-12">{{v.numViews}} Views</div>
+              <div class="col-md-12">{{v.numComments}} Comments</div>
+            </div>
+            <div class="col-md-4">
+              <button class="col-md-12" ng-click="openModalUpdate(v.vid)">edit</button>
+              <button class="col-md-12" ng-click="delete(v.vid)">delete</button>
+            </div>
+          </div>
+        </div>		
+	</div>
+
+	<div class="top_rates" ng-repeat="v in videosTopRated">		
+		<div class="col-md-12">
+          <div class="col-md-6">
+            <div class="col-md-1"><div><input type="checkbox" name=""></div></div>
+            <div class="col-md-3"><img src="{{vr.image}}" style="width: 100%;"></div>
+            <div class="col-md-6">
+              <div> {{v.title}} </div>
+              <div>{{v.userName}}</div>
+              <div> {{v.timeStamp}}</div>
+              <div>*****</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="col-md-8">
+              <div class="col-md-12">Playlist(s): {{v.playlist}}</div>
+              <div class="col-md-12">{{v.numViews}} Views</div>
+              <div class="col-md-12">{{v.numComments}} Comments</div>
+            </div>
+            <div class="col-md-4">
+              <button class="col-md-12" ng-click="openModalUpdate(v.vid)">edit</button>
+              <button class="col-md-12" ng-click="delete(v.vid)">delete</button>
+            </div>
+          </div>
+        </div>		
+	</div>	
+</div>

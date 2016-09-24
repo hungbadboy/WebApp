@@ -1,0 +1,77 @@
+<style type="text/css">
+	#video_upload{
+		z-index: 99997;
+    	position: relative;
+	}
+	.preview{
+		width: 200px;
+		height: 200px;
+	}
+</style>
+
+<div id="video_upload" class="content w975" ng-controller="VideoUploadController">
+	<div>
+		<div>
+			Title
+			<input type="text" name="title" ng-model="video_title" class="form-control" placeholder="Video Tilte">
+		</div>
+		<div>
+			Youtube Link
+			<input type="text" name="url" ng-model="video_url" class="form-control" placeholder="Youtube Link">
+		</div>
+		<div>
+			Image
+			<input type="text" id="image" name="image" class="form-control" ng-model="video_image" placeholder="Image Video" ng-blur="check()">
+		</div>
+		<div id="image_preview" >
+			Image Preview
+			<p>
+				<img class="preview" ng-src="{{video_image}}">
+			</p>
+		</div>
+		<div>
+			Description
+			<textarea name="description" ng-model="video_description" class="form-control" placeholder="Description"></textarea>
+		</div>
+		<div>
+			Subjects:
+			<select name="subject" data-ng-model="video_subject">
+				<option value="0">Select Subjects</option>
+				<option ng-repeat="option in subjects" value="{{option.subjectId}}">{{option.subject}}</option>
+			</select>
+
+			Playlist:
+			<select name="playlist" ng-model="video_playlist">
+				<option value="0">Select Playlist</option>
+				<option ng-repeat="option in playlist" value="{{option.plid}}">{{option.name}}</option>	
+			</select>
+		</div>
+
+		<div>
+			<button ng-click="insert()">Save</button>
+			<!-- <button>Create new playlist</button> -->
+		</div>	
+	</div>
+	<div>
+		<h5>Recently added videos</h5>
+		<div id="recently_video" >
+			<table>
+				<tr>
+					<th>Title</th>
+					<th>Subject</th>
+					<th>Description</th>
+					<th>Youtube Link</th>
+					<th>Options</th>
+				</tr>
+				<tr ng-repeat="v in videosRecently">
+					<td>{{v.title}}</td>
+					<td>{{v.subject}}</td>
+					<td>{{v.description}}</td>
+					<td>{{v.url}}</td>
+					<td><button>Play</button><button ng-click="edit(v.vid)">Edit</button><button ng-click="delete(v.vid)">Delete</button></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+

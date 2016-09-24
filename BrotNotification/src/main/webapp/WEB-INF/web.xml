@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns:web="http://xmlns.jcp.org/xml/ns/javaee">
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>WEB-INF/beans.xml</param-value>
+  </context-param>
+  <listener>
+    <listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+  </listener>
+  <servlet>
+    <display-name>Notification Service Servlet</display-name>
+    <servlet-name>NotificationServiceServlet</servlet-name>
+    <servlet-class>com.mobile.brot.Notification.Servlet.NotificationServlet</servlet-class>
+    <init-param>
+      <description>Module name Notification Service, which will be used while logging metrics, etc.</description>
+      <param-name>serviceName</param-name>
+      <param-value>NotifyService</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NotificationServiceServlet</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+</web-app>

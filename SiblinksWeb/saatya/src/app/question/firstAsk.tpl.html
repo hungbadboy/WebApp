@@ -1,0 +1,91 @@
+    <div class="content ask-a-question">
+        <!-- Breadcrum -->
+        <div class="breadcrum">
+            <div class="container">
+                <h5>Siblinks <span>/ Ask a Question</span></h5>
+            </div>
+        </div><!-- /End Breadcrum -->
+        <!-- Content -->
+        <section class="first-ask-content">
+            <!-- Ask a Question -->
+            <div class="create-ask">
+                <div class="create-ask-title">
+                    <h2>You do not have any questions</h2>
+                    <h2>Create your <span>first ask</span><br>right now!</h2>
+                    <div class="create-ask-content new-ask">
+                        <p ng-click="showFormAdd()"  class="new-ask-button">creat ask</p>
+                    </div>
+
+
+                    <p class="first-ask-img"><img src="assets/images/first-ask.png"></p>
+                </div>
+            </div>
+            <!-- /End Ask a Question -->
+
+            <div class="top-mentors-videos">
+
+                <!-- Top videos -->
+                <div class="top-videos" ng-include="'src/app/question/topVideos.tpl.html'" >
+
+                </div><!-- /End top memtor -->
+                <!-- /End top memtor -->
+
+                <!-- Top mentor -->
+                <div class="top-mentors" ng-include="'src/app/question/topMentors.tpl.html'">
+
+                </div><!-- /End top memtor -->
+
+            </div>
+        </section><!-- /End content -->
+
+        <!-- Download section -->
+        <section class="download">
+            <div class="download-wrapper container">
+                <div class="ask-mentors-download">
+                    <div class="ask-mentors-download-content col-md-7">
+                        <h2><strong>Ask</strong> Anytime, Anywhere, Always</h2>
+                    </div>
+                    <div class="ask-mentors-download-images col-md-5">
+                        <a href=""><img src="assets/images/appstore.png"></a>
+                        <a href=""><img src="assets/images/app-store-android-download.png"></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form add new ask -->
+        <div class="form-ask-question" ng-controller="HomeController">
+            <form action="" method=""
+                  class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
+                <h3>Ask a question</h3>
+                <div ng-if="askErrorMsg" class="validate_error">
+                    <span>{{askErrorMsg}}</span>
+                </div>
+                <p>
+                <div angucomplete-alt id="autocompleteCate" placeholder="Search category.." pause="300"
+                     selected-object="selectedSubject"
+                     local-data="subjects" search-fields="subject" title-field="subject"
+                     image-field="image" minlength="0" input-class="form-control form-control-small"
+                     match-class="highlight" />
+                </p>
+                <p><textarea id="autocompleteQuest_value" placeholder="{{questionIndex}}"></textarea></p>
+                <output class="upload-image " id="list">
+                    <div ng-repeat="step in stepsModel track by $index">
+                        <img class="thumb" ng-src="{{step}}" />
+                        <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
+                    </div>
+                </output>
+
+                <span class="add-img">
+                                <input type="file" multiple id="files"  ng-file-select="onFileSelect($files)" accept='image/*'/>
+                                <label for="files"><img src="assets/images/add-img.png"></label></span>
+                <p><button type="button" ng-click="redirectForum()" class="ask-question-now">Ask Now</button></p>
+                <p class="close-form close" ng-click="closePopupAskQuestion()"><span data-icon="&#xe051;"></span></p>
+            </form>
+            <div class="close-popup-images"  ng-click="closePopupAskQuestion()">
+            </div>
+
+        </div>
+        </div>
+        <!-- /End Form add new ask-->
+    </div>

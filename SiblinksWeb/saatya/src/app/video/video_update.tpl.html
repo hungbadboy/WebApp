@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<div class="modal-header">
+    <h3 class="modal-title">Header</h3>
+</div>
+<div class="modal-body">
+    <h1>{{video.title}}</h1>
+    <h1>Edit video</h1>
+        <div>
+            Title
+
+            <input type="text" id="title" name="title" ng-model="update_title" class="form-control" placeholder="Video Tilte">
+        </div>
+        <!-- <div>
+            Youtube Link
+            <input type="text" name="url" ng-model="video_url" class="form-control" placeholder="Youtube Link">
+        </div>
+        <div>
+            Image
+            <input type="text" id="image" name="image" class="form-control" ng-model="video_image" placeholder="Image Video" ng-blur="check()">
+        </div>
+        <div id="image_preview" >
+            Image Preview
+            <p>
+                <img class="preview" ng-src="{{video_image}}">
+            </p>
+        </div> -->
+        <div>
+            Description
+            <textarea id="description" name="description" ng-model="update_description" class="form-control" placeholder="Description"></textarea>
+        </div>
+        <div>
+            <button ng-click="update()">Save</button>
+            <!-- <button>Create new playlist</button> -->
+        </div>  
+</div>

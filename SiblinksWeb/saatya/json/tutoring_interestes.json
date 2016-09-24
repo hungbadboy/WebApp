@@ -1,0 +1,63 @@
+{
+  "status": "SUCCESS",
+  "response":
+  [
+    {
+      "subject":"",
+      "id": 1,
+      "categories":
+      [
+        {
+          "id" : 1,
+          "name" : "Scholarship Application"
+        },
+        {
+          "id": 2,
+          "name" : "College Application"
+        },
+        {
+          "id": 3,
+          "name" : "Financial Aid Application"
+        }
+      ]
+    },
+    {
+      "subject":"Maths",
+      "id": 2,
+      "categories":
+      [
+        {
+          "id" : 1,
+          "name" : "Algebra 1"
+        },
+        {
+          "id": 2,
+          "name" : "Algebra 2"
+        },
+        {
+          "id": 3,
+          "name" : "Geometry"
+        }
+      ]
+    },
+    {
+      "subject":"Sciences",
+      "id": 3,
+      "categories":
+      [
+        {
+          "id" : 1,
+          "name" : "Biology"
+        },
+        {
+          "id": 2,
+          "name" : "Chemistry"
+        },
+        {
+          "id": 3,
+          "name" : "Physics"
+        }
+      ]
+    }
+  ]
+}

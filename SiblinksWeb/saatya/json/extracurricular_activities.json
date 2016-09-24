@@ -1,0 +1,34 @@
+{
+  "status": "SUCCESS",
+  "response":
+  [
+    {
+      "id" : 1,
+      "name" : "Acting"
+    },
+    {
+      "id" : 2,
+      "name" : "Reading"
+    },
+    {
+      "id" : 3,
+      "name" : "Running"
+    },
+    {
+      "id" : 4,
+      "name" : "Soccer"
+    },
+    {
+      "id" : 5,
+      "name" : "Tennis"
+    },
+    {
+      "id" : 6,
+      "name" : "Football"
+    },
+    {
+      "id" : 7,
+      "name" : "Acting"
+    }
+  ]
+}

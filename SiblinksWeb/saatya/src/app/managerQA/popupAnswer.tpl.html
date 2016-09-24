@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<div class="modal-header">
+    <h3 class="modal-title">Header</h3>
+</div>
+<div class="modal-body">
+    <div class="question">
+        {{question.question_text}}
+    </div>
+    <div class="textword" id="demo">
+                <textarea id="txtAnswer" name="txtAnswer" rows="5" class="answer_text" cols="50" placeholder="Answer this question">
+
+                </textarea>
+        <script>
+            var editorAnswer = CKEDITOR.replace('txtAnswer');
+            editorAnswer.config.width = 200;
+            editorAnswer.config.height = 200;
+            editorAnswer.addCommand("mySimpleCommand", {
+                exec: function (edt) {
+                    $('#file').click();
+                }
+            });
+            editorAnswer.ui.addButton('SuperButton', {
+                label: "Upload Image",
+                command: 'mySimpleCommand',
+                toolbar: 'insert',
+                icon: '/assets/img/ico-hit.png'
+            });
+        </script>
+        <input type="submit" name="" value="ANSWER" class="btnAnswer" ng-click="postAnswer(question.authorId,question.question_id,question.topicId,question.subjectId)">
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" type="button"
+            ng-click="close()">Cancel</button>
+</div>
+<input id="file" class="hide"  name="fileUpload" ng-file-select="onFileSelect($files)" multiple ngf-accept="'image/*'"  type="file" />

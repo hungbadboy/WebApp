@@ -1,0 +1,32 @@
+<div id="aboutPage">
+    <div class="wrap_search">
+        <div class="data">
+            <img class="icon" src="assets/img/mentor_profile.png">
+            <span class="title">Manager Q&A</span>
+        </div>
+    </div>
+
+    <div class="content">
+        <div angucomplete-alt id="autocompleteCate" placeholder="Search category.." pause="300" selected-object="selectedSubject"
+             local-data="subjects" search-fields="topic" title-field="topic"
+             image-field="image" minlength="1" input-class="form-control form-control-small"
+             match-class="highlight" />
+
+        <div ng-repeat="q in listQuestions track by $index" class="wq">
+
+            <div class="q">
+                <span class="al"></span>
+                <img ng-src="{{q.imageUrl}}"style="width: 50px; height: 50px; ">
+                <p>{{q.content}}</p><br/>
+                <p>{{q.numanswer}}</p>
+                <button ng-click='openModalAnswer(q.pid)' class="btn btn-warning">Popup with parameter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAnswer">
+    <div class="modal-dialog">
+        <p>{{q.content}}</p><br/>
+        </div>
+    </div>

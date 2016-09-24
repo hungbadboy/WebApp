@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.mobile.brot</groupId>
+	<artifactId>Brot</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	<name>Brot</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<brot.build.version>1.0</brot.build.version>
+		<brot.ws>C:\Users\db2inst1\git\webapp</brot.ws>
+		<cxf.version>2.6.1</cxf.version>
+		<httpclient.version>3.1</httpclient.version>
+		<org.springframework.version>4.3.2.RELEASE</org.springframework.version>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<skip>true</skip>
+				</configuration>
+				<version>2.5.1</version>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<modules>
+	    <module>Admin</module>
+		<!-- <module>MobileService</module> -->		
+		<module>BrotClient</module>
+		<module>BrotDomain</module>
+		<module>BrotNotification</module>
+	</modules>	
+</project>

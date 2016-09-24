@@ -1,0 +1,82 @@
+<div id="main">
+  <div class="wrap_search">
+    <div class="data">
+      <span class="title" ng-click="loadAdmission()" style="cursor: pointer;">College Admission</span>
+      <span class="htg_right"></span>
+      <span class="title" ng-click="loadSubAdmission()" style="cursor: pointer;">{{title}}</span>
+      <span class="htg_right"></span>
+
+      <!-- Split button -->
+      <div class="custom_dropdown" style="position: relative;">
+      	<div class="select_topic">
+    		  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">{{seletedCatName}}</button>
+    		  <button type="button" class="btn arrow dropdown-toggle" data-toggle="dropdown">
+    		    <span class="caret"></span>
+    		    <span class="sr-only">Toggle Dropdown</span>
+		      </button>
+		  <ul class="dropdown-menu" ng-repeat="item in topicSubAdmission track by $index" ng-if="item[0].id != null" role="menu" >
+		    <li ng-repeat="item in topicSubAdmission track by $index"><a href ng-click="openAnotherCat(item[0].id)">{{item[0].name}}</a></li>
+		  </ul>
+		</div>
+      </div>
+      <!-- <input class="search" placeholder="Search for a video by keyword, topic ..." ng-model="keySearch" /> -->
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+  <div class="content">
+  	<div class="head_admission">
+  		<div class="loadingdiv" ng-hide="showItem">
+        <img src="https://www.findshare.com/assets/images/loading-blue.gif" >
+      </div>
+
+      <div class="paging">
+        <div class="wrap_paging">
+          <a href="" ng-if="countVideo > 10" ng-click="prevPage()"><img src="assets/img/btn_prev.png"></a>
+          <span ng-repeat="i in listPage" id="{{i}}" ng-if="countVideo > 10" class="active" ng-class="addClassActive(i)" ng-click="showListVideoWithPage(i)">{{i}}</span>
+          <a href="" ng-if="countVideo > 10" ng-click="nextPage()"><img class="btn_nxt" src="assets/img/btn_nxt.png"></a>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+  	</div>
+
+    <div class="errorAdmission" ng-if="countVideo == 0">
+      <span>{{errorData}}</span>
+    </div>
+
+    <div class="listVideoAdmission">
+  	  <div id="{{video.vId}}" class="body_ct" ng-repeat="video in videos" ng-click="showVideoDetail(video.vId)">
+        <div class="icon_play">
+          <div class="wrap_icon_play">
+            <div class="wrap_htg_white">
+              <span class="htg_white"></span>
+            </div>
+          </div>
+          <img style="height: 90px;" ng-src="{{video.image}}" >
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="data_ct">
+          <div class="wrap_text">
+            <span class="title">{{video.title}}
+              <span class="time">{{video.runningTime}}</span>
+            </span>
+            <span class="text">{{video.description}}</span>
+          </div>
+          <div class="rating">
+            <img class="left" ng-repeat="star in video.arr_rate track by $index" ng-src="{{star}}">
+            <span class="name">{{video.firstName}} {{video.lastName}}</span>
+            <span class="point">Views: {{video.numViews}}</span>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="status">
+          <img class="icon_white_tick" src="assets/img/white_tick.png">
+        </div>
+        <div class="clearfix"></div>
+      </div> <!-- end .body_ct -->
+    </div>
+  	<div class="clearfix"></div>
+  </div> <!-- end .content -->
+</div>
+<!-- end #main -->

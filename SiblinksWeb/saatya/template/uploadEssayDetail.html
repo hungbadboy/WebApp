@@ -1,0 +1,153 @@
+ <div id="essay_detail">
+  <div class="wrap_search">
+     <div class="data">
+      <img class="icon" src="assets/img/mentor_profile.png">
+      <span class="title" ng-if="userType == 'S'" style="cursor: pointer;" ng-click="backupUpload()">Upload Essay</span>
+      <span class="htg_right" ng-if="userType == 'S'"></span>
+      <span class="title" style="cursor: pointer;" ng-click="backupView()">View Essay</span>
+      <span class="htg_right"></span>
+      <span class="title">Essay Detail</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="loadingdiv" ng-hide="showItem">
+      <img src="https://www.findshare.com/assets/images/loading-blue.gif" >
+    </div>
+    <div class="divError" ng-if="countEssay == null" ng-show="showError">{{errorData}}</div>
+    <div class="clearfix"></div>
+
+    <div class="list_mentor" id="{{essay.uploadEssayId}}">
+      <div class="introduce" style="text-align: center;">
+        <a href="{{essay.downloadLink}}"><img style="margin: 10px;" src="{{essay.urlReview}}"></a>
+        <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="discussion">
+      <img class="icon_discussion" src="assets/img/discussion.png">
+      <span class="title">Discussion <span style="margin-left: 145px; font-size: 14px;" class="alert alert-danger" role="alert" ng-show="myVar">Please enter a discussion</span></span>
+      <div class="clearfix"></div>
+      <hr/>
+      <div class="wrap_data_discus">
+        <div class="boxCkComment" ng-class="addClassHide()" ng-click="showCKEditor($event);">
+          <span>Join the discussion</span>
+        </div>
+        <div class="ckComment hide">
+          <textarea id="txtDiscus" rows="5" class="answer_text" placeholder="Answer this question">
+
+          </textarea>
+        </div>
+        <div class="btnHide hide">
+          <button class="btnCancel" ng-click="cancel()">CANCEL</button>
+          <button class="btnSend" ng-click="sendDiscus()">GO</button>
+        </div>
+        <div class="clearfix"></div>
+        <div class="data" ng-repeat="discuss in discussiones track by $index">
+        <div class="data">
+          <div class="data_left">
+            <div class="wrap_img" ng-click="profilePage(discuss.created_by.user_id, discuss.created_by.type_user)">
+              <img class="avata" ng-src="{{discuss.image}}">
+            </div>
+            <div class="count"><a href ng-click="likeCommentEssay(discuss.cid)"><span id="c{{discuss.cid}}">+{{discuss.countLike}}</span></a></div>
+          </div>&nbsp<span class="c{{discuss.cid}}"></span>
+          <div class="data_right">
+              
+            <div class="data_content" data-ng-bind-html="discuss.content"></div>
+            <div class="update_comment" style="margin-top: 6px; float: left;">
+              <span class="edit" ng-click="editComment(discuss.cid, discuss.content)" ng-if="userId == discuss.authorId">Edit</span>
+              <span class="delete" ng-click="deleteComment(discuss.cid)" ng-if="userId == discuss.authorId">Delete</span>
+            </div>
+            <div class="time">{{discuss.creationDate}} ago by 
+              <a href="#/studentProfile/{{discuss.authorId}}">{{discuss.firstName}} {{discuss.lastName}}</a>
+            </div>
+            <div class="clearfix"></div>
+
+          </div>
+          <span class="htg_left"></span>
+          <div class="clearfix"></div>
+        </div> <!-- end data -->
+
+      </div> <!-- end wrap discussion -->
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <button class="load_more" ng-if="count > 5 && nextMore != 1" ng-click="loadMoreComment()">LOAD MORE</button>
+</div>
+<!-- end #main -->
+
+<div class="modal fade" id="deleteItem">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Are you sure want to delete?</h4>
+      </div>
+      <div class="modal-body">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>&nbsp&nbsp&nbsp
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" ng-click="deleteItem()">Yes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="editDiscuss">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 660px; height: 550px; left: 50%; margin-left: -330px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Edit discussion:</h4>
+      </div>
+      <div class="modal-body">
+        <textarea id="discuss" class="answer_text">
+
+        </textarea>
+        <div style="margin: 15px 0 0 0; float: right;">
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>&nbsp&nbsp&nbsp
+          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" ng-click="updateComment()">Yes</button>  
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="uploadImage">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 400px; height: 200px; left: 50%; margin-left: -200px;">
+      <div class="modal-header">
+        <span style="font-size: 16px;"><b>Insert an image</b></span>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <img class="waitingUp hide" style="width: 50px; height: 50px; position: absolute; left: 175px; top: 23px;" src="https://www.findshare.com/assets/images/loading-blue.gif" >
+        <div style="height: 100px; border: 1px dashed steelblue; margin-top: -20px;">
+          <div id="select-file" style="background-color: #428bca; color: WHITE; width: 165px; text-align: center; border-radius: 5px; margin: 35px 0 0 97px; cursor: pointer; font-size: 17px;">Upload an image</div>
+            <form id="upload-file-form">
+              <input id="file" class="hide" name="uploadfile" accept="*" type="file" />
+            </form>
+          </div>  
+        </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="uploadImageEdit">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 400px; height: 200px; left: 50%; margin-left: -200px;">
+      <div class="modal-header">
+        <span style="font-size: 16px;"><b>Insert an image</b></span>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <img class="waitingUp hide" style="width: 50px; height: 50px; position: absolute; left: 175px; top: 23px;" src="https://www.findshare.com/assets/images/loading-blue.gif" >
+        <div style="height: 100px; border: 1px dashed steelblue; margin-top: -20px;">
+          <div id="select-edit" style="background-color: #428bca; color: WHITE; width: 165px; text-align: center; border-radius: 5px; margin: 35px 0 0 97px; cursor: pointer; font-size: 17px;">Upload an image</div>
+            <form id="upload-file-form-edit">
+              <input id="edit" class="hide" name="uploadfile" accept="*" type="file" />
+            </form>
+          </div>  
+        </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

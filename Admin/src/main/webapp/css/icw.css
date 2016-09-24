@@ -1,0 +1,1610 @@
+/* Reset Cisco's header and footer margins to accomodate visual alignment to Libra specs */
+#framework-content-titles {
+	margin-left: 6px;
+}
+
+#framework-footer {
+	margin-left: 10px;
+}
+
+.icw {
+	line-height: 110%;
+	margin: 0;
+	padding: 0;
+	color: #333;
+}
+
+.icwWrapper {
+	width: 910px;
+}
+
+/* Resetting the font size to 85.4% in the .icw, .icwSkin and .icwNoSkin scope gives us a base font size
+   of 11px.  Here's how we arrive at that number:
+   
+   Cisco's stylesheet resets the base font size to 80.5%.  The default font size in IE6, IE7, and FF is 16px.
+   .805 x 16px = 12.88px
+   .854 x 12.88px = 11.0px
+   
+   If at any point in the future, Cisco changes their master stylesheets to update this 80.5 figure, the 85.4%
+   figure should be revised accordingly. */
+.icwSkin,.icwNoSkin,.icw {
+	font-size: 86%;
+}
+
+.icwSkin .icw,.icwNoSkin .icw {
+	font-size: 100%;
+}
+
+.icw .icwSkin,.icw .icwNoSkin {
+	font-size: 100%;
+}
+
+/* Reset Basic Styles */
+.icw div,.icw span,.icw applet,.icw object,.icw iframe,.icw h1,.icw h2,.icw h3,.icw h4,.icw h5,.icw h6,.icw p,.icw blockquote,.icw pre,a,.icw abbr,.icw acronym,.icw address,.icw big,.icw cite,.icw code,.icw del,.icw dfn,.icw em,.icw font,.icw img,.icw ins,.icw kbd,.icw q,.icw s,.icw samp,.icw small,.icw strike,.icw strong,.icw sub,.icw sup,.icw tt,.icw var,.icw dl,.icw dt,.icw dd,.icw ol,.icw ul,.icw li,.icw fieldset,.icw form,.icw label,.icw legend,.icw table,.icw caption,.icw tbody,.icw tfoot,.icw thead,.icw tr,.icw th,.icw td,.icw textarea
+	{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+.icw ol,.icw ul {
+	list-style: none;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+.icw table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.icw caption,.icw th,.icw td {
+	text-align: left;
+	font-weight: normal;
+}
+
+/* Re-used styles */
+.icw a,.icw a:link,.icw a:visited,.icw a:hover,.icw a:active {
+	color: #2F6681;
+}
+
+.icw input.icwText,.icw select,.icw textarea {
+	border: 1px solid #CCC;
+	width: 300px;
+	padding: 1px 2px;
+	font-size: 100%;
+}
+
+.icw input.icwFile {
+	padding: 1px 2px;
+	font-size: 100%;
+}
+
+.icw select {
+	width: 250px;
+}  /* For some reason, selects still display 6 px too thin */
+.icw strong {
+	font-weight: bold;
+}
+
+.icw input.icwText {
+	height: 16px;
+}
+
+.icw input.icwTextDisabled {
+	border: 1px solid #F0F1F2;
+	background-color: #FFF;
+}
+
+.icw .icwOrderName {
+	font-weight: bold;
+	font-size: 110%;
+}
+
+.icw .icwLaunchTooltip {
+	color: #2F6681;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.icw .icwHidden {
+	display: none;
+}
+
+.icw .icwIndent {
+	margin-left: 6px;
+}
+
+.icw .icwMarginBottom {
+	margin-bottom: 10px;
+}
+
+.icw .icwParagraphWrap {
+	width: 67%;
+}
+
+.icw .icwRequired {
+	color: #900 !important;
+}
+
+.icw .icwRecommended {
+	color: #090 !important;
+}
+
+.icw span.icwRecommended,.icw span.icwRequired {
+	font-size: 136.5%;
+	font-weight: bold;
+	vertical-align: sub;
+}
+
+.icw .icwDisabledLink,.icw a.icwDisabledLink,.icw a.icwDisabledLink:link,.icw a.icwDisabledLink:visited,.icw a.icwDisabledLink:hover,.icw a.icwDisabledLink:active
+	{
+	color: #AAA;
+	text-decoration: underline;
+	cursor: default;
+}
+
+.icwClear {
+	display: inline-block;
+}
+
+.icwClear:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+/* icw MESSAGES */
+.icw .icwMessage {
+	margin: 0 0 10px 0;
+	padding: 6px 5px;
+}
+
+.icw .icwMessage p {
+	display: inline;
+	font-size: 100%;
+	font-weight: bold;
+}
+
+.icw .icwMessageWarning {
+	border: 1px solid #F7DC8E;
+	background: #FFC url(../i/icn/warning.gif) 5px 7px no-repeat;
+	padding-left: 20px;
+}
+
+.icw .icwMessageError {
+	border: 1px solid #F00;
+	background: #FFC url(../i/icn/error.gif) 5px 7px no-repeat;
+	padding-left: 20px;
+}
+
+.icw .icwMessageOkay {
+	border: 1px solid #59B32D;
+	background: #E3FFD5 url(../i/icn/okay.gif) 5px 7px no-repeat;
+	padding-left: 20px;
+}
+
+.icw .icwMessageGuiding {
+	background-color: #C8D6E6;
+	border: 1px solid #285EA6;
+}
+
+.icw .icwMessageWarning p {
+	color: #E58A00;
+}
+
+.icw .icwMessageError p,.icw .icwMessageError ul {
+	color: #F00;
+}
+
+.icw .icwMessageError ul {
+	margin-top: 10px;
+	font-weight: bold;
+}
+
+.icw .icwMessageError li {
+	line-height: 150%;
+}
+
+.icw .icwMessageGuiding p {
+	color: #1F477D;
+}
+
+.icw .icwMessageOkay p {
+	color: #59B32D;
+}
+
+.icw .icMessageShowMeLink,.icw .icwMessageShowLink,.icw .icwMessageHideLink
+	{
+	font-size: 100%;
+	font-weight: normal;
+	margin-left: .3em;
+}
+
+.icw .icwMessageShowLink {
+	display: none
+}
+
+.icw .icwMessageClosed .icwMessageShowLink {
+	display: inline
+}
+
+.icw .icwMessageClosed .icwDetails {
+	display: none;
+}
+
+.icw .icwMessageClosed span,.icw .icwMessageClosed .icwMessageHideLink {
+	display: none;
+}
+
+.icw .icwToolTip .icwMessage {
+	margin: 0;
+}
+
+/* icw TABS */
+.icw .icwTabs {
+	background: url('/images/tab/bg.gif') bottom repeat-x;
+}
+
+.icw .icwTabs ul {
+	display: inline;
+	list-style: none
+}
+
+.icw .icwTabs ul li {
+	display: block;
+	float: left;
+	font-size: 100%;
+	font-weight: bold;
+	margin: 0 2px 0 0;
+	cursor: pointer;
+}
+
+.icw .icwTabs ul li.icwSelected,.icw .icwTabs ul li.icwInactive {
+	cursor: auto;
+}
+
+.icw .icwTabs ul li.icwSelected,.icw .icwTabs ul li.icwInactive,.icw .icwTabs ul li a
+	{
+	display: block;
+	background-color: transparent;
+	background-position: left top;
+	padding: 0 0 0 12px;
+	text-decoration: none;
+}
+
+.icw .icwTabs ul li.icwSelected span,.icw .icwTabs ul li.icwInactive span,.icw .icwTabs ul li a span
+	{
+	display: block;
+	background-color: transparent;
+	background-position: right top;
+	padding: 9px 12px 5px 0;
+}
+
+.icw .icwTabs ul li span {
+	display: block;
+	font-weight: bold;
+}
+
+.icw .icwTabs ul li a,.icw .icwTabs ul li a span {
+	color: #2F6681;
+	background-image: url(/images/tab/normal.gif);
+}
+
+.icw .icwTabs ul li.icwHover a,.icw .icwTabs ul li.icwHover span {
+	color: #2F6681;
+	background-image: url(/images/tab/hover.gif)
+}
+
+.icw .icwTabs ul li.icwActive a,.icw .icwTabs ul li.icwActive span {
+	color: #2F6681;
+	background-image: url(/images/tab/active.gif)
+}
+
+.icw .icwTabs ul li.icwSelected,.icw .icwTabs ul li.icwSelected span {
+	color: #333;
+	background-image: url(/images/tab/selected.gif);
+}
+
+.icw .icwTabs ul li.icwInactive,.icw .icwTabs ul li.icwInactive span {
+	color: #BBB;
+	background-image: url(/images/tab/normal.gif)
+}
+
+.icw .icwTabs ul li {
+	border-bottom: 2px solid #999;
+}
+
+.icw .icwTabs ul li.icwSelected {
+	border-bottom: 0;
+}
+
+.icw .icwTabs ul li.icwSelected span {
+	padding-bottom: 7px
+}
+
+/* icw MAIN LINKS */
+.icw .icwMainLinks {
+	font-size: 100%
+}
+
+.icw .icwHomeLink {
+	float: left;
+	display: inline;
+}
+
+.icw .icwHelpFBLinks {
+	text-align: right;
+}
+
+.icw .icwHelpFBLinks ul,.icw .icwHelpFBLinks li {
+	list-style: none;
+	display: inline;
+	padding: 0;
+	margin: 0;
+}
+
+.icw .icwHelpFBLinks li {
+	padding: 0 .5em 0 .75em;
+}
+
+.icw .icwHelpFBLinks .icwFBLink {
+	border-left: 1px solid #8F8F8F;
+	padding-right: 0;
+}
+
+/* icw BUTTONS */
+.icw .icwButton {
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	padding: 0;
+	margin: 0;
+	height: 21px;
+	border: 0;
+	outline: 0;
+	cursor: pointer;
+	text-indent: -9999px
+}
+
+.icw .icwButtonHover {
+	background-position: 0 -21px;
+}
+
+.icw .icwButtonActive {
+	background-position: 0 -42px;
+}
+
+.icw .icwButtonDisabled {
+	background-position: 0 -63px;
+	cursor: auto;
+}
+
+/* widths and background-images for specific buttons */
+.icw .icwButtonAdd {
+	width: 30px;
+	background-image: url(../i/btn/add.gif);
+}
+
+.icw .icwButtonAddCards {
+	width: 63px;
+	background-image: url(../i/btn/add_cards.gif);
+}
+
+.icw .icwButtonAddContact {
+	width: 87px;
+	background-image: url(../i/btn/add_contact.gif);
+}
+
+.icw .icwButtonAddPrimary {
+	width: 41px;
+	background-image: url(../i/btn/add_primary.gif);
+}
+
+.icw .icwButtonAddProductToOrder {
+	width: 134px;
+	background-image: url(../i/btn/add_product_to_order.gif);
+}
+
+.icw .icwButtonAddRecipient {
+	width: 80px;
+	background-image: url(../i/btn/add_recipient.gif);
+}
+
+.icw .icwButtonAddSelected {
+	width: 77px;
+	background-image: url(../i/btn/add_selected.gif);
+}
+
+.icw .icwButtonAddSelectedContacts {
+	width: 123px;
+	background-image: url(../i/btn/add_selected_contacts.gif);
+}
+
+.icw .icwButtonApply {
+	width: 51px;
+	background-image: url(../i/btn/apply.gif);
+}
+
+.icw .icwButtonApplyOptions {
+	width: 96px;
+	background-image: url(../i/btn/apply_options.gif);
+}
+
+.icw .icwButtonAttachFile {
+	width: 77px;
+	background-image: url(../i/btn/attach_file.gif);
+}
+
+.icw .icwButtonBack {
+	width: 45px;
+	background-image: url(../i/btn/back.gif);
+}
+
+.icw .icwButtonCalendar {
+	width: 21px;
+	background-image: url(../i/btn/calendar.gif);
+}
+
+.icw .icwButtonCalendarNext {
+	width: 15px;
+	background-image: url(../i/btn/calendar_next.gif);
+}
+
+.icw .icwButtonCalendarPrev {
+	width: 15px;
+	background-image: url(../i/btn/calendar_prev.gif);
+}
+
+.icw .icwButtonCancel {
+	width: 45px;
+	background-image: url(../i/btn/cancel.gif);
+}
+
+.icw .icwButtonCancelEntireOrder {
+	width: 125px;
+	background-image: url(../i/btn/cancel_entire_order.gif);
+}
+
+.icw .icwButtonChange {
+	width: 61px;
+	background-image: url(../i/btn/change.gif);
+}
+
+.icw .icwButtonChangeName {
+	width: 95px;
+	background-image: url(../i/btn/change_name.gif);
+}
+
+.icw .icwButtonChangeAddress {
+	width: 108px;
+	background-image: url(../i/btn/change_address.gif);
+}
+
+.icw .icwButtonChangeAddresses {
+	width: 105px;
+	background-image: url(../i/btn/change_addresses.gif);
+}
+
+.icw .icwButtonChangeAddressSelectContact {
+	width: 199px;
+	background-image: url(../i/btn/change_address_and_select_a_contact.gif);
+}
+
+.icw .icwButtonChangeLineShippingOptions {
+	width: 159px;
+	background-image: url(../i/btn/change_line_shipping_options.gif);
+}
+
+.icw .icwButtonChangeOrderOrRequestExpedite {
+	width: 204px;
+	background-image: url(../i/btn/change_order_or_request_expedite.gif);
+}
+
+.icw .icwButtonChangeOptions {
+	width: 91px;
+	background-image: url(../i/btn/change_options.gif);
+}
+
+.icw .icwButtonChangeServices {
+	width: 95px;
+	background-image: url(../i/btn/change_services.gif);
+}
+
+.icw .icwButtonClearAll {
+	width: 54px;
+	background-image: url(../i/btn/clear_all.gif);
+}
+
+.icw .icwButtonColumnSelectorAdd {
+	width: 74px;
+	background-image: url(../i/btn/add_arrow.gif);
+}
+
+.icw .icwButtonColumnSelectorDown {
+	width: 36px;
+	background-image: url(../i/btn/down.gif);
+}
+
+.icw .icwButtonColumnSelectorRemove {
+	width: 74px;
+	background-image: url(../i/btn/remove_arrow.gif);
+}
+
+.icw .icwButtonColumnSelectorUp {
+	width: 36px;
+	background-image: url(../i/btn/up.gif);
+}
+
+.icw .icwButtonContinue {
+	width: 69px;
+	background-image: url(../i/btn/continue.gif);
+}
+
+.icw .icwButtonConvert {
+	width: 69px;
+	background-image: url(../i/btn/convert.gif);
+}
+
+.icw .icwButtonCopy {
+	width: 37px;
+	background-image: url(../i/btn/copy.gif);
+}
+
+.icw .icwButtonCopyConfiguration {
+	width: 124px;
+	background-image: url(../i/btn/copy_configuration.gif);
+}
+
+.icw .icwButtonCopyOrder {
+	width: 82px;
+	background-image: url(../i/btn/copy_order.gif);
+}
+
+.icw .icwButtonCreateAddress {
+	width: 102px;
+	background-image: url(../i/btn/create_address.gif);
+}
+
+.icw .icwButtonCreateAnotherOrder {
+	width: 134px;
+	background-image: url(../i/btn/create_another_order.gif);
+}
+
+.icw .icwButtonCreateConfiguration {
+	width: 123px;
+	background-image: url(../i/btn/create_configuration.gif);
+}
+
+.icw .icwButtonCreateContact {
+	width: 86px;
+	background-image: url(../i/btn/create_contact.gif);
+}
+
+.icw .icwButtonCreateContactPrimary {
+	width: 98px;
+	background-image: url(../i/btn/create_contact_primary.gif);
+}
+
+.icw .icwButtonCreateDeal {
+	width: 113px;
+	background-image: url(../i/btn/create_deal.gif);
+}
+
+.icw .icwButtonCreateOrder {
+	width: 113px;
+	background-image: url(../i/btn/create_order.gif);
+}
+
+.icw .icwButtonCreateView {
+	width: 70px;
+	background-image: url(../i/btn/create_view.gif);
+}
+
+.icw .icwButtonDone {
+	width: 47px;
+	background-image: url(../i/btn/done.gif);
+}
+
+.icw .icwButtonEdit {
+	width: 30px;
+	background-image: url(../i/btn/edit.gif);
+}
+
+.icw .icwButtonExport {
+	width: 56px;
+	background-image: url(../i/btn/export.gif);
+}
+
+.icw .icwButtonFilter {
+	width: 36px;
+	background-image: url(../i/btn/filter.gif);
+}
+
+.icw .icwButtonFinished {
+	width: 66px;
+	background-image: url(../i/btn/finished.gif);
+}
+
+.icw .icwButtonGo {
+	width: 26px;
+	background-image: url(../i/btn/go.gif);
+}
+
+.icw .icwButtonImport {
+	width: 56px;
+	background-image: url(../i/btn/import.gif);
+}
+
+.icw .icwButtonLogin {
+	width: 51px;
+	background-image: url(../i/btn/login.gif);
+}
+
+.icw .icwButtonNewAddress {
+	width: 77px;
+	background-image: url(../i/btn/new_address.gif);
+}
+
+.icw .icwButtonNoCancel {
+	width: 65px;
+	background-image: url(../i/btn/no_cancel.gif);
+}
+
+.icw .icwButtonNoCancelPrimary {
+	width: 78px;
+	background-image: url(../i/btn/no_cancel_primary.gif);
+}
+
+.icw .icwButtonNoPrimary {
+	width: 34px;
+	background-image: url(../i/btn/no_primary.gif);
+}
+
+.icw .icwButtonOK {
+	width: 37px;
+	background-image: url(../i/btn/ok.gif);
+}
+
+.icw .icwButtonPreview {
+	width: 50px;
+	background-image: url(../i/btn/preview.gif);
+}
+
+.icw .icwButtonPreviewSharedDeal {
+	width: 114px;
+	background-image: url(../i/btn/preview_shared_deal.gif);
+}
+
+.icw .icwButtonPreviewSharedOrder {
+	width: 137px;
+	background-image: url(../i/btn/preview_shared_order.gif);
+}
+
+.icw .icwButtonPrint {
+	width: 47px;
+	background-image: url(../i/btn/print.gif);
+}
+
+.icw .icwButtonRecalculate {
+	width: 82px;
+	background-image: url(../i/btn/recalculate.gif);
+}
+
+.icw .icwButtonRemove {
+	width: 52px;
+	background-image: url(../i/btn/remove.gif);
+}
+
+.icw .icwButtonRemoveCard {
+	width: 78px;
+	background-image: url(../i/btn/remove_card.gif);
+}
+
+.icw .icwButtonRemoveItems {
+	width: 96px;
+	background-image: url(../i/btn/remove_items.gif);
+}
+
+.icw .icwButtonRemoveSelected {
+	width: 97px;
+	background-image: url(../i/btn/remove_selected.gif);
+}
+
+.icw .icwButtonReturnToConfiguration {
+	width: 125px;
+	background-image: url(../i/btn/return_to_configuration.gif);
+}
+
+.icw .icwButtonReturnToOriginalConfiguration {
+	width: 190px;
+	background-image: url(../i/btn/return_to_original_configuration.gif);
+}
+
+.icw .icwButtonReturnToOriginalOrder {
+	width: 148px;
+	background-image: url(../i/btn/return_to_original_order.gif);
+}
+
+.icw .icwButtonSave {
+	width: 45px;
+	background-image: url(../i/btn/save.gif);
+}
+
+.icw .icwButtonSaveChanges {
+	width: 96px;
+	background-image: url(../i/btn/save_changes.gif);
+}
+
+.icw .icwButtonSaveServiceChoices {
+	width: 135px;
+	background-image: url(../i/btn/save_service_choices.gif);
+}
+
+.icw .icwButtonSearch {
+	width: 57px;
+	background-image: url(../i/btn/search.gif);
+}
+
+.icw .icwButtonSearchAgain {
+	width: 77px;
+	background-image: url(../i/btn/search_again.gif);
+}
+
+.icw .icwButtonSelect {
+	width: 55px;
+	background-image: url(../i/btn/select.gif);
+}
+
+.icw .icwButtonSelectOptions {
+	width: 97px;
+	background-image: url(../i/btn/select_options.gif);
+}
+
+.icw .icwButtonSelectOptionsSecondary {
+	width: 83px;
+	background-image: url(../i/btn/select_options_secondary.gif);
+}
+
+.icw .icwButtonStartOver {
+	width: 62px;
+	background-image: url(../i/btn/start_over.gif);
+}
+
+.icw .icwButtonSubmit {
+	width: 57px;
+	background-image: url(../i/btn/search.gif);
+}
+
+.icw .icwButtonSubmitOrder {
+	width: 96px;
+	background-image: url(../i/btn/submit_order.gif);
+}
+
+.icw .icwButtonSubmitRequest {
+	width: 105px;
+	background-image: url(../i/btn/submit_request.gif);
+}
+
+.icw .icwButtonUpdate {
+	width: 47px;
+	background-image: url(../i/btn/update.gif);
+}
+
+.icw .icwButtonUploadLogo {
+	width: 73px;
+	background-image: url(../i/btn/upload_logo.gif);
+}
+
+.icw .icwButtonUseSelectedAddress {
+	width: 136px;
+	background-image: url(../i/btn/use_selected_address.gif);
+}
+
+.icw .icwButtonUseSelectedContact {
+	width: 132px;
+	background-image: url(../i/btn/use_selected_contact.gif);
+}
+
+.icw .icwButtonViewCopiedConfiguration {
+	width: 163px;
+	background-image: url(../i/btn/view_copied_configuration.gif);
+}
+
+.icw .icwButtonViewCopiedOrder {
+	width: 120px;
+	background-image: url(../i/btn/view_copied_order.gif);
+}
+
+.icw .icwButtonViewOrder {
+	width: 79px;
+	background-image: url(../i/btn/view_order.gif);
+}
+
+.icw .icwButtonViewSubmittedOrder {
+	width: 137px;
+	background-image: url(../i/btn/view_submitted_order.gif);
+}
+
+.icw .icwButtonYesDelete {
+	width: 67px;
+	background-image: url(../i/btn/yes_delete.gif);
+}
+
+.icw .icwButtonYesSecondary {
+	width: 30px;
+	background-image: url(../i/btn/yes_secondary.gif);
+}
+
+.icw .icwButtonYesShareDeal {
+	width: 104px;
+	background-image: url(../i/btn/yes_share_deal.gif);
+}
+
+.icw .icwButtonYesShareOrder {
+	width: 111px;
+	background-image: url(../i/btn/yes_share_order.gif);
+}
+
+.icw .icwButtonClose {
+	width: 51px;
+	background-image: url(../i/btn/close.gif);
+}
+
+.icw .icwButtonImportSelectedConfiguration {
+	width: 185px;
+	background-image: url(../i/btn/import_selected_configurations.gif);
+}
+
+/* icw UTILITIES */
+.icw .icwUtilities {
+	
+}
+
+.icw .icwUtility {
+	border: 0;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: left;
+	padding: 0;
+	margin: 0 6px 0 0;
+	height: 18px;
+	font-size: 100%;
+	font-family: inherit;
+	cursor: pointer;
+	color: #2F6881;
+}
+
+.icw .icwUtility span {
+	font-size: 100%;
+	color: #369;
+	text-decoration: underline;
+	display: inline;
+	margin-left: 1px;
+}
+
+.icw .icwUtilityExport {
+	background-image: url(../i/icn/export.gif);
+	padding-left: 16px
+}
+
+.icw .icwUtilityPrint {
+	background-image: url(../i/icn/print.gif);
+	padding-left: 16px
+}
+
+.icw .icwUtilityShare {
+	background-image: url(../i/icn/share.gif);
+	padding-left: 17px
+}
+
+.icw .icwUtilityCopy {
+	background-image: url(../i/icn/copy.gif);
+	padding-left: 16px
+}
+
+.icw .icwUtilityDelete {
+	background-image: url(../i/icn/delete.gif);
+	padding-left: 14px
+}
+
+.icw .icwUtilityDisabled {
+	border: 0;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: left;
+	padding: 0;
+	margin: 0 6px 0 0;
+	height: 18px;
+	font-size: 100%;
+	font-family: inherit;
+	cursor: auto;
+	color: #AAA;
+}
+
+.icw .icwUtilityExportDisabled {
+	background-image: url(../i/icn/export_disabled.gif);
+	padding-left: 16px;
+	cursor: auto;
+}
+
+.icw .icwUtilityPrintDisabled {
+	background-image: url(../i/icn/print_disabled.gif);
+	padding-left: 16px;
+	cursor: auto;
+}
+
+.icw .icwUtilityShareDisabled {
+	background-image: url(../i/icn/share_disabled.gif);
+	padding-left: 17px;
+	cursor: auto;
+}
+
+.icw .icwUtilityCopyDisabled {
+	background-image: url(../i/icn/copy_disabled.gif);
+	padding-left: 16px;
+	cursor: auto;
+}
+
+.icw .icwUtilityDeleteDisabled {
+	background-image: url(../i/icn/delete_disabled.gif);
+	padding-left: 14px;
+	cursor: auto;
+}
+
+/* icw TABLEs */
+.icwTable th,.icw .icwTable td {
+	font-size: 100%;
+	padding: 5px 6px 5px 5px;
+}
+
+.icwTable td {
+	border: solid #F0F1F2;
+	border-width: 1px 0 0 0;
+}
+
+.icwTable td {
+	border-bottom: 1px solid #ccc;
+}
+
+.icwTable .icwCheckCol {
+	width: 1%;
+	border-left: 1px solid #CCC;
+	white-space: nowrap;
+	font-size: 100%;
+	line-height: 100%;
+}
+
+.icwTable .icwCurrency {
+	width: 1%;
+	border-right: 1px solid #CCC;
+	white-space: nowrap;
+	font-size: 100%;
+	line-height: 100%;
+}
+
+.icw .icwTable {
+	width: 100%;
+	border: 1px solid #CCC;
+	border-top: 0;
+	border-collapse: separate;
+	font-size: 100%;
+}
+
+.icw .icwTable th,.icw .icwTable td {
+	font-size: 100%;
+	padding: 5px 6px 5px 5px;
+}
+
+.icw .icwTable th {
+	border: solid #ccc;
+	border-width: 1px 0 1px 1px;
+	color: #333;
+	white-space: nowrap;
+}
+
+.icw .icwTable th a:link,.icw .icwTable th a:visited,.icw .icwTable th a:hover,.icw .icwTable th a:active
+	{
+	color: #333;
+}
+
+.icw .icwTable td {
+	border: solid #F0F1F2;
+	border-width: 1px 0 0 0;
+}
+
+.icw .icwTable .icwFirst {
+	padding-left: 6px;
+	border-left: 0
+}
+
+.icw .icwTable .icwCheckCol {
+	width: 1%;
+	border-left: 0;
+	white-space: nowrap;
+	font-size: 100%;
+	line-height: 100%;
+}
+
+.icw .icwTable td.icwCheckCol .icwQuantityInput {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	white-space: nowrap;
+}
+
+.icw .icwTable td.icwCheckCol .icwCheckCol {
+	margin: 0;
+	float: none;
+	vertical-align: baseline;
+	display: inline;
+}
+
+.icw .icwTable .icwLast {
+	padding-right: 6px;
+}
+
+.icw .icwTable .icwCheckBox {
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+
+.icw .icwTable .icwRadio {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	vertical-align: text-bottom
+}
+
+.icw .icwTable tfoot td {
+	background: #fff;
+	border-bottom: 1px solid #ccc;
+}
+
+.icw .icwTableReadOnly {
+	border-bottom: 3px solid #ccc;
+}
+
+.icw .icwTableReadOnly th {
+	background: #EDEEEF url(../i/bg/thead.gif) bottom repeat-x;
+	color: #333;
+	white-space: nowrap;
+}
+
+.icw .icwTableSortable {
+	border-bottom: 1px solid #CCC;
+}
+
+.icw .icwTableSortable thead th {
+	background: #FFF url(/images/bg/thead.gif) bottom repeat-x;
+	text-align: left;
+	white-space: nowrap;
+	font-weight: normal;
+}
+
+.icw .icwTableSortable thead th.icwSortAsc,.icw .icwTableSortable thead th.icwSortDesc
+	{
+	background: #FFF url(/images/bg/thead_sorted.gif) bottom repeat-x;
+	font-weight: bold;
+}
+
+.icw .icwTableSortable thead th.icwSortAsc a {
+	background: url(/images/icn/norgie_up.gif) center right no-repeat;
+	padding-right: 12px;
+}
+
+.icw .icwTableSortable thead th.icwSortDesc a {
+	background: url(/images/icn/norgie_down.gif) center right no-repeat;
+	padding-right: 12px;
+}
+
+/*.icw .icwTableSortable thead th.icwCheckCol { padding-left: 5px; }*/
+.icw .icwTableScrollable { /*border-bottom: 0;*/
+	border-collapse: separate !important;
+}
+
+.icw .icwTableCollapsible {
+	border-bottom: 1px solid #CCC;
+}
+
+.icw .icwTableCollapsible caption,.icw .icwTableCaption {
+	font-size: 118.5%;
+	font-weight: bold;
+	color: #333;
+	text-align: left;
+	padding-bottom: 5px;
+	padding-left: 6px;
+}
+
+.icw .icwTableCollapsible caption a,.icw .icwTableCaption a {
+	font-size: 85%;
+	line-height: 100%;
+	font-weight: normal;
+}
+
+.icw .icwTableCollapsible caption .icwExpandAll,.icw .icwTableCaption .icwExpandAll
+	{
+	padding-left: 5px;
+	padding-right: 5px;
+	border-right: 1px solid #333;
+}
+
+.icw .icwTableCollapsible caption .icwCollapseAll,.icw .icwTableCaption .icwCollapseAll
+	{
+	padding-left: 5px;
+}
+
+.icw .icwTableCollapsible thead th {
+	background: #FFF url(../i/bg/thead.gif) bottom repeat-x;
+	text-align: left;
+	white-space: nowrap;
+	font-weight: normal;
+}
+
+.icw .icwTableCollapsible .icwFirst {
+	padding-left: 24px;
+}
+
+.icw .icwTableCollapsible .icwFirst .icwMinMax {
+	float: left;
+	margin-right: 5px;
+	width: 13px;
+	height: 13px;
+}
+
+.icw .icwTableCollapsible .icwFirst .icwIcnMax {
+	background: url(../i/btn/maximize.gif) 0 0 repeat-x;
+	cursor: pointer;
+}
+
+.icw .icwTableCollapsible .icwFirst .icwIcnMaxDisabled {
+	background: url(../i/btn/maximize_disabled.gif) 0 0 repeat-x;
+}
+
+.icw .icwTableCollapsible .icwFirst .icwIcnMin {
+	background: url(../i/btn/minimize.gif) 0 0 repeat-x;
+	cursor: pointer;
+}
+
+.icw .icwTableCollapsible .icwPrimaryRow td {
+	background-color: #E9FDEA;
+	font-weight: bold;
+}
+
+.icw .icwTableCollapsible .icwPrimaryRow .icwFirst {
+	padding-left: 6px;
+}
+
+/* Modals -- Hidden by default */
+.icwModalHideSelect {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	z-index: 2639;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	filter: alpha(opacity = 0);
+	opacity: 0;
+}
+
+.icwModalWashout {
+	border: medium none;
+	margin: 0;
+	padding: 0;
+	z-index: 3000;
+	cursor: wait;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background-image: url('../i/bg/washout.png');
+}
+	
+	/* Using an alpha PNG instead of the opacity class to add support for Opera 8 and below. */
+.icw .icwModal {
+	z-index: 3764;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+}
+
+/*.icw .icwToolTip { z-index: 2000; position: absolute; display: none; width: 350px; }*/
+.icw .icwToolTip {
+	padding: 10px;
+}
+
+.icw .icwQtyModal {
+	z-index: 3000;
+	position: absolute;
+	display: none;
+	width: 175px;
+}
+
+.icw .icwScrollable .icwModalContent {
+	overflow-y: auto;
+	overflow-x: hidden;
+	overflow: -moz-scrollbars-vertical;
+}
+
+/* Drop shadows for modals */
+.icw .icwModalTop {
+	height: 10px;
+	line-height: 0;
+	font-size: 0;
+}
+
+.icw .icwModalLeft {
+	clear: both;
+	padding-left: 10px;
+	background: transparent url(../i/bg/shadow_left.png) 0 0 no-repeat;
+}
+
+.icw .icwModalRight {
+	padding-right: 10px;
+	background: transparent url(../i/bg/shadow_right.png) 100% 0 no-repeat;
+}
+
+.icw .icwModalContent {
+	border: 1px solid #999;
+	background-color: #FFF;
+	width: auto;
+}
+
+.icw .icwPreparingModal {
+	display: block;
+	margin-left: -9999px;
+}
+
+.icw .icwPreparingModal .icwModalContent {
+	display: inline;
+	float: left;
+	padding: 0;
+	margin: 0;
+}
+
+.icw .icwModalBottomLeft {
+	padding-left: 15px;
+	background: transparent url(../i/bg/shadow_bl.png) 0 0 no-repeat;
+}
+
+.icw .icwModalBottomRight {
+	padding-right: 15px;
+	background: transparent url(../i/bg/shadow_br.png) 100% 0 no-repeat;
+}
+
+.icw .icwModalBottom {
+	height: 15px;
+	background: transparent url(../i/bg/shadow_bottom.png) 0 0 repeat-x;
+	clear: both;
+	line-height: 0;
+	font-size: 0;
+}
+
+.icw .icwModalArrow {
+	position: absolute;
+}
+
+.icw .icwModalArrowTop {
+	width: 13px;
+	height: 11px;
+	background: transparent url(../i/bg/modal_arrow_top.png) 0 0 no-repeat;
+	top: 0;
+}
+
+.icw .icwModalArrowRight {
+	width: 11px;
+	height: 27px;
+	background: transparent url(../i/bg/modal_arrow_right.png) 0 0 no-repeat
+		;
+	right: 0;
+}
+
+.icw .icwModalArrowBottom {
+	width: 21px;
+	height: 16px;
+	background: transparent url(../i/bg/modal_arrow_bottom.png) 0 0
+		no-repeat;
+	bottom: 0;
+}
+
+.icw .icwModalArrowLeft {
+	width: 11px;
+	height: 27px;
+	background: transparent url(../i/bg/modal_arrow_left.png) 0 0 no-repeat;
+	left: 0;
+}
+
+/* 
+All modal titles must use this.
+.icwModalContent is generated by the modal API Javascript.  It is not hardcoded as HTML
+*/
+.icw .icwModalContent .icwModalTitle {
+	font-size: 118.5%;
+	font-weight: bold;
+	line-height: 110%;
+	color: #FFF;
+	background-color: #484848;
+	margin: 0;
+	padding: 5px;
+}
+
+.icw .icwModalContent .icwModalTitleIcons {
+	position: absolute;
+	right: 16px;
+	top: 16px;
+	text-align: right;
+}
+
+.icw .icwModalContent .icwCardDetails .icwModalTitleIcons {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	text-align: right;
+}
+
+.icw .icwModalContent .icwIconCloseModal {
+	display: inline;
+	background: url('../i/icn/close.gif') 100% 0 no-repeat;
+	width: auto;
+	margin: 0 0 0 10px;
+	padding: 0 0 1px;
+}
+
+.icw .icwModalContent .icwIconNewWindow {
+	display: inline;
+	background: url('../i/icn/new_window.gif') 100% 0 no-repeat;
+	width: auto;
+	margin: 0 0 0 10px;
+	padding: 0 0 1px;
+}
+
+.icw .icwModalContent a.icwCloseModal {
+	color: #FFF;
+	text-decoration: none;
+	padding-right: 18px;
+}
+
+.icw .icwModalContent a.icwNewWindow {
+	color: #FFF;
+	text-decoration: none;
+	padding-right: 18px;
+}
+
+/*.icw .icwModal p.icwCloseLink { margin: 5px; padding: 0; background: url(../i/icn/close.gif) right no-repeat; float: right; display: inline; }
+.icw .icwModal p.icwCloseLink a { display: inline; height: 1%; color: #FFF; text-decoration: none; padding: 0 18px 0 0; margin: 0; }*/
+	/* If your modal has a close button and link, you must use this */
+.icw .icwModalContent p.icwCloseLink {
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin: 5px;
+	padding: 0;
+	background: url(../i/icn/close.gif) right no-repeat;
+	float: right;
+	display: inline;
+}
+
+.icw .icwModalContent p.icwCloseLink a {
+	display: inline;
+	height: 1%;
+	color: #FFF;
+	text-decoration: none;
+	padding: 0 18px 0 0;
+	margin: 0;
+}
+
+/* All content that is NOT the modal title is contained in here */
+.icw .icwInnerModalContent {
+	padding: 10px;
+}
+
+.icw .icwShareOrder p,.icw .icwShareOrder label {
+	display: block;
+	margin: 3px 0 5px;
+}
+
+.icw .icwShareOrder select,.icw .icwShareOrder textarea {
+	margin-right: 5px;
+}
+
+.icw .icwShareOrder .icwShareOrderInfo {
+	border-bottom: 1px solid #CACACA;
+	margin-bottom: 15px;
+}  /* padding-right: 50%; */
+.icw .icwShareOrder h5 {
+	font-size: 118.5%;
+}
+
+.icw .icwShareOrder .shareOrderInfo p {
+	margin: 3px 0 15px;
+}
+
+.icw .icwShareOrder legend,.icw .icwShareOrder caption {
+	font-size: 118.5%;
+	font-weight: bold;
+	margin: 0;
+}
+
+.icw .icwShareOrder textarea {
+	display: block;
+	width: 95%;
+}
+
+.icw .icwShareOrder .icwRecipientSelection label {
+	font-weight: bold;
+	margin-bottom: 0;
+}
+
+/* Styles for jQuery Calendar */ /* calendar all */
+#calendar_div {
+	display: none;
+	z-index: 4000; /*must have*/
+	width: 215px;
+}
+
+#calendar_div.icw .icwModalTop {
+	height: 5px;
+}
+
+#calendar_div .calendar_content {
+	border: 1px solid #ccc;
+	width: 195px;
+	background-color: #fff;
+}
+
+/* header and prev/next navigation */
+#calendar_div .calendar_links {
+	height: 14px;
+}
+
+#calendar_div .calendar_prev {
+	float: left;
+	margin-left: 15px;
+}
+
+#calendar_div .calendar_next {
+	float: right;
+	margin-right: 15px;
+}
+
+#calendar_div .calendar_next,#calendar_div .calendar_prev {
+	position: relative;
+	top: 12px;
+	height: 16px;
+	width: 15px;
+	cursor: pointer;
+}
+
+#calendar_div .icwButtonCalendarNext,#calendar_div .icwButtonCalendarPrev
+	{
+	height: 16px;
+}
+
+#calendar_div .calendar_header {
+	text-align: center;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+#calendar_div .calendar_header,#calendar_div .calendar_prev,#calendar_div .calendar_next
+	{
+	margin-bottom: 8px;
+}
+
+/* calendar table */
+#calendar_div .calendar {
+	margin: 0 0 15px 10px;
+	border: 1px solid #ccc;
+	border-right: 0;
+	font-size: 100%
+}
+
+#calendar_div .calendar td {
+	height: 22px;
+	width: 24px;
+	height: 22px;
+	line-height: 22px;
+	text-align: center;
+}
+
+#calendar_div .calendar td a {
+	display: block;
+	width: 24px;
+	height: 22px;
+	text-decoration: underline;
+	font-size: 11px;
+	color: #2F6681;
+	cursor: pointer;
+}
+
+#calendar_div .calendar_titleRow td {
+	border-right: 1px solid #ccc;
+	background-color: #eee;
+	color: #333;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+#calendar_div .calendar .calendar_daysCell {
+	border-top: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+#calendar_div .calendar .calendar_daysCellOver {
+	background: #dde6eb;
+}
+
+#calendar_div .calendar .calendar_unselectable {
+	color: #666;
+}
+
+#calendar_div .calendar_today {
+	background-color: #dde6eb;
+	font-weight: bold;
+}
+
+#calendar_div .calendar_currentDay {
+	background-color: #fff !important
+}
+
+.icwCalendarBlackout {
+	background: url(../i/bg/calendar_blackout.gif) no-repeat !important;
+}
+
+/* hide unwanted display items */
+#calendar_div .calendar_control {
+	display: none;
+}
+
+#calendar_div .calendar_current {
+	display: none;
+}
+
+/* ___________ IE6 IFRAME FIX ________ */ /*must have*/
+#calendar_div .calendar_cover {
+	display: none;
+	display /**/: block;
+	position: absolute;
+	z-index: -1;
+	filter: mask();
+	top: -4px;
+	left: -4px;
+	width: 193px;
+	height: 200px;
+}
+
+.headerDiv {
+    background-color: #EFFBEF;
+    font-weight:bold;
+    font-size:14px;
+    text-align:left;
+    padding-left:10px;
+    padding-top:10px;
+    padding-bottom:6px;
+    border:1px solid #8F99EF;
+}
+
+.normalButton {
+    width: 90px;
+}
+
+.fieldLabel {
+    font-weight:bold;
+    font-size:14px;
+}
+
+.adminUIframe {
+    background-color:#D4D4FF;
+}

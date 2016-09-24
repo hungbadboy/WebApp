@@ -1,0 +1,58 @@
+<div class="content account-user sign-in">
+<!-- Container -->
+<div class="account-content sign-in-content">
+
+  <!-- Left side -->
+  <div class="account-user-img signin-img col-md-8">
+      <img src="assets/images/account-user.jpg">
+  </div><!-- End Left side -->
+
+  <!-- Right side -->
+  <div class="account-user-form signin-form col-md-4">
+      <!-- Form Sign in -->
+      <form action="" method="">
+          <div class="account-header-logo signin-logo">
+              <img src="assets/images/login.png">
+          </div>
+          <div class="account-header-title signin-title">
+              <h4>Sign in </h4>
+              <span>Lorem Ipsum is simply dummy text of the printing.</span>
+          </div>
+          <div ng-if="loginMess" class="validate_error">
+              <span>{{loginMess}}</span>
+          </div>
+          <div class="account-info sign-in-info">
+              <p class="email-signin">
+                  <input type="email" id="userName" ng-enter="nextFocus()" placeholder="Your email">
+              </p>
+              <p class="pass-signin">
+                  <input  id="passWord" type="password" ng-enter="login()" placeholder="Password">
+              </p>
+              <p class="rememberme">
+                  <input type="checkbox" value="Remember me" name="Remember Me">Remember Me
+              </p>
+              <p class="forgot-pass">
+                  <a class="forgot-password"  ng-click="showForgotPassword()" href=""><span data-icon="&#x7e;"></span> Forgot password</a>
+              </p>
+              <!-- <p>
+                  <input type="button" value="LOG IN">
+              </p> -->
+              <p class="button-img">
+                  <button type="button" ng-click="login()" class="log-in">LOG IN</button>
+              </p>
+              <div class="signin-another-way">
+                  <span>or sign in with</span>
+                  <p>
+                      <a href="" ng-click="loginFacebook()" class="facebook-account"><span data-icon="&#xe093;"></span></a>
+                      <a href="" ng-click="loginGoogle()" class="google-account"><span data-icon="&#xe096;"></span></a>
+                  </p>
+              </div>
+              <div class="no-account">Don't have an account?<a href="#/signup"> Register</a></div>
+          </div>
+
+      </form><!-- /End Form Sign in -->
+  </div><!-- /End Right side -->
+
+
+</div><!-- End container -->
+</div>

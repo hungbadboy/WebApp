@@ -1,0 +1,309 @@
+@CHARSET "ISO-8859-1";
+
+.tdLabel {
+text-align:left;
+vertical-align:top;
+}
+
+            #toolkitIcons {visibility:visible;}
+            .cecpopupimage .caption img.enlarge, a .caption img.media {margin: -25px -7px 0px 0px;}
+        /*
+        CISCO LITE STYLES
+        ------------------------------------------------------
+        */
+        html, body {
+            position: relative;
+            font-family: arial,helvetica,clean,sans-serif;
+            background:#FFFFFF url() repeat-y scroll left top;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+
+        div#main {
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+
+        /* Always enable control panel */
+        div#user-nav-login {
+            float:right;
+        }
+        ul#user-control-panel {
+            display:block;
+            margin-top:0.2em;
+            margin-right:20px;
+            float:none;
+        }
+        ul#user-control-panel li {
+            background:transparent url('http://wwwin.cisco.com/cec/ext-1.1.1/resources/images/default/grid/grid-split.gif') no-repeat scroll left center;
+            border:none;
+        }
+        ul#user-control-panel li.first {
+            background:none;
+        }
+
+        /* Hide default footer */
+        div#footer {
+            display: none;
+        }
+
+        /* Header text */
+        #user-control-panel li, #breadcrumbs li {
+            color: #333333;
+            font: 12px arial,sans-serif;
+        }
+
+        /* Breadcrumbs bar */
+        div#header {
+            height:24px;
+            background-color: #e6f0fe;
+            border-top: 1px solid #abcef2;
+            border-bottom: 1px solid #abcef2;
+            padding-top:3px;
+            width:auto !important;
+        }
+
+        /* Header links */
+        div#header a {
+            color: #467fb4;
+            font: 12px arial,sans-serif;
+        }
+
+        /* Set breadcrumbs text colors (overrides colors.css) */
+        div#header a, ol#breadcrumbs a { color:#467fb4; text-decoration: none; }
+        ol#breadcrumbs { color:#333333 !important; }
+        ol#breadcrumbs {
+            margin-top:3px;
+            position:absolute;
+            height:auto !important;
+            overflow:visible !important;
+        }
+
+        /* QuickSearch */
+        #quick-search {
+            margin-right: 3px;
+        }
+        #quick-search-query {
+            border:2px solid #BBCCFF;
+            font-size:17px;
+            width:10em;
+        }
+        /* Dashboard navigation */
+        #navigation {
+            margin:1em;
+            width:auto;
+        }
+        #navigation .ajs-menu-bar {
+            margin: 0;
+            min-width: 280px;
+        }
+        /*
+        #quick-search-submit {
+        display:inline;
+        }
+        */
+
+        /*
+        LITE TEMPLATE
+        ------------------------------------------------------
+        Adapted by Scott Gardner
+        Updated by Susan Spence for UI 3.1
+        Updated by Oleg Lavrovsky for UI Application Templates
+        Updated by Oleg Lavrovsky for Confluence
+        */
+        #cec-header * {margin:0; padding:0;}
+        #cec-header h5#org-title{margin:6pt 0pt 2pt 0pt;}
+        #cec-header li{list-style:none;}
+        fieldset,img{border:0;}
+        q:before,q:after{content:'';}
+        /*body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;}*/
+        table{border-collapse:collapse;border-spacing:0;}
+        address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
+        caption,th{text-align:left;}
+        h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+        abbr,acronym{border:0;font-variant:normal;}
+        sup,sub{vertical-align:text-top;}
+        sub{vertical-align:text-bottom;}
+        /* li{list-style:none;} */
+        pre, code, kbd, samp, tt{ font-family:monospace; font-size:108%; line-height:99%; }
+        H1, H2, H3, H4, H5, H6, STRONG { font-weight:bold; }
+        ABBR, ACRONYM { /*indicating to users that more info is available */ border-bottom:1px dotted #000; cursor:help; }
+        EM { /*bringing italics back to the em element*/ font-style:italic; }
+        #cec-header P, #cec-header FIELDSET, #cec-header TABLE { /*so things don't run into each other*/ margin-bottom:1em; }
+        #cec-header #toolkit-bar {
+            float: none;
+            height: 24px;
+            min-width: 81px; /* don't break on large sizes */
+            position: absolute;
+            right: 15px;
+            bottom: 0px;
+        }
+        #cec-header #cec-header-right {
+            /* This has been changed so that:
+            * space isn't so crammed at the top of the page
+            * large font sizes work better
+            * toolbox doesn't crash with long org-title's
+            */
+            padding-top: 5px;
+            page-break-after: always;
+        }
+        #cec-header #cec-logo {
+            display: block;
+            float: left;
+            height: 100%;
+            width: 16%;
+            vertical-align: middle;
+            text-align: center;
+            background: transparent url('http://wwwin.cisco.com/cec/common/i/logo_ui3.gif') no-repeat 50% 50%;
+            margin-right:.5em;
+        }
+        #cec-header-right #cec-utilitybar {
+            text-align: right;
+        }
+        #cec-header-right #cec-utilitybar UL {
+            list-style-position: outside;
+            list-style-image: none;
+            list-style-type: none;
+            display: block;
+            float:right;
+            margin-right:14px;
+        }
+        #cec-header-right #cec-utilitybar LI {
+            float: left;
+            width: auto;
+            list-style-position: outside;
+            list-style-image: none;
+            list-style-type: none;
+            text-align: center;
+            padding:0px 3px;
+            display: block;
+        }
+        #cec-utilitybar li#cec-sites, #cec-utilitybar li#cec-emergencies {
+            background:transparent url('http://wwwin.cisco.com/cec/ext-1.1.1/resources/images/default/grid/grid-split.gif') no-repeat scroll left center;
+        }
+        #cec-header-right #cec-utilitybar #cec-directory-li {
+            border:none
+        }
+        #cec-header-right #cec-utilitybar #cec-directory-li A {
+            border:none
+        }
+        #cec-header {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+            font-style: normal;
+            line-height: 1.2;
+            position:relative;
+            background:#A6D5F7 url('http://wwwin.cisco.com/cec/framework/3.2.0/i/header_fade.jpg') repeat-x left top;
+            border-bottom:1px solid #71B1DA;
+            height: 66px; /* standard toolbar height */
+            top: 0px; /* ensure always on top */
+        }
+        #cec-header-right #cec-utilitybar A {
+            text-decoration: none;
+            white-space: nowrap;
+            font: 11px arial,helvetica,sans-serif;
+            display: block;
+            padding: .2em .4em;
+            color: #0E58A0;
+        }
+        #cec-header-right #cec-utilitybar FORM A {
+            padding:.2em .4em;
+        }
+        #cec-header #cec-header-right #cec-utilitybar form {
+            margin: 0px;
+            padding: 0px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #cec-header #toolkit-bar li {
+            text-align: right;
+            height: 24px;
+            width: 21px;
+            float:left;
+            padding: 0px .2em;
+        }
+        #cec-header-right #cec-utilitybar input.cec-input {
+            font:11px Arial, Helvetica, sans-serif;
+            background:#FFFFFF url('http://wwwin.cisco.com/cec/ext-1.1.1/resources/images/default/form/text-bg.gif') repeat-x scroll 0pt;
+            border:1px solid #B5B8C8;
+            padding:1px 3px;
+        }
+        #cec-header-right #cec-utilitybar input.button-go {
+            font:11px Arial, Helvetica, sans-serif;
+            background:transparent url('http://wwwin.cisco.com/cec/framework/3.2.0/i/button_bg_sprite.jpg') repeat-x scroll 0px -34px;
+            border:1px solid #aaa;
+            color:#666666;
+            text-align:center;
+            width:2.2em;
+        }
+        #cec-header-right .clear {
+            clear:both;
+            height:1px;
+            overflow:hidden;
+        }
+        #cec-header #cec-header-right #return-link, #cec-header #cec-header-right #org-title a {
+            /* group or return link header text */
+            font-size:85%;
+            font-weight:normal;
+            font-style:normal;
+            color: #465766;
+            text-decoration: none;
+            margin-left:1pt;
+        }
+        #cec-header #cec-header-right #page-title {
+            color:#465766;
+            font:18pt arial,sans-serif;
+            line-height:16pt;
+            padding-top:0.1em;
+        }
+        #cec-footer {
+            color:#666666;
+            border-top:1px solid #999;
+            font-size:14px;
+            font-family:Arial, Helvetica, sans-serif;
+            font-style:normal;
+            line-height:1.2;
+            position:relative;
+            clear:both;
+            padding:0px 0px 1em 20px;
+            margin:20px 0pt 0px 0px;
+
+        }
+        #cec-footer-links {
+            margin-bottom:0.3em;
+        }
+        #cec-footer .page-metadata {
+            margin:0;
+            font-size:100%;
+            color:#333;
+        }
+        #cec-footer .page-metadata a {
+            color:#0E58A0;
+            text-decoration:none;
+        }
+        #cec-footer #footer-text {font-size:85%; margin:10px; padding:10px;height: 50px;}
+        #cec-footer #footer-text #cec-contact-info {padding:.3em 0;}
+        #cec-footer .light-gray {color:#CECECE}
+        #cec-footer #footer-links A { text-decoration:none; }
+        #cec-footer #cec-footer-help { background:transparent url('http://wwwin.cisco.com/cec/framework/3.2.0/i/icon_help.gif') no-repeat 0px 0px; padding-left:18px }
+        #cec-footer #cec-footer-feedback { background:transparent url('http://wwwin.cisco.com/cec/framework/3.2.0/i/icon_feedback.gif') no-repeat 0px 0px; padding-left:20px}
+
+        /*
+        COMMENTS AREA
+        ------------------------------------------------------
+        */
+
+        #cp-comments {
+            border: 3px solid #CCC;
+            padding: 0pt 1em;
+            margin: 1em 0pt;
+        }
+
+        ol.comment-threads {
+            list-style-type:none !important;
+        }
+
+        #cp-comments p {
+            color: #333;
+        }

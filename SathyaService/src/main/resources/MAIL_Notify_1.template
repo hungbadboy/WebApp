@@ -1,0 +1,44 @@
+<html>
+	<body >
+		<table cellspacing=5>
+			<tr>
+				<td colspan=2 style="font-size: 20px;">Saatya User Activation</td>
+			</tr>
+			
+		</table>
+		<br/>		
+		
+	<br>
+	<br>
+	
+	---------------------------------------------------------------------------------------------------------------------------------
+
+	<br>
+	Hi
+	<B>
+		It appears that you would like to register for Saatya, 
+		
+		Please click this link to complete your resgitration.
+	</B>
+	<br>
+	<br> 
+		
+		
+		<A HREF="http://ec2-54-200-200-106.us-west-2.compute.amazonaws.com:8080/saatya/services/user/studentActive?userid=###USER_ID###">Click Here</A>
+		
+		
+		They click the link and it takes them to a page saying, "Thanks. You're registered." 6:17 PM 
+		http://youhack.me/2010/04/01/building-a-registration-system-with-email-verification-in-php/ 
+
+	
+	<br>
+	<br>
+	
+	Thank you!
+	<br>
+	---------------------------------------------------------------------------------------------------------------------------------
+	
+	<br>
+	</body>
+</html>
+

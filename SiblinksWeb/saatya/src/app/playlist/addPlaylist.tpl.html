@@ -1,0 +1,45 @@
+<main id="main">
+    <!-- Content -->
+    <form>           
+        <h4>Add Playlist</h4>
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="title" name="title" ng-model="playlist_title" class="form-control" placeholder="Playlist Tilte">
+        </div>
+        <!-- <div>
+            Youtube Link
+            <input type="text" name="url" ng-model="video_url" class="form-control" placeholder="Youtube Link">
+        </div> -->
+        <div class="form-group">
+            <label>Image</label>
+            <input type="text" id="image" name="image" class="form-control" ng-model="playlist_image" placeholder="Image Playlist" ng-blur="check()">
+        </div>
+        <div id="image_preview">
+            <label>Image Preview</label>
+            <p>
+                <img class="preview" ng-src="{{playlist_image}}">
+            </p>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea id="description" name="description" ng-model="playlist_description" class="form-control" placeholder="Description"></textarea>
+        </div>
+       
+        <div class="form-group">
+            <label>Subjects:</label>
+            <select id="subject" name="subject" class="form-control" data-ng-model="video_subject">
+                <option value="0">Select Subjects</option>
+                <option ng-repeat="option in subjects" value="{{option.subjectId}}">{{option.subject}}</option>
+            </select>
+        </div>
+        <div>
+            <button class="btn btn-default" ng-click="save()">Save</button>
+            <!-- <button>Create new playlist</button> -->
+        </div>  
+    </form>
+    <script type="text/javascript">
+        $(function(){
+            $('#image_preview').hide();
+        });
+    </script>
+</main>

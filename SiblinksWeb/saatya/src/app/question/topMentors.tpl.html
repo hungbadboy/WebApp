@@ -1,0 +1,39 @@
+<div class="top-mentor-wrapper col-xs-12">
+<!-- top-mentor-header -->
+<div class="top-mentor-header">
+    <div class="top-videos-header-title">
+        <span><img src="assets/images/ask question/top-mentor.png"></span><h4>Top
+        Mentors</h4>
+    </div>
+    <div class="see-more"> <p>
+        <a href="#/team">See more</a></p>
+    </div>
+</div><!-- /End top-mentor-header -->
+<!-- List of top mentors -->
+<div class="top-mentors-list">
+    <ul ng-if="listTopmentors">
+        <li ng-repeat="mentor in listTopmentors track by $index">
+            <div class="top-mentors-img online">
+               <a href="#/mentorProfile/{{mentor.userid}}"><img ng-src="{{mentor.imageUrl}}">
+                <span class="offline"><img src="assets/images/ask question/online.png"></span>
+               </a>
+            </div>
+            <div class="top-mentors-info">
+                <p class="top-mentors-name">
+                    <a href="#/mentorProfile/{{mentor.userid}}">
+                    <strong>{{mentor.userName}}</strong>
+                    </a>
+                </p>
+                <p class="top-mentors-essay" >
+                    <a ng-repeat="subject in  mentor.listSubject track by $index" href="#/ask_a_question/{{subject.id}}">{{subject.name}} </a>
+                </p>
+                <p class="top-mentors-answed">
+                    {{mentor.numsub}} subcrible, {{mentor.numAnswers}} answed
+                </p>
+            </div>
+
+
+        </li>
+    </ul>
+</div><!-- /End list of top mentors -->
+</div>

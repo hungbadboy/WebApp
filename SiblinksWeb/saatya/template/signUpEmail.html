@@ -1,0 +1,32 @@
+<div id="signUpEmail" class="sign_up_container">
+  <div class="sign_up_email_top">
+  </div>
+  <div class="sign_up_email_bottom">
+  </div>
+  <div class="sign_up_email_midle">
+    <div class="header">
+      <div class="logo"><img src="assets/img/signup.png"></div>
+      <div class="title">Discover your unique path to higher education, complete free.</div>
+    </div>
+    <div class="signup">
+      <div class="header">{{ title }}</div>
+      <hr style="margin-top: 10px; margin-bottom: 15px;" >
+      <div class="alert">
+        All fields are mandatory
+        <span class="alert_error hide">{{ error }}</span>
+      </div>
+      <div class="infor">
+        <div class="number">1</div>
+        <div class="text">Basic Information</div>
+      </div>
+      <div class="field">
+        <div class="col-md-6" style="padding-right: 2px;"><input type="text" ng-model="user.email" placeholder="Email*" class="form-control email"></div>
+        <div class="col-md-6" style="padding-left: 2px;"><input type="password" ng-model="user.password" placeholder="Password*" class="form-control password"></div>
+      </div>
+      <div class="button">
+        <img style="height: 45px; cursor:pointer;" src="assets/img/button_cancle.png" back-previous>
+        <img  style="cursor:pointer;" src="assets/img/button_signup.png" class="btnSignUp" ng-click="SignUp(user)">
+      </div>
+    </div>
+  </div>
+</div>

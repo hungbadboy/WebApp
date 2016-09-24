@@ -1,0 +1,280 @@
+<div id="editStudent">
+  <div class="header">
+    <div class="content">
+      <div class="iconForum">
+        <img src="assets/img/mentor_profile.png">
+      </div>
+      <div class="textForum">
+        <span>{{ title }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu">
+    <div class="content">
+      <ul class="nav nav-tabs">
+        <li class="basic active">
+          <div class="item" style="border-left: 1.5px solid #7B828C; margin-left: -1px;">
+            <div style="text-align: center;">
+              <img src="assets/img/mentor.png" alt="">
+              <a href="javascript:void(0)" title="" data-toggle="tab">Basic Information</a>
+            </div>
+          </div>
+        </li>
+        <li class="education">
+          <div class="item">
+            <div style="text-align: center;">
+              <img src="assets/img/mentor.png" alt="">
+              <a href="javascript:void(0)" title="" data-toggle="tab">Education Information</a>
+            </div>
+          </div>
+        </li>
+        <li class="setting">
+          <div class="item">
+            <div style="text-align: center;">
+              <img src="assets/img/bell.png" alt="">
+              <a href="javascript:void(0)" title="" data-toggle="tab" class="">Notification Settings</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tab-content student">
+    <div class="tab-pane content active" id="basic">
+      <div class="alert alert-success msg_success hide">Update successfully.</div>
+      <span class="title">Your Basic Information</span>
+      <div class="row content">
+        <div class="col-md-4 pad_10">
+          <span class="lb">Username</span>
+          <img class="img" src="assets/img/editProfile.png" alt="">
+          <div class="clearfix"></div>
+          <div class="wrap_error">
+            <input style="background-color:#F1F1F1;" class="input username" type="text" value="{{user.username}}" readonly="readonly">  
+            <img class="icon_error hide" src="assets/img/icons_important_custom.png" alt="">
+          </div>
+          <span class="error hide">Username invalid</span>
+        </div>
+        <div class="col-md-4 pad_10">
+          <span class="lb">First Name</span>
+          <img class="img" src="assets/img/editProfile.png" alt="">
+          <div class="clearfix"></div>
+          <div class="wrap_error">
+            <input class="input first_name" type="text" name="" value="{{user.firstname}}">  
+            <img class="icon_error hide" src="assets/img/icons_important_custom.png" alt="">
+          </div>
+          <span class="error hide">First name invalid</span>
+        </div>
+        <div class="col-md-4 pad_10">
+          <span class="lb">Last Name</span>
+          <img class="img" src="assets/img/editProfile.png" alt="">
+          <div class="clearfix"></div>
+          <div class="wrap_error">
+            <input class="input last_name" type="text" name="" value="{{user.lastName}}">  
+            <img class="icon_error hide" src="assets/img/icons_important_custom.png" alt="">
+          </div>
+          <span class="error hide">Last name invalid</span>
+        </div>
+      </div>
+      <div>
+        <span style="font-size: 15px; font-weight: 600; opacity: 0.8; float: left; ">Bio</span>
+        <img src="assets/img/editProfile.png" alt="" style="float: right; margin-right: 30px">
+        <div class="clearfix"></div>
+      </div>
+      <textarea class="bio" ng-bind="user.bio"></textarea>
+      <span class="error hide">Bio invalid</span>
+      <div class="submit" style="margin-right:22px;">
+        <input class="cancel" value="CANCEL" type="submit" ng-click="cancel()">
+        <input class="save" value="SAVE" type="submit" ng-click="saveProfileStudentBasic();">
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="tab-pane content" id="education">
+      <div class="alert alert-success msg_success hide">Update successfully.</div>
+      <span class="title">Your Education Information</span>
+      <!-- <div class="row"> -->
+   <!--      <div class="col-md-6">
+          <span class="lb school">High School</span>
+          <img src="../img/editProfile.png" alt="">
+          <div class="clearfix">
+            
+          </div>
+          <div class="wrap_error">
+            <input type="text" class="input_school" name="" value="{{user.school}}">
+          </div>
+        </div> -->
+        <!-- <div class="col-md-6" style="padding-left:10px;">
+          <span class="lb">Grade</span>
+          <img src="assets/img/editProfile1.png" style="margin-right: 8px; display: block; margin-top: -3px;" alt="">
+          <div class="">
+            
+          </div>
+          <div class="btn-group grade">
+            <button type="button" class="btn input color class_selected" style="text-align: left; margin-top: 24px;">{{user.currentClass}}</button>
+            <button type="button" class="btn dropdown-toggle ddl" data-toggle="dropdown">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu dropdown" role="menu" ng-init="classes=['Class 10','Class 11', 'Class 12']">
+              <li ng-repeat="l in classes">
+                <a class="color" href="" ng-click="chooseClass($event)">{{l}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div style="width: 910px; margin-top: 15px;">
+        <span class="lb">Special Accomplishments</span>
+        <img src="assets/img/editProfile.png" alt="">
+      </div>
+      <textarea class="accomplishments" ng-bind="user.accomplishments"></textarea> -->
+      <!-- <div style="width: 910px; margin-top: 10px;">
+        <span class="lb">Potential College Major</span>
+        <img src="assets/img/editProfile.png" alt="">
+        <div class="clearfix">
+          
+        </div>
+      </div> -->
+      <!-- <div class="boudary">
+        <div class="croll_bar_01 mCustomScrollbar _mCS_1">
+          <div class="mCustomScrollBox mCS-light scrollbar" id="scrollMajor">
+            <div class="mCSB_container" style="position: relative; top: 0px;">
+              <div class="check_field row">
+                <div class="col-md-2 right" ng-repeat="m in majors">
+                  <div class="check_item" ng-click="selectMajor($event, m.majorId)">
+                    <img class="icon_check hide" id="m{{m.majorId}}" src="assets/img/stick.png">
+                  </div>
+                  <div class="sub_title">{{m.majorName}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- <div style="width: 910px; margin-top: 15px;">
+        <span class="lb">Extracurricalar Activities</span>
+        <img src="assets/img/editProfile.png" alt="">
+        <div class="clearfix">
+          
+        </div>
+      </div>
+      <div class="activities">
+        <div class="croll_bar_01 mCustomScrollbar _mCS_1">
+          <div class="mCustomScrollBox mCS-light scrollbar" id="scrollMajor">
+            <div class="mCSB_container" style="position: relative; top: 0px;">
+              <div class="check_field row">
+                <div class="col-md-2 right" ng-repeat="act in activities">
+                  <div class="check_item" ng-click="selectActivity($event, act.activityId)">
+                    <img class="icon_check hide" id="a{{act.activityId}}" src="assets/img/stick.png">
+                  </div>
+                  <div class="sub_title">{{act.activityName}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <div style="width: 910px; margin-top: 15px;">
+        <span class="lb">Want Help In</span>
+        <img src="assets/img/editProfile.png" alt="">
+        <div class="clearfix">
+          
+        </div>
+      </div>
+      <!-- <div class="help">
+        <div class="croll_bar_01 mCustomScrollbar _mCS_1">
+          <div class="mCustomScrollBox mCS-light scrollbar" id="scrollMajor">
+            <div class="mCSB_container" style="position: relative; top: 0px;">
+              <div class="check_field row">
+                <div ng-repeat="item in subjects">
+                  <div class="col-md-12" ng-if="item[1].tags.length > 0">
+                    <div class="sub_title" style="font-weight: 600; font-size: 15px; color: #525252;">
+                      {{item[0].subject_name}}
+                    </div>
+                  </div>
+                  <div class="col-md-2 right" ng-repeat="h in helps" ng-if="h.subjectId == item[0].subject_id">
+                    <div class="check_item" ng-click="selectHelp($event, item[0].subject_id, h.topicId)">
+                      <img class="icon_check hide" id="h{{h.topicId}}" src="assets/img/stick.png">
+                    </div>
+                    <div class="sub_title">
+                      {{h.topic}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="help">
+        <div class="croll_bar_01 mCustomScrollbar _mCS_1">
+          <div class="mCustomScrollBox mCS-light scrollbar" id="scrollMajor">
+            <div class="mCSB_container" style="position: relative; top: 0px;">
+              <div class="check_field row">
+                  <div class="col-md-2 right" ng-repeat="item in subjects">
+                    <div class="check_item" ng-click="selectHelp($event, item[0].subject_id)">
+                      <img class="icon_check hide" id="h{{item[0].subject_id}}" src="assets/img/stick.png">
+                    </div>
+                    <div class="sub_title">
+                      {{item[0].subject_name}}
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div style="width: 910px; margin-top: 15px;">
+        <span class="lb">Family Approximated Income (will not be visiable on your public profile)</span>
+      </div>
+      <input class="approximated" type="text" name="" value="$200,000" placeholder="">
+      <div style="width: 910px; margin-top: 15px;">
+        <span class="lb">What was your dream or aspiration when you were 11 or 12 years old</span>
+      </div>
+      
+      <textarea class="bio">Includes 200 glyphs in font format from the Glyphicon Halflings set. Glyphicons Halflings are normally not available for free, but their creator has made them available for Bootstrap free of cost. As a thank you, we only ask that you include a link back to Glyphicons whenever possible.</textarea> -->
+      <div class="submit">
+        <input class="cancel" value="CANCEL" type="submit" ng-click="cancel()">
+        <input class="save" value="SAVE" type="submit" ng-click="saveProfileStudentEducation();">
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="tab-pane content" id="setting">
+      <span class="title">Your Notification Settings</span>
+<!--       <div class="row content">
+        <div class="col-md-4 item" >
+          <span class="sp">Essay Notes</span>
+          <span class="on_off">
+            <span class="on">ON</span>
+            <span class="off">OFF</span>
+          </span>
+          <div class="clearfix">
+            
+          </div>
+        </div>
+        <div class="col-md-4 item" >
+          <span class="sp">Video Uploads</span>
+        </div>
+        <div class="col-md-4 item" >
+          <span class="sp">Forum Questions</span>
+        </div>
+      </div>
+      <div class="row content">
+        <div class="col-md-4 item"  style="border-top: none;">
+          <span class="sp">System Alerts</span>
+        </div>
+        <div class="col-md-4 item"  style="border-top: none;">
+          <span class="sp">1-on-1 Chat Requests</span>
+        </div>
+        <div class="col-md-4 item"  style="border-top: none;">
+          <span class="sp">Message</span>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>

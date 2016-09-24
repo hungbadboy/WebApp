@@ -1,0 +1,22 @@
+{
+  "status": "SUCCESS",
+  "response":
+  [
+    {
+      "id" : 1,
+      "name" : "MIT"
+    },
+    {
+      "id" : 2,
+      "name" : "Stanford"
+    },
+    {
+      "id" : 3,
+      "name" : "Harvard"
+    },
+    {
+      "id" : 4,
+      "name" : "Wellesley"
+    }
+  ]
+}

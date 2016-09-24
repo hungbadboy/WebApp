@@ -1,0 +1,49 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+                <span class="captain">{{ title }}</span>
+                <span class="title">All fields are mandatory</span>
+                <div class="wrap_step_one">
+                    <span class="step_one">1</span>
+                    <span class="info_basic">Basic information</span>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="wrap_input">
+                    <span class="username">
+                        <input name="username" ng-model="user.username" class="input_nomal" placeholder="Username*" required >
+                        <img src="assets/img/icons_important_custom.png" class="imgImportant hide">
+                    </span>
+                    <span class="email">
+                        <input name="email" ng-model="user.email" class="input_large" placeholder="Email*">
+                        <img src="assets/img/icons_important_custom.png" class="imgImportant hide">
+                    </span>
+                    <span class="password">
+                        <input name="password" type="password" ng-model="user.password" class="input_small" placeholder="Password*">
+                        <img style="margin-top: -35px; margin-left: 392px;" src="assets/img/icons_important_custom.png" class="imgImportant hide">
+                    </span>
+
+                </div>
+                <div class="wrap_input">
+                    <span class="firstname">
+                        <input name="first_name" ng-model="user.firstname" class="input_nomal" placeholder="First name*">
+                        <img src="assets/img/icons_important_custom.png" class="imgImportant hide">
+                    </span>
+                    <span class="lastname">
+                         <input name="last_name" ng-model="user.lastname" class="input_large" placeholder="Last name*">
+                         <img src="assets/img/icons_important_custom.png" class="imgImportant hide">
+                    </span>
+                    <span class="dob">
+                        <input name="dob" ng-model="user.dob" class="input_small" placeholder="DOB*">
+                        <img style="margin-top: -35px; margin-left: 392px;" src="assets/img/icons_important_custom.png" class="imgImportant hide">
+                    </span>
+                </div>
+                <div class="wrap_button">
+                    <button class="signup" ng-click="SignUp(user)">Sign up</button>
+                    <button class="cancel" data-dismiss="modal">Cancel</button>
+                    <div class="clearfix"></div>
+                </div>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+

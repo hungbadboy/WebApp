@@ -1,0 +1,24 @@
+<div class="modal-dialog">
+  <p>{{ title }}</p>
+  <div class="modal-content">
+    <div class="modal-body authenticate-wrapper">
+      <div class="close-button">
+        <a href="javascript:void(0)" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+      </div>
+      <div class="title">Students</div>
+      <div class="wrap_signup face_google">
+        <span class="text-danger hide signupMess"></span><div class="clearfix"></div>
+        <button type="button" class="signup_face facebook-btn" ng-click="loginFacebook()">Sign up with Facebook</button>
+        <button type="button" class="signup_google google-btn" ng-click="loginGoogle()">Sign up with Google</button>
+      </div>
+      <div class="wrap_signup email">
+        <span>or <a class="signup_email" href="#/signup" ng-click="showPopSignUp()">sign up with email</a></span>
+      </div>
+      <div class="title mentor">Mentors</div>
+      <div class="wrap_signup normal">
+        <button type="button" class="signup signupComplex green-btn" ng-click="showPopSignUpComplex()">Sign up here</button>
+      </div>
+
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

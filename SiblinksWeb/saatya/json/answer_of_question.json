@@ -1,0 +1,38 @@
+{
+	"status" : "SUCCESS",
+	"response": [
+		{
+			"text" : "There's one mathematical result that is fairly important for pratical quantum computation. In fact, without it we would find it impossible to implement \"complete\" (in the sence that we can implement any quantum gates) fault-tolerant quantum computer while maintaining the speedup that quantum algorithms promise us. it is called the Solovay-kitaev theorem.",
+			"answer_id" : 1,
+			"created_date" : "2014-09-08 12:04:12",
+			"created_by" : {
+				"user_id" : 12,
+	    		"first_name" : "Quan",
+	    		"last_name" : "Do",
+	    		"email" : "dasdasdas"
+			}
+		},
+		{
+			"text" : "There's one mathematical result that is fairly important for pratical quantum computation. In fact, without it we would find it impossible to implement \"complete\" (in the sence that we can implement any quantum gates) fault-tolerant quantum computer while maintaining the speedup that quantum algorithms promise us. it is called the Solovay-kitaev theorem.",
+			"answer_id" : 2,
+			"created_date" : "2014-09-08 12:04:12",
+			"created_by" : {
+				"user_id" : 1,
+	    		"first_name" : "Nhut",
+	    		"last_name" : "Cao",
+	    		"email" : "dasdasdas"
+			}
+		},
+		{
+			"text" : "There's one mathematical result that is fairly important for pratical quantum computation. In fact, without it we would find it impossible to implement \"complete\" (in the sence that we can implement any quantum gates) fault-tolerant quantum computer while maintaining the speedup that quantum algorithms promise us. it is called the Solovay-kitaev theorem.",
+			"answer_id" : 3,
+			"created_date" : "2014-09-08 12:04:12",
+			"created_by" : {
+				"user_id" : 212,
+	    		"first_name" : "Toan",
+	    		"last_name" : "Nguyen",
+	    		"email" : "dasdasdas"
+			}
+		}
+	]
+}
