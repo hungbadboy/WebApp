@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
-<body class="home" ng-controller="MainController"  ng-body-click="bodyclick()">
+<body class="home" ng-controller="MainController">
    <!-- Header -->
    <header id="header" ng-controller="UserHeaderController">
     <div class="module-navigation">
@@ -62,8 +62,8 @@
                             <div class="user-img">
                                  <span><img ng-src="{{imageUrl}}" ng-if="imageUrl" alt="{{fullName}}"></span>
                              </div>
-                             <div class="profile-user" ng-click="showProfile()"><img src="assets/images/arrow.png" ></div>
-                             <div id="user-info" ng-hide="hiddenProfile" class="user-info">
+                             <div class="profile-user"><img src="assets/images/arrow.png" ></div>
+                             <div id="user-info" class="user-info inactive">
                                  <ul>
                                      <li class="profile"><a href="#/studentProfile" ><span data-icon="&#xe08a;"></span>Profile</a></li>
                                      <li class="setting"><a href="javascript:void(0);" ng-click="goToEditStudent()"><span data-icon="&#xe037;"></span>Setting</a></li>

@@ -103,7 +103,7 @@ brotControllers.controller('StudentProfileController',
       StudentService.getUserProfile(userId).then(function(data){
         if (data.data.status) {
           $scope.student = data.data.request_data_result;
-          $scope.student.fullName = $scope.student.firstname + ' ' + $scope.student.lastName;
+          $scope.student.fullName = (($scope.student.firstname == null)?'': $scope.student.firstname) + ' ' + (($scope.student.firstname == null)?'':$scope.student.lastName);
           $scope.student.imageUrl = $scope.student.imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + $scope.student.imageUrl : $scope.student.imageUrl;
           $scope.student.registrationTime = moment($scope.student.registrationTime).format('MMM, YYYY ', 'en');
           if ($scope.student.gender == "M") {
@@ -166,7 +166,7 @@ brotControllers.controller('StudentProfileController',
                   "count_question": countQuestion,
                   "count_answer": countAnswer
               };
-              for (var i = 0; i < result.question.length; i++) {
+              for (var i = 0; i < countQuestion; i++) {
                   var objPosted = {};
                   var questionData = result.question[i];
 
