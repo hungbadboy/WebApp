@@ -137,7 +137,7 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
         SimpleResponse reponse = null;
         String email = request.getRequest_data().getEmail();
         // check email is exist
-        List<Object> readObjects = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ADDRESS_WEB, new Object[] {email});
+        List<Object> readObjects = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER_FORGOT_PASSWORD, new Object[] { email });
         if (!CollectionUtils.isEmpty(readObjects)) {
             String generateToken = CommonUtil.generateToken();
             // Update DB

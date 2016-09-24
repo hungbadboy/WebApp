@@ -500,6 +500,8 @@ public class SibConstants {
         public static final String SQL_VIDEO_FAVOURITE_DELETE = "VIDEO_FAVOURITE_DELETE";
         public static final String SQL_VIDEO_FAVOURITE_DELETE_ALL = "VIDEO_FAVOURITE_DELETE_ALL";
         public static final String SQL_VIDEO_FAVOURITE_COUNT_BY_USER= "VIDEO_FAVOURITE_COUNT_BY_USER";
+        // Fogot Password
+        public static final String SQL_CHECK_USER_FORGOT_PASSWORD = "CHECK_USER_FORGOT_PASSWORD";
 
     }
 

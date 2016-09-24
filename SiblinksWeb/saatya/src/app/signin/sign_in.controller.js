@@ -1,23 +1,23 @@
 brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $http, $timeout, StudentService) {
-    $scope.loginMess = null;
+    $scope.loginMess = "";
     $scope.login = function () {
-        var userName = $('#userName').val();
+        var userName = angular.element('#userName').val();
         if (userName == null || userName === '') {
             $scope.loginMess = 'Your email is required';
-            $("#userName").focus();
+            angular.element('#userName').trigger('focus');
             return;
         }
 
         if (!(/^[a-zA-Z0-9-.-_--]{3,}\@[a-zA-Z0-9--]{2,16}\.[a-zA-Z0-9]{2,8}$/.test(userName))) {
             $scope.loginMess = 'Your email is invalid';
-            $("#userName").focus();
+            angular.element('#userName').trigger('focus');
             return;
         }
 
-        var password = $('#passWord').val();
+        var password = angular.element('#userName').val();
         if (password == null || password === '') {
             $scope.loginMess = 'Password is required';
-            $("#passWord").focus();
+            angular.element('#passWord').trigger('focus');
             return;
         }
         StudentService.loginUser(userName, password, function (data) {
@@ -46,22 +46,20 @@ brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $h
                 }
             } else {
                 $scope.loginMess = "Incorrect email or password";
+                angular.element('#userName').trigger('focus');
+                return;
             }
         });
     };
 
     init();
     $scope.nextFocus = function () {
-        $("#passWord").focus();
+    	angular.element('#passWord').trigger('focus');
     }
+    
     function init() {
         $scope.username = 'Username*';
         $scope.password = 'Password*';
-        $('#passWord').keypress(function (event) {
-            if (event.keyCode == 13) {
-                $scope.login();
-            }
-        });
     }
 
     $scope.showForgotPassword = function () {
@@ -104,6 +102,7 @@ brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $h
 	                }
             	} else {
             		$scope.loginMess = 'Your email is already registered and not account Facebook';
+            		return;
             	}
             });
         });
@@ -150,6 +149,7 @@ brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $h
 	                        }
                     	} else {
                     		$scope.loginMess = 'Your email is already registered and not account Google';
+                    		return;
                     	}
                     });
                 });
