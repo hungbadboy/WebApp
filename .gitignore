@@ -16,7 +16,7 @@ Admin/.settings/
 BrotDomain/.settings/
 BrotClient/.settings/
 BrotNotification/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
-BrotNotification/target/m2e-wtp/web-resources/META-INF/maven/com.mobile.brot.notification/BrotNotification/pom.properties
+BrotNotification/target/m2e-wtp/web-resources/META-INF/maven/com.mobile.brot.notification/BrotNotification/pom.properties 
 BrotNotification/target/m2e-wtp/web-resources/META-INF/maven/com.mobile.brot.notification/BrotNotification/pom.xml
 BrotClient/target/classes/META-INF/MANIFEST.MF
 BrotClient/target/classes/META-INF/maven/com.mobile.brot.client/BrotClient/pom.properties
