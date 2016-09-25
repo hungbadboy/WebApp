@@ -14,7 +14,7 @@ brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $h
             return;
         }
 
-        var password = angular.element('#userName').val();
+        var password = angular.element('#passWord').val();
         if (password == null || password === '') {
             $scope.loginMess = 'Password is required';
             angular.element('#passWord').trigger('focus');
@@ -46,6 +46,7 @@ brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $h
                 }
             } else {
                 $scope.loginMess = "Incorrect email or password";
+                $scope.$apply();
                 angular.element('#userName').trigger('focus');
                 return;
             }

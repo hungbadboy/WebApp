@@ -21,6 +21,7 @@ package com.siblinks.ws.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -46,6 +47,7 @@ import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.NotificationEmailService;
 import com.siblinks.ws.util.CommonUtil;
+import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.SibConstants;
 
 /**
@@ -137,7 +139,9 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
         SimpleResponse reponse = null;
         String email = request.getRequest_data().getEmail();
         // check email is exist
-        List<Object> readObjects = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER_FORGOT_PASSWORD, new Object[] { email });
+        List<Object> readObjects = dao.readObjects(
+            SibConstants.SqlMapper.SQL_CHECK_USER_FORGOT_PASSWORD,
+            new Object[] { email, email });
         if (!CollectionUtils.isEmpty(readObjects)) {
             String generateToken = CommonUtil.generateToken();
             // Update DB
@@ -149,9 +153,8 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
                 // Get address web configuration DB
                 readObjects = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ADDRESS_WEB, new Object[] { SibConstants.DOMAIN });
                 for (Object object : readObjects) {
-                    add = object.toString().substring(
-                        SibConstants.NUMBER.NINE,
-                        readObjects.get(SibConstants.NUMBER.ZERO).toString().length() - SibConstants.NUMBER.ONE);
+                    Map<String, String> mapObject = (HashMap<String, String>) object;
+                    add = mapObject.get(Parameters.VALUE_OF);
                     break;
                 }
             }
