@@ -1430,7 +1430,8 @@ public class UserServiceImpl implements UserService {
                         FileUtils.forceDeleteOnExit(fileOld);
                     }
                 }
-                reponse = new SimpleResponse("" + Boolean.TRUE, "You upload avatar successful");
+                // Successful return path image avatar
+                reponse = new SimpleResponse("" + Boolean.TRUE, service + filename);
             } catch (Exception e) {
                 reponse = new SimpleResponse("" + Boolean.FALSE, "Upload avatar error");
                 logger.debug("Upload avartar error " + e.getMessage());
