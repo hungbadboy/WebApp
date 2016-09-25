@@ -69,7 +69,7 @@
 .question {
     overflow: hidden;
 }
-.question_01:before {
+.question:before {
     content: "";
     width: 100%;
     height: 100%;
@@ -77,6 +77,7 @@
     position: absolute;
     left: -15px;
     margin-left: 39px;
+    top: 43px;
 }
 .infor-of-question a:hover,
 .infor-of-question a:focus {
@@ -447,7 +448,7 @@ p.video-rate>span:nth-child(2) {
 .create-ask {
     width: 36%;
     background: url(images/first-ask-background.png);
-    padding: 120px 30px;
+    padding: 30px 30px 195px;
     float: left;
     height: 100%;
     position: relative;
@@ -597,7 +598,7 @@ section.download {
     overflow: hidden;
 }*/
 .content-question {
-    height: 825px;
+    height: auto;
     overflow: hidden;
     width: 100%;
 }
@@ -640,7 +641,7 @@ button.ask-question-now:hover {
     height: 10px;
     background: #edf1f5;
     position: absolute;
-    left: -2px;
+    left: -1px;
     margin-left: 21px;
     bottom: 0;
     border-radius: 50%;
@@ -669,4 +670,23 @@ button.ask-question-now:hover {
     left: 0;
     background: rgba(0,0,0,0.6);
     z-index: 1;
+}
+
+/*Student profile*/
+.detail-answer-question {
+    display: none;
+}
+/*.content-question-block,
+.content-essay-block {
+    height: 750px
+}*/
+.student-profile-content .content-question-wrapper,
+.student-profile-content .content-essay-block {
+    padding-bottom: 0px; 
+}
+.student-profile-content .content-question {
+    height: auto;
+}
+#question-details .detail-answer-question {
+    display: block;
 }

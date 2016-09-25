@@ -9,9 +9,18 @@ var brotControllers = angular.module('brotControllers', ['infinite-scroll','star
 var brotServices = angular.module('brotServices', ['ngResource']);
 //var suggestSearch = angular.module('suggestSearch', ['autocomplete']);
 
-brotApp.controller('MainController', function($scope, $http) {
+brotApp.controller('MainController', function($scope, $http, $location) {
 	   //your code here
 	  $scope.title = "Main";
+	  $scope.idbody ="";
+	  $scope.$on('$routeChangeSuccess', function() {
+          var path = $location.path();
+          if(path.indexOf('/mentor')>=0){
+              $scope.idbody = 'mentor';
+              return;
+          }
+        $scope.isActive = $location.path();
+      });
 });
 
 brotServices.factory('myCache', function($cacheFactory) {

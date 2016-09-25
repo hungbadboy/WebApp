@@ -2,10 +2,10 @@ jQuery(document).ready(function($) {
 
     //*******Home page
     $(".item-img").mouseenter(function(){
-        $(this).find(".item-hover").show(); //show click button when hover tutorial
+     	$(this).find(".item-hover").show(); //show click button when hover tutorial
     });
     $(".item-img").mouseleave(function(){
-        $(this).find(".item-hover").hide(); //hide click button when hover tutorial
+     	$(this).find(".item-hover").hide(); //hide click button when hover tutorial
     });
     // $(".add-img").click(function(){
     //     $(".media-manager").css({"left":0}); //show manager upload when click on add more image
@@ -21,15 +21,15 @@ jQuery(document).ready(function($) {
     $(".choose-uploaded").click(function(){
         $(this).removeClass("active"); //Click again on image uploaded then remove class active
     })
-
+    
     //*** Ask a question  
     $(".new-ask").click(function(){
         $(".form-ask-question").css({"left":0}); //Click on new ask button (in ask a question page) then show form to add new question
     })
-
+    
     $(".item-hover").click(function(){ //click on each images will show slide of all image
-        $(".popup-images").css({"left":0});
-    })
+        $(".popup-images").css({"left":0});        
+    }) 
 
     $(".close-popup-images").click(function(){ //click on outside of wrapper slide then close popup images
         $(".popup-images, .form-ask-question, .article-detail, .essay-detail").css({"left":"100%"});
@@ -45,16 +45,11 @@ jQuery(document).ready(function($) {
         $(".sort").html(a);
     })
 
+
     $(".profile-user").click(function(){ //Show profile of user when click on arrow button on header
         $(".user-info").toggle();
-        //return false;
     })
 
-//    $(document).click(function() {
-//        $('.user-info').fadeOut(1000);
-//        //return false;
-//    });
-    
     $(".video-thumnail").mouseenter(function(){
         $(this).find(".hover-video").show(); //show click button video when hover tutorial
     });
@@ -100,12 +95,12 @@ jQuery(document).ready(function($) {
     //     $(".unsubcrib-hover").toggle();
     //     $(".unsubcrib").toggle();
     // })
-    $(window).on("load",function(){
-      $(".content-question-wrapper").mCustomScrollbar({ //Scroll for content of question
-          theme:"dark",
-          autoHideScrollbar: "boolean",
-      });
-    })
+    // $(window).on("load",function(){
+    //   $(".content-question-wrapper").mCustomScrollbar({ //Scroll for content of question
+    //       theme:"dark",
+    //       autoHideScrollbar: "boolean",
+    //   });
+    // })
     $(window).on("load",function(){
       $(".series-video-list").mCustomScrollbar({
           theme:"light"
@@ -130,6 +125,13 @@ jQuery(document).ready(function($) {
     })
 
     $('[data-toggle="popover"]').popover();
+
+    $(".has-answer").click(function(){
+      $(this).parents(".number-answer").find(".detail-answer-question").slideToggle();
+    });
+    $("#question-details .total-answer i").click(function(){
+        $(".sort-answer").slideToggle()
+    })
 
     // Slide for student Mentor page
     $('#studentCarousel[data-type="multi"] .item').each(function(){
@@ -156,40 +158,41 @@ jQuery(document).ready(function($) {
     $(".navbar-header button").on( "click",function(){
         $(".mentor-left-header, #sidebar-menu, .mentor-center-header, .center-content").toggleClass("in");
     })
-
+   
+    //$(".top-mentors-videos").stick_in_parent();
     //Bxslider - Slider images of ask a question page
 
-    var $j = jQuery.noConflict();
+        var $j = jQuery.noConflict();
 
-    var realSlider= $j("ul#bxslider").bxSlider({
-        speed:1000,
-        pager:false,
-        nextText:'',
-        prevText:'',
-        infiniteLoop:false,
-        hideControlOnEnd:true,
-        onSlideBefore:function($slideElement, oldIndex, newIndex){
-            changeRealThumb(realThumbSlider,newIndex);
-
-        }
-
-    });
-
-    var realThumbSlider=$j("ul#bxslider-pager").bxSlider({
-        minSlides: 5,
-        maxSlides: 5,
-        slideWidth: 100,
-        slideMargin: 15,
-        moveSlides: 1,
-        pager:false,
-        speed:1000,
-        infiniteLoop:false,
-        hideControlOnEnd:true,
-        nextText:'<span>></span>',
-        prevText:'<span><</span>',
-        onSlideBefore:function($slideElement, oldIndex, newIndex){
-            /*$j("#sliderThumbReal ul .active").removeClass("active");
-             $slideElement.addClass("active"); */
+        var realSlider= $j("ul#bxslider").bxSlider({
+              speed:1000,
+              pager:false,
+              nextText:'',
+              prevText:'',
+              infiniteLoop:false,
+              hideControlOnEnd:true,
+              onSlideBefore:function($slideElement, oldIndex, newIndex){
+                changeRealThumb(realThumbSlider,newIndex);
+                
+              }
+              
+            });
+            
+            var realThumbSlider=$j("ul#bxslider-pager").bxSlider({
+              minSlides: 5,
+              maxSlides: 5,
+              slideWidth: 100,
+              slideMargin: 15,
+              moveSlides: 1,
+              pager:false,
+              speed:1000,
+              infiniteLoop:false,
+              hideControlOnEnd:true,
+              nextText:'<span>></span>',
+              prevText:'<span><</span>',
+              onSlideBefore:function($slideElement, oldIndex, newIndex){
+                /*$j("#sliderThumbReal ul .active").removeClass("active");
+                $slideElement.addClass("active"); */
 
               }
             });

@@ -106,7 +106,7 @@ p.subscribers {}
     width: 100%;
     float: left;
     text-align: left;
-    margin: 0 0 20px 28px;
+    margin: 0 0 10px 28px;
 }
 
 .newest-answer .see-more p {
@@ -130,7 +130,7 @@ p.subscribers {}
     margin-bottom: 0;
     margin-left: 5px;
 }
-.answered:before {
+.mentor-profile-answered .answered:before {
     content: "";
     width: 100%;
     height: 103%;
@@ -298,19 +298,21 @@ p.answered-time {
 .total-answer p {
     padding: 5px 15px;
     margin-bottom: 0;
-    width: 105px;    
+    width: 93px;
     color: #fff;
     border-radius: 4px;
+    font-size: 12px;
 }
-.total-answer.has-answer p {
+.total-answer p:hover {
     background: #505050;
 }
-.total-answer.no-answer p {
+.total-answer p {
     background: #979797;
 }
 .question {
     overflow: hidden;
-    margin-bottom: 10px;
+    padding-bottom: 10px;
+    position: relative;
 }
 .top-mentors-info {
     position: relative;
@@ -345,6 +347,7 @@ p.subcribe>span:hover {
     background: #ffcc00;
     margin-bottom: 0px;
     margin-right: 0;
+    border-radius: 4px 4px 0 0;
 }
 .user-profile-setting ul.nav.nav-tabs li a {
     color: #505050;
@@ -400,8 +403,10 @@ span.essay-answers {
 span.essay-wait-review {
     background: #ff5a5a;
     color: #fff;
+    position: relative;
+    top: -5px;
 }
-.essay_01:before {
+#essay .question:before {
     content: "";
     width: 100%;
     height: 90%;
@@ -475,7 +480,7 @@ span.essay-wait-review {
 .submit {
     float: right; 
     text-align: right;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     padding: 0;
 }
 .submit.col-md-12 {
@@ -502,7 +507,7 @@ span.changeImg {
 span.changeImg span:before {
     color: #cdcdcd;
     font-size: 24px;
-    /* background: rgba(0,0,0,0.6); */
+    /*background: rgba(0,0,0,0.6);*/
     padding: 4px 7px 10px;
     border-radius: 50%;
     cursor: pointer;
@@ -538,8 +543,8 @@ button.cancel:hover {
     border-bottom: 1px solid #ececed;
 }
 .top-videos-wrapper .top-videos-list li {
-    padding-bottom: 15px;
-    margin-bottom: 15px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 .top-videos-wrapper .top-videos-list {
     padding: 15px 5px
@@ -555,20 +560,12 @@ button.cancel:hover {
     font-size: 12px;
     margin-bottom: 5px;
 }
-
-/*span.changeCover {
-    position: absolute;
-    top: 15px;
-    z-index: 3;
-    right: 15px;
-
+.first-ask-content .top-videos-wrapper .top-videos-list li:last-child {
+    border: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
-
-span.changeCover label {
-    background: #fff;
-    padding: 5px;
-    font-size: 12px;
-    border-radius: 4px;
-    font-weight: 500;
-    cursor: pointer;
-}*/
+.total-answer.no-answer p:hover {
+    cursor: default;
+    background: #979797;
+}
