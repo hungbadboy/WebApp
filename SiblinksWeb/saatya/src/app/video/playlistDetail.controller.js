@@ -357,7 +357,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
 
         function onPlayerStateChange(event) {
             if (event.data === 0) {
-                $location.path ('#/videos/detailVideo/' + $scope.currentvid);
+                window.location.href = '#/videos/detailVideo/' + videoid;
             }
         }
 
@@ -496,21 +496,6 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 });
             }
         });
-
-        $scope.hoverSubcribe = function () {
-            if(isEmpty($scope.userId)||$scope.isSubscribe=='0'){
-                return;
-            }
-            $("#btnsubs").attr("data-icon","M");
-
-            $("#spansubs").text("Unsubscribe");
-        }
-        $scope.unHoverSubcribe = function () {
-            $("#btnsubs").attr("data-icon","N");
-
-            $("#spansubs").text("Subscribe");
-        }
-
 
         var discussNew = '';
         $scope.addVideoComment = function (video_title) {

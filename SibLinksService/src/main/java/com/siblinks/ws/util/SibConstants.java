@@ -569,4 +569,13 @@ public class SibConstants {
         public static final String SQL_UPDATE_STUDENT_PROFILE = "UPDATE_STUDENT_PROFILE";
         public static final String SQL_GET_ESSAY = "GET_ESSAY";
     }
+
+    public class SqlMapperBROT126 {
+        public static final String SQL_GET_LATEST_RATING_IN_MANAGE_VIDEO = "GET_LATEST_RATING_IN_MANAGE_VIDEO";
+        public static final String SQL_GET_LATEST_COMMENTS_IN_MANAGE_VIDEO = "GET_LATEST_COMMENTS_IN_MANAGE_VIDEO";
+        public static final String SQL_GET_COUNT_VIEW_VIDEO = "GET_COUNT_VIEW_VIDEO";
+        public static final String SQL_GET_COUNT_COMMENT_VIDEO = "GET_COUNT_COMMENT_VIDEO";
+        public static final String SQL_GET_COUNT_AVG_RATING_VIDEO = "GET_COUNT_AVG_RATING_VIDEO";
+        public static final String SQL_GET_COUNT_VIDEO_PLAYLIST = "GET_COUNT_VIDEO_PLAYLIST";
+    }
 }

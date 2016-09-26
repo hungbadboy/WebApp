@@ -47,7 +47,7 @@ public interface MentorService {
      * @param video {mentorId,limit,offset}
      * @return  U.userid,U.firstName,U.lastName,U.imageUrl
      */
-    ResponseEntity<Response> getStudentsSubcribe(RequestData video);
+    ResponseEntity<Response> getStudentsSubcribe(long mentorId, int limit, int offset);
     
     /**
      * get Total View Like View By MentorId
@@ -74,4 +74,10 @@ public interface MentorService {
     ResponseEntity<Response> getTopMentorsByLikeRateSubcrible(RequestData video);
 
     ResponseEntity<Response> checkStudentSubcribe(long mentorid, long studentid);
+
+    ResponseEntity<Response> getLatestRatings(long mentorid);
+
+    ResponseEntity<Response> getLatestComments(long mentorid, int limit, int offset);
+
+    public ResponseEntity<Response> getDashboardInfo(long uid);
 }
