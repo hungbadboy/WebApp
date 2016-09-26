@@ -25,7 +25,7 @@
                                             <span data-icon="&#xe030;"></span>
                                         </div>
                                         <div class="number-total">
-                                            <p>Total 48873</p>
+                                            <p>Total {{dashboard.count_likes}}</p>
                                             <span data-icon="&#x42;">289</span>
                                         </div>
                                     </div>
@@ -35,7 +35,7 @@
                                             <span data-icon="&#xe031;"></span>
                                         </div>
                                         <div class="number-total">
-                                            <p>Total 48873</p>
+                                            <p>Total {{dashboard.count_ratings}}</p>
                                             <span data-icon="&#x42;">289</span>
                                         </div>
                                     </div>
@@ -45,7 +45,7 @@
                                             <span data-icon="&#x77;"></span>
                                         </div>
                                         <div class="number-total">
-                                            <p>Total 48873</p>
+                                            <p>Total {{dashboard.count_answers}}</p>
                                             <span data-icon="&#x42;">289</span>
                                         </div>
                                     </div>
@@ -55,7 +55,7 @@
                                             <span data-icon="&#x49;"></span>
                                         </div>
                                         <div class="number-total">
-                                            <p>Total 48873</p>
+                                            <p>Total {{dashboard.count_videos}}</p>
                                             <span data-icon="&#x43;">289</span>
                                         </div>
                                     </div>
@@ -164,11 +164,11 @@
                                                 <span data-icon="&#x50;"></span>
                                             </div>
                                             <div class="number-total">
-                                                <p>Total <span>48873</span></p>
+                                                <p>Total <span>{{dashboard.count_subcribers}}</span></p>
                                                 <span data-icon="&#x42;">289</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-10 col-md-offset-1">
+                                        <!-- <div class="col-md-10 col-md-offset-1">
                                             <div class="carousel slide" data-ride="carousel" data-type="multi" data-interval="3000" id="studentCarousel">
                                                 <div class="carousel-inner">
                                                     <div class="item active">
@@ -223,7 +223,7 @@
                                               <a class="left carousel-control" href="#studentCarousel" data-slide="prev"><span data-icon="&#x34;"></span></a>
                                               <a class="right carousel-control" href="#studentCarousel" data-slide="next"><span data-icon="&#x35;"></span></a>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="newest-sub-esay">
                                         <div class="newest-sub-esay-wrapper">
@@ -301,13 +301,13 @@
                                 </div>
                                 <div class="dashboard-video">
                                         <div class="video-detail">
-                                            <img src="assets/images/img-video.png" alt="">
+                                            <img src="{{vTopViewed.image}}" alt="">
                                             <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
                                         </div>
                                         <!-- <iframe width="330px" height="220px" src="https://www.youtube.com/embed/B7wkzmZ4GBw?enablejsapi=1" frameborder="0"></iframe>-->
                                         <div class="video-wrapper">
                                             <div class="videos-title">
-                                                How to learn Physic effectively
+                                                {{vTopViewed.description}}
                                             </div>
                                             <div class="videos-rate">
                                                 <!-- <div class="videos-start">
@@ -316,14 +316,14 @@
                                                 </div>-->
                                                 <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
                                                 <p class="videos-rate-infor">
-                                                    <span data-icon="&#x49;">324</span>
-                                                    <span data-icon="&#xe089;">12</span>
-                                                    <span data-icon="&#xe066;">16</span>
+                                                    <span data-icon="&#x49;">{{vTopViewed.numViews}}</span>
+                                                    <!-- <span data-icon="&#xe089;">12</span> -->
+                                                    <span data-icon="&#xe066;">{{vTopViewed.numComments}}</span>
                                                 </p>
                                             </div>
                                             <div class="recent-view"><h4>Most view </h4>
-                                                <a href="#"><span data-icon="&#x34;"></span></a>
-                                                <a href="#"><span data-icon="&#x35;"></span></a>
+                                                <a ng-click="topViewedPre(topViewedPos)"><span data-icon="&#x34;"></span></a>
+                                                <a ng-click="topViewedNext(topViewedPos)"><span data-icon="&#x35;"></span></a>
                                             </div>
                                         </div>
                                     </div>

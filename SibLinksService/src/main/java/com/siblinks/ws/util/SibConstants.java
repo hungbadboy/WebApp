@@ -569,6 +569,11 @@ public class SibConstants {
         public static final String SQL_UPDATE_STUDENT_PROFILE = "UPDATE_STUDENT_PROFILE";
         public static final String SQL_GET_ESSAY = "GET_ESSAY";
     }
+    
+    public class SqlMapperBROT124 {
+        public static final String SQL_GET_COUNT_RATINGS = "GET_COUNT_RATINGS";
+        public static final String SQL_GET_COUNT_SUBSCRIBERS = "GET_COUNT_SUBCRIBERS";
+    }
 
     public class SqlMapperBROT126 {
         public static final String SQL_GET_LATEST_RATING_IN_MANAGE_VIDEO = "GET_LATEST_RATING_IN_MANAGE_VIDEO";

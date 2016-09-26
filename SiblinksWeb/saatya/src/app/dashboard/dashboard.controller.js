@@ -1,53 +1,55 @@
-brotControllers.controller('DashboardController',['$scope','$http', function($scope, $http) {
+brotControllers.controller('DashboardController',['$scope','$http', 'MentorService', 'VideoService',
+  function($scope, $http, MentorService, VideoService) {
 
 
   //Author: Hoai Nguyen;
   //event click on "Submit" button;
+  var userId = localStorage.getItem('userId');
 
-  $scope.loadContent = function(){
-      id = 84;
-      $http({
-      method: 'GET',
-      url: NEW_SERVICE_URL + 'mentor/getNewestAnswer/'+ id+'',
-      data: {
-        "request_data_type": "mentor",
-        "request_data_method": "getNewestAnswer",
-        "id": id
-      }
-      
-      // headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).success(function(data) {
-        console.log(data.request_data_result);
-        var data = data.request_data_result;
-        displayContentData(data);
-      }).error(function(data){
-        console.log(data);
-      });
-  };
+  init();
 
-  $scope.signIn = function(){
-    console.log('singIn');
-    // brot.signin.signin();
-    $('#popSignIn').modal('show');
-  };
-
-  function displayContentData(data){
-      for (var i = 0; i < data.length; i++) {
-        var numViews = data[i].numViews;
-        console.log(numViews);
-        if (numViews == null) 
-          numViews = 0;
-
-        html = '<div class="newest_item">';
-        html += '<div class="title">' + data[i].title + '</div>';
-        html += '<div><span>' + numViews + ' views</span> <span> <a href="#">' + data[i].firstName + '</a></span> <span>questioned</span></div>';
-        html += '</div>';
-        $('#newestData').append(html);
-      }
+  function init(){
+    getMainDashboardInfo();
+    getVideosTopViewed();
   }
 
-window.onload = function () {
-  angular.element(document.getElementById('myelement')).scope().loadContent();
-}
+  function getMainDashboardInfo(){
+    MentorService.getMainDashboardInfo(userId).then(function(data){
+      if (data.data.request_data_result != null) {
+        $scope.dashboard = data.data.request_data_result;;
+      }
+    });
+  }
 
+  function getVideosTopViewed(){
+     VideoService.getVideosTopViewed(userId, 0).then(function(data){
+          if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+            $scope.videosTopViewed = data.data.request_data_result;
+            $scope.vTopViewed = $scope.videosTopViewed[0];
+            $scope.topViewedPos = 0;
+          }
+        });
+  }
+
+  $scope.topViewedPre = function(pos){
+    if (pos == 0) {
+      $scope.topViewedPos = $scope.videosTopViewed.length - 1;
+      $scope.vTopViewed = $scope.videosTopViewed[$scope.videosTopViewed.length - 1];
+    }
+    else{
+      $scope.topViewedPos = pos - 1;
+      $scope.vTopViewed = $scope.videosTopViewed[pos - 1];
+    }
+  }
+
+  $scope.topViewedNext = function(pos){
+    if (pos == $scope.videosTopViewed.length - 1) {
+      $scope.topViewedPos = 0;
+      $scope.vTopViewed = $scope.videosTopViewed[0];
+    }
+    else{
+      $scope.topViewedPos = pos + 1;
+      $scope.vTopViewed = $scope.videosTopViewed[pos + 1];
+    }
+  }
 }]);

@@ -79,5 +79,7 @@ public interface MentorService {
 
     ResponseEntity<Response> getLatestComments(long mentorid, int limit, int offset);
 
-    public ResponseEntity<Response> getDashboardInfo(long uid);
+    ResponseEntity<Response> getDashboardInfo(long uid);
+    
+    ResponseEntity<Response> getMainDashboardInfo(long uid);
 }
