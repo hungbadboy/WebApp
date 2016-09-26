@@ -44,12 +44,13 @@
                                       data-on-total-scroll="loadMorePost"
                                       class="content-question-wrapper">
                                     <!-- Question 01 -->
-                                    <div ng-if="askQuestion" ng-repeat="question in askQuestion track by $index" >
-                                        <div class="question question_{{$index+1}}">
+                                        <div  ng-if="askQuestion" ng-repeat="question in askQuestion track by $index" class="question question_{{$index+1}}" >
+                                            <div class="number-question col-xs-1" ng-class="{'answered':question.count_answer > 0}">
+                                                <!--<h4>{{$index+1}}</h4>-->
+                                                <img src="assets/images/icon-comment-ask.png">
+                                            </div>
                                             <div >
-                                                <div class="number-question col-xs-1" ng-class="{'answered':question.count_answer > 0}">
-                                                    <h4>{{$index+1}}</h4>
-                                                </div>
+
                                                 <div class="detail-question col-xs-offset-1">
                                                     <div class="infor-of-question col-xs-12">
                                                         <span >asked {{question.time}} ago </span><br>
@@ -135,7 +136,7 @@
                                         </div>
                                     </div>
 
-                                </div>
+
                                 <!-- POPUP of images's question -->
                                 <div class="popup-images">
                                     <div class="popup-images-wrapper">
