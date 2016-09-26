@@ -256,21 +256,14 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             });
 
         }
-
-        $scope.hoverSubcribe = function () {
-            if(isEmpty($scope.userId)||$scope.isSubscribe=='0'){
-                return;
+        $scope.range = function (min, max, step) {
+            step = step || 1;
+            var input = [];
+            for (var i = min; i <= max; i += step) {
+                input.push(i);
             }
-            $("#btnsubs").attr("data-icon","M");
-
-            $("#spansubs").text("Unsubscribe");
-        }
-        $scope.unHoverSubcribe = function () {
-            $("#btnsubs").attr("data-icon","N");
-
-            $("#spansubs").text("Subscribe");
-        }
-
+            return input;
+        };
 
 
         function onYouTubeIframeAPIReady(youtubeId) {
@@ -296,7 +289,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 
         function onPlayerStateChange(event) {
             if (event.data === 0) {
-                $location.path ( '#/videos/detailVideo/' + videoid);
+                window.location.href = '#/videos/detailVideo/' + videoid;
             }
         }
 

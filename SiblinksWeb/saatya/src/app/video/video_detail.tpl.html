@@ -58,11 +58,8 @@
                                     <div class="video-details-sub">
                                         <img ng-src="{{videoInfo.avatar}}">
                                         <div class="video-member-subcriber">
-                                            <button id="btnsubs" class="subscribers" ng-class="{'unsubcrib':isSubscribe=='1'}"
-                                                    data-icon="&#x4c;" ng-Mouseover="hoverSubcribe()"
-                                                    ng-mouseleave="unHoverSubcribe()" ng-click="setSubscribeMentor(videoInfo.userid)">
-                                                <span id="spansubs" >Subscrible</span>
-                                                <span class="number-subscribers">{{videoInfo.numsub}}</span></button>
+                                                <button class="subscribers" ng-class="{'unsubcrib':isSubscribe=='1'}" ><span  data-icon="&#x4c;" ng-click="setSubscribeMentor(videoInfo.userid)">subscrible</span>
+                                                    <span class="number-subscribers">{{videoInfo.numsub}}</span></button>
 
                                         </div>
 
@@ -70,7 +67,7 @@
                                     <p class="videos-rate-infor">
                                         <span data-icon="&#x49;">{{videoInfo.numViews}}</span>
                                         &nbsp;&nbsp;
-                                        <span ng-if="comments" data-icon="&#xe066;">{{comments.length}} </span>
+                                        <span data-icon="&#xe066;">{{comments.length}} </span>
                                     </p>
                                 </div>
                             </div>
@@ -82,21 +79,19 @@
                                           outer-percent="rating"
                                           rating-define="star"
                                           rating-stars="{{rateNum}}"
-                                          star-radius="10" sel-color="gold"
+                                          star-radius="12" sel-color="gold"
                                           back-color="white"></div>
                                 </span>
 
                             </div>
                             <div class="video-detaile-script">
-                                <!--Show 100 characters-->
-                                <p ng-if="videoInfo" read-more ng-model="videoInfo.description" words="false" length="100"></p>
-                                <!--<button class="read-more">Read more <span data-icon="&#x33;"></span></button>-->
+                                <p>{{videoInfo.title}}</p>
+                                <button class="read-more">Read more <span data-icon="&#x33;"></span></button>
                             </div>
                         </div>
                         <div class="video-comment post">
                             <div class="video-comment-sum">
-                                <h3 ng-if="comments">{{comments.length}} Comments</h3>
-                                <h3 ng-if="!comments">0 Comments</h3>
+                                <h3>{{comments.length}} Comments</h3>
                             </div>
                             <div class="post-footer">
                                 <div class="input-group">
@@ -132,15 +127,15 @@
                     <h3>Related videos</h3>
                     <ul class="related-video-list" ng-repeat="videoRelate in videosRelated">
                         <li class="video-list-item">
-                            <div class="content-warpper">
+                            <div class="content-warpper" ng-click="viewVideo(videoRelate.vid)">
 
                                     <div class="thumb-video" >
-                                        <a href="#/detailVideo/{{videoRelate.vid}}"><img ng-src="{{videoRelate.image}}"></a>
+                                        <img ng-src="{{videoRelate.image}}">
                                     </div>
                                     <div class="detail-video">
-                                        <a href="#/detailVideo/{{videoRelate.vid}}"><p class="title-video">
+                                        <p class="title-video">
                                             {{videoRelate.title}}
-                                        </p></a>
+                                        </p>
                                         <span class="owner-video">
                                                         from<span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
                                                     </span><br>
