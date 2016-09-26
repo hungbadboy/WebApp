@@ -851,4 +851,121 @@ public class MentorServiceImpl implements MentorService {
         return entity;
 
     }
+
+    @Override
+    @RequestMapping(value = "/getMainDashboardInfo", method = RequestMethod.GET)
+    public ResponseEntity<Response> getMainDashboardInfo(@RequestParam long uid) {
+        Object[] queryParams = new Object[] { uid };
+        JsonParser jsonParser = new JsonParser();
+        Map<String, Object> result = new HashMap<>();
+        List<Object> readObject = null;
+        String value = null;
+
+        // count video
+        readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_VIDEOS, queryParams);
+        if (readObject != null && readObject.size() > 0) {
+            for (Object object : readObject) {
+                value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
+                if(value == null || value.isEmpty() || value.contains("null")){
+                    result.put("count_videos", 0);
+                }
+                else
+                    result.put("count_videos", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+            }
+        } else {
+            result.put("count_videos", 0);
+        }
+
+        // count likes of video
+        readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_LIKES, queryParams);   
+        if (readObject != null && readObject.size() > 0) {
+            for (Object object : readObject) {
+                value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
+                if(value == null || value.isEmpty() || value.contains("null")){
+                    result.put("count_likes", 0);
+                }
+                else
+                    result.put("count_likes", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+            }
+        } else {
+            result.put("count_likes", 0);
+        }
+
+        // count ratings of video
+        readObject = dao.readObjects(SibConstants.SqlMapperBROT124.SQL_GET_COUNT_RATINGS, queryParams);
+        if (readObject != null && readObject.size() > 0) {
+            for (Object object : readObject) {
+                value = jsonParser.parse(object.toString()).getAsJsonObject().get("numRatings").toString();
+                if(value == null || value.isEmpty() || value.contains("null")){
+                    result.put("count_ratings", 0);
+                }
+                else
+                    result.put("count_ratings", jsonParser.parse(object.toString()).getAsJsonObject().get("numRatings").toString());
+            }
+        } else {
+            result.put("count_ratings", 0);
+        }
+        
+
+        // count answers of mentor
+        readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_ANSWERS, queryParams);   
+        if (readObject != null && readObject.size() > 0) {
+            for (Object object : readObject) {
+                value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
+                if(value == null || value.isEmpty() || value.contains("null")){
+                    result.put("count_answers", 0);
+                } else            
+                    result.put("count_answers", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+            }
+        } else {
+            result.put("count_answers", 0);
+        }
+        
+        // count subcribers of mentor
+        readObject = dao.readObjects(SibConstants.SqlMapperBROT124.SQL_GET_COUNT_SUBSCRIBERS, queryParams);   
+        if (readObject != null && readObject.size() > 0) {
+            for (Object object : readObject) {
+                value = jsonParser.parse(object.toString()).getAsJsonObject().get("countSubcribers").toString();
+                if(value == null || value.isEmpty() || value.contains("null")){
+                    result.put("count_subcribers", 0);
+                } else            
+                    result.put("count_subcribers", jsonParser.parse(object.toString()).getAsJsonObject().get("countSubcribers").toString());
+            }
+        } else {
+            result.put("count_subcribers", 0);
+        }
+        
+        SimpleResponse reponse = new SimpleResponse("" + true, "mentor", "getMainDashboardInfo", result);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/getNewestQuestions", method = RequestMethod.GET)
+    public ResponseEntity<Response> getNewestQuestions(@RequestParam long uid) {
+//        Object[] queryParams = new Object[] { uid };
+//        JsonParser jsonParser = new JsonParser();
+//        Map<String, Object> result = new HashMap<>();
+//        List<Object> readObject = null;
+//        String value = null;
+//
+//        // count video
+//        readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_VIDEOS, queryParams);
+//        if (readObject != null && readObject.size() > 0) {
+//            for (Object object : readObject) {
+//                value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
+//                if(value == null || value.isEmpty() || value.contains("null")){
+//                    result.put("count_videos", 0);
+//                }
+//                else
+//                    result.put("count_videos", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+//            }
+//        } else {
+//            result.put("count_videos", 0);
+//        }
+//        SimpleResponse reponse = new SimpleResponse("" + true, "mentor", "getMainDashboardInfo", result);
+//        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+//        return entity;
+        return null;
+    }
 }

@@ -204,7 +204,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	}).
 	when('/mentor', {
 		templateUrl: 'src/app/dashboard/dashboard.tpl.html',
-		controller: 'HomeController'
+		controller: 'DashboardController'
 	}).
 	otherwise({
         redirectTo: '/'

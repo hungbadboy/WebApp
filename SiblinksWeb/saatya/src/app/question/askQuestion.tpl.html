@@ -85,8 +85,8 @@
                                                     <div class="answer-question col-xs-12">
                                                         <div class="number-answer">
                                                             <div class="total-number-answer">
-                                                                <div ng-if="question.count_answer" class="total-answer" ng-click="viewAnswer(question.count_answer)">{{limitAnswes == '0' ? 'View ' : 'Hide '}}{{question.count_answer}}
-                                                                    answer
+                                                                <div ng-if="question.count_answer" class="total-answer" ng-click="viewAnswer(question.id)">
+                                                                 <span style="color: #909090;" id="spamview_{{question.id}}">View</span> {{question.count_answer}} answer
                                                                 </div>
                                                                 <div ng-if="!question.count_answer" class="total-answer">
                                                                    No answer
@@ -97,10 +97,9 @@
                                                             </div>
                                                             <!-- Detail-answer-question -->
 
-                                                            <div class="detail-answer-question" ng-if="question"
+                                                            <div class="detail-answer-question hide detail-answer-question_{{question.id}}" ng-if="question" id=""
                                                                  ng-repeat="answer in question.answers track by $index ">
-                                                                <div ng-if="$index < limitAnswes "
-                                                                     class="mentor-answer">
+                                                                <div class="mentor-answer">
                                                                     <div class="image-mentor">
                                                                         <img ng-src="{{answer.avatar}}">
                                                                     </div>
