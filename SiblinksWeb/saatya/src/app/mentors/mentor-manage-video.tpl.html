@@ -6,7 +6,7 @@
                 <div class="navbar-collapse">
                     <div class="mentor-infor">
                         <div class="mentor-infor-img">
-                            <img src="../images/user.jpg">
+                            <img src="assets/images/user.jpg">
                         </div>
                         <div class="mentor-infor-name">
                             <p>Welcome</p>
@@ -77,114 +77,112 @@
                                         <span class="pull-left">overview</span>
                                         <span class="pull-right" data-icon="&#xe037;"></span>
                                         <div class="bx-video-play">
-                                            <span><img src="../images/icon-play-box.png" alt=""></span>
+                                            <span><img src="assets/images/icon-play-box.png" alt=""></span>
                                             <span><b>{{dashboard.count_videos}}</b>&nbsp;videos</span><br/>
                                             <span><b>{{dashboard.count_playlist}}</b>&nbsp;playlist</span>
                                         </div>
                                     </div>
                                     <ul class="list-review">
-                                        <li><img src="../images/icon-l-review.png" alt="">&nbsp;&nbsp;<b>{{dashboard.count_views}}</b>&nbsp;&nbsp;views</li>
-                                        <li><img src="../images/icon-l-comments.png" alt="">&nbsp;&nbsp;<b>{{dashboard.count_comments}}</b>&nbsp;&nbsp;comments</li>
-                                        <li class="clearfix"><span class="pull-left"><img src="../images/icon-l-star.png" alt="">&nbsp;&nbsp;<b>{{dashboard.avg_rating}}</b>&nbsp;&nbsp;rate</span>
+                                        <li><img src="assets/images/icon-l-review.png" alt="">&nbsp;&nbsp;<b>{{dashboard.count_views}}</b>&nbsp;&nbsp;views</li>
+                                        <li><img src="assets/images/icon-l-comments.png" alt="">&nbsp;&nbsp;<b>{{dashboard.count_comments}}</b>&nbsp;&nbsp;comments</li>
+                                        <li class="clearfix"><span class="pull-left"><img src="assets/images/icon-l-star.png" alt="">&nbsp;&nbsp;<b>{{dashboard.avg_rating}}</b>&nbsp;&nbsp;rate</span>
                                             <ul class="list-star pull-left">
-                                                <li><a href="#"><img src="../images/icon-star-l.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-star-l.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-star-l.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-star-l.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-star-h.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-star-h.png" alt=""></a></li>
                                             </ul>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3 box-video-inner">
-                                    <div ng-repeat="v in videos track by $index">
-                                        <div class="video-detail">
-                                            <img src="{{v.image}}" alt="">
-                                            <span class="icon-play-video"><img src="../images/icon-play-video.png" alt=""></span>
-                                        </div>
-                                        <div class="detail-vd">
-                                            <!-- <h5>Ut at sem quis urna fringilla congue a <br/>in ex. Aliquam sed imperdiet elit</h5> -->
-                                            <h5>{{v.description}}</h5>
-                                            <div class="clearfix">
-                                                <ul class="list-star pull-left">
-                                                    <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                    <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                    <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                    <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                    <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                </ul>
-                                                <p class="list-view pull-right">
-                                                    <span><img src="../images/icon-pl.png" alt=""> {{v.numPlay}}</span>&nbsp;&nbsp;
-                                                    <span><img src="../images/icon-like.png" alt=""> {{v.numFavorite}}</span>&nbsp;&nbsp;
-                                                    <span><img src="../images/icon-cm.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
-                                                </p>
-                                            </div>                                        
-                                        </div>
-                                    </div>                                    
-                                    <div class="clearfix">
-                                        <h4 class="pull-left">newest</h4>
-                                        <ul class="pull-right icon-sl">
-                                            <li><a href="#"><img src="../images/icon-left.png" alt=""></a></li>
-                                            <li><a href="#"><img src="../images/icon-right.png" alt=""></a></li>
-                                        </ul>
+                                    <div class="video-detail active">
+                                        <img src="{{v.image}}" alt="">
+                                        <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
                                     </div>
+                                    <div class="detail-vd">
+                                        <!-- <h5>Ut at sem quis urna fringilla congue a <br/>in ex. Aliquam sed imperdiet elit</h5> -->
+                                        <h5>{{v.description}}</h5>
+                                        <div class="clearfix">
+                                            <ul class="list-star pull-left">
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                            </ul>
+                                            <p class="list-view pull-right">
+                                                <span><img src="assets/images/icon-pl.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
+                                                <span><img src="assets/images/icon-like.png" alt=""> {{v.numFavourite}}</span>&nbsp;&nbsp;
+                                                <span><img src="assets/images/icon-cm.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                            </p>
+                                        </div>     
+                                        <div class="clearfix">
+                                            <h4 class="pull-left">newest</h4>
+                                            <ul class="pull-right icon-sl">
+                                                <li><a ng-click="newestPrev(newestPos)"><img src="assets/images/icon-left.png" alt="" ></a></li>
+                                                <li><a ng-click="newestNext(newestPos)"><img src="assets/images/icon-right.png" alt="" ></a></li>
+                                            </ul>
+                                        </div>                                   
+                                    </div>                                   
                                 </div>
                                 <div class="col-md-3 box-video-inner">
                                     <div class="video-detail">
-                                        <img src="../images/img-video-2.png" alt="">
-                                        <span class="icon-play-video"><img src="../images/icon-play-video.png" alt=""></span>
+                                        <img src="{{vTopRated.image}}" alt="">
+                                        <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
                                     </div>
                                     <div class="detail-vd detail-vd-2">
-                                        <h5>Ut at sem quis urna fringilla congue a <br/>in ex. Aliquam sed imperdiet elit</h5>
+                                        <h5>{{vTopRated.description}}</h5>
                                         <div class="clearfix">
                                             <ul class="list-star pull-left">
-                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                             </ul>
                                             <p class="list-view pull-right">
-                                                <span><img src="../images/icon-pl.png" alt=""> 324</span>&nbsp;&nbsp;
-                                                <span><img src="../images/icon-like.png" alt=""> 12</span>&nbsp;&nbsp;
-                                                <span><img src="../images/icon-cm.png" alt=""> 16</span>&nbsp;&nbsp;
+                                                <span><img src="assets/images/icon-pl.png" alt=""> {{vTopRated.numViews}}</span>&nbsp;&nbsp;
+                                                <span><img src="assets/images/icon-like.png" alt=""> {{vTopRated.numFavourite}}</span>&nbsp;&nbsp;
+                                                <span><img src="assets/images/icon-cm.png" alt=""> {{vTopRated.numComments}}</span>&nbsp;&nbsp;
                                             </p>
                                         </div>
                                         <div class="clearfix">
                                             <h4 class="pull-left">top rated</h4>
                                             <ul class="pull-right icon-sl">
-                                                <li><a href="#"><img src="../images/icon-left.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-right.png" alt=""></a></li>
+                                                <li><a ng-click="topRatedPre(topRatedPos)"><img src="assets/images/icon-left.png" alt=""></a></li>
+                                                <li><a ng-click="topRatedNext(topRatedPos)"><img src="assets/images/icon-right.png" alt=""></a></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 box-video-inner">
                                     <div class="video-detail">
-                                        <img src="../images/img-video-3.png" alt="">
-                                        <span class="icon-play-video"><img src="../images/icon-play-video.png" alt=""></span>
+                                        <img src="{{vTopViewed.image}}" alt="">
+                                        <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
                                     </div>
                                     <div class="detail-vd detail-vd-3">
-                                        <h5>Ut at sem quis urna fringilla congue a <br/>in ex. Aliquam sed imperdiet elit</h5>
+                                        <h5>{{vTopViewed.description}}</h5>
                                         <div class="clearfix">
                                             <ul class="list-star pull-left">
-                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                             </ul>
                                             <p class="list-view pull-right">
-                                                <span><img src="../images/icon-pl.png" alt=""> 324</span>&nbsp;&nbsp;
-                                                <span><img src="../images/icon-like.png" alt=""> 12</span>&nbsp;&nbsp;
-                                                <span><img src="../images/icon-cm.png" alt=""> 16</span>&nbsp;&nbsp;
+                                                <span><img src="assets/images/icon-pl.png" alt=""> {{vTopViewed.numViews}}</span>&nbsp;&nbsp;
+                                                <span><img src="assets/images/icon-like.png" alt=""> {{vTopViewed.numFavourite}}</span>&nbsp;&nbsp;
+                                                <span><img src="assets/images/icon-cm.png" alt=""> {{vTopViewed.numComments}}</span>&nbsp;&nbsp;
                                             </p>
                                         </div>
                                         <div class="clearfix">
                                             <h4 class="pull-left">top viewed</h4>
                                             <ul class="pull-right icon-sl">
-                                                <li><a href="#"><img src="../images/icon-left.png" alt=""></a></li>
-                                                <li><a href="#"><img src="../images/icon-right.png" alt=""></a></li>
+                                                <li><a ng-click="topViewedPre(topViewedPos)"><img src="assets/images/icon-left.png" alt=""></a></li>
+                                                <li><a ng-click="topViewedNext(topViewedPos)"><img src="assets/images/icon-right.png" alt=""></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -202,11 +200,11 @@
                                                     <div class="rate-star clearfix">
                                                         <span class="pull-left">rate ({{r.rating}}) </span>
                                                         <ul class="list-star pull-left">
-                                                            <li><a href="#"><img src="../images/icon-star-l.png" alt=""></a></li>
-                                                            <li><a href="#"><img src="../images/icon-star-l.png" alt=""></a></li>
-                                                            <li><a href="#"><img src="../images/icon-star-l.png" alt=""></a></li>
-                                                            <li><a href="#"><img src="../images/icon-star-l.png" alt=""></a></li>
-                                                            <li><a href="#"><img src="../images/icon-star-l.png" alt=""></a></li>
+                                                            <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
+                                                            <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
+                                                            <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
+                                                            <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
+                                                            <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
                                                         </ul>
                                                     </div>
                                                     <p>video<span>{{r.title}}</span></p>
@@ -261,8 +259,8 @@
                                     <ul>
                                         <li>
                                             <div class="student-subcripted-img online">
-                                                <img src="../images/mentor-01.jpg">
-                                                <span class="offline"><img src="../images/ask question/online.png"></span>
+                                                <img src="assets/images/mentor-01.jpg">
+                                                <span class="offline"><img src="assets/images/ask question/online.png"></span>
                                             </div>
                                             <div class="student-subcripted-info">
                                                 <p class="student-subcripted-name">
@@ -275,8 +273,8 @@
                                         </li>
                                         <li>
                                             <div class="student-subcripted-img online">
-                                                <img src="../images/mentor-01.jpg">
-                                                <span class="offline"><img src="../images/ask question/online.png"></span>
+                                                <img src="assets/images/mentor-01.jpg">
+                                                <span class="offline"><img src="assets/images/ask question/online.png"></span>
                                             </div>
                                             <div class="student-subcripted-info">
                                                 <p class="student-subcripted-name">
@@ -289,8 +287,8 @@
                                         </li>
                                         <li>
                                             <div class="student-subcripted-img online">
-                                                <img src="../images/mentor-01.jpg">
-                                                <span class="offline"><img src="../images/ask question/online.png"></span>
+                                                <img src="assets/images/mentor-01.jpg">
+                                                <span class="offline"><img src="assets/images/ask question/online.png"></span>
                                             </div>
                                             <div class="student-subcripted-info">
                                                 <p class="student-subcripted-name">
@@ -303,8 +301,8 @@
                                         </li>
                                         <li>
                                             <div class="student-subcripted-img online">
-                                                <img src="../images/mentor-01.jpg">
-                                                <span class="offline"><img src="../images/ask question/online.png"></span>
+                                                <img src="assets/images/mentor-01.jpg">
+                                                <span class="offline"><img src="assets/images/ask question/online.png"></span>
                                             </div>
                                             <div class="student-subcripted-info">
                                                 <p class="student-subcripted-name">

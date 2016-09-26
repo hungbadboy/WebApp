@@ -708,41 +708,62 @@ public class MentorServiceImpl implements MentorService {
         JsonParser jsonParser = new JsonParser();
         Map<String, Object> result = new HashMap<>();
         List<Object> readObject = null;
+        String value = null;
 
         // count video
-        readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_VIDEOS, queryParams);
-        result.put("count_videos", 0);
+        readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_VIDEOS, queryParams);        
         for (Object object : readObject) {
-            result.put("count_videos", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+            value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
+            if(value == null || value.isEmpty() || value.contains("null")){
+                result.put("count_videos", 0);
+            }
+            else
+                result.put("count_videos", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
         }
 
         // count views of video
-        readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_VIEW_VIDEO, queryParams);
-        result.put("count_views", 0);
+        readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_VIEW_VIDEO, queryParams);        
         for (Object object : readObject) {
-            result.put("count_views", jsonParser.parse(object.toString()).getAsJsonObject().get("numViews").toString());
+            value = jsonParser.parse(object.toString()).getAsJsonObject().get("numViews").toString();
+            if(value == null || value.isEmpty() || value.contains("null")){
+                result.put("count_views", 0);
+            }
+            else
+                result.put("count_views", jsonParser.parse(object.toString()).getAsJsonObject().get("numViews").toString());
+                
         }
 
         // count comments of video
-        readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_COMMENT_VIDEO, queryParams);
-        result.put("count_comments", 0);
+        readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_COMMENT_VIDEO, queryParams);        
         for (Object object : readObject) {
-            result.put("count_comments", jsonParser.parse(object.toString()).getAsJsonObject().get("numComments").toString());
+            value = jsonParser.parse(object.toString()).getAsJsonObject().get("numComments").toString();
+            if(value == null || value.isEmpty() || value.contains("null")){
+                result.put("count_comments", 0);
+            }
+            else
+                result.put("count_comments", jsonParser.parse(object.toString()).getAsJsonObject().get("numComments").toString());
         }
 
         // count playlist
-        readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_VIDEO_PLAYLIST, queryParams);
-        result.put("count_playlist", 0);
+        readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_VIDEO_PLAYLIST, queryParams);        
         for (Object object : readObject) {
-            result.put("count_playlist", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+            value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
+            if(value == null || value.isEmpty() || value.contains("null")){
+                result.put("count_playlist", 0);
+            } else            
+                result.put("count_playlist", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
         }
 
-        readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_AVG_RATING_VIDEO, queryParams);
-        result.put("avg_rating", 0);
+        readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_AVG_RATING_VIDEO, queryParams);        
         for (Object object : readObject) {
-            result.put("avg_rating", jsonParser.parse(object.toString()).getAsJsonObject().get("averageRating").toString());
+            value = jsonParser.parse(object.toString()).getAsJsonObject().get("averageRating").toString();
+            if(value == null || value.isEmpty() || value.contains("null")){
+                result.put("avg_rating", 0);
+            } else
+                result.put("avg_rating", jsonParser.parse(object.toString()).getAsJsonObject().get("averageRating").toString());
+                
         }
-        SimpleResponse reponse = new SimpleResponse("" + true, result);
+        SimpleResponse reponse = new SimpleResponse("" + true, "mentor", "getDashboardInfo", result);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
