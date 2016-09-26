@@ -63,9 +63,8 @@
                                                     </div><!-- /End Detail Content of Question -->
 
                                                     <!-- Images of question -->
-                                                    <div class="images-question">
-
-                                                        <ul ng-if="question.image">
+                                                    <div class="images-question"  ng-if="question.image">
+                                                        <ul>
                                                             <li class="item" ng-repeat="image in question.image">
                                                                 <div ng-mouseover="imageHoverIn(this)" ng-if="image"
                                                                      ng-mouseleave="imageHoverOut()" class="item-img">
