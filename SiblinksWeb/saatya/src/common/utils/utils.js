@@ -245,4 +245,43 @@ function loginFBService (callback) {
 		text = secondElapsed + (secondElapsed > 1 ? ' seconds' : ' second') + ' ago';
 
 	return text;
-}		
+}
+
+/*
+* convert string subject id to array
+*/
+function getSubjectNameById(strSubjectId, listcate) {
+	var subject = {};
+	var listSubject = [];
+	if (isEmpty(strSubjectId)) {
+		listSubject.push(subject);
+		return listSubject;
+	}
+	if (strSubjectId.indexOf(',') < -1) {
+		for (var y = 0; y < listcate.length; y++) {
+			if (listcate[y].subjectId == strSubjectId) {
+				subject.id = strSubjectId;
+				subject.name = listcate[y].subject
+				return listSubject.push(subject);
+			}
+
+		}
+	}
+	else {
+		var list = strSubjectId.split(',');
+		for (var i = 0; i < list.length; i++) {
+			for (var y = 0; y < listcate.length; y++) {
+				if (listcate[y].subjectId == list[i]) {
+					subject = [];
+					subject.name = listcate[y].subject;
+					subject.id = listcate[y].subjectId;
+					listSubject.push(subject);
+				}
+
+			}
+		}
+	}
+
+	return listSubject;
+
+}
