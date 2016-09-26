@@ -74,7 +74,7 @@ brotControllers
                             return;
                         }
                         if ($scope.totalQuestion == 0) {
-                            if (subjectid != -1) {
+                            if (subjectid == -1) {
                                 window.location.href = '/#/first-ask';
                                 return;
                             }
