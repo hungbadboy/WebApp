@@ -255,7 +255,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         };
 
 
-        var limit = 6;
+        var limit = 8;
         var offset = 0;
         var currentPageRecommended = 0, currentPageRecently = 0;
         var isInitRecommended = true;
@@ -272,10 +272,10 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             if (userId !== null) {
                 $scope.login = 1;
                 getMentorSubscribed(userId);
-                getVideoBySubject(userId, -1, 6, 0);
+                getVideoBySubject(userId, -1, 8, 0);
                 getCountFactory(CountType.HOME);
             } else {
-                getVideoBySubject(-1, -1, 6, 0);
+                getVideoBySubject(-1, -1, 8, 0);
             }
             getNewVideoMentorSubscribe(userId);
         }
@@ -310,9 +310,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             resetAllData();
             $scope.subjectId = subjectId;
             if (userId) {
-                getVideoBySubject(userId, subjectId, 6, 0);
+                getVideoBySubject(userId, subjectId, 8, 0);
             } else {
-                getVideoBySubject(-1, subjectId, 6, 0);
+                getVideoBySubject(-1, subjectId, 8, 0);
             }
         };
 
