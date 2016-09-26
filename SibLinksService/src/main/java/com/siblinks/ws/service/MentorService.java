@@ -82,4 +82,6 @@ public interface MentorService {
     ResponseEntity<Response> getDashboardInfo(long uid);
     
     ResponseEntity<Response> getMainDashboardInfo(long uid);
+    
+    ResponseEntity<Response> getNewestQuestions(long uid);
 }
