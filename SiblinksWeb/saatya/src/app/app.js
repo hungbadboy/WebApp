@@ -21,6 +21,9 @@ brotApp.controller('MainController', function($scope, $http, $location) {
           }
         $scope.isActive = $location.path();
       });
+	  // Check login
+	  $scope.sidebarLeft="src/app/sidebarLeft/sidebarLeftMenu.tpl.html";
+	  $scope.sidebarRight="src/app/sidebarRight/sidebarRight.tpl.html";
 });
 
 brotServices.factory('myCache', function($cacheFactory) {

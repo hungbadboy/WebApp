@@ -198,7 +198,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		controller: 'PlaylistController'
 	}).
 	when('/mentor', {
-		templateUrl: 'src/app/home/homeMentor.tpl.html',
+		templateUrl: 'src/app/dashboard/dashboard.tpl.html',
 		controller: 'HomeController'
 	}).
 	otherwise({

@@ -142,7 +142,7 @@ brotControllers.controller('UserHeaderController',
                     if (userType != null && userType != undefined && userType == 'S') {
                     	$scope.headerByUser="src/app/header/StudentHeader.tpl.html";
                     	$scope.footerUser="src/app/footer/footer.tpl.html";
-                    } else if (userType != null && userType != undefined && userType == 'M'){
+                    } else if (userType != null && userType != undefined && userType == 'M') {
                     	$scope.headerByUser="src/app/header/MentorHeader.tpl.html";
                     }
                 } else {
