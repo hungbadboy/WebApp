@@ -1,0 +1,58 @@
+<div class="container clearfix">
+    <!-- logo -->
+    <div class="main-logo col-xs-3">
+        <a href="/">
+            <img src="assets/images/logo.png" alt="Sib links" class="hidden-pc">
+        </a>
+    </div>
+    <!-- /logo -->
+    <!-- Menu navigation -->
+    <div class="navigation col-xs-9 ">
+        <nav class="navbar navbar-default">
+            <!-- menu on mobile -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <!-- Menu on desktop -->
+            <div class="navbar-collapse">
+                <ul class="mobimenu nav navbar-nav">
+                    <li ng-class="{active: isActive=='/'}" ><a href="#/">Home</a></li>
+                    <li ng-class="{active: isActive=='/ask_a_question' }" ><a href="#/ask_a_question/-1">Ask a Question</a></li>
+                    <li ng-class="{active: isActive=='/videos' }"><a href="#/videos">Videos</a></li>
+                    <li ng-class="{active: isActive=='/college_admission'}"><a href="#/college_admission">College Admission</a></li>
+                    <li ng-class="{active: isActive=='/team'}"><a href="#team">Our Team</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- nofitication of user -->
+            <div class="user-nofitication">
+                <div id="notification" class="logined">
+                    <div class="notification">
+                        <img src="assets/images/bell.png"><span ng-if="countNotification > 0" ng-click="popupNotification()">{{countNotification}}</span>
+                    </div>
+                    <div class="user-login">
+                        <div class="user-img">
+                             <span><img ng-src="{{imageUrl}}" ng-if="imageUrl"></span>
+                         </div>
+                         <div class="profile-user"><img src="assets/images/arrow.png" ng-click="toggleUserInfo()"></div>
+                         <div id="user-info" class="user-info" ng-show="isShowHideUserInfo">
+                             <ul>
+                                 <li class="profile"><a href="#/studentProfile" ><span data-icon="&#xe08a;"></span>Profile</a></li>
+                                 <li class="setting"><a href="javascript:void(0);" ng-click="goToEditStudent()"><span data-icon="&#xe037;"></span>Setting</a></li>
+                                 <li class="logout"><a href="javascript:void(0)" ng-click="logout()"><span class="fa fa-power-off"></span>Logout</a></li>
+                             </ul>
+                         </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /module-navigation -->
+<div class="background-color"></div>

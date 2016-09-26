@@ -1,61 +1,66 @@
 brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $http, $timeout, StudentService) {
-    $scope.loginMess = null;
+    $scope.loginMess = "";
     $scope.login = function () {
-        var userName = $('#userName').val();
+        var userName = angular.element('#userName').val();
         if (userName == null || userName === '') {
             $scope.loginMess = 'Your email is required';
-            $("#userName").focus();
+            angular.element('#userName').trigger('focus');
             return;
         }
 
         if (!(/^[a-zA-Z0-9-.-_--]{3,}\@[a-zA-Z0-9--]{2,16}\.[a-zA-Z0-9]{2,8}$/.test(userName))) {
             $scope.loginMess = 'Your email is invalid';
-            $("#userName").focus();
+            angular.element('#userName').trigger('focus');
             return;
         }
 
-        var password = $('#passWord').val();
+        var password = angular.element('#passWord').val();
         if (password == null || password === '') {
             $scope.loginMess = 'Password is required';
-            $("#passWord").focus();
+            angular.element('#passWord').trigger('focus');
             return;
         }
         StudentService.loginUser(userName, password, function (data) {
             if (data.status == 'true') {
                 var dataUser = data;
+                var firstName = dataUser['firstName'];
+                var lastName = dataUser['lastName']
                 setStorage('userName', dataUser['username'], 30);
                 setStorage('userId', dataUser['userid'], 30);
                 setStorage('userType', dataUser['userType'], 10);
                 setStorage('imageUrl', dataUser['imageUrl'], 10);
-                setStorage('firstName', dataUser['firstName'], 30);
-                setStorage('lastname', dataUser['lastname'], 30);
+                setStorage('firstName', (firstName != null && firstName !== undefined)?firstName:'', 30);
+                setStorage('lastname', (lastName != null && lastName !== undefined)?lastName:'', 30);
+                setStorage('defaultSubjectId', dataUser['defaultSubjectId'], 10);
                 var nameHome = '';
-                if (dataUser['firstname'] == null || dataUser['lastname'] == null) {
+                if (firstName == null || firstName === undefined || lastName == null || lastName === undefined) {
                     nameHome = capitaliseFirstLetter(dataUser['username'].substring(0, dataUser['username'].indexOf('@')));
-                }
-                else {
-                    nameHome = capitaliseFirstLetter(dataUser['firstname']) + ' ' + capitaliseFirstLetter(dataUser['lastname']);
+                } else {
+                    nameHome = capitaliseFirstLetter(firstName) + ' ' + capitaliseFirstLetter(lastName);
                 }
                 setStorage('nameHome', nameHome, 30);
-                window.location.href = '/';
+                if (dataUser['userType'] == 'S') { // login student
+                	window.location.href = '/';
+                } else if(dataUser['userType'] == 'M') { // login mentor
+                	window.location.href = '#/mentor';
+                }
             } else {
                 $scope.loginMess = "Incorrect email or password";
+                $scope.$apply();
+                angular.element('#userName').trigger('focus');
+                return;
             }
         });
     };
 
     init();
     $scope.nextFocus = function () {
-        $("#passWord").focus();
+    	angular.element('#passWord').trigger('focus');
     }
+    
     function init() {
         $scope.username = 'Username*';
         $scope.password = 'Password*';
-        $('#passWord').keypress(function (event) {
-            if (event.keyCode == 13) {
-                $scope.login();
-            }
-        });
     }
 
     $scope.showForgotPassword = function () {
@@ -87,12 +92,18 @@ brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $h
 	                setStorage('imageUrl', dataUser['imageUrl'], 10);
 	                setStorage('firstName', dataUser['firstName'], 30);
 	                setStorage('lastname', dataUser['lastname'], 30);
+	                setStorage('defaultSubjectId', dataUser['defaultSubjectId'], 10);
 	                var nameHome = $scope.firstName + ' ' + $scope.lastName;
 	                setStorage('nameHome', nameHome, 30);
 	                $('#header .log_out .current').text(nameHome);
-	                window.location.href = '/';
+	                if (dataUser['userType'] == 'S') { // login student
+	                	window.location.href = '/';
+	                } else if(dataUser['userType'] == 'M') { // login mentor
+	                	window.location.href = '/';
+	                }
             	} else {
             		$scope.loginMess = 'Your email is already registered and not account Facebook';
+            		return;
             	}
             });
         });
@@ -127,13 +138,19 @@ brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $h
 	                        setStorage('nameHome', nameHome, 30);
 	                        setStorage('firstName', dataUser['firstName'], 30);
 	                        setStorage('lastname', dataUser['lastname'], 30);
-	                        $('#header .login').addClass('hide');
-	                        $('#header .log_out').removeClass('hide');
-	                        $('#header .log_out .current').text(nameHome);
+	                        setStorage('defaultSubjectId', dataUser['defaultSubjectId'], 10);
+	                        //$('#header .login').addClass('hide');
+	                        //$('#header .log_out').removeClass('hide');
+	                        //$('#header .log_out .current').text(nameHome);
 	
-	                        window.location.href = '/';
+	                        if (dataUser['userType'] == 'S') { // login student
+	                        	window.location.href = '/';
+	                        } else if(dataUser['userType'] == 'M') { // login mentor
+	                        	window.location.href = '/';
+	                        }
                     	} else {
                     		$scope.loginMess = 'Your email is already registered and not account Google';
+                    		return;
                     	}
                     });
                 });

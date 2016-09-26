@@ -30,7 +30,6 @@ brotControllers.controller('StudentProfileController',
     function init(){
       getMentorInfo();
       getStudentProfile();
-      getQuestionByUserId('-1');
       getEssayProfile();
     }
 
@@ -103,8 +102,8 @@ brotControllers.controller('StudentProfileController',
       StudentService.getUserProfile(userId).then(function(data){
         if (data.data.status) {
           $scope.student = data.data.request_data_result;
-          $scope.student.fullName = $scope.student.firstname + ' ' + $scope.student.lastName;
-          $scope.student.imageUrl = $scope.student.imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + $scope.student.imageUrl : $scope.student.imageUrl;
+          $scope.student.fullName = (($scope.student.firstname == null)?'': $scope.student.firstname) + ' ' + (($scope.student.firstname == null)?'':$scope.student.lastName);
+          //$scope.student.imageUrl =  //$scope.student.imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + $scope.student.imageUrl : $scope.student.imageUrl;
           $scope.student.registrationTime = moment($scope.student.registrationTime).format('MMM, YYYY ', 'en');
           if ($scope.student.gender == "M") {
             $('#male').prop('checked', true);
@@ -144,81 +143,7 @@ brotControllers.controller('StudentProfileController',
       }
     }
 
-    function getQuestionByUserId(loadmore) {
-      QuestionsService.getQuestionByUserId(userId, 10, "", 'newest', loadmore, "-1").then(function(data){
-          if (data.data.status == 'true') {
-              var result = data.data.request_data_result;
-              var countQuestion = 0;
-              var countAnswer = 0;
-              if(isInit) {
-                  listPosted = [];
-              }
-              // Count question
-              if(result != null && result.question !== undefined) {
-            	  countQuestion = result.question.length;
-              }
-              
-              // Count answer
-              if(result != null && result.answers !== undefined) {
-            	  countAnswer = result.answers.length;
-              }
-              var count = {
-                  "count_question": countQuestion,
-                  "count_answer": countAnswer
-              };
-              for (var i = 0; i < result.question.length; i++) {
-                  var objPosted = {};
-                  var questionData = result.question[i];
 
-                  objPosted.id = questionData.PID;
-                  objPosted.title = questionData.TITLE;
-                  objPosted.subject = questionData.SUBJECT;
-                  objPosted.name = questionData.FIRSTNAME;
-                  objPosted.content = questionData.CONTENT;
-                  objPosted.numviews = questionData.NUMVIEWS == null ? 0 : questionData.NUMVIEWS;
-                  objPosted.time = convertUnixTimeToTime(questionData.TIMESTAMP);
-                  objPosted.image = detectMultiImage(questionData.IMAGEPATH);
-                  
-                  //objPosted.count = questionData.length;
-                  objPosted.count_answer = countAnswer;
-                  if (countAnswer > 0) {
-                      var answer = result.answers[i];
-                      var answer_result = answer.body.request_data_result;
-                      var listAnswer = [];
-                      for (var y = 0; y < answer_result.length; y++) {
-                          var objAnswer = {};
-                          objAnswer.authorID = answer_result[y].authorID;
-                          objAnswer.aid = answer_result[y].aid;
-                          objAnswer.pid = answer_result[y].pid;
-                          objAnswer.name = answer_result[y].firstName + " " + answer_result[y].lastName;
-                          var answer_text = decodeURIComponent(answer_result[y].content);
-                          answer_text = $sce.trustAsHtml(answer_text);
-                          objAnswer.content = answer_text;
-                          objAnswer.avatar = answer_result[y].imageUrl;
-                          objAnswer.countLike = answer_result[y].countLike;
-                          if (answer_result[y].likeAnswer == null || answer_result[y].likeAnswer === "N") {
-                              objAnswer.like = "No Like";
-                          } else {
-                              objAnswer.like = "Liked";
-                          }
-                          objAnswer.time = convertUnixTimeToTime(answer_result[y].timeStamp);
-                          listAnswer.push(objAnswer);
-                          objPosted.answers = listAnswer;
-                      }
-
-                  } else {
-                      objPosted.answers = null;
-                  }
-                  listPosted.push(objPosted);
-              }
-              var listQuestion = {"total_count": count, "ListQA": listPosted};
-              $scope.askQuestion = listQuestion;
-          } else {
-        	  // console log
-        	  console.log(data.data.request_data_result);
-          }
-      });
-    }
 
     function detectMultiImage(imagePath) {
         if(isEmpty(imagePath)){
@@ -257,39 +182,25 @@ brotControllers.controller('StudentProfileController',
     }
 
     $scope.onFileSelect = function ($files) {
-        $filex = $files;
-        if ($filex != null) {
-            var fd = new FormData();
-            if ($filex != null) {
-                for (var i = 0; i < $filex.length; i++) {
-                    file = $filex[i];
-                    fd.append('uploadfile', file);
-                }
-            }
-            fd.append('userid', userId);
-            var url = NEW_SERVICE_URL + 'user/uploadFile';
-            $http({
-                method: 'POST',
-                url: url,
-                headers: {
-                    'Content-Type': undefined
-                },
-                data: fd,
-                transformRequest: function (data, headersGetterFunction) {
-                    return data;
-                }
-
-            }).success(function (data) {
-                var local = data.request_data_result;
-                window.location.href = '#/studentProfile';
-                window.location.reload();
-            })
-            .error(function (data, status) {
-                $('.waitingUp').addClass('hide');
-                $scope.errorUpload = data.request_data_result;
-                return;
+        var fd = new FormData();
+        if ($files != null) {
+        	fd.append('uploadfile', $files[0]);
+            fd.append("userid",userId);
+            fd.append("imageUrl",localStorage.getItem('imageUrl'));
+            StudentService.uploadAvatar(fd).then(function (data) {
+               if(data.data.status=="true") {
+                   $scope.student.imageUrl = data.data.request_data_result;
+                   setStorage('imageUrl', $scope.student.imageUrl, 10);
+                   $scope.imageUrl=data.data.request_data_result;
+                   window.location.href = '#/studentProfile';
+				   window.location.reload();
+               }
+               else {
+                   $scope.errorMessage = "Can't not upload avatar";
+               }
             });
         }
+
     };
 
     $scope.changePassword = function(oldPwd, newPwd, confirmPwd){
@@ -382,11 +293,12 @@ brotControllers.controller('StudentProfileController',
         console.log(student);
         StudentService.updateStudentProfile(student).then(function(data){
           if (data.data.request_data_result == "Success") {
-            window.location.href = '#/studentProfile';       
+            window.location.href = '#/studentProfile';
             window.location.reload();
           }
           else{
-            alert("Something went wrong. Please try again later.");
+              console.log(error);
+           // alert("Something went wrong. Please try again later.");
           }
         });
       }

@@ -32,14 +32,16 @@ brotControllers.controller('MentorProfileController',
     function getMentorProfile(){
       StudentService.getUserProfile(mentorId).then(function(data){
         $scope.mentor = data.data.request_data_result;
-        if ($scope.mentor.imageUrl == null || $scope.mentor.imageUrl.length == 0)
+        if ($scope.mentor.imageUrl == null || $scope.mentor.imageUrl.length == 0) {
           $scope.mentor.imageUrl = 'http://www.capheseo.com/Content/T000/Images/no-avatar.png';
-        else
+        } else {
           $scope.mentor.imageUrl = $scope.mentor.imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + $scope.mentor.imageUrl: $scope.mentor.imageUrl;
+        }
         $scope.mentor.fullName = $scope.mentor.firstname + ' ' + $scope.mentor.lastName;
         $scope.mentor.bio = moment($scope.mentor.bio, "MM/DD/YYYY").month(0).from(moment().month(0)).replace('years ago', '');
-        if ($scope.mentor.skills != null)
+        if ($scope.mentor.skills != null) {
           $scope.mentor.skills = $scope.mentor.skills.replace(/\"/g, '');
+        }
         $scope.mentor.averageRating = $scope.mentor.averageRating == null ? 0 : $scope.mentor.averageRating;
         $scope.mentor.numRatings = $scope.mentor.numRatings == null ? 0 : $scope.mentor.numRatings;
         $scope.mentor.numViews = $scope.mentor.numViews == null ? 0 : $scope.mentor.numViews;

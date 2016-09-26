@@ -29,7 +29,9 @@ brotControllers
                       StudentService, VideoService, myCache) {
 
                 var subjectid = $routeParams.subjectid;
-
+                if (isEmpty(subjectid)) {
+                    subjectid = "-1";
+                }
                 $scope.limitAnswes = 3;
                 var listPosted = [];
 
@@ -60,7 +62,7 @@ brotControllers
                         userId = -1;
                     }
                     if (isEmpty(subjectid)) {
-                        subjectid = -1;
+                        subjectid = "-1";
                     }
 
                     getQuestions(userId, limit, offset, ordertype, oldQid, subjectid);
@@ -72,7 +74,7 @@ brotControllers
                             return;
                         }
                         if ($scope.totalQuestion == 0) {
-                            if (subjectid != -1) {
+                            if (subjectid == -1) {
                                 window.location.href = '/#/first-ask';
                                 return;
                             }
@@ -137,7 +139,7 @@ brotControllers
                             if (!isLoadMore) {
                                 listPosted = [];
                             }
-                            if(result != null){
+                            if (result == null) {
                                 return;
                             }
                             for (var i = 0; i < result.question.length; i++) {

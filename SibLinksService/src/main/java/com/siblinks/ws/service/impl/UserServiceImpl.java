@@ -42,6 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -674,13 +675,11 @@ public class UserServiceImpl implements UserService {
             .getRequest_data()
             .getActivityid(), request.getRequest_data().getSubjectId() };
 
-        String entityName = null;
         boolean delete = true;
         String userId = request.getRequest_data().getUid();
 
         if (request.getRequest_data().getMajorid().length() != 0) {
             List<String> myListMajorId = new ArrayList<String>(Arrays.asList(request.getRequest_data().getMajorid().split(",")));
-            entityName = "DELETE_USER_MAJOR";
             delete = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_USER_MAJOR, queryParams);
             if (delete) {
                 insertNotResource(myListMajorId, userId, SibConstants.SqlMapper.SQL_INSERT_SIB_USER_MAJOR);
@@ -917,11 +916,7 @@ public class UserServiceImpl implements UserService {
     @RequestMapping(value = "/getAccomplishment", method = RequestMethod.POST)
     public ResponseEntity<Response> getAccomplishment(@RequestBody final RequestData request) {
 
-        String entityName = null;
-
         Object[] queryParams = { request.getRequest_data().getUid() };
-
-        entityName = "ACCOMPLISHMENT_READ";
 
         List<Object> readObject = null;
         readObject = dao.readObjects(SibConstants.SqlMapper.SQL_ACCOMPLISHMENT_READ, queryParams);
@@ -1385,55 +1380,66 @@ public class UserServiceImpl implements UserService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadAvartar", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Response> uploadFile(@RequestParam("uploadfile") final MultipartFile uploadfile, @RequestParam(
-            value = "userid") final String userid) throws IOException {
+    public ResponseEntity<Response> uploadAvatar(@RequestParam("uploadfile") final MultipartFile uploadfile, @RequestParam(
+            value = "userid") final String userid, @RequestParam("imageUrl") final String oldNameImgAvatar)
+            throws IOException {
 
-        // if (!AuthenticationFilter.isAuthed(context)) {
-        // ResponseEntity<Response> entity = new ResponseEntity<Response>(
-        // new SimpleResponse(
-        // "" + Boolean.FALSE,
-        // "Authentication required."),
-        // HttpStatus.FORBIDDEN);
-        // return entity;
-        // }
         String filename = "";
         String name;
         String filepath = "";
         String directory = environment.getProperty("directoryAvatar");
         String service = environment.getProperty("directoryGetAvatar");
-        String sample = environment.getProperty("file.upload.image.type");
+        String strExtenstionFile = environment.getProperty("file.upload.image.type");
         name = uploadfile.getOriginalFilename();
         String nameExt = FilenameUtils.getExtension(name);
         name.toLowerCase();
-        boolean status = sample.contains(nameExt.toLowerCase());
+        boolean status = strExtenstionFile.contains(nameExt.toLowerCase());
+        BufferedOutputStream stream = null;
+        SimpleResponse reponse = null;
         if (directory != null && status) {
             try {
                 RandomString randomName = new RandomString();
-                filename = randomName.random();
+                filename = randomName.random() + "." + "png";
 
-                filepath = Paths.get(directory, filename + "." + "png").toString();
+                filepath = "" + Paths.get(directory, filename);
                 // Save the file locally
                 File file = new File(filepath);
                 File parentDir = file.getParentFile();
                 if (!parentDir.exists()) {
                     parentDir.mkdirs();
                 }
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+                stream = new BufferedOutputStream(new FileOutputStream(file));
                 stream.write(uploadfile.getBytes());
-                stream.close();
 
-				Object[] queryParams = { service + filename, userid };
+                Object[] queryParams = { service + filename, userid };
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVARTAR_USER, queryParams);
-            }
+                boolean insertUpdateObject = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVARTAR_USER, queryParams);
 
-            catch (Exception e) {
-                e.printStackTrace();
+                // Remove image avatar old
+                if (insertUpdateObject && oldNameImgAvatar != null && !"".equals(oldNameImgAvatar)) {
+                    String fileName = oldNameImgAvatar.substring(oldNameImgAvatar.lastIndexOf("/"), oldNameImgAvatar.length());
+                    File fileOld = new File(directory + fileName);
+                    if (fileOld.exists()) {
+                        FileUtils.forceDeleteOnExit(fileOld);
+                    }
+                }
+                // Successful return path image avatar
+                reponse = new SimpleResponse("" + Boolean.TRUE, service + filename);
+            } catch (Exception e) {
+                reponse = new SimpleResponse("" + Boolean.FALSE, "Upload avatar error");
+                logger.debug("Upload avartar error " + e.getMessage());
+            } finally {
+                if (stream != null) {
+                    stream.close();
+                }
             }
-            SimpleResponse reponse = new SimpleResponse("" + status, filename);
             return new ResponseEntity<Response>(reponse, HttpStatus.OK);
 
         } else {
@@ -1504,11 +1510,9 @@ public class UserServiceImpl implements UserService {
         // DaoFactory factory = DaoFactory.getDaoFactory();
         // ObjectDao dao = factory.getObjectDao();
         String INSERT_USERID_X = null;
-        boolean statusUserX = true;
-
         for (int i = 0; i < listId.size(); i++) {
             INSERT_USERID_X = QueryProperties;
-            statusUserX = dao.insertObjectNotResource(INSERT_USERID_X, userId, listId.get(i));
+            dao.insertObjectNotResource(INSERT_USERID_X, userId, listId.get(i));
         }
     }
 

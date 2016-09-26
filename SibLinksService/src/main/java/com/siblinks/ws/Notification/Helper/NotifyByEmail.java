@@ -83,7 +83,7 @@ public class NotifyByEmail {
 
         LOG.info("Sending email...");
 		String status="SUCCESS";
-		String host = templateData.get("Host").toString(); 
+		templateData.get("Host").toString(); 
 		String to = templateData.get("To").toString();
 		String cc = templateData.get("Cc").toString(); 
 		String bcc = templateData.get("Bcc").toString(); 
@@ -160,7 +160,7 @@ public class NotifyByEmail {
                     message.setTo(toEmail);
                     message.setSubject(strSubjectEmail);
                     String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, templateFile, model);
-                    LOG.info(text);
+                    // LOG.info(text);
                     message.setText(text, true);
                 } catch (MessagingException e) {
                     e.printStackTrace();

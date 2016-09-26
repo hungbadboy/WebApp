@@ -4,7 +4,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
               VideoService, SubCategoryVideoService, StudentService,
               CommentService, videoDetailService) {
         $scope.userId = localStorage.getItem('userId');
-
+        $scope.avartar = localStorage.getItem('imageUrl');
 
         var pid = $routeParams.playlistid;
         var index = $routeParams.index;
@@ -170,6 +170,13 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
             });
 
         }
+        $scope.clickTxtComent = function(){
+            $(".comment-action").show();
+        };
+        $scope.cencelComment = function(){
+            $("#add-comment").val('');
+            $(".comment-action").hide();
+        };
 
         $scope.selectVideo = function (index) {
             if (index > $scope.videosList.length) {
@@ -325,14 +332,6 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
             });
 
         }
-        $scope.range = function (min, max, step) {
-            step = step || 1;
-            var input = [];
-            for (var i = min; i <= max; i += step) {
-                input.push(i);
-            }
-            return input;
-        };
 
 
         function onYouTubeIframeAPIReady(youtubeId) {
@@ -387,6 +386,8 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
 
             videoDetailService.addCommentVideo($scope.userId, content, $scope.currentvid).success(function (data) {
                 if (data.status == 'true') {
+                    $("#add-comment").val('');
+                    $(".comment-action").hide();
                     videoDetailService.getCommentVideoById($scope.currentvid).then(function (data) {
                         if (data.data.status == 'true') {
                             if (data.data.request_data_result.length == 0) {

@@ -65,8 +65,6 @@ brotServices.factory('QuestionsService', ['$http','$log', function($http, $log) 
 	        "request_data_type": "post",
 	        "request_data_method": "getAllQuestions",
 	        "request_data": {
-	      
-	         
 	        }
 	      }
 	    });

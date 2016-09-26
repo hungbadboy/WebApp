@@ -49,6 +49,10 @@ brotControllers
 
                     QuestionsService.getQuestionById(question_id).then(function (data) {
                         var obj = data.data.request_data_result;
+                        if(obj.length == 0){
+                            $scope.errorMessage = "Not found question";
+                            return ;
+                        }
                         var viewNew = parseInt(obj[0].numViews, 10) + 1;
                         $scope.subjects = myCache.get("subjects");
                         $scope.initCategory = {subject: obj[0].subject, subjectId: obj[0].subjectId};
@@ -187,8 +191,11 @@ brotControllers
                 }
                 $scope.deleteQuestion = function (qid) {
                         QuestionsService.removePost(qid).then(function (data) {
-                            if (data.data.request_data_result) {
+                            if (data.data.status == "true") {
                                 window.location.href = '#/ask_a_question/-1';
+                            }
+                            else {
+                               $scope.errorMessage = "Can't delete question";
                             }
                         });
 

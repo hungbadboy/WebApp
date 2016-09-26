@@ -33,6 +33,24 @@ public class SibUser {
     private String status;
     private String password;
     private String userType;
+    private String imageUrl;
+    private String defaultSubjectId;
+
+    public String getDefaultSubjectId() {
+        return defaultSubjectId;
+    }
+
+    public void setDefaultSubjectId(final String defaultSubjectId) {
+        this.defaultSubjectId = defaultSubjectId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String getUserid() {
         return userid;

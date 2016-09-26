@@ -25,7 +25,7 @@
                             <div class="student-joined">
                                 <ul>
                                     <li class="student-question">
-                                        <h3>{{student.count_question}}</h3>
+                                        <h3 ng-controller="QuestionController">{{totalQuestion}}</h3>
                                         <span>questions</span>
                                     </li>
                                     <li class="student-question">
@@ -114,21 +114,32 @@
                         <!-- head of question -->
                         <div class="head-question">
                             <ul class="nav nav-tabs">
-                                <li ng-repeat="section in sections" ng-class="{active : isSelected(section)}">
-                                    <a data-toggle="tab" ng-click="setMaster(section)">
-                                        <h5><span data-icon="&#x74;"></span>{{section.name}}</h5>
-                                    </a>
-                                </li>
+                            	<li class="active">
+                                   <a data-toggle="tab" href="studentProfile/#my-questions">
+                                       <h5><span data-icon="&#x74;"></span>My questions</h5>
+                                   </a>
+                               </li>
+                               <li>
+                                   <a data-toggle="tab" href="studentProfile/#essay">
+                                       <h5><span data-icon="&#xe101;"></span>Essay</h5>
+                                   </a>
+                               </li>
+                               <li>
+                                   <a data-toggle="tab" href="studentProfile/#setting">
+                                       <h5><span data-icon="&#xe037;"></span>Setting</h5>
+                                   </a>
+                               </li>
+                                
                             </ul>
                         </div><!-- /End head of question -->
                         
                         <!-- Content of question -->
                         <div class="tab-content">
                             <!-- Content Of My Question -->
-                            <div class="content-question col-md-12 tab-pane active" id="my-questions">
-                                <div class="content-question-wrapper" scroller="askQuestion.ListQA" data-on-total-scroll="getQuestionByUserId">
+                            <div ng-controller="QuestionController" class="content-question col-md-12 tab-pane active" id="my-questions">
+                                <div class="content-question-wrapper"  data-on-total-scroll="loadMorePost" scroller="askQuestion" >
                                     <!-- Question 01 -->
-                                    <div class="question question_01" ng-repeat="q in askQuestion.ListQA track by $index">
+                                    <div ng-if="askQuestion" class="question question_01" ng-repeat="q in askQuestion track by $index">
                                         <div class="number-question col-xs-1">
                                             <h4>{{$index+1}}</h4>
                                         </div>
@@ -143,12 +154,11 @@
                                             </div><!-- /End Detail Content of Question -->
                                             <!-- Images of question -->
                                             <div class="images-question">
-
                                                 <ul ng-if="q.image">
                                                     <li class="item" ng-repeat="image in q.image">
                                                         <div ng-mouseover="imageHoverIn(this)"
                                                              ng-mouseleave="imageHoverOut()" class="item-img">
-                                                            <img ng-src="{{baseIMAGEQ+image}}"
+                                                            <img ng-src="{{image}}"
                                                                  ng-click="zoomImage(image)">
                                                             <div ng-show="isShowImageHover">
                                                                 <img src="assets/images/ask question/look-img.png">

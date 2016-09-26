@@ -105,7 +105,17 @@ public interface UserService {
 
 	public ResponseEntity<Response> loginGoogle(RequestData request) throws FileNotFoundException;
 
-	public ResponseEntity<Response> uploadFile(MultipartFile uploadfile, String userid) throws IOException;
+    /**
+     * This method use to upload avatar for user
+     * 
+     * @param uploadfile
+     *            This param is avatar file.
+     * @param userid
+     *            This param is user id
+     * @return TrueOrFalse
+     * @throws IOException
+     */
+    public ResponseEntity<Response> uploadAvatar(MultipartFile uploadfile, String userid, String fileNameOld) throws IOException;
 
 	public ResponseEntity<byte[]> getAvatar(String userid) throws IOException;
 

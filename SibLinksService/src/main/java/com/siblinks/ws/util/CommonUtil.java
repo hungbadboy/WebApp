@@ -284,4 +284,56 @@ public class CommonUtil {
         }
         return dat;
     }
+
+    /**
+     * This method use to get sub category
+     * 
+     * @param id
+     *            This parameter is parent id
+     * @param strCategory
+     * 
+     * @param listCategory
+     * @return
+     */
+    static String strCategory = "";
+
+    public static String getAllChildCategory(final String id, final List<?> listCategory) {
+        strCategory += id + ",";
+        for (Object object : listCategory) {
+            Map<String, String> mapCategory = (HashMap<String, String>) object;
+            if (mapCategory != null && mapCategory.containsKey(Parameters.SUBJECT_ID)) {
+                String parentId = mapCategory.get(Parameters.PARENT_ID);
+                String subjectId = mapCategory.get(Parameters.SUBJECT_ID);
+                if (id.equals(parentId)) {
+                    getAllChildCategory(subjectId, listCategory);
+                }
+            }
+        }
+        return strCategory;
+    }
+
+    public static void main(final String[] agrs) {
+        Map<String, String> category = new HashMap<String, String>();
+        List<Map<String, String>> lstMap = new ArrayList<Map<String, String>>();
+        category.put("subjectId", "2");
+        category.put("parentId", "1");
+        lstMap.add(category);
+        category = new HashMap<String, String>();
+        category.put("subjectId", "3");
+        category.put("parentId", "1");
+        lstMap.add(category);
+        category = new HashMap<String, String>();
+        category.put("subjectId", "4");
+        category.put("parentId", "2");
+        lstMap.add(category);
+        category = new HashMap<String, String>();
+        category.put("subjectId", "5");
+        category.put("parentId", "3");
+        lstMap.add(category);
+        category = new HashMap<String, String>();
+        category.put("subjectId", "6");
+        category.put("parentId", "2");
+        lstMap.add(category);
+        System.out.print("abc" + getAllChildCategory("3", lstMap));
+    }
 }

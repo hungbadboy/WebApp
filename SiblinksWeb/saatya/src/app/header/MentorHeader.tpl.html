@@ -1,0 +1,60 @@
+<div class="clearfix">
+	<!-- Left header -->
+	<div class="mentor-left-header">
+	    <div class="left-header-wrapper">
+	        <div class="main-logo">
+	            <a href="#/mentor">
+	                <span class="logo-full"><img src="assets/images/logo.png"></span>
+	            </a>
+	        </div>
+	    </div>
+	</div>
+	<!-- /End Left header -->
+	
+	<!-- Center header -->
+	<div class="mentor-center-header">
+	    <div class="navbar-header">
+	        <button type="button" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="fa fa-bars"></span>
+	        </button>
+	    </div>
+	    <p class="upload-image">
+	        <span class="add-img"><input type="file" id="files" name="files[]" multiple /><label for="files"><span data-icon="&#xe070;">upload</span></label></span>
+	    </p>
+	    <form class="navbar-form navbar-left" role="search">
+	        <div class="form-group">
+	          <input type="text" class="form-control" placeholder="Search">
+	        </div>
+	    </form>
+	</div>
+	<!-- /End center header -->
+	
+	<!-- Right header -->
+	<div class="mentor-right-header">
+	    <!-- nofitication of user -->
+	    <div class="user-nofitication">
+	        <div class="logined">
+	            <div class="notification ">
+	                <img src="assets/images/bell.png"><span>2</span>
+	            </div>
+	            <div class="user-login">
+	                <div class="user-img">
+	                    <span><img ng-src="{{imageUrl}}" ng-if="imageUrl"></span>
+	                </div>
+	                <div class="profile-user"><img src="assets/images/arrow.png" ng-click="toggleUserInfo()"></div>
+	                <div class="user-info" ng-show="isShowHideUserInfo">
+	                    <ul>
+	                        <li class="profile"><a href="#/mentorProfile" ><span data-icon="&#xe08a;"></span>Profile</a></li>
+                            <li class="setting"><a href="javascript:void(0);" ng-click="goToEditMentor()"><span data-icon="&#xe037;"></span>Setting</a></li>
+                            <li class="logout"><a href="javascript:void(0)" ng-click="logout()"><span class="fa fa-power-off"></span>Logout</a></li>
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="background-color">
+	    </div>
+	</div>
+	<!-- /End Right header -->
+	</div>

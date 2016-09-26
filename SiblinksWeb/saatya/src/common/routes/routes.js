@@ -202,6 +202,10 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/playlist/playlist.tpl.html',
 		controller: 'PlaylistController'
 	}).
+	when('/mentor', {
+		templateUrl: 'src/app/dashboard/dashboard.tpl.html',
+		controller: 'HomeController'
+	}).
 	otherwise({
         redirectTo: '/'
     });

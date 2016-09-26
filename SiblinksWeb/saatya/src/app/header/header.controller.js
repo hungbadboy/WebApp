@@ -5,11 +5,15 @@ brotControllers.controller('UserHeaderController',
             // check login page
             brot.signin.statusStorageHtml();
             $rootScope.notifications = [];
+            $scope.headerByUser="src/app/header/CommonHeader.tpl.html";
+            $scope.footerUser="";
             var username = localStorage.getItem('userName');
             var userId = "";
+            var userType = "";
+            
             $scope.imageUrl = "";
 
-            $scope.fullName = localStorage.getItem('firstName') + " " + localStorage.getItem('lastName');
+            $scope.fullName = localStorage.getItem('nameHome');
             
             if (localStorage.getItem('imageUrl') !== undefined && localStorage.getItem('imageUrl') !='undefined') {
             	$scope.imageUrl = localStorage.getItem('imageUrl')
@@ -18,20 +22,24 @@ brotControllers.controller('UserHeaderController',
             if (localStorage.getItem('userId') !== undefined || localStorage.getItem('userId') != 'undefined') {
                 userId = localStorage.getItem('userId');
             }
-//	  $('.icon_search').on('click', function () {
-//	    $('.form_search').removeClass('hide').find('input').focus();
-//	    hideNotification();
-//	    hideProfileSetting();
-//	  });
-//
-//	  $(document).on('click', function (e) {
-//	    if(e.target != $('.form_search') && e.target.id != 'img-search' && !$('.form_search').find(e.target).length) {
-//	      $('.form_search').addClass('hide');
-//	      $('#header .w975').find('.search-text').val('');
-//	      $('.form_search').find('.dropdown').removeClass('open');
-//	      $(".check-search").prop('checked', false); 
-//	    }
-//	  });
+            
+            if (localStorage.getItem('userType') !== undefined || localStorage.getItem('userType') != 'undefined') {
+            	userType = localStorage.getItem('userType');
+            }
+			//	  $('.icon_search').on('click', function () {
+			//	    $('.form_search').removeClass('hide').find('input').focus();
+			//	    hideNotification();
+			//	    hideProfileSetting();
+			//	  });
+			//
+			//	  $(document).on('click', function (e) {
+			//	    if(e.target != $('.form_search') && e.target.id != 'img-search' && !$('.form_search').find(e.target).length) {
+			//	      $('.form_search').addClass('hide');
+			//	      $('#header .w975').find('.search-text').val('');
+			//	      $('.form_search').find('.dropdown').removeClass('open');
+			//	      $(".check-search").prop('checked', false); 
+			//	    }
+			//	  });
 
             $scope.profile = function () {
 //                $('.user-setting-wrapper span.current').trigger('click');
@@ -63,6 +71,7 @@ brotControllers.controller('UserHeaderController',
 //            };
 
             function init() {
+            	// 
                 // show or hide notification panel
                 if(myCache.get("subjects") !== undefined) {
                     $log.info("My cache already exists");
@@ -105,7 +114,7 @@ brotControllers.controller('UserHeaderController',
 //                        }
 //                    });
 
-                    $('#notification').removeClass('inactive');
+                    //$('#notification').removeClass('inactive');
                     // call ws to get notification of user
 
 //                    $('#notification .icon_notification_white').click(function (event) {
@@ -130,10 +139,17 @@ brotControllers.controller('UserHeaderController',
 //                        }
 //                    });
                     // hide login
-                    $('#login').addClass('inactive');
+                    if (userType != null && userType != undefined && userType == 'S') {
+                    	$scope.headerByUser="src/app/header/StudentHeader.tpl.html";
+                    	$scope.footerUser="src/app/footer/footer.tpl.html";
+                    } else if (userType != null && userType != undefined && userType == 'M') {
+                    	$scope.headerByUser="src/app/header/MentorHeader.tpl.html";
+                    }
                 } else {
-                    $('#login').removeClass('inactive');
-                    $('#notification').addClass('inactive');
+                	// User is not yet login
+                	$scope.headerByUser="src/app/header/CommonHeader.tpl.html";
+                	$scope.footerUser="src/app/footer/footer.tpl.html";
+                    
                 }
             }
 
@@ -238,7 +254,7 @@ brotControllers.controller('UserHeaderController',
             
             // Active menu
             $scope.isActive = null;
-            $scope.$on('$routeChangeSuccess', function(){
+            $scope.$on('$routeChangeSuccess', function() {
                 var path = $location.path();
                 if(path.indexOf('question')>0){
                     $scope.isActive = '/ask_a_question';
@@ -247,9 +263,10 @@ brotControllers.controller('UserHeaderController',
               $scope.isActive = $location.path();
             });
             
-            $scope.showProfile = function() {
-      		  hiddenProfile=false;
-      		  console.log(1);
+            // Toggle user information
+            $scope.isShowHideUserInfo = false;
+            $scope.toggleUserInfo = function() {
+            	$scope.isShowHideUserInfo = $scope.isShowHideUserInfo ? false : true;
       	  	}
         }]);
 //=========================================== HEADER.CONTROLLER.JS==============

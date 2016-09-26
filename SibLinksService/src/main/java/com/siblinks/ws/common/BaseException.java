@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2016-2017, Tinhvan Outsourcing JSC. All rights reserved.
+ *
+ * No permission to use, copy, modify and distribute this software
+ * and its documentation for any purpose is granted.
+ * This software is provided under applicable license agreement only.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.siblinks.ws.common;
 
 import java.io.PrintWriter;
@@ -37,7 +56,7 @@ public abstract class BaseException extends Exception
 	 * @param aUserMessage
 	 * @param level
 	 */
-	public BaseException(Throwable aThrowable, String aUserMessageKey, Serializable[] aValueReplacementArray, ErrorLevel level)
+	public BaseException(final Throwable aThrowable, final String aUserMessageKey, final Serializable[] aValueReplacementArray, final ErrorLevel level)
 	{
 		this.throwable = aThrowable;
 		this.userMessageKey = aUserMessageKey;
@@ -46,7 +65,7 @@ public abstract class BaseException extends Exception
 		this.uniqueID = new Double(Math.random()).toString();
 	}
 	
-	public void log(Log log)
+	public void log(final Log log)
 	{
 		if (errorLevel.equals(ErrorLevel.INFO)&& log.isDebugEnabled())
 		{
@@ -78,7 +97,7 @@ public abstract class BaseException extends Exception
 
 	private static class StackTracer 
 	{
-		static String getStackTrace(Throwable exception)
+		static String getStackTrace(final Throwable exception)
 		{
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
@@ -114,7 +133,8 @@ public abstract class BaseException extends Exception
 		return valueReplacementArray;
 	}
 
-	public String toString()
+	@Override
+    public String toString()
 	{
 		return getClass().getName() + "[ UniqueID=" + uniqueID + 
 			", UserMessage Key=" + userMessageKey + "]" + "\n\n" +

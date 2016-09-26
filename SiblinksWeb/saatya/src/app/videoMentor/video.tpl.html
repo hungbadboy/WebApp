@@ -1,0 +1,1749 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8" content="text/html" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <meta content="Home" name="HongTTT"/>
+        <title>
+            SibLinks
+        </title>
+        <link rel="stylesheet" href="../css/style.css"/>
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+        <link rel="stylesheet" href="../css/jquery.bxslider.css">
+        <link rel="stylesheet" href="../css/responsive.css">
+        <!-- <link rel="stylesheet" href="../css/bootstrap-datepicker.css"> -->
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    </head>
+    <body class="home">
+        <!-- Header -->
+        <header id="header">
+            <div class="module-navigation">
+                <div class="container clearfix">
+                    <!-- logo -->
+                    <div class="main-logo col-xs-3">
+                        <a href="/">
+                            <img src="../images/logo.png" alt="" class="hidden-pc">
+                        </a>
+                    </div><!-- /logo -->
+
+                    <!-- Menu navigation -->
+                    <div class="navigation col-xs-9 "> 
+                        <nav class="navbar navbar-default">
+
+                            <!-- menu on mobile -->
+                            <div class="navbar-header"> 
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                </button>
+                            </div>
+
+                            <!-- Menu on desktop -->
+                            <div class="navbar-collapse"> 
+                                <ul class="mobimenu nav navbar-nav">
+                                    <li><a href="home.html">Home</a></li>
+                                    <li><a href="ask-a-question.html">Ask a Question</a></li>
+                                    <li class="active"><a href="videos.html">Videos</a></li>
+                                    <li><a href="college-admission.html">College Admission</a></li>
+                                    <li><a href="broswer-mentors.html">Our Team</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+
+                        <!-- nofitication of user -->
+                        <div class="user-nofitication">
+                            <div class="logined "> 
+                                <div class="notification">
+                                    <img src="../images/bell.png"><span>2</span>
+                                </div>
+                                <div class="user-login">
+                                    <div class="user-img">
+                                        <span><img src="../images/user.jpg"></span>
+                                    </div>
+                                    <div class="profile-user"><img src="../images/arrow.png"></div>
+                                    <div class="user-info inactive">
+                                        <ul>
+                                            <li class="profile"><a href="profile.html"><span data-icon="&#xe08a;"></span>Profile</a></li>
+                                            <li class="setting"><a href="setting.html"><span data-icon="&#xe037;"></span>Setting</a></li>
+                                            <li class="logout"><a href="/"><span class="fa fa-power-off"></span>Logout</a></li>
+                                        </ul>
+                                    </div>                   
+                                </div>
+                            </div>
+                            <div class="no-login inactive">
+                                <div class="register">
+                                    <a href="register.html">Register</a>
+                                </div>
+                                <div class="login">
+                                    <a href="login.html">Login</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>                    
+            </div><!-- /module-navigation -->
+            <div class="background-color">
+            </div>
+        </header>
+        <!-- header end -->
+
+        <!-- main start -->
+        <main id="main">
+            <div class="content ask-a-question unlogin" id="videos"> <!-- Add class "" to hide sidebar left -->
+                <!-- Breadcrum -->
+                <div class="breadcrum">
+                    <div class="container">
+                        <h5>Siblinks <span>/ Videos</span></h5>
+                    </div>
+                </div><!-- /End Breadcrum -->
+                <!-- Container -->
+                <div class="container">                
+                    <!-- Content -->
+                    <section class="content videos-content">
+                        <!-- Left Side -->
+                        <div class="videos-content-header col-lg-3 col-md-4" id="videos-content">
+                            <div class="videos-content-header-top">
+                                <!-- Search form -->
+                                <div class="search">
+                                    <form class="navbar-form" role="search">
+                                        <div class="input-group">                                            
+                                            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" >
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" type="submit"><span data-icon="&#x55;"></span></button>
+                                            </div>
+                                            
+                                        </div>
+                                    </form>
+                                </div><!-- /End Search form -->
+                                <!-- Tab left menu -->
+                                <ul class="nav nav-tabs">
+                                    <li class="all-video active">
+                                        <a data-toggle="tab" href="#all">
+                                            <span data-icon="&#xe074;"></span><span>All videos</span>
+                                        </a>
+                                    </li>
+                                    <li class="subsciption">
+                                        <a data-toggle="tab" href="#subcriptions">
+                                            <span data-icon="&#xe050;"></span>
+                                            <span>Subscriptions</span>
+                                            <span class="number-media number-subscrip">23</span>
+                                        </a>
+                                    </li>
+                                    <li class="history">
+                                        <a data-toggle="tab" href="#history">
+                                            <span data-icon="&#xe06b;"></span><span>History</span><span class="number-media number-history">23</span>
+                                        </a>
+                                    </li>
+                                    <li class="like-video">
+                                        <a data-toggle="tab" href="#favourite">
+                                            <span data-icon="&#xe033;"></span><span>Favourite Videos</span><span class="number-media number-like">23</span>
+                                        </a>
+                                    </li>
+                                </ul><!-- /End Tab left menu -->
+                                <div class="link-mentor"><a href="">Broswer Mentor</a></div>
+                            </div><!-- /End Left Side -->
+
+                            <!-- Top subcrible -->
+                            <div class="top-mentors" id="video-mentor">
+                                <div class="top-mentor-wrapper col-xs-12" id="video-mentor subcribles_wrapper">
+                                    <!-- top-mentor-header -->
+                                    <div class="top-mentor-header" id="video-mentor-header">
+                                        <div class="top-mentor-header-title">
+                                            <span data-icon="&#x5c;"></span>
+                                            <h4>Subcribed</h4>
+                                        </div>
+                                        <div class="setting-profile"><span data-icon="&#xe037;"></span></div>
+                                    </div><!-- /End top-mentor-header -->
+                                    <!-- List of top mentors -->
+                                    <div class="top-mentors-list">
+                                        <ul>
+                                            <li>
+                                                <div class="top-mentors-img online">
+                                                    <a href="#"><img src="../images/ask question/mentor-02.png">
+                                                    <span class="offline"><img src="../images/ask question/online.png"></span></a>
+                                                </div>
+                                                <div class="top-mentors-info">
+                                                    <p class="top-mentors-name">
+                                                        <a href="#"><strong>Brian M.Scott</strong></a>
+                                                    </p>
+                                                    <p class="top-mentors-essay">
+                                                        <a href="/">Financial Aid, </a>Essay
+                                                    </p>
+                                                    <p class="top-mentors-videos-sum">
+                                                        23 videos
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="top-mentors-img online">
+                                                    <a href="#"><img src="../images/ask question/mentor-02.png">
+                                                    <span class="offline"><img src="../images/ask question/online.png"></span></a>
+                                                </div>
+                                                <div class="top-mentors-info">
+                                                    <p class="top-mentors-name">
+                                                        <a href="#"><strong>Brian M.Scott</strong></a>
+                                                    </p>
+                                                    <p class="top-mentors-essay">
+                                                        <a href="/">Financial Aid, </a>Essay
+                                                    </p>
+                                                    <p class="top-mentors-videos-sum">
+                                                        23 videos
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="top-mentors-img online">
+                                                    <a href="#"><img src="../images/ask question/mentor-02.png">
+                                                    <span class="offline"><img src="../images/ask question/online.png"></span></a>
+                                                </div>
+                                                <div class="top-mentors-info">
+                                                    <p class="top-mentors-name">
+                                                        <a href="#"><strong>Brian M.Scott</strong></a>
+                                                    </p>
+                                                    <p class="top-mentors-essay">
+                                                        <a href="/">Financial Aid, </a>Essay
+                                                    </p>
+                                                    <p class="top-mentors-videos-sum">
+                                                        23 videos
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="top-mentors-img online">
+                                                    <a href="#"><img src="../images/ask question/mentor-02.png">
+                                                    <span class="offline"><img src="../images/ask question/online.png"></span></a>
+                                                </div>
+                                                <div class="top-mentors-info">
+                                                    <p class="top-mentors-name">
+                                                        <a href="#"><strong>Brian M.Scott</strong></a>
+                                                    </p>
+                                                    <p class="top-mentors-essay">
+                                                        <a href="/">Financial Aid, </a>Essay
+                                                    </p>
+                                                    <p class="top-mentors-videos-sum">
+                                                        23 videos
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="top-mentors-img online">
+                                                    <a href="#"><img src="../images/ask question/mentor-02.png">
+                                                    <span class="offline"><img src="../images/ask question/online.png"></span></a>
+                                                </div>
+                                                <div class="top-mentors-info">
+                                                    <p class="top-mentors-name">
+                                                        <a href="#"><strong>Brian M.Scott</strong></a>
+                                                    </p>
+                                                    <p class="top-mentors-essay">
+                                                        <a href="/">Financial Aid, </a>Essay
+                                                    </p>
+                                                    <p class="top-mentors-videos-sum">
+                                                        23 videos
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="top-mentors-img online">
+                                                    <a href="#"><img src="../images/ask question/mentor-02.png">
+                                                    <span class="offline"><img src="../images/ask question/online.png"></span></a>
+                                                </div>
+                                                <div class="top-mentors-info">
+                                                    <p class="top-mentors-name">
+                                                        <a href="#"><strong>Brian M.Scott</strong></a>
+                                                    </p>
+                                                    <p class="top-mentors-essay">
+                                                        <a href="/">Financial Aid, </a>Essay
+                                                    </p>
+                                                    <p class="top-mentors-videos-sum">
+                                                        23 videos
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="top-mentors-img online">
+                                                    <a href="#"><img src="../images/ask question/mentor-02.png">
+                                                    <span class="offline"><img src="../images/ask question/online.png"></span></a>
+                                                </div>
+                                                <div class="top-mentors-info">
+                                                    <p class="top-mentors-name">
+                                                        <a href="#"><strong>Brian M.Scott</strong></a>
+                                                    </p>
+                                                    <p class="top-mentors-essay">
+                                                        <a href="/">Financial Aid, </a>Essay
+                                                    </p>
+                                                    <p class="top-mentors-videos-sum">
+                                                        23 videos
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="top-mentors-img online">
+                                                    <a href="#"><img src="../images/ask question/mentor-02.png">
+                                                    <span class="offline"><img src="../images/ask question/online.png"></span></a>
+                                                </div>
+                                                <div class="top-mentors-info">
+                                                    <p class="top-mentors-name">
+                                                        <a href="#"><strong>Brian M.Scott</strong></a>
+                                                    </p>
+                                                    <p class="top-mentors-essay">
+                                                        <a href="/">Financial Aid, </a>Essay
+                                                    </p>
+                                                    <p class="top-mentors-videos-sum">
+                                                        23 videos
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="top-mentors-img online">
+                                                    <a href="#"><img src="../images/ask question/mentor-02.png">
+                                                    <span class="offline"><img src="../images/ask question/online.png"></span></a>
+                                                </div>
+                                                <div class="top-mentors-info">
+                                                    <p class="top-mentors-name">
+                                                        <a href="#"><strong>Brian M.Scott</strong></a>
+                                                    </p>
+                                                    <p class="top-mentors-essay">
+                                                        <a href="/">Financial Aid, </a>Essay
+                                                    </p>
+                                                    <p class="top-mentors-videos-sum">
+                                                        23 videos
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="top-mentors-img online">
+                                                    <a href="#"><img src="../images/ask question/mentor-02.png">
+                                                    <span class="offline"><img src="../images/ask question/online.png"></span></a>
+                                                </div>
+                                                <div class="top-mentors-info">
+                                                    <p class="top-mentors-name">
+                                                        <a href="#"><strong>Brian M.Scott</strong></a>
+                                                    </p>
+                                                    <p class="top-mentors-essay">
+                                                        <a href="/">Financial Aid, </a>Essay
+                                                    </p>
+                                                    <p class="top-mentors-videos-sum">
+                                                        23 videos
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div><!-- /End list of top mentors -->
+                                </div>        
+                            </div><!-- /End Top subcrible -->
+                        </div><!-- /End Left Side -->
+
+                        <!-- Right Side -->
+                        <div class="video-list col-lg-9 col-md-8 tab-content">
+                            <!-- Content of All -->
+                            <div class="tab-pane active" id="all">
+                                <h4>All video</h4>
+                                <div class="sort-video">
+                                    <span>Sort</span>
+                                    <ul>
+                                        <li>All</li>
+                                        <li class="active">Mathematics</li>
+                                        <li>Chemistry</li>
+                                        <li>Physics</li>
+                                        <li>Biology</li>
+                                    </ul>
+                                </div>
+                                <div class="video-list-content">                                
+                                    <div class="recommended" >
+                                        <h5>Recommended</h5>
+                                        <ul>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <!-- <div class="videos-start">
+                                                                <img src="../images/star.png">
+                                                                <p class="rate"></p>
+                                                            </div> -->
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                        </ul>
+                                        <div class="see-more"><p>show more</p></div>
+                                    </div>
+                                    <div class="recently-uploaded">
+                                            <h5>Recently Uploaded</h5>
+                                            <ul>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="see-more"><p>show more</p></div>
+                                    </div>
+                                    <div class="video-member">
+                                            <div class="video-member-header">
+                                                <div class="video-member-title">
+                                                    <h5>Angela D. Shade</h5><p><span>recommended videos for you</span></p>
+                                                </div>
+                                                <div class="video-member-subcriber">
+                                                    <p>
+                                                        <button><span data-icon="&#x4c;">subscrible</span>
+                                                        <span class="number-subscribers">456</span></button>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                    </div>
+                                    <div class="scroll-load-more">
+                                        <p>Scroll to load more</p>
+                                    </div>
+                                </div>
+                            </div><!-- /End Content of All -->
+
+                            <!-- Content of Subcription -->
+                            <div class="tab-pane" id="subcriptions">
+                                <h4>Subcriptions</h4><span class="number-media number-subscrip">23</span>
+                                <div class="sort-video">
+                                    <span>Sort</span>
+                                    <ul>
+                                        <li>All</li>
+                                        <li class="active">Mathematics</li>
+                                        <li>Chemistry</li>
+                                        <li>Physics</li>
+                                        <li>Biology</li>
+                                    </ul>
+                                </div>
+                                <div class="video-list-content">                                
+                                    <div class="recent" >
+                                        <h5>Recent</h5>
+                                        <ul>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                        </ul>
+                                        <div class="see-more"><p>show more</p></div>
+                                    </div>
+                                    <div class="this-week">
+                                        <h5>This week</h5>
+                                            <ul>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                               <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="see-more"><p>show more</p></div>
+                                    </div>
+                                    <div class="older">
+                                        <h5>Older</h5>
+                                            <div class="video-member-header">
+                                                <div class="video-member-title">
+                                                    <h5>Angela D. Shade</h5><p><span>recommended videos for you</span></p>
+                                                </div>
+                                                <div class="video-member-subcriber">
+                                                    <p>
+                                                        <button><span data-icon="&#x4c;">subscrible</span>
+                                                        <span class="number-subscribers">456</span></button>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div>
+                                                        <div class="videos-time-add">
+                                                            <span>from</span><span class="video-poster"> Cartuna</span><span> added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div>
+                                                        <div class="videos-time-add">
+                                                            <span>from</span><span class="video-poster"> Cartuna</span><span> added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="video-wrapper"><a href="#">
+                                                        <div class="videos-thumnail">
+                                                            <img src="../images/video-01.jpg">
+                                                        </div>
+                                                        <div class="videos-title">
+                                                            How to learn Physic effectively
+                                                        </div></a>
+                                                        <div class="videos-time-add">
+                                                            <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                        </div>
+                                                        <div class="videos-rate">
+                                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                            <p class="videos-rate-infor">
+                                                                <span data-icon="&#x49;">324</span>
+                                                                <span data-icon="&#xe089;" class="favourite">12</span>
+                                                                <span data-icon="&#xe066;">16</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                    </div>
+                                    <div class="scroll-load-more">
+                                        <p>Scroll to load more</p>
+                                    </div>
+                                </div>
+                            </div><!-- /End Content of Subcription -->
+
+                            <!-- Content of History -->
+                            <div class="tab-pane" id="history">
+                                <h4>Watch history</h4><span class="number-media number-subscrip">23</span><div class="clear-history"><p>Clear history</p></div>
+                                <div class="video-list-content">
+                                    <ul>
+                                        <li>
+                                            <div class="video-wrapper">
+                                                <div class="videos-thumnail">
+                                                    <a href="#"><img src="../images/video-01.jpg"></a>
+                                                </div>
+                                                <div class="video-details">
+                                                    <div class="videos-title">
+                                                        <a href="#">How to learn Physic effectively</a>
+                                                    </div>
+                                                    <div class="videos-time-add">
+                                                        <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                    </div>
+                                                    <div class="videos-rate">
+                                                        <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                        <p class="video-description">
+                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                                                        </p>
+                                                        <p class="videos-rate-infor">
+                                                            <span data-icon="&#x49;">324</span>
+                                                            <span data-icon="&#xe089;" class="favourite">12</span>
+                                                            <span data-icon="&#xe066;">16</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="number-video">
+                                                <!-- <h4>1</h4> -->
+                                                <span data-icon="&#xe051;" class="close-video"></span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="video-wrapper">
+                                                <div class="videos-thumnail">
+                                                    <a href="#"><img src="../images/video-01.jpg"></a>
+                                                </div>
+                                                <div class="video-details">
+                                                    <div class="videos-title">
+                                                       <a href="#"> How to learn Physic effectively</a>
+                                                    </div>
+                                                    <div class="videos-time-add">
+                                                        <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                    </div>
+                                                    <div class="videos-rate">
+                                                        <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                        <p class="video-description">
+                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                                                        </p>
+                                                        <p class="videos-rate-infor">
+                                                            <span data-icon="&#x49;">324</span>
+                                                            <span data-icon="&#xe089;" class="favourite">12</span>
+                                                            <span data-icon="&#xe066;">16</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="number-video">
+                                                <!-- <h4>2</h4> -->
+                                                <span data-icon="&#xe051;" class="close-video"></span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="video-wrapper">
+                                                <div class="videos-thumnail">
+                                                    <a href="#"><img src="../images/video-01.jpg"></a>
+                                                </div>
+                                                <div class="video-details">
+                                                    <div class="videos-title">
+                                                        <a href="#">How to learn Physic effectively</a>
+                                                    </div>
+                                                    <div class="videos-time-add">
+                                                        <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                    </div>
+                                                    <div class="videos-rate">
+                                                        <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                        <p class="video-description">
+                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                                                        </p>
+                                                        <p class="videos-rate-infor">
+                                                            <span data-icon="&#x49;">324</span>
+                                                            <span data-icon="&#xe089;" class="favourite">12</span>
+                                                            <span data-icon="&#xe066;">16</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="number-video">
+                                                <!-- <h4>3</h4> -->
+                                                <span data-icon="&#xe051;" class="close-video"></span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="video-wrapper">
+                                                <div class="videos-thumnail">
+                                                    <a href="#"><img src="../images/video-01.jpg"></a>
+                                                </div>
+                                                <div class="video-details">
+                                                    <div class="videos-title">
+                                                        <a href="#">How to learn Physic effectively</a>
+                                                    </div>
+                                                    <div class="videos-time-add">
+                                                        <a href="#"><span class="video-poster"> Cartuna</span></a><span> . added 1 hour ago</span>
+                                                    </div>
+                                                    <div class="videos-rate">
+                                                        <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                        <p class="video-description">
+                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                                                        </p>
+                                                        <p class="videos-rate-infor">
+                                                            <span data-icon="&#x49;">324</span>
+                                                            <span data-icon="&#xe089;" class="favourite">12</span>
+                                                            <span data-icon="&#xe066;">16</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="number-video">
+                                                <!-- <h4>4</h4> -->
+                                                <span data-icon="&#xe051;" class="close-video"></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="see-more"><p>show more</p></div>
+                                </div>
+                            </div><!-- /End Content of History -->
+
+                            <!-- Content of Favourite -->
+                            <div class="tab-pane" id="favourite">
+                                <h4>Favourite Video</h4><span class="number-media number-subscrip">23</span><div class="clear-history"><p>Clear history</p></div>
+                                <div class="video-list-content">
+                                    <ul>
+                                        <li>
+                                            <div class="video-wrapper">
+                                                <div class="videos-thumnail">
+                                                    <img src="../images/video-01.jpg">
+                                                </div>
+                                                <div class="video-details">
+                                                    <div class="videos-title">
+                                                        How to learn Physic effectively
+                                                    </div>
+                                                    <div class="videos-time-add">
+                                                        <span>from</span><span class="video-poster"> Cartuna</span><span> added 1 hour ago</span>
+                                                    </div>
+                                                    <div class="videos-rate">
+                                                        <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                        <p class="video-description">
+                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                                                        </p>
+                                                        <p class="videos-rate-infor">
+                                                            <span data-icon="&#x49;">324</span>
+                                                            <span data-icon="&#xe089;" class="like">12</span>
+                                                            <span data-icon="&#xe066;">16</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="number-video">
+                                                <!-- <h4>4</h4> -->
+                                                <span data-icon="&#xe051;" class="close-video"></span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="video-wrapper">
+                                                <div class="videos-thumnail">
+                                                    <img src="../images/video-01.jpg">
+                                                </div>
+                                                <div class="video-details">
+                                                    <div class="videos-title">
+                                                        How to learn Physic effectively
+                                                    </div>
+                                                    <div class="videos-time-add">
+                                                        <span>from</span><span class="video-poster"> Cartuna</span><span> added 1 hour ago</span>
+                                                    </div>
+                                                    <div class="videos-rate">
+                                                        <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                        <p class="video-description">
+                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                                                        </p>
+                                                        <p class="videos-rate-infor">
+                                                            <span data-icon="&#x49;">324</span>
+                                                            <span data-icon="&#xe089;" class="like">12</span>
+                                                            <span data-icon="&#xe066;">16</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="number-video">
+                                                <!-- <h4>2</h4> -->
+                                                <span data-icon="&#xe051;" class="close-video"></span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="video-wrapper">
+                                                <div class="videos-thumnail">
+                                                    <img src="../images/video-01.jpg">
+                                                </div>
+                                                <div class="video-details">
+                                                    <div class="videos-title">
+                                                        How to learn Physic effectively
+                                                    </div>
+                                                    <div class="videos-time-add">
+                                                        <span>from</span><span class="video-poster"> Cartuna</span><span> added 1 hour ago</span>
+                                                    </div>
+                                                    <div class="videos-rate">
+                                                        <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                        <p class="video-description">
+                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                                                        </p>
+                                                        <p class="videos-rate-infor">
+                                                            <span data-icon="&#x49;">324</span>
+                                                            <span data-icon="&#xe089;" class="like">12</span>
+                                                            <span data-icon="&#xe066;">16</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="number-video">
+                                                <!-- <h4>3</h4> -->
+                                                <span data-icon="&#xe051;" class="close-video"></span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="video-wrapper">
+                                                <div class="videos-thumnail">
+                                                    <img src="../images/video-01.jpg">
+                                                </div>
+                                                <div class="video-details">
+                                                    <div class="videos-title">
+                                                        How to learn Physic effectively
+                                                    </div>
+                                                    <div class="videos-time-add">
+                                                        <span>from</span><span class="video-poster"> Cartuna</span><span> added 1 hour ago</span>
+                                                    </div>
+                                                    <div class="videos-rate">
+                                                        <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                        <p class="video-description">
+                                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                                                        </p>
+                                                        <p class="videos-rate-infor">
+                                                            <span data-icon="&#x49;">324</span>
+                                                            <span data-icon="&#xe089;" class="favourite">12</span>
+                                                            <span data-icon="&#xe066;">16</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="number-video">
+                                                <!-- <h4>4</h4> -->
+                                                <span data-icon="&#xe051;" class="close-video"></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="see-more"><p>show more</p></div>
+                                </div>
+                            </div><!--/End Content of Favourite -->                            
+                        </div><!-- /End Right Side -->
+                        
+                    </section><!-- /End content -->
+                </div><!-- End container -->
+
+        	</div>
+        </main>
+        <!--  end main -->
+
+        <!-- footer area -->
+        <footer id="footer">
+            <div class="container">
+            	<div class="row box-ft">
+	            	<div class="footer-logo col-md-6"> <!-- footer logo -->
+	            		<div><img src="../images/logo-footer.png" alt="">&nbsp;&nbsp;&nbsp;
+	            		<span>Copyright 2016 <a href="/">siblinks.com</a>, made with <span data-icon="&#xe089;" id="heart" class="like"></span></i></span></div>
+	            	</div>
+            		<div class="col-md-6 footer-menu"> <!-- Footer menu -->
+            			<a href="#">About us /</a>  
+            			<a href="#">Contact Us /</a>  
+            			<a href="#">Privacy Policy /</a>  
+            			<a href="#">Terms of Service</a>
+            		</div>
+            	</div>
+            </div>
+        </footer>
+        <!--end footer-->
+
+        <!-- jQuery -->
+        <script type="text/javascript" src="../js/jquery.min.js"></script>
+        <script type="text/javascript" src="../js/main.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+        <script type="text/javascript" src="../js/jquery.bxslider.min.js"></script>
+        <script type="text/javascript" src="../js/jquery.mCustomScrollbar.js"></script>
+        <!-- <script type="text/javascript" src="../js/bootstrap-datepicker.js"></script> -->
+        <script type="text/javascript">
+        </script>
+    </body> <!-- /end body -->
+</html> <!-- /end html -->

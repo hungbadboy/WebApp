@@ -48,7 +48,7 @@ public class Application {
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         org.springframework.boot.web.servlet.MultipartConfigFactory factory = new org.springframework.boot.web.servlet.MultipartConfigFactory();
-        factory.setMaxFileSize("5120KB");
+        factory.setMaxFileSize("10MB");
         factory.setMaxRequestSize("5120KB");
         return factory.createMultipartConfig();
     }

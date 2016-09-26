@@ -171,14 +171,15 @@ module.exports = function ( grunt ) {
             },
 
             build_utils: {
-                src: ['src/app/utils.js'],
+                src: ['src/common/utils/utils.js'],
                 dest: '<%= build_dir %>/src/app/utils.js'
             },
 
             build_js: {
                 src: ['src/common/config/config.js', 'src/app/app.js','src/common/routes/routes.js',
                       'src/common/filters/filters.js',
-                      'src/common/utils/core.js', 'src/common/utils/ie.js',
+                      'src/common/utils/core.js',
+                      'src/common/utils/ie.js',                      
                       'src/common/directives/directive.js',
                       'src/app/home/home.controller.js',
                       'src/app/home/home.service.js',
@@ -225,7 +226,6 @@ module.exports = function ( grunt ) {
                       'src/app/contact/contactController.js',
                       'src/app/faq/faq.service.js',
                       'src/app/dashboard/dashboard.controller.js',
-                      'src/common/utils/utils.js',
                       'src/app/managerQA/managerQA.controller.js',
                       'src/app/managerQA/managerQA.service.js',
                       'src/app/managerQA/popupAnswer.controller.js',
