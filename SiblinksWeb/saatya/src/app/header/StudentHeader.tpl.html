@@ -41,8 +41,8 @@
                         <div class="user-img">
                              <span><img ng-src="{{imageUrl}}" ng-if="imageUrl"></span>
                          </div>
-                         <div class="profile-user"><img src="assets/images/arrow.png" ></div>
-                         <div id="user-info" class="user-info inactive">
+                         <div class="profile-user"><img src="assets/images/arrow.png" ng-click="toggleUserInfo()"></div>
+                         <div id="user-info" class="user-info" ng-show="isShowHideUserInfo">
                              <ul>
                                  <li class="profile"><a href="#/studentProfile" ><span data-icon="&#xe08a;"></span>Profile</a></li>
                                  <li class="setting"><a href="javascript:void(0);" ng-click="goToEditStudent()"><span data-icon="&#xe037;"></span>Setting</a></li>
@@ -51,14 +51,6 @@
                          </div> 
                     </div>
                 </div>
-                <!-- <div id="login" class="no-login">
-                    <div class="register">
-                        <a href="#/signup">Register</a>
-                    </div>
-                    <div class="login">
-                        <a href="#/signin" data>Login</a>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>

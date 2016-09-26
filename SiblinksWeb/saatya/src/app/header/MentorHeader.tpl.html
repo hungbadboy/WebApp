@@ -3,7 +3,7 @@
 	<div class="mentor-left-header">
 	    <div class="left-header-wrapper">
 	        <div class="main-logo">
-	            <a href="/">
+	            <a href="#/mentor">
 	                <span class="logo-full"><img src="assets/images/logo.png"></span>
 	            </a>
 	        </div>
@@ -40,14 +40,14 @@
 	            </div>
 	            <div class="user-login">
 	                <div class="user-img">
-	                    <span><img src="assets/images/user.jpg"></span>
+	                    <span><img ng-src="{{imageUrl}}" ng-if="imageUrl"></span>
 	                </div>
-	                <div class="profile-user"><img src="assets/images/arrow.png"></div>
-	                <div class="user-info inactive">
+	                <div class="profile-user"><img src="assets/images/arrow.png" ng-click="toggleUserInfo()"></div>
+	                <div class="user-info" ng-show="isShowHideUserInfo">
 	                    <ul>
-	                        <li class="profile"><a href="profile.html"><span data-icon="&#xe08a;"></span>Profile</a></li>
-	                        <li class="setting"><a href="setting.html"><span data-icon="&#xe037;"></span>Setting</a></li>
-	                        <li class="logout"><a href="/"><span class="fa fa-power-off"></span>Logout</a></li>
+	                        <li class="profile"><a href="#/mentorProfile" ><span data-icon="&#xe08a;"></span>Profile</a></li>
+                            <li class="setting"><a href="javascript:void(0);" ng-click="goToEditMentor()"><span data-icon="&#xe037;"></span>Setting</a></li>
+                            <li class="logout"><a href="javascript:void(0)" ng-click="logout()"><span class="fa fa-power-off"></span>Logout</a></li>
 	                    </ul>
 	                </div>
 	            </div>

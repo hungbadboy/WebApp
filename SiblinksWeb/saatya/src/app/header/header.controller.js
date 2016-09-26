@@ -263,9 +263,10 @@ brotControllers.controller('UserHeaderController',
               $scope.isActive = $location.path();
             });
             
-            $scope.showProfile = function() {
-      		  hiddenProfile=false;
-      		  console.log(1);
+            // Toggle user information
+            $scope.isShowHideUserInfo = false;
+            $scope.toggleUserInfo = function() {
+            	$scope.isShowHideUserInfo = $scope.isShowHideUserInfo ? false : true;
       	  	}
         }]);
 //=========================================== HEADER.CONTROLLER.JS==============
