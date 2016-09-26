@@ -71,7 +71,19 @@ public interface MentorService {
      * @param video {type,limit,offset}Type: {like,vote,subscribe}
      * @return  
      */
+
     ResponseEntity<Response> getTopMentorsByLikeRateSubcrible(RequestData video);
 
     ResponseEntity<Response> checkStudentSubcribe(long mentorid, long studentid);
+
+    ResponseEntity<Response> getLatestRatings(long mentorid);
+
+    ResponseEntity<Response> getLatestComments(long mentorid, int limit,
+            int offset);
+
+    ResponseEntity<Response> getDashboardInfo(long uid);
+
+    ResponseEntity<Response> getMainDashboardInfo(long uid);
+
+    ResponseEntity<Response> getNewestQuestions(long uid);
 }
