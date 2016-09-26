@@ -1,10 +1,10 @@
-brotControllers.controller('VideoController', ['$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService',
+brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService',
                                        function ($scope, $modal, $routeParams, $http, $location, VideoService, MentorService) {
 
 
     var userId = localStorage.getItem('userId');
     $scope.fullName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastname');
-
+    $scope.avatar = localStorage.getItem('imageUrl');
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
 
     $scope.video_subject = [0];
@@ -13,29 +13,12 @@ brotControllers.controller('VideoController', ['$scope', '$modal', '$routeParams
     init();
 
     function init(){
-      // console.log(NEW_SERVICE_URL);
-      // initImage();
-      // getDashboardInfo();
-      // loadVideos();
-      // getStudentsSubscribe();
-      // getLatestRatings();
-      // getLatestComments();
-      // loadVideosRecently();
-      // fetchSubjects();
-      // getPlayList();
+      getDashboardInfo();
+      loadVideos();
+      getStudentsSubscribe();
+      getLatestRatings();
+      getLatestComments();
     }
-
-     $scope.openModalUpdate = function (vid) {
-        var modalInstance = $modal.open({
-            templateUrl: 'src/app/video/video_update.tpl.html',
-            controller: 'VideoUpdateController',
-            resolve: {
-                vid: function () {
-                    return vid;
-                }
-            }
-        });
-    };
 
     function getDashboardInfo(){
       MentorService.getDashboardInfo(userId).then(function(data){
@@ -60,8 +43,6 @@ brotControllers.controller('VideoController', ['$scope', '$modal', '$routeParams
           data[i].imageUrl = data[i].imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + data[i].imageUrl: data[i].imageUrl;
 
         data[i].fullName = data[i].firstName + ' ' + data[i].lastName;
-        console.log(data[i].timestamp);
-        console.log(convertUnixTimeToTime(data[i].timestamp));
         data[i].timestamp = convertUnixTimeToTime(data[i].timestamp);
       }
       return data;
@@ -279,11 +260,4 @@ brotControllers.controller('VideoController', ['$scope', '$modal', '$routeParams
       $scope.vTopViewed = $scope.videosTopViewed[pos + 1];
     }
   }
-
-  function clearContent(){
-    $('.newest').empty();
-    $('.most_viewed').empty();
-    $('.top_rates').empty();
-  }
-
 }]);

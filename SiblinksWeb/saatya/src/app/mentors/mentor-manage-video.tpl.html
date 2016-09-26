@@ -6,7 +6,7 @@
                 <div class="navbar-collapse">
                     <div class="mentor-infor">
                         <div class="mentor-infor-img">
-                            <img src="assets/images/user.jpg">
+                            <img src="{{avatar}}">
                         </div>
                         <div class="mentor-infor-name">
                             <p>Welcome</p>
@@ -85,14 +85,16 @@
                                     <ul class="list-review">
                                         <li><img src="assets/images/icon-l-review.png" alt="">&nbsp;&nbsp;<b>{{dashboard.count_views}}</b>&nbsp;&nbsp;views</li>
                                         <li><img src="assets/images/icon-l-comments.png" alt="">&nbsp;&nbsp;<b>{{dashboard.count_comments}}</b>&nbsp;&nbsp;comments</li>
-                                        <li class="clearfix"><span class="pull-left"><img src="assets/images/icon-l-star.png" alt="">&nbsp;&nbsp;<b>{{dashboard.avg_rating}}</b>&nbsp;&nbsp;rate</span>
-                                            <ul class="list-star pull-left">
-                                                <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/images/icon-star-h.png" alt=""></a></li>
-                                            </ul>
+                                        <li class="clearfix">
+                                            <span class="pull-left"><img src="assets/images/icon-l-star.png" alt="">&nbsp;&nbsp;<b>{{dashboard.avg_rating}}</b>&nbsp;&nbsp;rate
+                                            </span>    
+                                            <div ng-if="dashboard" class="list-star pull-left" star-rating stars="5"
+                                                  outer-star-selection="stars"
+                                                  outer-percent="rating"
+                                                  rating-define="star"
+                                                  rating-stars="{{dashboard.avg_rating}}"
+                                                  star-radius="12" sel-color="gold"
+                                                  back-color="white"></div>                                        
                                         </li>
                                     </ul>
                                 </div>
@@ -198,14 +200,15 @@
                                                 <div class="text-rate pull-left">
                                                     <h5>{{r.fullName}}</h5>
                                                     <div class="rate-star clearfix">
-                                                        <span class="pull-left">rate ({{r.rating}}) </span>
-                                                        <ul class="list-star pull-left">
-                                                            <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
-                                                            <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
-                                                            <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
-                                                            <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
-                                                            <li><a href="#"><img src="assets/images/icon-star-l.png" alt=""></a></li>
-                                                        </ul>
+                                                        <span class="pull-left">
+                                                            <div ng-if="comments" star-rating stars="5"
+                                                              outer-star-selection="stars"
+                                                              outer-percent="rating"
+                                                              rating-define="star"
+                                                              rating-stars="{{r.rating}}"
+                                                              star-radius="12" sel-color="gold"
+                                                              back-color="white"></div>
+                                                         </span>
                                                     </div>
                                                     <p>video<span>{{r.title}}</span></p>
                                                 </div>
@@ -228,7 +231,7 @@
                                             </div>
                                             <a class="pull-right btn-reply" href="#">reply</a>
                                         </div>                                       
-                                        <p class="btn-load"><a href="#">load more comment</a></p>
+                                        <p class="btn-load"><a ng-click="loadMore()">load more comment</a></p>
                                     </div>
                                 </div>
                             </div>
