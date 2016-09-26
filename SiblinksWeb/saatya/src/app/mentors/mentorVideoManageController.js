@@ -80,6 +80,13 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
       });
     }
 
+    $scope.loadMoreComments = function(){
+      MentorService.getLatestComments(userId, 5, $scope.comments,length).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) 
+          $scope.comments = formatCommentProfile(data.data.request_data_result);
+      });
+    }
+
     function loadVideos(){
         // clearContent();
         VideoService.getVideos(userId, 10).then(function(data){
