@@ -570,7 +570,7 @@ html, body, #chart1, svg {
 }
 
 .dashboard-video {
-    width: 325px;
+    width: 35%;
     margin-right: 0px;
     float: left;
 }
@@ -772,6 +772,19 @@ a.left.carousel-control span:before {
 .newest-sub-esay-content li:last-child:before {
     height: 0;
 }
+span.icon-play-video {
+    position: absolute;
+    top: 34%;
+    left: 38%;
+}
+
+.video-detail {
+    position: relative;
+}
+
+.video-detail img {
+    max-width: 100%;
+}
 
 /*========LIST CSS MANAGER VIDEO=============*/
 .manager-video{
@@ -795,7 +808,7 @@ a.left.carousel-control span:before {
     width: 100%;
     border-radius: 0;
     height: 42px;
-    border-right: none;
+    /* border-right: none; */
 }
 .manager-video .top-mag .search .input-group .input-group-btn button:hover{
     background-color: #fff;
@@ -805,7 +818,7 @@ a.left.carousel-control span:before {
     width: 100%;
     border-radius: 0;
     height: 42px;
-    border-left: none;
+    /* border-left: none; */
     outline: none;
 }
 .manager-video .top-mag .sl-newwest,
@@ -908,6 +921,29 @@ a.left.carousel-control span:before {
 }
 .manager-video .group-item .item .box-detail-play .item-thumbnail{
     float: left; 
+    position: relative;
+}
+.manager-video .group-item .item .box-detail-play .item-thumbnail .box-all-vd{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    background-color: #fff;
+    opacity: .7;
+    width: 50%;
+    text-align: center;
+    padding-top: 10%;
+    cursor: pointer;
+}
+.manager-video .group-item .item .box-detail-play .item-thumbnail .box-all-vd p b{
+    font-size: 18px;
+    color: #505050;
+    display: block;
+}
+.manager-video .group-item .item .box-detail-play .item-thumbnail .box-all-vd p span{
+    color: #505050;
+    font-size: 14px;
+    display: block;
 }
 .manager-video .group-item .item .box-detail-play .detail-pl-inner{
     float: left;  
@@ -1215,7 +1251,206 @@ span.img-tb{
     padding: 5px 15px;
     border-radius: 5px;
 }
-.dashboard-video .icon-play-video {
+/*========//CSS MANAGER VIDEO=============*/
+
+/*========CSS MANAGER PLAYLIST=============*/
+.manager-playlist .top-mag .col-md-6{
+    padding-right: 0;
+}
+.manager-playlist .form-add-newplay form{
+    padding: 0;
+}
+.manager-playlist .form-add-newplay form .form-group .input-custom{
+    border-radius: 0;
+    height: 42px;
+    font-size: 12px;
+    color: #909090;
+}
+.manager-playlist .form-add-newplay form .form-group .textarea-custom{
+    border-radius: 0;    
+    font-size: 12px;
+    color: #909090;
+}
+.manager-playlist .form-add-newplay form .btn-custom{
+    color: #fff;
+    background-color: #2b2b2b;
+    font-size: 18px;
+    padding: 16px 30px;
+    border-color: #2b2b2b;
+    font-weight: 600;
+}
+.manager-playlist .form-add-newplay{
+    padding-top: 7%;
+}
+.manager-playlist .form-add-newplay form .inputfile{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.manager-playlist .form-add-newplay form .label-1{
+    position: relative;
+    display: inline-block;
+    padding: 28px 20px 24px;
+    cursor: pointer;
+    width: 198px;
+    background-color: #f0f3f4;
+    text-align: center;
+    font-size: 12px;
+    color: #909090;
+    font-weight: normal;
+}
+.manager-playlist .form-add-newplay form .label-1 img{
+    display: block;
+    padding-bottom: 10px;
+    margin: 0 auto;
+}
+.manager-playlist .form-add-newplay form .label-1:before{
+    width: 1px;
+    height: 100%;
+    content: '';
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.manager-playlist .form-add-newplay form .label-1:after{
+    width: 1px;
+    height: 100%;
+    content: '';
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+.main-list-video .filters .text-trf{
+    width: 55%;
+}
+.main-list-video .filters .text-play{
+    width: 17.4%;
+}
+.main-list-video .filters .text-ac{
+    width: 23%;
+}
+.main-list-video .group-item .item .box-detail-play{
+    width: 55%;
+}
+.main-list-video .group-item .item .box-playlist{
+    width: 17.4%;   
+}
+.main-list-video .group-item .item .box-ac{
+    width: 23%;
+    padding-top: 15px;
+}
+.main-list-video .group-item .item .box-playlist{
+    padding-top: 15px;
+}
+/*========//CSS MANAGER PLAYLIST=============*/
+
+/*========//CSS MANAGER PLAYLIST DETAIL=============*/
+.manager-playlist-detail .top-vd-dt {
+
+}
+.manager-playlist-detail .top-vd-dt .box-detail-play .detail-pl-inner{
+    padding-left: 30px;
+}
+.manager-playlist-detail .top-vd-dt .box-detail-play .detail-pl-inner h5{
+    color: #505050;
+    font-size: 18px;
+    margin-bottom: 0;
+}
+.manager-playlist-detail .top-vd-dt .box-detail-play .detail-pl-inner .add-time{
+    color: #505050;
+    font-size: 10px; 
+}
+.manager-playlist-detail .top-vd-dt .box-detail-play .detail-pl-inner .list-star li{
+    display: inline-block;
+    padding-top: 12px;
+}
+.bx-btn button{
+    font-size: 12px;
+    color: #505050;
+    padding: 10px 15px;
+    background-color: #edf1f5;
+    border-radius: 5px;
+}
+.bx-btn button:hover,
+.bx-btn button.active{
+    background-color: #f3c303;
+}
+.manager-playlist-detail .bx-description{
+    padding-left: 0;
+}
+.manager-playlist-detail .bx-description h5{
+    font-size: 12px;
+    color: #505050;
+    font-weight: 600;
+}
+.manager-playlist-detail .bx-description p{
+    font-size: 12px;
+    color: #505050;
+}
+.manager-playlist-detail .filters-bottom .text-des{
+    width: 41%;
+}
+.manager-playlist-detail .filters-bottom .text-ac{
+    width: 14%;
+}
+.main-playlist-detail .box-all-vd{
+    padding-top: 20% !important;
+}
+.main-playlist-detail .box-all-vd p b{
+    font-size: 24px !important;
+}
+.modal-add-video{
+    width: 947px !important;
+}
+.modal-add-video .modal-header,
+.modal-add-video .modal-body,
+.modal-add-video form{
+    padding: 0;
+}
+.modal-add-video .modal-content{
+    padding: 25px 20px 40px 25px;
+}
+.modal-add-video .modal-body{
+    padding-top: 25px;
+}
+.modal-add-video .modal-header h4{
+    font-size: 18px;
+    color: #505050;
+    padding-bottom: 12px;
+}
+.modal-add-video form input.input-custom-link{
+    background: url('../images/icon-play.png') 410px center no-repeat;
+}
+.modal-add-video form input[type="text"],
+.modal-add-video form select{
+    border-radius: 0;
+    height: 42px;
+    font-size: 12px;
+    color: #909090;
+    margin-bottom: 20px;
+}
+.modal-add-video form textarea{
+    border-radius: 0;
+    font-size: 12px;
+    color: #909090;
+    margin-bottom: 20px;
+}
+.modal-add-video .right-modal h4{
+    font-size: 14px;
+    color: #505050;
+    margin: 0;
+    padding-bottom: 17px;
+}
+.modal-add-video .right-modal .box-video-lag{
+    position: relative;
+}
+.modal-add-video .right-modal .box-video-lag img{
+    width: 100%;
+}
+.modal-add-video .right-modal .box-video-lag .icon-play-video{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -1225,14 +1460,147 @@ span.img-tb{
     text-align: center;
     cursor: pointer;
 }
-.dashboard-video .video-detail img {
-    width: 100%;
+.modal-add-video .right-modal p{
+    font-size: 12px;
+    color: #909090;
+    line-height: 24px;
+    padding-top: 14px;
 }
-.dashboard-video .video-detail {
+.modal-add-video ul.nav.nav-tabs li a{
+    color: #505050;
+    background: none !important;
+    margin-bottom: 0 !important;
+    border: none;
+    border-radius: 0;
+    font-weight: normal;
+}
+.modal-add-video ul.nav.nav-tabs{
+    border-bottom: 1px solid #edf1f5;
+}
+.modal-add-video ul.nav.nav-tabs li.active a{
+    border-bottom: 6px solid #f3c303;
+    border-radius: 0;   
+}
+.modal-add-video ul.nav.nav-tabs li a:hover{
+    border-bottom: 6px solid #f3c303;
+    border-radius: 0;   
+}
+.modal-add-video .tab-content{
+    padding-top: 20px;
+}
+.modal-add-video .filters{
+    border-top: 1px solid #e0e1e1;
+    border-bottom: 1px solid #e0e1e1;
+    padding: 13px 0 13px 15px;
+    margin-top: 10px;
     position: relative;
 }
-/*========//CSS MANAGER VIDEO=============*/
-
+.modal-add-video  .filters .check-all input{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background: -webkit-linear-gradient(top, #222222 0%, #45484d 100%);
+    background: linear-gradient(to bottom, #222222 0%, #45484d 100%);
+    border-radius: 4px;
+    position: absolute;
+    top: -4px;
+    left: 0;
+}
+.modal-add-video  .filters .text-play,
+.modal-add-video  .filters .text-trf{
+    font-weight: 600;
+}
+.modal-add-video .group-item .item{
+    padding: 20px 0;
+    position: relative;
+}
+.modal-add-video .group-item .item .check-box input{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background: -webkit-linear-gradient(top, #222222 0%, #45484d 100%);
+    background: linear-gradient(to bottom, #222222 0%, #45484d 100%);
+    border-radius: 4px;
+    position: absolute;
+    top: 35%
+}
+.modal-add-video .group-item .item:nth-child(even){
+    background-color:#f0f3f4;
+}
+.modal-add-video .group-item .item .box-detail-play{
+    padding: 0;
+}
+.modal-add-video .group-item .item .check-box{
+    padding-right: 0;
+}
+.modal-add-video .group-item .item .box-detail-play .detail-pl-inner{
+    padding-left: 20px;
+}
+.modal-add-video .group-item .item .box-detail-play .detail-pl-inner h5{
+    font-size: 14px;
+    margin-bottom: 0;
+}
+.modal-add-video .group-item .item .box-detail-play .detail-pl-inner span.add-time{
+    font-size: 10px;
+}
+.modal-add-video .group-item .item .box-detail-play .detail-pl-inner .list-star{
+    padding-top: 5px;
+}
+.modal-add-video .group-item .item .box-detail-play .detail-pl-inner .list-star li{
+    display: inline-block;
+}
+.modal-add-video .group-item .item .box-detail-play .detail-pl-inner .list-view span{
+    font-size: 12px;
+}
+.modal-add-video .group-item .item .box-playlist{
+    padding-top: 10px;
+}
+.modal-add-video .top-mag .search .input-group{
+    width: 100%;
+}
+.modal-add-video .top-mag .search .input-group .input-group-btn button{
+    width: 100%;
+    border-radius: 0;
+    height: 42px;
+    border-right: none;
+}
+.modal-add-video .top-mag .search .input-group .input-search{
+    width: 100%;
+    border-radius: 0;
+    height: 42px;
+    border-left: none;
+    outline: none;
+}
+.modal-add-video .top-mag .search form {
+    margin-top: 0;
+}
+.modal-add-video .top-mag .search form input[type="text"]{
+    margin-bottom: 0;
+}
+.modal-add-video .top-mag .sl-sbj .select-sbj{
+    height: 42px;
+    background-color: #edf1f5;
+}
+.modal-add-video .top-mag .search,
+.modal-add-video .top-mag .sl-sbj{
+    padding-left: 0;
+}
+.modal-add-video .top-mag .btn-filter{
+    padding: 0;
+}
+.modal-add-video .top-mag .btn-filter button{
+    background-color: #f3c303;
+    padding: 11px 19px 10px 24px;
+    border-radius: 5px;
+}
+.modal-add-video .btn-mg .add-play{
+    margin-left: 0;
+}
+.modal-add-video .btn-mg{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+/*========//CSS MANAGER PLAYLIST DETAIL=============*/
 /*========//CSS MANAGER mentor-manageQ&A=============*/
 .main-qa{
     padding-top: 10px;

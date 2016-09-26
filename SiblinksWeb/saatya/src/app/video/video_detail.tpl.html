@@ -60,8 +60,11 @@
                                     <div class="video-details-sub">
                                         <img ng-src="{{videoInfo.avatar}}">
                                         <div class="video-member-subcriber">
-                                                <button class="subscribers" ng-class="{'unsubcrib':isSubscribe=='1'}" ><span  data-icon="&#x4c;" ng-click="setSubscribeMentor(videoInfo.userid)">subscrible</span>
-                                                    <span class="number-subscribers">{{videoInfo.numsub}}</span></button>
+                                            <button id="btnsubs" class="subscribers" ng-class="{'unsubcrib':isSubscribe=='1'}"
+                                                    data-icon="&#x4c;" ng-Mouseover="hoverSubcribe()"
+                                                    ng-mouseleave="unHoverSubcribe()" ng-click="setSubscribeMentor(videoInfo.userid)">
+                                                <span id="spansubs" >Subscrible</span>
+                                                <span class="number-subscribers">{{videoInfo.numsub}}</span></button>
 
                                         </div>
 
@@ -69,31 +72,33 @@
                                     <p class="videos-rate-infor">
                                         <span data-icon="&#x49;">{{videoInfo.numViews}}</span>
                                         &nbsp;&nbsp;
-                                        <span data-icon="&#xe066;">{{comments.length}} </span>
+                                        <span ng-if="comments" data-icon="&#xe066;">{{comments.length}} </span>
                                     </p>
                                 </div>
                             </div>
                             <div class="videos-start">
                                 <span style="float: left;" id="rateSpan">Rate
-                                     <div ng-if="comments" star-rating stars="5"
+                                     <div ng-if="loadRate" star-rating stars="5"
                                           outer-star-selection="stars"
                                           ng-click="rateFunction(stars)"
                                           outer-percent="rating"
                                           rating-define="star"
                                           rating-stars="{{rateNum}}"
-                                          star-radius="12" sel-color="gold"
+                                          star-radius="10" sel-color="gold"
                                           back-color="white"></div>
                                 </span>
 
                             </div>
                             <div class="video-detaile-script">
-                                <p>{{videoInfo.title}}</p>
-                                <button class="read-more">Read more <span data-icon="&#x33;"></span></button>
+                                <!--Show 100 characters-->
+                                <p ng-if="videoInfo" read-more ng-model="videoInfo.description" words="false" length="100"></p>
+                                <!--<button class="read-more">Read more <span data-icon="&#x33;"></span></button>-->
                             </div>
                         </div>
                         <div class="video-comment post">
                             <div class="video-comment-sum">
-                                <h3>{{comments.length}} Comments</h3>
+                                <h3 ng-if="comments">{{comments.length}} Comments</h3>
+                                <h3 ng-if="!comments">0 Comments</h3>
                             </div>
                             <div class="post-footer">
                                 <div class="input-group">
@@ -135,15 +140,15 @@
                     <h3>Related videos</h3>
                     <ul class="related-video-list" ng-repeat="videoRelate in videosRelated">
                         <li class="video-list-item">
-                            <div class="content-warpper" ng-click="viewVideo(videoRelate.vid)">
+                            <div class="content-warpper">
 
                                     <div class="thumb-video" >
-                                        <img ng-src="{{videoRelate.image}}">
+                                        <a href="#/videos/detailVideo/{{videoRelate.vid}}"><img ng-src="{{videoRelate.image}}"></a>
                                     </div>
                                     <div class="detail-video">
-                                        <p class="title-video">
+                                        <a href="#/videos/detailVideo/{{videoRelate.vid}}"><p class="title-video">
                                             {{videoRelate.title}}
-                                        </p>
+                                        </p></a>
                                         <span class="owner-video">
                                                         from
                                             <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>

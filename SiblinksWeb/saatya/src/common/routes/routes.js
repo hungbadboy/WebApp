@@ -186,7 +186,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/uploadEssayDetail.tpl.html',
 		controller: 'EssayDetailCtrl'
 	}).
-	when('/managerQA', {
+	when('/mentor/managerQA', {
 		templateUrl: 'src/app/managerQA/managerQA.tpl.html',
 		controller: 'managerQAController'
 	}).
