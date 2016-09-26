@@ -24,7 +24,7 @@ public class Parameters {
     public static final String MAJORS = "majors";
     public static final String ACTIVITY = "activity";
     public static final String HELP = "help";
-    public static final String SUBJECT_ID = "subject_id";
+    public static final String SUBJECT_ID = "subjectId";
     public static final String URLREVIEW = "urlReview";
     public static final String LIKE = "like";
     public static final String RATE = "rate";
@@ -39,4 +39,5 @@ public class Parameters {
     public static final String UNANSWERED = "unanswered";
     public static final String SUBCRIBE = "Subcribe";
     public static final String VALUE_OF = "valueof";
+    public static final String PARENT_ID = "parentId";
 }
