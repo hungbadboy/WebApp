@@ -1,79 +1,108 @@
 brotControllers.controller('managerQAController', ['$scope', '$http', '$location', '$rootScope', '$timeout', '$log', 'HomeService', 'NotificationService',
-    'StudentService', 'VideoService', 'myCache', 'managerQAService','$modal',
+    'StudentService', 'myCache', 'managerQAService', 'QuestionsService',
     function ($scope, $http, $location, $rootScope, $timeout, $log, HomeService, NotificationService, StudentService,
-              VideoService, myCache, managerQAService,$modal) {
-        var arrCategoryID="";
-        var arrTopicID ="";
+               myCache, managerQAService, QuestionsService) {
 
+
+        $scope.subjectId = "-1";
+        var LIMIT = 10;
+        var lastQId = "";
+        var userId = localStorage.getItem('userId');
+        $scope.userId = userId;
+        var type = "";
         init();
-
-        var selectCategory = null;
 
 
         function init() {
-            if (myCache.get("subjects") !== undefined) {
-                $log.info("My cache already exists");
-                $scope.subjects = myCache.get("subjects");
-                $.each($scope.subjects,function (index,subj) {
-                    if(subj.type =="1") {
-                        arrCategoryID+=(subj.id)+",";
+            managerQAService.getListQuestionQA(subjectId, userId, lastQId, type, LIMIT).then(function (data) {
+                var subjects = myCache.get("subjects");
+                $scope.subjectsParent = {};
+                $scope.subjectsChild = {};
+                for(var i = 0; i < subjects.length;i++){
+                    if(subjects[i].level == '1'){
+                        $scope.subjectsParent.push(subjects[i]);
                     }
                     else {
-                        arrTopicID+=(subj.id)+",";
+                        $scope.subjectsChild.push(subjects[i]);
                     }
-                });
-                getALQuestion();
-            } else {
-                HomeService.getAllCategory().then(function (data) {
-                    if (data.data.status) {
-                        $log.info("Get service subject with category");
-                        $scope.subjects = data.data.request_data_result;
-                        $.each($scope.subjects,function (index,subj) {
-                            if(subj.type =="1") {
-                                arrCategoryID+=(subj.id)+",";
-                            }
-                            else {
-                                arrTopicID+=(subj.id)+",";
-                            }
-                        });
-                        getALQuestion();
-                        myCache.put("subjects", data.data.request_data_result);
-
+                }
+                if (data.data.status) {
+                    $scope.listQuestions = data.data.request_data_result;
+                    if ($scope.listQuestions.length > 0) {
+                        lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].qid;
                     }
-                });
-            }
 
-
+                }
+            });
         }
 
-        function  getALQuestion() {
+        $scope.selectParentChange = function () {
+            $scope.subjectsChild = {};
+            for(var i = 0; i < $scope.subjectsParent.length;i++){
+                var sub =  $scope.subjectsParent[i];
+                if(sub.parentId == $scope.selectedParent.parentId){
+                    $scope.subjectsChild.push(sub[i]);
+                }
+            }
+        }
+
+        function getQuestionQA(subjectId, userId, lastQId, type, limit, child) {
             //init();
-            if(!arrCategoryID==""||!arrTopicID=="") {
-
-                managerQAService.getListQuestionQA(arrCategoryID, arrTopicID).then(function (data) {
-                    if (data.data.status) {
-                        $log.info("Get service subject with category");
-                        $scope.listQuestions = data.data.request_data_result;
-
+            managerQAService.getListQuestionQA(subjectId, userId, lastQId, type, limit, child).then(function (data) {
+                if (data.data.status) {
+                    $scope.listQuestions = data.data.request_data_result;
+                    if ($scope.listQuestions.length > 0) {
+                        lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].qid;
                     }
-                });
-            }
+
+                }
+            });
         }
-        $scope.openModalAnswer = function (qid) {
-            var modalInstance = $modal.open({
-                templateUrl: 'src/app/managerQA/popupAnswer.tpl.html',
-                controller: 'popupAnswerController',
-                resolve: {
-                    q_id: function () {
-                        return qid;
+
+        $scope.currentType = "all";
+        $scope.orderQuestions = function (type) {
+            lastQId = "";
+            if($scope.currentType == type){
+                return ;
+            }
+            $scope.currentType = type;
+
+            managerQAService.getListQuestionQA($scope.subjectId, userId, lastQId, type, LIMIT).then(function (data) {
+                if (data.data.status) {
+                    $scope.listQuestions = data.data.request_data_result;
+                    if ($scope.listQuestions.length > 0) {
+                        lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].qid;
                     }
                 }
             });
-        };
+        }
+        $scope.selectQuestion = function (qid) {
+            QuestionsService.updateViewQuestion(qid, "view").then(function (data) {
+            });
+            QuestionsService.getAnswerByQid(qid, "", "", "").then(function (data) {
+                if(data.data.status) {
+                    $scope.answers = data.data.request_data_result;
+                }
+
+            });
+        }
+
+        // $scope.openModalAnswer = function (qid) {
+        //     var modalInstance = $modal.open({
+        //         templateUrl: 'src/app/managerQA/popupAnswer.tpl.html',
+        //         controller: 'popupAnswerController',
+        //         resolve: {
+        //             q_id: function () {
+        //                 return qid;
+        //             }
+        //         }
+        //     });
+        // };
 
 
         $scope.selectedSubject = function (selected) {
             selectCategory = selected;
         };
 
-    }]);
+    }])
+;

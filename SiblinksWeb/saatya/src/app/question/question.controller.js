@@ -32,7 +32,7 @@ brotControllers
                 if (isEmpty(subjectid)) {
                     subjectid = "-1";
                 }
-                $scope.limitAnswes = 3;
+                $scope.limitAnswes = 0;
                 var listPosted = [];
 
                 var userId = localStorage.getItem('userId');
@@ -41,7 +41,7 @@ brotControllers
                 $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
                 $scope.totalQuestion = 0;
                 var oldQid = '-1';
-                var ordertype = "";
+                $scope.curentOrderType = "newest";
                 var LIMIT_TOP_MENTORS = 5;
                 var LIMIT_TOP_VIDEOS = 5;
                 var idRemove;
@@ -56,7 +56,7 @@ brotControllers
                 init();
                 function init() {
 
-                    ordertype = "newest";
+                    $scope.curentOrderType = "newest";
                     //$scope.ordertype = "answered";
                     if (isEmpty(userId)) {
                         userId = -1;
@@ -65,9 +65,9 @@ brotControllers
                         subjectid = "-1";
                     }
 
-                    getQuestions(userId, limit, offset, ordertype, oldQid, subjectid);
+                    getQuestions(userId, limit, offset, $scope.curentOrderType, oldQid, subjectid);
 
-                    QuestionsService.countQuestions(userId, ordertype, subjectid).then(function (data) {
+                    QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
                         $scope.totalQuestion = data.data.request_data_result[0].numquestion;
                         if (userId == "-1") {
                             window.location.href = '/#/first-ask';
@@ -221,41 +221,6 @@ brotControllers
                     return listImage;
 
                 };
-                function getSubjectNameById(strSubjectId, listcate) {
-                    var subject = {};
-                    var listSubject = [];
-                    if (isEmpty(strSubjectId)) {
-                        listSubject.push(subject);
-                        return listSubject;
-                    }
-                    if (strSubjectId.indexOf(',') < -1) {
-                        for (var y = 0; y < listcate.length; y++) {
-                            if (listcate[y].subjectId == strSubjectId) {
-                                subject.id = strSubjectId;
-                                subject.name = listcate[y].subject
-                                return listSubject.push(subject);
-                            }
-
-                        }
-                    }
-                    else {
-                        var list = strSubjectId.split(',');
-                        for (var i = 0; i < list.length; i++) {
-                            for (var y = 0; y < listcate.length; y++) {
-                                if (listcate[y].subjectId == list[i]) {
-                                    subject = [];
-                                    subject.name = listcate[y].subject;
-                                    subject.id = listcate[y].subjectId;
-                                    listSubject.push(subject);
-                                }
-
-                            }
-                        }
-                    }
-
-                    return listSubject;
-
-                }
 
                 $scope.detailQuestion = function (id) {
                     window.location.href = '/#/question_detail/' + id + "";
@@ -267,29 +232,40 @@ brotControllers
                     $(".popup-images, .form-ask-question").css({"left": "100%"});
                 }
 
+                $scope.viewAnswer = function (num) {
+                    if(num == 0){
+                        return;
+                    }
+                    if($scope.limitAnswes == num){
+                        $scope.limitAnswes = 0;
+                    }else {
+                        $scope.limitAnswes = num;
+                    }
+                }
+
                 $scope.isShowOrder = false;
 
                 $scope.orderQuestions = function (type) {
                     var limitOder = 10;
                     var offsetOder = 0;
 
-                    if (type == ordertype) {
+                    if (type == $scope.curentOrderType) {
                         $scope.isShowOrder = false;
                         return;
                     }
                     $scope.isDisplayMore = false;
                     currentPage = 0;
                     oldQid = '-1';
-                    ordertype = type + '';
+                    $scope.curentOrderType = type + '';
 
                     if (isEmpty(userId)) {
                         userId = -1;
                     }
                     isLoadMore = false;
-                    QuestionsService.countQuestions(userId, ordertype, subjectid).then(function (data) {
+                    QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
                         $scope.totalQuestion = data.data.request_data_result[0].numquestion;
                         if ($scope.totalQuestion != '0') {
-                            getQuestions(userId, limitOder, offsetOder, ordertype, oldQid, subjectid);
+                            getQuestions(userId, limitOder, offsetOder, $scope.curentOrderType, oldQid, subjectid);
                         }
                         else {
                             $scope.askQuestion = [];
@@ -358,7 +334,7 @@ brotControllers
                     }
                     else {
                         $scope.isDisplayMore = false;
-                        getQuestions(userId, limit, newoffset, ordertype, oldQid, subjectid);
+                        getQuestions(userId, limit, newoffset, $scope.curentOrderType, oldQid, subjectid);
                     }
 
 
