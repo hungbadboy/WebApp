@@ -480,6 +480,42 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         });
         return promise;
     };
+
+    factory.getVideos = function (uid, offset) {
+        var promise = $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'video/getVideos?uid='+ uid +'&offset='+offset+'',
+          data: {
+            "request_data_type": "video",
+            "request_data_method": "getVideos"
+           }
+        });
+        return promise;
+    };
+
+    factory.getVideosTopViewed = function (uid, offset) {
+        var promise = $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'video/getVideosTopViewed?uid='+ uid +'&offset='+offset+'',
+          data: {
+            "request_data_type": "video",
+            "request_data_method": "getVideosTopViewed"
+            }
+        });
+        return promise;
+    };
+
+    factory.getVideosTopRated = function (uid, offset) {
+        var promise = $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'video/getVideosTopRated?uid='+ uid +'&offset='+offset+'',
+          data: {
+            "request_data_type": "video",
+            "request_data_method": "getVideosTopRated"
+            }
+        });
+        return promise;
+    };
     
     /* API Favourite Video begin */
     factory.getFavouriteVideosList = function(uid) {
@@ -502,6 +538,7 @@ brotServices.factory('VideoService', ['$http', function ($http) {
             	"uid":uid,
             	"vid":vid
             }
+            
         }).success(function (response) {
             rs = response;
             return rs;

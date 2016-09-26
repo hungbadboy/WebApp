@@ -44,6 +44,11 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		controller: 'VideoController',
 		reloadOnSearch: false
 	}).
+	when('/mentor_video', {
+		templateUrl: 'src/app/mentors/mentor-manage-video.tpl.html',
+		controller: 'MentorVideoManageController',
+		reloadOnSearch: false
+	}).
 	when('/video_upload', {
 		templateUrl: 'src/app/video/video_upload.tpl.html',
 		controller: 'VideoUploadController',

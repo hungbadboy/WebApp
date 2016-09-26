@@ -34,12 +34,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.reflect.Parameter;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.managerQAService;
+import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.SibConstants;
 import com.siblinks.ws.util.StringUtil;
 
@@ -53,60 +55,82 @@ import com.siblinks.ws.util.StringUtil;
 @RequestMapping("/siblinks/services/managerQA")
 public class ManagerQAServiceImpl implements managerQAService {
 
-	private final Log logger = LogFactory.getLog(ManagerQAServiceImpl.class);
+    private final Log logger = LogFactory.getLog(ManagerQAServiceImpl.class);
 
-	@Autowired
-	private HttpServletRequest context;
+    @Autowired
+    private HttpServletRequest context;
 
-	@Autowired
-	ObjectDao dao;
+    @Autowired
+    ObjectDao dao;
 
-	@Autowired
-	private Environment environment;
+    @Autowired
+    private Environment environment;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.siblinks.ws.service.managerQAService#getListQuestionQA(com.siblinks.
-	 * ws.model.RequestData)
-	 */
-	@Override
-	@RequestMapping(value = "/getListQuestionQA", method = RequestMethod.POST)
-	public ResponseEntity<Response> getListQuestionQA(@RequestBody final RequestData request) {
-		if (!AuthenticationFilter.isAuthed(context)) {
-			ResponseEntity<Response> entity = new ResponseEntity<Response>(
-					new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
-			return entity;
-		}
-		String categoryID = request.getRequest_data().getSubjectId();
-		String topicID = request.getRequest_data().getTopicId();
-		String limit = request.getRequest_data().getLimit();
-		String whereCause = "";
-		if (!StringUtil.isNull(categoryID) && categoryID.contains(",")) {
-			categoryID = categoryID.substring(0, categoryID.length() - 1);
-			whereCause += " AND SS.subjectId in(" + categoryID + ")";
-		}
-		if (!StringUtil.isNull(topicID) && topicID.contains(",")) {
-			topicID = topicID.substring(0, topicID.length() - 1);
-			whereCause += "  AND ST.topicId in (" + topicID + ") ";
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.siblinks.ws.service.managerQAService#getListQuestionQA(com.siblinks.
+     * ws.model.RequestData)
+     */
+    @Override
+    @RequestMapping(value = "/getListQuestionQA", method = RequestMethod.POST)
+    public ResponseEntity<Response> getListQuestionQA(
+            @RequestBody final RequestData request) {
+        if (!AuthenticationFilter.isAuthed(context)) {
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(
+                                                                           new SimpleResponse(
+                                                                                              "" +
+                                                                                              false,
+                                                                                              "Authentication required."),
+                                                                           HttpStatus.FORBIDDEN);
+            return entity;
+        }
+        String subjectId = request.getRequest_data().getSubjectId();
+        String userId = request.getRequest_data().getUid();
+        String limit = request.getRequest_data().getLimit();
+        String lastQId = request.getRequest_data().getPid();
+        String type = request.getRequest_data().getType();
+        String whereCause = "";
+        if (Parameters.UNANSWERED.equals(type)) {
+            whereCause += " AND X.numanswer = 0 ";
+        }
+        if (Parameters.ANSWERED.equals(type)) {
+            whereCause += " AND X.numanswer > 0 ";
+        }
+        if (StringUtil.isNull(lastQId)) {
+            whereCause += " AND X.pid <  " + lastQId;
+        }
 
-		}
-		Object[] queryParams = {};
-		List<Object> readObject = null;
-		boolean status = true;
+        if (StringUtil.isNull(subjectId) && !"-1".equals(subjectId)) {
+            whereCause += " AND X.subjectId = " + subjectId;
+        }
 
-		whereCause += "ORDER BY SFP.`timeStamp` DESC ";
-		if (!StringUtil.isNull(limit)) {
-			whereCause += " LIMIT " + limit;
-		}
+        Object[] queryParams = { userId };
+        List<Object> readObject = null;
+        boolean status = true;
 
-		readObject = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_ALL_QUESTION_MENTOR_BY_TOPIC_SUBJ,
-				whereCause, queryParams);
-		SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(),
-				request.getRequest_data_method(), readObject);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
-	}
+        whereCause += " ORDER BY X.datetime DESC ";
+        if (!StringUtil.isNull(limit)) {
+            whereCause += " LIMIT " + limit;
+        }
+
+        readObject = dao.readObjectsWhereClause(
+            SibConstants.SqlMapper.SQL_GET_ALL_QUESTION_MENTOR_BY_SUBJ,
+            whereCause,
+            queryParams);
+        SimpleResponse reponse = new SimpleResponse(
+                                                    "" +
+                                                    status,
+                                                    request
+                                                        .getRequest_data_type(),
+                                                    request
+                                                        .getRequest_data_method(),
+                                                    readObject);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(
+                                                                       reponse,
+                                                                       HttpStatus.OK);
+        return entity;
+    }
 
 }

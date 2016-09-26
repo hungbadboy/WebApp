@@ -461,7 +461,7 @@ public class SibConstants {
         public static final String SQL_GET_ALL_MENTOR_SUBSCRIBED = "GET_ALL_MENTOR_SUBSCRIBED";
         public static final String SQL_MENTOR_STUDENT_SUBSCRIBED = "GET_MENTOR_STUDENT_SUBSCRIBED";
         public static final String SQL_NEW_VIDEO_MENTOR_SUBSCRIBE = "GET_NEW_VIDEO_MENTOR_SUBSCRIBED";
-        public static final String SQL_GET_ALL_QUESTION_MENTOR_BY_TOPIC_SUBJ = "GET_ALL_QUESTION_MENTOR_BY_TOPIC_SUBJ";
+        public static final String SQL_GET_ALL_QUESTION_MENTOR_BY_SUBJ = "GET_ALL_QUESTION_MENTOR_BY_SUBJ";
         public static final String SQL_GET_TOP_MENTORS_MOST_LIKE = "GET_TOP_MENTORS_MOST_LIKE";
         public static final String SQL_GET_STUDENT_SUBCRIBE = "GET_STUDENT_SUBCRIBE";
         public static final String SQL_GET_TOTAL_LIKE_VIEW_VIDEO = "GET_TOTAL_LIKE_VIEW_VIDEO";
@@ -569,5 +569,14 @@ public class SibConstants {
         public static final String SQL_GET_COUNT_ESSAY = "GET_COUNT_ESSAY";
         public static final String SQL_UPDATE_STUDENT_PROFILE = "UPDATE_STUDENT_PROFILE";
         public static final String SQL_GET_ESSAY = "GET_ESSAY";
+    }
+
+    public class SqlMapperBROT126 {
+        public static final String SQL_GET_LATEST_RATING_IN_MANAGE_VIDEO = "GET_LATEST_RATING_IN_MANAGE_VIDEO";
+        public static final String SQL_GET_LATEST_COMMENTS_IN_MANAGE_VIDEO = "GET_LATEST_COMMENTS_IN_MANAGE_VIDEO";
+        public static final String SQL_GET_COUNT_VIEW_VIDEO = "GET_COUNT_VIEW_VIDEO";
+        public static final String SQL_GET_COUNT_COMMENT_VIDEO = "GET_COUNT_COMMENT_VIDEO";
+        public static final String SQL_GET_COUNT_AVG_RATING_VIDEO = "GET_COUNT_AVG_RATING_VIDEO";
+        public static final String SQL_GET_COUNT_VIDEO_PLAYLIST = "GET_COUNT_VIDEO_PLAYLIST";
     }
 }

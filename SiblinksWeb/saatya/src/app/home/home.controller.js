@@ -12,7 +12,6 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
 
         $scope.title = "Home";
         $scope.questionIndex = "What do you want to ask...?";
-        $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
 
         //10M
         var MAX_SIZE_IMG_UPLOAD = 10485760;
@@ -21,36 +20,36 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
         init();
 
         function init() {
-            if (userId !== undefined && userId != null && userId != 'undefined') {
+            if (isEmpty(userId)) {
                 $scope.login = 1;
             }
-            var qidEdit =  myCache.get("qidEdit");
+            $scope.subjects = myCache.get("subjects");
 
-            if (myCache.get("subjects") !== undefined) {
-                $log.info("My cache already exists");
-                $scope.subjects = myCache.get("subjects");
-            } else {
-                HomeService.getAllCategory().then(function (data) {
-                    if (data.data.status) {
-                        $log.info("Get service subject with category");
-                        $scope.subjects = data.data.request_data_result;
-                        myCache.put("subjects", data.data.request_data_result);
-                    }
-                });
-            }
+            // if (myCache.get("subjects") !== undefined) {
+            //     $log.info("My cache already exists");
+            //     $scope.subjects = myCache.get("subjects");
+            // } else {
+            //     HomeService.getAllCategory().then(function (data) {
+            //         if (data.data.status) {
+            //             $log.info("Get service subject with category");
+            //             $scope.subjects = data.data.request_data_result;
+            //             myCache.put("subjects", data.data.request_data_result);
+            //         }
+            //     });
+            // }
 
-            if (myCache.get("allQuestions") !== undefined) {
-                $log.info("My cache already exists");
-                $scope.allQuestions = myCache.get("allQuestions");
-            } else {
-                QuestionsService.getAllQuestions().then(function (data) {
-                    if (data.data.status) {
-                        $log.info("Get All question");
-                        $scope.allQuestions = data.data.request_data_result;
-                        myCache.put("allQuestions", data.data.request_data_result);
-                    }
-                });
-            }
+            // if (myCache.get("allQuestions") !== undefined) {
+            //     $log.info("My cache already exists");
+            //     $scope.allQuestions = myCache.get("allQuestions");
+            // } else {
+            //     QuestionsService.getAllQuestions().then(function (data) {
+            //         if (data.data.status) {
+            //             $log.info("Get All question");
+            //             $scope.allQuestions = data.data.request_data_result;
+            //             myCache.put("allQuestions", data.data.request_data_result);
+            //         }
+            //     });
+            // }
 
             $('#autocompleteQuest_value').focus(function () {
                 $(this).attr('placeholder', '');

@@ -1055,47 +1055,47 @@ public class VideoServiceImpl implements VideoService {
         return entity;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    // @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    @RequestMapping(value = "/getVideos/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideos(@PathVariable(value = "id") final long id) {
+    @RequestMapping(value = "/getVideos", method = RequestMethod.GET)
+    public ResponseEntity<Response> getVideos(@RequestParam final long uid, @RequestParam final int offset) {
 
         String entityName = null;
 
         // Map<String, String> queryParams = new HashMap<String, String>();
-        Object[] queryParams = new Object[] { "" + id };
+        Object[] queryParams = new Object[] { uid, offset };
 
         entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEOS;
 
-        List<Object> readObject1 = null;
+        // List<Object> readObject1 = null;
         List<Object> readObject = dao.readObjects(entityName, queryParams);
         String msg = " No data Found";
         if (readObject != null) {
-            entityName = SibConstants.SqlMapper.SQL_SIB_GET_TAGS;
-            readObject1 = dao.readObjects(entityName, queryParams);
-            Map<String, Object> tags = null;
-            try {
-                for (Object obj : readObject1) {
-                    tags = (Map) obj;
-                    Iterator<Entry<String, Object>> it = tags.entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry pairs = it.next();
-                        if (pairs.getKey().equals("vid")) {
-                            it.remove();
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                logger.error(e);
-            }
+            // entityName = SibConstants.SqlMapper.SQL_SIB_GET_TAGS;
+            // readObject1 = dao.readObjects(entityName, queryParams);
+            // Map<String, Object> tags = null;
+            // try {
+            // for (Object obj : readObject1) {
+            // tags = (Map) obj;
+            // Iterator<Entry<String, Object>> it = tags.entrySet().iterator();
+            // while (it.hasNext()) {
+            // Map.Entry pairs = it.next();
+            // if (pairs.getKey().equals("vid")) {
+            // it.remove();
+            // }
+            // }
+            // }
+            // } catch (Exception e) {
+            // logger.error(e);
+            // }
         } else {
-            SimpleResponse reponse = new SimpleResponse("" + true, "videos", "getVideos", "No Data Found");
+            SimpleResponse reponse = new SimpleResponse("" + true, "videos", "getVideos", msg);
             ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
             return entity;
         }
 
-        Map<String, Object> mymap = new HashMap<String, Object>();
-        mymap.put("tags", readObject1);
+        // Map<String, Object> mymap = new HashMap<String, Object>();
+        // mymap.put("tags", readObject1);
 
         SimpleResponse reponse = new SimpleResponse("" + true, "videos", "getVideos", readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -2446,7 +2446,7 @@ public class VideoServiceImpl implements VideoService {
                 break;
             case "favourite":
                 params = new Object[] { userId };
-                entityName = SibConstants.SqlMapper.SQL_VIDEO_FAVOURITE_COUNT_BY_USER;
+                entityName = SibConstants.SqlMapper.SQL_COUNT_VIDEO_LIKE;
                 request_data_method = "getCountFavourite";
                 break;
         }
@@ -2517,11 +2517,11 @@ public class VideoServiceImpl implements VideoService {
      * @see com.siblinks.ws.service.VideoService#getVideosTopRated(long)
      */
     @Override
-    @RequestMapping(value = "/getVideosTopRated/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideosTopRated(@PathVariable(value = "id") final long id) {
+    @RequestMapping(value = "/getVideosTopRated", method = RequestMethod.GET)
+    public ResponseEntity<Response> getVideosTopRated(@RequestParam final long uid, @RequestParam final int offset) {
         String entityName = null;
 
-        Object[] queryParams = new Object[] { "" + id };
+        Object[] queryParams = new Object[] { uid, offset };
 
         entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEOS_TOP_RATED;
 
@@ -2538,11 +2538,11 @@ public class VideoServiceImpl implements VideoService {
      * @see com.siblinks.ws.service.VideoService#getVideosTopViewed(long)
      */
     @Override
-    @RequestMapping(value = "/getVideosTopViewed/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideosTopViewed(@PathVariable(value = "id") final long id) {
+    @RequestMapping(value = "/getVideosTopViewed", method = RequestMethod.GET)
+    public ResponseEntity<Response> getVideosTopViewed(@RequestParam final long uid, @RequestParam final int offset) {
         String entityName = null;
 
-        Object[] queryParams = new Object[] { "" + id };
+        Object[] queryParams = new Object[] { uid, offset };
 
         entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEOS_TOP_VIEWED;
 
@@ -2631,11 +2631,11 @@ public class VideoServiceImpl implements VideoService {
      * @see com.siblinks.ws.service.VideoService#getVideosPlaylist(long)
      */
     @Override
-    @RequestMapping(value = "/getVideosPlaylist/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideosPlaylist(@PathVariable(value = "id") final long id) {
+    @RequestMapping(value = "/getVideosPlaylist", method = RequestMethod.GET)
+    public ResponseEntity<Response> getVideosPlaylist(@RequestParam final long uid, @RequestParam final int offset) {
         String entityName = null;
 
-        Object[] queryParams = new Object[] { "" + id };
+        Object[] queryParams = new Object[] { uid, offset };
 
         entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEOS_PLAYLIST;
 
@@ -2751,27 +2751,19 @@ public class VideoServiceImpl implements VideoService {
                 map.put("recently", resultRecently);
             }
         } else if (subjectId.equals("-1")) {
-            String whereClause = "";
-            List<Object> readObjects = dao.readObjects(SibConstants.SqlMapper.SQL_GET_SUBJECT_REG, params);
-            // Add where clause by subject
-            params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
-            if(!CollectionUtils.isEmpty(readObjects)) {
-                for (Object object : readObjects) { // Only one object
-                    Map objectMap = (HashMap<String, String>) object;
-                    if (objectMap.get("defaultSubjectId") != null) {
-                        String subjectIds = "" + objectMap.get("defaultSubjectId");
-                        whereClause = "WHERE V.subjectId IN(" + subjectIds + ") ";
-                    }
-                }
-            }
 
-            whereClause += " ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?";
-            // Get All Video recommended
-            List<Object> resultDataRecommended = dao.readObjectsWhereClause(
-                SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT,
-                whereClause,
-                params);
-            map.put("recommended", resultDataRecommended);
+            String subjectIdResult = dao.readObjects(SibConstants.SqlMapper.SQL_GET_SUBJECT_REG, params).toString();
+
+            String subjectIds = subjectIdResult.substring(subjectIdResult.indexOf("=") + 1, subjectIdResult.lastIndexOf("}"));
+            if (subjectIds != null) {
+                params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
+                String whereClause = "IN(" + subjectIds + ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
+                List<Object> resultDataRecommended = dao.readObjectsWhereClause(
+                    SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT,
+                    whereClause,
+                    params);
+                map.put("recommended", resultDataRecommended);
+            }
 
             params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
             List<Object> resultRecently = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_PLAYLIST_NEWEST, params);

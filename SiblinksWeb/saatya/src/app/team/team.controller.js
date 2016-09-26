@@ -47,7 +47,7 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
         }
 
         $scope.setSubscribeMentor = function (mentorId) {
-            if(isEmpty(userId)){
+            if(isEmpty(userId)||userId == -1){
                 return ;
             }
             VideoService.setSubscribeMentor(userId, mentorId+"").then(function (data) {

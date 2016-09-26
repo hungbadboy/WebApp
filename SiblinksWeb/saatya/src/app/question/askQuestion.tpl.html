@@ -9,17 +9,18 @@
         <div class="container">
             <!-- Content -->
             <div >
-                <section class="content ask-a-question-content">
+                <section class="ask-a-question-content">
                     <!-- Question of user -->
                     <div class="questions col-lg-8">
                         <div class="questions-wrapper col-md-12">
                             <!-- head of question -->
                             <div class="head-question">
                                 <!-- Questions user have -->
-                                <div class="total-question col-md-6">
+                                <div class="total-question col-xs-6">
                                     <h4> You have <strong>{{totalQuestion}}</strong> questions
                                         <i ng-click="toggleShowOrder()" class="fa fa-angle-down"
                                            aria-hidden="true"></i></h4>
+                                    <div class="sort">{{curentOrderType}}</div>
                                     <div ng-show="isShowOrder" class="sort-answer ">
                                         <ul>
                                             <li class="newest" ng-click="orderQuestions('newest')">newest</li>
@@ -29,13 +30,13 @@
                                     </div>
                                 </div><!-- /End questions user have -->
                                 <!-- New ask question -->
-                                <div class="new-ask col-md-6">
+                                <div class="new-ask">
                                     <p ng-click="showFormAdd()" class="new-ask-button">New Ask</p>
                                 </div><!-- /End new ask question -->
                             </div><!-- /End head of question -->
 
                             <!-- Content of question -->
-                            <div ng-if="askQuestion" class="content-question col-md-12" >
+                            <div ng-if="askQuestion" class="content-question" >
                                 <!--<div class="content-question-wrapper" infinite-scroll="loadMorePost()"-->
                                      <!--infinite-scroll-disabled="isLoadMore" infinite-scroll-container='".content-question"'-->
                                      <!--infinite-scroll-parent="true" >-->
@@ -43,12 +44,13 @@
                                       data-on-total-scroll="loadMorePost"
                                       class="content-question-wrapper">
                                     <!-- Question 01 -->
-                                    <div ng-if="askQuestion" ng-repeat="question in askQuestion track by $index" >
-                                        <div class="question question_{{$index+1}}">
+                                        <div  ng-if="askQuestion" ng-repeat="question in askQuestion track by $index" class="question question_{{$index+1}}" >
+                                            <div class="number-question col-xs-1" ng-class="{'answered':question.count_answer > 0}">
+                                                <!--<h4>{{$index+1}}</h4>-->
+                                                <img src="assets/images/icon-comment-ask.png">
+                                            </div>
                                             <div >
-                                                <div class="number-question col-xs-1">
-                                                    <h4>{{$index+1}}</h4>
-                                                </div>
+
                                                 <div class="detail-question col-xs-offset-1">
                                                     <div class="infor-of-question col-xs-12">
                                                         <span >asked {{question.time}} ago </span><br>
@@ -83,8 +85,11 @@
                                                     <div class="answer-question col-xs-12">
                                                         <div class="number-answer">
                                                             <div class="total-number-answer">
-                                                                <div class="total-answer">{{question.count_answer}}
+                                                                <div ng-if="question.count_answer" class="total-answer" ng-click="viewAnswer(question.count_answer)">{{limitAnswes == '0' ? 'View ' : 'Hide '}}{{question.count_answer}}
                                                                     answer
+                                                                </div>
+                                                                <div ng-if="!question.count_answer" class="total-answer">
+                                                                   No answer
                                                                 </div>
                                                                 <div class="total-view">
                                                                     {{question.numviews}} views
@@ -116,11 +121,11 @@
 
                                                             </div>
                                                             <!-- /End Detail-answer-question -->
-                                                            <div class="load-more"
-                                                                 ng-show="question.count_answer > limitAnswes"
-                                                                 ng-click="limitAnswes = question.count_answer">
-                                                                <p>Load more answers</p>
-                                                            </div>
+                                                            <!--<div class="load-more"-->
+                                                                 <!--ng-show="question.count_answer > limitAnswes"-->
+                                                                 <!--ng-click="limitAnswes = question.count_answer">-->
+                                                                <!--<p>Load more answers</p>-->
+                                                            <!--</div>-->
                                                         </div>
                                                     </div><!-- /End answer of question -->
                                                 </div>
@@ -131,7 +136,7 @@
                                         </div>
                                     </div>
 
-                                </div>
+
                                 <!-- POPUP of images's question -->
                                 <div class="popup-images">
                                     <div class="popup-images-wrapper">
