@@ -1,109 +1,85 @@
-<main id="main">
-  <div class="browser-mentors">
+<div class="content browser-mentors">
     <!-- Browser mentors header -->
     <div class="browser-mentors-header">
-      <div class="container">
-        <h1>Most <span>Popular Mentor</span></h1>
-        <h4>Having over 9 million students worlwide and more than 20,000 online mentors available</h4>
-        <div class="scroll-down" data-icon="&#x3b;"></div>
-      </div>
+        <div class="container">
+            <h1>Most <span>Popular Mentor</span></h1>
+            <h4>Having over 9 million students worlwide and more than 20,000 online mentors available</h4>
+            <div class="scroll-down" data-icon="&#x3b;"></div>
+        </div>
     </div><!-- /End Browser mentors header -->
     <!-- Container -->
     <div class="container">
-      <!-- Content -->
-      <section class="content browser-mentors-content">
-        <!-- Top information header content -->
-        <div class="top-information ">
-          <div class="top-information-wrapper">
-            <h5 data-icon="&#xe050;" ng-class="{'active':type=='subs'}" ng-click="selectType('subs')">Top subscribers</h5>
-            <h5 data-icon="&#xe033;" ng-class="{'active':type=='rate'}" ng-click="selectType('rate')">Top rate</h5>
-            <h5 data-icon="&#xe089;" ng-class="{'active':type=='like'}" ng-click="selectType('like')">Top likes</h5>
-            <p class="advance-search">
-              <!--<a href="#">Advance Search</a>-->
-              <form class="navbar-form" role="search">
-                  <div class="input-group">
-                      <div class="input-group-btn">
-                          <button class="btn btn-default"><span data-icon="&#x55;"></span></button>
-                      </div>
-                      <input type="text" ng-model="query" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-
-                  </div>
-              </form>
-            </p>
-          </div>
-        </div><!-- /End top information header content -->
-
-        <!-- Information of mentors -->
-        <div class="browser-mentors-infor">
-          <div class="browser-mentors-infor-wrapper">
-            <ul>
-              <li ng-repeat="mentor in listTopmentors  | filter:query" class="mentors-infor">
-                <div class="mentors-infor-wrapper col-md-12">
-                  <div class="mentors-infor-details">
-                    <p class="mentors-name">
-                     <a href="#/mentorProfile/{{mentor.userid}}"> {{mentor.lastName + " "+ mentor.firstName}}</a>
-                    <div ng-if="mentor" star-rating stars="5"
-                         outer-star-selection="stars"
-                         readonly="true"
-                         outer-percent="rating"
-                         rating-define="star"
-                         rating-stars="{{mentor.avgrate}}"
-                         star-radius="9" sel-color="gold"
-                         back-color="white"></div>
-                      <!--<span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span>-->
+        <!-- Content -->
+        <section class=" browser-mentors-content">
+            <!-- Top information header content -->
+            <div class="top-information ">
+                <div class="top-information-wrapper">
+                    <h5 data-icon="&#xe050;" ng-class="{'active':type=='subs'}" ng-click="selectType('subs')">Top subscribers</h5>
+                    <h5 data-icon="&#xe031;" ng-class="{'active':type=='rate'}" ng-click="selectType('rate')">Top rate</h5>
+                    <h5 data-icon="&#xe030;" ng-class="{'active':type=='like'}" ng-click="selectType('like')">Top likes</h5>
+                    <p class="advance-search">
+                        <a href="/">Advance Search</a>
                     </p>
-                    <p class="mentors-edu">
-                      <span><strong>Education:</strong> {{mentor.accomplishments}}</span>
-                    </p>
-                    <p class="mentors-skill">
-                      <span><strong>Skilled at:</strong>
-                        <a ng-repeat="subject in  mentor.listSubject track by $index" href="#/ask_a_question/{{subject.id}}">{{subject.name}} </a>
-                      </span>
-                    </p>
-                    <p class="mentors-desciption">
-                      <!--{{mentor.bio}}-->
-                      {{ mentor.bio | limitTo: 100 }}{{mentor.bio.length > 100 ? '...' : ''}}
-                    </p>
-                    <div class="mentors-rate">
-                      <p>
-                        <button id="subscribers_{{mentor.userid}}" ng-click="setSubscribeMentor(mentor.userid)"
-                                ng-class="{'unsubcrib':mentor.isSubs =='1'}" class="subscribers" data-icon="&#x4e;"
-                            ng-Mouseover="hoverSubcribe(mentor.isSubs,mentor.userid)" ng-mouseleave="unHoverSubcribe(mentor.isSubs,mentor.userid)">
-                          <span id="span_{{mentor.userid}}">Subscribe</span>
-                          <span class="number-subscribers">{{mentor.numsub}}</span>
-                        </button>
-                        <!--<span ng-click="setSubscribeMentor(mentor.userid)">subscrible</span>-->
-                        <!--<span class="number-subscribers">{{mentor.numsub}}</span>-->
-                      </p>
-                      <p class="likes">
-                        <span class="number-likes"><strong>{{mentor.numlike}}</strong></span><br>
-                        <span class="title-likes">likes</span>
-                      </p>
-                      <p class="videos">
-                        <span class="number-videos"><strong>{{mentor.numvideos}}</strong></span><br>
-                        <span class="title-videos">videos</span>
-                      </p>
-                      <p class="answers">
-                        <span class="number-answers"><strong>{{mentor.numAnswers}}</strong></span><br>
-                        <span class="title-answers">answers</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="mentors-infor-img">
-                    <div class="mentors-infor-img-wrapper">
-                     <a href="#/mentorProfile/{{mentor.userid}}"> <img ng-src="{{mentor.imageUrl}}"></a>
-                      <div class="mentors-img-hover">
-                        <span data-icon="&#x4c;"></span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              </li>
+            </div><!-- /End top information header content -->
 
-            </ul>
-          </div>
-        </div><!-- /End information of mentors -->
-      </section><!-- /End content -->
+            <!-- Information of mentors -->
+            <div class="browser-mentors-infor">
+                <div class="browser-mentors-infor-wrapper">
+                    <ul>
+                        <li class="mentors-infor" ng-repeat="mentor in listTopmentors  | filter:query">
+                            <div class="mentors-infor-wrapper col-md-12">
+                                <div class="mentors-infor-details" >
+                                    <div class="mentors-name">
+                                        <a href="#/mentorProfile/{{mentor.userid}}">{{mentor.lastName + " "+ mentor.firstName}}</a><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span>
+                                    </div>
+                                    <div class="mentors-edu">
+                                        <span><strong>Education:</strong>{{mentor.accomplishments}}</span>
+                                    </div>
+                                    <div class="mentors-skill">
+                                        <span><strong>Skilled at:</strong>
+                                        <a ng-repeat="subject in  mentor.listSubject track by $index" href="#/ask_a_question/{{subject.id}}">{{subject.name}} </a>
+                                        </span>
+                                    </div>
+                                    <div class="mentors-desciption">
+                                        {{ mentor.bio | limitTo: 100 }}{{mentor.bio.length > 100 ? '...' : ''}}
+                                    </div>
+                                    <div class="mentors-rate">
+                                        <button class="subscribers" data-icon="&#x4c;" id="subscribers_{{mentor.userid}}" ng-click="setSubscribeMentor(mentor.userid)" ng-class="{'unsubcrib':mentor.isSubs =='1'}"
+                                        	ng-Mouseover="hoverSubcribe(mentor.isSubs,mentor.userid)" ng-mouseleave="unHoverSubcribe(mentor.isSubs,mentor.userid)">
+                                            <span id="span_{{mentor.userid}}">subscrible</span>
+                                            <span class="number-subscribers">{{mentor.numsub}}</span>
+                                        </button>
+                                        <p class="likes">
+                                            <span class="number-likes"><strong>{{mentor.numlike}}</strong></span><br>
+                                            <span class="title-likes">likes</span>
+                                        </p>
+                                        <p class="videos">
+                                            <span class="number-videos"><strong>{{mentor.numvideos}}</strong></span><br>
+                                            <span class="title-videos">videos</span>
+                                        </p>
+                                        <p class="answers">
+                                            <span class="number-answers"><strong>{{mentor.numAnswers}}</strong></span><br>
+                                            <span class="title-answers">answers</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mentors-infor-img">
+                                    <div class="mentors-infor-img-wrapper">
+                                        <a href="#/mentorProfile/{{mentor.userid}}"><img src="{{mentor.imageUrl}}">
+                                        <div class="mentors-img-hover">
+                                            <span data-icon="&#x4c;"></span>
+                                        </div></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- <div class="scroll-load-more col-md-12">
+                    <p>Scroll to load more</p>
+                </div> -->
+            </div><!-- /End information of mentors -->
+        </section><!-- /End content -->
     </div><!-- End container -->
-  </div>
-</main>
+</div>
