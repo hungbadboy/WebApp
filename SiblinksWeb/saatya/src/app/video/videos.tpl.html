@@ -142,8 +142,17 @@
                                                     class="video-poster"> {{recommend.userName}}</span></a><span> added {{recommend.timeAgo}} ago</span>
                                         </div>
                                         <div class="videos-rate">
-                                            <p class="videos-start"><span
-                                                    data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                            <p class="videos-start">
+                                                <span ng-if="isReadyLoadRateRecommended" star-rating stars="5"
+                                                      outer-star-selection="stars"
+                                                      outer-percent="rating"
+                                                      rating-define="star"
+                                                      rating-stars="{{recommend.averageRating}}"
+                                                      star-radius="6" sel-color="gold"
+                                                      readonly="true"
+                                                      back-color="white">
+                                                 </span>
+                                            </p>
                                             <p class="videos-rate-infor">
                                                 <span data-icon="&#x49;">{{recommend.numViews}}</span>
                                                 <span data-icon="&#xe089;" class="favourite">0</span>
@@ -155,7 +164,7 @@
                             </ul>
                             <div class="see-more" ng-click="loadMoreVideo(1, subjectId)"><p>show more</p></div>
                         </div>
-                        <div class="recently-uploaded"  ng-if="listVideoRecently.length != 0">
+                        <div class="recently-uploaded" ng-if="listVideoRecently.length != 0">
                             <h5>Recently Uploaded</h5>
                             <ul>
 
@@ -179,8 +188,17 @@
                                                     class="video-poster"> {{videoRecently.userName}}</span></a><span> added {{videoRecently.timeAgo}} ago</span>
                                         </div>
                                         <div class="videos-rate">
-                                            <p class="videos-start"><span
-                                                    data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                            <p class="videos-start">
+                                                 <span ng-if="isReadyLoadRateRecently" star-rating stars="5"
+                                                       outer-star-selection="stars"
+                                                       outer-percent="rating"
+                                                       rating-define="star"
+                                                       rating-stars="{{videoRecently.averageRating}}"
+                                                       star-radius="6" sel-color="gold"
+                                                       readonly="true"
+                                                       back-color="white">
+                                                 </span>
+                                            </p>
                                             <p class="videos-rate-infor">
                                                 <span data-icon="&#x49;">{{videoRecently.numViews}}</span>
                                                 <span data-icon="&#xe089;" class="favourite">0</span>
@@ -224,11 +242,21 @@
                                         </div>
                                     </a>
                                         <div class="videos-time-add">
-                                            <a href="#"><span class="video-poster"> {{recommended.name}}</span></a><span> added {{recommended.time}} ago</span>
+                                            <a href="#"><span
+                                                    class="video-poster"> {{recommended.name}}</span></a><span> added {{recommended.time}} ago</span>
                                         </div>
                                         <div class="videos-rate">
-                                            <p class="videos-start"><span
-                                                    data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                            <p class="videos-start">
+                                                <span ng-if="isReadyLoadRateRecently" star-rating stars="5"
+                                                      outer-star-selection="stars"
+                                                      outer-percent="rating"
+                                                      rating-define="star"
+                                                      rating-stars="{{recommended.avgRating}}"
+                                                      star-radius="6" sel-color="gold"
+                                                      readonly="true"
+                                                      back-color="white">
+                                                 </span>
+                                            </p>
                                             <p class="videos-rate-infor">
                                                 <span data-icon="&#x49;">{{recommended.numViews}}</span>
                                                 <span data-icon="&#xe089;" class="favourite">0</span>
@@ -432,7 +460,8 @@
 
                 <!-- Content of Favourite -->
                 <div class="tab-pane" id="favourite">
-                    <h4>Favourite Video</h4><span class="number-media number-subscrip" ng-bind="listVideoFavourite.length"></span>
+                    <h4>Favourite Video</h4><span class="number-media number-subscrip"
+                                                  ng-bind="listVideoFavourite.length"></span>
                     <div class="clear-history"><p ng-click="deleteFavouriteVideo('')">Clear history</p></div>
                     <div class="video-list-content">
                         <ul>
@@ -447,19 +476,24 @@
                                             {{videoFavourite.title}}
                                         </div>
                                         <div class="videos-time-add">
-                                            <span>from</span><span class="video-poster"video-author"
+                                            <span>from</span><span class="video-poster" video-author"
                                             id="{{videoFavourite.authorID}}"
-                                            ng-click="showProfile($event)">{{videoFavourite.firstName + ' ' + videoFavourite.lastName}}</span><span> added {{videoFavourite.timeStamp}}</span>
+                                            ng-click="showProfile($event)">{{videoFavourite.firstName + ' ' +
+                                            videoFavourite.lastName}}</span>
+                                            <span> added {{videoFavourite.timeStamp}}</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start"><span
-                                                    data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;" ng-repeat="item in range(videoFavourite.numRatings) track by $index"></span></p>
+                                                    data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"
+                                                    ng-repeat="item in range(videoFavourite.numRatings) track by $index"></span>
+                                            </p>
                                             <p class="video-description">
                                                 {{videoFavourite.description}}
                                             </p>
                                             <p class="videos-rate-infor">
                                                 <span data-icon="&#x49;">{{videoFavourite.numViews}}</span>
-                                                <span data-icon="&#xe089;" class="like">{{videoFavourite.numLike}}</span>
+                                                <span data-icon="&#xe089;"
+                                                      class="like">{{videoFavourite.numLike}}</span>
                                                 <span data-icon="&#xe066;">{{videoFavourite.numComments}}</span>
                                             </p>
                                         </div>
@@ -467,12 +501,15 @@
                                 </div>
                                 <div class="number-video">
                                     <!-- <h4>4</h4> -->
-                                    <span data-icon="&#xe051;" class="close-video" title="Delete" ng-click="deleteFavouriteVideo(videoFavourite)"></span>
+                                    <span data-icon="&#xe051;" class="close-video" title="Delete"
+                                          ng-click="deleteFavouriteVideo(videoFavourite)"></span>
                                 </div>
                             </li>
 
                         </ul>
-                        <div class="see-more"><p ng-click="showMoreFavourite()" ng-show="flagShowMoreFavourite && listVideoFavourite.length > numberOfFavouriteVideo">show more</p></div>
+                        <div class="see-more"><p ng-click="showMoreFavourite()"
+                                                 ng-show="flagShowMoreFavourite && listVideoFavourite.length > numberOfFavouriteVideo">
+                            show more</p></div>
                     </div>
                 </div><!--/End Content of Favourite -->
             </div><!-- /End Right Side -->
