@@ -132,7 +132,6 @@
                                         <div class="videos-title">
                                             <a href="#/videos/detailVideo/{{recommend.vid}}"
                                                title="{{recommend.title}}">
-                                                {{recommend.title}}">
                                                 {{ recommend.title | limitTo: 40 }}{{recommend.title.length > 40 ?
                                                 '...' :
                                                 ''}}
@@ -141,7 +140,7 @@
                                     </a>
                                         <div class="videos-time-add">
                                             <a href="#"><span
-                                                    class="video-poster"> {{recommend.userName}}</span></a><span> . added {{recommend.timeAgo}} ago</span>
+                                                    class="video-poster"> {{recommend.userName}}</span></a><span> added {{recommend.timeAgo}} ago</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start"><span
@@ -178,7 +177,7 @@
                                     </a>
                                         <div class="videos-time-add">
                                             <a href="#"><span
-                                                    class="video-poster"> {{videoRecently.userName}}</span></a><span> . added {{videoRecently.timeAgo}} ago</span>
+                                                    class="video-poster"> {{videoRecently.userName}}</span></a><span> added {{videoRecently.timeAgo}} ago</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start"><span
@@ -226,7 +225,7 @@
                                         </div>
                                     </a>
                                         <div class="videos-time-add">
-                                            <a href="#"><span class="video-poster"> {{recommended.name}}</span></a><span> . added {{recommended.time}} ago</span>
+                                            <a href="#"><span class="video-poster"> {{recommended.name}}</span></a><span> added {{recommended.time}} ago</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start"><span
@@ -283,7 +282,7 @@
                                     </a>
                                         <div class="videos-time-add">
                                             <a href="#"><span class="video-poster" id="{{lstRecentVideo.authorID}}"
-                                                              ng-click="showProfile($event)"> {{lstRecentVideo.author}}</span></a><span> . added {{caculateTimeElapsed(lstRecentVideo.timeStamp)}}</span>
+                                                              ng-click="showProfile($event)"> {{lstRecentVideo.author}}</span></a><span> added {{caculateTimeElapsed(lstRecentVideo.timeStamp)}}</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start"><span
@@ -319,7 +318,7 @@
                                     </a>
                                         <div class="videos-time-add">
                                             <a href="#"><span class="video-poster" id="{{lstWeekVideo.authorID}}"
-                                                              ng-click="showProfile($event)"> {{lstWeekVideo.author}}</span></a><span> . added {{convertUnixTimeToTime(lstWeekVideo.timeStamp)}}</span>
+                                                              ng-click="showProfile($event)"> {{lstWeekVideo.author}}</span></a><span> added {{convertUnixTimeToTime(lstWeekVideo.timeStamp)}}</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start"
@@ -356,7 +355,7 @@
                                             </div>
                                         </a>
                                         <div class="videos-time-add">
-                                            <span class="video-poster"> {{lstMentorOlder.authorName}}</span><span> . added {{caculateTimeElapsed(lstOlderVideo.timeStamp)}}</span>
+                                            <span class="video-poster"> {{lstMentorOlder.authorName}}</span><span> added {{caculateTimeElapsed(lstOlderVideo.timeStamp)}}</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start"
@@ -400,7 +399,7 @@
                                         </div>
                                         <div class="videos-time-add">
                                             <a href="#"><span class="video-poster" id="{{video.authorID}}"
-                                                              ng-click="showProfile($event)">{{video.firstName+' '+video.lastName}}</span></a><span> . added {{video.timeStamp}} ago</span>
+                                                              ng-click="showProfile($event)">{{video.firstName+' '+video.lastName}}</span></a><span> added {{video.timeStamp}} ago</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start"><span
