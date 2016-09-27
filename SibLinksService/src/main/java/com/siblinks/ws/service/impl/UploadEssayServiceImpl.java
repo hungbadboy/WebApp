@@ -154,8 +154,6 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     @RequestMapping(value = "/getEssayByUserId", method = RequestMethod.POST)
     public ResponseEntity<Response> getEssayByUserId(@RequestBody final RequestData request) throws FileNotFoundException {
 
-        String entityName = null;
-
         CommonUtil util = CommonUtil.getInstance();
 
         Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
@@ -225,7 +223,6 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             if (msg.getBody().getStatus() == "true") {
                 try {
 
-                    String entityName = SibConstants.SqlMapper.SQL_STUDENT_UPLOAD;
                     boolean msgs = true;
                     if ("S".equalsIgnoreCase(userType)) {
                         Object[] queryParams = { userId, name, file.getOriginalFilename(), "" + file.getSize(), file
@@ -359,7 +356,6 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         String review = ReadProperties.getProperties("directoryReviewUploadEssay");
         String sample = ".doc .docx .pdf .xls .xlsx";
         String params[] = new String[4];
-        String total;
         name = uploadfile.getOriginalFilename();
         int index = name.indexOf(".");
         name = name.substring(index, name.length());
@@ -387,7 +383,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
             catch (Exception e) {
                 logger.error(e.getMessage());
-                SimpleResponse reponse = new SimpleResponse("" + false, "Fail");
+                new SimpleResponse("" + false, "Fail");
                 return new ResponseEntity<Response>(HttpStatus.BAD_REQUEST);
             }
 
@@ -411,13 +407,13 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
         Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
 
-        // DaoFactory factory = DaoFactory.getDaoFactory();
-        //
-        Object[] queryParams = { request.getRequest_data().getUid(), map.get("from"), map.get(Parameters.TO) };
+        Object[] queryParams = null;
         if ("M".equalsIgnoreCase(request.getRequest_data().getUsertype())) {
             entityName = SibConstants.SqlMapper.SQL_GET_ALL_ESAY;
+            queryParams = new Object[] { Integer.parseInt(map.get(Parameters.FROM)), Integer.parseInt(map.get(Parameters.TO)) };
         } else {
             entityName = SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT;
+            queryParams = new Object[] { request.getRequest_data().getUid(), map.get(Parameters.FROM), map.get(Parameters.TO) };
         }
 
         List<Object> readObject = null;
@@ -497,7 +493,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     @RequestMapping(value = "/getEssayCommentsPN", method = RequestMethod.POST)
     public ResponseEntity<Response> getEssayCommentsPN(@RequestBody final RequestData request) {
 
-        String entityName = null;
+        
 
         // DaoFactory factory = DaoFactory.getDaoFactory();
         //
@@ -509,8 +505,6 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         Object[] queryParams = {
 
         request.getRequest_data().getEssayId(), map.get(Parameters.FROM), map.get(Parameters.TO) };
-
-        entityName = SibConstants.SqlMapper.SQL_SIB_GET_ESSAY_COMMENTS_PN;
 
         List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_GET_ESSAY_COMMENTS_PN, queryParams);
         String count = null;
