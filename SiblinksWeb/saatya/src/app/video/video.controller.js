@@ -79,6 +79,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 		$scope.listMentorOlder = [];
 	}
 
+	$scope.isReadyLoadRateRecently = false;
+    $scope.isReadyLoadRateRecommended = false;
 	
 	function fillAllVideo(allVideo) {
 		if(typeof allVideo[1] != 'undefined') {
@@ -404,8 +406,10 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         objVideo.timeAgo = convertUnixTimeToTime(video.timeStamp);
                         listVideos.push(objVideo);
                     }
+                    $scope.isReadyLoadRateRecommended = true;
                     return listVideos;
                 }
+
                 return null;
             }
 
@@ -433,6 +437,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         objVideo.enable = video.videoEnable;
                         listVideosRecently.push(objVideo);
                     }
+                    $scope.isReadyLoadRateRecently = true;
                     return listVideosRecently;
                 }
             }
