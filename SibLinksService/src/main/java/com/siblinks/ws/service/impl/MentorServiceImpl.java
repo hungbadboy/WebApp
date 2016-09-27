@@ -600,14 +600,17 @@ public class MentorServiceImpl implements MentorService {
           Map<String, Object> data_return = new HashMap<>();
           JsonParser parser = new JsonParser();
 
-          data_return.put("subscribed", false);
-          for (Object object : readObject) {
-               String val = parser.parse(object.toString()).getAsJsonObject().get("subcribe").getAsString();
-               if (val.equalsIgnoreCase("Y")) {
-                    data_return.put("subscribed", true);
-               } else {
-                    data_return.put("subscribed", false);
+          if (readObject != null && readObject.size() > 0) {
+               for (Object object : readObject) {
+                    String val = parser.parse(object.toString()).getAsJsonObject().get("subcribe").getAsString();
+                    if (val.equalsIgnoreCase("Y")) {
+                         data_return.put("subscribed", true);
+                    } else {
+                         data_return.put("subscribed", false);
+                    }
                }
+          } else {
+               data_return.put("subscribed", false);
           }
 
           SimpleResponse reponse = new SimpleResponse("" + true, data_return);
@@ -619,6 +622,7 @@ public class MentorServiceImpl implements MentorService {
      public ResponseEntity<Response> getStudentSubscribed(@RequestParam final long mentorId, @RequestParam final String limit, @RequestParam final String offset) {
 
           CommonUtil utils = CommonUtil.getInstance();
+          SimpleResponse response = null;
 
           Map<String, String> limitObject = utils.getOffset(limit, offset);
 
@@ -626,11 +630,14 @@ public class MentorServiceImpl implements MentorService {
 
           List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_STUDENT_SUBSCRIBED, params);
 
-          SimpleResponse response = new SimpleResponse("" + Boolean.TRUE, "mentor", "getStudentSubscribed", readObject);
+          if (readObject != null && readObject.size() > 0) {
+               response = new SimpleResponse("" + true, "mentor", "getLatestRatings", readObject);
+          } else {
+               response = new SimpleResponse("" + true, "mentor", "getLatestRatings", SibConstants.NO_DATA);
+          }
 
           ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
           return entity;
-
      }
 
      @Override
@@ -802,7 +809,6 @@ public class MentorServiceImpl implements MentorService {
      public ResponseEntity<Response> getNewestQuestions(@RequestParam final long uid) {
           Object[] queryParams = new Object[] { uid };
           SimpleResponse reponse;
-          Map<String, Object> result = new HashMap<>();
           List<Object> readObject = null;
           String value = null;
 
@@ -810,6 +816,7 @@ public class MentorServiceImpl implements MentorService {
           readObject = dao.readObjects(SibConstants.SqlMapperBROT124.SQL_GET_USER_SUBJECT, queryParams);
 
           if (readObject != null && readObject.size() > 0) {
+               Map<String, Object> result = new HashMap<>();
                for (Object object : readObject) {
                     Map<String, Object> map = (Map<String, Object>) object;
                     value = map.get("defaultSubjectId").toString();
@@ -829,12 +836,15 @@ public class MentorServiceImpl implements MentorService {
 
                String whereClause = "in(" + subjectId + ") order by p.timeStamp DESC limit 5";
 
-               reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", dao.readObjectsWhereClause(
-                    SibConstants.SqlMapperBROT124.SQL_GET_NEWEST_QUESTIONS,
-                    whereClause,
-                    null));
+               readObject = dao.readObjectsWhereClause(SibConstants.SqlMapperBROT124.SQL_GET_NEWEST_QUESTIONS, whereClause, null);
+               if (readObject != null && readObject.size() > 0) {
+                    reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", readObject);
+               } else {
+                    reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", SibConstants.NO_DATA);
+               }
+
           } else {
-               reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", result);
+               reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", SibConstants.NO_DATA);
           }
 
           ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -852,9 +862,16 @@ public class MentorServiceImpl implements MentorService {
           Object[] queryParams = new Object[] { mentorid };
 
           List<Object> readObject = null;
+          SimpleResponse reponse = null;
+
           readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_LATEST_RATING_IN_MANAGE_VIDEO, queryParams);
 
-          SimpleResponse reponse = new SimpleResponse("" + true, readObject);
+          if (readObject != null && readObject.size() > 0) {
+               reponse = new SimpleResponse("" + true, "mentor", "getLatestRatings", readObject);
+          } else {
+               reponse = new SimpleResponse("" + true, "mentor", "getLatestRatings", SibConstants.NO_DATA);
+          }
+
           ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
           return entity;
      }
@@ -871,9 +888,16 @@ public class MentorServiceImpl implements MentorService {
           Object[] queryParams = new Object[] { mentorid, limit, offset };
 
           List<Object> readObject = null;
+          SimpleResponse reponse = null;
+
           readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_LATEST_COMMENTS_IN_MANAGE_VIDEO, queryParams);
 
-          SimpleResponse reponse = new SimpleResponse("" + true, readObject);
+          if (readObject != null && readObject.size() > 0) {
+               reponse = new SimpleResponse("" + true, "mentor", "getLatestComments", readObject);
+          } else {
+               reponse = new SimpleResponse("" + true, "mentor", "getLatestComments", SibConstants.NO_DATA);
+          }
+
           ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
           return entity;
      }

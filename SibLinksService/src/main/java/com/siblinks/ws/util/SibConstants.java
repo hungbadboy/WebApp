@@ -47,6 +47,7 @@ public class SibConstants {
      public static final String FAILURE = "false";
      public static final int LENGHT_AUTHENTICATION = 10;
      public static final String ROOT = "/siblinks/services";
+     public static final String NO_DATA = "Found no data";
 
      public class MessageKey {
           public static final String REQUEST_DATA_RESUTL = "request_data_result";
