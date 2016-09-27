@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.MultiValueMap;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1135,7 +1136,7 @@ public class VideoServiceImpl implements VideoService {
 
         String entityName = null;
 
-        Object[] queryParams = new Object[] { "" + uid};
+        Object[] queryParams = new Object[] { "" + uid };
 
         entityName = SibConstants.SqlMapper.SQL_GET_HISTORY_VIDEOS_LIST;
 
@@ -1145,10 +1146,11 @@ public class VideoServiceImpl implements VideoService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
-    
+
     @Override
     @RequestMapping(value = "/clearHistoryVideosList", method = RequestMethod.GET)
-    public ResponseEntity<Response> clearHistoryVideosList(@RequestParam("uid") final String uid, @RequestParam("vid") final String vid) {
+    public ResponseEntity<Response> clearHistoryVideosList(@RequestParam("uid") final String uid,
+            @RequestParam("vid") final String vid) {
 
         String entityName = null;
         Map<String, String> queryParams = new HashMap<String, String>();
@@ -1916,51 +1918,57 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     @RequestMapping(value = "/rateVideo", method = RequestMethod.POST)
-	public ResponseEntity<Response> rateVideo(@RequestBody final RequestData request) {
-		String entityName = null;
-		boolean status = false;
-		if (!AuthenticationFilter.isAuthed(this.context)) {
-			ResponseEntity<Response> entity = new ResponseEntity<Response>(
-					new SimpleResponse("false", "Authentication required."), HttpStatus.FORBIDDEN);
-			return entity;
-		}
-		TransactionDefinition def = new DefaultTransactionDefinition();
-		TransactionStatus statusDao = transactionManager.getTransaction(def);
-		try {
+    public ResponseEntity<Response> rateVideo(@RequestBody final RequestData request) {
+        String entityName = null;
+        boolean status = false;
+        if (!AuthenticationFilter.isAuthed(this.context)) {
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(
+                                                                           new SimpleResponse(
+                                                                                              "false",
+                                                                                              "Authentication required."),
+                                                                           HttpStatus.FORBIDDEN);
+            return entity;
+        }
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus statusDao = transactionManager.getTransaction(def);
+        try {
 
-			Object[] queryParams = new Object[] { request.getRequest_data().getUid(),
-					request.getRequest_data().getVid() };
+            Object[] queryParams = new Object[] { request.getRequest_data().getUid(), request.getRequest_data().getVid() };
 
-			entityName = SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO;
+            entityName = SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO;
 
-			List<Object> videoRated = dao.readObjects(entityName, queryParams);
+            List<Object> videoRated = dao.readObjects(entityName, queryParams);
 
-			boolean isRated = videoRated.size() > 0 ? true : false;
-			String rate = request.getRequest_data().getRating();
-			String vid = request.getRequest_data().getVid();
+            boolean isRated = videoRated.size() > 0 ? true : false;
+            String rate = request.getRequest_data().getRating();
+            String vid = request.getRequest_data().getVid();
 
-			if (!isRated) {
-				entityName = SibConstants.SqlMapper.SQL_SIB_RATE_VIDEO;
-				queryParams = new Object[] { vid, request.getRequest_data().getUid(), rate };
-			} else {
-				queryParams = new Object[] { rate, vid, request.getRequest_data().getUid() };
-				entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO;
-			}
-			Object[] queryUpdateRate = { rate, vid,rate, vid };
-			dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE, queryUpdateRate);
-			status = dao.insertUpdateObject(entityName, queryParams);
-			
-			transactionManager.commit(statusDao);
-			logger.info("Insert Menu success " + new Date());
-		} catch (NullPointerException | DataAccessException e) {
-			transactionManager.rollback(statusDao);
-			throw e;
-		}
-		SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(),
-				request.getRequest_data_method(), request.getRequest_data().getVid());
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
-	}
+            if (!isRated) {
+                entityName = SibConstants.SqlMapper.SQL_SIB_RATE_VIDEO;
+                queryParams = new Object[] { vid, request.getRequest_data().getUid(), rate };
+            } else {
+                queryParams = new Object[] { rate, vid, request.getRequest_data().getUid() };
+                entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO;
+            }
+            Object[] queryUpdateRate = { rate, vid, rate, vid };
+            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE, queryUpdateRate);
+            status = dao.insertUpdateObject(entityName, queryParams);
+
+            transactionManager.commit(statusDao);
+            logger.info("Insert Menu success " + new Date());
+        } catch (NullPointerException | DataAccessException e) {
+            transactionManager.rollback(statusDao);
+            throw e;
+        }
+        SimpleResponse reponse = new SimpleResponse(
+                                                    "" +
+                                                    status,
+                                                    request.getRequest_data_type(),
+                                                    request.getRequest_data_method(),
+                                                    request.getRequest_data().getVid());
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
 
     @Override
     @RequestMapping(value = "/getVideosListByUser", method = RequestMethod.POST)
@@ -2089,9 +2097,9 @@ public class VideoServiceImpl implements VideoService {
             return entity;
         }
 
-       // Map<String, String> queryParams = new HashMap<String, String>();
-        //queryParams.put("vid", request.getRequest_data().getVid());
-		Object[] queryParams = { request.getRequest_data().getVid() };
+        // Map<String, String> queryParams = new HashMap<String, String>();
+        // queryParams.put("vid", request.getRequest_data().getVid());
+        Object[] queryParams = { request.getRequest_data().getVid() };
         String entityName = SibConstants.SqlMapper.SQL_UPDATE_NUMVIEW_VIDEO;
         boolean status = true;
         status = dao.insertUpdateObject(entityName, queryParams);
@@ -2127,7 +2135,7 @@ public class VideoServiceImpl implements VideoService {
             return entity;
         }
 
-        Object[] queryParams = {request.getRequest_data().getUid(),request.getRequest_data().getVid()};
+        Object[] queryParams = { request.getRequest_data().getUid(), request.getRequest_data().getVid() };
 
         boolean status = false;
         String entityName = SibConstants.SqlMapper.SQL_CHECK_USER_WATCHED_VIDEO;
@@ -2214,8 +2222,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> checkUserRatingVideo(@RequestBody final RequestData request) {
 
         String entityName = null;
-        Object[] queryParams = {request.getRequest_data().getUid(),request.getRequest_data().getVid()};
-
+        Object[] queryParams = { request.getRequest_data().getUid(), request.getRequest_data().getVid() };
 
         entityName = SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO;
 
@@ -2731,7 +2738,11 @@ public class VideoServiceImpl implements VideoService {
 
         CommonUtil cmUtils = CommonUtil.getInstance();
         Map<String, String> pageLimit = cmUtils.getOffset(limit, offset);
-
+        String subjectIdResult = dao.readObjects(SibConstants.SqlMapper.SQL_GET_SUBJECT_REG, params).toString();
+        String subjectIds = null;
+        if (subjectIdResult != null) {
+            subjectIds = subjectIdResult.substring(subjectIdResult.indexOf("=") + 1, subjectIdResult.lastIndexOf("}"));
+        }
         if (userId == -1) {
             if (subjectId.isEmpty() || subjectId.equals("-1")) {
                 params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
@@ -2751,17 +2762,11 @@ public class VideoServiceImpl implements VideoService {
                 map.put("recently", resultRecently);
             }
         } else if (subjectId.equals("-1")) {
-
-            String subjectIdResult = dao.readObjects(SibConstants.SqlMapper.SQL_GET_SUBJECT_REG, params).toString();
-
-            String subjectIds = subjectIdResult.substring(subjectIdResult.indexOf("=") + 1, subjectIdResult.lastIndexOf("}"));
             if (subjectIds != null) {
                 params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
-                String whereClause = "IN(" + subjectIds + ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
-                List<Object> resultDataRecommended = dao.readObjectsWhereClause(
-                    SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT,
-                    whereClause,
-                    params);
+                String whereClause = "WHERE V.subjectId IN(" + subjectIds + ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
+                List<Object> resultDataRecommended = dao
+                    .readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
                 map.put("recommended", resultDataRecommended);
             }
 
@@ -2793,16 +2798,31 @@ public class VideoServiceImpl implements VideoService {
                 subId = -2;
             }
             if (subId != -2) {
-                params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
-                String whereClause = " = " + subId + " ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
-                List<Object> resultDataRecommended = dao
-                    .readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
-                map.put("recommended", resultDataRecommended);
-
-                params = new Object[] { subId, subId, Integer.parseInt(pageLimit.get("limit")), Integer
+                String[] subjects = subjectIds.split(",");
+                if (ArrayUtils.contains(subjects, subjectId)) {
+                    params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
+                    StringBuilder sBuilder = new StringBuilder();
+                    for (String subject : subjects) {
+                        String childSubjectId = CommonUtil.getAllChildCategory("" + subject, getAllSubjectIdCategory());
+                        sBuilder.append(childSubjectId.concat(","));
+                    }
+                    String whereClause = "WHERE V.subjectId IN (" +
+                                         sBuilder.toString().substring(0, sBuilder.toString().lastIndexOf(",")) +
+                                         ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
+                    List<Object> resultDataRecommended = dao
+                        .readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
+                    map.put("recommended", resultDataRecommended);
+                } else {
+                    map.put("recommended", null);
+                }
+                params = new Object[] { userId, Integer.parseInt(pageLimit.get("limit")), Integer
                     .parseInt(pageLimit.get("offset")) };
-                List<Object> resultRecently = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_WITH_SUBJECT_ID, params);
-                map.put("recently", resultRecently);
+                String whereClause = "WHERE S.StudentId = ? AND S.Subcribe = 'Y' AND V.subjectId IN (" +
+                                     subId +
+                                     ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ? ";
+                List<Object> resultRecently = dao
+                    .readObjectsWhereClause(SibConstants.SqlMapper.SQL_NEW_VIDEO_MENTOR_SUBSCRIBE, whereClause, params);
+                map.put("recently", resultRecently != null ? resultRecently : null);
 
                 String entityName = SibConstants.SqlMapper.SQL_VIDEO_RECOMMENDED_FOR_YOU_WITH_SUB_ID;
                 params = new Object[] { subId, userId };
@@ -2830,6 +2850,12 @@ public class VideoServiceImpl implements VideoService {
             return true;
         }
         return false;
+    }
+
+    public List<Object> getAllSubjectIdCategory() {
+        String entityName = SibConstants.SqlMapper.SQL_GET_ALL_SUBJECTID_CATEGORY;
+        List<Object> subject = dao.readObjects(entityName, new Object[] {});
+        return subject;
     }
 
 }

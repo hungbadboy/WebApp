@@ -273,10 +273,5 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
-    public List<Object> getAllSubjectIdCategory() {
-        String entityName = SibConstants.SqlMapper.SQL_GET_ALL_SUBJECTID_CATEGORY;
-        List<Object> subject = dao.readObjects(entityName, new Object[] {});
-        return subject;
-    }
 
 }

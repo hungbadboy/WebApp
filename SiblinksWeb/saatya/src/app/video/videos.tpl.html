@@ -118,10 +118,9 @@
                         </ul>
                     </div>
                     <div class="video-list-content">
-                        <div class="recommended">
+                        <div class="recommended" ng-if="listVideoRecommended.length != 0">
                             <h5>Recommended</h5>
                             <ul>
-
                                 <li ng-repeat="recommend in listVideoRecommended track by $index">
                                     <div class="video-wrapper"><a href="#">
                                         <div class="videos-thumnail">
@@ -156,7 +155,7 @@
                             </ul>
                             <div class="see-more" ng-click="loadMoreVideo(1, subjectId)"><p>show more</p></div>
                         </div>
-                        <div class="recently-uploaded">
+                        <div class="recently-uploaded"  ng-if="listVideoRecently.length != 0">
                             <h5>Recently Uploaded</h5>
                             <ul>
 

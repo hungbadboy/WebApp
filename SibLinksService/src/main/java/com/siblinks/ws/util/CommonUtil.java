@@ -289,7 +289,6 @@ public class CommonUtil {
      * @return
      */
 
-
     public static String getAllChildCategory(final String id, final List<?> listCategory) {
         ArrayList<String> listSubject = new ArrayList<>();
         return getAllChildSubjects(id, listCategory, listSubject);
