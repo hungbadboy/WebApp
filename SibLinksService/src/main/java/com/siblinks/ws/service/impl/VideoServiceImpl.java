@@ -2738,10 +2738,14 @@ public class VideoServiceImpl implements VideoService {
 
         CommonUtil cmUtils = CommonUtil.getInstance();
         Map<String, String> pageLimit = cmUtils.getOffset(limit, offset);
-        String subjectIdResult = dao.readObjects(SibConstants.SqlMapper.SQL_GET_SUBJECT_REG, params).toString();
+        Object subjectIdResult = dao.readObjects(SibConstants.SqlMapper.SQL_GET_SUBJECT_REG, params);
+        List<Map<String, String>> objConvertor = (List<Map<String, String>>) subjectIdResult;
         String subjectIds = null;
-        if (subjectIdResult != null) {
-            subjectIds = subjectIdResult.substring(subjectIdResult.indexOf("=") + 1, subjectIdResult.lastIndexOf("}"));
+        if (!CollectionUtils.isEmpty(objConvertor)) {
+            for (Map<String, String> obj : objConvertor) {
+                subjectIds = obj.get("defaultSubjectId");
+            }
+
         }
         if (userId == -1) {
             if (subjectId.isEmpty() || subjectId.equals("-1")) {
@@ -2798,20 +2802,23 @@ public class VideoServiceImpl implements VideoService {
                 subId = -2;
             }
             if (subId != -2) {
-                String[] subjects = subjectIds.split(",");
-                if (ArrayUtils.contains(subjects, subjectId)) {
-                    params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
-                    StringBuilder sBuilder = new StringBuilder();
-                    for (String subject : subjects) {
-                        String childSubjectId = CommonUtil.getAllChildCategory("" + subject, getAllSubjectIdCategory());
-                        sBuilder.append(childSubjectId.concat(","));
+                if (subjectIds != null) {
+                    String[] subjects = subjectIds.split(",");
+                    if (ArrayUtils.contains(subjects, subjectId)) {
+                        params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer
+                            .parseInt(pageLimit.get("offset")) };
+                        StringBuilder sBuilder = new StringBuilder();
+                        for (String subject : subjects) {
+                            String childSubjectId = CommonUtil.getAllChildCategory("" + subject, getAllSubjectIdCategory());
+                            sBuilder.append(childSubjectId.concat(","));
+                        }
+                        String whereClause = "WHERE V.subjectId IN (" +
+                                             sBuilder.toString().substring(0, sBuilder.toString().lastIndexOf(",")) +
+                                             ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
+                        List<Object> resultDataRecommended = dao
+                            .readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
+                        map.put("recommended", resultDataRecommended);
                     }
-                    String whereClause = "WHERE V.subjectId IN (" +
-                                         sBuilder.toString().substring(0, sBuilder.toString().lastIndexOf(",")) +
-                                         ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
-                    List<Object> resultDataRecommended = dao
-                        .readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
-                    map.put("recommended", resultDataRecommended);
                 } else {
                     map.put("recommended", null);
                 }
