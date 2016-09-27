@@ -812,8 +812,15 @@ public class MentorServiceImpl implements MentorService {
                 value = map.get("defaultSubjectId").toString();
             }
             
-            for (char item : value.toCharArray()) {
+            String entityName = SibConstants.SqlMapper.SQL_GET_ALL_SUBJECTID_CATEGORY;
+            List<Object> subjects = dao.readObjects(entityName, new Object[] {});
+            StringBuilder subjectId = new StringBuilder();
+            for (String item : value.split(",")) {
+                System.out.println(item);
+                String out = CommonUtil.getAllChildCategory(item, subjects);
+                subjectId.append(out);
             }
+            System.out.println(subjectId);
         } else {
             result.put("Error", "No subject found");
         }
