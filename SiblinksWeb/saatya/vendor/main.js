@@ -47,7 +47,7 @@ jQuery(document).ready(function($) {
 
 
     $(".profile-user").click(function(){ //Show profile of user when click on arrow button on header
-        $(".user-info").toggle();
+        $(".user-info").slideToggle();
     })
 
     $(".video-thumnail").mouseenter(function(){
@@ -159,7 +159,7 @@ jQuery(document).ready(function($) {
         $(".mentor-left-header, #sidebar-menu, .mentor-center-header, .center-content").toggleClass("in");
     })
    
-    //$(".top-mentors-videos").stick_in_parent();
+    // $(".top-mentors-videos").stick_in_parent();
     //Bxslider - Slider images of ask a question page
 
         var $j = jQuery.noConflict();

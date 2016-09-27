@@ -14,13 +14,13 @@
     <ul ng-if="listTopmentors">
         <li ng-repeat="mentor in listTopmentors track by $index">
             <div class="top-mentors-img online">
-               <a href="#/mentorProfile/{{mentor.userid}}"><img ng-src="{{mentor.imageUrl}}">
-                <span class="offline"><img src="assets/images/ask question/online.png"></span>
+               <a href="#/student/mentorProfile/{{mentor.userid}}"><img ng-src="{{mentor.imageUrl}}">
+                <span ng-class="{'offline' : mentor.isOnline =='1', 'online' : mentor.isOnline =='0'}"><img src="assets/images/ask question/online.png"></span>
                </a>
             </div>
             <div class="top-mentors-info">
                 <p class="top-mentors-name">
-                    <a href="#/mentorProfile/{{mentor.userid}}">
+                    <a href="#/student/mentorProfile/{{mentor.userid}}">
                     <strong>{{mentor.userName}}</strong>
                     </a>
                 </p>
@@ -31,8 +31,6 @@
                     {{mentor.numsub}} subcrible, {{mentor.numAnswers}} answed
                 </p>
             </div>
-
-
         </li>
     </ul>
 </div><!-- /End list of top mentors -->

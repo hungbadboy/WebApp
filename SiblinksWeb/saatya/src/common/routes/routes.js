@@ -15,7 +15,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	// 	templateUrl: 'src/app/mentorProfile.tpl.html',
 	// 	controller : 'MentorProfileController'
 	// }).
-	when('/mentorProfile/:mentorId', {
+	when('/student/mentorProfile/:mentorId', {
 		templateUrl: 'src/app/mentors/mentorProfile.tpl.html',
 		controller : 'MentorProfileController'
 	}).
@@ -44,7 +44,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		controller: 'VideoController',
 		reloadOnSearch: false
 	}).
-	when('/mentor_video', {
+	when('/mentor/mentorVideo', {
 		templateUrl: 'src/app/mentors/mentor-manage-video.tpl.html',
 		controller: 'MentorVideoManageController',
 		reloadOnSearch: false
@@ -202,9 +202,18 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/playlist/playlist.tpl.html',
 		controller: 'PlaylistController'
 	}).
-	when('/mentor', {
+	when('/mentor/essay', {
+		templateUrl: 'src/app/essay/mentorEssay.tpl.html',
+		controller: 'AllEssayCtrl'
+	}).
+	
+	when('/mentor/dashboard', {
 		templateUrl: 'src/app/dashboard/dashboard.tpl.html',
 		controller: 'DashboardController'
+	}).
+	when('/mentor/profile', {
+		templateUrl: 'src/app/metorProfile/mentorProfile.tpl.html',
+		controller: 'MentorProfileController'
 	}).
 	otherwise({
         redirectTo: '/'

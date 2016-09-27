@@ -35,9 +35,12 @@ span.number-media {
     float: right;
     background: #ffcc00;
     color: #505050;
-    padding: 3px 3px 0px 3px;
+    padding: 4px 0px 0px 0px;
     font-size: 11px;
     border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    text-align: center;
 }
 
 .videos-content-header-top>div.link-mentor {
@@ -130,7 +133,7 @@ span.number-media {
 }
 
 .videos-time-add {
-    font-size: 10px;
+    font-size: 12px;
     margin-bottom: 15px;
 }
 
@@ -311,7 +314,7 @@ span.number-media {
     height: 86%;
     border-left: 1px solid #edf1f5;
     position: absolute;
-    left: 88%;
+    left: 87.5%;
     margin-left: 39px;
     top: 70px;
 }
@@ -971,9 +974,10 @@ span.favourite:before {
     float: left;
     margin-right: 10px;
     padding-bottom: 15px;
-    position: relative;
+    /*position: relative;*/
     cursor: pointer;
     width: 196px;
+    /* margin-bottom: 10px; */
 }
 .videos-thumnail img {
     width: 100%;
@@ -1031,7 +1035,7 @@ input#srch-term {
 #favourite .video-wrapper {
     overflow: hidden;
     border-bottom: 1px solid #ececed;
-    padding-bottom: 0;
+    padding-bottom: 5px;
 }
 /*.comment-simplebox-arrow {
     height: 12px;
@@ -1126,3 +1130,54 @@ li.video-list-item.active .thumb-video {
     bottom: 0;
     display: block;
 }*/
+
+#videos .videos-thumnail {
+    height: 110px;
+    width: 196px;
+}
+
+#videos .videos-title.ng-binding {
+    height: 40px;
+    overflow: hidden;
+}
+
+#videos .videos-time-add {
+    height: 20px;
+    overflow: hidden;
+    width: 100%;
+    float: left;
+    clear: both;
+}
+
+#videos .videos-rate {
+    height: 15px;
+    width: 100%;
+    float: left;
+}
+#videos .video-list-content li {
+    height: auto;
+    overflow: hidden;
+}
+.videos-title {
+    width: 100%;
+    float: left;
+}
+#videos #history .videos-rate, #videos #favourite .videos-rate {
+    height: auto;
+}
+#videos #all .video-list-content li,
+#videos #subcriptions .video-list-content li {
+    height: 213px;
+    position: relative;
+    margin-bottom: 15px;
+}
+#videos #all .videos-rate,
+#videos #subcriptions .videos-rate {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.videos-start span {
+    position: relative;
+    top: 1px;
+}

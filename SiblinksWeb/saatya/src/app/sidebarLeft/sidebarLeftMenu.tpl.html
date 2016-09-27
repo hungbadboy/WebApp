@@ -3,51 +3,51 @@
         <div class="navbar-collapse">
             <div class="mentor-infor">
                 <div class="mentor-infor-img">
-                    <img src="assets/images/user.jpg">
+                    <img ng-src="{{imageUrl}}"/>
                 </div>
                 <div class="mentor-infor-name">
                     <p>Welcome</p>
-                    <p><strong>Linda Young</strong></p>
+                    <p><strong>{{nameHome}}</strong></p>
                 </div>
             </div>
             <div class="browse"><p>Browse</p></div>
             <ul class="mobimenu nav sidebar-nav">
-                <li class="active">
-                    <a href="dashboard.html">
+                <li ng-class="{active: isActive=='/mentor/dashboard'}">
+                    <a href="#/mentor/dashboard">
                         <span class="fa fa-tachometer"></span>
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
-                <li>
+                <li ng-class="{active: isActive=='/mentor/managerQA'}">
                     <a href="#/mentor/managerQA">
                         <span data-icon="&#x77;"></span>
                         <span class="menu-title">Q&A</span>
                         <span data-icon="&#x34;" class="sub-menu"></span>
                     </a>
                 </li>
-                <li>
-                    <a href="/">
+                <li ng-class="{active: isActive=='/mentor/mentorVideo'}">
+                    <a href="#/mentor/mentorVideo">
                         <span data-icon="&#x49;"></span>
                         <span class="menu-title">Videos</span>
                         <span data-icon="&#x34;" class="sub-menu"></span>
                     </a>
                 </li>
-                <li>
-                    <a href="/">
+                <li ng-class="{active: isActive=='/mentor/essay'}">
+                    <a href="#/mentor/essay">
                         <span data-icon="&#xe101;"></span>
                         <span class="menu-title">Essay</span>
                         <span data-icon="&#x34;" class="sub-menu"></span>
                     </a>
                 </li>
-                <li>
-                    <a href="/">
+               <!--  <li ng-class="{active: isActive=='/mentor/analytics'}">
+                    <a href="#/mentor/analytics">
                         <span data-icon="&#x67;"></span>
                         <span class="menu-title">Analytics</span>
                         <span data-icon="&#x34;" class="sub-menu"></span>
                     </a>
-                </li>
-                <li>
-                    <a href="/">
+                </li> -->
+                <li ng-class="{active: isActive=='/mentor/profile'}">
+                    <a href="#/mentor/profile">
                         <span data-icon="&#xe08a;"></span>
                         <span class="menu-title">Profile</span>
                         <span data-icon="&#x34;" class="sub-menu"></span>

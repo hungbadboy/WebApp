@@ -69,7 +69,7 @@
         <!-- <div class="avatar fl"><span><img ng-src="data:image/png;base64,{{m.user_picture}}" alt="" /></span></div> -->
         <div class="avatar fl"><span><img ng-src="{{m.imageUrl}}" alt="" /></span></div>
         <div class="info fl">
-          <a href="#/mentorProfile/{{m.userid}}" class="name bold">{{m.firstName}} {{ m.lastName }}</a>
+          <a href="#/student/mentorProfile/{{m.userid}}" class="name bold">{{m.firstName}} {{ m.lastName }}</a>
           <a href="#" class="school bold">{{m.college_name}}</a>
           <span class="point">Points: {{m.points}}</span>
           <div class="chat fr" ng-class="{active:m.user_status == 'Online'}">

@@ -1,11 +1,130 @@
 /****Responsive for each screen*****/
 /***For max screen 2400***/
-
+@media screen and (max-width: 1680px) { 
+    /*======Mentor.ManageQ&A==========*/
+    .mentor-manage-qa-content .left-qa ul.nav.nav-tabs li a {
+        font-size: 14px;
+    }
+    .mentor-manage-qa-content .group-item-qa .item-qa {
+        padding: 20px 15px;
+    }
+    
+    /*======Mentor.ManageVideo==========*/
+    .manager-box-video .box-video-inner {
+        padding-left: 0;
+    }
+    
+    /*======Mentor.Mentorprofile==========*/
+    .manager-profile>div {
+        width: 100%;
+        padding: 0;
+        margin: 15px 0 ;
+    }
+    .manager-profile .box-avatar,
+    .box-information {
+        width: 50%;
+        float: left;
+    }
+    .manager-profile .avt:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        background: #ffcc00;
+        z-index: 0;
+    }
+    .manager-profile .box-avatar {
+        background: none;
+    }
+    
+    /*======Mentor.Studentprofile==========*/
+    .manager-profile-std .avt .count-qt {
+        position: absolute;
+        left: 0;
+        width: 50%;
+        bottom: 0;
+        text-align: center;
+    }
+    .manager-profile .box-avatar {
+        padding-top: 20px;
+    }
+}
 @media screen and (max-width: 1600px) { 
     .information-content>div,
     .about-content>div {
         margin-top: 5vh;
         margin-bottom: 5vh;
+    }
+
+    /*Mentor Dashboard*/
+    .total-likes, 
+    .total-rating, 
+    .total-answers, 
+    .total-videos {
+        width: 50%;
+    }
+    .total-rating-wrapper {
+        margin: 0 0 0 7.5px;
+    }
+    .total-answers-wrapper {
+        margin: 0 7.5px 0 0;
+    }
+    .dashboard-content-bottom-left,
+    .dashboard-content-bottom-right {
+        width: 100%;
+    }
+
+    /*======Mentor.ManageQ&A==========*/
+    .col-md-4.left-qa {
+        width: 40%;
+    }
+
+    .col-md-8.box-main-replied {
+        width: 60%;
+    }
+    .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bx-detail-rpl {
+        padding: 27px 0 0 0px;
+    }
+    .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bt-item p.list-view span, 
+    .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bt-item p.list-view a, 
+    .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bt-item p.list-view i {
+        padding-right: 0px; 
+    }
+    .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bx-detail-rpl .top-rpl img {
+        width: 65px;
+        height: 65px;
+    }
+    .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bx-detail-rpl .top-rpl .bx-dt-qa {
+        padding: 0;
+    }
+    .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bx-detail-rpl .top-rpl .bt-item {
+        padding-left: 0;
+    }
+    .box-main-replied .form-chat .box-chat-onl .texta:before {
+        left: 53px;
+    }
+    .box-main-replied .form-chat .box-chat-onl .texta textarea {
+        margin-left: 25px;
+        width: ~"calc(100% - 50px)";
+    }
+}
+/***For max screen 1540***/
+@media screen and (max-width: 1540px) { 
+     /*======Mentor.ManageVideo==========*/
+    .manager-box-video .box-over {
+        width: 50%;
+    }
+    .manager-box-video .box-video-inner {
+        width: 50%;
+        padding-left: 15px;
+        margin-bottom: 15px;
+    }
+    .manager-box-video .row.main-rate>div {
+        width: 100%;
+        float: left;
+        margin-bottom: 30px;
     }
 }
 /***For max screen 2400***/
@@ -15,6 +134,57 @@
         margin-top: 3vh;
         margin-bottom: 3vh;
     }
+    .dashboard-content-bottom-right-wrapper {
+        width: 100%;
+        float: left;
+        margin-right: 0;
+    }
+    .dashboard-content-bottom-right {
+        padding-left: 0px; 
+    }
+    .dashboard-video {
+        float: left;
+        width: 100%;
+        margin-top: 15px;
+    }
+    span.icon-play-video {
+        position: absolute;
+        top: 38%;
+        left: 45%;
+    }
+    
+    /*======Mentor.ManageQ&A==========*/
+    .col-md-8.box-main-replied {
+        width: 80%;
+        margin: 50px auto;
+        float: none;
+        padding: 0;
+    }
+    .col-md-4.left-qa,
+    .row.top-mag {
+        width: 98%;
+        margin: auto;
+        float: none;
+    }
+    .manager-video .top-mag .sl-newwest, .manager-video .top-mag .sl-sbj {
+        padding-right: 0;
+        width: 140px;
+    }
+    .manager-video .top-mag .btn-filter {
+        width: 106px;
+    }
+    .box-main-replied .form-chat .box-chat-onl .texta:before {
+        left: 68px;
+    }
+    .box-main-replied .form-chat .box-chat-onl .texta textarea {
+        width: calc(100% - 78px);
+    }
+
+    /*======Mentor.Studentprofile==========*/
+    .sub-right .list-std li {
+        width: 50%;
+    }
+
 }
 /***For max screen 1281***/
 @media screen and (max-width: 1281px) { 
@@ -55,6 +225,44 @@
     .account-header-title {
         margin-bottom: 20px;
     }
+
+    /*======Mentor.ManageVideo==========*/
+    .manager-box-video .box-over,
+    .manager-box-video .box-video-inner,
+    .manager-box-video .row.main-rate>div {
+        width: 100%;
+    }
+    .main-rate,
+    .manager-box-video .row.main-rate>div {
+        margin-top: 0px;
+        margin-bottom: 15px;
+    }
+
+    /*======Mentor.Mentorprofile==========*/
+    .manager-profile>div {
+        width: 100%;
+        padding: 0;
+        margin: 15px 0 ;
+    }
+    .manager-profile .box-avatar,
+    .box-information {
+        width: 100%;
+        float: left;
+    }
+    .manager-profile .avt:before {
+        height: 0;
+    }
+    .manager-profile .box-avatar {
+        background: #ffcc00;
+    }
+
+    /*======Mentor.Mentorprofile==========*/
+    .manager-profile-std .avt .count-qt {
+        position: relative;
+        width: 100%;
+        height: 86px;
+        overflow: hidden;
+    }
     
 }
 @media screen and (max-width: 1200px) { 
@@ -66,6 +274,13 @@
         right: -33%;
     }
     /*Ask a question*/
+    .total-question.col-xs-6 {
+        width: 42%;
+        float: left;
+    }
+    .sort {
+        top: 10px;
+    }
     .ask-a-question-content .top-mentors-videos {
         width: 820px;
         float: right;
@@ -113,6 +328,16 @@
         margin: auto;
         overflow: hidden;
         float: none;   
+    }
+    .new-ask-button {
+        float: none;
+        margin: auto;
+        margin-top: 10px;
+    }
+    .new-ask.col-xs-6 {
+        width: 150px;
+        float: right;
+        margin-right: 30px;
     }
 
     /*Browser mentors*/
@@ -176,18 +401,93 @@
     .video-details {
         padding-left: 20px;
     }
-    #history .video-list-content li:first-child:before, #favourite .video-list-content li:first-child:before {
-        left: 81.5%;
-    }
     .number-video>h4 {
         font-size: 24px;
     }
-    #history .video-list-content li:first-child:before, 
-    #favourite .video-list-content li:first-child:before {
-        left: 83%;
-        top: 70px;
+    /*#history .video-list-content li:before, 
+    #favourite .video-list-content li:before {
+        left: 85.5%;
+    }*/
+
+    /*College*/
+    .college-admission-content-wrapper {
+        width: 100%;
+        margin-left: 0;
+        overflow: hidden;
+    }
+    .college-admission-content-sidebar.col-md-4 {
+        width: 100%;
+        padding: 0;
+    }
+    .your-essay {
+        width: 50%;
+        float: left;
+        margin: 0 15px 0 0;
+    }
+    #college-admission .video-list-content li {
+        width: 33.33333%;
+
     }
 
+    /*Video mentor*/
+    #videos .video-list-content li {
+        height: auto;
+        overflow: hidden;
+        width: 50%;
+        float: left;
+        margin-right: 0;
+        padding-right: 15px;
+    }
+    .videos-thumnail img {
+        width: 100%;
+        height: auto;
+        float: left;
+
+    }
+    #videos .videos-thumnail {
+        height: auto;
+        width: 100%;
+    }
+    #videos #history .video-list-content li, 
+    #videos #favourite .video-list-content li {
+        width: 100%;
+        padding-right: 0;
+    }
+    #videos #history .videos-thumnail,
+    #videos #favourite .videos-thumnail {
+        height: auto;
+        width: 42%;
+        float: left;
+    }
+    #history .video-list-content li .video-wrapper, 
+    #favourite .video-list-content li .video-wrapper {
+        width: 90%;
+        float: left;
+    }
+    .clear-history {
+        margin-top: 10px;
+    }
+    .top-mentors-videos.col-lg-4 {
+        overflow: hidden;
+        margin-bottom: 0px;
+    }
+    .ask-a-question-content .new-ask-button {
+        float: right;  
+    }
+    #videos #all .video-list-content li, 
+    #videos #subcriptions .video-list-content li {
+        height: 270px;
+        position: relative;
+        margin-bottom: 15px;
+        padding-right: 0;
+        margin-right: 15px;
+        width: ~"calc(50% - 15px)";
+    }
+
+    /*======Mentor.Studentprofile==========*/
+    .sub-right .list-std li {
+        width: 100%;
+    }
 
 }
 
@@ -197,10 +497,10 @@
         font-size: 30px;
     }
     section h2 {
-        font-size: 22.5px;
+        font-size: 23px;
     }
     section h4 {
-        font-size: 15px;
+        font-size: 18px;
     }
     section h5 {
         font-size: 14px;
@@ -324,18 +624,10 @@
     }
 
     /*First Ask*/
-    .top-mentors-videos {
-        width: 100%;
-        margin: auto;
-        overflow: hidden;
-        float: none;
-    }
-    .first-ask-content .top-mentors, .first-ask-content .top-videos {
-        width: 356px;
-        float: none;
-        clear: both;
-        margin: 30px auto;
-        overflow: hidden;
+    .first-ask-img img {
+        position: relative;
+        top: 0;
+        left: -60px;
     }
     /*Ask a question*/
     .ask-a-question-content .top-mentors{
@@ -356,7 +648,8 @@
     .mentors-infor:nth-child(even) {
         margin: 15px 0;
     }
-    .mentors-infor-wrapper {
+    .scroll-load-more p {
+        position: relative;
         overflow: hidden;
     }
 
@@ -410,11 +703,6 @@
     .video-list>div {
         margin-top: 30px;
     }
-    #history .video-list-content li:first-child:before, 
-    #favourite .video-list-content li:first-child:before {
-        left: 84%;
-        top: 70px;
-    }
     .unlogin .video-list-content li {
         width: 33.3333%;
     }
@@ -424,6 +712,23 @@
         width: 100%;
         height: auto;
         max-height: 50%;
+    }
+
+    /*Mentor DASHBOARD*/
+    .total-likes, 
+    .total-rating, 
+    .total-answers, 
+    .total-videos {
+        width: 100%;
+    }
+    .total-likes-wrapper, 
+    .total-rating-wrapper, 
+    .total-answers-wrapper, 
+    .total-videos-wrapper {
+        margin: 0;
+    } 
+    .carousel-inner {
+        height: 77px;
     }
     
 
@@ -536,25 +841,47 @@
     }
 
     /*Video page*/
-    #history .video-details, 
-    #favourite .video-details,
-    #history .video-details, 
-    #favourite .video-details  {
-        width: 100%;
-        float: left;
-        padding: 0;
-    }
     #history .video-list-content li .video-wrapper, 
     #favourite .video-list-content li .video-wrapper {
         width: 85%;
         float: left;
     }
-    #history .video-list-content li:first-child:before, 
-    #favourite .video-list-content li:first-child:before {
-        left: 77%;
-    }
     .unlogin .video-list-content li {
         width: 50%;
+    }
+    #history .video-list-content li:before, 
+    #favourite .video-list-content li:before {
+        left: 81.5%;
+    }
+    #videos #history .videos-thumnail, 
+    #videos #favourite .videos-thumnail {
+        height: auto;
+        width: 90%;
+        float: left;
+    }
+    #history .video-details, #favourite .video-details {
+        width: 100%;
+        padding: 0;
+        float: left;
+    }
+    /*First Ask*/
+    .top-mentors-videos {
+        width: 100%;
+        margin: auto;
+        overflow: hidden;
+        float: none;
+    }
+    .first-ask-content .top-mentors, .first-ask-content .top-videos {
+        width: 356px;
+        float: none;
+        clear: both;
+        margin: 30px auto;
+        overflow: hidden;
+    }
+    .first-ask-img img {
+        position: relative;
+        top: 0;
+        left: -100px;
     }
 
 
@@ -582,9 +909,27 @@
         right: 0px;
     }
 
+    /*College*/
+    #college-admission .video-list-content li {
+        width: 100%;
+        margin: auto;
+    }
+    .your-essay {
+        width: 100%;
+    }
+    .top-mentors {
+        width: 100%;
+        float: left;
+        margin-top: 30px;
+    }
+
 }
 /***For max screen 540***/
 @media screen and (max-width: 560px) { 
+
+    main>.content {
+        margin-top: 140px;
+    }
 
     /*Menu*/
     .module-navigation .navigation .navbar-default,
@@ -633,6 +978,12 @@
     .student-info-detail,
     .student-header-detail {
         width: 100%;
+    }
+
+    /*Video*/
+    #videos .video-list-content li {
+        width: 100%;
+        padding-right: 0;
     }
 
 

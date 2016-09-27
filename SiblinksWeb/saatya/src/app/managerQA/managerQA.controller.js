@@ -14,10 +14,10 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
 
         function init() {
-            managerQAService.getListQuestionQA(subjectId, userId, lastQId, type, LIMIT).then(function (data) {
+            managerQAService.getListQuestionQA("-1", userId, lastQId, type, LIMIT).then(function (data) {
                 var subjects = myCache.get("subjects");
-                $scope.subjectsParent = {};
-                $scope.subjectsChild = {};
+                $scope.subjectsParent = [];
+                $scope.subjectsChild = [];
                 for(var i = 0; i < subjects.length;i++){
                     if(subjects[i].level == '1'){
                         $scope.subjectsParent.push(subjects[i]);

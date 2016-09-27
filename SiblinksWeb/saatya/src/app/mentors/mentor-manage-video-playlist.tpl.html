@@ -1,307 +1,122 @@
-<!-- main start -->
-<main id="main" class="clearfix">
-    <div id="sidebar-menu" class="sidebar-left">
-        <div class="navigation ">
-            <nav class="navbar">
-                <div class="navbar-collapse">
-                    <div class="mentor-infor">
-                        <div class="mentor-infor-img">
-                            <img src="../images/user.jpg">
-                        </div>
-                        <div class="mentor-infor-name">
-                            <p>Welcome</p>
-                            <p><strong>Linda Young</strong></p>
-                        </div>                                           
-                    </div> 
-                    <div class="browse"><p>Browse</p></div>
-                    <ul class="mobimenu nav sidebar-nav">                                     
-                        <li class="active">
-                            <a href="dashboard.html">
-                                <span class="fa fa-tachometer"></span>
-                                <span class="menu-title">Dashboard</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/">
-                                <span data-icon="&#x77;"></span>
-                                <span class="menu-title">Q&A</span>
-                                <span data-icon="&#x34;" class="sub-menu"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/">
-                                <span data-icon="&#x49;"></span>
-                                <span class="menu-title">Videos</span>
-                                <span data-icon="&#x34;" class="sub-menu"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/">
-                                <span data-icon="&#xe101;"></span>
-                                <span class="menu-title">Essay</span>
-                                <span data-icon="&#x34;" class="sub-menu"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/">
-                                <span data-icon="&#x67;"></span>
-                                <span class="menu-title">Analytics</span>
-                                <span data-icon="&#x34;" class="sub-menu"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/">
-                                <span data-icon="&#xe08a;"></span>
-                                <span class="menu-title">Profile</span>
-                                <span data-icon="&#x34;" class="sub-menu"></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-    <div class="content">
-        <div class="center-content">
-            <div class="center-content-wrapper">
-                <section id="dashboard">
-                    <div class="dashboard-wrapper">
-                        <div class="dashboard-header">    
-                        <h4>Manage Video</h4>
-                        <p>Ut a porttitor leo. Aliquam fermentum nec elit lobortis tristique </p>
-                        </div>
-                        <div class="manager-video">
-                            <div class="row top-mag">
-                                <div class="col-md-8">
-                                    <div class="col-md-5 search">
-                                        <form class="navbar-form" role="search">
-                                            <div class="input-group">
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-default" type="submit"><img src="../images/icon-search.png" alt=""></button>
-                                                </div>
-                                                <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+<!-- Sidebar left menu -->
+<div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
+<!-- /End Sidebar left menu -->
+<div class="content">
+    <div class="center-content">
+        <div class="center-content-wrapper">
+            <section id="dashboard">
+                <div class="dashboard-wrapper">
+                    <div class="dashboard-header">    
+                    <h4>Manage Video</h4>
+                    <p>Ut a porttitor leo. Aliquam fermentum nec elit lobortis tristique </p>
+                    </div>
+                    <div class="manager-video">
+                        <div class="row top-mag">
+                            <div class="col-md-8">
+                                <div class="col-md-5 search">
+                                    <form class="navbar-form" role="search">
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" type="submit"><img src="../images/icon-search.png" alt=""></button>
                                             </div>
-                                        </form>
-                                    </div>
-                                    <div class="col-md-3 sl-sbj">
-                                        <select class="select-sbj">
-                                            <option value="0">Option 1</option>
-                                            <option value="1">Option 2</option>
-                                            <option value="2">Option 3</option>
-                                            <option value="3">Option 4</option>
-                                            <option value="4">Option 5</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 sl-newwest">
-                                        <select class="select-newwest">
-                                            <option value="0">Option 1</option>
-                                            <option value="1">Option 2</option>
-                                            <option value="2">Option 3</option>
-                                            <option value="3">Option 4</option>
-                                            <option value="4">Option 5</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 btn-filter"><button>Filter</button></div>
+                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+                                        </div>
+                                    </form>
                                 </div>
+                                <div class="col-md-3 sl-sbj">
+                                    <select class="select-sbj">
+                                        <option value="0">Option 1</option>
+                                        <option value="1">Option 2</option>
+                                        <option value="2">Option 3</option>
+                                        <option value="3">Option 4</option>
+                                        <option value="4">Option 5</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 sl-newwest">
+                                    <select class="select-newwest">
+                                        <option value="0">Option 1</option>
+                                        <option value="1">Option 2</option>
+                                        <option value="2">Option 3</option>
+                                        <option value="3">Option 4</option>
+                                        <option value="4">Option 5</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 btn-filter"><button>Filter</button></div>
+                            </div>
+                        </div>
+                        <div class="btn-mg">
+                            <button class="btn-delete">Delete</button>
+                            <button class="add-play">Add to playlist</button>
+                        </div>
+                        <div class="main-manager-video">
+                            <div class="filters clearfix">
+                                <div class="check-all"><input id="check-all" type="checkbox" name="checkall" /></div>
+                                <div class="text-trf">video informations</div>
+                                <div class="text-play">playlist</div>
+                                <div class="text-des">description</div>
+                                <div class="text-ac">action</div>
+                            </div>
+                            <div class="group-item" ng-if="videos" ng-repeat="v in videos track by $index">
+                                <div class="item">
+                                    <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
+                                    <div class="box-detail-play clearfix">
+                                        <span class="item-thumbnail">
+                                            <img src="{{v.image}}" alt="">
+                                        </span>
+                                        <div class="detail-pl-inner">
+                                            <h5>{{v.title}}</h5>
+                                            <span class="add-time">{{v.timeStamp}}</span>
+                                            <ul class="list-star">
+                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
+                                            </ul>
+                                            <p class="list-view">
+                                                <span><img src="../images/icon-play.png" alt="">{{v.numPlayed}}</span>&nbsp;&nbsp;
+                                                <span><img src="../images/icon-view.png" alt="">{{v.numViews}}</span>&nbsp;&nbsp;
+                                                <span><img src="../images/icon-comment.png" alt="">{{v.numComments}}</span>&nbsp;&nbsp;
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p class="box-playlist">
+                                        Chemistry
+                                    </p>
+                                    <p class="box-description">
+                                        {{v.description}}
+                                    </p>
+                                    <div class="box-ac">
+                                        <ul class="list-ac">
+                                            <li><a href="#">Edit</a></li>
+                                            <li><a href="#">Add playlist</a></li>
+                                            <li><a href="#" ng-click="delete(v.vid)">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </div>                                    
+                            </div>
+                            <div class="row clearfix">
+                                <p class="btn-load-more"><a class="load-more-mng" href="#" ng-click="loadMoreVideos()">load more</a></p>
+                            </div>
+                            <div class="filters clearfix">
+                                <div class="check-all"><input id="check-all" type="checkbox" name="checkall" /></div>
+                                <div class="text-trf">video informations</div>
+                                <div class="text-play">playlist</div>
+                                <div class="text-des">description</div>
+                                <div class="text-ac">action</div>
                             </div>
                             <div class="btn-mg">
                                 <button class="btn-delete">Delete</button>
                                 <button class="add-play">Add to playlist</button>
                             </div>
-                            <div class="main-manager-video">
-                                <div class="filters clearfix">
-                                    <div class="check-all"><input id="check-all" type="checkbox" name="checkall" /></div>
-                                    <div class="text-trf">video informations</div>
-                                    <div class="text-play">playlist</div>
-                                    <div class="text-des">description</div>
-                                    <div class="text-ac">action</div>
-                                </div>
-                                <div class="group-item" ng-if="videos" ng-repeat="v in videos track by $index">
-                                    <div class="item">
-                                        <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
-                                        <div class="box-detail-play clearfix">
-                                            <span class="item-thumbnail">
-                                                <img src="{{v.image}}" alt="">
-                                            </span>
-                                            <div class="detail-pl-inner">
-                                                <h5>{{v.title}}</h5>
-                                                <span class="add-time">{{v.timeStamp}}</span>
-                                                <ul class="list-star">
-                                                    <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                    <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                    <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                    <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                    <li><a href="#"><img src="../images/icon-s.png" alt=""></a></li>
-                                                </ul>
-                                                <p class="list-view">
-                                                    <span><img src="../images/icon-play.png" alt="">{{v.numPlayed}}</span>&nbsp;&nbsp;
-                                                    <span><img src="../images/icon-view.png" alt="">{{v.numViews}}</span>&nbsp;&nbsp;
-                                                    <span><img src="../images/icon-comment.png" alt="">{{v.numComments}}</span>&nbsp;&nbsp;
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <p class="box-playlist">
-                                            Chemistry
-                                        </p>
-                                        <p class="box-description">
-                                            {{v.description}}
-                                        </p>
-                                        <div class="box-ac">
-                                            <ul class="list-ac">
-                                                <li><a href="#">Edit</a></li>
-                                                <li><a href="#">Add playlist</a></li>
-                                                <li><a href="#" ng-click="delete(v.vid)">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>                                    
-                                </div>
-                                <div class="row clearfix">
-                                    <p class="btn-load-more"><a class="load-more-mng" href="#" ng-click="loadMoreVideos()">load more</a></p>
-                                </div>
-                                <div class="filters clearfix">
-                                    <div class="check-all"><input id="check-all" type="checkbox" name="checkall" /></div>
-                                    <div class="text-trf">video informations</div>
-                                    <div class="text-play">playlist</div>
-                                    <div class="text-des">description</div>
-                                    <div class="text-ac">action</div>
-                                </div>
-                                <div class="btn-mg">
-                                    <button class="btn-delete">Delete</button>
-                                    <button class="add-play">Add to playlist</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                </section>
-            </div>
-        </div>                
-    </div>
-    <div id="sidebar-right">
-        <div class="right-content">
-            <div class="right-content-tab">
-                <div class="right-content-wrapper">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#group1"><span data-icon="&#xe050;"></span></a></li>
-                        <li><a data-toggle="tab" href="#group2"><span data-icon="&#xe066;"></span></a></li>
-                        <li><a data-toggle="tab" href="#group3"><span data-icon="&#xe033;"></span></a></li>
-                    </ul>
-                    <!-- Content of each tab -->                        
-                    <div class="tab-content">
-                        <!-- Content of tab All -->
-                        <div id="group1" class="tab-pane active">
-                            <div class="student-subcripted">
-                                <div class="student-subcripted-title">
-                                    <p>Students subscribed</p>
-                                </div>
-                                <div class="student-subcripted-content">
-                                    <ul ng-repeat="s in students track by $index">
-                                        <li>
-                                            <div class="student-subcripted-img online">
-                                                <img src="{{s.imageUrl}}">
-                                                <span class="offline"><img src="../images/ask question/online.png"></span>
-                                            </div>
-                                            <div class="student-subcripted-info">
-                                                <p class="student-subcripted-name">
-                                                    <strong>{{s.firstName + ' ' + s.lastName}}</strong>
-                                                </p>
-                                                <p class="student-subcripted-icon ">
-                                                    <span data-icon="&#xe065;"></span>
-                                                </p>
-                                            </div>
-                                        </li>                                                                                       
-                                    </ul>
-                                    <div class="load-more"><button ng-click="loadMoreStudents()">Show more</button></div>
-                                </div>
-                            </div>
-                            <div class="recently-activity">
-                                <div class="recently-activity-title">
-                                    <p>Recently Activity</p>
-                                </div>
-                                <div class="recently-activity-content">
-                                    <ul>
-                                        <li>
-                                            <div class="number-content">
-                                                <p></p>
-                                            </div>
-                                            <div class="recently-activity-info">
-                                                <p class="recently-activity-time">
-                                                    <span>2 hours ago</span>
-                                                </p>
-                                                <div class="recently-activity-status">
-                                                    <span class="recently-activity-name">
-                                                    Student name</span><span>Just rating your video</span>
-                                                </div>
-                                            </div>
-                                        <li>
-                                            <div class="number-content">
-                                                <p></p>
-                                            </div>
-                                            <div class="recently-activity-info">
-                                                <p class="recently-activity-time">
-                                                    <span>2 hours ago</span>
-                                                </p>
-                                                <div class="recently-activity-status">
-                                                    <span class="recently-activity-name">
-                                                    Student name</span><span>Just rating your video</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="number-content">
-                                                <p></p>
-                                            </div>
-                                            <div class="recently-activity-info">
-                                                <p class="recently-activity-time">
-                                                    <span>2 hours ago</span>
-                                                </p>
-                                                <div class="recently-activity-status">
-                                                    <span class="recently-activity-name">
-                                                    Student name</span><span>Just rating your video</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="number-content">
-                                                <p></p>
-                                            </div>
-                                            <div class="recently-activity-info">
-                                                <p class="recently-activity-time">
-                                                    <span>2 hours ago</span>
-                                                </p>
-                                                <div class="recently-activity-status">
-                                                    <span class="recently-activity-name">
-                                                    Student name</span><span>Just rating your video</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="number-content">
-                                                <p></p>
-                                            </div>
-                                            <div class="recently-activity-info">
-                                                <p class="recently-activity-time">
-                                                    <span>2 hours ago</span>
-                                                </p>
-                                                <div class="recently-activity-status">
-                                                    <span class="recently-activity-name">
-                                                    Student name</span><span>Just rating your video</span>
-                                                </div>
-                                            </div>
-                                        </li>                                               
-                                    </ul>
-                                    <div class="load-more"><button>Show more</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="group2" class="tab-pane">
-                        </div>
-                        <div id="group3" class="tab-pane">
-                        </div>
                 </div>
-            </div>
+            </section>
         </div>
-    </div>
-</main>
-<!--  end main -->
-
+    </div>                
+</div>
+<!-- Sidebar right -->
+<div id="sidebar-right" ng-include="sidebarRight"></div>
+<!-- End Sidebar right -->
        

@@ -42,7 +42,8 @@ brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $h
                 if (dataUser['userType'] == 'S') { // login student
                 	window.location.href = '/';
                 } else if(dataUser['userType'] == 'M') { // login mentor
-                	window.location.href = '#/mentor';
+                	window.location.href = '#/mentor/dashboard';
+                	window.location.reload();
                 }
             } else {
                 $scope.loginMess = "Incorrect email or password";

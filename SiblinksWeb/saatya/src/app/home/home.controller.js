@@ -25,31 +25,31 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
             }
             $scope.subjects = myCache.get("subjects");
 
-            // if (myCache.get("subjects") !== undefined) {
-            //     $log.info("My cache already exists");
-            //     $scope.subjects = myCache.get("subjects");
-            // } else {
-            //     HomeService.getAllCategory().then(function (data) {
-            //         if (data.data.status) {
-            //             $log.info("Get service subject with category");
-            //             $scope.subjects = data.data.request_data_result;
-            //             myCache.put("subjects", data.data.request_data_result);
-            //         }
-            //     });
-            // }
+             if (myCache.get("subjects") !== undefined) {
+                 $log.info("My cache already exists");
+                 $scope.subjects = myCache.get("subjects");
+             } else {
+                 HomeService.getAllCategory().then(function (data) {
+                     if (data.data.status) {
+                         $log.info("Get service subject with category");
+                         $scope.subjects = data.data.request_data_result;
+                         myCache.put("subjects", data.data.request_data_result);
+                     }
+                 });
+             }
 
-            // if (myCache.get("allQuestions") !== undefined) {
-            //     $log.info("My cache already exists");
-            //     $scope.allQuestions = myCache.get("allQuestions");
-            // } else {
-            //     QuestionsService.getAllQuestions().then(function (data) {
-            //         if (data.data.status) {
-            //             $log.info("Get All question");
-            //             $scope.allQuestions = data.data.request_data_result;
-            //             myCache.put("allQuestions", data.data.request_data_result);
-            //         }
-            //     });
-            // }
+             if (myCache.get("allQuestions") !== undefined) {
+                 $log.info("My cache already exists");
+                 $scope.allQuestions = myCache.get("allQuestions");
+             } else {
+                 QuestionsService.getAllQuestions().then(function (data) {
+                     if (data.data.status) {
+                         $log.info("Get All question");
+                         $scope.allQuestions = data.data.request_data_result;
+                         myCache.put("allQuestions", data.data.request_data_result);
+                     }
+                 });
+             }
 
             $('#autocompleteQuest_value').focus(function () {
                 $(this).attr('placeholder', '');

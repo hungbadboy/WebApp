@@ -5,7 +5,10 @@ brotControllers.controller('UserHeaderController',
             // check login page
             brot.signin.statusStorageHtml();
             $rootScope.notifications = [];
+            // include
             $scope.headerByUser="src/app/header/CommonHeader.tpl.html";
+            //$scope.menuHeader="src/app/header/menuHeader.tpl.html";
+            
             $scope.footerUser="";
             var username = localStorage.getItem('userName');
             var userId = "";
@@ -252,16 +255,16 @@ brotControllers.controller('UserHeaderController',
 //                }
             };
             
-            // Active menu
-            $scope.isActive = null;
-            $scope.$on('$routeChangeSuccess', function() {
-                var path = $location.path();
-                if(path.indexOf('question')>0){
-                    $scope.isActive = '/ask_a_question';
-                    return;
-                }
-              $scope.isActive = $location.path();
-            });
+//            // Active menu
+//            $scope.isActive = null;
+//            $scope.$on('$routeChangeSuccess', function() {
+//                var path = $location.path();
+//                if(path.indexOf('question')>0){
+//                    $scope.isActive = '/ask_a_question';
+//                    return;
+//                }
+//              $scope.isActive = $location.path();
+//            });
             
             // Toggle user information
             $scope.isShowHideUserInfo = false;

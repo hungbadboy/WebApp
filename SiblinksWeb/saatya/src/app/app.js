@@ -13,17 +13,50 @@ brotApp.controller('MainController', function($scope, $http, $location) {
 	   //your code here
 	  $scope.title = "Main";
 	  $scope.idbody ="";
+	  $scope.isActive ="";
+	  
 	  $scope.$on('$routeChangeSuccess', function() {
           var path = $location.path();
+          $scope.isActive = $location.path();
           if(path.indexOf('/mentor')>=0){
               $scope.idbody = 'mentor';
               return;
           }
-        $scope.isActive = $location.path();
       });
+	
+	  var userId = "";
+      var userType = "";
+      if (localStorage.getItem('userId') !== undefined || localStorage.getItem('userId') != 'undefined') {
+          userId = localStorage.getItem('userId');
+      }
+      
+      if (localStorage.getItem('userType') !== undefined || localStorage.getItem('userType') != 'undefined') {
+      	userType = localStorage.getItem('userType');
+      }
+      
+      if (localStorage.getItem('userType') !== undefined || localStorage.getItem('userType') != 'undefined') {
+        	userType = localStorage.getItem('userType');
+        }
+      
+      if (userId != null) {
+	      if (userType != null && userType != undefined && userType == 'S') {
+	      	$scope.headerByUser="src/app/header/StudentHeader.tpl.html";
+	      	$scope.footerUser="src/app/footer/footer.tpl.html";
+	      } else if (userType != null && userType != undefined && userType == 'M') {
+	      	$scope.headerByUser="src/app/header/MentorHeader.tpl.html";
+	      }
+	  } else {
+	  	// User is not yet login
+	  	$scope.headerByUser="src/app/header/CommonHeader.tpl.html";
+	  	$scope.footerUser="src/app/footer/footer.tpl.html";
+	      
+	  }
+	  
 	  // Check login
 	  $scope.sidebarLeft="src/app/sidebarLeft/sidebarLeftMenu.tpl.html";
+	  console.log('11');
 	  $scope.sidebarRight="src/app/sidebarRight/sidebarRight.tpl.html";
+	  console.log('12');
 });
 
 brotServices.factory('myCache', function($cacheFactory) {

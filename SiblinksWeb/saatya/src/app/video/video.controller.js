@@ -227,7 +227,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
     }
     
 	$scope.showProfile = function(event) {
-		window.location.href = '#/mentorProfile/' + event.currentTarget.getAttribute("id");
+		window.location.href = '#/student/mentorProfile/' + event.currentTarget.getAttribute("id");
 	}
 	/* Video Subscription end */
 

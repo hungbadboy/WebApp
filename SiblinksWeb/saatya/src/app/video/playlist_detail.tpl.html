@@ -36,7 +36,7 @@
                         <div class="related-video">
                             <h5>{{videoPlaylistInfo.title}}</h5>
                             <p class="owner-sum-vidoe">
-                                <a href="#/mentorProfile/{{videoPlaylistInfo.userid}}"><span class="owner-video">{{videoPlaylistInfo.firstName + "" +videoPlaylistInfo.lastName}}</span></a>
+                                <a href="#/student/mentorProfile/{{videoPlaylistInfo.userid}}"><span class="owner-video">{{videoPlaylistInfo.firstName + "" +videoPlaylistInfo.lastName}}</span></a>
                                 <span class="video-count">{{indexVideo+1}} of {{videosList.length}} videos</span>
                             </p>
                                 <ul scroller="videosList" class="series-video-list" id="series-video-list">
@@ -83,7 +83,7 @@
                         <div class="video-details-description">
                             <h3>{{videoInfo.title}}</h3>
                             <span>from </span>
-                            <a href="#/mentorProfile/{{videoInfo.userid}}">
+                            <a href="#/student/mentorProfile/{{videoInfo.userid}}">
                             <span class="own-video">{{videoInfo.firstName +" " + videoInfo.lastName}}
                             </span></a><span class="video-time-add"> {{convertTime(videoInfo.timeStamp)}} ago</span>
                             <div class="video-mentor-details">
@@ -181,7 +181,7 @@
                                     </p>
                                     <span class="owner-video">
                                                         from
-                                          <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
+                                          <a href="#/student/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
                                                    </a> </span><br>
                                     <span class="view-count">
                                                         view: <span>{{videoRelate.numViews}}</span>

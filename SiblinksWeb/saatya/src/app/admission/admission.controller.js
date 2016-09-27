@@ -215,7 +215,7 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 	}
 	
 	$scope.showProfile = function(event) {
-		window.location.href = '#/mentorProfile/' + event.currentTarget.getAttribute("id");
+		window.location.href = '#/student/mentorProfile/' + event.currentTarget.getAttribute("id");
 	}
 	
 	$scope.closeArticlePopup = function() {
