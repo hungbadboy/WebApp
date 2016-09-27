@@ -66,82 +66,22 @@
                             <div class="dashboard-content-bottom-left">
                                 <div class="dashboard-content-bottom-left-wrapper">
                                     <h4>newest Q&A</h4><a href="#"><span data-icon="&#xe037;" class="setting"></span></a>
-                                    <div class="newest-qa">
-                                        <ul>
+                                    <div class="newest-qa" ng-if="questions">
+                                        <ul ng-repeat="q in questions track by $index">
                                             <li>
                                                 <div class="newest-qa-student-img online">
-                                                    <img src="assets/images/mentor-01.jpg">
+                                                    <img src="{{q.imageUrl}}">
                                                 </div>
                                                 <div class="newest-qa-student-info">
                                                     <p class="newest-qa-student-name">
-                                                        <strong>Brian M.Scott</strong>
-                                                        <span class="time-post">3 day agos</span>
+                                                        <strong>{{q.userName}}</strong>
+                                                        <span class="time-post">{{q.timeStamp}} ago</span>
                                                     </p>
                                                     <p class="newest-qa-in">
-                                                        In Applications, Financial Aid
+                                                        In {{q.subject}}
                                                     </p>
                                                     <p class="newest-qa-detail">
-                                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                                                    </p>
-                                                </div>
-                                                <div class="student-rate ">
-                                                    <span data-icon="&#x35;"></span>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="newest-qa-student-img online">
-                                                    <img src="assets/images/mentor-01.jpg">
-                                                </div>
-                                                <div class="newest-qa-student-info">
-                                                    <p class="newest-qa-student-name">
-                                                        <strong>Brian M.Scott</strong>
-                                                        <span class="time-post">3 day agos</span>
-                                                    </p>
-                                                    <p class="newest-qa-in">
-                                                        In Applications, Financial Aid
-                                                    </p>
-                                                    <p class="newest-qa-detail">
-                                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                                                    </p>
-                                                </div>
-                                                <div class="student-rate ">
-                                                    <span data-icon="&#x35;"></span>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="newest-qa-student-img online">
-                                                    <img src="assets/images/mentor-01.jpg">
-                                                </div>
-                                                <div class="newest-qa-student-info">
-                                                    <p class="newest-qa-student-name">
-                                                        <strong>Brian M.Scott</strong>
-                                                        <span class="time-post">3 day agos</span>
-                                                    </p>
-                                                    <p class="newest-qa-in">
-                                                        In Applications, Financial Aid
-                                                    </p>
-                                                    <p class="newest-qa-detail">
-                                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                                                    </p>
-                                                </div>
-                                                <div class="student-rate ">
-                                                    <span data-icon="&#x35;"></span>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="newest-qa-student-img online">
-                                                    <img src="assets/images/mentor-01.jpg">
-                                                </div>
-                                                <div class="newest-qa-student-info">
-                                                    <p class="newest-qa-student-name">
-                                                        <strong>Brian M.Scott</strong>
-                                                        <span class="time-post">3 day agos</span>
-                                                    </p>
-                                                    <p class="newest-qa-in">
-                                                        In Applications, Financial Aid
-                                                    </p>
-                                                    <p class="newest-qa-detail">
-                                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                                                        {{q.content}}
                                                     </p>
                                                 </div>
                                                 <div class="student-rate ">
@@ -164,7 +104,7 @@
                                                 <span data-icon="&#x50;"></span>
                                             </div>
                                             <div class="number-total">
-                                                <p>Total <span>{{dashboard.count_subcribers}}</span></p>
+                                                <p>Total <span>{{dashboard.count_subscribers}}</span></p>
                                                 <span data-icon="&#x42;">289</span>
                                             </div>
                                         </div>

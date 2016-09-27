@@ -11,6 +11,18 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
   function init(){
     getMainDashboardInfo();
     getVideosTopViewed();
+    getNewestQuestions();
+  }
+
+  function getNewestQuestions(){
+    MentorService.getNewestQuestions(userId).then(function(data){
+      if (data.data.request_data_result != null) {
+        for (var i = data.data.request_data_result.length - 1; i >= 0; i--) {
+          data.data.request_data_result[i].timeStamp = convertUnixTimeToTime(data.data.request_data_result[i].timeStamp);
+        }
+        $scope.questions = data.data.request_data_result;
+      }
+    });
   }
 
   function getMainDashboardInfo(){
