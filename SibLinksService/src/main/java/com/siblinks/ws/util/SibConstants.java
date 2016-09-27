@@ -573,6 +573,7 @@ public class SibConstants {
     public class SqlMapperBROT124 {
         public static final String SQL_GET_COUNT_RATINGS = "GET_COUNT_RATINGS";
         public static final String SQL_GET_COUNT_SUBSCRIBERS = "GET_COUNT_SUBCRIBERS";
+        public static final String SQL_GET_USER_SUBJECT = "GET_USER_SUBJECT";
     }
 
     public class SqlMapperBROT126 {

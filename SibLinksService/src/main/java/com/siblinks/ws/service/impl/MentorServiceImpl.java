@@ -859,29 +859,30 @@ public class MentorServiceImpl implements MentorService {
     @Override
     @RequestMapping(value = "/getNewestQuestions", method = RequestMethod.GET)
     public ResponseEntity<Response> getNewestQuestions(@RequestParam long uid) {
-//        Object[] queryParams = new Object[] { uid };
-//        JsonParser jsonParser = new JsonParser();
-//        Map<String, Object> result = new HashMap<>();
-//        List<Object> readObject = null;
-//        String value = null;
-//
-//        // count video
-//        readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_VIDEOS, queryParams);
-//        if (readObject != null && readObject.size() > 0) {
-//            for (Object object : readObject) {
-//                value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
-//                if(value == null || value.isEmpty() || value.contains("null")){
-//                    result.put("count_videos", 0);
-//                }
-//                else
-//                    result.put("count_videos", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
-//            }
-//        } else {
-//            result.put("count_videos", 0);
-//        }
-//        SimpleResponse reponse = new SimpleResponse("" + true, "mentor", "getMainDashboardInfo", result);
-//        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-//        return entity;
-        return null;
+        Object[] queryParams = new Object[] { uid };
+        JsonParser jsonParser = new JsonParser();
+        Map<String, Object> result = new HashMap<>();
+        List<Object> readObject = null;
+        String value = null;
+        
+        // get subject of user
+        readObject = dao.readObjects(SibConstants.SqlMapperBROT124.SQL_GET_USER_SUBJECT, queryParams);
+        
+        if (readObject != null && readObject.size() > 0) {
+            for (Object object : readObject) {
+                Map<String, Object> map = (Map<String, Object>) object;
+                value = map.get("defaultSubjectId").toString();
+            }
+            
+            for (char item : value.toCharArray()) {
+            }
+        } else {
+            result.put("Error", "No subject found");
+        }
+        SimpleResponse reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", result);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
     }
 }
+
+
