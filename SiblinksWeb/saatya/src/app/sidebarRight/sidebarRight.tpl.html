@@ -17,56 +17,14 @@
                             </div>
                             <div class="student-subcripted-content">
                                 <ul>
-                                    <li>
+                                    <li ng-repeat="student in listStudentSubscribed track by $index">
                                         <div class="student-subcripted-img online">
-                                            <img src="assets/images/mentor-01.jpg">
+                                            <img ng-src="{{student.avatar}}">
                                             <span class="offline"><img src="assets/images/ask question/online.png"></span>
                                         </div>
                                         <div class="student-subcripted-info">
                                             <p class="student-subcripted-name">
-                                                <strong>Brian M.Scott</strong>
-                                            </p>
-                                            <p class="student-subcripted-icon ">
-                                                <span data-icon="&#xe065;"></span>
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="student-subcripted-img online">
-                                            <img src="assets/images/mentor-01.jpg">
-                                            <span class="offline"><img src="assets/images/ask question/online.png"></span>
-                                        </div>
-                                        <div class="student-subcripted-info">
-                                            <p class="student-subcripted-name">
-                                                <strong>Brian M.Scott</strong>
-                                            </p>
-                                            <p class="student-subcripted-icon ">
-                                                <span data-icon="&#xe065;"></span>
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="student-subcripted-img online">
-                                            <img src="assets/images/mentor-01.jpg">
-                                            <span class="offline"><img src="assets/images/ask question/online.png"></span>
-                                        </div>
-                                        <div class="student-subcripted-info">
-                                            <p class="student-subcripted-name">
-                                                <strong>Brian M.Scott</strong>
-                                            </p>
-                                            <p class="student-subcripted-icon ">
-                                                <span data-icon="&#xe065;"></span>
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="student-subcripted-img online">
-                                            <img src="assets/images/mentor-01.jpg">
-                                            <span class="offline"><img src="assets/images/ask question/online.png"></span>
-                                        </div>
-                                        <div class="student-subcripted-info">
-                                            <p class="student-subcripted-name">
-                                                <strong>Brian M.Scott</strong>
+                                                <strong>{{student.userName}}</strong>
                                             </p>
                                             <p class="student-subcripted-icon ">
                                                 <span data-icon="&#xe065;"></span>

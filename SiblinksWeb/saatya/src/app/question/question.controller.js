@@ -232,15 +232,25 @@ brotControllers
                     $(".popup-images, .form-ask-question").css({"left": "100%"});
                 }
 
-                $scope.viewAnswer = function (num) {
-                    if(num == 0){
-                        return;
+                $scope.viewAnswer = function (qid) {
+                    if($('#spamview_'+qid).text() == 'View')
+                    {
+                        $('#spamview_'+qid).text('Hide');
+                        $('.detail-answer-question_'+qid).removeClass('hide');
+
                     }
-                    if($scope.limitAnswes == num){
-                        $scope.limitAnswes = 0;
-                    }else {
-                        $scope.limitAnswes = num;
+                    else {
+                        $('#spamview_'+qid).text('View');
+                        $('.detail-answer-question_'+qid).addClass('hide');
                     }
+                    // if(num == 0){
+                    //     return;
+                    // }
+                    // if($scope.limitAnswes == num){
+                    //     $scope.limitAnswes = 0;
+                    // }else {
+                    //     $scope.limitAnswes = num;
+                    // }
                 }
 
                 $scope.isShowOrder = false;

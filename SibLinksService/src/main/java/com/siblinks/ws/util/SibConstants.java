@@ -468,6 +468,7 @@ public class SibConstants {
         public static final String SQL_GET_TOTAL_ANSWERS = "GET_TOTAL_ANSWERS";
         public static final String SQL_GET_TOP_MENTORS_BY_LIKE_RATE_SUBS = "GET_TOP_MENTORS_BY_LIKE_RATE_SUBS";
         public static final String SQL_GET_VIDEOS_BY_PLAYLIST = "GET_VIDEOS_BY_PLAYLIST";
+        public static final String SQL_GET_STUDENT_SUBSCRIBED = "GET_STUDENT_SUBSCRIBED";
         // Manager Category
         public static final String SQL_GET_ALL_CATEGORY = "GET_ALL_CATEGORY";
         public static final String SQL_GET_CATEGORY_BY_ID = "GET_CATEGORY_BY_ID";
@@ -489,7 +490,7 @@ public class SibConstants {
         public static final String SQL_GET_VIDEO_BY_SUBJECTID = "GET_VIDEO_BY_SUBJECTID";
         public static final String SQL_CHECK_SUBSCRIBE = "CHECK_SUBSCRIBE";
         public static final String SQL_UPDATE_AVG_RATE = "UPDATE_AVG_RATE";
-        
+        public static final String SQL_GET_ALL_SUBJECTID_CATEGORY = "GET_ALL_SUBJECTID_CATEGORY";
         // Favourite
         public static final String SQL_VIDEO_FAVOURITE_INSERT = "VIDEO_FAVOURITE_INSERT";
         public static final String SQL_VIDEO_FAVOURITE_READ_ALL_BY_USER = "VIDEO_FAVOURITE_READ_ALL_BY_USER";
