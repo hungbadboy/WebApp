@@ -289,44 +289,29 @@ public class CommonUtil {
      * @return
      */
 
+
     public static String getAllChildCategory(final String id, final List<?> listCategory) {
         ArrayList<String> listSubject = new ArrayList<>();
-        listSubject.add(id);
+        return getAllChildSubjects(id, listCategory, listSubject);
+    }
+
+    /**
+     * @param id
+     * @param listCategory
+     */
+    private static String getAllChildSubjects(final String id, final List<?> listCategory, final ArrayList<String> subjects) {
+        subjects.add(id);
         for (Object object : listCategory) {
-            Map<String, String> mapCategory = (HashMap<String, String>) object;
+            Map<String, Integer> mapCategory = (HashMap<String, Integer>) object;
             if (mapCategory != null && mapCategory.containsKey(Parameters.SUBJECT_ID)) {
                 String parentId = "" + mapCategory.get(Parameters.PARENT_ID);
                 String subjectId = "" + mapCategory.get(Parameters.SUBJECT_ID);
                 if (id.equals(parentId)) {
-                    getAllChildCategory(subjectId, listCategory);
+                    getAllChildSubjects(subjectId, listCategory, subjects);
                 }
             }
         }
-        return StringUtils.join(listCategory, ",");
+        return StringUtils.join(subjects, ",");
     }
 
-    public static void main(final String[] agrs) {
-        Map<String, String> category = new HashMap<String, String>();
-        List<Map<String, String>> lstMap = new ArrayList<Map<String, String>>();
-        category.put("subjectId", "2");
-        category.put("parentId", "1");
-        lstMap.add(category);
-        category = new HashMap<String, String>();
-        category.put("subjectId", "3");
-        category.put("parentId", "1");
-        lstMap.add(category);
-        category = new HashMap<String, String>();
-        category.put("subjectId", "4");
-        category.put("parentId", "2");
-        lstMap.add(category);
-        category = new HashMap<String, String>();
-        category.put("subjectId", "5");
-        category.put("parentId", "3");
-        lstMap.add(category);
-        category = new HashMap<String, String>();
-        category.put("subjectId", "6");
-        category.put("parentId", "2");
-        lstMap.add(category);
-        System.out.print("abc" + getAllChildCategory("3", lstMap));
-    }
 }
