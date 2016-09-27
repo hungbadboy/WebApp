@@ -83,19 +83,19 @@ public class MentorServiceImpl implements MentorService {
     public ResponseEntity<Response> topMetorEachSubject(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            final SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
+            final ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             return entity;
         }
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+        final Map<String, String> queryParams = new HashMap<String, String>();
 
         queryParams.put("subjectId", request.getRequest_data().getSubjectId());
 
-        String entityName = SibConstants.SqlMapper.SQL_TOP_MENTOR;
-        List<Object> readObject = dao.readObjects(entityName, queryParams);
+        final String entityName = SibConstants.SqlMapper.SQL_TOP_MENTOR;
+        final List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
+        final SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     Boolean.TRUE,
                                                     request.getRequest_data_type(),
@@ -109,12 +109,12 @@ public class MentorServiceImpl implements MentorService {
     public ResponseEntity<Response> getList(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            final SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
+            final ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             return entity;
         }
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+        final Map<String, String> queryParams = new HashMap<String, String>();
 
         if ("userid".equalsIgnoreCase(request.getRequest_data().getOrder())) {
             queryParams.put("order", "userid");
@@ -131,11 +131,11 @@ public class MentorServiceImpl implements MentorService {
         queryParams.put("offset", request.getRequest_data().getPage());
         queryParams.put("limit", request.getRequest_data().getLimit());
 
-        String entityName = SibConstants.SqlMapper.SQL_MENTOR_LIST;
+        final String entityName = SibConstants.SqlMapper.SQL_MENTOR_LIST;
         List<Object> readObject = null;
         readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
+        final SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     Boolean.TRUE,
                                                     request.getRequest_data_type(),
@@ -149,16 +149,16 @@ public class MentorServiceImpl implements MentorService {
     public ResponseEntity<Response> search(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            final SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
+            final ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             return entity;
         }
 
-        CommonUtil util = CommonUtil.getInstance();
+        final CommonUtil util = CommonUtil.getInstance();
 
-        Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
+        final Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+        final Map<String, String> queryParams = new HashMap<String, String>();
 
         queryParams.put("searchKey", request.getRequest_data().getKeySearch());
         queryParams.put("from", map.get("from"));
@@ -175,12 +175,12 @@ public class MentorServiceImpl implements MentorService {
             queryParams.put("order", "points");
         }
 
-        String[] fieldSearch = request.getRequest_data().getFieldSearch();
+        final String[] fieldSearch = request.getRequest_data().getFieldSearch();
         if (fieldSearch.length == 0) {
             queryParams.put("filter", "");
         } else {
-            StringBuffer strFilter = new StringBuffer("AND (");
-            for (String str : fieldSearch) {
+            final StringBuffer strFilter = new StringBuffer("AND (");
+            for (final String str : fieldSearch) {
                 if (strFilter.length() > 5) {
                     strFilter.append(" OR ");
                 }
@@ -198,7 +198,7 @@ public class MentorServiceImpl implements MentorService {
         List<Object> readObject = null;
         readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
+        final SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     Boolean.TRUE,
                                                     request.getRequest_data_type(),
@@ -215,18 +215,18 @@ public class MentorServiceImpl implements MentorService {
         String filename;
         String name;
         String filepath;
-        String directory = ReadProperties.getProperties("directoryImageArticle");
-        String sample = ".png .jpg .gif .bmp .tga";
+        final String directory = ReadProperties.getProperties("directoryImageArticle");
+        final String sample = ".png .jpg .gif .bmp .tga";
 
         name = uploadfile.getOriginalFilename();
-        int index = name.indexOf(".");
+        final int index = name.indexOf(".");
         name = name.substring(index, name.length());
         name.toLowerCase();
-        boolean status = sample.contains(name);
+        final boolean status = sample.contains(name);
 
         if (directory != null && status) {
             try {
-                RandomString randomName = new RandomString();
+                final RandomString randomName = new RandomString();
                 //
                 filename = randomName.random() + name;
                 filepath = Paths.get(directory, filename).toString();
@@ -238,15 +238,15 @@ public class MentorServiceImpl implements MentorService {
                 // stream.close();
             }
 
-            catch (Exception e) {
+            catch (final Exception e) {
                 logger.error(e.getMessage());
                 return new ResponseEntity<Response>(HttpStatus.BAD_REQUEST);
             }
 
-            SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, filepath);
+            final SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, filepath);
             return new ResponseEntity<Response>(reponse, HttpStatus.OK);
         } else {
-            SimpleResponse reponse = new SimpleResponse(
+            final SimpleResponse reponse = new SimpleResponse(
                                                         "" +
                                                         Boolean.FALSE,
                                                         "Your photos couldn't be uploaded. Photos should be saved as JPG, PNG, GIF or BMP files.");
@@ -258,7 +258,7 @@ public class MentorServiceImpl implements MentorService {
     @RequestMapping(value = "/createAboutMentor", method = RequestMethod.POST)
     public ResponseEntity<Response> createAboutMentor(@RequestBody final RequestData aboutMentor) throws FileNotFoundException {
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+        final Map<String, String> queryParams = new HashMap<String, String>();
 
         queryParams.put("description", aboutMentor.getRequest_data_aboutMentor().getDescription());
         queryParams.put("introduce", aboutMentor.getRequest_data_aboutMentor().getIntroduce());
@@ -268,11 +268,11 @@ public class MentorServiceImpl implements MentorService {
             queryParams.put("image", aboutMentor.getRequest_data_aboutMentor().getImage());
         }
 
-        String entityName = SibConstants.SqlMapper.SQL_CREATE_ABOUT_MENTOR;
+        final String entityName = SibConstants.SqlMapper.SQL_CREATE_ABOUT_MENTOR;
 
-        boolean status = dao.insertUpdateObject(entityName, queryParams);
+        final boolean status = dao.insertUpdateObject(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
+        final SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     Boolean.TRUE,
                                                     aboutMentor.getRequest_data_type(),
@@ -287,14 +287,14 @@ public class MentorServiceImpl implements MentorService {
 
         String entityName = null;
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+        final Map<String, String> queryParams = new HashMap<String, String>();
 
         entityName = SibConstants.SqlMapper.SQL_GET_ALL_ABOUT_MENTOR;
 
         List<Object> readObject = null;
         readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
+        final SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     Boolean.TRUE,
                                                     aboutMentor.getRequest_data_type(),
@@ -307,26 +307,26 @@ public class MentorServiceImpl implements MentorService {
     @RequestMapping(value = "/deleteAboutMentor", method = RequestMethod.POST)
     public ResponseEntity<Response> deleteAboutMentor(@RequestBody final RequestData aboutMentor) {
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+        final Map<String, String> queryParams = new HashMap<String, String>();
         queryParams.put("id", aboutMentor.getRequest_data_aboutMentor().getId());
         String entityName = SibConstants.SqlMapper.SQL_GET_IMAGE_ABOUT_MENTOR;
 
         List<Object> readObject = null;
         readObject = dao.readObjects(entityName, queryParams);
 
-        File file = new File((String) ((Map) readObject.get(0)).get("image"));
+        final File file = new File((String) ((Map) readObject.get(0)).get("image"));
 
         entityName = SibConstants.SqlMapper.SQL_DELETE_ABOUT_MENTOR;
 
-        boolean flag = dao.insertUpdateObject(entityName, queryParams);
+        final boolean flag = dao.insertUpdateObject(entityName, queryParams);
 
-        String fileName = (String) ((Map) readObject.get(0)).get("image");
+        final String fileName = (String) ((Map) readObject.get(0)).get("image");
 
         if (flag && !fileName.contains("default_avatar")) {
             file.delete();
         }
 
-        SimpleResponse reponse = new SimpleResponse(
+        final SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     Boolean.TRUE,
                                                     aboutMentor.getRequest_data_type(),
@@ -339,7 +339,7 @@ public class MentorServiceImpl implements MentorService {
     @RequestMapping(value = "/updateAboutMentor", method = RequestMethod.POST)
     public ResponseEntity<Response> updateAboutMentor(@RequestBody final RequestData aboutMentor) {
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+        final Map<String, String> queryParams = new HashMap<String, String>();
         queryParams.put("id", aboutMentor.getRequest_data_aboutMentor().getId());
         queryParams.put("image", aboutMentor.getRequest_data_aboutMentor().getImage());
         queryParams.put("description", aboutMentor.getRequest_data_aboutMentor().getDescription());
@@ -351,9 +351,9 @@ public class MentorServiceImpl implements MentorService {
             entityName = SibConstants.SqlMapper.SQL_GET_IMAGE_ABOUT_MENTOR;
             readObject = dao.readObjects(entityName, queryParams);
 
-            File file = new File((String) ((Map) readObject.get(0)).get("image"));
+            final File file = new File((String) ((Map) readObject.get(0)).get("image"));
 
-            String fileName = (String) ((Map) readObject.get(0)).get("image");
+            final String fileName = (String) ((Map) readObject.get(0)).get("image");
 
             if (file != null && !fileName.contains("default_avatar")) {
                 file.delete();
@@ -363,9 +363,9 @@ public class MentorServiceImpl implements MentorService {
             entityName = SibConstants.SqlMapper.SQL_UPDATE_ABOUT_MENTOR_NOT_IMAGE;
         }
 
-        boolean flag = dao.insertUpdateObject(entityName, queryParams);
+        final boolean flag = dao.insertUpdateObject(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
+        final SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     Boolean.TRUE,
                                                     aboutMentor.getRequest_data_type(),
@@ -378,11 +378,11 @@ public class MentorServiceImpl implements MentorService {
     @RequestMapping(value = "/getImageAboutMentor/{id}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getImageAboutMentor(@PathVariable(value = "id") final String id) {
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+        final Map<String, String> queryParams = new HashMap<String, String>();
         List<Object> readObject = null;
 
         queryParams.put("id", id);
-        String entityName = SibConstants.SqlMapper.SQL_GET_IMAGE_ABOUT_MENTOR;
+        final String entityName = SibConstants.SqlMapper.SQL_GET_IMAGE_ABOUT_MENTOR;
         String path = null;
 
         readObject = dao.readObjects(entityName, queryParams);
@@ -395,10 +395,10 @@ public class MentorServiceImpl implements MentorService {
                 t = new RandomAccessFile(path, "r");
                 r = new byte[(int) t.length()];
                 t.readFully(r);
-            } catch (FileNotFoundException e) {
+            } catch (final FileNotFoundException e) {
                 logger.debug("file not found : " + path);
                 return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 logger.debug("Some thing wrong", e);
                 return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
             }
@@ -416,7 +416,7 @@ public class MentorServiceImpl implements MentorService {
     public ResponseEntity<Response> getInforTopMentor(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
+            final ResponseEntity<Response> entity = new ResponseEntity<Response>(
                                                                            new SimpleResponse(
                                                                                               "" +
                                                                                               Boolean.FALSE,
@@ -425,21 +425,21 @@ public class MentorServiceImpl implements MentorService {
             return entity;
         }
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+        final Map<String, String> queryParams = new HashMap<String, String>();
         queryParams.put("uid", request.getRequest_data().getUid());
 
-        String entityName = SibConstants.SqlMapper.SQL_GET_USER_BY_ID;
+        final String entityName = SibConstants.SqlMapper.SQL_GET_USER_BY_ID;
 
         List<Object> readObject = null;
         readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
+        final SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
@@ -461,15 +461,15 @@ public class MentorServiceImpl implements MentorService {
         // return entity;
         // }
 
-        Object[] queryParams = { id };
+        final Object[] queryParams = { id };
 
-        String entityName = SibConstants.SqlMapperBROT27.SQL_GET_NEWEST_MENTOR_ANSWER;
+        final String entityName = SibConstants.SqlMapperBROT27.SQL_GET_NEWEST_MENTOR_ANSWER;
 
         List<Object> readObjects = null;
         readObjects = dao.readObjects(entityName, queryParams);
         System.out.println(readObjects);
 
-        SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "mentor", "getNewestAnswer", readObjects);
+        final SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "mentor", "getNewestAnswer", readObjects);
         entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -478,7 +478,7 @@ public class MentorServiceImpl implements MentorService {
     @RequestMapping(value = "/getTopMentorsMostLike", method = RequestMethod.POST)
     public ResponseEntity<Response> getTopMentorsMostLike(@RequestBody final RequestData request) {
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
+            final ResponseEntity<Response> entity = new ResponseEntity<Response>(
                                                                            new SimpleResponse(
                                                                                               "" +
                                                                                               Boolean.FALSE,
@@ -486,11 +486,11 @@ public class MentorServiceImpl implements MentorService {
                                                                            HttpStatus.FORBIDDEN);
             return entity;
         }
-        String limit = request.getRequest_data().getLimit();
-        String offset = request.getRequest_data().getOffset();
-        Object[] queryParams = {};
+        final String limit = request.getRequest_data().getLimit();
+        final String offset = request.getRequest_data().getOffset();
+        final Object[] queryParams = {};
 
-        String entityName = SibConstants.SqlMapper.SQL_GET_TOP_MENTORS_MOST_LIKE;
+        final String entityName = SibConstants.SqlMapper.SQL_GET_TOP_MENTORS_MOST_LIKE;
 
         List<Object> readObject = null;
         String whereClause = "";
@@ -502,13 +502,13 @@ public class MentorServiceImpl implements MentorService {
         }
         readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
+        final SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
@@ -516,7 +516,7 @@ public class MentorServiceImpl implements MentorService {
     @RequestMapping(value = "/getStudentsSubcribe", method = RequestMethod.POST)
     public ResponseEntity<Response> getStudentsSubcribe(@RequestBody final RequestData request) {
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
+            final ResponseEntity<Response> entity = new ResponseEntity<Response>(
                                                                            new SimpleResponse(
                                                                                               "" +
                                                                                               Boolean.FALSE,
@@ -524,12 +524,12 @@ public class MentorServiceImpl implements MentorService {
                                                                            HttpStatus.FORBIDDEN);
             return entity;
         }
-        String limit = request.getRequest_data().getLimit();
-        String offset = request.getRequest_data().getOffset();
-        String mentorId = request.getRequest_data().getMentorid();
-        Object[] queryParams = { mentorId };
+        final String limit = request.getRequest_data().getLimit();
+        final String offset = request.getRequest_data().getOffset();
+        final String mentorId = request.getRequest_data().getMentorid();
+        final Object[] queryParams = { mentorId };
 
-        String entityName = SibConstants.SqlMapper.SQL_GET_STUDENT_SUBCRIBE;
+        final String entityName = SibConstants.SqlMapper.SQL_GET_STUDENT_SUBCRIBE;
 
         List<Object> readObject = null;
         String whereClause = "";
@@ -543,13 +543,13 @@ public class MentorServiceImpl implements MentorService {
 
         readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
+        final SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
@@ -557,16 +557,16 @@ public class MentorServiceImpl implements MentorService {
     @RequestMapping(value = "/getTotalViewLikeViewByMentorId/{id}", method = RequestMethod.GET)
     public ResponseEntity<Response> getTotalViewLikeViewByMentorId(@PathVariable(value = "id") final long id) {
 
-        Object[] queryParams = { "" + id };
+        final Object[] queryParams = { "" + id };
 
-        String entityName = SibConstants.SqlMapper.SQL_GET_TOTAL_LIKE_VIEW_VIDEO;
+        final String entityName = SibConstants.SqlMapper.SQL_GET_TOTAL_LIKE_VIEW_VIDEO;
 
         List<Object> readObject = null;
 
         readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "Mentor", "getTotalViewLikeViewByMentorId", readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        final SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "Mentor", "getTotalViewLikeViewByMentorId", readObject);
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
@@ -574,16 +574,16 @@ public class MentorServiceImpl implements MentorService {
     @RequestMapping(value = "/getTotalAnswersByMentorId/{id}", method = RequestMethod.GET)
     public ResponseEntity<Response> getTotalAnswersByMentorId(@PathVariable(value = "id") final long id) {
 
-        Object[] queryParams = { "" + id };
+        final Object[] queryParams = { "" + id };
 
-        String entityName = SibConstants.SqlMapper.SQL_GET_TOTAL_ANSWERS;
+        final String entityName = SibConstants.SqlMapper.SQL_GET_TOTAL_ANSWERS;
 
         List<Object> readObject = null;
 
         readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "Mentor", "getTotalAnswersByMentorId", readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        final SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "Mentor", "getTotalAnswersByMentorId", readObject);
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
@@ -591,7 +591,7 @@ public class MentorServiceImpl implements MentorService {
     @RequestMapping(value = "/getTopMentorsByLikeRateSubcrible", method = RequestMethod.POST)
     public ResponseEntity<Response> getTopMentorsByLikeRateSubcrible(@RequestBody final RequestData request) {
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
+            final ResponseEntity<Response> entity = new ResponseEntity<Response>(
                                                                            new SimpleResponse(
                                                                                               "" +
                                                                                               Boolean.FALSE,
@@ -599,13 +599,13 @@ public class MentorServiceImpl implements MentorService {
                                                                            HttpStatus.FORBIDDEN);
             return entity;
         }
-        String limit = request.getRequest_data().getLimit();
-        String offset = request.getRequest_data().getOffset();
-        String type = request.getRequest_data().getType();
+        final String limit = request.getRequest_data().getLimit();
+        final String offset = request.getRequest_data().getOffset();
+        final String type = request.getRequest_data().getType();
         String userId = request.getRequest_data().getUid();
-        Object[] queryParams = {};
+        final Object[] queryParams = {};
 
-        String entityName = SibConstants.SqlMapper.SQL_GET_TOP_MENTORS_BY_LIKE_RATE_SUBS;
+        final String entityName = SibConstants.SqlMapper.SQL_GET_TOP_MENTORS_BY_LIKE_RATE_SUBS;
         if (StringUtil.isNull(userId)) {
             userId = "-1";
         }
@@ -638,17 +638,17 @@ public class MentorServiceImpl implements MentorService {
 
         readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
 
-        List<Object> listCategories = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY, new Object[] {});
+        final List<Object> listCategories = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY, new Object[] {});
 
         // List<Map<String, Object>>
 
-        SimpleResponse reponse = new SimpleResponse(
+        final SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
@@ -661,16 +661,16 @@ public class MentorServiceImpl implements MentorService {
     @Override
     @RequestMapping(value = "/checkStudentSubcribe", method = RequestMethod.GET)
     public ResponseEntity<Response> checkStudentSubcribe(@RequestParam final long mentorid, @RequestParam final long studentid) {
-        Object[] queryParams = new Object[] { mentorid, studentid };
+        final Object[] queryParams = new Object[] { mentorid, studentid };
 
         List<Object> readObject = null;
         readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_SUBSCRIBE_STAT, queryParams);
-        Map<String, Object> data_return = new HashMap<>();
-        JsonParser parser = new JsonParser();
+        final Map<String, Object> data_return = new HashMap<>();
+        final JsonParser parser = new JsonParser();
 
         data_return.put("subscribed", false);
-        for (Object object : readObject) {
-            String val = parser.parse(object.toString()).getAsJsonObject().get("subcribe").getAsString();
+        for (final Object object : readObject) {
+            final String val = parser.parse(object.toString()).getAsJsonObject().get("subcribe").getAsString();
             if (val.equalsIgnoreCase("Y")) {
                 data_return.put("subscribed", true);
             } else {
@@ -678,8 +678,8 @@ public class MentorServiceImpl implements MentorService {
             }
         }
 
-        SimpleResponse reponse = new SimpleResponse("" + true, data_return);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        final SimpleResponse reponse = new SimpleResponse("" + true, data_return);
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
@@ -687,17 +687,17 @@ public class MentorServiceImpl implements MentorService {
     public ResponseEntity<Response> getStudentSubscribed(@RequestParam final long mentorId, @RequestParam final String limit,
             @RequestParam final String offset) {
 
-        CommonUtil utils = CommonUtil.getInstance();
+        final CommonUtil utils = CommonUtil.getInstance();
 
-        Map<String, String> limitObject = utils.getOffset(limit, offset);
+        final Map<String, String> limitObject = utils.getOffset(limit, offset);
 
-        Object[] params = { mentorId, Integer.parseInt(limitObject.get("limit")), Integer.parseInt(limitObject.get("offset")) };
+        final Object[] params = { mentorId, Integer.parseInt(limitObject.get("limit")), Integer.parseInt(limitObject.get("offset")) };
 
-        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_STUDENT_SUBSCRIBED, params);
+        final List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_STUDENT_SUBSCRIBED, params);
 
-        SimpleResponse response = new SimpleResponse("" + Boolean.TRUE, "mentor", "getStudentSubscribed", readObject);
+        final SimpleResponse response = new SimpleResponse("" + Boolean.TRUE, "mentor", "getStudentSubscribed", readObject);
 
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
         return entity;
 
     }
@@ -705,16 +705,16 @@ public class MentorServiceImpl implements MentorService {
     @Override
     @RequestMapping(value = "/getMainDashboardInfo", method = RequestMethod.GET)
     public ResponseEntity<Response> getMainDashboardInfo(@RequestParam final long uid) {
-        Object[] queryParams = new Object[] { uid };
-        JsonParser jsonParser = new JsonParser();
-        Map<String, Object> result = new HashMap<>();
+        final Object[] queryParams = new Object[] { uid };
+        final JsonParser jsonParser = new JsonParser();
+        final Map<String, Object> result = new HashMap<>();
         List<Object> readObject = null;
         String value = null;
 
         // count video
         readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_VIDEOS, queryParams);
         if (readObject != null && readObject.size() > 0) {
-            for (Object object : readObject) {
+            for (final Object object : readObject) {
                 value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
                 if (value == null || value.isEmpty() || value.contains("null")) {
                     result.put("count_videos", 0);
@@ -729,7 +729,7 @@ public class MentorServiceImpl implements MentorService {
         // count likes of video
         readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_LIKES, queryParams);
         if (readObject != null && readObject.size() > 0) {
-            for (Object object : readObject) {
+            for (final Object object : readObject) {
                 value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
                 if (value == null || value.isEmpty() || value.contains("null")) {
                     result.put("count_likes", 0);
@@ -744,7 +744,7 @@ public class MentorServiceImpl implements MentorService {
         // count ratings of video
         readObject = dao.readObjects(SibConstants.SqlMapperBROT124.SQL_GET_COUNT_RATINGS, queryParams);
         if (readObject != null && readObject.size() > 0) {
-            for (Object object : readObject) {
+            for (final Object object : readObject) {
                 value = jsonParser.parse(object.toString()).getAsJsonObject().get("numRatings").toString();
                 if (value == null || value.isEmpty() || value.contains("null")) {
                     result.put("count_ratings", 0);
@@ -760,7 +760,7 @@ public class MentorServiceImpl implements MentorService {
         // count answers of mentor
         readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_ANSWERS, queryParams);
         if (readObject != null && readObject.size() > 0) {
-            for (Object object : readObject) {
+            for (final Object object : readObject) {
                 value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
                 if (value == null || value.isEmpty() || value.contains("null")) {
                     result.put("count_answers", 0);
@@ -775,7 +775,7 @@ public class MentorServiceImpl implements MentorService {
         // count subcribers of mentor
         readObject = dao.readObjects(SibConstants.SqlMapperBROT124.SQL_GET_COUNT_SUBSCRIBERS, queryParams);
         if (readObject != null && readObject.size() > 0) {
-            for (Object object : readObject) {
+            for (final Object object : readObject) {
                 value = jsonParser.parse(object.toString()).getAsJsonObject().get("countSubcribers").toString();
                 if (value == null || value.isEmpty() || value.contains("null")) {
                     result.put("count_subcribers", 0);
@@ -789,17 +789,17 @@ public class MentorServiceImpl implements MentorService {
             result.put("count_subcribers", 0);
         }
 
-        SimpleResponse reponse = new SimpleResponse("" + true, "mentor", "getMainDashboardInfo", result);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        final SimpleResponse reponse = new SimpleResponse("" + true, "mentor", "getMainDashboardInfo", result);
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
     @Override
     @RequestMapping(value = "/getNewestQuestions", method = RequestMethod.GET)
     public ResponseEntity<Response> getNewestQuestions(@RequestParam long uid) {
-        Object[] queryParams = new Object[] { uid };
-        JsonParser jsonParser = new JsonParser();
-        Map<String, Object> result = new HashMap<>();
+        final Object[] queryParams = new Object[] { uid };
+        SimpleResponse reponse;
+        final Map<String, Object> result = new HashMap<>();
         List<Object> readObject = null;
         String value = null;
         
@@ -807,25 +807,34 @@ public class MentorServiceImpl implements MentorService {
         readObject = dao.readObjects(SibConstants.SqlMapperBROT124.SQL_GET_USER_SUBJECT, queryParams);
         
         if (readObject != null && readObject.size() > 0) {
-            for (Object object : readObject) {
-                Map<String, Object> map = (Map<String, Object>) object;
+            for (final Object object : readObject) {
+                final Map<String, Object> map = (Map<String, Object>) object;
                 value = map.get("defaultSubjectId").toString();
             }
             
-            String entityName = SibConstants.SqlMapper.SQL_GET_ALL_SUBJECTID_CATEGORY;
-            List<Object> subjects = dao.readObjects(entityName, new Object[] {});
-            StringBuilder subjectId = new StringBuilder();
-            for (String item : value.split(",")) {
-                System.out.println(item);
-                String out = CommonUtil.getAllChildCategory(item, subjects);
-                subjectId.append(out);
+            final String entityName = SibConstants.SqlMapper.SQL_GET_ALL_SUBJECTID_CATEGORY;
+            final List<Object> subjects = dao.readObjects(entityName, new Object[] {});
+            final StringBuilder subjectId = new StringBuilder();
+            for (final String item : value.split(",")) {
+                final String out = CommonUtil.getAllChildCategory(item, subjects);
+                if (subjectId.length() > 0) {
+                    subjectId.append("," + out);
+                } else {
+                    subjectId.append(out);
+                }
             }
             System.out.println(subjectId);
+            
+            final String whereClause = "in(" +
+                                       subjectId +
+                                       ") order by p.timeStamp DESC limit 5";
+
+            reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", dao.readObjectsWhereClause(SibConstants.SqlMapperBROT124.SQL_GET_NEWEST_QUESTIONS, whereClause, queryParams));
         } else {
-            result.put("Error", "No subject found");
+            reponse =  new SimpleResponse("" + true, "mentor", "getNewestQuestions", result);
         }
-        SimpleResponse reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", result);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
@@ -837,13 +846,13 @@ public class MentorServiceImpl implements MentorService {
     @Override
     @RequestMapping(value = "/getLatestRatings", method = RequestMethod.GET)
     public ResponseEntity<Response> getLatestRatings(@RequestParam final long mentorid) {
-        Object[] queryParams = new Object[] { mentorid };
+        final Object[] queryParams = new Object[] { mentorid };
 
         List<Object> readObject = null;
         readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_LATEST_RATING_IN_MANAGE_VIDEO, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse("" + true, readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        final SimpleResponse reponse = new SimpleResponse("" + true, readObject);
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
@@ -856,13 +865,13 @@ public class MentorServiceImpl implements MentorService {
     @Override
     @RequestMapping(value = "/getLatestComments", method = RequestMethod.GET)
     public ResponseEntity<Response> getLatestComments(@RequestParam final long mentorid, @RequestParam final int limit, @RequestParam final int offset) {
-        Object[] queryParams = new Object[] { mentorid, limit, offset };
+        final Object[] queryParams = new Object[] { mentorid, limit, offset };
 
         List<Object> readObject = null;
         readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_LATEST_COMMENTS_IN_MANAGE_VIDEO, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse("" + true, readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        final SimpleResponse reponse = new SimpleResponse("" + true, readObject);
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
@@ -874,15 +883,15 @@ public class MentorServiceImpl implements MentorService {
     @Override
     @RequestMapping(value = "/getDashboardInfo", method = RequestMethod.GET)
     public ResponseEntity<Response> getDashboardInfo(@RequestParam final long uid) {
-        Object[] queryParams = new Object[] { uid };
-        JsonParser jsonParser = new JsonParser();
-        Map<String, Object> result = new HashMap<>();
+        final Object[] queryParams = new Object[] { uid };
+        final JsonParser jsonParser = new JsonParser();
+        final Map<String, Object> result = new HashMap<>();
         List<Object> readObject = null;
         String value = null;
 
         // count video
         readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_VIDEOS, queryParams);
-        for (Object object : readObject) {
+        for (final Object object : readObject) {
             value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
             if (value == null || value.isEmpty() || value.contains("null")) {
                 result.put("count_videos", 0);
@@ -893,7 +902,7 @@ public class MentorServiceImpl implements MentorService {
 
         // count views of video
         readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_VIEW_VIDEO, queryParams);
-        for (Object object : readObject) {
+        for (final Object object : readObject) {
             value = jsonParser.parse(object.toString()).getAsJsonObject().get("numViews").toString();
             if (value == null || value.isEmpty() || value.contains("null")) {
                 result.put("count_views", 0);
@@ -905,7 +914,7 @@ public class MentorServiceImpl implements MentorService {
 
         // count comments of video
         readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_COMMENT_VIDEO, queryParams);
-        for (Object object : readObject) {
+        for (final Object object : readObject) {
             value = jsonParser.parse(object.toString()).getAsJsonObject().get("numComments").toString();
             if (value == null || value.isEmpty() || value.contains("null")) {
                 result.put("count_comments", 0);
@@ -916,7 +925,7 @@ public class MentorServiceImpl implements MentorService {
 
         // count playlist
         readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_VIDEO_PLAYLIST, queryParams);
-        for (Object object : readObject) {
+        for (final Object object : readObject) {
             value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
             if (value == null || value.isEmpty() || value.contains("null")) {
                 result.put("count_playlist", 0);
@@ -926,7 +935,7 @@ public class MentorServiceImpl implements MentorService {
         }
 
         readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_AVG_RATING_VIDEO, queryParams);
-        for (Object object : readObject) {
+        for (final Object object : readObject) {
             value = jsonParser.parse(object.toString()).getAsJsonObject().get("averageRating").toString();
             if (value == null || value.isEmpty() || value.contains("null")) {
                 result.put("avg_rating", 0);
@@ -935,8 +944,8 @@ public class MentorServiceImpl implements MentorService {
             }
 
         }
-        SimpleResponse reponse = new SimpleResponse("" + true, "mentor", "getDashboardInfo", result);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        final SimpleResponse reponse = new SimpleResponse("" + true, "mentor", "getDashboardInfo", result);
+        final ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 }

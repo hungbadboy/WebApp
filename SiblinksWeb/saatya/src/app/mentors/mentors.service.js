@@ -145,6 +145,13 @@ brotServices.factory('MentorService', ['$http', function ($http) {
       url: NEW_SERVICE_URL + 'mentor/getMainDashboardInfo?uid='+mentorid+''
     });
   }
+
+  factory.getNewestQuestions = function(mentorid){
+    return $http({
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'mentor/getNewestQuestions?uid='+mentorid+''
+    });
+  }
     // factory.searchMentors = function(key) {
 
     //     var mentors;
