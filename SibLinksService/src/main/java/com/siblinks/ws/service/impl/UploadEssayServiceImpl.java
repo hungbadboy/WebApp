@@ -438,7 +438,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         String count = null;
         if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
             if ("M".equalsIgnoreCase(request.getRequest_data().getUsertype())) {
-                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_ESAY_COUNT, queryParams);
+                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_ESAY_COUNT, new Object[]{});
             } else {
                 count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT_COUNT, queryParams);
             }

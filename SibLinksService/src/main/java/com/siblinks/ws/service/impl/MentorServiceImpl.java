@@ -575,7 +575,7 @@ public class MentorServiceImpl implements MentorService {
 
           readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
 
-          List<Object> listCategories = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY, new Object[] {});
+          dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY, new Object[] {});
 
           // List<Map<String, Object>>
 
@@ -812,7 +812,7 @@ public class MentorServiceImpl implements MentorService {
           if (readObject != null && readObject.size() > 0) {
                for (Object object : readObject) {
                     Map<String, Object> map = (Map<String, Object>) object;
-                    value = map.get("defaultSubjectId").toString();
+                value = (map.get("defaultSubjectId") != null) ? "" + map.get("defaultSubjectId") : "";
                }
 
                String entityName = SibConstants.SqlMapper.SQL_GET_ALL_SUBJECTID_CATEGORY;
