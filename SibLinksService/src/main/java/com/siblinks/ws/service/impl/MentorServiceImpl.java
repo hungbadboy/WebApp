@@ -823,13 +823,20 @@ public class MentorServiceImpl implements MentorService {
                     subjectId.append(out);
                 }
             }
-            System.out.println(subjectId);
             
             final String whereClause = "in(" +
                                        subjectId +
                                        ") order by p.timeStamp DESC limit 5";
 
-            reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", dao.readObjectsWhereClause(SibConstants.SqlMapperBROT124.SQL_GET_NEWEST_QUESTIONS, whereClause, queryParams));
+            reponse = new SimpleResponse(
+                                         "" + true,
+                                         "mentor",
+                                         "getNewestQuestions",
+                                         dao
+                                             .readObjectsWhereClause(
+                                                 SibConstants.SqlMapperBROT124.SQL_GET_NEWEST_QUESTIONS,
+                                                 whereClause,
+                                                 null));
         } else {
             reponse =  new SimpleResponse("" + true, "mentor", "getNewestQuestions", result);
         }
