@@ -1,0 +1,282 @@
+    <!-- Sidebar left menu -->
+    <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
+    <!-- /End Sidebar left menu -->
+
+    <!-- Main center content -->
+    <div class="content">
+        <div class="center-content">
+            <div class="center-content-wrapper">
+                <section id="dashboard">
+                    <div class="dashboard-wrapper">
+                        <!-- Header of content -->
+                        <div class="dashboard-header">
+                            <h4>Dashboard</h4>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+                        </div><!-- /End Header of content -->
+
+                        <!-- Content of center side -->
+                        <div class="dashboard-content">
+                            <!-- Top area -->
+                            <div class="dashboard-content-top-left">
+                                <div class="dashboard-content-top-left-wrapper">
+                                    <div class="total-likes">
+                                        <div class="title">
+                                            <h4>likes</h4>
+                                            <span data-icon="&#xe030;"></span>
+                                        </div>
+                                        <div class="number-total">
+                                            <p>Total {{dashboard.count_likes}}</p>
+                                            <span data-icon="&#x42;">289</span>
+                                        </div>
+                                    </div>
+                                    <div class="total-rating">
+                                        <div class="title">
+                                            <h4>rating</h4>
+                                            <span data-icon="&#xe031;"></span>
+                                        </div>
+                                        <div class="number-total">
+                                            <p>Total {{dashboard.count_ratings}}</p>
+                                            <span data-icon="&#x42;">289</span>
+                                        </div>
+                                    </div>
+                                    <div class="total-answers">
+                                        <div class="title">
+                                            <h4>answers</h4>
+                                            <span data-icon="&#x77;"></span>
+                                        </div>
+                                        <div class="number-total">
+                                            <p>Total {{dashboard.count_answers}}</p>
+                                            <span data-icon="&#x42;">289</span>
+                                        </div>
+                                    </div>
+                                    <div class="total-videos">
+                                        <div class="title">
+                                            <h4>videos</h4>
+                                            <span data-icon="&#x49;"></span>
+                                        </div>
+                                        <div class="number-total">
+                                            <p>Total {{dashboard.count_videos}}</p>
+                                            <span data-icon="&#x43;">289</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- Top area -->
+
+                            <!-- Bottom left area -->
+                            <div class="dashboard-content-bottom-left">
+                                <div class="dashboard-content-bottom-left-wrapper">
+                                    <h4>newest Q&A</h4><a href="#"><span data-icon="&#xe037;" class="setting"></span></a>
+                                    <div class="newest-qa" ng-if="questions">
+                                        <ul ng-repeat="q in questions track by $index">
+                                            <li>
+                                                <div class="newest-qa-student-img online">
+                                                    <img src="{{q.imageUrl}}">
+                                                </div>
+                                                <div class="newest-qa-student-info">
+                                                    <p class="newest-qa-student-name">
+                                                        <strong>{{q.userName}}</strong>
+                                                        <span class="time-post">{{q.timeStamp}} ago</span>
+                                                    </p>
+                                                    <p class="newest-qa-in">
+                                                        In {{q.subject}}
+                                                    </p>
+                                                    <p class="newest-qa-detail">
+                                                        {{q.content}}
+                                                    </p>
+                                                </div>
+                                                <div class="student-rate ">
+                                                    <span data-icon="&#x35;"></span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /End Bottom left area -->
+
+                            <!-- Bottom right area -->
+                            <div class="dashboard-content-bottom-right">
+                                <div class="dashboard-content-bottom-right-wrapper">
+                                    <div class="total-subcribers-wrapper">
+                                        <div class="total-subcribers">
+                                            <div class="title">
+                                                <h4>subcribers</h4>
+                                                <span data-icon="&#x50;"></span>
+                                            </div>
+                                            <div class="number-total">
+                                                <p>Total <span>{{dashboard.count_subscribers}}</span></p>
+                                                <span data-icon="&#x42;">289</span>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-md-10 col-md-offset-1">
+                                            <div class="carousel slide" data-ride="carousel" data-type="multi" data-interval="3000" id="studentCarousel">
+                                                <div class="carousel-inner">
+                                                    <div class="item active">
+                                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                                            <a href="#">
+                                                                <img src="assets/images/mentor-04.png" class="img-responsive">
+                                                                <p class="student-name">Student name</p>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                                            <a href="#">
+                                                                <img src="assets/images/mentor-04.png" class="img-responsive">
+                                                                <p class="student-name">Student name</p>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                                            <a href="#">
+                                                                <img src="assets/images/mentor-04.png" class="img-responsive">
+                                                                <p class="student-name">Student name</p>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                                            <a href="#">
+                                                                <img src="assets/images/mentor-04.png" class="img-responsive">
+                                                                <p class="student-name">Student name</p>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                                            <a href="#">
+                                                                <img src="assets/images/mentor-04.png" class="img-responsive">
+                                                                <p class="student-name">Student name</p>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                                            <a href="#">
+                                                                <img src="assets/images/mentor-04.png" class="img-responsive">
+                                                                <p class="student-name">Student name</p>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                              </div>
+                                              <a class="left carousel-control" href="#studentCarousel" data-slide="prev"><span data-icon="&#x34;"></span></a>
+                                              <a class="right carousel-control" href="#studentCarousel" data-slide="next"><span data-icon="&#x35;"></span></a>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                    <div class="newest-sub-esay">
+                                        <div class="newest-sub-esay-wrapper">
+                                            <div class="newest-sub-esay-title">
+                                                <h4>Newest Submitted Essay</h4>
+                                                <a href="#"><span data-icon="&#xe037;" class="setting"></span></a>
+                                            </div>
+                                            <div class="newest-sub-esay-content">
+                                                <ul>
+                                                    <li>
+                                                        <div class="newest-sub-esay-img">
+                                                            <img src="assets/images/mentor-01.jpg">
+                                                        </div>
+                                                        <div class="newest-sub-esay-info">
+                                                            <p class="newest-sub-esay-name">
+                                                                <strong>Brian M.Scott</strong><br>
+                                                                <span>Can you gain college creadit while still in high school?</span>
+                                                            </p>
+                                                            <p class="newest-sub-esay-status ">
+                                                                <span class="essay-answers">Answered</span>
+                                                                <span class="fa fa-font-awesome"></span>
+                                                            </p>
+                                                            
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="newest-sub-esay-img">
+                                                            <img src="assets/images/mentor-01.jpg">
+                                                        </div>
+                                                        <div class="newest-sub-esay-info">
+                                                            <p class="newest-sub-esay-name">
+                                                                <strong>Brian M.Scott</strong><br>
+                                                                <span>Can you gain college creadit while still in high school?</span>
+                                                            </p>
+                                                            <p class="newest-sub-esay-status ">
+                                                                <span class="essay-wait-review">Waiting</span>
+                                                                <span class="fa fa-font-awesome"></span>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="newest-sub-esay-img">
+                                                            <img src="assets/images/mentor-01.jpg">
+                                                        </div>
+                                                        <div class="newest-sub-esay-info">
+                                                            <p class="newest-sub-esay-name">
+                                                                <strong>Brian M.Scott</strong><br>
+                                                                <span>Can you gain college creadit while still in high school?</span>
+                                                            </p>
+                                                            <p class="newest-sub-esay-status ">
+                                                                <span class="essay-reviewing">Reviewing</span>
+                                                                <span class="fa fa-font-awesome"></span>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="newest-sub-esay-img">
+                                                            <img src="assets/images/mentor-01.jpg">
+                                                        </div>
+                                                        <div class="newest-sub-esay-info">
+                                                            <p class="newest-sub-esay-name">
+                                                                <strong>Brian M.Scott</strong><br>
+                                                                <span>Can you gain college creadit while still in high school?</span>
+                                                            </p>
+                                                            <p class="newest-sub-esay-status ">
+                                                                <span class="essay-reviewing">Reviewing</span>
+                                                                <span class="fa fa-font-awesome"></span>
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dashboard-video">
+                                        <div class="video-detail">
+                                            <img src="{{vTopViewed.image}}" alt="">
+                                            <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
+                                        </div>
+                                        <!-- <iframe width="330px" height="220px" src="https://www.youtube.com/embed/B7wkzmZ4GBw?enablejsapi=1" frameborder="0"></iframe>-->
+                                        <div class="video-wrapper">
+                                            <div class="videos-title">
+                                                {{vTopViewed.description}}
+                                            </div>
+                                            <div class="videos-rate">
+                                                <!-- <div class="videos-start">
+                                                    <img src="assets/images/star.png">
+                                                    <p class="rate"></p>
+                                                </div>-->
+                                                <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                                <p class="videos-rate-infor">
+                                                    <span data-icon="&#x49;">{{vTopViewed.numViews}}</span>
+                                                    <!-- <span data-icon="&#xe089;">12</span> -->
+                                                    <span data-icon="&#xe066;">{{vTopViewed.numComments}}</span>
+                                                </p>
+                                            </div>
+                                            <div class="recent-view"><h4>Most view </h4>
+                                                <a ng-click="topViewedPre(topViewedPos)"><span data-icon="&#x34;"></span></a>
+                                                <a ng-click="topViewedNext(topViewedPos)"><span data-icon="&#x35;"></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div><!-- /End Bottom right area -->
+                        </div>
+                        <!-- /End Content of center side -->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- /End Main center content -->
+    
+    <!-- Sidebar right -->
+    <div id="sidebar-right" ng-include="sidebarRight"></div>
+    <!-- End Sidebar right -->
