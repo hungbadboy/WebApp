@@ -1,7 +1,7 @@
 brotServices.factory('AnswerService', ['$http', '$log', function($http) {
   var factory = {};
 
-  factory.postAnswer = function(userId, authorId, question_id, content,subjectId,topicId) {
+  factory.postAnswer = function(userId, authorId, question_id, content,subjectId) {
     var rs;
     var promise = $http({
       method: 'POST',
@@ -13,11 +13,9 @@ brotServices.factory('AnswerService', ['$http', '$log', function($http) {
           "authorID": authorId,
           "uid":userId,
           "pid": question_id,
-          "topicId":topicId,
           "subjectId":subjectId,
-          "content": encodeURIComponent(content),
-          "tags": [
-          ]
+          "content": content
+
         }
       }
     });

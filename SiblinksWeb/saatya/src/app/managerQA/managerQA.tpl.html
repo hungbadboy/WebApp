@@ -2,392 +2,198 @@
 <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
 <!-- /End Sidebar left menu -->
 <div class="content">
-    <div class="center-content">
-        <div class="center-content-wrapper">
-            <section id="dashboard">
-                <!-- Content header -->
-                <div class="dashboard-header">    
-                    <h4>Manage Q&A</h4>
-                    <p>Ut a porttitor leo. Aliquam fermentum nec elit lobortis tristique </p>
-                </div>
-                <!-- /End Content header -->
-                <!-- Content of page -->
-                <div class="manager-video mentor-manage-qa-content">
-                    <div class="row top-mag">
-                        <div class="col-md-12">
-                            <div class="col-md-4 search">
-                                <form class="navbar-form" role="search">
-                                    <div class="input-group">                                                    
-                                        <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
-                                        </div>
+<div class="center-content">
+    <div class="center-content-wrapper">
+        <section id="dashboard">
+            <!-- Content header -->
+            <div class="dashboard-header">
+                <h4>Manage Q&A</h4>
+                <p> </p>
+            </div>
+            <!-- /End Content header -->
+            <!-- Content of page -->
+            <div class="manager-video mentor-manage-qa-content">
+                <div class="row top-mag">
+                    <div class="col-md-12">
+                        <div class="col-md-4 search">
+                            <form class="navbar-form" role="search">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" ><img src="assets/images/icon-search.png" alt=""></button>
                                     </div>
-                                </form>
-                            </div>
-                            <div class="col-md-2 sl-sbj">
-                                <select class="select-sbj">
-                                    <option value="0">Subjects</option>
-                                    <option value="1">Subjects 2</option>
-                                    <option value="2">Subjects 3</option>
-                                    <option value="3">Subjects 4</option>
-                                    <option value="4">Subjects 5</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2 sl-newwest">
-                                <select class="select-newwest">
-                                    <option value="0">Category</option>
-                                    <option value="1">Category 2</option>
-                                    <option value="2">Category 3</option>
-                                    <option value="3">Category 4</option>
-                                    <option value="4">Category 5</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2 btn-filter"><button>Filter</button></div>
+                                    <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+                                </div>
+                            </form>
                         </div>
+                        <div class="col-md-2 sl-sbj">
+                            <div angucomplete-alt id="autocompleteSubs" placeholder="Search subjects.." pause="300"
+                                 selected-object="selectedSubject"
+                                 local-data="subjectsParent" search-fields="name" title-field="name"
+                                 minlength="0" input-class="select-sbj"
+                                 match-class="highlight" />
+                        </div>
+                        <div class="col-md-2 sl-newwest">
+                            <div angucomplete-alt id="autocompleteCate" placeholder="Search category.." pause="300"
+                                 selected-object="selectedCate"
+                                 local-data="subjectsChild" search-fields="name" title-field="name"
+                                 minlength="0" input-class="select-sbj"
+                                 match-class="highlight" />
+                        </div>
+                        <div class="col-md-2 btn-filter"><button>Filter</button></div>
                     </div>
-                    <!-- /End Top content -->
-                    <div class="main-qa clearfix">
-                        <div class="col-md-4 left-qa">
-                            <div role="tabpanel tab-all">
-                                <!-- Nav tabs -->
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active">
-                                        <a href="{{isActive}}#tab-1" aria-controls="home" role="tab" data-toggle="tab">All</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="{{isActive}}#tab-2" aria-controls="answered" role="tab" data-toggle="tab">Answered</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="{{isActive}}#tab-3" aria-controls="unanswered" role="tab" data-toggle="tab">Unanswered</a>
-                                    </li>
-                                </ul>
-                                <!-- Tab panes -->
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="tab-1">
-                                        <div class="group-item-qa">
-                                            <div class="item-qa active clearfix">
-                                                <div class="col-md-3">
-                                                    <img src="assets/images/user.jpg" alt="">
-                                                </div>
-                                                <div class="col-md-9 bx-dt-qa">
-                                                    <h5>Student name <span class="time">asked 5 mins ago</span></h5>
-                                                    <p><span>in</span> <b>Applications, Financial Aid</b></p>
-                                                    <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
-                                                    <div class="clearfix bt-item">
-                                                        <div class="col-md-6 replied"><h6>Replied<span>&nbsp;5 min ago</span></h6></div>
-                                                        <div class="col-md-6">
-                                                            <p class="list-view">
-                                                                <a href="#">23 <span data-icon="&#x77;"></span></a>&nbsp;&nbsp;
-                                                                <a href="#">12 <span class="like-h" data-icon="&#xe089;"></span></a>&nbsp;&nbsp;
-                                                                <a href="#">68 <i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp;&nbsp;
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="item-qa clearfix">
-                                                <div class="col-md-3">
-                                                    <img src="assets/images/user.jpg" alt="">
-                                                </div>
-                                                <div class="col-md-9 bx-dt-qa">
-                                                    <h5>Student name <span class="time">asked 5 mins ago</span></h5>
-                                                    <p><span>in</span> <b>Applications, Financial Aid</b></p>
-                                                    <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
-                                                    <div class="clearfix bt-item">
-                                                        <div class="col-md-6 replied"><h6>Replied<span>&nbsp;5 min ago</span></h6></div>
-                                                        <div class="col-md-6">
-                                                            <p class="list-view">
-                                                                <a href="#">23 <span data-icon="&#x77;"></span></a>&nbsp;&nbsp;
-                                                                <a href="#">12 <span class="like-h" data-icon="&#xe089;"></span></a>&nbsp;&nbsp;
-                                                                <a href="#">68 <i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp;&nbsp;
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="item-qa clearfix">
-                                                <div class="col-md-3">
-                                                    <img src="assets/images/user.jpg" alt="">
-                                                </div>
-                                                <div class="col-md-9 bx-dt-qa">
-                                                    <h5>Student name <span class="time">asked 5 mins ago</span></h5>
-                                                    <p><span>in</span> <b>Applications, Financial Aid</b></p>
-                                                    <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
-                                                    <div class="clearfix bt-item">
-                                                        <div class="col-md-6 replied"><h6>Replied<span>&nbsp;5 min ago</span></h6></div>
-                                                        <div class="col-md-6">
-                                                            <p class="list-view">
-                                                                <a href="#">23 <span data-icon="&#x77;"></span></a>&nbsp;&nbsp;
-                                                                <a href="#">12 <span class="like-h" data-icon="&#xe089;"></span></a>&nbsp;&nbsp;
-                                                                <a href="#">68 <i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp;&nbsp;
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="item-qa clearfix">
-                                                <div class="col-md-3">
-                                                    <img src="assets/images/user.jpg" alt="">
-                                                </div>
-                                                <div class="col-md-9 bx-dt-qa">
-                                                    <h5>Student name <span class="time">asked 5 mins ago</span></h5>
-                                                    <p><span>in</span> <b>Applications, Financial Aid</b></p>
-                                                    <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
-                                                    <div class="clearfix bt-item">
-                                                        <div class="col-md-6 replied"><h6>Replied<span>&nbsp;5 min ago</span></h6></div>
-                                                        <div class="col-md-6">
-                                                            <p class="list-view">
-                                                                <a href="#">23 <span data-icon="&#x77;"></span></a>&nbsp;&nbsp;
-                                                                <a href="#">12 <span class="like-h" data-icon="&#xe089;"></span></a>&nbsp;&nbsp;
-                                                                <a href="#">68 <i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp;&nbsp;
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="item-qa clearfix">
-                                                <div class="col-md-3">
-                                                    <img src="assets/images/user.jpg" alt="">
-                                                </div>
-                                                <div class="col-md-9 bx-dt-qa">
-                                                    <h5>Student name <span class="time">asked 5 mins ago</span></h5>
-                                                    <p><span>in</span> <b>Applications, Financial Aid</b></p>
-                                                    <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
-                                                    <div class="clearfix bt-item">
-                                                        <div class="col-md-6 replied"><h6>Replied<span>&nbsp;5 min ago</span></h6></div>
-                                                        <div class="col-md-6">
-                                                            <p class="list-view">
-                                                                <a href="#">23 <span data-icon="&#x77;"></span></a>&nbsp;&nbsp;
-                                                                <a href="#">12 <span class="like-h" data-icon="&#xe089;"></span></a>&nbsp;&nbsp;
-                                                                <a href="#">68 <i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp;&nbsp;
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="item-qa clearfix">
-                                                <div class="col-md-3">
-                                                    <img src="assets/images/user.jpg" alt="">
-                                                </div>
-                                                <div class="col-md-9 bx-dt-qa">
-                                                    <h5>Student name <span class="time">asked 5 mins ago</span></h5>
-                                                    <p><span>in</span> <b>Applications, Financial Aid</b></p>
-                                                    <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
-                                                    <div class="clearfix bt-item">
-                                                        <div class="col-md-6 replied"><h6>Replied<span>&nbsp;5 min ago</span></h6></div>
-                                                        <div class="col-md-6">
-                                                            <p class="list-view">
-                                                                <a href="#">23 <span data-icon="&#x77;"></span></a>&nbsp;&nbsp;
-                                                                <a href="#">12 <span class="like-h" data-icon="&#xe089;"></span></a>&nbsp;&nbsp;
-                                                                <a href="#">68 <i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp;&nbsp;
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="btn-load"><a href="#">load more</a></p>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="tab-2">tab-2</div>
-                                    <div role="tabpanel" class="tab-pane" id="tab-3">tab-3</div>
-                                </div>
+                </div>
+                <!-- /End Top content -->
+                <div class="main-qa clearfix">
+                    <div class="col-md-4 left-qa">
+                        <div role="tabpanel tab-all">
+                            <!-- Nav tabs -->
+                            <div class="t-panel">
+                                <span class="active">All</span>
+                                <span>Answered</span>
+                                <span>Unanswered</span>
                             </div>
-                        </div>
-                        <div class="col-md-8 box-main-replied">
-                            <div class="slider-rpl">
-                                <div class="box-btn-sl clearfix">
-                                    <a href="#" class="btn-prev"><img src="assets/images/icon-sl-left.png" alt=""></a>
-                                    <a href="#" class="btn-next"><img src="assets/images/icon-sl-right.png" alt=""></a>
-                                </div>
-                                <div class="group-item-sl">
-                                    <div class="item-sl-rpl">
-                                        <p class="text-rpl">1 Replied</p>
-                                        <div class="bx-detail-rpl">
-                                            <div class="top-rpl clearfix">
-                                                <div class="col-md-2">
-                                                    <img src="assets/images/user.jpg" alt="">
-                                                </div>
-                                                <div class="col-md-6 bx-dt-qa">
-                                                    <h5>Student name</h5>
-                                                    <span class="time">asked 5 mins ago</span>
-                                                    <p class="txt-category">Category <b>Applications, Financial Aid</b></p>
-                                                </div>
-                                                <div class="col-md-4 bt-item">
-                                                    <p class="list-view">
-                                                        <a href="#">23 <span data-icon="&#x77;"></span></a>&nbsp;&nbsp;
-                                                        <a href="#">12 <span class="like-h" data-icon="&#xe089;"></span></a>&nbsp;&nbsp;
-                                                        <a href="#">68 <i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp;&nbsp;
-                                                    </p>
-                                                </div>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="tab-1">
+                                    <div class="group-item-qa" >
+                                        <div ng-repeat="question in listQuestions" class="item-qa clearfix" ng-class="{'active':question.qid == currentPid}">
+                                            <div class="col-md-3">
+                                                <img ng-src="{{question.imageUrl}}" alt="avatar">
                                             </div>
-                                            <p class="text-rpl-2">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla molestie justo eu ante vehicula fermentum. Fusce id odio enim. Ut sit amet velit urna. Etiam vehicula ante vel risus malesuada, sit amet vulputate purus pulvinar. Duis ex nunc, viverra eu fringilla eleifend, vulputate a neque. Ut venenatis felis ac fringilla dignissim. Pellentesque efficitur eget diam a aliquet. Donec efficitur, odio eu auctor porta, ligula dolor hendrerit ex, quis pharetra turpis felis ac mauris. Phasellus finibus ultrices nulla, ac semper erat pharetra in.
-                                            </p>
-                                            <p>
-                                                Fusce vulputate bibendum rhoncus. Sed posuere odio sem, fermentum aliquet metus vulputate ut. Mauris tempor metus at pretium sodales. Etiam tristique ipsum eu dui varius, ac hendrerit arcu pharetra. Etiam lacus diam, ultrices eu feugiat quis, bibendum sit amet nibh. Mauris venenatis blandit neque, at dapibus purus facilisis vel. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
-                                            </p>
-                                            <div class="images-question">
-                                                <ul>
-                                                    <li class="item">
-                                                        <div class="item-img">
-                                                            <img src="assets/images/tutorial_04.png">
-                                                            <div class="item-hover">
-                                                              <img src="assets/images/ask question/look-img.png">
-                                                            </div>
-                                                        </div>                           
-                                                    </li>
-                                                    <li class="item">
-                                                        <div class="item-img">
-                                                            <img src="assets/images/tutorial_03.png">
-                                                            <div class="item-hover">
-                                                              <img src="assets/images/ask question/look-img.png">
-                                                            </div>
-                                                        </div>
-                                                    </li> 
-                                                    <li class="item">
-                                                        <div class="item-img">
-                                                            <img src="assets/images/tutorial_02.png">
-                                                            <div class="item-hover">
-                                                                <img src="assets/images/ask question/look-img.png">
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="item">
-                                                        <div class="item-img">
-                                                            <img src="assets/images/tutorial_01.png">
-                                                            <div class="item-hover">
-                                                              <img src="assets/images/ask question/look-img.png">
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="item">
-                                                        <div class="item-img">
-                                                            <img src="assets/images/tutorial_01.png">
-                                                            <div class="item-hover">
-                                                              <img src="assets/images/ask question/look-img.png">
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div><!-- /End Images of question -->
-                                            <div class="form-chat">
-                                                <form action="">
-                                                    <div class="box-chat-onl clearfix">
-                                                        <a href="#" class="col-md-1"><img src="assets/images/user.jpg" alt=""></a>
-                                                        <div class="texta">
-                                                            <textarea name="" class="col-md-11" placeholder="add your reply here" ></textarea>
-                                                        </div>
-                                                        <div class="icon-upload">
-                                                            <input class="input-file" name="file1" id="file1" type="file">
-                                                            <label for="file1" class="label-1">
-                                                                <img src="assets/images/img-upload.png" alt="">
-                                                            </label>
-                                                        </div>
+                                            <div class="col-md-9 bx-dt-qa">
+                                                <h5>{{question.firstName + " "+ question.lastName}}<span class="time">asked {{convertUnixTimeToTime(question.timestamp)}} ago</span></h5>
+                                                <p><span>in</span> <b>{{question.subject}}</b></p>
+                                                <p>
+                                                    <pre>{{ question.content | limitTo: 150 }}{{question.content.length > 150 ? '...' : ''}}</pre>
+                                                </p>
+                                                <div class="clearfix bt-item">
+                                                    <div class="col-md-6 replied"><h6>Replied<span>&nbsp;{{convertUnixTimeToTime(question.timeanswer)}}ago</span></h6></div>
+                                                    <div class="col-md-6">
+                                                        <p class="list-view">
+                                                            {{question.numReplies}} <span data-icon="&#x77;"></span>&nbsp;&nbsp;
+                                                            {{question.numViews}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                        </p>
                                                     </div>
-                                                    <p class="upload-image">
-                                                        <output id="list"></output>
-                                                        <span class="add-img">
-                                                            <input type="file" class="input-file-2" id="files" name="files[]" multiple /><label for="files"><img src="assets/images/add-img.png"></label>
-                                                        </span>
-                                                    </p>
-                                                    <div class="detail-chat">
-                                                        <ul class="chat">
-                                                            <li class="right clearfix">
-                                                                <span class="chat-img pull-right">
-                                                                    <img src="assets/images/user.jpg" alt="User Avatar">
-                                                                </span>
-                                                                <div class="chat-body clearfix">
-                                                                    <div class="header">
-                                                                        <strong class="pull-right primary-font">You</strong><span class="pull-right time">asked 1 mins ago</span><a href="#">8 <span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                    </div>
-                                                                    <p>
-                                                                        Donec volutpat turpis risus, ac aliquet ligula varius ut. Cras lacus orci,<br/> scelerisque quis sem sed, condimentum cursus quam
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            <li class="left clearfix">
-                                                                <span class="chat-img pull-left">
-                                                                    <img src="assets/images/user.jpg" alt="User Avatar">
-                                                                </span>
-                                                                <div class="chat-body clearfix">
-                                                                    <div class="header">
-                                                                        <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                    </div>
-                                                                    <p>
-                                                                        Sed neque ipsum, placerat quis pellentesque quis, aliquet non eros. Morbi at<br/> laoreet justo
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            <li class="right clearfix">
-                                                                <span class="chat-img pull-right">
-                                                                    <img src="assets/images/user.jpg" alt="User Avatar">
-                                                                </span>
-                                                                <div class="chat-body clearfix">
-                                                                    <div class="header">
-                                                                        <strong class="pull-right primary-font">You</strong><span class="pull-right time">asked 1 mins ago</span><a href="#">8 <span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                    </div>
-                                                                    <p>
-                                                                        Donec volutpat turpis risus, ac aliquet ligula varius ut. Cras lacus orci,<br/> scelerisque quis sem sed, condimentum cursus quam
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            <li class="left clearfix">
-                                                                <span class="chat-img pull-left">
-                                                                    <img src="assets/images/user.jpg" alt="User Avatar">
-                                                                </span>
-                                                                <div class="chat-body clearfix">
-                                                                    <div class="header">
-                                                                        <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                    </div>
-                                                                    <p>
-                                                                        Sed neque ipsum, placerat quis pellentesque quis, aliquet non eros. Morbi at<br/> laoreet justo
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            <li class="right clearfix">
-                                                                <span class="chat-img pull-right">
-                                                                    <img src="assets/images/user.jpg" alt="User Avatar">
-                                                                </span>
-                                                                <div class="chat-body clearfix">
-                                                                    <div class="header">
-                                                                        <strong class="pull-right primary-font">You</strong><span class="pull-right time">asked 1 mins ago</span><a href="#">8 <span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                    </div>
-                                                                    <p>
-                                                                        Donec volutpat turpis risus, ac aliquet ligula varius ut. Cras lacus orci,<br/> scelerisque quis sem sed, condimentum cursus quam
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            <li class="left clearfix">
-                                                                <span class="chat-img pull-left">
-                                                                    <img src="assets/images/user.jpg" alt="User Avatar">
-                                                                </span>
-                                                                <div class="chat-body clearfix">
-                                                                    <div class="header">
-                                                                        <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                    </div>
-                                                                    <p>
-                                                                        Sed neque ipsum, placerat quis pellentesque quis, aliquet non eros. Morbi at<br/> laoreet justo
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </form>
+                                                </div>
                                             </div>
                                         </div>
+
                                     </div>
-                                    <!--item-sl-rpl-->
+                                    <p class="btn-load"><a href="#">load more</a></p>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-8 box-main-replied">
+                        <div class="slider-rpl">
+                            <div class="box-btn-sl clearfix">
+                                <img class="btn-prev" src="assets/images/icon-sl-left.png" alt="Prev">
+                                <img class="btn-next" src="assets/images/icon-sl-right.png" alt="Next">
+                            </div>
+                            <div class="group-item-sl">
+                                <div class="item-sl-rpl">
+                                    <p class="text-rpl">{{questionDetail.numReplies}} Replied</p>
+                                    <div class="bx-detail-rpl">
+                                        <div class="top-rpl clearfix">
+                                            <div class="col-md-2">
+                                                <img ng-src="{{questionDetail.avatar}}" alt="avatar">
+                                            </div>
+                                            <div class="col-md-6 bx-dt-qa">
+                                                <h5>{{questionDetail.firstName +" "+ questionDetail.lastName}}</h5>
+                                                <span class="time">asked {{questionDetail.timeStamp}} ago</span>
+                                                <p class="txt-category">{{questionDetail.subject}}</p>
+                                            </div>
+                                            <div class="col-md-4 bt-item">
+                                                <p class="list-view">
+                                                    {{questionDetail.numview}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p class="text-rpl-2">
+                                        <pre>
+                                            {{questionDetail.question_text}}
+                                        </pre>
+                                        </p>
+
+                                        <div class="images-question">
+                                            <ul>
+                                                <li class="item" ng-repeat="image in questionDetail.imagePath">
+                                                    <div class="item-img">
+                                                        <img ng-src="{{image}}">
+                                                        <div class="item-hover">
+                                                            <img src="assets/images/ask question/look-img.png">
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div><!-- /End Images of question -->
+                                        <div class="form-chat">
+                                            <form action="">
+                                                <div class="box-chat-onl clearfix">
+                                                   <img class="col-md-1" ng-src="{{mentorAvatar}}" alt=""></a>
+                                                    <div class="texta">
+                                                        <textarea name="" id="txtAnswer" class="col-md-11" placeholder="Add your reply here" ></textarea>
+                                                    </div>
+
+                                                    <div class="icon-upload">
+                                                        <button ng-click="answerQuestion(questionDetail.question_id,
+                                                        questionDetail.authorId,questionDetail.subjectId)">post</button>
+                                                        <!--<input class="input-file" name="file1" id="file1" type="file">-->
+                                                        <input type="file" multiple  id="file1" ng-file-select="onFileSelect($files)"
+                                                               accept='image/*'/>
+                                                        <label for="file1" class="label-1">
+                                                            <img src="assets/images/img-upload.png" alt="">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <p class="upload-image">
+                                                    <output id="list">
+                                                        <div ng-repeat="step in stepsModel track by $index">
+                                                            <img class="thumb" ng-src="{{step}}" />
+                                                            <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
+                                                        </div>
+                                                    </output>
+                                                    <!--<span class="add-img">-->
+                                                                        <!--<input type="file" class="input-file-2" id="files" name="files[]" multiple />-->
+                                                        <!--<label for="files"><img src="assets/images/add-img.png"></label>-->
+                                                                    <!--</span>-->
+                                                </p>
+                                                <div class="detail-chat">
+                                                    <ul class="chat">
+                                                        <li ng-repeat="answer in listAnswer" class="clearfix" ng-class="{'right':userId = answer.userId}">
+                                                                            <span class="chat-img pull-right">
+                                                                                <img ng-src="{{answer.imageUrl}}" alt="Avatar">
+                                                                            </span>
+                                                            <div class="chat-body clearfix">
+                                                                <div class="header">
+                                                                    <strong class="pull-right primary-font">You</strong><span class="pull-right time">asked {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}} <span class="like-h" data-icon="&#xe089;"></span>
+                                                                </div>
+                                                                <p>
+                                                                    <pre>
+                                                                {{answer.content}}
+                                                            </pre>
+                                                                </p>
+                                                            </div>
+                                                        </li>
+
+
+                                                    </ul>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--item-sl-rpl-->
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- /End Content of page -->
-                
-            </section>
-        </div>
-    </div>              
+            </div>
+            <!-- /End Content of page -->
+
+        </section>
+    </div>
+</div>
 </div>
 <!-- /End Main center content -->
 <!-- Sidebar right -->
