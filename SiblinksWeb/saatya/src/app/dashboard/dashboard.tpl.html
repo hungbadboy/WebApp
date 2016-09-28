@@ -27,7 +27,7 @@
                                             </div>
                                             <div class="number-total">
                                                 <p>Total {{dashboard.count_likes}}</p>
-                                                <span data-icon="&#x42;">289</span>
+                                                <span data-icon="&#x42;">{{dashboard.count_likes_today}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -39,7 +39,7 @@
                                             </div>
                                             <div class="number-total">
                                                 <p>Total {{dashboard.count_ratings}}</p>
-                                                <span data-icon="&#x42;">289</span>
+                                                <span data-icon="&#x42;">{{dashboard.count_ratings_today}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -51,7 +51,7 @@
                                             </div>
                                             <div class="number-total">
                                                 <p>Total {{dashboard.count_answers}}</p>
-                                                <span data-icon="&#x42;">289</span>
+                                                <span data-icon="&#x42;">{{dashboard.count_videos_today}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -63,7 +63,7 @@
                                             </div>
                                             <div class="number-total">
                                                 <p>Total {{dashboard.count_videos}}</p>
-                                                <span data-icon="&#x43;">289</span>
+                                                <span data-icon="&#x43;">{{dashboard.count_videos}}</span>
                                             </div>
                                         </div>
                                     </div>                                            
@@ -98,6 +98,7 @@
                                         </ul>
                                     </div>
                                 </div>
+                                <div ng-if="nodata">No data</div>
                             </div>
                             <!-- /End Bottom left area -->
 
@@ -112,7 +113,7 @@
                                             </div>
                                             <div class="number-total">
                                                 <p>Total <span>{{dashboard.count_subscribers}}</span></p>
-                                                <span data-icon="&#x42;">289</span>
+                                                <span data-icon="&#x42;">{{dashboard.count_subcribers_today}}</span>
                                             </div>
                                         </div>
                                         <!-- <div class="col-xs-10 col-xs-offset-1">

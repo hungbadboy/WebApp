@@ -4,7 +4,8 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
 
   //Author: Hoai Nguyen;
   //event click on "Submit" button;
-  var userId = localStorage.getItem('userId');
+  // var userId = localStorage.getItem('userId');
+  var userId = '111';
 
   init();
 
@@ -16,18 +17,22 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
 
   function getNewestQuestions(){
     MentorService.getNewestQuestions(userId).then(function(data){
-      if (data.data.request_data_result != null) {
+      console.log(data.data.request_data_result);
+      if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
         for (var i = data.data.request_data_result.length - 1; i >= 0; i--) {
           data.data.request_data_result[i].timeStamp = convertUnixTimeToTime(data.data.request_data_result[i].timeStamp);
         }
         $scope.questions = data.data.request_data_result;
+      }
+      else{
+        $scope.nodata = true;
       }
     });
   }
 
   function getMainDashboardInfo(){
     MentorService.getMainDashboardInfo(userId).then(function(data){
-      if (data.data.request_data_result != null) {
+      if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
         $scope.dashboard = data.data.request_data_result;;
       }
     });
