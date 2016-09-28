@@ -17,7 +17,7 @@
                                 <div class="col-md-5 search">
                                     <form class="navbar-form" role="search">
                                         <div class="input-group">                                                        
-                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" ng-enter="search()">
                                             <div class="input-group-btn">
                                                 <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
                                             </div>
@@ -25,8 +25,9 @@
                                     </form>
                                 </div>
                                 <div class="col-md-3 sl-sbj">
-                                    <select class="select-sbj">
-                                        <option ng-repeat="s in listSubjects track by $index"></option>
+                                    <select class="select-sbj" ng-model="subject" ng-change="loadVideosBySubject()">
+                                        <option value="0">Select Subjects</option>
+                                        <option ng-repeat="s in listSubjects track by $index" value="{{s.subjectId}}" >{{s.subject}}</option>
                                         <!-- <option value="0">Option 1</option>
                                         <option value="1">Option 2</option>
                                         <option value="2">Option 3</option>
@@ -43,7 +44,7 @@
                                         <option value="4">Option 5</option>
                                     </select>
                                 </div> -->
-                                <div class="col-md-2 btn-filter"><button>Filter</button></div>
+                                <!-- <div class="col-md-2 btn-filter"><button>Filter</button></div> -->
                             </div>
                         </div>
                         <div class="btn-mg">
@@ -68,17 +69,17 @@
                                         <div class="detail-pl-inner">
                                             <h5>{{v.title}}</h5>
                                             <span class="add-time">{{v.timeStamp}} ago</span>
-                                            <ul class="list-star">
-                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            </ul>
+                                            <div  class="list-star pull-left" star-rating stars="5"
+                                                  outer-star-selection="stars"
+                                                  outer-percent="rating"
+                                                  rating-define="star"
+                                                  rating-stars="{{v.averageRating}}"
+                                                  star-radius="12" sel-color="gold"
+                                                  back-color="white"></div>
                                             <p class="list-view">
-                                                <span><img src="assets/images/icon-play.png" alt=""> 324</span>&nbsp;&nbsp;
-                                                <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp;
-                                                <span><img src="assets/images/icon-comment.png" alt=""> 16</span>&nbsp;&nbsp;
+                                                <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
+                                                <!-- <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp; -->
+                                                <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
                                             </p>
                                         </div>
                                     </div>
@@ -91,7 +92,7 @@
                                     <div class="box-ac">
                                         <ul class="list-ac">
                                             <li><a href="">Edit</a></li>
-                                            <li><a href="">Add playlist</a></li>
+                                            <li><a href="" ng-click="addToPlaylist()">Add playlist</a></li>
                                             <li><a href="" ng-click="deleteVideo(v.vid)">Delete</a></li>
                                         </ul>
                                     </div>
@@ -109,7 +110,7 @@
                             </div>
                             <div class="btn-mg">
                                 <button class="btn-delete" ng-click="deleteMultiple()">Delete</button>
-                                <button class="add-play">Add to playlist</button>
+                                <button class="add-play" ng-click="addToPlaylist()">Add to playlist</button>
                             </div>
                         </div>
                     </div>

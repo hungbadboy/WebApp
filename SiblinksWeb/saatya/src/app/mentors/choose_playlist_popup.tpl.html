@@ -1,0 +1,24 @@
+<div class="modal-content modal-choose-playlist">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Choose playlist</h4>
+    </div>
+    <div class="modal-body clearfix">
+        <form action="">
+            <h5 for="">Choose a playlist alrealy exitsts<span>&nbsp;&nbsp;or&nbsp;&nbsp;</span></h5>
+            <div class="addnew">
+                <a href="#">Add new</a>
+            </div>
+            <div class="form-group col-md-10">
+                <select class="form-control" ing-model="playlist">
+                    <option value="0">Choose a playlist</option>
+                    <option ng-repeat="p in playlists track by $index" value="{{p.plid}}">{{p.name}}</option>
+                </select>
+            </div>
+            <div class="btn-modal col-md-2">
+                <button type="button" class="btn btn-default btn-app">Apply</button> 
+            </div>
+        </form>
+    </div>
+</div>
+

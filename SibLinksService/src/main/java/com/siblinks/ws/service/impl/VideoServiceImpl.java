@@ -2125,17 +2125,18 @@ public class VideoServiceImpl implements VideoService {
 
      @Override
      @RequestMapping(value = "/getVideosBySubject", method = RequestMethod.GET)
-     @ResponseBody
-     public ResponseEntity<Response> getVideosBySubject(@RequestParam final long userid, @RequestParam final long subjectid) {
-          String entityName = null;
+     public ResponseEntity<Response> getVideosBySubject(@RequestParam final long userid, @RequestParam final long subjectid, @RequestParam final int offset) {
+          SimpleResponse reponse = null;
+          Object[] queryParams = new Object[] { userid, subjectid, offset };
 
-          Object[] queryParams = new Object[] { userid, subjectid };
-
-          entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEOS_BY_SUBJECT;
+          String entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEOS_BY_SUBJECT;
 
           List<Object> readObject = dao.readObjects(entityName, queryParams);
-
-          SimpleResponse reponse = new SimpleResponse("" + true, "videos", "getVideos", readObject);
+          if (readObject != null && readObject.size() > 0) {
+               reponse = new SimpleResponse("" + true, "videos", "getVideos", readObject);
+          } else {
+               reponse = new SimpleResponse("" + true, "videos", "getVideos", SibConstants.NO_DATA);
+          }
           ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
           return entity;
      }
@@ -2261,10 +2262,10 @@ public class VideoServiceImpl implements VideoService {
       */
      @Override
      @RequestMapping(value = "/getVideosPlaylist", method = RequestMethod.GET)
-     public ResponseEntity<Response> getVideosPlaylist(@RequestParam final long uid, @RequestParam final int offset) {
+     public ResponseEntity<Response> getVideosPlaylist(@RequestParam final long uid) {
           String entityName = null;
 
-          Object[] queryParams = new Object[] { uid, offset };
+          Object[] queryParams = new Object[] { uid };
 
           entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEOS_PLAYLIST;
 
@@ -2508,6 +2509,29 @@ public class VideoServiceImpl implements VideoService {
           }
 
           ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+          return entity;
+     }
+
+     @Override
+     @RequestMapping(value = "/searchVideos", method = RequestMethod.GET)
+     public ResponseEntity<Response> searchVideos(@RequestParam final long uid, @RequestParam final String keyword, @RequestParam final int offset) {
+          SimpleResponse reponse = null;
+          Object[] queryParams = new Object[] { uid };
+
+          String whereClause = String.format(
+               "and a.title like '%%%s%%' OR a.description like '%%%s%%' order by timeStamp DESC limit 10 offset %d",
+               keyword,
+               keyword,
+               offset);
+          String entityName = SibConstants.SqlMapperBROT126.SQL_SEARCH_VIDEOS;
+
+          List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
+          if (readObject != null && readObject.size() > 0) {
+               reponse = new SimpleResponse("" + true, "videos", "searchVideos", readObject);
+          } else {
+               reponse = new SimpleResponse("" + true, "videos", "searchVideos", SibConstants.NO_DATA);
+          }
+          ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
           return entity;
      }
 }

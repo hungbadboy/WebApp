@@ -578,6 +578,28 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         });
         return promise;
     }
+
+    factory.getVideosBySubject = function(userid, subjectid, offset){
+       return $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'video/getVideosBySubject?userid='+userid + '&subjectid='+subjectid+'&offset='+offset+''
+        });
+    }
+
+    factory.searchVideosMentor = function(uid, keyword, offset){
+        return $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'video/searchVideos?uid='+uid+'&keyword='+keyword+'&offset='+offset+''
+        });
+    }
+
+    factory.getPlaylist = function(uid){
+        return $http({
+            method: 'GET',
+            url: NEW_SERVICE_URL + 'video/getVideosPlaylist?uid='+uid+''
+        });
+    }
+
     /* API Favourite Video end */
     
     return factory;

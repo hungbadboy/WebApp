@@ -1,31 +1,38 @@
 brotControllers.controller('VideoManagerController', 
-  ['$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService', 'myCache',
-                                       function ($scope, $modal, $routeParams, $http, $location, VideoService, MentorService, myCache) {
+  ['$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService', 'myCache', 'HomeService',
+                                       function ($scope, $modal, $routeParams, $http, $location, VideoService, MentorService, myCache, HomeService) {
 
 
     var userId = localStorage.getItem('userId');
     
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
 
-    var subjects = myCache.get('subjects');
-    var defaultSubjectId = localStorage.getItem('defaultSubjectId');
+    $scope.subject = [0];
 
-    $scope.video_playlist = [0];
+    var cacheVideos = [];
 
     init();
 
     function init(){
-      $scope.listSubjects = getSubjectNameById(defaultSubjectId, subjects);
+      loadSubjects();
       loadVideos();
+    }
+
+    function loadSubjects(){      
+      MentorService.getAllSubjects(userId).then(function (data) {
+        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+          $scope.listSubjects = data.data.request_data_result;
+        }
+      });
     }
 
     function loadVideos(){
       VideoService.getVideos(userId, 10).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
           $scope.videos = formatData(data.data.request_data_result);
+          cacheVideos = $scope.videos.slice(0);
         }
       });
-
     }    
 
     function formatData(data){
@@ -34,7 +41,7 @@ brotControllers.controller('VideoManagerController',
 
         if (playlist == null)
           data[i].playlist = 'none';
-
+        data[i].averageRating = data[i].averageRating != null ? data[i].averageRating : 0;
         data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
         data[i].selected = false;
       }
@@ -43,81 +50,38 @@ brotControllers.controller('VideoManagerController',
 
     $scope.loadMoreVideos = function(){
       VideoService.getVideos(userId, $scope.videos.length).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) 
+        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
           $scope.videos.concat(formatData(data.request_data_result));
+          cacheVideos = $scope.videos.slice(0);
+        }
       });
     }
 
-    $scope.delete = function(vid){
-      if (confirm("Are you sure?")) {
-            $http({
-            method: 'POST',
-            url: NEW_SERVICE_URL + 'video/deleteVideo/',
-            data: {
-              "request_data_type": "video",
-              "request_data_method": "deleteVideo",
-              "request_data":{
-                "vid": vid,
-                "authorID": 6  
-              }            
-            }            
-            // headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).success(function(data) {
+    $scope.loadVideosBySubject = function(){
+      if($scope.subject == 0){
+        if(cacheVideos.length > 0) {
+          console.log('cached');
+          $scope.videos.length = 0;
+          $scope.videos = cacheVideos.slice(0);
+        } else{
+          console.log('none cached');
           loadVideos();
-        }).error(function(data){
-          console.log(data);
+        }
+      } else{
+        $scope.videos.length = 0;
+        VideoService.getVideosBySubject(userId, $scope.subject, 10).then(function(data){
+          if(data.data.request_data_result != null && data.data.request_data_result.length > 0)
+            $scope.videos = formatData(data.data.request_data_result);
         });
-    }
-    
-  }
-
-  $scope.loadVideosBySubject = function(){
-    clearContent();
-    var subjectid = $scope.item;
-    if (subjectid == 0){
-      loadVideos();
-    }
-    else{
-        id = 6;
-        $http({
-          method: 'GET',
-          url: NEW_SERVICE_URL + 'video/getVideosBySubject?userid='+id + '&subjectid='+$scope.item,
-            data: {
-              "request_data_type": "video",
-              "request_data_method": "getVideosBySubject"           
-          }
-        
-        // headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).success(function(data) {        
-          $scope.videos = data.request_data_result;
-          for (var i = 0; i < $scope.videos.length; i++) {
-            var numViews = $scope.videos[i].numViews;
-            var numComments = $scope.videos[i].numComments;
-            var playlist = $scope.videos[i].playlistname;
-
-            if (numViews == null) 
-              $scope.videos[i].numViews = 0;
-            if (numComments == null) 
-              $scope.videos[i].numComments = 0;
-            if (playlist == null)
-              $scope.videos[i].playlist = 'none';
-
-            $scope.videos[i].timeStamp = moment($scope.videos[i].timeStamp).format('MMMM Do YYYY, h:mm:ss a');
-          }
-          $scope.videoTopViewed = $scope.videos.sort(function(a, b){
-            return parseInt(b.numViews) - parseInt(a.numViews);
-          });
-          $scope.videoTopRated = $scope.videos.sort(function(a, b){
-            return parseInt(b.numRatings) - parseInt(a.numRatings);
-          });
-          
-        }).error(function(data){
-          console.log(data);
-        });
-      }     
+      }
     };
 
-    
+    $scope.loadMoreVideosBySubject = function(){
+      VideoService.getVideosBySubject(userId, $scope.subject, $scope.videos.length).then(function(data){
+        if(data.data.request_data_result != null && data.data.request_data_result.length > 0)
+          $scope.videos.concat(formatData(data.data.request_data_result));
+      });
+    }
 
     $scope.checkAll = function(){
       var status = !$scope.selectedAll;
@@ -166,5 +130,30 @@ brotControllers.controller('VideoManagerController',
           }
         });
       }
+    }
+
+    $scope.search = function(){
+      var keyword = $('#srch-term').val();
+      if (keyword != null && keyword.trim().length > 0) {
+        // call api
+        VideoService.searchVideosMentor(userId, keyword, 10).then(function(data){
+          if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+            $scope.videos = formatData(data.data.request_data_result);
+          }
+        });
+      }
+    }
+
+    $scope.addToPlaylist = function(){
+      console.log('addToPlaylist');
+      var modalInstance = $modal.open({
+          templateUrl: 'src/app/mentors/choose_playlist_popup.tpl.html',
+          controller: 'ChoosePlaylistController',
+          resolve: {
+              u_id: function () {
+                  return userId;
+              }
+          }
+      });
     }
 }]);
