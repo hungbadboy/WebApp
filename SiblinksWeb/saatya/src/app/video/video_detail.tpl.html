@@ -27,9 +27,10 @@
             <div class="video-details-playlist">
                 <div class="video-details-playlist-wrapper container">
                     <!-- 16:9 aspect ratio -->
-                    <div class="video-iframe col-md-8" id="video">
-                        <!--<iframe width="100%" height="430px" src="https://www.youtube.com/embed/B7wkzmZ4GBw?enablejsapi=1" frameborder="0"></iframe>-->
-
+                    <div class="video-iframe noplaylist" >
+                        <div id="video">
+                            <!--<iframe width="100%" height="430px" src="https://www.youtube.com/embed/B7wkzmZ4GBw?enablejsapi=1" frameborder="0"></iframe>-->
+                        </div>
                     </div>
 
                     <div class="control-video">
@@ -52,7 +53,7 @@
                         <div class="video-details-description">
                             <h3>{{videoInfo.title}}</h3>
                             <span>from </span>
-                            <a href="#/student/mentorProfile/{{videoInfo.userid}}"><span class="own-video">{{videoInfo.firstName +" " + videoInfo.lastName}}
+                            <a href="#/mentorProfile/{{videoInfo.userid}}"><span class="own-video">{{videoInfo.firstName +" " + videoInfo.lastName}}
                             </span></a>
                             <span class="video-time-add"> {{convertTime(videoInfo.timeStamp)}} ago</span>
                             <div class="video-mentor-details">
@@ -78,7 +79,7 @@
                             </div>
                             <div class="videos-start">
                                 <span style="float: left;" id="rateSpan">Rate
-                                     <div ng-if="loadRate" star-rating stars="5"
+                                     <div ng-if="loadRate" star-rating stars="5" id="divRate"
                                           outer-star-selection="stars"
                                           ng-click="rateFunction(stars)"
                                           outer-percent="rating"
@@ -89,9 +90,9 @@
                                 </span>
 
                             </div>
-                            <div class="video-detaile-script">
+                            <div class="video-detail-script">
                                 <!--Show 100 characters-->
-                                <p ng-if="videoInfo" read-more ng-model="videoInfo.description" words="false" length="100"></p>
+                                <p ng-if="videoInfo" read-more ng-model="videoInfo.description" words="false" length="250"></p>
                                 <!--<button class="read-more">Read more <span data-icon="&#x33;"></span></button>-->
                             </div>
                         </div>
@@ -104,9 +105,9 @@
                                 <div class="input-group">
                                     <!--<img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">-->
                                     <!--<input type="text" ng-model="txtComment" class="form-control"-->
-                                           <!--placeholder="Add a comment" type="text" id="add-comment"/>-->
+                                    <!--placeholder="Add a comment" type="text" id="add-comment"/>-->
                                     <!--<button class="btn btn-primary" ng-disabled="!txtComment" ng-click="addComment()">-->
-                                        <!--Add comment-->
+                                    <!--Add comment-->
                                     <!--</button>-->
                                     <img  ng-if="userId" class="avatar" ng-src="{{avartar}}" alt="avatar">
                                     <textarea ng-click="clickTxtComent()"  ng-if="userId" class="form-control" placeholder="Add a comment" type="text" id="add-comment"></textarea>
@@ -142,21 +143,21 @@
                         <li class="video-list-item">
                             <div class="content-warpper">
 
-                                    <div class="thumb-video" >
-                                        <a href="#/videos/detailVideo/{{videoRelate.vid}}"><img ng-src="{{videoRelate.image}}"></a>
-                                    </div>
-                                    <div class="detail-video">
-                                        <a href="#/videos/detailVideo/{{videoRelate.vid}}"><p class="title-video">
-                                            {{videoRelate.title}}
-                                        </p></a>
-                                        <span class="owner-video">
+                                <div class="thumb-video" >
+                                    <a href="#/videos/detailVideo/{{videoRelate.vid}}"><img ng-src="{{videoRelate.image}}"></a>
+                                </div>
+                                <div class="detail-video">
+                                    <a href="#/videos/detailVideo/{{videoRelate.vid}}"><p class="title-video">
+                                        {{videoRelate.title}}
+                                    </p></a>
+                                    <span class="owner-video">
                                                         from
-                                            <a href="#/student/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
+                                            <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
                                                     </a></span><br>
-                                        <span class="view-count">
+                                    <span class="view-count">
                                                         view: <span>{{videoRelate.numViews}}</span>
                                                     </span>
-                                    </div>
+                                </div>
 
                             </div>
                         </li>

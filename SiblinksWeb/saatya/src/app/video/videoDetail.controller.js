@@ -43,6 +43,9 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                     else {
                         $scope.videoInfo = data.data.request_data_result[0];
                         $scope.rateNum = $scope.videoInfo.averageRating;
+                        if(isEmpty($scope.videoInfo.description)){
+                            $scope.videoInfo.description = "No description";
+                        }
                         $scope.loadRate = true;
                         currentvid = data.data.request_data_result[0].vid;
                         var url = data.data.request_data_result[0].url;
