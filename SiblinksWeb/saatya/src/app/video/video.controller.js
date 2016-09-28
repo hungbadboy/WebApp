@@ -374,6 +374,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         videoOfMentor.runningTime = obj.runningTime;
                         videoOfMentor.values_count = obj.values_count;
                         videoOfMentor.avgRating = obj.averageRating;
+                        videoOfMentor.numFavourite = obj.numFavourite;
                         videoOfMentor.numViews = obj.numViews;
                         videoOfMentor.numComments = obj.numComments;
                         videoOfMentor.countSubscribe = obj.countSubscribe;
@@ -403,6 +404,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         objVideo.link = video.url;
                         objVideo.time = video.runningTime;
                         objVideo.topicId = video.topicId;
+                        objVideo.numFavourite = video.numFavourite;
                         objVideo.subjectId = video.subjectId;
                         objVideo.numViews = video.numViews;
                         objVideo.numRatings = video.numRatings;
@@ -436,6 +438,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         objVideo.subjectId = video.subjectId;
                         objVideo.numRatings = video.numRatings;
                         objVideo.averageRating = video.averageRating;
+                        objVideo.numFavourite = video.numFavourite;
                         objVideo.numComments = video.numComments;
                         objVideo.timeAgo = convertUnixTimeToTime(video.timeStamp);
                         objVideo.enable = video.videoEnable;
