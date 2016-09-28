@@ -11,14 +11,25 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/dashboard/dashboard.tpl.html',
 		controller : 'DashboardController'
 	}).
-	// when('/mentorProfile/:mentorId', {
-	// 	templateUrl: 'src/app/mentorProfile.tpl.html',
-	// 	controller : 'MentorProfileController'
-	// }).
+	//Profile
 	when('/student/mentorProfile/:mentorId', {
-		templateUrl: 'src/app/mentors/mentorProfile.tpl.html',
+		templateUrl: 'src/app/students/studentMentorProfile.tpl.html',
 		controller : 'MentorProfileController'
 	}).
+	when('/student/studentProfile', {
+		templateUrl: 'src/app/students/student_profile.tpl.html',
+		controller: 'StudentProfileController'
+	}).
+	
+	when('/mentor/mentorProfile', {
+		templateUrl: 'src/app/metorProfile/mentorProfile.tpl.html',
+		controller: 'MentorProfileController'
+	}).
+	when('/mentor/mentorProfile/:studentId', {
+		templateUrl: 'src/app/metorProfile/mentorStudentProfile.tpl.html',
+		controller: 'MentorProfileController'
+	}).
+	// End Profile
 	when('/signup', {
 		templateUrl: 'src/app/signup/signUpEmail.tpl.html',
 		controller : 'SignUpController'
@@ -35,10 +46,6 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	// 	templateUrl: 'src/app/student_profile.tpl.html',
 	// 	controller: 'StudentProfileController'
 	// }).
-	when('/studentProfile', {
-		templateUrl: 'src/app/students/student_profile.tpl.html',
-		controller: 'StudentProfileController'
-	}).
 	when('/video_general', {
 		templateUrl: 'src/app/video/video_general.tpl.html',
 		controller: 'VideoController',
@@ -210,10 +217,6 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	when('/mentor/dashboard', {
 		templateUrl: 'src/app/dashboard/dashboard.tpl.html',
 		controller: 'DashboardController'
-	}).
-	when('/mentor/profile', {
-		templateUrl: 'src/app/metorProfile/mentorProfile.tpl.html',
-		controller: 'MentorProfileController'
 	}).
 	otherwise({
         redirectTo: '/'
