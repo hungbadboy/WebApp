@@ -141,7 +141,14 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
             var content = $('#txtAnswer').val();
             AnswerService.postAnswer(userId, authorId, qid, content,subjectId).then(function (data) {
-                var rs = data.data.request_data_result;
+                var rs = data.data.status;
+                if(rs){
+                    $('#txtAnswer').val("");
+                    QuestionsService.getAnswerByQid(qid, typeOrderAnswer, "", "").then(function (data) {
+                        var answers = data.data.request_data_result;
+                        $scope.listAnswer = answers;
+                    });
+                }
             });
         }
 
@@ -154,13 +161,13 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 }
             }
         };
-
+        $scope.stepsModel = [];
         $scope.onFileSelect = function ($files) {
             $scope.askErrorMsg = "";
             if ($files != null) {
                 for (var i = 0; i < $files.length; i++) {
                     var file = $files[i];
-                    $scope.filesArray.push(file);
+                   // $scope.filesArray.push(file);
                     var reader = new FileReader();
                     reader.onload = $scope.imageIsLoaded;
                     reader.readAsDataURL(file);
@@ -169,7 +176,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
         };
         $scope.removeImg = function (index) {
-            $scope.filesArray.splice(index, 1);
+            //$scope.filesArray.splice(index, 1);
             $scope.stepsModel.splice(index, 1);
 
         }

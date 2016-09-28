@@ -146,8 +146,8 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <p class="upload-image">
-                                                    <output id="list">
+
+                                                    <output id="list" class="upload-image ">
                                                         <div ng-repeat="step in stepsModel track by $index">
                                                             <img class="thumb" ng-src="{{step}}" />
                                                             <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
@@ -157,7 +157,7 @@
                                                                         <!--<input type="file" class="input-file-2" id="files" name="files[]" multiple />-->
                                                         <!--<label for="files"><img src="assets/images/add-img.png"></label>-->
                                                                     <!--</span>-->
-                                                </p>
+
                                                 <div class="detail-chat">
                                                     <ul class="chat">
                                                         <li ng-repeat="answer in listAnswer" class="clearfix" ng-class="{'right':userId = answer.userId}">
