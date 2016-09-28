@@ -10,7 +10,7 @@
         <!-- Content -->
         <section class="content videos-content">
             <!-- Left Side -->
-            <div class="videos-content-header col-lg-3 col-md-4" id="videos-content">
+            <div class="videos-content-header col-lg-3 col-md-4" id="videos-content" ng-if="login == 1">
                 <div class="videos-content-header-top">
                     <!-- Search form -->
                     <div class="search">
@@ -73,13 +73,13 @@
                                 <li ng-repeat="mentor in listMentorSubscribed track by $index">
                                     <div ng-if="mentor">
                                         <div class="top-mentors-img online">
-                                            <a href="#"><img ng-src="{{mentor.avatar}}">
+                                            <a href="#/student/mentorProfile/{{mentor.MentorId}}"><img ng-src="{{mentor.avatar}}">
                                                 <span class="offline"><img
                                                         src="assets/images/ask question/online.png"></span></a>
                                         </div>
                                         <div class="top-mentors-info">
                                             <p class="top-mentors-name">
-                                                <a href="#"><strong>{{mentor.MentorName}}</strong></a>
+                                                <a href="#/student/mentorProfile/{{mentor.MentorId}}"><strong>{{mentor.MentorName}}</strong></a>
                                             </p>
                                             <p class="top-mentors-essay">
                                             <div ng-repeat="subject in mentor.subjects track by $index"
@@ -138,7 +138,7 @@
                                         </div>
                                     </a>
                                         <div class="videos-time-add">
-                                            <a href="#"><span
+                                            <a href="#/student/mentorProfile/{{recommend.authorID}}"><span
                                                     class="video-poster"> {{recommend.userName}}</span></a><span> added {{recommend.timeAgo}} ago</span>
                                         </div>
                                         <div class="videos-rate">
@@ -184,7 +184,7 @@
                                         </div>
                                     </a>
                                         <div class="videos-time-add">
-                                            <a href="#"><span
+                                            <a href="#/student/mentorProfile/{{videoRecently.authorID}}"><span
                                                     class="video-poster"> {{videoRecently.userName}}</span></a><span> added {{videoRecently.timeAgo}} ago</span>
                                         </div>
                                         <div class="videos-rate">
@@ -242,7 +242,7 @@
                                         </div>
                                     </a>
                                         <div class="videos-time-add">
-                                            <a href="#"><span
+                                            <a href="#/student/mentorProfile/{{recommended.userId}}"><span
                                                     class="video-poster"> {{recommended.name}}</span></a><span> added {{recommended.time}} ago</span>
                                         </div>
                                         <div class="videos-rate">
@@ -422,12 +422,12 @@
                                             <a href="#/videos/detailVideo/{{video.vid}}" title="{{video.title}}">{{video.title}}</a>
                                         </div>
                                         <div class="videos-time-add">
-                                            <a href="#"><span class="video-poster" id="{{video.authorID}}"
+                                            <a href="#/student/mentorProfile/{{video.authorID}}"><span class="video-poster" id="{{video.authorID}}"
                                                               ng-click="showProfile($event)">{{video.firstName+' '+video.lastName}}</span></a><span> added {{video.timeStamp}} ago</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
-                                                <span style="float: left; margin-bottom: 5px;" ng-if="loadRateHistory" star-rating stars="5"
+                                                <span style="float: left" ng-if="loadRateHistory" star-rating stars="5"
                                                       outer-star-selection="stars"
                                                       outer-percent="rating"
                                                       rating-define="star"
@@ -489,7 +489,7 @@
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
-                                                <span style="float: left; margin-bottom: 5px;" ng-if="loadRateFavorite" star-rating stars="5"
+                                                <span style="float: left;" ng-if="loadRateFavorite" star-rating stars="5"
                                                       outer-star-selection="stars"
                                                       outer-percent="rating"
                                                       rating-define="star"
