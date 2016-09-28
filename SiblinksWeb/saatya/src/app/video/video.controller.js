@@ -34,32 +34,31 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 $scope.listCategorySubscription = data.data.request_data_result;
                 resetAttributes();
                 if ($scope.listCategorySubscription.length > 0) {
-                    VideoService.getListVideoSubscription($scope.userId, $scope.listCategorySubscription[0].subjectId).then(function (data) {
+                    VideoService.getListVideoSubscription($scope.userId, -2).then(function (data) {
                         $scope.listVideoSubscription = data.data.request_data_result;
                         fillAllVideo($scope.listVideoSubscription);
-
-                        $scope.selected = $scope.listCategorySubscription[0].subjectId.toString();
+                        $scope.subjectIdSort = "-2";
                     });
                 }
             });
-        }
+        };
 
         $scope.fillListVideoByDefault();
 
-        $scope.showVideoWithCategory = function (event) {
-            $scope.selected = event.target.id;
+        $scope.showVideoWithCategory = function (subjectId) {
+            $scope.subjectIdSort = subjectId;
             resetAttributes();
 
-            VideoService.getListVideoSubscription($scope.userId, event.target.id).then(function (data) {
+            VideoService.getListVideoSubscription($scope.userId, subjectId).then(function (data) {
                 $scope.listVideoSubscription = data.data.request_data_result;
                 fillAllVideo($scope.listVideoSubscription);
             });
         }
 
 
-        $scope.isActive = function (index) {
-            return $scope.selected === index.toString();
-        };
+        // $scope.isActive = function (index) {
+        //     return $scope.selected === index.toString();
+        // };
 
 
         function resetAttributes() {
@@ -82,7 +81,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.isReadyLoadRatedRecently = false;
         $scope.isReadyLoadRatedRecommended = false;
         $scope.isReadyLoadRatedR4U = false;
-
+        $scope.loadRateSubscription = false;
         function fillAllVideo(allVideo) {
             if (typeof allVideo[1] != 'undefined') {
                 $scope.listRecentVideo = allVideo[1];
@@ -119,10 +118,18 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     if (!checkExist) {
                         $scope.listMentorOlder.push({
                             "authorID": $scope.listOlderVideo[i].authorID,
-                            "authorName": $scope.listOlderVideo[i].author
+                            "authorName": $scope.listOlderVideo[i].author,
+                            "vid": $scope.listOlderVideo[i].vid,
+                            "image": $scope.listOlderVideo[i].image,
+                            "title": $scope.listOlderVideo[i].title,
+                            "timeStamp": $scope.listOlderVideo[i].timeStamp,
+                            "numComments": $scope.listOlderVideo[i].numComments,
+                            "numViews": $scope.listOlderVideo[i].numViews,
+                            "averageRating": $scope.listOlderVideo[i].averageRating
                         });
                     }
                 }
+                $scope.loadRateSubscription = true;
             }
         }
 

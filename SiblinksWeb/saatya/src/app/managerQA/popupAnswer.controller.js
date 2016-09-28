@@ -111,7 +111,7 @@ brotControllers.controller('popupAnswerController', ['$scope', '$modalInstance',
                 if(content === '' || content == null) {
                     alert('Answer text is required.');
                 } else {
-                    AnswerService.postAnswer(userId, authorId, question_id, content,subjectId,topicId).then(function (data) {
+                    AnswerService.postAnswer(userId,authorId, question_id, content,subjectId).then(function (data) {
                         var rs = data.data.request_data_result;
                         if(rs){
                             $modalInstance.dismiss('cancel');

@@ -106,7 +106,7 @@ public class VideoSubscriptionsServiceImpl implements VideoSubscriptionsService 
             currentDate = DateUtil.date2YYYYMMDD000000(new Date());
             firstDayOfCurrentWeek = DateUtil.date2YYYYMMDD000000(firstDayOfTheWeek);
 
-            if ("0".equals(subjectId)) {
+            if ("-2".equals(subjectId)) {
                 entityName = SibConstants.SqlMapper.SQL_SIB_GET_ALL_VIDEO_SUBSCRIPTION;
                 queryParams = new Object[] { userId, currentDate, userId, firstDayOfCurrentWeek, currentDate, userId };
             } else {

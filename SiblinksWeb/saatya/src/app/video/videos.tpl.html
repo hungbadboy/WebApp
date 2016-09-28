@@ -35,8 +35,7 @@
                         </li>
                         <li class="subsciption" ng-click="fillListVideoByDefault()">
                             <a data-toggle="tab" href="/videos/#subcriptions">
-                                <span data-icon="&#xe050;"></span>
-                                <span>Subscriptions</span>
+                                <span data-icon="&#xe050;"></span><span>Subscriptions</span>
                                 <span class="number-media number-subscrip" ng-bind="totalSubscription"></span>
                             </a>
                         </li>
@@ -73,7 +72,8 @@
                                 <li ng-repeat="mentor in listMentorSubscribed track by $index">
                                     <div ng-if="mentor">
                                         <div class="top-mentors-img online">
-                                            <a href="#/student/mentorProfile/{{mentor.MentorId}}"><img ng-src="{{mentor.avatar}}">
+                                            <a href="#/student/mentorProfile/{{mentor.MentorId}}"><img
+                                                    ng-src="{{mentor.avatar}}">
                                                 <span class="offline"><img
                                                         src="assets/images/ask question/online.png"></span></a>
                                         </div>
@@ -272,21 +272,21 @@
                 </div><!-- /End Content of All -->
 
                 <!-- Content of Subcription -->
-                <div class="tab-pane" id="subcriptions">
+                <div class="tab-pane" id="subcriptions" ng-if="listCategorySubscription">
                     <h4>Subcriptions</h4><span class="number-media number-subscrip" ng-bind="totalSubscription"></span>
                     <div id="idCategory" class="sort-video">
                         <span>Sort</span>
                         <ul>
-                            <li ng-class="{active: isActive(0)}">
-                                <div id="0" data-ng-click="showVideoWithCategory($event)">All</div>
+                            <li ng-class="{'active': subjectIdSort == -2}" id="-2" ng-click="showVideoWithCategory(-2)">
+                                All
                             </li>
-                            <li id="{{lstCategory.subjectId}}"
-                                ng-repeat="lstCategory in listCategorySubscription track by $index"
-                                ng-class="{active: isActive(lstCategory.subjectId)}">
-                                <div id="{{lstCategory.subjectId}}" data-ng-click="showVideoWithCategory($event)">
-                                    {{lstCategory.subject}}
-                                </div>
+                            <li ng-repeat="lstCategory in listCategorySubscription track by $index"
+                                ng-class="subjectIdSort==lstCategory.subjectId ? 'active':''"
+                                id="{{lstCategory.subjectId}}"
+                                data-ng-click="showVideoWithCategory(lstCategory.subjectId)">
+                                {{lstCategory.subject}}
                             </li>
+
                         </ul>
                     </div>
                     <div class="video-list-content">
@@ -305,16 +305,32 @@
                                         </div>
                                     </a>
                                         <div class="videos-time-add">
-                                            <a href="#"><span class="video-poster" id="{{lstRecentVideo.authorID}}"
-                                                              ng-click="showProfile($event)"> {{lstRecentVideo.author}}</span></a><span> added {{caculateTimeElapsed(lstRecentVideo.timeStamp)}}</span>
+                                            <a href="#/student/mentorProfile/{{lstRecentVideo.authorID}}">
+                                                <span class="video-poster" id="{{lstRecentVideo.authorID}}">
+                                                    {{lstRecentVideo.author}}
+                                                </span>
+                                            </a>
+                                            <span>
+                                                added {{caculateTimeElapsed(lstRecentVideo.timeStamp)}}
+                                            </span>
                                         </div>
                                         <div class="videos-rate">
-                                            <p class="videos-start"><span
-                                                    data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                            <p class="videos-start">
+                                                <span style="float: left;" ng-if="loadRateSubscription" star-rating
+                                                      stars="5"
+                                                      outer-star-selection="stars"
+                                                      outer-percent="rating"
+                                                      rating-define="star"
+                                                      rating-stars="{{lstRecentVideo.averageRating}}"
+                                                      star-radius="6" sel-color="gold"
+                                                      readonly="true"
+                                                      back-color="white">
+                                                 </span>
+                                            </p>
                                             <p class="videos-rate-infor">
                                                 <span data-icon="&#x49;">{{lstRecentVideo.numViews}}</span>
                                                 <!--<span data-icon="&#xe089;"-->
-                                                      <!--class="favourite">{{lstRecentVideo.numLike}}</span>-->
+                                                <!--class="favourite">{{lstRecentVideo.numLike}}</span>-->
                                                 <span data-icon="&#xe066;">{{lstRecentVideo.numComments}}</span>
                                             </p>
                                         </div>
@@ -341,17 +357,27 @@
                                         </div>
                                     </a>
                                         <div class="videos-time-add">
-                                            <a href="#"><span class="video-poster" id="{{lstWeekVideo.authorID}}"
-                                                              ng-click="showProfile($event)"> {{lstWeekVideo.author}}</span></a><span> added {{convertUnixTimeToTime(lstWeekVideo.timeStamp)}}</span>
+                                            <a href="#/student/mentorProfile/{{lstWeekVideo.authorID}}"><span
+                                                    class="video-poster" id="{{lstWeekVideo.authorID}}"
+                                                    ng-click="showProfile($event)"> {{lstWeekVideo.author}}</span></a><span> added {{convertUnixTimeToTime(lstWeekVideo.timeStamp)}}</span>
                                         </div>
                                         <div class="videos-rate">
-                                            <p class="videos-start"
-                                               ng-repeat="i in rangeSubscription(lstWeekVideo.numRatings)"><span
-                                                    data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                            <p class="videos-start">
+                                                 <span style="float: left;" ng-if="loadRateSubscription" star-rating
+                                                       stars="5"
+                                                       outer-star-selection="stars"
+                                                       outer-percent="rating"
+                                                       rating-define="star"
+                                                       rating-stars="{{lstWeekVideo.averageRating}}"
+                                                       star-radius="6" sel-color="gold"
+                                                       readonly="true"
+                                                       back-color="white">
+                                                 </span>
+                                            </p>
                                             <p class="videos-rate-infor">
                                                 <span data-icon="&#x49;">{{lstWeekVideo.numViews}}</span>
                                                 <!--<span data-icon="&#xe089;"-->
-                                                      <!--class="favourite">{{lstWeekVideo.numLike}}</span>-->
+                                                <!--class="favourite">{{lstWeekVideo.numLike}}</span>-->
                                                 <span data-icon="&#xe066;">{{lstWeekVideo.numComments}}</span>
                                             </p>
                                         </div>
@@ -364,32 +390,39 @@
                         </div>
                         <div class="older" ng-show="showDivOlder">
                             <h5>Older</h5>
-
                             <ul>
-
                                 <li ng-repeat="lstMentorOlder in listMentorOlder">
                                     <div class="video-wrapper">
-                                        <a href="#/videos/detailVideo/{{lstOlderVideo.vid}}"
-                                           title="{{lstOlderVideo.title}}">
+                                        <a href="#/videos/detailVideo/{{lstMentorOlder.vid}}"
+                                           title="{{lstMentorOlder.title}}">
                                             <div class="videos-thumnail">
-                                                <img ng-src="{{lstOlderVideo.image}}">
+                                                <img ng-src="{{lstMentorOlder.image}}">
                                             </div>
                                             <div class="videos-title">
-                                                {{lstOlderVideo.title}}
+                                                {{lstMentorOlder.title}}
                                             </div>
                                         </a>
                                         <div class="videos-time-add">
-                                            <span class="video-poster"> {{lstMentorOlder.authorName}}</span><span> added {{caculateTimeElapsed(lstOlderVideo.timeStamp)}}</span>
+                                            <span class="video-poster"> {{lstMentorOlder.authorName}}</span><span> added {{caculateTimeElapsed(lstMentorOlder.timeStamp)}}</span>
                                         </div>
                                         <div class="videos-rate">
-                                            <p class="videos-start"
-                                               ng-repeat="i in rangeSubscription(lstOlderVideo.numRatings)"><span
-                                                    data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                            <p class="videos-start">
+                                                 <span style="float: left;" ng-if="loadRateSubscription" star-rating
+                                                       stars="5"
+                                                       outer-star-selection="stars"
+                                                       outer-percent="rating"
+                                                       rating-define="star"
+                                                       rating-stars="{{lstMentorOlder.averageRating}}"
+                                                       star-radius="6" sel-color="gold"
+                                                       readonly="true"
+                                                       back-color="white">
+                                                 </span>
+                                            </p>
                                             <p class="videos-rate-infor">
-                                                <span data-icon="&#x49;">{{lstOlderVideo.numViews}}</span>
+                                                <span data-icon="&#x49;">{{lstMentorOlder.numViews}}</span>
                                                 <!--<span data-icon="&#xe089;"-->
-                                                      <!--class="favourite">{{lstOlderVideo.numLike}}</span>-->
-                                                <span data-icon="&#xe066;">{{lstOlderVideo.numComments}}</span>
+                                                <!--class="favourite">{{lstOlderVideo.numLike}}</span>-->
+                                                <span data-icon="&#xe066;">{{lstMentorOlder.numComments}}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -407,7 +440,7 @@
                 <div class="tab-pane" id="history">
                     <h4>Watch history</h4><span class="number-media number-subscrip" ng-bind="listVideos.length"></span>
                     <div class="clear-history"><p ng-click="deleteHistoryVideo('')">Clear history</p></div>
-                    <div class="video-list-content">
+                    <div class="video-list-content" ng-if="listVideos">
                         <ul>
                             <li ng-repeat="video in listVideos | limitTo: numberOfHistoryVideo"
                                 id="historyVideo{{video.vid}}">
@@ -422,8 +455,9 @@
                                             <a href="#/videos/detailVideo/{{video.vid}}" title="{{video.title}}">{{video.title}}</a>
                                         </div>
                                         <div class="videos-time-add">
-                                            <a href="#/student/mentorProfile/{{video.authorID}}"><span class="video-poster" id="{{video.authorID}}"
-                                                              ng-click="showProfile($event)">{{video.firstName+' '+video.lastName}}</span></a><span> added {{video.timeStamp}} ago</span>
+                                            <a href="#/student/mentorProfile/{{video.authorID}}"><span
+                                                    class="video-poster" id="{{video.authorID}}"
+                                                    ng-click="showProfile($event)">{{video.firstName+' '+video.lastName}}</span></a><span> added {{video.timeStamp}} ago</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
@@ -481,15 +515,19 @@
                                         </div>
                                         <div class="videos-time-add">
                                             <span>from</span>
-                                            <span class="video-poster" video-author
-                                                  id="{{videoFavourite.authorID}}"
-                                                  ng-click="showProfile($event)">{{videoFavourite.firstName + ' ' +
-                                            videoFavourite.lastName}}</span>
+                                            <a href="#/student/mentorProfile/{{videoFavourite.authorID}}">
+                                                <span class="video-poster" video-author
+                                                      id="{{videoFavourite.authorID}}"
+                                                      ng-click="showProfile($event)">{{videoFavourite.firstName + ' ' +
+                                                videoFavourite.lastName}}
+                                                </span>
+                                            </a>
                                             <span> added {{videoFavourite.timeStamp}}</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
-                                                <span style="float: left;" ng-if="loadRateFavorite" star-rating stars="5"
+                                                <span style="float: left;" ng-if="loadRateFavorite" star-rating
+                                                      stars="5"
                                                       outer-star-selection="stars"
                                                       outer-percent="rating"
                                                       rating-define="star"
@@ -505,7 +543,7 @@
                                             <p class="videos-rate-infor">
                                                 <span data-icon="&#x49;">{{videoFavourite.numViews}}</span>
                                                 <!--<span data-icon="&#xe089;"-->
-                                                      <!--class="like">{{videoFavourite.numFavourite}}</span>-->
+                                                <!--class="like">{{videoFavourite.numFavourite}}</span>-->
                                                 <span data-icon="&#xe066;">{{videoFavourite.numComments}}</span>
                                             </p>
                                         </div>

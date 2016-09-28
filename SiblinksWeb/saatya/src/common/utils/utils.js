@@ -261,7 +261,9 @@ function getSubjectNameById(strSubjectId, listcate) {
 		for (var y = 0; y < listcate.length; y++) {
 			if (listcate[y].subjectId == strSubjectId) {
 				subject.id = strSubjectId;
-				subject.name = listcate[y].subject
+				subject.name = listcate[y].subject;
+				subject.level = listcate[y].level;
+				subject.parentId = listcate[y].parentId;
 				return listSubject.push(subject);
 			}
 
@@ -275,6 +277,8 @@ function getSubjectNameById(strSubjectId, listcate) {
 					subject = [];
 					subject.name = listcate[y].subject;
 					subject.id = listcate[y].subjectId;
+					subject.level = listcate[y].level;
+					subject.parentId = listcate[y].parentId;
 					listSubject.push(subject);
 				}
 

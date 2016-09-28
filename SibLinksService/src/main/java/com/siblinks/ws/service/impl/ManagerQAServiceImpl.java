@@ -93,12 +93,12 @@ public class ManagerQAServiceImpl implements managerQAService {
         String type = request.getRequest_data().getType();
         String whereCause = "";
         if (Parameters.UNANSWERED.equals(type)) {
-            whereCause += " AND X.numanswer = 0 ";
+            whereCause += " AND X.numReplies = 0 ";
         }
         if (Parameters.ANSWERED.equals(type)) {
-            whereCause += " AND X.numanswer > 0 ";
+            whereCause += " AND X.numReplies > 0 ";
         }
-        if (StringUtil.isNull(lastQId)) {
+        if (!StringUtil.isNull(lastQId)) {
             whereCause += " AND X.pid <  " + lastQId;
         }
 

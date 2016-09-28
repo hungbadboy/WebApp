@@ -160,14 +160,11 @@ public class PostServiceImpl implements PostService {
        
 
         long pid = 0l; 
-        Object[] queryParamsAnswer = {
-      	      request.getRequest_data().getAuthorID(),
-      	      pid,
-      	        request.getRequest_data().getContent()};
+        String questionID = request.getRequest_data().getPid();
+        Object[] queryParamsAnswer = { questionID, request.getRequest_data().getAuthorID(), request.getRequest_data().getContent()};
         pid = dao.insertObject(SibConstants.SqlMapper.SQL_CREATE_ANSWER, queryParamsAnswer);
        
 
-        List<Object> readObject = null;
         Object[] queryParams ={
     		   request.getRequest_data().getUid(),
     		   request.getRequest_data().getAuthorID() ,
@@ -175,10 +172,10 @@ public class PostServiceImpl implements PostService {
     		   "Answer to question",
     		   "answered a question: " + request.getRequest_data().getContent(),
     		   request.getRequest_data().getSubjectId(),
-    		   request.getRequest_data().getTopicId(),
     		   request.getRequest_data().getPid()
     		   
        };
+        dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_NUMREPLIES_QUESTION, new Object[]{questionID});
         boolean status = false;
         status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION, queryParams);
 		if (pid > 0 && status == true) {
@@ -1768,7 +1765,6 @@ public class PostServiceImpl implements PostService {
         return filename;
     }
     
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @RequestMapping(value = "/getAnswerByQid", method = RequestMethod.POST)
     public ResponseEntity<Response> getAnswerByQid(@RequestBody final RequestData request) {
