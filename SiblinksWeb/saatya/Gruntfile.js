@@ -201,7 +201,7 @@ module.exports = function ( grunt ) {
                       'src/app/forgotPassword/forgotPassword.controller.js',
                       // Change password
                       'src/app/changePassword/forgotPassword.controller.js',
-                      
+
                       'src/app/comment/comment.service.js',
                       'src/app/essay/allessay.controller.js',
                       'src/app/essay/essayDetail.controller.js',
@@ -226,6 +226,9 @@ module.exports = function ( grunt ) {
                       'src/app/contact/contactController.js',
                       'src/app/faq/faq.service.js',
                       'src/app/dashboard/dashboard.controller.js',
+                      'src/app/dashboard/dashboard.services.js',
+                      'src/app/sidebarRight/sidebarRight.services.js',
+                      'src/app/sidebarRight/sidebarRight.controller.js',
                       'src/app/managerQA/managerQA.controller.js',
                       'src/app/managerQA/managerQA.service.js',
                       'src/app/managerQA/popupAnswer.controller.js',

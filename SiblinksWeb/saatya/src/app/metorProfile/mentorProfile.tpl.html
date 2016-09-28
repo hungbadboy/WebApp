@@ -1,41 +1,24 @@
-<!-- Sidebar left menu -->
-<div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
-<!-- /End Sidebar left menu -->
-
 <div class="content">
     <div class="center-content">
         <div class="center-content-wrapper">
             <section id="dashboard">
                 <div class="dashboard-wrapper">
                     <div class="dashboard-header">    
-                    <h4>Manage Video</h4>
+                    <h4>Manage Profile</h4>
                     <p>Ut a porttitor leo. Aliquam fermentum nec elit lobortis tristique </p>
                     </div>
-                    <div class="manager-profile manager-profile-std clearfix">
+                    <div class="manager-profile clearfix">
                         <div class="col-md-3">
                             <div class="avt">
                                 <div class="box-avatar">
                                     <div class="img-avt">
                                         <img src="assets/images/user.jpg" alt="">
+                                        <a href="#" class="change-avt">
+                                            <img ng-src="{{imageUrl}}" alt="">
+                                        </a>
                                     </div>
                                     <h4>Linda Young</h4>
-                                    <span>freshman</span>
-                                </div>
-                                <div class="count-qt">
-                                    <ul>
-                                        <li>
-                                            <b>03</b><br/>
-                                            <span>questions</span>
-                                        </li>
-                                        <li>
-                                            <b>08</b><br/>
-                                            <span>essay</span>
-                                        </li>
-                                        <li>
-                                            <b>12</b><br/>
-                                            <span>subscribed</span>
-                                        </li>
-                                    </ul>
+                                    <!-- <span>freshman</span> -->
                                 </div>
                                 <div class="box-information">
                                     <h5>University</h5>
@@ -50,22 +33,78 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-9">
-                            <div class="sub-right clearfix">
-                                <h3>subscribers</h3>
-                                <div class="row">
-                                    <div class="search col-md-4">
-                                        <form class="navbar-form" role="search">
-                                            <div class="input-group">
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
-                                                </div>
-                                                <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+                        <div class="col-md-6">
+                            <div class="box-form-setting">
+                                <h3>setting</h3>
+                                <form action="">
+                                    <div class="row">
+                                        <div class="col-md-6 left-form">
+                                            <legend>Personal Information</legend>
+                                            <div class="form-group">
+                                                <input type="text" name="firstname" class="form-control" value="" placeholder="Firstname">
                                             </div>
-                                        </form>
+                                            <div class="form-group">
+                                                <input type="text" name="lastname" class="form-control" value="" placeholder="Lastname">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" name="email" class="form-control" value="" placeholder="Email">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for=""><input type="radio" name="sex" value="0" placeholder="">Male</label>&nbsp;&nbsp;
+                                                <label for=""><input type="radio" name="sex" value="1" placeholder="">Female</label>&nbsp;&nbsp;
+                                                <label for=""><input type="radio" name="sex" value="2" placeholder="">Other</label>&nbsp;&nbsp;
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" name="university" class="form-control" value="" placeholder="University">
+                                            </div>
+                                            <div class="form-group date">
+                                                <input type="text" name="birthday" class="form-control" value="" placeholder="BIO">
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea name="about" id="" class="form-control " cols="5" rows="5" placeholder="About me...."></textarea>
+                                            </div>
+                                            <div class="from-group">
+                                                <label for=""><input type="checkbox" name="" value="0"> Music</label>&nbsp;&nbsp;
+                                                <label for=""><input type="checkbox" name="" value="0"> Art</label>&nbsp;&nbsp;
+                                                <label for=""><input type="checkbox" name="" value="0"> Sport</label>&nbsp;&nbsp;
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 right-form">
+                                            <legend>Change passsword</legend>
+                                            <div class="form-group">
+                                                <input type="text" name="" class="form-control" value="" placeholder="Current password">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" name="" class="form-control" value="" placeholder="New password">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" name="" class="form-control" value="" placeholder="Confirm password">
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div class="clearfix">
+                                        <div class="bx-btn-form pull-right">
+                                            <input type="reset" class="btn btn-default btn-rs" name="" value="Reset">
+                                            <input type="submit" class="btn btn-default btn-sbm" name="" value="Submit">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="sub-right">
+                                <h3>subscribers</h3>
+                                <div class="search">
+                                    <form class="navbar-form" role="search">
+                                        <div class="input-group">                                                        
+                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <ul class="list-std col-md-4">
+                                <ul class="list-std">
                                     <li class="clearfix">
                                         <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
                                         <div class="txt-ifm pull-left">
@@ -87,87 +126,6 @@
                                             <p>Hight school: Hardford Public</p>
                                         </div>
                                     </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <ul class="list-std col-md-4">
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <ul class="list-std col-md-4">
                                     <li class="clearfix">
                                         <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
                                         <div class="txt-ifm pull-left">
@@ -226,6 +184,3 @@
         </div>
     </div>                
 </div>
-<!-- Sidebar right -->
-<div id="sidebar-right" ng-include="sidebarRight"></div>
-<!-- End Sidebar right -->

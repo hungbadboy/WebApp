@@ -13,220 +13,23 @@
                        <h2>You do not have any questions</h2>
                        <h2>Create your <span>first ask</span><br>right now!</h2>
                        <div class="create-ask-content new-ask">
-                           <p class="new-ask-button">creat ask</p>
+                           <p class="new-ask-button" ng-click="showFormAdd()" >creat ask</p>
                        </div>
                        <p class="first-ask-img"><img src="assets/images/first-ask.png"></p>
                    </div>
            </div>
            <!-- /End Ask a Question -->
                         
-           <div class="top-mentors-videos">
-               <!-- Top videos -->
-               <div class="top-videos">
-                   <div class="top-videos-wrapper col-xs-12">
-                       <!-- top-mentor-header -->
-                       <div class="top-videos-header">
-                           <div class="top-videos-header-title">
-                               <span><img src="assets/images/ask question/top-mentor.png"></span><h4>Top Videos</h4>
-                           </div>
-                           <div class="see-more">
-                               <p><a href="">See More</a></p>
-                           </div>
-                       </div><!-- /End top-mentor-header -->
-                       <!-- List of top mentors -->
-                       <div class="top-videos-list">
-                           <ul>
-                               <li>
-                                   <div class="video-thumnail">
-                                       <img src="assets/images/tutorial_01.png">
-                                       <div class="hover-video">
-                                           <a href="/"><span data-icon="&#x45;"></span></a>
-                                       </div>
-                                   </div>
-                                   <div class="video-info">
-                                       <p class="video title">
-                                           <a href="#">Trigonometric Tutorial 1</a>
-                                       </p>
-                                       <p class="video-rate">
-                                           <span>Rate: 5.0 (4 votes)</span>
-                                           <span data-icon="&#xe033; &#xe033; &#xe033; &#xe033; &#xe033;"></span>
-                                       </p>
-                                   </div>
-                               </li>
-                               <li>
-                                   <div class="video-thumnail">
-                                       <img src="assets/images/tutorial_01.png">
-                                       <div class="hover-video">
-                                           <a href="/"><span data-icon="&#x45;"></span></a>
-                                       </div>
-                                   </div>
-                                   <div class="video-info">
-                                       <p class="video title">
-                                           <a href="#">Trigonometric Tutorial 1</a>
-                                       </p>
-                                       <p class="video-rate">
-                                           <span>Rate: 5.0 (4 votes)</span>
-                                           <span data-icon="&#xe033; &#xe033; &#xe033; &#xe033; &#xe033;"></span>
-                                       </p>
-                                   </div>
-                               </li>
-                               <li>
-                                   <div class="video-thumnail">
-                                       <img src="assets/images/tutorial_01.png">
-                                       <div class="hover-video">
-                                           <a href="/"><span data-icon="&#x45;"></span></a>
-                                       </div>
-                                   </div>
-                                   <div class="video-info">
-                                       <p class="video title">
-                                           <a href="#">Trigonometric Tutorial 1</a>
-                                       </p>
-                                       <p class="video-rate">
-                                           <span>Rate: 5.0 (4 votes)</span>
-                                           <span data-icon="&#xe033; &#xe033; &#xe033; &#xe033; &#xe033;"></span>
-                                       </p>
-                                   </div>
-                               </li>
-                               <li>
-                                   <div class="video-thumnail">
-                                       <img src="assets/images/tutorial_01.png">
-                                       <div class="hover-video">
-                                           <a href="/"><span data-icon="&#x45;"></span></a>
-                                       </div>
-                                   </div>
-                                   <div class="video-info">
-                                       <p class="video title">
-                                           <a href="#">Trigonometric Tutorial 1</a>
-                                       </p>
-                                       <p class="video-rate">
-                                           <span>Rate: 5.0 (4 votes)</span>
-                                           <span data-icon="&#xe033; &#xe033; &#xe033; &#xe033; &#xe033;"></span>
-                                       </p>
-                                   </div>
-                               </li>
-                               <li>
-                                   <div class="video-thumnail">
-                                       <img src="assets/images/tutorial_01.png">
-                                       <div class="hover-video">
-                                           <a href="/"><span data-icon="&#x45;"></span></a>
-                                       </div>
-                                   </div>
-                                   <div class="video-info">
-                                       <p class="video title">
-                                           <a href="#">Trigonometric Tutorial 1</a>
-                                       </p>
-                                       <p class="video-rate">
-                                           <span>Rate: 5.0 (4 votes)</span>
-                                           <span data-icon="&#xe033; &#xe033; &#xe033; &#xe033; &#xe033;"></span>
-                                       </p>
-                                   </div>
-                               </li>
-                           </ul>
-                       </div><!-- /End list of top mentors -->
-                   </div>        
+           <div class="top-mentors-videos" ng-controller="QuestionController">
+               <div class="top-mentors" ng-include="'src/app/topMentor/topMentors.tpl.html'">
+
                </div><!-- /End top memtor -->
 
-               <!-- Top mentor -->
-               <div class="top-mentors">
-                   <div class="top-mentor-wrapper col-xs-12">
-                       <!-- top-mentor-header -->
-                       <div class="top-mentor-header">
-                           <div class="top-mentor-header-title">
-                               <span><img src="assets/images/ask question/top-mentor.png"></span><h4>Top Mentors</h4>
-                           </div>
-                           <div class="see-more">
-                               <p><a href="">See More</a></p>
-                           </div>
-                       </div><!-- /End top-mentor-header -->
-                       <!-- List of top mentors -->
-                       <div class="top-mentors-list">
-                           <ul>
-                               <li>
-                                   <div class="top-mentors-img online">
-                                       <a href="#"><img src="assets/images/ask question/mentor-02.png">
-                                       <span class="offline"><img src="assets/images/ask question/online.png"></span></a>
-                                   </div>
-                                   <div class="top-mentors-info">
-                                       <p class="top-mentors-name">
-                                           <a href="#"><strong>Brian M.Scott</strong></a>
-                                       </p>
-                                       <p class="top-mentors-essay">
-                                           <a href="/">Financial Aid, </a>Essay
-                                       </p>
-                                       <p class="top-mentors-answed">
-                                           500 subcrible, 5765 answed
-                                       </p>
-                                   </div>
-                               </li>
-                               <li>
-                                   <div class="top-mentors-img">
-                                       <a href="#"><img src="assets/images/ask question/mentor-02.png">
-                                       <span class="offline"><img src="assets/images/ask question/offline.png"></span></a>
-                                   </div>
-                                   <div class="top-mentors-info">
-                                       <p class="top-mentors-name">
-                                           <a href="#"><strong>Brian M.Scott</strong></a>
-                                       </p>
-                                       <p class="top-mentors-essay">
-                                           <a href="/">Financial Aid, </a>Essay
-                                       </p>
-                                       <p class="top-mentors-answed">
-                                           500 subcrible, 5765 answed
-                                       </p>
-                                   </div>
-                               </li>
-                               <li>
-                                   <div class="top-mentors-img">
-                                       <a href="#"><img src="assets/images/ask question/mentor-02.png"><span class="offline"><img src="assets/images/ask question/offline.png"></span></a>
-                                   </div>
-                                   <div class="top-mentors-info">
-                                       <p class="top-mentors-name">
-                                           <a href="#"><strong>Brian M.Scott</strong></a>
-                                       </p>
-                                       <p class="top-mentors-essay">
-                                           <a href="/">Financial Aid, </a>Essay
-                                       </p>
-                                       <p class="top-mentors-answed">
-                                           500 subcrible, 5765 answed
-                                       </p>
-                                   </div>
-                               </li>
-                               <li>
-                                   <div class="top-mentors-img">
-                                       <a href="#"><img src="assets/images/ask question/mentor-02.png"><span class="offline"><img src="assets/images/ask question/offline.png"></span></a>
-                                   </div>
-                                   <div class="top-mentors-info">
-                                       <p class="top-mentors-name">
-                                           <a href="#"><strong>Brian M.Scott</strong></a>
-                                       </p>
-                                       <p class="top-mentors-essay">
-                                           <a href="/">Financial Aid, </a>Essay
-                                       </p>
-                                       <p class="top-mentors-answed">
-                                           500 subcrible, 5765 answed
-                                       </p>
-                                   </div>
-                               </li>
-                               <li>
-                                   <div class="top-mentors-img">
-                                       <a href="#"><img src="assets/images/ask question/mentor-02.png"><span class="offline"><img src="assets/images/ask question/offline.png"></span></a>
-                                   </div>
-                                   <div class="top-mentors-info">
-                                       <p class="top-mentors-name">
-                                           <a href="#"><strong>Brian M.Scott</strong></a>
-                                       </p>
-                                       <p class="top-mentors-essay">
-                                           <a href="/">Financial Aid, </a>Essay
-                                       </p>
-                                       <p class="top-mentors-answed">
-                                           500 subcrible, 5765 answed
-                                       </p>
-                                   </div>
-                               </li>
-                           </ul>
-                       </div><!-- /End list of top mentors -->
-                   </div>        
+               <!-- Top videos -->
+               <div class="top-videos"  ng-include="'src/app/topVideo/topVideos.tpl.html'" >
+
                </div><!-- /End top memtor -->
+                  <!-- /End top memtor -->
            </div>
        </section><!-- /End content -->
 
@@ -238,29 +41,41 @@
                        <h2><strong>Ask</strong> Anytime, Anywhere, Always</h2>
                    </div>
                    <div class="ask-mentors-download-images col-md-5">
-                       <a href=""><img src="assets/images/appstore.png"></a>
-                       <a href=""><img src="assets/images/app-store-android-download.png"></a>
+                       <a href="#"><img src="assets/images/appstore.png"></a>
+                       <a href="#"><img src="assets/images/app-store-android-download.png"></a>
                    </div>
                </div>
            </div>
        </section>
 
        <!-- Form add new ask -->
-       <div class="form-ask-question">
+       <div class="form-ask-question" ng-controller="HomeController">
            <form action="" method="" class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
                <h3>Ask a question</h3>
-               <p><select name="Select">
-                   <option selected>Select: Catagory</option>
-                   <option value="value1">Value 1</option> 
-                   <option value="value2">Value 2</option>
-                   <option value="value3">Value 3</option>
-               </select></p>
-               <p><textarea placeholder="What do you want to ask?..." id ="ask"></textarea></p>
+               <div ng-if="askErrorMsg" class="validate_error">
+                   <span>{{askErrorMsg}}</span>
+               </div>
+               <p> <div angucomplete-alt id="autocompleteCate" placeholder="Search category.." pause="300"
+                        selected-object="selectedSubject"
+                        local-data="subjects" search-fields="subject" title-field="subject"
+                        image-field="image" minlength="0" input-class="form-control form-control-small"
+                        match-class="highlight"/></p>
+               <p>
+                   <textarea id="autocompleteQuest_value" placeholder="{{questionIndex}}"></textarea>
+               </p>
+               <output class="upload-image " id="list">
+                   <div ng-repeat="step in stepsModel track by $index">
+                       <img class="thumb" ng-src="{{step}}"/>
+                       <div class="remove-image"><img src="assets/images/remove-img.png"
+                                                      ng-click="removeImg($index)"></div>
+                   </div>
+               </output>
                <label for="files"><img src="assets/images/add-img.png"><span> add images</span></label>
-               <input type="file" id="files" name="files[]" multiple />
+               <input type="file" multiple id="files" ng-file-select="onFileSelect($files)"
+                      accept='image/*'/>
                <!-- <p><input type="button" value="Ask Now"></p> -->
-               <p><button type="button" class="home-ask-now">Ask Now</button></p>
-               <p class="close-form close"><span data-icon="&#xe051;"></span></p>
+               <p><button type="button" class="home-ask-now"  ng-click="redirectForum()">Ask Now</button></p>
+               <p class="close-form close" ng-click="closePopupAskQuestion()"><span data-icon="&#xe051;"></span></p>
            </form>
            <div class="close-popup-images">
            </div>
