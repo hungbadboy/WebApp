@@ -545,6 +545,39 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         });
         return promise;
     };
+
+    factory.deleteMultipleVideo = function(vids, authorid){
+        var promise = $http({
+            method: 'POST',
+            url: NEW_SERVICE_URL + 'video/deleteMultipleVideo',
+            data:{
+                "request_data_type": "video",
+                "request_data_method": "deleteMultipleVideo",
+                "request_data":{
+                    "vids": vids,
+                    "authorID": authorid
+                }
+            }
+            
+        });
+        return promise;
+    }
+
+    factory.deleteVideo = function(vid, authorid){
+        var promise = $http({
+            method: 'POST',
+            url: NEW_SERVICE_URL + 'video/deleteVideo/',
+            data: {
+              "request_data_type": "video",
+              "request_data_method": "deleteVideo",
+              "request_data":{
+                "vid": vid,
+                "authorID": authorid  
+              }            
+            }
+        });
+        return promise;
+    }
     /* API Favourite Video end */
     
     return factory;

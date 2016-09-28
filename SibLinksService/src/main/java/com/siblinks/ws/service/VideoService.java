@@ -116,6 +116,7 @@ public interface VideoService {
     
     public ResponseEntity<Response> clearHistoryVideosList(String uid, String vid);
 
+     public ResponseEntity<Response> deleteMultipleVideo(RequestData request);
     /*
      * @author Tavv
      */

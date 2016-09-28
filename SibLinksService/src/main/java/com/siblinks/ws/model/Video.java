@@ -1,5 +1,6 @@
 package com.siblinks.ws.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,7 +99,17 @@ public class Video {
 	
     private String plid;
 
-    public String getPlid() {
+     private ArrayList<String> vids;
+
+     public ArrayList<String> getVids() {
+          return vids;
+     }
+
+     public void setVids(final ArrayList<String> vids) {
+          this.vids = vids;
+     }
+
+     public String getPlid() {
         return plid;
     }
 

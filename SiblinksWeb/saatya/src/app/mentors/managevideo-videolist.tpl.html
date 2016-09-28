@@ -1,0 +1,221 @@
+
+<!-- Sidebar left menu -->
+<div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
+<!-- /End Sidebar left menu -->    
+<div class="content">
+    <div class="center-content">
+        <div class="center-content-wrapper">
+            <section id="dashboard">
+                <div class="dashboard-wrapper">
+                    <div class="dashboard-header">    
+                    <h4>Manage Video</h4>
+                    <p>Ut a porttitor leo. Aliquam fermentum nec elit lobortis tristique </p>
+                    </div>
+                    <div class="manager-video">
+                        <div class="row top-mag">
+                            <div class="col-md-8">
+                                <div class="col-md-5 search">
+                                    <form class="navbar-form" role="search">
+                                        <div class="input-group">                                                        
+                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-3 sl-sbj">
+                                    <select class="select-sbj">
+                                        <option value="0">Option 1</option>
+                                        <option value="1">Option 2</option>
+                                        <option value="2">Option 3</option>
+                                        <option value="3">Option 4</option>
+                                        <option value="4">Option 5</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 sl-newwest">
+                                    <select class="select-newwest">
+                                        <option value="0">Option 1</option>
+                                        <option value="1">Option 2</option>
+                                        <option value="2">Option 3</option>
+                                        <option value="3">Option 4</option>
+                                        <option value="4">Option 5</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 btn-filter"><button>Filter</button></div>
+                            </div>
+                        </div>
+                        <div class="btn-mg">
+                            <button class="btn-delete">Delete</button>
+                            <button class="add-play">Add to playlist</button>
+                        </div>
+                        <div class="main-manager-video">
+                            <div class="filters clearfix">
+                                <div class="check-all"><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></div>
+                                <div class="text-trf">video informations</div>
+                                <div class="text-play">playlist</div>
+                                <div class="text-des">description</div>
+                                <div class="text-ac">action</div>
+                            </div>
+                            <div class="group-item">
+                                <div class="item" ng-if="videos" ng-repeat="v in videos track by $index">
+                                    <div class="check-box"><input ng-model="v.selected" type="checkbox" class="check-input" name="checkall" ng-click="optionSelected()"/></div>
+                                    <div class="box-detail-play clearfix">
+                                        <span class="item-thumbnail">
+                                            <img src="{{v.image}}" alt="">
+                                        </span>
+                                        <div class="detail-pl-inner">
+                                            <h5>{{v.title}}</h5>
+                                            <span class="add-time">{{v.timeStamp}} ago</span>
+                                            <ul class="list-star">
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                            </ul>
+                                            <p class="list-view">
+                                                <span><img src="assets/images/icon-play.png" alt=""> 324</span>&nbsp;&nbsp;
+                                                <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp;
+                                                <span><img src="assets/images/icon-comment.png" alt=""> 16</span>&nbsp;&nbsp;
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p class="box-playlist">
+                                        {{v.playlist}}
+                                    </p>
+                                    <p class="box-description">
+                                        {{v.description}}
+                                    </p>
+                                    <div class="box-ac">
+                                        <ul class="list-ac">
+                                            <li><a href="">Edit</a></li>
+                                            <li><a href="">Add playlist</a></li>
+                                            <li><a href="" ng-click="deleteVideo(v.vid)">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <p class="btn-load-more"><a class="load-more-mng" href="#">load more</a></p>
+                            </div>
+                            <div class="filters clearfix">
+                                <div class="check-all"><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></div>
+                                <div class="text-trf">video informations</div>
+                                <div class="text-play">playlist</div>
+                                <div class="text-des">description</div>
+                                <div class="text-ac">action</div>
+                            </div>
+                            <div class="btn-mg">
+                                <button class="btn-delete" ng-click="deleteMultiple()">Delete</button>
+                                <button class="add-play">Add to playlist</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>                
+</div>
+<!-- Sidebar right -->
+<div id="sidebar-right" ng-include="sidebarRight"></div>
+<!-- End Sidebar right -->
+
+<!-- Upload image popup -->
+<div class="modal fade" id="uploadImg">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Media Manager</h3>
+                <div class="add-selected">Add selected</div>
+            </div>
+            <div class="modal-body clearfix media-manager">
+                <form action="">
+                    <div class="media-manager-wrapper">
+                        <div class="media-upload">
+                            <div id="drop_zone"><h5>Drop files anywhere to upload</h5></div>
+                            <label for="files">Select Image</label>
+                            <input type="file" id="files" name="files[]" multiple />
+                        </div>
+                        <div class="media-uploaded">
+                            <ul>
+                                <li class="">
+                                    <img src="assets/images/image-01.png">
+                                    <div class="choose-uploaded">
+                                      <img src="assets/images/choose-uploaded.png">
+                                    </div>
+                                </li>
+                                <li class="">
+                                    <img src="assets/images/image-02.png">
+                                    <div class="choose-uploaded">
+                                      <img src="assets/images/choose-uploaded.png">
+                                    </div>
+                                </li>
+                                <li class="">
+                                    <img src="assets/images/image-03.png">
+                                    <div class="choose-uploaded">
+                                      <img src="assets/images/choose-uploaded.png">
+                                    </div>
+                                </li>
+                                <li class="">
+                                    <img src="assets/images/image-04.png">
+                                    <div class="choose-uploaded">
+                                      <img src="assets/images/choose-uploaded.png">
+                                    </div>
+                                </li>
+                                <li class="">
+                                    <img src="assets/images/image-05.png">
+                                    <div class="choose-uploaded">
+                                      <img src="assets/images/choose-uploaded.png">
+                                    </div>
+                                </li>
+                                <li class="">
+                                    <img src="assets/images/image-06.png">
+                                    <div class="choose-uploaded">
+                                      <img src="assets/images/choose-uploaded.png">
+                                    </div>
+                                </li>
+                                <li class="">
+                                    <img src="assets/images/image-07.png">
+                                    <div class="choose-uploaded">
+                                      <img src="assets/images/choose-uploaded.png">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pagination-number show-item">
+                            <nav>
+                              <ul class="pagination">
+                                <li class="page-item disabled previous">
+                                  <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">
+                                        <p><</p>
+                                    </span>
+                                    <span class="sr-only">Previous</span>
+                                  </a>
+                                </li>
+                                <li class="page-item active">
+                                  <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item next">
+                                  <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">
+                                        <p>></p>
+                                    </span>
+                                    <span class="sr-only">Next</span>
+                                  </a>
+                                </li>
+                              </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /End Upload image popup -->
+
+
