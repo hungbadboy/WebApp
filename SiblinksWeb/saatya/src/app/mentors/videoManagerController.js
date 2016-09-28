@@ -1,16 +1,21 @@
-brotControllers.controller('VideoManagerController', ['$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService',
-                                       function ($scope, $modal, $routeParams, $http, $location, VideoService, MentorService) {
+brotControllers.controller('VideoManagerController', 
+  ['$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService', 'myCache',
+                                       function ($scope, $modal, $routeParams, $http, $location, VideoService, MentorService, myCache) {
 
 
     var userId = localStorage.getItem('userId');
     
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
-    $scope.video_subject = [0];
+
+    var subjects = myCache.get('subjects');
+    var defaultSubjectId = localStorage.getItem('defaultSubjectId');
+
     $scope.video_playlist = [0];
 
     init();
 
     function init(){
+      $scope.listSubjects = getSubjectNameById(defaultSubjectId, subjects);
       loadVideos();
     }
 
