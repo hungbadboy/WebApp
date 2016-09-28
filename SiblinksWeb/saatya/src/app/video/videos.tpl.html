@@ -143,7 +143,7 @@
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
-                                                <span ng-if="isReadyLoadRateRecommended" star-rating stars="5"
+                                                <span ng-if="isReadyLoadRatedRecommended" star-rating stars="5"
                                                       outer-star-selection="stars"
                                                       outer-percent="rating"
                                                       rating-define="star"
@@ -189,7 +189,7 @@
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
-                                                 <span ng-if="isReadyLoadRateRecently" star-rating stars="5"
+                                                 <span ng-if="isReadyLoadRatedRecently" star-rating stars="5"
                                                        outer-star-selection="stars"
                                                        outer-percent="rating"
                                                        rating-define="star"
@@ -210,7 +210,7 @@
                             </ul>
                             <div class="see-more" ng-click="loadMoreVideo(2, subjectId)"><p>show more</p></div>
                         </div>
-                        <div class="video-member" ng-if="login == 1">
+                        <div class="video-member" ng-if="login == 1 && listVideoRecommendedForU">
                             <div class="video-member-header">
                                 <div class="video-member-title">
                                     <h5>{{listVideoRecommendedForU[0][0].name}}</h5>
@@ -247,7 +247,7 @@
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
-                                                <span ng-if="isReadyLoadRateRecently" star-rating stars="5"
+                                                <span ng-if="isReadyLoadRatedR4U" star-rating stars="5"
                                                       outer-star-selection="stars"
                                                       outer-percent="rating"
                                                       rating-define="star"
@@ -267,9 +267,6 @@
                                 </li>
 
                             </ul>
-                        </div>
-                        <div class="scroll-load-more">
-                            <p>Scroll to load more</p>
                         </div>
                     </div>
                 </div><!-- /End Content of All -->
@@ -429,9 +426,16 @@
                                                               ng-click="showProfile($event)">{{video.firstName+' '+video.lastName}}</span></a><span> added {{video.timeStamp}} ago</span>
                                         </div>
                                         <div class="videos-rate">
-                                            <p class="videos-start"><span
-                                                    data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"
-                                                    ng-repeat="item in range(video.numRatings) track by $index"></span>
+                                            <p class="videos-start">
+                                                <span style="float: left; margin-bottom: 5px;" ng-if="loadRateHistory" star-rating stars="5"
+                                                      outer-star-selection="stars"
+                                                      outer-percent="rating"
+                                                      rating-define="star"
+                                                      rating-stars="{{video.averageRating}}"
+                                                      star-radius="6" sel-color="gold"
+                                                      readonly="true"
+                                                      back-color="white">
+                                                 </span>
                                             </p>
                                             <p class="video-description">
                                                 {{video.description}}
@@ -476,16 +480,24 @@
                                             {{videoFavourite.title}}
                                         </div>
                                         <div class="videos-time-add">
-                                            <span>from</span><span class="video-poster" video-author"
-                                            id="{{videoFavourite.authorID}}"
-                                            ng-click="showProfile($event)">{{videoFavourite.firstName + ' ' +
+                                            <span>from</span>
+                                            <span class="video-poster" video-author
+                                                  id="{{videoFavourite.authorID}}"
+                                                  ng-click="showProfile($event)">{{videoFavourite.firstName + ' ' +
                                             videoFavourite.lastName}}</span>
                                             <span> added {{videoFavourite.timeStamp}}</span>
                                         </div>
                                         <div class="videos-rate">
-                                            <p class="videos-start"><span
-                                                    data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"
-                                                    ng-repeat="item in range(videoFavourite.numRatings) track by $index"></span>
+                                            <p class="videos-start">
+                                                <span style="float: left; margin-bottom: 5px;" ng-if="loadRateFavorite" star-rating stars="5"
+                                                      outer-star-selection="stars"
+                                                      outer-percent="rating"
+                                                      rating-define="star"
+                                                      rating-stars="{{videoFavourite.averageRating}}"
+                                                      star-radius="6" sel-color="gold"
+                                                      readonly="true"
+                                                      back-color="white">
+                                                 </span>
                                             </p>
                                             <p class="video-description">
                                                 {{videoFavourite.description}}
