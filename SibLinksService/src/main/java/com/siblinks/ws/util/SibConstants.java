@@ -595,5 +595,6 @@ public class SibConstants {
           public static final String SQL_GET_COUNT_VIDEO_PLAYLIST = "GET_COUNT_VIDEO_PLAYLIST";
           public static final String SQL_GET_ALL_SUBJECTS = "GET_ALL_SUBJECTS";
           public static final String SQL_SEARCH_VIDEOS = "SEARCH_VIDEOS";
+          public static final String SQL_ADD_VIDEOS_PLAYLIST = "ADD_VIDEOS_PLAYLIST";
      }
 }

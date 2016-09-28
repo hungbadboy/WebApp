@@ -4,8 +4,7 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
 
   //Author: Hoai Nguyen;
   //event click on "Submit" button;
-  // var userId = localStorage.getItem('userId');
-  var userId = '111';
+  var userId = localStorage.getItem('userId');
 
   init();
 

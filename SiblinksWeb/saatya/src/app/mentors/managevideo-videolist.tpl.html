@@ -48,8 +48,8 @@
                             </div>
                         </div>
                         <div class="btn-mg">
-                            <button class="btn-delete">Delete</button>
-                            <button class="add-play">Add to playlist</button>
+                            <button class="btn-delete" ng-click="deleteMultiple()">Delete</button>
+                            <button class="add-play" ng-click="addMultipleToPlaylist()">Add to playlist</button>
                         </div>
                         <div class="main-manager-video">
                             <div class="filters clearfix">
@@ -92,7 +92,7 @@
                                     <div class="box-ac">
                                         <ul class="list-ac">
                                             <li><a href="">Edit</a></li>
-                                            <li><a href="" ng-click="addToPlaylist()">Add playlist</a></li>
+                                            <li><a href="" ng-click="addToPlaylist(v.vid)">Add playlist</a></li>
                                             <li><a href="" ng-click="deleteVideo(v.vid)">Delete</a></li>
                                         </ul>
                                     </div>
@@ -110,7 +110,7 @@
                             </div>
                             <div class="btn-mg">
                                 <button class="btn-delete" ng-click="deleteMultiple()">Delete</button>
-                                <button class="add-play" ng-click="addToPlaylist()">Add to playlist</button>
+                                <button class="add-play" ng-click="addMultipleToPlaylist()">Add to playlist</button>
                             </div>
                         </div>
                     </div>

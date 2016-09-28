@@ -60,11 +60,9 @@ brotControllers.controller('VideoManagerController',
     $scope.loadVideosBySubject = function(){
       if($scope.subject == 0){
         if(cacheVideos.length > 0) {
-          console.log('cached');
           $scope.videos.length = 0;
           $scope.videos = cacheVideos.slice(0);
         } else{
-          console.log('none cached');
           loadVideos();
         }
       } else{
@@ -98,6 +96,20 @@ brotControllers.controller('VideoManagerController',
     }
 
     $scope.deleteMultiple = function(){
+      var selectedVideos = checkSelectedVideos();
+
+      if (selectedVideos.length > 0) {
+        if (confirm("Are you sure?")) {
+          VideoService.deleteMultipleVideo(selectedVideos, userId).then(function(data){
+            if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+              loadVideos();
+            }
+          });
+        }
+      }
+    }
+
+    function checkSelectedVideos(){
       var selectedVideos = [];
       angular.forEach($scope.videos, function(v){
         if (!!v.selected) {
@@ -109,17 +121,7 @@ brotControllers.controller('VideoManagerController',
           }
         }
       });
-      console.log(selectedVideos);
-
-      if (selectedVideos.length > 0) {
-        if (confirm("Are you sure?")) {
-          VideoService.deleteMultipleVideo(selectedVideos, userId).then(function(data){
-            if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
-              loadVideos();
-            }
-          });
-        }
-      }
+      return selectedVideos;
     }
 
     $scope.deleteVideo = function(vid){
@@ -144,16 +146,42 @@ brotControllers.controller('VideoManagerController',
       }
     }
 
-    $scope.addToPlaylist = function(){
-      console.log('addToPlaylist');
+    $scope.addToPlaylist = function(vid){
+      var selectedVideos = [vid];
+
       var modalInstance = $modal.open({
           templateUrl: 'src/app/mentors/choose_playlist_popup.tpl.html',
           controller: 'ChoosePlaylistController',
           resolve: {
               u_id: function () {
                   return userId;
+              },
+              v_ids: function(){
+                return selectedVideos;
               }
           }
       });
+    }
+
+    $scope.addMultipleToPlaylist = function(){
+      var selectedVideos = checkSelectedVideos();
+      if (selectedVideos.length > 0) {
+        var modalInstance = $modal.open({
+          templateUrl: 'src/app/mentors/choose_playlist_popup.tpl.html',
+          controller: 'ChoosePlaylistController',
+          resolve: {
+              u_id: function () {
+                  return userId;
+              },
+              v_ids: function(){
+                return selectedVideos;
+              }
+          }
+        });
+      }
+    }
+
+    function openAddPlaylistPopup(){
+
     }
 }]);

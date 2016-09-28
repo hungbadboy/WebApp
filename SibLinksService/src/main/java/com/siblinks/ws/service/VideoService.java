@@ -121,6 +121,8 @@ public interface VideoService {
 
      public ResponseEntity<Response> searchVideos(long uid, String keyword, int offset);
 
+     public ResponseEntity<Response> addVideosToPlaylist(RequestData request);
+
      /*
       * @author Tavv
       */

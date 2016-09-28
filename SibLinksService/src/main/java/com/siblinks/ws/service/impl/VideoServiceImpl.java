@@ -2534,4 +2534,33 @@ public class VideoServiceImpl implements VideoService {
           ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
           return entity;
      }
+
+     @Override
+     @RequestMapping(value = "/addVideosToPlaylist", method = RequestMethod.POST)
+     public ResponseEntity<Response> addVideosToPlaylist(@RequestBody final RequestData request) {
+          String authorId = request.getRequest_data().getAuthorID();
+          String plid = request.getRequest_data().getPlid();
+          ArrayList<String> vids = request.getRequest_data().getVids();
+          SimpleResponse response = null;
+          if (authorId != null && authorId.length() > 0 && plid != null && plid.length() > 0) {
+               int countSuccess = 0;
+               int countFail = 0;
+               for (String vid : vids) {
+                    // insert vid and plid into Sib_Playlist_Video
+                    Object[] queryParams = new Object[] { plid, vid };
+                    boolean status = dao.insertUpdateObject(SibConstants.SqlMapperBROT126.SQL_ADD_VIDEOS_PLAYLIST, queryParams);
+                    if (status) {
+                         countSuccess++;
+                    } else {
+                         countFail++;
+                    }
+               }
+               String msg = String.format("Insert success %d videos and fail %d videos into playlist", countSuccess, countFail);
+               response = new SimpleResponse(true + "", request.getRequest_data_type(), request.getRequest_data_method(), msg);
+          } else {
+               response = new SimpleResponse(true + "", request.getRequest_data_type(), request.getRequest_data_method(), "Missing authorId or plid.");
+          }
+          ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+          return entity;
+     }
 }
