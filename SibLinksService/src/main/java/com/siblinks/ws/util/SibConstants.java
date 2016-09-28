@@ -505,6 +505,7 @@ public class SibConstants {
           public static final String SQL_VIDEO_FAVOURITE_COUNT_BY_USER = "VIDEO_FAVOURITE_COUNT_BY_USER";
           // Fogot Password
           public static final String SQL_CHECK_USER_FORGOT_PASSWORD = "CHECK_USER_FORGOT_PASSWORD";
+          public static final String SQL_UPDATE_NUMREPLIES_QUESTION  = "UPDATE_NUMREPLIES_QUESTION";
 
      }
 
