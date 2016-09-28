@@ -819,7 +819,7 @@ public class MentorServiceImpl implements MentorService {
                Map<String, Object> result = new HashMap<>();
                for (Object object : readObject) {
                     Map<String, Object> map = (Map<String, Object>) object;
-                value = (map.get("defaultSubjectId") != null) ? "" + map.get("defaultSubjectId") : "";
+                    value = (map.get("defaultSubjectId") != null) ? "" + map.get("defaultSubjectId") : "";
                }
 
                String entityName = SibConstants.SqlMapper.SQL_GET_ALL_SUBJECTID_CATEGORY;
@@ -834,15 +834,17 @@ public class MentorServiceImpl implements MentorService {
                     }
                }
 
-               String whereClause = "in(" + subjectId + ") order by p.timeStamp DESC limit 5";
-
-               readObject = dao.readObjectsWhereClause(SibConstants.SqlMapperBROT124.SQL_GET_NEWEST_QUESTIONS, whereClause, null);
-               if (readObject != null && readObject.size() > 0) {
-                    reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", readObject);
+               if (subjectId != null && subjectId.length() > 0) {
+                    String whereClause = "in(" + subjectId + ") order by p.timeStamp DESC limit 5";
+                    readObject = dao.readObjectsWhereClause(SibConstants.SqlMapperBROT124.SQL_GET_NEWEST_QUESTIONS, whereClause, null);
+                    if (readObject != null && readObject.size() > 0) {
+                         reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", readObject);
+                    } else {
+                         reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", SibConstants.NO_DATA);
+                    }
                } else {
                     reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", SibConstants.NO_DATA);
                }
-
           } else {
                reponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", SibConstants.NO_DATA);
           }
