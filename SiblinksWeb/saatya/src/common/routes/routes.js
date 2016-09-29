@@ -48,7 +48,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		reloadOnSearch: false
 	}).
 	when('/mentor/mentorVideo', {
-		templateUrl: 'src/app/mentors/mentor-manage-video.tpl.html',
+		templateUrl: 'src/app/mentors/video/mentor-manage-video.tpl.html',
 		controller: 'MentorVideoManageController',
 		reloadOnSearch: false
 	}).
@@ -219,7 +219,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		controller: 'MentorProfileController'
 	}).
 	when('/mentor/videoManager', {
-		templateUrl: 'src/app/mentors/managevideo-videolist.tpl.html',
+		templateUrl: 'src/app/mentors/video/managevideo-videolist.tpl.html',
 		controller: 'VideoManagerController',
 		reloadOnSearch: false
 	}).
