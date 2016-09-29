@@ -21,7 +21,7 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
             MentorService.getStudentSubscribed(userId, 6, 0).then(function (data) {
                 if (data.data.status) {
                     var response = data.data.request_data_result;
-                    if (response) {
+                    if (response != null && response != "Found no data") {
                         var students = [];
                         for (var i = 0; i < response.length; i++) {
                             var obj = {};
@@ -29,10 +29,14 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
                             obj.userName = response[i].userName;
                             obj.avatar = response[i].imageUrl;
                             obj.defaultSubjectId = response[i].defaultSubjectId;
+                            obj.isOnline = response[i].isOnline;
                             students.push(obj);
                         }
+                        $scope.listStudentSubscribed = students;
+                    }else{
+                        $scope.listStudentSubscribed = [];
                     }
-                    $scope.listStudentSubscribed = students;
+
                 }
             });
         }

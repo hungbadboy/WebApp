@@ -1,76 +1,82 @@
 <!-- Sidebar right -->
 <div class="right-content" ng-controller="SideBarRightController">
-    <div class="right-content-tab">
-        <div class="right-content-wrapper">
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="{{isActive}}#group1"><span
-                        data-icon="&#xe050;"></span></a></li>
-                <li><a data-toggle="tab" href="{{isActive}}#group2"><span data-icon="&#xe066;"></span></a></li>
-                <li><a data-toggle="tab" href="{{isActive}}#group3"><span data-icon="&#xe033;"></span></a></li>
-            </ul>
-            <!-- Content of each tab -->
-            <div class="tab-content">
-                <!-- Content of tab All -->
-                <div id="group1" class="tab-pane active">
-                    <div class="student-subcripted">
-                        <div class="student-subcripted-title">
-                            <p>Students subscripted</p>
-                        </div>
-                        <div class="student-subcripted-content">
-                            <ul>
-                                <li ng-repeat="student in listStudentSubscribed track by $index">
-                                    <div class="student-subcripted-img online">
-                                        <img ng-src="{{student.avatar}}">
-                                        <span class="offline"><img src="assets/images/ask question/online.png"></span>
-                                    </div>
-                                    <div class="student-subcripted-info">
-                                        <p class="student-subcripted-name">
-                                            <strong>{{student.userName}}</strong>
-                                        </p>
-                                        <p class="student-subcripted-icon ">
-                                            <span data-icon="&#xe065;"></span>
-                                        </p>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="load-more">
-                                <button>Show more</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="recently-activity">
-                        <div class="recently-activity-title">
-                            <p>Recently Activity</p>
-                        </div>
-                        <div class="recently-activity-content">
-                            <ul>
-                                <li ng-repeat="activity in listStudentActivity track by $index">
-                                    <div class="number-content" ng-if="activity">
-                                        <p></p>
-                                    </div>
-                                    <div class="recently-activity-info">
-                                        <p class="recently-activity-time">
-                                            <span>{{convertUnixTimeToTime(activity.timeStamp)}} ago</span>
-                                        </p>
-                                        <div class="recently-activity-status">
-                                                <span class="recently-activity-name">
-                                                {{activity.userName}}</span><span>{{activity.notification}}</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="load-more">
-                                <button>Show more</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="group2" class="tab-pane">
-                </div>
-                <div id="group3" class="tab-pane">
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="right-content-tab">
+		<div class="right-content-wrapper">
+			<ul class="nav nav-tabs">
+				<li class="active"><a data-toggle="tab"
+					href="{{isActive}}#group1"><span data-icon="&#xe050;"></span></a></li>
+				<li><a data-toggle="tab" href="{{isActive}}#group2"><span
+						data-icon="&#xe066;"></span></a></li>
+				<li><a data-toggle="tab" href="{{isActive}}#group3"><span
+						data-icon="&#xe033;"></span></a></li>
+			</ul>
+			<!-- Content of each tab -->
+			<div class="tab-content">
+				<!-- Content of tab All -->
+				<div id="group1" class="tab-pane active">
+					<div class="student-subcripted">
+						<div class="student-subcripted-title">
+							<p>Students subscripted</p>
+						</div>
+						<div ng-show="listStudentSubscribed.length == 0">No Have Student Subscribe</div>
+						<div class="student-subcripted-content" ng-if="listStudentSubscribed.length != 0 && listStudentSubscribed">
+							<ul>
+								<li ng-repeat="student in listStudentSubscribed track by $index">
+									<div class="student-subcripted-img online">
+										<img ng-src="{{student.avatar}}">
+                                        <span ng-class="{'offline' : !student.isOnline, 'online' : student.isOnline}">
+                                                <img ng-if="student.isOnline" src="assets/images/ask question/online.png"/>
+                                                <img ng-if="!student.isOnline" src="assets/images/ask question/offline.png"/></span>
+
+									</div>
+									<div class="student-subcripted-info">
+										<p class="student-subcripted-name">
+											<strong>{{student.userName}}</strong>
+										</p>
+										<p class="student-subcripted-icon ">
+											<span data-icon="&#xe065;"></span>
+										</p>
+									</div>
+								</li>
+							</ul>
+							<div class="load-more">
+								<button>Show more</button>
+							</div>
+						</div>
+					</div>
+					<div class="recently-activity">
+						<div class="recently-activity-title">
+							<p>Recently Activity</p>
+						</div>
+						<div ng-show="listStudentActivity.length == 0">No have recently activity</div>
+						<div class="recently-activity-content" ng-if="listStudentActivity.length != 0">
+							<ul>
+								<li ng-repeat="activity in listStudentActivity track by $index">
+									<div class="number-content" ng-if="activity">
+										<p></p>
+									</div>
+									<div class="recently-activity-info">
+										<p class="recently-activity-time">
+											<span>{{convertUnixTimeToTime(activity.timeStamp)}}
+												ago</span>
+										</p>
+										<div class="recently-activity-status">
+											<span class="recently-activity-name">
+												<a href="#/mentor/mentorProfile/{{activity.userId}}">{{activity.userName}}</a></span><span>{{activity.notification}}</span>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<div class="load-more">
+								<button>Show more</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="group2" class="tab-pane"></div>
+				<div id="group3" class="tab-pane"></div>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- /End Sidebar right-->

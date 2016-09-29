@@ -631,9 +631,9 @@ public class MentorServiceImpl implements MentorService {
           List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_STUDENT_SUBSCRIBED, params);
 
           if (readObject != null && readObject.size() > 0) {
-               response = new SimpleResponse("" + true, "mentor", "getLatestRatings", readObject);
+            response = new SimpleResponse("" + true, "mentor", "getStudentSubscribed", readObject);
           } else {
-               response = new SimpleResponse("" + true, "mentor", "getLatestRatings", SibConstants.NO_DATA);
+            response = new SimpleResponse("" + true, "mentor", "getStudentSubscribed", SibConstants.NO_DATA);
           }
 
           ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
