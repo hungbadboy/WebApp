@@ -2513,13 +2513,13 @@ public class VideoServiceImpl implements VideoService {
      }
 
      @Override
-     @RequestMapping(value = "/searchVideos", method = RequestMethod.GET)
+    @RequestMapping(value = "/searchVideos", method = RequestMethod.GET)
      public ResponseEntity<Response> searchVideos(@RequestParam final long uid, @RequestParam final String keyword, @RequestParam final int offset) {
           SimpleResponse reponse = null;
           Object[] queryParams = new Object[] { uid };
 
           String whereClause = String.format(
-               "and a.title like '%%%s%%' OR a.description like '%%%s%%' order by timeStamp DESC limit 10 offset %d",
+            " and a.title like '%%%s%%' OR a.description like '%%%s%%' order by timeStamp DESC limit 10 offset %d",
                keyword,
                keyword,
                offset);

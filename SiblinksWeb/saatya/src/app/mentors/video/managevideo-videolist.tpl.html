@@ -28,11 +28,6 @@
                                     <select class="select-sbj" ng-model="subject" ng-change="loadVideosBySubject()">
                                         <option value="0">Select Subjects</option>
                                         <option ng-repeat="s in listSubjects track by $index" value="{{s.subjectId}}" >{{s.subject}}</option>
-                                        <!-- <option value="0">Option 1</option>
-                                        <option value="1">Option 2</option>
-                                        <option value="2">Option 3</option>
-                                        <option value="3">Option 4</option>
-                                        <option value="4">Option 5</option> -->
                                     </select>
                                 </div>
                                <!--  <div class="col-md-2 sl-newwest">

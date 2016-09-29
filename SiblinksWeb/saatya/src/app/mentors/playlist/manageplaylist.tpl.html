@@ -50,7 +50,7 @@
                                 <div class="col-md-7 search">
                                     <form class="navbar-form" role="search">
                                         <div class="input-group">                                                        
-                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" ng-enter="search()">
                                             <div class="input-group-btn">
                                                 <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
                                             </div>
@@ -58,15 +58,12 @@
                                     </form>
                                 </div>
                                 <div class="col-md-3 sl-sbj">
-                                    <select class="select-sbj">
-                                        <option value="0">Subjects</option>
-                                        <option value="1">Option 2</option>
-                                        <option value="2">Option 3</option>
-                                        <option value="3">Option 4</option>
-                                        <option value="4">Option 5</option>
+                                    <select class="select-sbj" ng-model="subject" ng-change="loadPlaylistBySubject()">
+                                        <option value="0">Select Subjects</option>
+                                        <option ng-repeat="s in subjects track by $index" value="{{s.subjectId}}">{{s.subject}}</option>
                                     </select>
                                 </div>
-                                <div class="col-md-2 btn-filter"><button>Filter</button></div>
+                                <!-- <div class="col-md-2 btn-filter"><button>Filter</button></div> -->
                             </div>
                         </div>
                         <div class="row">
@@ -75,13 +72,16 @@
                                     <form action="" method="POST" role="form">
                                         <h4>Add new playlist</h4>
                                         <div class="form-group">
-                                            <input type="text" class="form-control input-custom" id="" placeholder="Title">
+                                            <input type="text" class="form-control input-custom" id="txtTitle" placeholder="Title">
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="desciptions" rows="6" cols="5" class="form-control textarea-custom" placeholder="Desciptions"></textarea>
+                                            <textarea name="desciptions" rows="6" cols="5" id="txtName" class="form-control textarea-custom" placeholder="Desciptions"></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control input-custom" id="" placeholder="Subject">
+                                            <select id="playlist_subject" class="select-sbj">
+                                                <option value="0">Select Subject</option>
+                                                <option ng-repeat="s in subjects track by $index" value="{{s.subjectId}}">{{s.subject}}</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <input type="file" class="inputfile" name="file1" id="file1" value="">
@@ -90,16 +90,16 @@
                                                 <span>to upload<br/> playlist thumbnail</span>
                                             </label>
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-custom">Add</button>
+                                        <button type="submit" class="btn btn-primary btn-custom" ng-click="add()">Add</button>
 
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="btn-mg">
-                                    <button class="btn-delete">Delete selected</button>
-                                </div>
-                                <div class="main-manager-video main-list-video">
+                            <div class="col-md-8">                                
+                                <div class="main-manager-video main-list-video" ng-if="playlist">
+                                    <div class="btn-mg">
+                                        <button class="btn-delete">Delete selected</button>
+                                    </div>
                                     <div class="filters clearfix">
                                         <div class="check-all"><input id="check-all" type="checkbox" name="checkall" /></div>
                                         <div class="text-trf">playlist informations</div>
@@ -107,7 +107,7 @@
                                         <div class="text-ac">action</div>
                                     </div>
                                     <div class="group-item">
-                                        <div class="item" ng-if="playlist" ng-repeat="p in playlist track by $index">
+                                        <div class="item"  ng-repeat="p in playlist track by $index">
                                             <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
                                             <div class="box-detail-play clearfix">
                                                 <span class="item-thumbnail">
@@ -147,6 +147,7 @@
                                                 </ul>
                                             </div>
                                         </div>
+                                        
                                     </div>
                                    <!--  <div class="row clearfix">
                                         <p class="btn-load-more"><a class="load-more-mng" href="#">load more</a></p>
@@ -161,6 +162,7 @@
                                         <button class="btn-delete">Delete selected</button>
                                     </div>
                                 </div>
+                                <div ng-if="nodata">No data</div>
                             </div>
                         </div>
                     </div>

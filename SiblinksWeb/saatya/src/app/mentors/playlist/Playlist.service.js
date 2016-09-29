@@ -2,11 +2,20 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
     var factory = {};
 
 
-    factory.loadPlaylist = function(userId) {      
+    factory.loadPlaylist = function(userId, offset) {      
 
         var promise = $http({
           method: 'GET',
-          url: NEW_SERVICE_URL + 'playlist/getPlaylist?userid='+ userId +''
+          url: NEW_SERVICE_URL + 'playlist/getPlaylist?userid='+ userId +'&offset='+offset+''
+        });
+        return promise;
+    };
+
+    factory.getPlaylistBySubject = function(userId, subjectId, offset) {      
+
+        var promise = $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'playlist/getPlaylistBySubject?uid='+ userId +'&subjectId='+subjectId+'&offset='+offset+''
         });
         return promise;
     };

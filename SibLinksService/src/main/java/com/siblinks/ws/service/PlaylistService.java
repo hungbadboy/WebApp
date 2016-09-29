@@ -38,7 +38,7 @@ public interface PlaylistService {
      * @return ResponseEntity<Response> All Playlist data
      * @throws Exception
      */
-    public ResponseEntity<Response> getPlaylist(long userid) throws Exception;
+    public ResponseEntity<Response> getPlaylist(long userid, int offset) throws Exception;
 
     /**
      * This method is used to insert new record into Playlist table
@@ -75,4 +75,8 @@ public interface PlaylistService {
      * @throws Exception
      */
     public ResponseEntity<Response> getPlaylistById(long plid) throws Exception;
+
+    public ResponseEntity<Response> searchPlaylist(long uid, String keyword, int offset) throws Exception;
+
+    public ResponseEntity<Response> getPlaylistBySubject(long uid, long subjectId, int offset) throws Exception;
 }

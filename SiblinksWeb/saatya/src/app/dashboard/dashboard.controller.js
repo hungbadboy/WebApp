@@ -16,7 +16,6 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
 
   function getNewestQuestions(){
     MentorService.getNewestQuestions(userId).then(function(data){
-      console.log(data.data.request_data_result);
       if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
         for (var i = data.data.request_data_result.length - 1; i >= 0; i--) {
           data.data.request_data_result[i].timeStamp = convertUnixTimeToTime(data.data.request_data_result[i].timeStamp);

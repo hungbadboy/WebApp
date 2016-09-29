@@ -161,7 +161,7 @@ brotControllers.controller('StudentProfileController',
                    setStorage('imageUrl', $scope.student.imageUrl, 10);
                    $scope.imageUrl=data.data.request_data_result;
                    window.location.href = '#/studentProfile';
-				   window.location.reload();
+				           window.location.reload();
                }
                else {
                    $scope.errorMessage = "Can't not upload avatar";

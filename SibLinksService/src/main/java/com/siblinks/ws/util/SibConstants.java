@@ -601,5 +601,7 @@ public class SibConstants {
 
     public class SqlMapperBROT163 {
         public static final String SQL_GET_COUNT_VIDEOS_IN_PLAYLIST = "GET_COUNT_VIDEOS_IN_PLAYLIST";
+        public static final String SQL_SEARCH_PLAYLIST = "SEARCH_PLAYLIST";
+        public static final String SQL_GET_PLAYLIST_BY_SUBJECT = "GET_PLAYLIST_BY_SUBJECT";
     }
 }

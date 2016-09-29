@@ -19,13 +19,12 @@
  */
 package com.siblinks.ws.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,8 +54,6 @@ import com.siblinks.ws.util.SibConstants;
 @RequestMapping("/siblinks/services/playlist")
 public class PlayplistServiceImpl implements PlaylistService {
 
-    private final Log logger = LogFactory.getLog(getClass());
-
     @Autowired
     private HttpServletRequest context;
 
@@ -70,32 +67,21 @@ public class PlayplistServiceImpl implements PlaylistService {
      */
     @Override
     @RequestMapping(value = "/getPlaylist", method = RequestMethod.GET)
-    public ResponseEntity<Response> getPlaylist(@RequestParam final long userid) throws Exception {
-        String entityName = null;
-
-        Object[] queryParams = { userid };
-        entityName = SibConstants.SqlMapperBROT44.SQL_GET_PLAYLIST;
+    public ResponseEntity<Response> getPlaylist(@RequestParam final long userid, @RequestParam final int offset) throws Exception {
+        Object[] queryParams = { userid, offset };
+        String entityName = SibConstants.SqlMapperBROT44.SQL_GET_PLAYLIST;
         List<Object> readObject = dao.readObjects(entityName, queryParams);
         SimpleResponse reponse = null;
+        List<Object> dataReturn = new ArrayList<Object>();
+
         if (readObject != null && readObject.size() > 0) {
             Map<String, Object> playlistItem = null;
-            Map<String, Object> vItem = null;
-            List<Object> readObjectTmp = null;
-            Object[] params = null;
             for (Object object : readObject) {
                 playlistItem = (Map<String, Object>) object;
-                params = new Object[] { playlistItem.get("plid") };
-                readObjectTmp = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_VIDEOS_IN_PLAYLIST, params);
-                if (readObjectTmp != null && readObject.size() > 0) {
-                    for (Object item : readObjectTmp) {
-                        vItem = (Map<String, Object>) item;
-                        playlistItem.put("count_videos", vItem.get("numVideos"));
-                    }
-                } else {
-                    playlistItem.put("count_videos", 0);
-                }
+                playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
+                dataReturn.add(playlistItem);
             }
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", playlistItem);
+            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", dataReturn);
         } else {
             reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", SibConstants.NO_DATA);
         }
@@ -103,7 +89,22 @@ public class PlayplistServiceImpl implements PlaylistService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
-
+    
+    private long getCountVideos(final String plid) {
+        long numVideos = 0;
+        Object[] params = new Object[] { plid };
+        List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_VIDEOS_IN_PLAYLIST, params);
+        if (readObject != null && readObject.size() > 0) {
+            for (Object object : readObject) {
+                Map<String, Object> map = (Map<String, Object>) object;
+                numVideos = (long) map.get("numVideos");
+            }
+        } else {
+            numVideos = 0;
+        }
+        return numVideos;
+    }
+    
     @Autowired
     private PlatformTransactionManager transactionManager;
 
@@ -229,4 +230,60 @@ public class PlayplistServiceImpl implements PlaylistService {
         return entity;
     }
 
+    @Override
+    // @RequestMapping(value = "/searchPlaylist", method = RequestMethod.GET)
+    public ResponseEntity<Response> searchPlaylist(@RequestParam final long uid, @RequestParam final String keyword, @RequestParam final int offset)
+            throws Exception {
+        Object[] queryParams = { uid };
+        String entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST;
+        String whereClause = String.format(
+            "and p.name like '%%%s%%' or p.description like '%%%s%%' order by p.CreateDate DESC limit 10 offset %d",
+            keyword,
+            keyword,
+            offset);
+
+        List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
+
+        SimpleResponse reponse = null;
+        List<Object> dataReturn = new ArrayList<Object>();
+        if (readObject != null && readObject.size() > 0) {
+            Map<String, Object> playlistItem = null;
+            for (Object object : readObject) {
+                playlistItem = (Map<String, Object>) object;
+                playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
+                dataReturn.add(playlistItem);
+            }
+            reponse = new SimpleResponse("" + true, "playlist", "searchPlaylist", dataReturn);
+        } else {
+            reponse = new SimpleResponse("" + true, "playlist", "searchPlaylist", SibConstants.NO_DATA);
+        }
+
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/getPlaylistBySubject", method = RequestMethod.GET)
+    public ResponseEntity<Response> getPlaylistBySubject(final long uid, final long subjectId, final int offset) throws Exception {
+        Object[] queryParams = { uid, subjectId, offset };
+        String entityName = SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_BY_SUBJECT;
+        List<Object> readObject = dao.readObjects(entityName, queryParams);
+        SimpleResponse reponse = null;
+        List<Object> dataReturn = new ArrayList<Object>();
+
+        if (readObject != null && readObject.size() > 0) {
+            Map<String, Object> playlistItem = null;
+            for (Object object : readObject) {
+                playlistItem = (Map<String, Object>) object;
+                playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
+                dataReturn.add(playlistItem);
+            }
+            reponse = new SimpleResponse("" + true, "playlist", "getPlaylistBySubject", dataReturn);
+        } else {
+            reponse = new SimpleResponse("" + true, "playlist", "getPlaylistBySubject", SibConstants.NO_DATA);
+        }
+
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
 }
