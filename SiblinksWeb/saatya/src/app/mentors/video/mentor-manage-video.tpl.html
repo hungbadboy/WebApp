@@ -38,7 +38,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="col-md-3 box-video-inner">
+                                <div class="col-md-3 box-video-inner" ng-if="videos">
                                     <div class="video-detail active">
                                         <img src="{{v.image}}" alt="">
                                         <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
@@ -47,13 +47,13 @@
                                         <!-- <h5>Ut at sem quis urna fringilla congue a <br/>in ex. Aliquam sed imperdiet elit</h5> -->
                                         <h5>{{v.description}}</h5>
                                         <div class="clearfix">
-                                            <ul class="list-star pull-left">
+                                            <!-- <ul class="list-star pull-left">
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            </ul>
+                                            </ul> -->
                                             <p class="list-view pull-right">
                                                 <span><img src="assets/images/icon-pl.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
                                                 <span><img src="assets/images/icon-like.png" alt=""> {{v.numFavourite}}</span>&nbsp;&nbsp;
@@ -69,7 +69,7 @@
                                         </div>                                   
                                     </div>                                   
                                 </div>
-                                <div class="col-md-3 box-video-inner">
+                                <div class="col-md-3 box-video-inner" ng-if="videosTopRated">
                                     <div class="video-detail">
                                         <img src="{{vTopRated.image}}" alt="">
                                         <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
@@ -77,13 +77,13 @@
                                     <div class="detail-vd detail-vd-2">
                                         <h5>{{vTopRated.description}}</h5>
                                         <div class="clearfix">
-                                            <ul class="list-star pull-left">
+                                            <!-- <ul class="list-star pull-left">
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            </ul>
+                                            </ul> -->
                                             <p class="list-view pull-right">
                                                 <span><img src="assets/images/icon-pl.png" alt=""> {{vTopRated.numViews}}</span>&nbsp;&nbsp;
                                                 <span><img src="assets/images/icon-like.png" alt=""> {{vTopRated.numFavourite}}</span>&nbsp;&nbsp;
@@ -99,7 +99,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 box-video-inner">
+                                <div class="col-md-3 box-video-inner" ng-if="videosTopViewed">
                                     <div class="video-detail">
                                         <img src="{{vTopViewed.image}}" alt="">
                                         <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
@@ -107,13 +107,13 @@
                                     <div class="detail-vd detail-vd-3">
                                         <h5>{{vTopViewed.description}}</h5>
                                         <div class="clearfix">
-                                            <ul class="list-star pull-left">
+                                           <!--  <ul class="list-star pull-left">
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
                                                 <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            </ul>
+                                            </ul> -->
                                             <p class="list-view pull-right">
                                                 <span><img src="assets/images/icon-pl.png" alt=""> {{vTopViewed.numViews}}</span>&nbsp;&nbsp;
                                                 <span><img src="assets/images/icon-like.png" alt=""> {{vTopViewed.numFavourite}}</span>&nbsp;&nbsp;
@@ -132,10 +132,10 @@
                             </div>
                             <div class="row main-rate">
                                 <div class="col-md-4">
-                                    <div class="box-rate">
+                                    <div class="box-rate" >
                                         <h4>Latest Rating</h4>
-                                        <ul>
-                                            <li class="clearfix" ng-if="ratings" ng-repeat="r in ratings track by $index">
+                                        <ul ng-if="ratings">
+                                            <li class="clearfix" ng-repeat="r in ratings track by $index">
                                                 <span class="img-tb pull-left"><img src="{{r.imageUrl}}" alt=""></span>
                                                 <div class="text-rate pull-left">
                                                     <h5>{{r.fullName}}</h5>
@@ -154,12 +154,14 @@
                                                 </div>
                                             </li>                                           
                                         </ul>
+                                        <div ng-if="ratingNodata">No data</div>
                                     </div>
+                                    
                                 </div>
                                 <div class="col-md-8">
-                                    <div class="box-l-comment">
+                                    <div class="box-l-comment" >
                                         <h4>latest comments</h4>
-                                        <div class="item-cm clearfix" ng-if="comments" ng-repeat="c in comments track by $index">
+                                        <div ng-if="comments" class="item-cm clearfix" ng-repeat="c in comments track by $index">
                                             <span class="img-tb pull-left"><img src="{{c.imageUrl}}" alt=""></span>
                                             <div class="pull-left detail-cm">
                                                 <ul class="top-name">
@@ -171,8 +173,8 @@
                                             </div>
                                             <a class="pull-right btn-reply" href="#">reply</a>
                                         </div>                                       
-                                        <p class="btn-load"><a ng-click="loadMoreComments()">load more comment</a></p>
-                                    </div>
+                                        <div ng-if="commentNodata">No data</div>
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
