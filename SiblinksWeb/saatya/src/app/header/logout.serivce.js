@@ -2,10 +2,11 @@
 brotServices.factory('LogoutService', ['$http', function($http) {
   var factory = {};
 
-  factory.logout = function() {
+  factory.logout = function(username) {
     var promise = $http({
       method: 'POST',
-      url: NEW_SERVICE_URL + 'siblinks/service/logout',
+      url: NEW_SERVICE_URL + '/user/logout',
+      data:{'username':username},
       success : function(data) { 
           console.log("clicked");
       }, 
