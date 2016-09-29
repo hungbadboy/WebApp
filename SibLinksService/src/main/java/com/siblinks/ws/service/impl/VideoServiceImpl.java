@@ -2571,4 +2571,52 @@ public class VideoServiceImpl implements VideoService {
           ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
           return entity;
      }
+
+    @RequestMapping(value = "/searchVideo", method = RequestMethod.GET)
+    public ResponseEntity<Response> searchVideo(@RequestParam final String keyword, @RequestParam final String limit,
+            @RequestParam final String offset) {
+
+        Map<String, String> searchLimit = CommonUtil.getInstance().getOffset(limit, offset);
+
+        String strEntity = SibConstants.SqlMapper.SQL_SEARCH_VIDEO;
+
+        String whereClause = String.format(
+            " title LIKE '%%%s%%' OR description LIKE '%%%s%%' ORDER BY title, description LIMIT %d OFFSET %d",
+            keyword,
+            keyword,
+            Integer.valueOf(searchLimit.get("limit")),
+            Integer.valueOf(searchLimit.get("offset")));
+
+        List<Object> searchResult = dao.readObjectsWhereClause(strEntity, whereClause, new Object[] {});
+
+        SimpleResponse response;
+        if (searchResult != null && !searchResult.isEmpty()) {
+            String lengthOfResult = "" + searchResult.size();
+            response = new SimpleResponse("" + Boolean.TRUE, "video", "searchVideo", searchResult, lengthOfResult);
+        } else {
+            response = new SimpleResponse("" + Boolean.FALSE, "video", "searchVideo", SibConstants.NO_DATA);
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+        return entity;
+
+    }
+
+    @RequestMapping(value = "/getAllVideos", method = RequestMethod.GET)
+    public ResponseEntity<Response> getAllVideos() {
+
+        String strEntity = SibConstants.SqlMapper.SQL_GET_ALL_VIDEO;
+
+        List<Object> searchResult = dao.readObjects(strEntity, new Object[] {});
+
+        SimpleResponse response;
+        if (searchResult != null && !searchResult.isEmpty()) {
+            String lengthOfResult = "" + searchResult.size();
+            response = new SimpleResponse("" + Boolean.TRUE, "video", "getAllVideos", searchResult, lengthOfResult);
+        } else {
+            response = new SimpleResponse("" + Boolean.FALSE, "video", "getAllVideos", SibConstants.NO_DATA);
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+        return entity;
+
+    }
 }

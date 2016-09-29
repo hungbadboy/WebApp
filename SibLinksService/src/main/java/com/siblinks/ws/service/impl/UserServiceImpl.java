@@ -63,7 +63,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.JsonParser;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.RequestData;
@@ -361,10 +360,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @RequestMapping("/adminRegisterUser")
-    public @ResponseBody
-    ResponseEntity<Response> adminRegisterUser(@RequestParam(value = "username") final String username, @RequestParam(
-            value = "password") final String password, @RequestParam(value = "firstname") final String firstname, @RequestParam(
-            value = "lastname") final String lastname) {
+    public @ResponseBody ResponseEntity<Response> adminRegisterUser(@RequestParam(value = "username") final String username,
+            @RequestParam(value = "password") final String password, @RequestParam(value = "firstname") final String firstname,
+            @RequestParam(value = "lastname") final String lastname) {
 
         Object[] queryParams = { username, password, firstname, lastname };
 
@@ -391,8 +389,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
-    public @ResponseBody
- ResponseEntity<Response> registerUser(@RequestBody final String jsonRegister) {
+    public @ResponseBody ResponseEntity<Response> registerUser(@RequestBody final String jsonRegister) {
         JSONObject jsonObject = new JSONObject(jsonRegister);
         String username = jsonObject.getString(Parameters.USER_NAME);
         BCryptPasswordEncoder ecy = new BCryptPasswordEncoder(SibConstants.LENGHT_AUTHENTICATION);
@@ -421,8 +418,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @RequestMapping("/isUsernameAvailable")
-    public @ResponseBody
-    ResponseEntity<Response> isUsernameAvailable(@RequestParam(value = "username") final String username) {
+    public @ResponseBody ResponseEntity<Response> isUsernameAvailable(@RequestParam(value = "username") final String username) {
         Object[] queryParams = { username };
         List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_IS_USERNAME_AVAIBALE, queryParams);
         boolean status = false;
@@ -442,9 +438,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @RequestMapping("/adminloginUser")
-    public @ResponseBody
-    ResponseEntity<Response> adminloginUser(@RequestParam(value = "username") final String username, @RequestParam(
-            value = "password") final String password) {
+    public @ResponseBody ResponseEntity<Response> adminloginUser(@RequestParam(value = "username") final String username,
+            @RequestParam(value = "password") final String password) {
 
         Object[] queryParams = { username, password };
         List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_ADMIN_LOGIN_USER, queryParams);
@@ -476,8 +471,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @RequestMapping("/loginUser")
-    public @ResponseBody
-    ResponseEntity<Response> loginUser(@RequestParam(value = "username") final String username,
+    public @ResponseBody ResponseEntity<Response> loginUser(@RequestParam(value = "username") final String username,
             @RequestParam(value = "password") final String password) {
         Object[] queryParams = { username, password };
 
@@ -725,8 +719,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @RequestMapping("/updateLastOnlineTime")
-    public @ResponseBody
-    ResponseEntity<Response> updateLastOnlineTime(@RequestParam(value = "username") final String username) {
+    public @ResponseBody ResponseEntity<Response> updateLastOnlineTime(@RequestParam(value = "username") final String username) {
 
         Object[] queryParams = { username };
 
@@ -738,8 +731,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @RequestMapping("/saveDefaultSubject")
-    public @ResponseBody
-    ResponseEntity<Response> saveDefaultSubject(@RequestParam(value = "uid") final String uid,
+    public @ResponseBody ResponseEntity<Response> saveDefaultSubject(@RequestParam(value = "uid") final String uid,
             @RequestParam(value = "sid") final String sid) {
         // DaoFactory factory = DaoFactory.getDaoFactory();
         // ObjectDao dao = factory.getObjectDao();
@@ -767,8 +759,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @RequestMapping("/findUser")
-    public @ResponseBody
-    ResponseEntity<Response> findUser(@RequestParam(value = "name") final String name) {
+    public @ResponseBody ResponseEntity<Response> findUser(@RequestParam(value = "name") final String name) {
         Object[] queryParams = { name };
         List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_FIND_USER, queryParams);
 
@@ -818,7 +809,9 @@ public class UserServiceImpl implements UserService {
                 // resParentObject.add(resChildObject);
             }
             // Get information relate
-            result.putAll(getRelateUserProfile(result.get(Parameters.USER_TYPE).toString(), queryParams));
+            String userType = "" + result.get(Parameters.USER_TYPE);
+            Map<String, Object> relateUserProfile = getRelateUserProfile(userType, queryParams);
+            result.putAll(relateUserProfile);
             reponse = new SimpleResponse("" + true, result);
         } else {
             reponse = new SimpleResponse("" + Boolean.FALSE, "User is not exists");
@@ -840,7 +833,6 @@ public class UserServiceImpl implements UserService {
      */
     private Map<String, Object> getRelateUserProfile(final String userType, final Object[] queryParams) {
         Map<String, Object> result = null;
-        JsonParser jsonParser = new JsonParser();
         List<Object> readObject = null;
         // Check Role
         if (SibConstants.ROLE_TYPE.S.toString().equals(userType)) {
@@ -848,21 +840,30 @@ public class UserServiceImpl implements UserService {
             // Count Question
             readObject = dao.readObjects(SibConstants.SqlMapperBROT71.SQL_GET_COUNT_QUESTION, queryParams);
             result.put("count_question", 0);
-            for (Object object : readObject) {
-                result.put("count_question", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+            if (!CollectionUtils.isEmpty(readObject)) {
+                for (Object object : readObject) {
+                    Map<String, String> mapObject = (HashMap<String, String>) object;
+                    result.put("count_question", mapObject.get("count(*)"));
+                }
             }
 
             // Count Subscribe
             readObject = dao.readObjects(SibConstants.SqlMapperBROT71.SQL_GET_COUNT_SUBSCIBE, queryParams);
             result.put("count_subscribe", 0);
-            for (Object object : readObject) {
-                result.put("count_subscribe", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+            if (!CollectionUtils.isEmpty(readObject)) {
+                for (Object object : readObject) {
+                    Map<String, String> mapObject = (HashMap<String, String>) object;
+                    result.put("count_subscribe", mapObject.get("count(*)"));
+                }
             }
             // Count Essasy
             readObject = dao.readObjects(SibConstants.SqlMapperBROT71.SQL_GET_COUNT_ESSAY, queryParams);
             result.put("count_essay", 0);
-            for (Object object : readObject) {
-                result.put("count_essay", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+            if (!CollectionUtils.isEmpty(readObject)) {
+                for (Object object : readObject) {
+                    Map<String, String> mapObject = (HashMap<String, String>) object;
+                    result.put("count_essay", mapObject.get("count(*)"));
+                }
             }
             // UserType = M
         } else if (SibConstants.ROLE_TYPE.M.toString().equals(userType)) {
@@ -870,39 +871,53 @@ public class UserServiceImpl implements UserService {
             // Count subscribe
             readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_SUBSCRIBERS, queryParams);
             result.put("count_subscribers", 0);
-            for (Object object : readObject) {
-                result.put("count_subscribers", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+            if (!CollectionUtils.isEmpty(readObject)) {
+                for (Object object : readObject) {
+                    Map<String, String> mapObject = (HashMap<String, String>) object;
+                    result.put("count_subscribers", mapObject.get("Count(*)"));
+                }
             }
 
             // Count answer
             readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_ANSWERS, queryParams);
             result.put("count_answers", 0);
-            for (Object object : readObject) {
-                result.put("count_answers", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+            if (!CollectionUtils.isEmpty(readObject)) {
+                for (Object object : readObject) {
+                    Map<String, String> mapObject = (HashMap<String, String>) object;
+                    result.put("count_answers", mapObject.get("count(*)"));
+                }
             }
 
             // Count videos
             readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_VIDEOS, queryParams);
             result.put("count_videos", 0);
-            for (Object object : readObject) {
-                result.put("count_videos", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+            if (!CollectionUtils.isEmpty(readObject)) {
+                for (Object object : readObject) {
+                    Map<String, String> mapObject = (HashMap<String, String>) object;
+                    result.put("count_videos", mapObject.get("count(*)"));
+                }
             }
-
             // Count Like
             readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_LIKES, queryParams);
             result.put("count_likes", 0);
-            for (Object object : readObject) {
-                result.put("count_likes", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
+            if (!CollectionUtils.isEmpty(readObject)) {
+                for (Object object : readObject) {
+                    Map<String, String> mapObject = (HashMap<String, String>) object;
+                    result.put("count_likes", mapObject.get("count(*)"));
+                }
             }
 
             // List skill
             readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_MENTOR_SKILLS, queryParams);
             String skills = "";
-            for (Object object : readObject) {
-                if (skills.length() == 0) {
-                    skills += jsonParser.parse(object.toString()).getAsJsonObject().get("subject").toString();
-                } else {
-                    skills += ", " + jsonParser.parse(object.toString()).getAsJsonObject().get("subject").toString();
+            if (!CollectionUtils.isEmpty(readObject)) {
+                for (Object object : readObject) {
+                    Map<String, String> mapObject = (HashMap<String, String>) object;
+                    if (skills.length() == 0) {
+                        skills += mapObject.get("subject");
+                    } else {
+                        skills += ", " + mapObject.get("subject");
+                    }
                 }
             }
             result.put("skills", skills);
@@ -1359,13 +1374,13 @@ public class UserServiceImpl implements UserService {
                                          readObject);
         } else {
             Map<String, String> mapUser = (HashMap<String, String>) readObject.get(SibConstants.NUMBER.ZERO);
-         // Check google id for update
+            // Check google id for update
             if (mapUser.get("idGoogle") != null && mapUser.get("idGoogle").equals(request.getRequest_data().getGoogleid())) {// Registered
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_GOOGLE, new Object[] { request
-                .getRequest_data()
-                .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getImage(), request
-                .getRequest_data()
-                .getGoogleid() });
+                    .getRequest_data()
+                    .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getImage(), request
+                    .getRequest_data()
+                    .getGoogleid() });
                 reponse = new SimpleResponse(
                                              "" + status,
                                              request.getRequest_data_type(),
@@ -1379,7 +1394,7 @@ public class UserServiceImpl implements UserService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -1387,8 +1402,7 @@ public class UserServiceImpl implements UserService {
     @RequestMapping(value = "/uploadAvartar", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Response> uploadAvatar(@RequestParam("uploadfile") final MultipartFile uploadfile, @RequestParam(
-            value = "userid") final String userid, @RequestParam("imageUrl") final String oldNameImgAvatar)
-            throws IOException {
+            value = "userid") final String userid, @RequestParam("imageUrl") final String oldNameImgAvatar) throws IOException {
 
         String filename = "";
         String name;
@@ -1448,33 +1462,33 @@ public class UserServiceImpl implements UserService {
     @SuppressWarnings("resource")
     @Override
     @RequestMapping(value = "/getAvatar/{path}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-	public ResponseEntity<byte[]> getAvatar(@PathVariable(value = "path") final String path) {
+    public ResponseEntity<byte[]> getAvatar(@PathVariable(value = "path") final String path) {
 
-		logger.info("Call service get avatar");
-		// //DaoFactory factory = DaoFactory.getDaoFactory();
-		// // ObjectDao dao = factory.getObjectDao();
+        logger.info("Call service get avatar");
+        // //DaoFactory factory = DaoFactory.getDaoFactory();
+        // // ObjectDao dao = factory.getObjectDao();
 
-		if (StringUtil.isNull(path)) {
-			RandomAccessFile t = null;
-			byte[] r = null;
-			try {
-				t = new RandomAccessFile(path, "r");
-				r = new byte[(int) t.length()];
-				t.readFully(r);
-			} catch (FileNotFoundException e) {
-				logger.debug("File not found");
-				return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
-			} catch (IOException e) {
-				logger.debug("Some thing wrong", e);
-				return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
-			}
-			final HttpHeaders headers = new HttpHeaders();
+        if (StringUtil.isNull(path)) {
+            RandomAccessFile t = null;
+            byte[] r = null;
+            try {
+                t = new RandomAccessFile(path, "r");
+                r = new byte[(int) t.length()];
+                t.readFully(r);
+            } catch (FileNotFoundException e) {
+                logger.debug("File not found");
+                return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+            } catch (IOException e) {
+                logger.debug("Some thing wrong", e);
+                return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
+            }
+            final HttpHeaders headers = new HttpHeaders();
 
-			return new ResponseEntity<byte[]>(r, headers, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
-		}
-	}
+            return new ResponseEntity<byte[]>(r, headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
+        }
+    }
 
     public List<Object> getElementOfUser(final Map<String, Object> map, final String entityName) {
 
@@ -1548,13 +1562,14 @@ public class UserServiceImpl implements UserService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
-    
+
     @Override
     @RequestMapping(value = "/getListMentor", method = RequestMethod.GET)
     public ResponseEntity<Response> getListMentor() {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse(
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(
+                                                                           new SimpleResponse(
                                                                                               "" + Boolean.FALSE,
                                                                                               "Authentication required."),
                                                                            HttpStatus.FORBIDDEN);
@@ -1562,7 +1577,7 @@ public class UserServiceImpl implements UserService {
         }
 
         List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_LIST_MENTOR, new Object[]{});
+        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_LIST_MENTOR, new Object[] {});
 
         SimpleResponse reponse = new SimpleResponse(readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);

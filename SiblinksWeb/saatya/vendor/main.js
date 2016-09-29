@@ -249,7 +249,7 @@ jQuery(document).ready(function($) {
               // Render thumbnail.
               var div = document.createElement('div');
               div.innerHTML = ['<img class="thumb" src="', e.target.result,
-                                '" title="', escape(theFile.name), '"/><div class="remove-image"><img src="../images/remove-img.png"></div>'].join('');
+                                '" title="', escape(theFile.name), '"/><div class="remove-image"><img src="assets/images/remove-img.png"></div>'].join('');
               document.getElementById('list').insertBefore(div, null);
               $(".media-manager").hide();
 

@@ -14,20 +14,16 @@ brotApp.controller('MainController', function($scope, $http, $location) {
 	  $scope.title = "Main";
 	  $scope.idbody ="";
 	  $scope.isActive ="";
-	  
-	  $scope.$on('$routeChangeSuccess', function() {
-          var path = $location.path();
-          $scope.isActive = $location.path();
-          if(path.indexOf('/mentor')>=0){
-              $scope.idbody = 'mentor';
-              return;
-          }
-      });
+	  $scope.logined="";
+	 
 	
 	  var userId = "";
       var userType = "";
       if (localStorage.getItem('userId') !== undefined || localStorage.getItem('userId') != 'undefined') {
           userId = localStorage.getItem('userId');
+          $scope.logined = true;
+      } else {
+    	  $scope.logined = false;
       }
       
       if (localStorage.getItem('userType') !== undefined || localStorage.getItem('userType') != 'undefined') {
@@ -51,13 +47,24 @@ brotApp.controller('MainController', function($scope, $http, $location) {
 	  	$scope.footerUser="src/app/footer/footer.tpl.html";
 	      
 	  }
-	  
+       
+      $scope.$on('$routeChangeSuccess', function() {
+          var path = $location.path();
+          $scope.isActive = $location.path();
+          if(userType=='M'){
+              $scope.idbody = 'mentor';
+              return;
+          } else {
+        	  $scope.idbody = '';
+          }
+      });
+      
 	  // Check login
 	  $scope.sidebarLeft="src/app/sidebarLeft/sidebarLeftMenu.tpl.html";
-	  console.log('11');
 	  $scope.sidebarRight="src/app/sidebarRight/sidebarRight.tpl.html";
 	  $scope.topMentor="src/app/topMentor/topMentors.tpl.html";
 	  $scope.topVideo="src/app/topVideo/topVideos.tpl.html";
+	  $scope.subscribed="src/app/subscribed/subscribed.tpl.html";
 });
 
 brotServices.factory('myCache', function($cacheFactory) {

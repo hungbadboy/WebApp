@@ -50,30 +50,50 @@
     .manager-profile .box-avatar {
         padding-top: 20px;
     }
+    .mentorProfile .sub-right .list-std li {
+        width: 33.3333%;
+    }
+
+    /*======Mentor.Dashboard==========*/
+    .dashboard-video {
+        width: 290px;
+    }
+    .dashboard-content-bottom-right-wrapper {
+        width: ~"calc(100% - 305px)";
+    }
+    
+    /*======Mentor.ManageVideo==========*/
+    .manager-video .group-item .item .box-detail-play,
+    .main-manager-video .filters .text-trf {
+        width: 24.3%;
+
+    }
+    .manager-video .group-item .item .box-detail-play .item-thumbnail,
+    .manager-video .group-item .item .box-detail-play .detail-pl-inner {
+        width: 100%;
+        padding: 0;
+    }
+    .manager-video .group-item .item .box-playlist,
+    .main-manager-video .filters .text-play {
+        width: 10%;
+    }
+    .main-manager-video .filters .text-des,
+    .manager-video .group-item .item .box-description {
+        width: 35%
+    }
+    .manager-video .group-item .item .box-ac,
+    .main-manager-video .filters .text-ac {
+        width: 25%;
+    }
+    .mentor-manage-qa-content .left-essay .t-panel span {
+        padding: 10px 10px 7px;
+    }
 }
 @media screen and (max-width: 1600px) { 
     .information-content>div,
     .about-content>div {
         margin-top: 5vh;
         margin-bottom: 5vh;
-    }
-
-    /*Mentor Dashboard*/
-    .total-likes, 
-    .total-rating, 
-    .total-answers, 
-    .total-videos {
-        width: 50%;
-    }
-    .total-rating-wrapper {
-        margin: 0 0 0 7.5px;
-    }
-    .total-answers-wrapper {
-        margin: 0 7.5px 0 0;
-    }
-    .dashboard-content-bottom-left,
-    .dashboard-content-bottom-right {
-        width: 100%;
     }
 
     /*======Mentor.ManageQ&A==========*/
@@ -111,7 +131,7 @@
     }
 }
 /***For max screen 1540***/
-@media screen and (max-width: 1540px) { 
+@media screen and (max-width: 1560px) { 
      /*======Mentor.ManageVideo==========*/
     .manager-box-video .box-over {
         width: 50%;
@@ -126,6 +146,24 @@
         float: left;
         margin-bottom: 30px;
     }
+
+    /*======Mentor.Dashboard==========*/   
+    .total-likes, 
+    .total-rating, 
+    .total-answers, 
+    .total-videos {
+        width: 50%;
+    }
+    .total-rating-wrapper {
+        margin: 0 0 0 7.5px;
+    }
+    .total-answers-wrapper {
+        margin: 0 7.5px 0 0;
+    }
+    .dashboard-content-bottom-left,
+    .dashboard-content-bottom-right {
+        width: 100%;
+    }
 }
 /***For max screen 2400***/
 @media screen and (max-width: 1441px) { 
@@ -134,19 +172,7 @@
         margin-top: 3vh;
         margin-bottom: 3vh;
     }
-    .dashboard-content-bottom-right-wrapper {
-        width: 100%;
-        float: left;
-        margin-right: 0;
-    }
-    .dashboard-content-bottom-right {
-        padding-left: 0px; 
-    }
-    .dashboard-video {
-        float: left;
-        width: 100%;
-        margin-top: 15px;
-    }
+    
     span.icon-play-video {
         position: absolute;
         top: 38%;
@@ -155,7 +181,7 @@
     
     /*======Mentor.ManageQ&A==========*/
     .col-md-8.box-main-replied {
-        width: 80%;
+        width: 98%;
         margin: 50px auto;
         float: none;
         padding: 0;
@@ -177,11 +203,14 @@
         left: 68px;
     }
     .box-main-replied .form-chat .box-chat-onl .texta textarea {
-        width: calc(100% - 78px);
+        width: ~"calc(100% - 78px)";
     }
 
     /*======Mentor.Studentprofile==========*/
     .sub-right .list-std li {
+        width: 50%;
+    }
+    .mentorProfile .sub-right .list-std li {
         width: 50%;
     }
 
@@ -262,6 +291,21 @@
         width: 100%;
         height: 86px;
         overflow: hidden;
+    }
+
+    /*======Mentor.Dashboard==========*/    
+    .dashboard-content-bottom-right-wrapper {
+        width: 100%;
+        float: left;
+        margin-right: 0;
+    }
+    .dashboard-content-bottom-right {
+        padding-left: 0px; 
+    }
+    .dashboard-video {
+        float: left;
+        width: 100%;
+        margin-top: 15px;
     }
     
 }
@@ -488,6 +532,11 @@
     .sub-right .list-std li {
         width: 100%;
     }
+    .mentorProfile .sub-right .list-std li {
+        width: 100%;
+    }
+
+    
 
 }
 
