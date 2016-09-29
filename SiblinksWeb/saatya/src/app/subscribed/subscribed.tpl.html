@@ -1,0 +1,40 @@
+<div class="top-mentor-wrapper col-xs-12" id="subcribles_wrapper">
+    <div class="top-mentor-header" id="subcribles_header">
+        <div class="top-mentor-header-title">
+            <span><img src="assets/images/ask question/top-mentor.png"></span><h4>Subscribe</h4>
+        </div>
+        <div class="see-more">
+            <p><a href="#/team">See More</a></p>
+        </div>
+    </div>
+    <div class="top-mentors-list" ng-if="listMentorBySubs" ng-repeat="mentor in listMentorBySubs track by $index">
+        <ul>
+            <li>
+                <div class="top-mentors-img">
+                    <a href="#/student/mentorProfile/{{mentor.userid}}"><img  ng-src="{{mentor.imageUrl}}">
+                    <span ng-class="{'offline' : !mentor.isOnline, 'online' : mentor.isOnline}">
+                        <img ng-if="mentor.isOnline" src="assets/images/ask question/online.png"/>
+                    	<img ng-if="!mentor.isOnline" src="assets/images/ask question/offline.png"/></span></a>
+                </div>
+                <div>
+                    <div >
+                        <div class="top-mentors-info">
+                            <p class="top-mentors-name">
+                                <strong>{{mentor.userName}}</strong>
+                            </p>
+                            <p class="top-mentors-essay" ng-repeat="subject in  mentor.listSubject" >
+                                <a href="{{subject.id}}">{{subject.name}} </a>
+                            </p>
+                            <p class="top-mentors-answed">
+                                {{mentor.numsub}} subcrible, {{mentor.numAnswers}} answed
+                            </p>
+                            <p class="subcribe" title="unsubcribe">
+                                <span data-icon="&#x4b;"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

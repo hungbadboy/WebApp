@@ -36,7 +36,7 @@
               </span>
 
               <span id="{{q[0].authorID}}" class="time-by fr">
-                <img src="{{q[0].imageUrl}}" style="height: 25px; margin: 0 5px; border-radius: 50%;"><a href="#/studentProfile/{{q[0].authorID}}"> {{q[0].firstName}} {{q[0].lastName}}</a> asked this question {{q[0].timeStamp}} ago
+                <img src="{{q[0].imageUrl}}" style="height: 25px; margin: 0 5px; border-radius: 50%;"><a href="#student/studentProfile/{{q[0].authorID}}"> {{q[0].firstName}} {{q[0].lastName}}</a> asked this question {{q[0].timeStamp}} ago
               </span>
             </div>
           </div>
@@ -46,7 +46,7 @@
             <div class="s">
               <span class="a1"><a href ng-click="likeAnswer(topic.aid)"><span class="ico-arrowup" id="a{{topic.aid}}">+{{topic.aid}}</span></a></span>
               <span class="time-by fr">
-                <img src="{{topic[0].imageUrl}}" style="height: 25px; margin: 0 5px; border-radius: 50%;"> {{q.dateAnswer}} ago by <a href="#/studentProfile/{{topic.authorID}}">{{topic.userName}}</a>
+                <img src="{{topic[0].imageUrl}}" style="height: 25px; margin: 0 5px; border-radius: 50%;"> {{q.dateAnswer}} ago by <a href="#student/studentProfile/{{topic.authorID}}">{{topic.userName}}</a>
                 </span>
             </div>
             <!-- end .s -->

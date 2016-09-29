@@ -48,6 +48,7 @@ brotControllers.controller('StudentProfileController',
                       mentor.imageUrl = data_result[i].imageUrl;
                       mentor.numsub = data_result[i].numsub;
                       mentor.numvideos = data_result[i].numvideos;
+                      mentor.isOnline = data_result[i].isOnline;
                       mentor.defaultSubjectId = data_result[i].defaultSubjectId;
                       mentor.listSubject= getSubjectNameById(data_result[i].defaultSubjectId, subjects);
                       mentor.numAnswers = data_result[i].numAnswers;
@@ -160,7 +161,7 @@ brotControllers.controller('StudentProfileController',
                    $scope.student.imageUrl = data.data.request_data_result;
                    setStorage('imageUrl', $scope.student.imageUrl, 10);
                    $scope.imageUrl=data.data.request_data_result;
-                   window.location.href = '#/studentProfile';
+                   window.location.href = '#student/studentProfile';
 				   window.location.reload();
                }
                else {
@@ -261,7 +262,7 @@ brotControllers.controller('StudentProfileController',
         console.log(student);
         StudentService.updateStudentProfile(student).then(function(data){
           if (data.data.request_data_result == "Success") {
-            window.location.href = '#/studentProfile';
+            window.location.href = '#student/studentProfile';
             window.location.reload();
           }
           else{

@@ -64,6 +64,7 @@ brotApp.controller('MainController', function($scope, $http, $location) {
 	  $scope.sidebarRight="src/app/sidebarRight/sidebarRight.tpl.html";
 	  $scope.topMentor="src/app/topMentor/topMentors.tpl.html";
 	  $scope.topVideo="src/app/topVideo/topVideos.tpl.html";
+	  $scope.subscribed="src/app/subscribed/subscribed.tpl.html";
 });
 
 brotServices.factory('myCache', function($cacheFactory) {
