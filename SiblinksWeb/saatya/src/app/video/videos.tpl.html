@@ -10,7 +10,7 @@
         <!-- Content -->
         <section class="content videos-content">
             <!-- Left Side -->
-            <div class="videos-content-header col-lg-3 col-md-4" id="videos-content" ng-if="login == 1">
+            <div class="videos-content-header col-lg-3 col-md-4" id="videos-content">
                 <div class="videos-content-header-top">
                     <!-- Search form -->
                     <div class="search">
@@ -33,7 +33,7 @@
                                 <span data-icon="&#xe074;"></span><span>All videos</span>
                             </a>
                         </li>
-                        <li class="subsciption" ng-click="fillListVideoByDefault()">
+                        <li class="subsciption" ng-if="login == 1" ng-click="fillListVideoByDefault()">
                             <a data-toggle="tab" href="/videos/#subcriptions">
                                 <span data-icon="&#xe050;"></span><span>Subscriptions</span>
                                 <span class="number-media number-subscrip" ng-bind="totalSubscription"></span>
@@ -41,22 +41,22 @@
                         </li>
                         <li class="history" ng-click="resetFlagShowMore();">
                             <a data-toggle="tab" href="/videos/#history">
-                                <span data-icon="&#xe06b;"></span><span>History</span><span
+                                <span data-icon="&#xe06b;"></span><span>History</span><span ng-if="login == 1"
                                     class="number-media number-history" ng-bind="listVideos.length"></span>
                             </a>
                         </li>
-                        <li class="like-video" ng-click="resetFlagShowMoreFavourite();">
+                        <li class="like-video"  ng-if="login == 1" ng-click="resetFlagShowMoreFavourite();">
                             <a data-toggle="tab" href="/videos/#favourite">
-                                <span data-icon="&#xe033;"></span><span>Favourite Videos</span><span
+                                <span data-icon="&#xe033;"></span><span>Favourite Videos</span><span ng-if="login == 1"
                                     class="number-media number-like" ng-bind="listVideoFavourite.length"></span>
                             </a>
                         </li>
                     </ul><!-- /End Tab left menu -->
-                    <div class="link-mentor"><a href="">Broswer Mentor</a></div>
+                    <div class="link-mentor"><a href="#/team">Broswer Mentor</a></div>
                 </div><!-- /End Left Side -->
 
                 <!-- Top subcrible -->
-                <div class="top-mentors" id="video-mentor">
+                <div class="top-mentors" id="video-mentor" ng-if="login == 1">
                     <div class="top-mentor-wrapper col-xs-12" id="video-mentor subcribles_wrapper">
                         <!-- top-mentor-header -->
                         <div class="top-mentor-header" id="video-mentor-header">
@@ -273,7 +273,7 @@
 
                 <!-- Content of Subcription -->
                 <div class="tab-pane" id="subcriptions" ng-if="listCategorySubscription">
-                    <h4>Subcriptions</h4><span class="number-media number-subscrip" ng-bind="totalSubscription"></span>
+                    <h4>Subcriptions</h4><span class="number-media number-subscrip" ng-if="login == 1" ng-bind="totalSubscription"></span>
                     <div id="idCategory" class="sort-video">
                         <span>Sort</span>
                         <ul>
@@ -430,7 +430,7 @@
 
                             </ul>
                         </div>
-                        <div class="scroll-load-more" ng-click="showMoreVideoOlder()" ng-show="flagShowMoreOlder">
+                        <div class="scroll-load-more" ng-if="login == 1" ng-click="showMoreVideoOlder()" ng-show="flagShowMoreOlder">
                             <p>Scroll to load more</p>
                         </div>
                     </div>
@@ -438,9 +438,9 @@
 
                 <!-- Content of History -->
                 <div class="tab-pane" id="history">
-                    <h4>Watch history</h4><span class="number-media number-subscrip" ng-bind="listVideos.length"></span>
+                    <h4>Watch history</h4><span ng-if="login == 1" class="number-media number-subscrip" ng-bind="listVideos.length"></span>
                     <div class="clear-history"><p ng-click="deleteHistoryVideo('')">Clear history</p></div>
-                    <div class="video-list-content" ng-if="listVideos">
+                    <div class="video-list-content">
                         <ul>
                             <li ng-repeat="video in listVideos | limitTo: numberOfHistoryVideo"
                                 id="historyVideo{{video.vid}}">
