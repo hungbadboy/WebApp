@@ -2541,18 +2541,26 @@ public class VideoServiceImpl implements VideoService {
           String authorId = request.getRequest_data().getAuthorID();
           String plid = request.getRequest_data().getPlid();
           ArrayList<String> vids = request.getRequest_data().getVids();
+          List<Object> readObjects = null;
           SimpleResponse response = null;
           if (authorId != null && authorId.length() > 0 && plid != null && plid.length() > 0) {
                int countSuccess = 0;
                int countFail = 0;
                for (String vid : vids) {
-                    // insert vid and plid into Sib_Playlist_Video
                     Object[] queryParams = new Object[] { plid, vid };
-                    boolean status = dao.insertUpdateObject(SibConstants.SqlMapperBROT126.SQL_ADD_VIDEOS_PLAYLIST, queryParams);
-                    if (status) {
-                         countSuccess++;
+                    // check vid and plid exists in Sib_Playlist_Video or not
+                    readObjects = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_CHECK_VIDEO_IN_PLAYLIST, queryParams);
+                    if (readObjects != null && readObjects.size() > 0) {
+                         // video has playlist already
+                         // do nothing temporary
                     } else {
-                         countFail++;
+                         // insert vid and plid into Sib_Playlist_Video
+                         boolean status = dao.insertUpdateObject(SibConstants.SqlMapperBROT126.SQL_ADD_VIDEOS_PLAYLIST, queryParams);
+                         if (status) {
+                              countSuccess++;
+                         } else {
+                              countFail++;
+                         }
                     }
                }
                String msg = String.format("Insert success %d videos and fail %d videos into playlist", countSuccess, countFail);

@@ -51,7 +51,7 @@ brotControllers.controller('AddPlaylistController', ['$scope', '$routeParams', '
         console.log(playlist);        
         PlaylistService.insertPlaylist(playlist).then(function(data){
           if (data.data.status) {
-             window.location.href = '#/playlist';       
+             window.location.href = '#/mentor/videoManager';       
              $modalInstance.dismiss('cancel');
              window.location.reload();
           }

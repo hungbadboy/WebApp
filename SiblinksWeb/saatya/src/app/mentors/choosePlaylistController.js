@@ -18,4 +18,22 @@ brotControllers.controller('ChoosePlaylistController',
         }
       });
     }
+
+    $scope.apply = function(){
+      var plid = $('#playlist').val();
+      if(plid == 0)
+        alert('Choose playlist first.');
+
+      var request = {
+        'authorID': u_id,
+        'plid': plid,
+        'vids': v_ids
+      }
+
+      VideoService.addVideosToPlaylist(request).then(function(data){
+        window.location.href = '#/mentor/videoManager';       
+        $modalInstance.dismiss('cancel');
+        window.location.reload();
+      });
+    }
 }]);

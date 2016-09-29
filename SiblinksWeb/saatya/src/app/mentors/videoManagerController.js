@@ -20,7 +20,7 @@ brotControllers.controller('VideoManagerController',
 
     function loadSubjects(){      
       MentorService.getAllSubjects(userId).then(function (data) {
-        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
           $scope.listSubjects = data.data.request_data_result;
         }
       });
@@ -28,19 +28,19 @@ brotControllers.controller('VideoManagerController',
 
     function loadVideos(){
       VideoService.getVideos(userId, 10).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
           $scope.videos = formatData(data.data.request_data_result);
+          $scope.novideo = false;
           cacheVideos = $scope.videos.slice(0);
+        } else{
+          $scope.novideo = true;
         }
       });
     }    
 
     function formatData(data){
-      for (var i = 0; i < data.length; i++) {           
-        var playlist = data[i].playlistname;
-
-        if (playlist == null)
-          data[i].playlist = 'none';
+      for (var i = 0; i < data.length; i++) {    
+        data[i].playlistname = data[i].playlistname == null ? 'none' : data[i].playlistname;
         data[i].averageRating = data[i].averageRating != null ? data[i].averageRating : 0;
         data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
         data[i].selected = false;
@@ -50,7 +50,7 @@ brotControllers.controller('VideoManagerController',
 
     $scope.loadMoreVideos = function(){
       VideoService.getVideos(userId, $scope.videos.length).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
           $scope.videos.concat(formatData(data.request_data_result));
           cacheVideos = $scope.videos.slice(0);
         }
@@ -68,15 +68,19 @@ brotControllers.controller('VideoManagerController',
       } else{
         $scope.videos.length = 0;
         VideoService.getVideosBySubject(userId, $scope.subject, 10).then(function(data){
-          if(data.data.request_data_result != null && data.data.request_data_result.length > 0)
+          if(data.data.request_data_result != null && data.data.request_data_result != "Found no data"){
             $scope.videos = formatData(data.data.request_data_result);
+            $scope.novideo = false;
+          }
+          else
+            $scope.novideo = true;
         });
       }
     };
 
     $scope.loadMoreVideosBySubject = function(){
       VideoService.getVideosBySubject(userId, $scope.subject, $scope.videos.length).then(function(data){
-        if(data.data.request_data_result != null && data.data.request_data_result.length > 0)
+        if(data.data.request_data_result != null && data.data.request_data_result != "Found no data")
           $scope.videos.concat(formatData(data.data.request_data_result));
       });
     }
@@ -139,7 +143,7 @@ brotControllers.controller('VideoManagerController',
       if (keyword != null && keyword.trim().length > 0) {
         // call api
         VideoService.searchVideosMentor(userId, keyword, 10).then(function(data){
-          if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+          if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.videos = formatData(data.data.request_data_result);
           }
         });
@@ -148,40 +152,28 @@ brotControllers.controller('VideoManagerController',
 
     $scope.addToPlaylist = function(vid){
       var selectedVideos = [vid];
-
-      var modalInstance = $modal.open({
-          templateUrl: 'src/app/mentors/choose_playlist_popup.tpl.html',
-          controller: 'ChoosePlaylistController',
-          resolve: {
-              u_id: function () {
-                  return userId;
-              },
-              v_ids: function(){
-                return selectedVideos;
-              }
-          }
-      });
+      openAddPlaylistPopup(selectedVideos);
     }
 
     $scope.addMultipleToPlaylist = function(){
       var selectedVideos = checkSelectedVideos();
       if (selectedVideos.length > 0) {
-        var modalInstance = $modal.open({
-          templateUrl: 'src/app/mentors/choose_playlist_popup.tpl.html',
-          controller: 'ChoosePlaylistController',
-          resolve: {
-              u_id: function () {
-                  return userId;
-              },
-              v_ids: function(){
-                return selectedVideos;
-              }
-          }
-        });
+        openAddPlaylistPopup(selectedVideos);
       }
     }
 
-    function openAddPlaylistPopup(){
-
+    function openAddPlaylistPopup(selectedVideos){
+      var modalInstance = $modal.open({
+        templateUrl: 'src/app/mentors/choose_playlist_popup.tpl.html',
+        controller: 'ChoosePlaylistController',
+        resolve: {
+            u_id: function () {
+                return userId;
+            },
+            v_ids: function(){
+              return selectedVideos;
+            }
+        }
+      });
     }
 }]);

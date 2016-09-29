@@ -600,6 +600,17 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         });
     }
 
+    factory.addVideosToPlaylist = function(request){
+        return $http({
+            method: 'POST',
+            url: NEW_SERVICE_URL + 'video/addVideosToPlaylist',
+            data: {
+                "request_data_type": "video",
+                "request_data_method": "deleteVideo",
+                "request_data":request
+            }
+        });
+    }
     /* API Favourite Video end */
     
     return factory;
