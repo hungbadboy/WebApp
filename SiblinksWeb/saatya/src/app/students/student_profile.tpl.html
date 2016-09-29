@@ -15,10 +15,9 @@
                             <div class="student-img">
                                 <img ng-src="{{student.imageUrl}}">
                                 <h3 class="student-name">{{student.fullName}}</h3>
-                                <p>freshman</p>
+                                <!-- <p>freshman</p> -->
                                 <span class="changeImg">
-                                    <input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)"
-                                       accept='image/*'>
+                                    <input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)" accept='image/*'>
                                     <label for="changeImg"><span data-icon="&#xe075;"></span></label>
                                 </span>
                             </div>
@@ -64,9 +63,9 @@
 
                     </div>
                     <!-- Top mentor -->
-                    <div class="top-mentors" id="subcribles">
-                        <div class="top-mentor-wrapper col-xs-12" id="subcribles_wrapper">
-                            <!-- top-mentor-header -->
+                    <div class="top-mentors" id="subcribles" ng-include="topMentor">
+                        <!-- <div class="top-mentor-wrapper col-xs-12" id="subcribles_wrapper">
+                            top-mentor-header
                             <div class="top-mentor-header" id="subcribles_header">
                                 <div class="top-mentor-header-title">
                                     <span><img src="assets/images/ask question/top-mentor.png"></span><h4>Subcrible</h4>
@@ -74,8 +73,8 @@
                                 <div class="see-more">
                                     <p>See More</p>
                                 </div>
-                            </div><!-- /End top-mentor-header -->
-                            <!-- List of top mentors -->
+                            </div>/End top-mentor-header
+                            List of top mentors
                             <div class="top-mentors-list" ng-if="listMentorBySubs" ng-repeat="mentor in listMentorBySubs track by $index">
                                 <ul>
                                     <li>
@@ -104,8 +103,8 @@
                                         </div>
                                     </li>
                                 </ul>
-                            </div><!-- /End list of top mentors -->
-                        </div>
+                            </div>/End list of top mentors
+                        </div> -->
                     </div><!-- /End top memtor -->
                 </div>
                 <!-- Question of user -->
@@ -115,17 +114,17 @@
                         <div class="head-question">
                             <ul class="nav nav-tabs">
                             	<li class="active">
-                                   <a data-toggle="tab" href="studentProfile/#my-questions">
+                                   <a data-toggle="tab" href="/student/studentProfile/#my-questions">
                                        <h5><span data-icon="&#x74;"></span>My questions</h5>
                                    </a>
                                </li>
                                <li>
-                                   <a data-toggle="tab" href="studentProfile/#essay">
+                                   <a data-toggle="tab" href="/student/studentProfile/#essay">
                                        <h5><span data-icon="&#xe101;"></span>Essay</h5>
                                    </a>
                                </li>
                                <li>
-                                   <a data-toggle="tab" href="studentProfile/#setting">
+                                   <a data-toggle="tab" href="/student/studentProfile/#setting">
                                        <h5><span data-icon="&#xe037;"></span>Setting</h5>
                                    </a>
                                </li>
@@ -232,11 +231,6 @@
                                     <div class="close-popup-images">
                                     </div>
                                 </div><!-- /End POPUP of images's question -->
-
-                                <div class="scroll-load-more col-md-12">
-                                    <p>Scroll to load more</p>
-                                </div>
-
                             </div><!-- /End content of My Question -->
 
                             <!-- Content Of Essay -->

@@ -65,8 +65,7 @@ public class RESTAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
             final Authentication authentication) throws ServletException, IOException {
 
-        // Update last online
-        // updateLastOnlineTime(username);
+
 	    response.setStatus(HttpServletResponse.SC_OK);
 
         SibUserDetails userDetails = (SibUserDetails) authentication.getPrincipal();
@@ -74,6 +73,8 @@ public class RESTAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
         user.setStatus(SibConstants.SUCCESS);
         user.setPassword(null);
         userDetails.setUser(user);
+        // Update last online and isonline
+        dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATELASTONLINETIME, new Object[] { user.getUsername() });
 
         LOGGER.info(userDetails.getUsername() + " got is connected ");
 

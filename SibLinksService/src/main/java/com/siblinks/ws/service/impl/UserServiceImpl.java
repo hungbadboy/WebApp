@@ -868,7 +868,7 @@ public class UserServiceImpl implements UserService {
         } else if (SibConstants.ROLE_TYPE.M.toString().equals(userType)) {
             result = new HashMap<String, Object>();
             // Count subscribe
-            readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_SUBSCIBERS, queryParams);
+            readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_SUBSCRIBERS, queryParams);
             result.put("count_subscribers", 0);
             for (Object object : readObject) {
                 result.put("count_subscribers", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
@@ -1336,8 +1336,7 @@ public class UserServiceImpl implements UserService {
 
         boolean status = Boolean.FALSE;
 
-        List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request
+        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request
             .getRequest_data()
             .getUsername() });
         SimpleResponse reponse = null;
@@ -1399,7 +1398,6 @@ public class UserServiceImpl implements UserService {
         String strExtenstionFile = environment.getProperty("file.upload.image.type");
         name = uploadfile.getOriginalFilename();
         String nameExt = FilenameUtils.getExtension(name);
-        name.toLowerCase();
         boolean status = strExtenstionFile.contains(nameExt.toLowerCase());
         BufferedOutputStream stream = null;
         SimpleResponse reponse = null;

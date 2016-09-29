@@ -46,7 +46,7 @@ brotControllers.controller('UserHeaderController',
 
             $scope.profile = function () {
 //                $('.user-setting-wrapper span.current').trigger('click');
-                $location.path('/studentProfile/' + userId);
+                $location.path('/student/studentProfile' + userId);
             };
 
             $scope.goToEditStudent = function () {
@@ -181,7 +181,7 @@ brotControllers.controller('UserHeaderController',
             init();
 
             $scope.logout = function () {
-                LogoutService.logout().then(function (data) {
+                LogoutService.logout(username).then(function (data) {
                 });
                 window.localStorage.clear();
                 window.location.href = '/';
