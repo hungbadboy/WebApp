@@ -42,18 +42,33 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
         return promise;
     };
 
-    factory.insertPlaylist = function(playlist) {      
+    // factory.insertPlaylist = function(playlist) {      
 
-        var promise = $http({
+    //     var promise = $http({
+    //       method: 'POST',
+    //       url: NEW_SERVICE_URL + 'playlist/insertPlaylist',
+    //       data: {
+    //         "request_data_type": "playlist",
+    //         "request_data_method": "insertPlaylist",
+    //         "request_playlist":playlist
+    //         }
+    //     });
+    //     return promise;
+    // };
+
+    factory.insertPlaylist = function(fd) {      
+      var promise = $http({
           method: 'POST',
           url: NEW_SERVICE_URL + 'playlist/insertPlaylist',
-          data: {
-            "request_data_type": "playlist",
-            "request_data_method": "insertPlaylist",
-            "request_playlist":playlist
-            }
+          headers:{
+            'Content-Type': undefined
+          },
+          data: fd,
+          transformRequest: function (data, headersGetterFunction) {
+            return data;
+          }
         });
-        return promise;
+      return promise;
     };
 
     factory.updatePlaylist = function(playlist) {      

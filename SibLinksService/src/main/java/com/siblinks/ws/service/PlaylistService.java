@@ -21,6 +21,7 @@ package com.siblinks.ws.service;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
@@ -56,7 +57,8 @@ public interface PlaylistService {
      * @return ResponseEntity<Response>
      * @throws Exception
      */
-    public ResponseEntity<Response> insertPlaylist(RequestData request) throws Exception;
+    public ResponseEntity<Response> insertPlaylist(MultipartFile image, String title, String description, String url, long subjectId, long createBy)
+            throws Exception;
 
     /**
      * This method is used to delete Playlist

@@ -59,6 +59,7 @@ public class Playlist {
     public void setDescription(final String description) {
         this.description = description;
     }
+
     public String getImage() {
         return image;
     }

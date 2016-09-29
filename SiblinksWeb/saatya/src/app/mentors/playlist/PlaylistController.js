@@ -1,4 +1,5 @@
-brotControllers.controller('PlaylistController', ['$scope', '$modal', '$routeParams', '$http', '$location', 'PlaylistService', 'HomeService', 'myCache',
+brotControllers.controller('PlaylistController', 
+  ['$scope', '$modal', '$routeParams', '$http', '$location', 'PlaylistService', 'HomeService', 'myCache',
                                        function ($scope, $modal, $routeParams, $http, $location, PlaylistService, HomeService, myCache) {
 
 
@@ -30,7 +31,6 @@ brotControllers.controller('PlaylistController', ['$scope', '$modal', '$routePar
         PlaylistService.loadPlaylist(userId, 0).then(function(data){
             if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
                $scope.playlist = parseData(data.data.request_data_result);   
-               console.log($scope.playlist); 
                cachePlaylist = $scope.playlist.slice(0);
                $scope.nodata = false;
             } else{
@@ -43,7 +43,6 @@ brotControllers.controller('PlaylistController', ['$scope', '$modal', '$routePar
       PlaylistService.loadPlaylist(userId, $scope.playlist.length).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
              $scope.playlist.concat(parseData(data.data.request_data_result));   
-             console.log($scope.playlist);
              cachePlaylist = $scope.playlist.slice(0);
           }
       });
@@ -75,10 +74,11 @@ brotControllers.controller('PlaylistController', ['$scope', '$modal', '$routePar
     $scope.delete = function(id){
       if (confirm("Are you sure?")) {
         PlaylistService.deletePlaylist(id).then(function(data){
-            if (data.data.status) {
-               loadPlaylist();         
-            }
+          if (data.data.status) {
+             loadPlaylist();         
+          }
         });
+      }
     }
 
     $scope.loadPlaylistBySubject = function(){
@@ -91,10 +91,9 @@ brotControllers.controller('PlaylistController', ['$scope', '$modal', '$routePar
           loadPlaylist();
         }
       }else{
-        PlaylistService.getPlaylistBySubject(userId, subjectId, 0).then(function(data){
+        PlaylistService.getPlaylistBySubject(userId, $scope.subject, 0).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
              $scope.playlist = parseData(data.data.request_data_result);   
-             console.log($scope.playlist);
              $scope.nodata = false;           
           } else{
             $scope.nodata = true;
@@ -114,8 +113,7 @@ brotControllers.controller('PlaylistController', ['$scope', '$modal', '$routePar
     }
 
     $scope.add = function(){
-      var title = $('#txtTite').val();
-      var name = $('#txtName').val();
+      var title = $('#txtTitle').val();
       var subject = $('#playlist_subject').val();
 
       var check = true;
@@ -128,20 +126,32 @@ brotControllers.controller('PlaylistController', ['$scope', '$modal', '$routePar
         check = false;
         msg += 'Please input playlist title. \n'; 
       }
-      if (name == null || name.trim().length == 0) {
-        check = false;
-        msg += 'Please input playlist name. \n'; 
-      }
       if (subject == 0) {
         check = false;
         msg += 'Please select playlist subject. \n';  
       }
 
       if (check) {
+        var fd = new FormData();
 
+        fd.append('image', files);
+        fd.append('title', title);
+        fd.append('description', $('#txtDescription').val());
+        fd.append('url', null);
+        fd.append('subjectId', subject);
+        fd.append('createBy', userId);
+
+        PlaylistService.insertPlaylist(fd).then(function(data){
+          console.log(data.data);
+          if (data.data.request_data_result != null && data.data.request_data_result == "success") {
+            //reload page
+            loadPlaylist();
+          } else{
+            alert('Insert playlist failed.');
+          }
+        });
       } else{
         alert(msg);
       }
     }
-  }
 }]);

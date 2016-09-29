@@ -19,13 +19,19 @@
  */
 package com.siblinks.ws.service.impl;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -38,12 +44,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.PlaylistService;
+import com.siblinks.ws.util.RandomString;
 import com.siblinks.ws.util.SibConstants;
 
 /**
@@ -60,6 +68,8 @@ public class PlayplistServiceImpl implements PlaylistService {
     @Autowired
     private ObjectDao dao;
 
+    @Autowired
+    private Environment environment;
     /*
      * (non-Javadoc)
      * 
@@ -117,28 +127,71 @@ public class PlayplistServiceImpl implements PlaylistService {
      */
     @Override
     @RequestMapping(value = "/insertPlaylist", method = RequestMethod.POST)
-    public ResponseEntity<Response> insertPlaylist(@RequestBody final RequestData request) throws Exception {
+    public ResponseEntity<Response> insertPlaylist(@RequestParam final MultipartFile image, @RequestParam final String title,
+            @RequestParam final String description, @RequestParam final String url, @RequestParam final long subjectId, @RequestParam final long createBy)
+            throws Exception {
         String entityName = null;
         boolean insertObject;
-        try {
-            Object[] queryParams = { request.getRequest_playlist().getName(), request.getRequest_playlist().getDescription(), request
-                .getRequest_playlist()
-                .getImage(), request.getRequest_playlist().getUrl(), request.getRequest_playlist().getSubjectId(), request.getRequest_playlist().getCreateBy() };
-            entityName = SibConstants.SqlMapperBROT44.SQL_INSERT_PLAYLIST;
-            insertObject = dao.insertUpdateObject(entityName, queryParams);
-        } catch (Exception e) {
-            throw e;
-        }
 
+        String fullPath = "";
+        String filename = "";
+        String name;
+        String filepath = "";
+        String directory = environment.getProperty("directoryPlaylistImage");
+        String service = environment.getProperty("directoryGetPlaylistImage");
+        String strExtenstionFile = environment.getProperty("file.upload.image.type");
+        name = image.getOriginalFilename();
+        String nameExt = FilenameUtils.getExtension(name);
+        boolean status = strExtenstionFile.contains(nameExt.toLowerCase());
+        BufferedOutputStream stream = null;
         SimpleResponse reponse = null;
-        if (insertObject) {
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", "success");
-        } else {
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", "failed");
-        }
+        if (directory != null && status) {
+            try {
+                RandomString randomName = new RandomString();
+                filename = randomName.random() + "." + "png";
 
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+                filepath = "" + Paths.get(directory, filename);
+                // Save the file locally
+                File file = new File(filepath);
+                File parentDir = file.getParentFile();
+                if (!parentDir.exists()) {
+                    parentDir.mkdirs();
+                }
+                stream = new BufferedOutputStream(new FileOutputStream(file));
+                stream.write(image.getBytes());
+
+                fullPath = service + filename;
+            } catch (Exception e) {
+                reponse = new SimpleResponse("" + Boolean.FALSE, "Upload playlist thumbnail failed");
+            } finally {
+                if (stream != null) {
+                    stream.close();
+                }
+            }
+
+            if (fullPath.length() > 0) {
+                try {
+                    // insert playlist
+                    Object[] queryParams = { title, description, fullPath, url, subjectId, createBy };
+                    entityName = SibConstants.SqlMapperBROT44.SQL_INSERT_PLAYLIST;
+                    insertObject = dao.insertUpdateObject(entityName, queryParams);
+
+                    if (insertObject) {
+                        reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", "success");
+                    } else {
+                        reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", "failed");
+                    }
+                } catch (Exception e) {
+                    reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", "failed");
+                }
+            } else {
+                reponse = new SimpleResponse("" + Boolean.FALSE, "Upload playlist thumbnail failed");
+            }
+            return new ResponseEntity<Response>(reponse, HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<Response>(HttpStatus.NO_CONTENT);
+        }
     }
 
     /*
