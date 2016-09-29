@@ -19,6 +19,8 @@
  */
 package com.siblinks.ws.model;
 
+import java.util.ArrayList;
+
 /**
  * @author Hoai Nguyen
  * @version v1.0
@@ -31,11 +33,20 @@ public class Playlist {
     private String url;
     private String subjectId;
     private String createBy;
+    private ArrayList<String> plids;
 
     // private String numView;
     // private String numComment;
     // private String numLike;
     // private String numRate;
+
+    public ArrayList<String> getPlids() {
+        return plids;
+    }
+
+    public void setPlids(final ArrayList<String> plids) {
+        this.plids = plids;
+    }
 
     public String getPlid() {
         return plid;

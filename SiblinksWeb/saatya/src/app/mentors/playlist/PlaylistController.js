@@ -71,14 +71,51 @@ brotControllers.controller('PlaylistController',
       });
     }
 
-    $scope.delete = function(id){
-      if (confirm("Are you sure?")) {
-        PlaylistService.deletePlaylist(id).then(function(data){
-          if (data.data.status) {
-             loadPlaylist();         
-          }
-        });
+    $scope.delete = function(p){
+      if (p.count_videos > 0) {
+        alert('Please remove all videos in the playlist first.');
+      } else{
+        if (confirm("Are you sure?")) {
+          PlaylistService.deletePlaylist(id).then(function(data){
+            if (data.data.status) {
+               loadPlaylist();         
+            }
+          });
+        }
+      }      
+    }
+
+    $scope.deleteMultiplePlaylist = function(){
+      var selectedPlaylist = checkSelectedPlaylist();
+      if (selectedPlaylist.length > 0) {
+        console.log(selectedPlaylist);
+        if (confirm("Are you sure?")) {
+          PlaylistService.deleteMultiplePlaylist(selectedPlaylist).then(function(data){
+            console.log(data.data.request_data_result);
+            loadPlaylist();
+          });
+        }        
       }
+    }
+
+    function checkSelectedPlaylist(){
+      var selectedPlaylist = [];
+      angular.forEach($scope.playlist, function(p){
+        if (p.count_videos > 0) {
+          alert('Please remove all videos in the playlist first.');
+          return [];
+        } else{
+          if (!!p.selected) {
+            selectedPlaylist.push(p.plid);
+          }else{
+            var i = selectedPlaylist.indexOf(p.plid);
+            if(i != -1){
+              selectedPlaylist.splice(i, 1);
+            }
+          }
+        }        
+      });
+      return selectedPlaylist;
     }
 
     $scope.loadPlaylistBySubject = function(){

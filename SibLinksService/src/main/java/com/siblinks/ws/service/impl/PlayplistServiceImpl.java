@@ -202,30 +202,41 @@ public class PlayplistServiceImpl implements PlaylistService {
     @Override
     @RequestMapping(value = "/deletePlaylist", method = RequestMethod.POST)
     public ResponseEntity<Response> deletePlaylist(@RequestBody final RequestData request) throws Exception {
-        String entityName = null;
-
-        TransactionDefinition def = new DefaultTransactionDefinition();
-        TransactionStatus status = transactionManager.getTransaction(def);
+        SimpleResponse reponse = null;
         try {
-            Object[] queryParams = { request.getRequest_playlist().getPlid() };
-
-            entityName = SibConstants.SqlMapperBROT44.SQL_DELETE_PLAYLIST_VIDEO;
-            dao.insertUpdateObject(entityName, queryParams);
-
-            entityName = SibConstants.SqlMapperBROT44.SQL_DELETE_PLAYLIST;
-            dao.insertUpdateObject(entityName, queryParams);
-            transactionManager.commit(status);
+            boolean status = deletePlaylist(request.getRequest_playlist().getPlid());
+            if (status) {
+                reponse = new SimpleResponse("" + true, "playlist", "deletePlaylist", "success");
+            } else {
+                reponse = new SimpleResponse("" + true, "playlist", "deletePlaylist", "failed");
+            }
         } catch (Exception e) {
-            transactionManager.rollback(status);
             throw e;
         }
-
-        SimpleResponse reponse = new SimpleResponse("" + true, "playlist", "deletePlaylist", "success");
-
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
+    private boolean deletePlaylist(final String plid) {
+        boolean flag = false;
+
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus status = transactionManager.getTransaction(def);
+
+        try {
+            Object[] queryParams = { plid };
+
+            dao.insertUpdateObject(SibConstants.SqlMapperBROT44.SQL_DELETE_PLAYLIST_VIDEO, queryParams);
+
+            dao.insertUpdateObject(SibConstants.SqlMapperBROT44.SQL_DELETE_PLAYLIST, queryParams);
+            transactionManager.commit(status);
+            flag = true;
+        } catch (Exception e) {
+            flag = false;
+            transactionManager.rollback(status);
+        }
+        return flag;
+    }
     /*
      * (non-Javadoc)
      * 
@@ -335,6 +346,29 @@ public class PlayplistServiceImpl implements PlaylistService {
         } else {
             reponse = new SimpleResponse("" + true, "playlist", "getPlaylistBySubject", SibConstants.NO_DATA);
         }
+
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/deleteMultiplePlaylist", method = RequestMethod.POST)
+    public ResponseEntity<Response> deleteMultiplePlaylist(@RequestBody final RequestData request) throws Exception {
+        ArrayList<String> plids = request.getRequest_playlist().getPlids();
+        SimpleResponse reponse = null;
+        int countSuccess = 0;
+        int countFail = 0;
+        boolean status = false;
+        for (String plid : plids) {
+            status = deletePlaylist(plid);
+            if (status) {
+                countSuccess++;
+            } else {
+                countFail++;
+            }
+        }
+        String msg = String.format("Delete success %d playlist and failed %d playlist", countSuccess, countFail);
+        reponse = new SimpleResponse("" + true, "playlist", "deleteMultiplePlaylist", msg);
 
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;

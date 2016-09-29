@@ -101,5 +101,21 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
         return promise;
     };
 
+    factory.deleteMultiplePlaylist = function(plids){
+      var promise = $http({
+          method: 'POST',
+          url: NEW_SERVICE_URL + 'playlist/deleteMultiplePlaylist',
+          data:{
+              "request_data_type": "playlist",
+              "request_data_method": "deleteMultiplePlaylist",
+              "request_playlist":{
+                  "plids": plids
+              }
+          }
+          
+      });
+      return promise;
+    }
+
     return factory;
 } ]);

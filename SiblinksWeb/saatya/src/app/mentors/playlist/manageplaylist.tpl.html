@@ -98,7 +98,7 @@
                             <div class="col-md-8">                                
                                 <div class="main-manager-video main-list-video" ng-if="playlist">
                                     <div class="btn-mg">
-                                        <button class="btn-delete">Delete selected</button>
+                                        <button class="btn-delete" ng-click="deleteMultiplePlaylist()">Delete selected</button>
                                     </div>
                                     <div class="filters clearfix">
                                         <div class="check-all"><input id="check-all" type="checkbox" name="checkall" /></div>
@@ -108,7 +108,7 @@
                                     </div>
                                     <div class="group-item">
                                         <div class="item"  ng-repeat="p in playlist track by $index">
-                                            <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
+                                            <div class="check-box"><input type="checkbox" ng-model="p.selected" class="check-input" name="checkall" /></div>
                                             <div class="box-detail-play clearfix">
                                                 <span class="item-thumbnail">
                                                     <img src="{{p.image}}" alt="">
@@ -123,13 +123,7 @@
                                                 <div class="detail-pl-inner">
                                                     <h5>{{p.name}}</h5>
                                                     <span class="add-time">{{p.timeStamp}} ago</span>
-                                                    <ul class="list-star">
-                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                    </ul>
+                                                    
                                                     <p class="list-view">
                                                         <span><img src="assets/images/icon-view.png" alt=""> {{p.numView}}</span>&nbsp;&nbsp;
                                                         <span><img src="assets/images/icon-comment.png" alt=""> {{p.numComment}}</span>&nbsp;&nbsp;
@@ -143,7 +137,7 @@
                                                 <ul class="list-ac">
                                                     <li><a href="#">Edit</a></li>
                                                     <li><a href="#">Add playlist</a></li>
-                                                    <li><a href="" ng-click="delete(p.plid)">Delete</a></li>
+                                                    <li><a href="" ng-click="delete(p)">Delete</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -159,7 +153,7 @@
                                         <div class="text-ac">action</div>
                                     </div>
                                     <div class="btn-mg">
-                                        <button class="btn-delete">Delete selected</button>
+                                        <button class="btn-delete" ng-click="deleteMultiplePlaylist()">Delete selected</button>
                                     </div>
                                 </div>
                                 <div ng-if="nodata">No data</div>

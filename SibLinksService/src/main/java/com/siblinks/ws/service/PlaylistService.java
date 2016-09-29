@@ -81,4 +81,6 @@ public interface PlaylistService {
     public ResponseEntity<Response> searchPlaylist(long uid, String keyword, int offset) throws Exception;
 
     public ResponseEntity<Response> getPlaylistBySubject(long uid, long subjectId, int offset) throws Exception;
+
+    public ResponseEntity<Response> deleteMultiplePlaylist(RequestData request) throws Exception;
 }
