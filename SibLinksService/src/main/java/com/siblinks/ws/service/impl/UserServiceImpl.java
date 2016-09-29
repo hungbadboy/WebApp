@@ -868,7 +868,7 @@ public class UserServiceImpl implements UserService {
         } else if (SibConstants.ROLE_TYPE.M.toString().equals(userType)) {
             result = new HashMap<String, Object>();
             // Count subscribe
-            readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_SUBSCIBERS, queryParams);
+            readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_SUBSCRIBERS, queryParams);
             result.put("count_subscribers", 0);
             for (Object object : readObject) {
                 result.put("count_subscribers", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
