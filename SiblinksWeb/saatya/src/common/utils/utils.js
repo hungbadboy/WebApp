@@ -251,6 +251,9 @@ function loginFBService (callback) {
 * convert string subject id to array
 */
 function getSubjectNameById(strSubjectId, listcate) {
+	if(strSubjectId == null || strSubjectId === undefined) {
+		return;
+	}
 	var subject = {};
 	var listSubject = [];
 	if (isEmpty(strSubjectId)) {

@@ -50,7 +50,9 @@ brotControllers.controller('StudentProfileController',
                       mentor.numvideos = data_result[i].numvideos;
                       mentor.isOnline = data_result[i].isOnline;
                       mentor.defaultSubjectId = data_result[i].defaultSubjectId;
-                      mentor.listSubject= getSubjectNameById(data_result[i].defaultSubjectId, subjects);
+                      if(data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
+                    	  mentor.listSubject= getSubjectNameById(data_result[i].defaultSubjectId, subjects);
+                      }
                       mentor.numAnswers = data_result[i].numAnswers;
                       listTopMentors.push(mentor);
                   }

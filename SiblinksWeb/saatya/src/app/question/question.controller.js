@@ -73,7 +73,7 @@ brotControllers
                             window.location.href = '/#/first-ask';
                             return;
                         }
-                        if ($scope.totalQuestion == 0) {
+                        if ($scope.totalQuestion == 0 && $location.path().indexOf('question')>=0) {
                             if (subjectid == -1) {
                                 window.location.href = '/#/first-ask';
                                 return;
@@ -96,8 +96,11 @@ brotControllers
                                 mentor.numlike = data_result[i].numlike;
                                 mentor.numsub = data_result[i].numsub;
                                 mentor.numvideos = data_result[i].numvideos;
+                                mentor.isOnline = data_result[i].isOnline;
                                 mentor.defaultSubjectId = data_result[i].defaultSubjectId;
-                                mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
+                                if(data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
+                                	mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
+                                }
                                 mentor.numAnswers = data_result[i].numAnswers;
                                 listTopMentors.push(mentor);
                             }
@@ -139,7 +142,7 @@ brotControllers
                             if (!isLoadMore) {
                                 listPosted = [];
                             }
-                            if (result == null) {
+                            if (result == null || result.question === undefined) {
                                 return;
                             }
                             for (var i = 0; i < result.question.length; i++) {
