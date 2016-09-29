@@ -20,6 +20,7 @@
 package com.siblinks.ws.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siblinks.ws.dao.ObjectDao;
@@ -67,8 +69,8 @@ public class PlayplistServiceImpl implements PlaylistService {
      * @see com.siblinks.ws.service.PlaylistService#getPlaylist()
      */
     @Override
-    @RequestMapping(value = "/getPlaylist/{userid}", method = RequestMethod.GET)
-    public ResponseEntity<Response> getPlaylist(@PathVariable(value = "userid") final long userid) throws Exception {
+    @RequestMapping(value = "/getPlaylist", method = RequestMethod.GET)
+    public ResponseEntity<Response> getPlaylist(@RequestParam final long userid) throws Exception {
         String entityName = null;
 
         Object[] queryParams = { userid };
@@ -76,9 +78,26 @@ public class PlayplistServiceImpl implements PlaylistService {
         List<Object> readObject = dao.readObjects(entityName, queryParams);
         SimpleResponse reponse = null;
         if (readObject != null && readObject.size() > 0) {
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", readObject);
+            Map<String, Object> playlistItem = null;
+            Map<String, Object> vItem = null;
+            List<Object> readObjectTmp = null;
+            Object[] params = null;
+            for (Object object : readObject) {
+                playlistItem = (Map<String, Object>) object;
+                params = new Object[] { playlistItem.get("plid") };
+                readObjectTmp = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_VIDEOS_IN_PLAYLIST, params);
+                if (readObjectTmp != null && readObject.size() > 0) {
+                    for (Object item : readObjectTmp) {
+                        vItem = (Map<String, Object>) item;
+                        playlistItem.put("count_videos", vItem.get("numVideos"));
+                    }
+                } else {
+                    playlistItem.put("count_videos", 0);
+                }
+            }
+            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", playlistItem);
         } else {
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", "No data found");
+            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", SibConstants.NO_DATA);
         }
 
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -103,9 +122,7 @@ public class PlayplistServiceImpl implements PlaylistService {
         try {
             Object[] queryParams = { request.getRequest_playlist().getName(), request.getRequest_playlist().getDescription(), request
                 .getRequest_playlist()
-                .getImage(), request.getRequest_playlist().getUrl(), request.getRequest_playlist().getSubjectId(), request
-                .getRequest_playlist()
-                .getCreateBy() };
+                .getImage(), request.getRequest_playlist().getUrl(), request.getRequest_playlist().getSubjectId(), request.getRequest_playlist().getCreateBy() };
             entityName = SibConstants.SqlMapperBROT44.SQL_INSERT_PLAYLIST;
             insertObject = dao.insertUpdateObject(entityName, queryParams);
         } catch (Exception e) {

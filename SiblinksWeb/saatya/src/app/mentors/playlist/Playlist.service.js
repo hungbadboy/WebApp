@@ -6,12 +6,7 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
 
         var promise = $http({
           method: 'GET',
-          url: NEW_SERVICE_URL + 'playlist/getPlaylist/'+ userId +'',
-          data: {
-            "request_data_type": "playlist",
-            "request_data_method": "getPlaylist",
-            "userId": userId
-            }
+          url: NEW_SERVICE_URL + 'playlist/getPlaylist?userid='+ userId +''
         });
         return promise;
     };

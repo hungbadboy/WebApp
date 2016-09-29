@@ -1,0 +1,172 @@
+<!-- <main id="main">
+    <div class="ask-a-question">
+        <div class="breadcrum">
+            <div class="container">
+                <h5>Siblinks <span>/ Playlist</span></h5>
+            </div>
+        </div>
+        <div class="container">
+            <button ng-click="addNew()">Add</button>
+
+            <div class="newest" ng-repeat="v in playlist">		
+				<div class="col-md-12">
+		          <div class="col-md-6">
+		            <div class="col-md-1"><div><input type="checkbox" name=""></div></div>
+		            <div class="col-md-3"><img src="{{v.image}}" style="width: 100%;"></div>
+		            <div class="col-md-6">
+		              <div> {{v.name}} </div>
+		              <div> {{v.CreateDate}}</div>
+		              <div> {{v.numView}} Views</div>
+		              <div> {{v.numComment}} Comments</div>
+		              <div>*****</div>
+		            </div>
+		          </div>
+		          <div class="col-md-6">		            
+		            <div class="col-md-4">
+		              <button class="col-md-12" ng-click="update(v.plid)">edit</button>
+		              <button class="col-md-12" ng-click="delete(v.plid)">delete</button>
+		            </div>
+	          		</div>
+		        </div>		
+			</div>
+        </div>
+</main>
+ -->
+
+ <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
+
+ <div class="content">
+    <div class="center-content">
+        <div class="center-content-wrapper">
+            <section id="dashboard">
+                <div class="dashboard-wrapper">
+                    <div class="dashboard-header">    
+                    <h4>Manage Playlist</h4>
+                    <p>Ut a porttitor leo. Aliquam fermentum nec elit lobortis tristique </p>
+                    </div>
+                    <div class="manager-video manager-playlist">
+                        <div class="row top-mag">
+                            <div class="col-md-6 col-md-offset-6">
+                                <div class="col-md-7 search">
+                                    <form class="navbar-form" role="search">
+                                        <div class="input-group">                                                        
+                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-3 sl-sbj">
+                                    <select class="select-sbj">
+                                        <option value="0">Subjects</option>
+                                        <option value="1">Option 2</option>
+                                        <option value="2">Option 3</option>
+                                        <option value="3">Option 4</option>
+                                        <option value="4">Option 5</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 btn-filter"><button>Filter</button></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-add-newplay">
+                                    <form action="" method="POST" role="form">
+                                        <h4>Add new playlist</h4>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control input-custom" id="" placeholder="Title">
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea name="desciptions" rows="6" cols="5" class="form-control textarea-custom" placeholder="Desciptions"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control input-custom" id="" placeholder="Subject">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="file" class="inputfile" name="file1" id="file1" value="">
+                                            <label for="file1" class="label-1">
+                                                <img src="assets/images/icon-upload.png" alt="">
+                                                <span>to upload<br/> playlist thumbnail</span>
+                                            </label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-custom">Add</button>
+
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="btn-mg">
+                                    <button class="btn-delete">Delete selected</button>
+                                </div>
+                                <div class="main-manager-video main-list-video">
+                                    <div class="filters clearfix">
+                                        <div class="check-all"><input id="check-all" type="checkbox" name="checkall" /></div>
+                                        <div class="text-trf">playlist informations</div>
+                                        <div class="text-play">subject</div>
+                                        <div class="text-ac">action</div>
+                                    </div>
+                                    <div class="group-item">
+                                        <div class="item" ng-if="playlist" ng-repeat="p in playlist track by $index">
+                                            <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
+                                            <div class="box-detail-play clearfix">
+                                                <span class="item-thumbnail">
+                                                    <img src="assets/images/img-item.png" alt="">
+                                                    <div class="box-all-vd">
+                                                        <p>
+                                                            <b>{{p.count_videos}}</b>
+                                                            <span>videos</span>
+                                                            <img src="assets/images/img-all-video.png" alt="">
+                                                        </p>
+                                                    </div>
+                                                </span>
+                                                <div class="detail-pl-inner">
+                                                    <h5>{{p.name}}</h5>
+                                                    <span class="add-time">{{p.timeStamp}} ago</span>
+                                                    <ul class="list-star">
+                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                    </ul>
+                                                    <p class="list-view">
+                                                        <span><img src="assets/images/icon-view.png" alt=""> {{p.numView}}</span>&nbsp;&nbsp;
+                                                        <span><img src="assets/images/icon-comment.png" alt=""> {{p.numComment}}</span>&nbsp;&nbsp;
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <p class="box-playlist">
+                                                {{p.subject}}
+                                            </p>
+                                            <div class="box-ac">
+                                                <ul class="list-ac">
+                                                    <li><a href="#">Edit</a></li>
+                                                    <li><a href="#">Add playlist</a></li>
+                                                    <li><a href="#">Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   <!--  <div class="row clearfix">
+                                        <p class="btn-load-more"><a class="load-more-mng" href="#">load more</a></p>
+                                    </div> -->
+                                    <div class="filters clearfix">
+                                        <div class="check-all"><input id="check-all" type="checkbox" name="checkall" /></div>
+                                        <div class="text-trf">playlist informations</div>
+                                        <div class="text-play">subject</div>
+                                        <div class="text-ac">action</div>
+                                    </div>
+                                    <div class="btn-mg">
+                                        <button class="btn-delete">Delete selected</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>                
+</div>
+<div id="sidebar-right" ng-include="sidebarRight"></div>

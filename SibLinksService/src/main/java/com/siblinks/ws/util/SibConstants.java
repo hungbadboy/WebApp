@@ -598,4 +598,8 @@ public class SibConstants {
           public static final String SQL_ADD_VIDEOS_PLAYLIST = "ADD_VIDEOS_PLAYLIST";
           public static final String SQL_CHECK_VIDEO_IN_PLAYLIST = "CHECK_VIDEO_IN_PLAYLIST";
      }
+
+     public class SqlMapperBROT163 {
+          public static final String SQL_GET_COUNT_VIDEOS_IN_PLAYLIST = "GET_COUNT_VIDEOS_IN_PLAYLIST";
+     }
 }
