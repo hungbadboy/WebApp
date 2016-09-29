@@ -51,7 +51,7 @@ brotApp.controller('MainController', function($scope, $http, $location) {
       $scope.$on('$routeChangeSuccess', function() {
           var path = $location.path();
           $scope.isActive = $location.path();
-          if(userType='M'){
+          if(userType=='M'){
               $scope.idbody = 'mentor';
               return;
           } else {
