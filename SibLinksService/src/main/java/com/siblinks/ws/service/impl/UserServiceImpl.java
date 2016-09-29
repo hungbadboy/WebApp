@@ -1336,8 +1336,7 @@ public class UserServiceImpl implements UserService {
 
         boolean status = Boolean.FALSE;
 
-        List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request
+        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request
             .getRequest_data()
             .getUsername() });
         SimpleResponse reponse = null;
@@ -1399,7 +1398,6 @@ public class UserServiceImpl implements UserService {
         String strExtenstionFile = environment.getProperty("file.upload.image.type");
         name = uploadfile.getOriginalFilename();
         String nameExt = FilenameUtils.getExtension(name);
-        name.toLowerCase();
         boolean status = strExtenstionFile.contains(nameExt.toLowerCase());
         BufferedOutputStream stream = null;
         SimpleResponse reponse = null;
