@@ -13,8 +13,8 @@ brotApp.controller('MainController', function($scope, $http, $location) {
 	   //your code here
 	  $scope.title = "Main";
 	  $scope.idbody ="";
-	  $scope.isActive ="";
 	  $scope.logined="";
+	  $scope.currentPath="";
 	 
 	
 	  var userId = "";
@@ -50,9 +50,12 @@ brotApp.controller('MainController', function($scope, $http, $location) {
        
       $scope.$on('$routeChangeSuccess', function() {
           var path = $location.path();
-          $scope.isActive = $location.path();
+          $scope.currentPath = $location.path();
           if(userType=='M'){
               $scope.idbody = 'mentor';
+              if($location.path() == "/") {
+            	  window.location.href ='#/mentor/dashboard';
+              }
               return;
           } else {
         	  $scope.idbody = '';

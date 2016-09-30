@@ -66,11 +66,11 @@
                                                 <div class="images-question"  ng-if="question.image">
                                                     <ul>
                                                         <li class="item" ng-repeat="image in question.image">
-                                                            <div ng-mouseover="imageHoverIn(this)" ng-if="image"
+                                                            <div ng-mouseover="" ng-if="image"
                                                                  ng-mouseleave="imageHoverOut()" class="item-img">
                                                                 <img ng-src="{{image}}"
                                                                      ng-click="zoomImage(image)">
-                                                                <div ng-show="isShowImageHover">
+                                                                <div ng-show="">
                                                                     <img src="assets/images/ask question/look-img.png">
                                                                 </div>
                                                             </div>
@@ -134,17 +134,6 @@
                                     </div>
                                 </div>
 
-
-                                <!-- POPUP of images's question -->
-                                <div class="popup-images">
-                                    <div class="popup-images-wrapper">
-                                        <img ng-src="{{currentImage}}">
-
-                                    </div>
-                                    <div class="close-popup-images" ng-click="closeImage()">
-                                    </div>
-                                </div><!-- /End POPUP of images's question -->
-
                             </div><!-- /End content of question -->
 
 
@@ -152,6 +141,15 @@
 
                     </div><!-- /End question of user -->
                 </div>
+                <!-- POPUP of images's question -->
+                <div class="popup-images">
+                    <div class="popup-images-wrapper">
+                        <img ng-src="{{currentImage}}">
+
+                    </div>
+                    <div class="close-popup-images" ng-click="closeImage()">
+                    </div>
+                </div><!-- /End POPUP of images's question -->
                 <div class="top-mentors-videos col-lg-4">
                     <!-- Top mentor -->
                     <div class="top-mentors" ng-include="'src/app/topMentor/topMentors.tpl.html'">
