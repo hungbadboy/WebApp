@@ -1,0 +1,31 @@
+<div class="form-ask-question" >
+<form action="" method="" class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
+    <h3>Ask a question</h3>
+    <div ng-if="askErrorMsg" class="validate_error">
+        <span>{{askErrorMsg}}</span>
+    </div>
+    <p> <div angucomplete-alt id="autocompleteCate" placeholder="Search category.." pause="300"
+             selected-object="selectedSubject"
+             local-data="subjects" search-fields="subject" title-field="subject"
+             image-field="image" minlength="0" input-class="form-control form-control-small"
+             match-class="highlight"/></p>
+    <p>
+        <textarea id="autocompleteQuest_value" placeholder="{{questionIndex}}"></textarea>
+    </p>
+    <output class="upload-image " id="list">
+        <div ng-repeat="step in stepsModel track by $index">
+            <img class="thumb" ng-src="{{step}}"/>
+            <div class="remove-image"><img src="assets/images/remove-img.png"
+                                           ng-click="removeImg($index)"></div>
+        </div>
+    </output>
+    <label for="files"><img src="assets/images/add-img.png"><span> add images</span></label>
+    <input type="file" multiple id="files" ng-file-select="onFileSelect($files)"
+           accept='image/*'/>
+    <!-- <p><input type="button" value="Ask Now"></p> -->
+    <p><button type="button" class="home-ask-now"  ng-click="redirectForum()">Ask Now</button></p>
+    <p class="close-form close" ng-click="closePopupAskQuestion()"><span data-icon="&#xe051;"></span></p>
+</form>
+<div class="close-popup-images">
+</div>
+</div>
