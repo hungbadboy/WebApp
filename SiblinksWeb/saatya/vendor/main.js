@@ -1,12 +1,12 @@
 jQuery(document).ready(function($) {
 
     //*******Home page
-    $(".item-img").mouseenter(function(){
-     	$(this).find(".item-hover").show(); //show click button when hover tutorial
-    });
-    $(".item-img").mouseleave(function(){
-     	$(this).find(".item-hover").hide(); //hide click button when hover tutorial
-    });
+//    $(".item-img").mouseenter(function(){
+//     	$(this).find(".item-hover").show(); //show click button when hover tutorial
+//    });
+//    $(".item-img").mouseleave(function(){
+//     	$(this).find(".item-hover").hide(); //hide click button when hover tutorial
+//    });
     // $(".add-img").click(function(){
     //     $(".media-manager").css({"left":0}); //show manager upload when click on add more image
     // })

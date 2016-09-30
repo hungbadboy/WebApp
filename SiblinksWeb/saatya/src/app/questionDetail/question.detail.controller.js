@@ -393,9 +393,11 @@ brotControllers
                 $scope.showEditQuestion = function () {
                     $(".edit-question").toggle();
                 }
+                
                 $scope.showOrder = function () {
                     $('.sort-answer').toggle();
                 }
+                
                 $scope.showFormAdd = function () {
                     $scope.titlePopupAsk = "Ask a question";
                     $scope.isEdit = false;
@@ -405,7 +407,16 @@ brotControllers
                     $('#autocompleteQuest_value').val("");
                     $(".form-ask-question").css({"left": 0});
                 }
+                
                 $scope.closePopupAskQuestion = function () {
                     $(".popup-images, .form-ask-question").css({"left": "100%"});
+                }
+                
+                $scope.imageHoverIn = function (eId) {
+                	angular.element("#"+eId).addClass('show');
+                }
+                
+                $scope.imageHoverOut = function (eId) {
+                	angular.element("#"+eId).removeClass('show');
                 }
             }]);

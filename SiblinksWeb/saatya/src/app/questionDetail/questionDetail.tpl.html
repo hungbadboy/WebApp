@@ -56,20 +56,16 @@
 
                     <!-- Images of question -->
                       <div class="images-question">
-
                           <ul ng-if="question.imagePath">
-                              <li class="item" ng-repeat="image in question.imagePath">
-                                  <div ng-mouseover="imageHoverIn(this)" ng-if="image"
-                                       ng-mouseleave="imageHoverOut()" class="item-img">
-                                      <img ng-src="{{image}}"
-                                           ng-click="zoomImage(image)">
-                                      <div ng-show="isShowImageHover">
-                                          <img src="assets/images/ask question/look-img.png">
-                                      </div>
+                          		<li class="item" ng-repeat="image in question.imagePath track by $index">
+                                	<div class="item-img" ng-if="image" ng-mouseover="imageHoverIn(question.id +''+$index)" ng-mouseleave="imageHoverOut(question.id +''+$index)" ng-click="zoomImage(image)">
+                                   	 <img ng-src="{{image}}">
+                                    <div class="item-hover" id="{{question.id}}{{$index}}">
+                                      <img src="assets/images/ask question/look-img.png" ng-click="zoomImage(image)">
+                                    </div>
                                   </div>
-                              </li>
+                                </li>
                           </ul>
-
                       </div><!-- /End Images of question -->
 
 
@@ -126,7 +122,7 @@
               <!-- POPUP of images's question -->
               <div class="popup-images">
                     <div class="popup-images-wrapper">
-                        <img ng-src="{{currentImage}}">
+                        <img ng-src="{{currentImage}}" width="800px" height="600px">
 
                 </div>
                 <div class="close-popup-images" ng-click="closePopupAskQuestion()">

@@ -89,43 +89,42 @@
                              
                          </ul>
                      </div><!-- /End head of question -->
-                     
+                    
                      <!-- Content of question -->
                      <div class="tab-content">
                          <!-- Content Of My Question -->
-                         <div ng-controller="QuestionController" class="content-question col-md-12 tab-pane active" id="my-questions">
+                         <div class="content-question col-md-12 tab-pane active" id="my-questions">
                           <div class="content-question-block">
 							 <div class="content-question-wrapper"  data-on-total-scroll="loadMorePost" scroller="askQuestion" >
                                  <!-- Question 01 -->
-                                 <div ng-if="askQuestion" class="question question_01" ng-repeat="q in askQuestion track by $index">
-                                     <div class="number-question col-xs-1">
+                                 <div ng-if="askQuestion" class="question question_{{($index<10)? '0'+($index+1):'($index+1)'}}" ng-repeat="q in askQuestion track by $index">
+                                     <div class="number-question col-xs-1"  ng-click="detailQuestion(q.id)">
                                          <h4>{{$index+1}}</h4>
                                      </div>
                                      <div class="detail-question col-xs-offset-1">
                                          <div class="infor-of-question col-xs-12">
-                                             <span>{{q.time}} </span><br>
+                                             <span>asked {{q.time}} ago</span><br>
                                              <p>in <a href="/">{{q.subject}}</a></p>
                                          </div>
                                          <!-- Detail Content of Question -->
-                                         <div class="detail-content-question col-xs-12">
+                                         <div class="detail-content-question col-xs-12" ng-click="detailQuestion(q.id)">
                                              <p>{{q.content}}</p>
                                          </div><!-- /End Detail Content of Question -->
                                          <!-- Images of question -->
-                                         <div class="images-question">
-                                             <ul ng-if="q.image">
-                                                 <li class="item" ng-repeat="image in q.image">
-                                                     <div ng-mouseover="imageHoverIn(this)"
-                                                          ng-mouseleave="imageHoverOut()" class="item-img">
-                                                         <img ng-src="{{image}}"
-                                                              ng-click="zoomImage(image)">
-                                                         <div ng-show="isShowImageHover">
-                                                             <img src="assets/images/ask question/look-img.png">
-                                                         </div>
-                                                     </div>
-                                                 </li>
-                                             </ul>
-
-                                         </div><!-- /End Images of question -->
+                                         <!-- Images of question -->
+                                          <div class="images-question">
+                                              <ul>
+                                                  <li class="item" ng-repeat="image in q.image track by $index">
+                                                      <div class="item-img" ng-mouseover="imageHoverIn(q.id +''+$index)" ng-mouseleave="imageHoverOut(q.id +''+$index)" ng-click="zoomImage(image)">
+                                                          <img ng-src="{{image}}">
+                                                          <div class="item-hover" id="{{q.id}}{{$index}}">
+                                                            <img src="assets/images/ask question/look-img.png" ng-click="zoomImage(image)">
+                                                          </div>
+                                                      </div>                           
+                                                  </li>
+                                              </ul>
+                                          </div>
+                                         <!-- /End Images of question -->
 
                                          <!-- Answer of question -->
                                          <div class="answer-question col-xs-12" >
@@ -166,29 +165,9 @@
                              <!-- POPUP of images's question -->
                              <div class="popup-images">
                                  <div class="popup-images-wrapper">
-                                     <ul id="bxslider">
-                                         <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
-                                         <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
-                                         <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
-                                         <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
-                                         <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
-                                         <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
-                                         <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
-                                         <li><img src="assets/images/ask question/question-img-06.jpg" alt=""></li>
-                                     </ul>
-                                     <!-- The thumbnails -->
-                                     <ul id="bxslider-pager">
-                                         <li data-slideIndex="0"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
-                                         <li data-slideIndex="1"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
-                                         <li data-slideIndex="2"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
-                                         <li data-slideIndex="3"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
-                                         <li data-slideIndex="4"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
-                                         <li data-slideIndex="5"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
-                                         <li data-slideIndex="5"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
-                                         <li data-slideIndex="5"><a href=""><img src="assets/images/ask question/question-img-06.jpg"></a></li>
-                                     </ul>
+                                     <img alt="" ng-src="{{currentImage}}" height="600px" width="800px"/>
                                  </div>
-                                 <div class="close-popup-images">
+                                 <div class="close-popup-images" ng-click="closeImage()">
                                  </div>
                              </div><!-- /End POPUP of images's question -->
                          </div><!-- /End content of My Question -->

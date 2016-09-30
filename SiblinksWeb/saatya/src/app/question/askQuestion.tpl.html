@@ -65,21 +65,16 @@
                                                 <!-- Images of question -->
                                                 <div class="images-question"  ng-if="question.image">
                                                     <ul>
-                                                        <li class="item" ng-repeat="image in question.image">
-                                                            <div ng-mouseover="" ng-if="image"
-                                                                 ng-mouseleave="imageHoverOut()" class="item-img">
-                                                                <img ng-src="{{image}}"
-                                                                     ng-click="zoomImage(image)">
-                                                                <div ng-show="">
-                                                                    <img src="assets/images/ask question/look-img.png">
-                                                                </div>
-                                                            </div>
-                                                        </li>
+	                                                    <li class="item" ng-repeat="image in question.image track by $index">
+	                                                      <div class="item-img" ng-if="image" ng-mouseover="imageHoverIn(question.id +''+$index)" ng-mouseleave="imageHoverOut(question.id +''+$index)" ng-click="zoomImage(image)">
+	                                                          <img ng-src="{{image}}">
+	                                                          <div class="item-hover" id="{{question.id}}{{$index}}">
+	                                                            <img src="assets/images/ask question/look-img.png" ng-click="zoomImage(image)">
+	                                                          </div>
+	                                                      </div>                           
+	                                                  </li>                                                        
                                                     </ul>
-
                                                 </div><!-- /End Images of question -->
-
-
                                                 <!-- Answer of question -->
                                                 <div class="answer-question col-xs-12">
                                                     <div class="number-answer">
@@ -144,8 +139,7 @@
                 <!-- POPUP of images's question -->
                 <div class="popup-images">
                     <div class="popup-images-wrapper">
-                        <img ng-src="{{currentImage}}">
-
+                        <img ng-src="{{currentImage}}" width="800px" height="600px">
                     </div>
                     <div class="close-popup-images" ng-click="closeImage()">
                     </div>

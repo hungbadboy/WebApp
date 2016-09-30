@@ -165,7 +165,6 @@ public class VideoServiceImpl implements VideoService {
             String entityName = SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO;
             status = dao.insertUpdateObject(entityName, queryParams);
             boolean tagStatus = true;
-            String msg = "success";
             Map<String, String> queryParams1 = null;
             if (status) {
                 entityName = SibConstants.SqlMapper.SQL_SIB_GET_VID;
@@ -204,10 +203,8 @@ public class VideoServiceImpl implements VideoService {
 
             vid = Integer.valueOf(queryParams1.get("vid"));
             if (!status) {
-                msg = "Failed to insert video";
                 vid = 0;
             } else if (!tagStatus) {
-                msg = "Failed to insert tags";
                 vid = 0;
             }
         }
@@ -608,7 +605,6 @@ public class VideoServiceImpl implements VideoService {
         entityName = SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO;
         boolean status = dao.insertUpdateObject(entityName, queryParams);
         boolean tagStatus = true;
-        String msg = "success";
         Map<String, String> queryParams1 = null;
         if (status) {
             entityName = SibConstants.SqlMapper.SQL_SIB_GET_VID;
@@ -633,10 +629,8 @@ public class VideoServiceImpl implements VideoService {
 
         int vid = Integer.valueOf(queryParams1.get("vid"));
         if (!status) {
-            msg = "Failed to insert video";
             vid = 0;
         } else if (!tagStatus) {
-            msg = "Failed to insert tags";
             vid = 0;
         }
 
@@ -776,7 +770,7 @@ public class VideoServiceImpl implements VideoService {
                 queryParams1 = new HashMap<String, String>();
                 queryParams1.put("vid", request.getRequest_data().getVid());
                 queryParams1.put("tag", tag.getTag());
-                boolean flag = dao.insertUpdateObject(entityName, queryParams1);
+                dao.insertUpdateObject(entityName, queryParams1);
             }
         }
 
@@ -805,7 +799,6 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject1 = null;
         List<Object> readObject = dao.readObjects(entityName, queryParams);
-        String msg = " No data Found";
         if (readObject != null) {
             entityName = SibConstants.SqlMapper.SQL_SIB_GET_TAGS;
             readObject1 = dao.readObjects(entityName, queryParams);
@@ -860,7 +853,6 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject1 = null;
         List<Object> readObject = dao.readObjects(entityName, queryParams);
-        String msg = "No data Found";
         if (readObject != null) {
             entityName = SibConstants.SqlMapper.SQL_SIB_GET_TAGS;
             readObject1 = dao.readObjects(entityName, queryParams);
@@ -987,20 +979,26 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> clearHistoryVideosList(@RequestParam("uid") final String uid, @RequestParam("vid") final String vid) {
 
         String entityName = null;
-        Map<String, String> queryParams = new HashMap<String, String>();
+        Object[] queryParams = null;
+        SimpleResponse reponse = null;
+        try {
+            if (vid != null && vid != "") {
+                queryParams = new Object[] { uid, vid };
+                entityName = SibConstants.SqlMapper.SQL_DELETE_HISTORY_VIDEO_BY_VID;
+            } else {
+                queryParams = new Object[] { uid };
+                entityName = SibConstants.SqlMapper.SQL_CLEAR_HISTORY_VIDEOS_LIST;
+            }
 
-        if (vid != null && vid != "") {
-            queryParams.put("uid", uid);
-            queryParams.put("vid", vid);
-            entityName = SibConstants.SqlMapper.SQL_DELETE_HISTORY_VIDEO_BY_VID;
-        } else {
-            queryParams.put("uid", uid);
-            entityName = SibConstants.SqlMapper.SQL_CLEAR_HISTORY_VIDEOS_LIST;
+            boolean deleteObject = dao.insertUpdateObject(entityName, queryParams);
+            if (deleteObject) {
+                reponse = new SimpleResponse("true", deleteObject);
+            } else {
+                reponse = new SimpleResponse("false", "History is not exists video id " + vid);
+            }
+        } catch (DataAccessException e) {
+            reponse = new SimpleResponse("false", "Error system");
         }
-
-        boolean deleteObject = dao.insertUpdateObject(entityName, queryParams);
-
-        SimpleResponse reponse = new SimpleResponse("true", deleteObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1058,7 +1056,6 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject1 = null;
         List<Object> readObject = dao.readObjects(entityName, queryParams);
-        String msg = "No data Found";
         if (readObject != null) {
             entityName = SibConstants.SqlMapper.SQL_SIB_GET_TAGS;
             readObject1 = dao.readObjects(entityName, queryParams);
@@ -1115,7 +1112,6 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject1 = null;
         List<Object> readObject = dao.readObjects(entityName, queryParams);
-        String msg = " No data Found";
         if (readObject != null) {
             entityName = SibConstants.SqlMapper.SQL_SIB_GET_TAGS;
             readObject1 = dao.readObjects(entityName, queryParams);
@@ -1180,7 +1176,6 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject1 = null;
         List<Object> readObject = dao.readObjects(entityName, queryParams);
-        String msg = "No data Found";
         if (readObject != null) {
             entityName = SibConstants.SqlMapper.SQL_SIB_GET_TAGS;
             readObject1 = dao.readObjects(entityName, queryParams);
@@ -1252,7 +1247,6 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject1 = null;
         List<Object> readObject = dao.readObjects(entityName, queryParams);
-        String msg = "No data Found";
         if (readObject != null) {
             entityName = SibConstants.SqlMapper.SQL_SIB_GET_TAGS;
             readObject1 = dao.readObjects(entityName, queryParams);
@@ -1315,7 +1309,6 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject1 = null;
         List<Object> readObject = dao.readObjects(entityName, queryParams);
-        String msg = "No data Found";
         if (readObject != null) {
             entityName = SibConstants.SqlMapper.SQL_SIB_GET_TAGS;
             readObject1 = dao.readObjects(entityName, queryParams);

@@ -309,11 +309,11 @@ brotControllers
                 $scope.closeImage = function () {
                     $(".popup-images, .form-ask-question").css({"left": "100%"});
                 }
-                $scope.imageHoverIn = function () {
-                    $scope.isShowImageHover = true;
+                $scope.imageHoverIn = function (eId) {
+                	angular.element("#"+eId).addClass('show');
                 }
-                $scope.imageHoverOut = function () {
-                    $scope.isShowImageHover = false;
+                $scope.imageHoverOut = function (eId) {
+                	angular.element("#"+eId).removeClass('show');
                 }
 
 

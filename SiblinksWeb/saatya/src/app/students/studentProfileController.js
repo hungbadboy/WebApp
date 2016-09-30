@@ -1,12 +1,13 @@
 brotControllers.controller('StudentProfileController',
     ['$sce', '$scope', '$modal', '$routeParams', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService',
         function ($sce, $scope, $modal, $routeParams, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService) {
-
-
             var userId = localStorage.getItem('userId');
             var userName = localStorage.getItem('userName');
             var userType = localStorage.getItem('userType');
-
+            var limit = 10;
+            var offset = 0;
+            var isLoadMore = false;
+            
             // Declare show message
             $scope.msgError = "";
             $scope.msgSuccess = "";
@@ -14,7 +15,8 @@ brotControllers.controller('StudentProfileController',
             $scope.currentPwd = "";
             $scope.newPwd = "";
             $scope.confirmPwd = "";
-
+            $scope.isLoadMore=false;
+            
             var isInit = true;
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
             $scope.sections = [
@@ -23,14 +25,14 @@ brotControllers.controller('StudentProfileController',
                 {name: 'Setting'}
             ];
             $scope.selected = $scope.sections[0];
-
-
+            
             init();
 
             function init() {
                 getMentorInfo();
                 getStudentProfile();
                 getEssayProfile();
+                getMyQuestions(userId, limit, offset, "newest", "-1", "-1");
             }
 
 
@@ -276,8 +278,81 @@ brotControllers.controller('StudentProfileController',
                     console.log(error);
                 }
             }
+            
             /**
-             * cancel subscriber
+             * Get my question
+             */
+            function getMyQuestions(userId, limit, offset, type, oldQid, subjectid) {
+
+                QuestionsService.getQuestionByUserId(userId, limit, offset, type, oldQid, subjectid).then(function (data) {
+                    if (data.data.status) {
+                        var result = data.data.request_data_result;
+                        if (!isLoadMore) {
+                            listPosted = [];
+                        }
+                        if (result == null || result.question === undefined) {
+                            return;
+                        }
+                        for (var i = 0; i < result.question.length; i++) {
+                            var objPosted = {};
+                            var questionData = result.question[i];
+                            objPosted.id = questionData.PID;
+                            oldQid = questionData.PID;
+                            objPosted.title = questionData.TITLE;
+                            objPosted.subject = questionData.SUBJECT;
+                            objPosted.subjectid = questionData.SUBJECTID;
+                            objPosted.name = questionData.FIRSTNAME;
+                            objPosted.content = questionData.CONTENT;
+                            objPosted.numviews = questionData.NUMVIEWS == null ? 0 : questionData.NUMVIEWS;
+                            objPosted.time = convertUnixTimeToTime(questionData.TIMESTAMP);
+                            objPosted.image = detectMultiImage(questionData.IMAGEPATH);
+                            //objPosted.count = questionData.length;
+                            if (result.answers !== undefined) {
+                                if (result.answers[i] != null) {
+                                    var answer = result.answers[i];
+                                    var answer_result = answer.body.request_data_result;
+                                    objPosted.count_answer = answer_result.length;
+                                    var listAnswer = [];
+                                    for (var y = 0; y < answer_result.length; y++) {
+
+                                        var objAnswer = {};
+                                        objAnswer.authorID = answer_result[y].authorID;
+                                        objAnswer.aid = answer_result[y].aid;
+                                        objAnswer.pid = answer_result[y].pid;
+                                        objAnswer.name = answer_result[y].firstName + " " + answer_result[y].lastName;
+                                        var answer_text = decodeURIComponent(answer_result[y].content);
+                                        answer_text = $sce.trustAsHtml(answer_text);
+                                        objAnswer.content = answer_text;
+                                        objAnswer.avatar = answer_result[y].imageUrl;
+                                        objAnswer.countLike = answer_result[y].countLike;
+                                        if (answer_result[y].likeAnswer == null || answer_result[y].likeAnswer === "N") {
+                                            objAnswer.like = "No Like";
+                                        } else {
+                                            objAnswer.like = "Liked";
+                                        }
+                                        objAnswer.time = convertUnixTimeToTime(answer_result[y].timeStamp);
+                                        listAnswer.push(objAnswer);
+                                        objPosted.answers = listAnswer;
+                                    }
+                                }
+                            } else {
+                                objPosted.answers = null;
+                                objPosted.count_answer = "0";
+                            }
+                            listPosted.push(objPosted);
+                        }
+                        if (result.question.length == 0) {
+                            listPosted = [];
+                            if (isLoadMore) {
+                                return;
+                            }
+                        }
+                        $scope.askQuestion = listPosted;
+                    }
+                });
+            }
+            /**
+             * Cancel subscriber
              */
             $scope.unSubscribeMentor = function (idx, mentorId) {
                 if (isEmpty(userId)) {
@@ -295,4 +370,30 @@ brotControllers.controller('StudentProfileController',
                     }
                 });
             };
+            
+            
+            /**
+            * Preview image
+            */
+            $scope.zoomImage = function (img) {
+                $scope.currentImage = ( img );
+                $(".popup-images").css({"left": 0});
+            }
+
+            $scope.closeImage = function () {
+                $(".popup-images, .form-ask-question").css({"left": "100%"});
+            }
+            $scope.imageHoverIn = function (eId) {
+            	angular.element("#"+eId).addClass('show');
+            }
+            $scope.imageHoverOut = function (eId) {
+            	angular.element("#"+eId).removeClass('show');
+            }
+            
+            /**
+             * Link to question detail 
+             */
+            $scope.detailQuestion = function (id) {
+                window.location.href = '/#/question_detail/' + id + "";
+            }
         }]);
