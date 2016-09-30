@@ -125,9 +125,6 @@ brotControllers.controller('MentorProfileController',
                     students.push(obj);
                 }
                 $scope.listStudentSubscribed = students;
-                $scope.noStudent = false;
-            } else{
-                $scope.noStudent = true;
             }
         }
     });

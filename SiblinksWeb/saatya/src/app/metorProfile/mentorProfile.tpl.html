@@ -14,7 +14,7 @@
                                     <div class="img-avt">
                                         <img src="{{mentor.imageUrl}}" alt="">
                                         <a href="#" class="change-avt">
-                                            <img ng-src="assets/images/img-change-avt.png" alt="">
+                                            <img ng-src="assets/images/img-change-avt.png" alt="change avatar">
                                         </a>
                                     </div>
                                     <h4>{{mentor.fullName}}</h4>
@@ -61,7 +61,7 @@
                                                 <input type="text" id="txtBIO" name="birthday" class="form-control" value="" placeholder="BIO">
                                             </div>
                                             <div class="form-group">
-                                                <textarea name="about" id="txtDescription" id="" class="form-control " cols="5" rows="5" placeholder="About me...."></textarea>
+                                                <textarea name="about" id="txtDescription" class="form-control " cols="5" rows="5" placeholder="About me...."></textarea>
                                             </div>
                                             <div class="from-group">
                                                 <label for=""><input type="checkbox" id="music" name="" value="0"> Music</label>&nbsp;&nbsp;
@@ -97,14 +97,14 @@
                                 <div class="search">
                                     <form class="navbar-form" role="search">
                                         <div class="input-group">                                                        
-                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''">
                                             <div class="input-group-btn">
                                                 <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
-                                <ul class="list-std" ng-if="listStudentSubscribed">
+                                <ul class="list-std" ng-show="listStudentSubscribed">
                                     <li class="clearfix" ng-repeat="s in listStudentSubscribed track by $index">
                                         <span class="pull-left"><img src="{{s.avatar}}" alt=""></span>
                                         <div class="txt-ifm pull-left">
@@ -113,7 +113,7 @@
                                         </div>
                                     </li>                                    
                                 </ul>
-                                <ul ng-if="noStudent">No Student subcribed</ul>
+                                <span ng-show="!listStudentSubscribed">No Student subcribed</span>
                             </div>
                         </div>
                     </div>

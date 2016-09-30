@@ -1,6 +1,6 @@
 brotControllers.controller('StudentProfileController', 
-  ['$sce','$scope', '$modal', '$routeParams', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache',
-                                       function ($sce, $scope, $modal, $routeParams, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache) {
+  ['$sce','$scope', '$modal', '$routeParams', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache','VideoService',
+                                       function ($sce, $scope, $modal, $routeParams, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache,VideoService ) {
 
 
     var userId = localStorage.getItem('userId'); 
@@ -277,4 +277,24 @@ brotControllers.controller('StudentProfileController',
         console.log(error);
       }
     }
+    /**
+     * cancel subscriber
+     */
+    $scope.unSubscribeMentor = function (idx, mentorId) {
+    if (isEmpty(userId)) {
+        return;
+    }
+    VideoService.setSubscribeMentor(userId, mentorId + "").then(function (response) {
+        if (response.data.status == "true") {
+            if (response.data.request_data_type == "subs") {
+                $scope.isSubscribe = 1;
+                $scope.listMentorBySubs.splice(idx, 1);
+                console.log("Set Subscribe Mentor Successful");
+            }
+            else {
+                $scope.isSubscribe = -1;
+            }
+        }
+    });
+    };
 }]);

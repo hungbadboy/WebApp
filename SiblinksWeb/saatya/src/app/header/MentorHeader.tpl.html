@@ -34,7 +34,7 @@
                 <div class="user-nofitication">
                     <div class="logined"> 
                         <div class="notification ">
-                            <img src="assets/images/bell.png"><span>2</span>
+                            <img src="assets/images/bell.png"><span ng-if="countNotification > 0" ng-click="popupNotification()">{{countNotification}}</span>
                         </div>
                         <div class="user-login">
                             <div class="user-img">
