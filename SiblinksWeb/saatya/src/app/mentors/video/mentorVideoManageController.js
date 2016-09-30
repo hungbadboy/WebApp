@@ -33,9 +33,6 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
       MentorService.getLatestComments(userId, 5, 5).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data"){
           $scope.comments = formatCommentProfile(data.data.request_data_result);
-          $scope.commentNodata = false;
-        }else{
-          $scope.commentNodata = true;
         }
       });
     }
@@ -58,9 +55,6 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
         console.log(data.data.request_data_result);
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data"){
           $scope.ratings = formatRatingProfile(data.data.request_data_result);
-          $scope.ratingNodata = false; 
-        }else{
-          $scope.ratingNodata = true; 
         }
       });
     }
@@ -104,9 +98,6 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
             $scope.videos = formatData(data.data.request_data_result);
             $scope.v = $scope.videos[0];
             $scope.newestPos = 0;
-            $scope.videoNodata = false;
-          }else{
-            $scope.videoNodata = true;
           }
         });
 
@@ -115,10 +106,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
             $scope.videosTopRated = formatData(data.data.request_data_result);
             $scope.vTopRated = $scope.videosTopRated[0];
             $scope.topRatedPos = 0;
-            $scope.topNodata = false;
-          }else{
-            $scope.topNodata = true;
-          }   
+          }
         });
 
         VideoService.getVideosTopViewed(userId, 0).then(function(data){
@@ -126,9 +114,6 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
             $scope.videosTopViewed = formatData(data.data.request_data_result);
             $scope.vTopViewed = $scope.videosTopViewed[0];
             $scope.topViewedPos = 0;
-            $scope.rateNodata = false;
-          }else{
-            $scope.rateNodata = true;
           }
         });
     }    
