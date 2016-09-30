@@ -73,6 +73,8 @@ module.exports = {
 			'vendor/main.js',
 			'vendor/bootstrap.js',
 			'vendor/angular.min.js',
+            'vendor/jquery.sticky-kit.js',
+            'vendor/angular-sticky-kit.js',
             'vendor/rating.js',
             'vendor/ng-infinite-scroll.min.js',
 			'vendor/angular-file-upload-shim.min.js',
