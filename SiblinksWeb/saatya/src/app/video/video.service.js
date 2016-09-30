@@ -625,6 +625,31 @@ brotServices.factory('VideoService', ['$http', function ($http) {
             url: NEW_SERVICE_URL +'/video/getAllVideos'
         });
     };
+
+    factory.uploadTutorial = function(request){
+        return $http({
+            method: 'POST',
+            url: NEW_SERVICE_URL + 'video/insertVideo',
+            data: {
+                "request_data_type": "video",
+                "request_data_method": "insertVideo",
+                "request_data": request
+            } 
+        });
+    }
+
+    factory.updateTutorial = function(request){
+        return $http({
+        method: 'POST',
+        url: NEW_SERVICE_URL + 'video/updateVideo',
+        data: {
+            "request_data_type": "video",
+            "request_data_method": "updateVideo",
+            "request_data": request
+        }  
+      });
+    }
+
     /* API Favourite Video end */
     
     return factory;

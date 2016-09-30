@@ -1,0 +1,76 @@
+<div class="modal-content modal-add-video">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Upload Tutorial</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-modal">
+                    <form action="" method="" role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="txtUploadTitle" placeholder="Tutorial Title" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-custom-link" id="txtUploadLink" placeholder="Youtube Link or ID" required ng-enter="validateLink()" ng-blur="validateLink()" ng-hide="link">
+                            <input type="text" class="form-control input-custom-link" readonly="readonly" value="{{link}}" ng-show="link">
+                        </div>
+                        <div class="form-group">
+                            <textarea name="desciption" rows="4" cols="5" id="txtUploadDescription" class="form-control textarea-custom" placeholder="Description"></textarea>
+                        </div>
+                        <div class="form-group" ng-hide="editVideo">
+                            <select name="subject" id="uploadSubject" data-ng-model="uploadSubject" class="form-control">
+                                <option value="0">Choose subject</option>
+                                <option ng-repeat="s in subjects track by $index" value="{{s.subjectId}}">{{s.subject}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" ng-hide="editVideo">
+                            <select name="" id="uploadPlaylist" data-ng-model="uploadPlaylist" class="form-control">
+                                <option value="0">Choose playlist</option>
+                                <option ng-repeat="p in playlists track by $index" value="{{p.plid}}">{{p.name}}</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 right-modal">
+                <h4>Get information from youtube</h4>
+                <div class="box-video-lag" id="player">
+                    <!-- <img src="assets/images/img-lag-video.png" alt="">
+                    <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span> -->
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="bx-btn pull-right">
+                <button class="btn-play active" ng-click="upload()" ng-if="!editVideo"><b>Upload</b></button>
+                <button class="btn-play active" ng-click="update()" ng-show="editVideo"><b>Update</b></button>
+                <button class="btn-edit" ng-click="cancel()"><b>Cancel</b></button>
+            </div>
+        </div>
+        <div class="list-add-video">
+            <h4>Recently added tutorials</h4>
+            <div class="filter-modal clearfix">
+                <div class="col-md-3">video informations</div>
+                <div class="col-md-1">subject</div>
+                <div class="col-md-5">description</div>
+                <div class="col-md-3">action</div>
+            </div>
+            <div class="group-item" ng-show="videos">
+                <div class="item clearfix" ng-repeat="v in videos track by $index">
+                    <div class="col-md-3">{{v.title}}</div>
+                    <div class="col-md-1">{{v.subject}}</div>
+                    <div class="col-md-5">{{v.description}}</div>
+                    <div class="col-md-3">
+                        <ul class="list-ac">
+                            <li><a href="" ng-click="openEdit(v)">Edit</a></li>
+                            <li><a href="">Add playlist</a></li>
+                            <li><a href="">Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

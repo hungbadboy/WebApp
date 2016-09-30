@@ -8,15 +8,20 @@ brotControllers.controller('ChoosePlaylistController',
 
     function init(){
       console.log(v_ids);
-      getPlaylist();
+      initPlaylist();
     }
 
-    function getPlaylist(){
-      VideoService.getPlaylist(u_id).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
-          $scope.playlists = data.data.request_data_result;
-        }
-      });
+    function initPlaylist(){
+      if (myCache.get("playlist") !== undefined) {
+        $scope.playlists = myCache.get("playlist");
+      } else{
+        VideoService.getPlaylist(u_id).then(function(data){
+          if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+            $scope.playlists = data.data.request_data_result;
+            myCache.put("playlist", data.data.request_data_result);
+          }
+        });
+      }      
     }
 
     $scope.apply = function(){

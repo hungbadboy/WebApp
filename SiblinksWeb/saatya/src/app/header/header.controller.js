@@ -1,7 +1,7 @@
 //=========================================== HEADER.CONTROLLER.JS==============
 brotControllers.controller('UserHeaderController',
-    ['$scope', '$rootScope', '$http', '$location', '$log', 'NotificationService', 'LogoutService','myCache','HomeService',
-        function ($scope, $rootScope, $http, $location, $log, NotificationService, LogoutService,myCache, HomeService) {
+    ['$scope', '$modal', '$rootScope', '$http', '$location', '$log', 'NotificationService', 'LogoutService','myCache','HomeService',
+        function ($scope, $modal, $rootScope, $http, $location, $log, NotificationService, LogoutService,myCache, HomeService) {
             // check login page
             brot.signin.statusStorageHtml();
             $rootScope.notifications = [];
@@ -261,5 +261,17 @@ brotControllers.controller('UserHeaderController',
             $scope.toggleUserInfo = function() {
             	$scope.isShowHideUserInfo = $scope.isShowHideUserInfo ? false : true;
       	  	}
+
+            $scope.showUpload = function(){
+                var modalInstance = $modal.open({
+                templateUrl: 'src/app/mentors/video/upload_tutorial_popup.tpl.html',
+                controller: 'UploadTutorialController',
+                resolve: {
+                    u_id: function () {
+                        return userId;
+                    }
+                }
+              });
+            }
         }]);
 //=========================================== HEADER.CONTROLLER.JS==============

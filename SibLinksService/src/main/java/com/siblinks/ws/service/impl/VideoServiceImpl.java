@@ -2222,6 +2222,8 @@ public class VideoServiceImpl implements VideoService {
         TransactionDefinition def = new DefaultTransactionDefinition();
         TransactionStatus status = transactionManager.getTransaction(def);
         String authorId = request.getRequest_data().getAuthorID();
+        String plid = request.getRequest_data().getPlid();
+
         Object[] queryParams;
 
         String entityName = null;
@@ -2234,6 +2236,11 @@ public class VideoServiceImpl implements VideoService {
                 .getRequest_data()
                 .getImage(), request.getRequest_data().getSubjectId(), authorId };
             long vid = dao.insertObject(entityName, queryParams);
+
+            if (plid != null && plid.length() > 0) {
+                queryParams = new Object[] { plid, vid };
+                dao.insertUpdateObject(SibConstants.SqlMapperBROT126.SQL_ADD_VIDEOS_PLAYLIST, queryParams);
+            }
 
             // get list users that subscribed mentor
             entityName = SibConstants.SqlMapperBROT43.SQL_GET_STUDENT_SUBSCRIBE;
@@ -2255,7 +2262,7 @@ public class VideoServiceImpl implements VideoService {
             logger.debug(e.getMessage());
         }
 
-        SimpleResponse reponse = new SimpleResponse("" + true, "videos", "getVideosRecently", readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, "videos", "insertVideo", readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }

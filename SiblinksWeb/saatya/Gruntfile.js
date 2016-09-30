@@ -259,7 +259,8 @@ module.exports = function ( grunt ) {
                       // Mentor Manage Video
                       'src/app/mentors/video/mentorVideoManageController.js',
                       'src/app/mentors/video/VideoManagerController.js',
-                      'src/app/mentors/video/choosePlaylistController.js'
+                      'src/app/mentors/video/choosePlaylistController.js',
+                      'src/app/mentors/video/uploadTutorialController.js'
                       ],
                 dest: '<%= build_dir %>/src/app/<%= pkg.name %>-<%= pkg.version %>.js'
             },
