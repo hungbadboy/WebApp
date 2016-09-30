@@ -132,6 +132,70 @@ brotControllers.controller('MentorProfileController',
         }
     });
 
+    $scope.saveChange = function(){
+      var check = true;
+      var error = '';
+
+      var favorite = "";
+      if ($('#music').is(':checked')) {
+        favorite += $('#music').val();
+      }
+      if ($('#art').is(':checked')) {
+        if (favorite.length > 0)
+          favorite += ',' + $('#art').val();
+        else
+          favorite += $('#art').val();
+      }
+      if ($('#sport').is(':checked')) {
+        if (favorite.length > 0)
+          favorite += ',' + $('#sport').val();
+        else
+          favorite += $('#sport').val();
+      }
+
+      var gender = '';
+      if ($('#male').is(':checked')) {
+        gender = "M";
+      }
+      else if ($('#female').is(':checked')) {
+        gender = "F";
+      }
+      else{
+        gender = "O";
+      }
+
+      if (!isValidEmailAddress($('#txtEmail').val())) {
+        check = false;
+        error += "Email is not valid";
+      }
+
+      if (check) {        
+        var mentor = {
+          'userid': userId,
+          'firstName': $('#txtFirstName').val(),
+          'lastName': $('#txtLastName').val(),
+          'email': $('#txtEmail').val(),
+          'gender':gender,
+          'school': $('#txtSchool').val(),
+          'bio': $('#txtBIO').val(),
+          'description':$('#txtDescription').val(),
+          'favorite':favorite
+        };
+        console.log(mentor);
+        StudentService.updateUserProfile(mentor).then(function(data){
+          if (data.data.request_data_result == "Success") {
+            console.log(data.data.request_data_result);
+          }
+          else{
+              console.log(data.data.request_data_result);
+          }
+        });
+      }
+      else{
+        console.log(error);
+      } 
+    }
+
     // $scope.subcribeMentor = function () {
     //     VideoService.setSubscribeMentor(userId, mentorId).then(function (data) {
     //         console.log(data);
