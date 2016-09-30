@@ -82,7 +82,8 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	}).
 	when('/videos/detailVideo/:videoid', {
 		templateUrl: 'src/app/video/video_detail.tpl.html',
-		controller: 'VideoDetailCtrl'
+		controller: 'VideoDetailCtrl',
+		reloadOnSearch: false
 	}).
 	when('/videos/detailPlaylist/:playlistid/:index', {
 		templateUrl: 'src/app/video/playlist_detail.tpl.html',

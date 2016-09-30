@@ -99,10 +99,6 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 }
             });
 
-
-
-
-
         }
 
         function getCommentVideo(videoid) {
@@ -145,7 +141,12 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
-                            onYouTubeIframeAPIReady(videoid[1]);
+                            if (player === undefined) {
+                                onYouTubeIframeAPIReady(videoid[1]);
+                            }
+                            else {
+                                player.loadVideoById(videoid[1]);
+                            }
                             $location.path('/videos/detailVideo/' + data.data.request_data_result[0].vid);
                         }
 
@@ -183,7 +184,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 index = 0;
             }
             var newvid = $scope.videosList[index].vid;
-
+            $scope.currentvid = newvid;
             videoDetailService.getVideoDetailById(newvid).then(function (data) {
                 if (data.data.status == 'true') {
                     if (data.data.request_data_result.length == 0) {
@@ -191,11 +192,19 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                     }
                     else {
                         $scope.videoInfo = data.data.request_data_result[0];
+                        if(isEmpty($scope.videoInfo.description)){
+                            $scope.videoInfo.description = "No description";
+                        }
                         $scope.rateNum = $scope.videoInfo.averageRating;
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
-                            onYouTubeIframeAPIReady(videoid[1]);
+                            if (player === undefined) {
+                                onYouTubeIframeAPIReady(videoid[1]);
+                            }
+                            else {
+                                player.loadVideoById(videoid[1]);
+                            }
                             $location.path('/videos/detailPlaylist/' + pid + '/' + $scope.index);
                         }
 
@@ -242,12 +251,20 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                     }
                     else {
                         $scope.videoInfo = data.data.request_data_result[0];
+                        if(isEmpty($scope.videoInfo.description)){
+                            $scope.videoInfo.description = "No description";
+                        }
                         $scope.rateNum = $scope.videoInfo.averageRating;
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
-                            onYouTubeIframeAPIReady(videoid[1]);
-                            $location.path('/videos/detailPlaylist/' + pid +'/'+ $scope.index);
+                            if (player === undefined) {
+                                onYouTubeIframeAPIReady(videoid[1]);
+                            }
+                            else {
+                                player.loadVideoById(videoid[1]);
+                            }
+                            $location.path('/videos/detailPlaylist/' + pid +'/'+ $scope.index,false);
                         }
 
                     }
@@ -357,7 +374,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
 
         function onPlayerStateChange(event) {
             if (event.data === 0) {
-                window.location.href = '#/videos/detailVideo/' + videoid;
+                $location.path( '#/videos/detailVideo/' + $scope.currentvid);
             }
         }
 
@@ -433,157 +450,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
             });
         };
 
-        $scope.profilePage = function (userId, type) {
-            $location.url('/studentProfile/' + userId + '/' + 1);
-        };
 
-        $scope.showVideo = function (id_video, index) {
-            $location.path('/detailVideo/' + id_video + '/' + $scope.type + 'x' + index);
-        };
-
-        $scope.showPageSubject = function (event, subjectId) {
-            var ele = event.currentTarget;
-            $rootScope.keySearch = "";
-            CategoriesService.getCategories(subjectId);
-            // $location.path('/video_tutorial').search('subjectId', subjectId);
-            $(ele).parent().find('.active').removeClass('active');
-            $(ele).addClass('active');
-        };
-
-        $scope.showPageTopicOfSubject = function (subjectId, topicId) {
-            $rootScope.keySearch = "";
-            $location.path('/listVideo/' + subjectId + '/' + topicId + '/' + 1);
-        };
-
-        $scope.loadMoreDisscusion = function () {
-            //Get discussiones
-            $scope.clickD++;
-            SubCategoryVideoService.getDiscussesOnVideo($scope.subCategoryId, $scope.clickD, 4, 'Y')
-                .success(function (data) {
-                    if (data.status == 'true') {
-                        var objectDiss = {};
-                        objectDiss = data.request_data_result;
-                        for (var i = 0; i < objectDiss.length; i++) {
-                            objectDiss[i].content = decodeURIComponent(objectDiss[i].content);
-                            objectDiss[i].content = $sce.trustAsHtml(objectDiss[i].content);
-                            if (objectDiss[i].idFacebook == null && objectDiss[i].idGoogle == null) {
-                                objectDiss[i].image = StudentService.getAvatar(objectDiss[i].authorId);
-                            } else {
-                                objectDiss[i].image = StudentService.getAvatar(objectDiss[i].authorId);
-                            }
-                            objectDiss[i].timestamp = convertUnixTimeToTime(objectDiss[i].timestamp);
-                            $scope.discussiones.push(objectDiss[i]);
-                        }
-                    } else {
-                        // $location.url('/video_tutorial');
-                    }
-
-                    SubCategoryVideoService.getDiscussesOnVideo($scope.subCategoryId, $scope.clickD + 1, 4, 'Y')
-                        .success(function (data) {
-                            if (data.request_data_result.length === 0) {
-                                $scope.featureD = 1;
-                            }
-                        });
-                });
-        };
-
-        $('#main .wrap_search').find('.search').keypress(function (event) {
-            if (event.keyCode == 13) {
-                var searchText = $('#main .wrap_search').find('.search').val();
-                $rootScope.keySearch = searchText;
-                $scope.$apply(function () {
-                    $location.path('/searchVideo/' + searchText + '/' + 1);
-                });
-            }
-        });
-
-        var discussNew = '';
-        $scope.addVideoComment = function (video_title) {
-            if ($scope.joinDiscussion != null) {
-                SubCategoryVideoService.addComment($scope.userId, $scope.joinDiscussion, $scope.subCategoryId).success(function (data) {
-                    if (data.status == 'true') {
-                        SubCategoryVideoService.getDiscussesOnVideo($scope.subCategoryId, 1, 4, 'Y').success(function (data) {
-                            if (data.status == 'true') {
-                                $scope.discussiones = data.request_data_result;
-
-                                for (var i in $scope.discussiones) {
-                                    if ($scope.discussiones[i].idFacebook == null && $scope.discussiones[i].idGoogle == null) {
-                                        $scope.discussiones[i].image = StudentService.getAvatar($scope.discussiones[i].authorId);
-                                    } else {
-                                        $scope.discussiones[i].image = StudentService.getAvatar($scope.discussiones[i].authorId);
-                                    }
-                                    $scope.discussiones[i].timestamp = convertUnixTimeToTime($scope.discussiones[i].timestamp);
-                                }
-                            }
-                        });
-                    }
-                });
-                $scope.joinDiscussion = null;
-            } else {
-                $rootScope.myVar = !$scope.myVar;
-                $timeout(function () {
-                    $rootScope.myVar = false;
-                    $('#divProgress').addClass('hide');
-                }, 2500);
-            }
-        };
-
-        $scope.addClassHide = function () {
-            if ($scope.userId == null) {
-                return 'hide';
-            }
-            return '';
-        };
-
-        $scope.markVideoAsWatched = function () {
-            // markVideoAs Watched
-            VideoService.markVideoAsWatched($scope.userId, $scope.subCategoryId);
-        };
-
-        $scope.showCKEditor = function (event) {
-            showCKEditor = true;
-            var ele = event.currentTarget;
-            $('.content .discus .boxCkComment').toggle('slow');
-            $('.content .discus .ckComment').removeClass('hide');
-            $('.content .discus .go').addClass('hide');
-            $('.content .discus .btnHide').removeClass('hide');
-        };
-
-        $scope.cancel = function () {
-            revertCKeditor(showCKEditor);
-        };
-
-        $scope.sendDiscus = function () {
-            var content = CKEDITOR.instances["txtDiscus"].getData();
-            if (content.length > 0) {
-                SubCategoryVideoService.addComment($scope.userId, content, $scope.subCategoryId).success(function (data) {
-                    if (data.status == 'true') {
-                        SubCategoryVideoService.getDiscussesOnVideo($scope.subCategoryId, 1, 4, 'Y').success(function (data) {
-                            if (data.status == 'true') {
-                                $scope.discussiones = data.request_data_result;
-                                for (var i in $scope.discussiones) {
-                                    if ($scope.discussiones[i].idFacebook == null && $scope.discussiones[i].idGoogle == null) {
-                                        $scope.discussiones[i].image = StudentService.getAvatar($scope.discussiones[i].authorId);
-                                    } else {
-                                        $scope.discussiones[i].image = StudentService.getAvatar($scope.discussiones[i].authorId);
-                                    }
-                                    $scope.discussiones[i].timestamp = convertUnixTimeToTime($scope.discussiones[i].timestamp);
-                                    $scope.discussiones[i].content = decodeURIComponent($scope.discussiones[i].content);
-                                    $scope.discussiones[i].content = $sce.trustAsHtml($scope.discussiones[i].content);
-                                }
-                            }
-                        });
-                        revertCKeditor(showCKEditor);
-                    }
-                });
-            } else {
-                $rootScope.myVar = !$scope.myVar;
-                $timeout(function () {
-                    $rootScope.myVar = false;
-                    $('#divProgress').addClass('hide');
-                }, 2500);
-            }
-        };
 
         $scope.deleteItem = function () {
             CommentService.deleteComment(idRemove).then(function (data) {

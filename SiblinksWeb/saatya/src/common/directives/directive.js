@@ -1060,17 +1060,24 @@ brotControllers.directive('scroller', function($timeout, $parse) {
 
 brotControllers.directive('readMore', function() {
     return {
-        restrict: 'AE',
+        restrict: 'A',
         replace: true,
         scope: {
             text: '=ngModel'
         },
-        template:  "<p> {{text | readMoreFilter:[text, countingWords, textLength] }}" +
-        "<a ng-show='showLinks' ng-click='changeLength()' class='color3'>" +
-        "<strong id='showMoreLess' ng-show='isExpanded'>  Show Less</strong>" +
-        "<strong id='showMoreLess'  ng-show='!isExpanded'>  Show More</strong>" +
-        "</a>" +
-        "</p>",
+        template: '<div class="video-detail-script"><p> {{text | readMoreFilter:[text, countingWords, textLength] }}</p>'+
+           ' <div ng-if="showLinks" ng-class="{\'hide-text\': !isExpanded }"></div>'+
+        '<button  ng-show="showLinks"  ng-click="changeLength()" class="read-more">'+
+        '<span  ng-show="!isExpanded">Read more <span data-icon="&#x33;"></span></span>' +
+       ' <span ng-show="isExpanded ">Less <span data-icon="&#x32;"></span></span></button>' +
+
+        '</div>',
+
+        // "<a style='cursor:pointer;' ng-show='showLinks' ng-click='changeLength()' class='color3'>" +
+        // "<strong id='showMoreLess' ng-show='isExpanded'>  Show Less</strong>" +
+        // "<strong id='showMoreLess'  ng-show='!isExpanded'>  Show More</strong>" +
+        //
+
         controller: ['$scope', '$attrs', '$element',
             function($scope, $attrs) {
                 $scope.textLength = $attrs.length;
@@ -1103,7 +1110,7 @@ brotControllers.filter('readMoreFilter', function() {
             countingWords = (!!args[1]);
 
         // if (!str || str === null) {
-        //     // If no string is defined return the entire string and warn user of error
+        //
         // }
 
         // Check length attribute
