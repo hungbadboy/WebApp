@@ -6,7 +6,7 @@
                 <div class="dashboard-wrapper">
                     <div class="dashboard-header">    
                     <h4>Manage Profile</h4>
-                    <p>Ut a porttitor leo. Aliquam fermentum nec elit lobortis tristique </p>
+		    <!-- <p>Ut a porttitor leo. Aliquam fermentum nec elit lobortis tristique </p> -->
                     </div>
                     <div class="manager-profile clearfix">
                         <div class="col-md-3">
@@ -15,7 +15,7 @@
                                     <div class="img-avt">
                                         <img src="{{mentor.imageUrl}}" alt="">
                                         <a href="#" class="change-avt">
-                                            <img ng-src="assets/images/img-change-avt.png" alt="">
+                                            <img ng-src="assets/images/img-change-avt.png" alt="change avatar">
                                         </a>
                                     </div>
                                     <h4>{{mentor.fullName}}</h4>
@@ -36,7 +36,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="box-form-setting">
-                                <h3>setting</h3>
+                                <h3>Setting</h3>
                                 <form action="">
                                     <div class="row">
                                         <div class="col-md-6 left-form">
@@ -62,7 +62,7 @@
                                                 <input type="text" id="txtBIO" name="birthday" class="form-control" value="" placeholder="BIO">
                                             </div>
                                             <div class="form-group">
-                                                <textarea name="about" id="txtDescription" id="" class="form-control " cols="5" rows="5" placeholder="About me...."></textarea>
+                                                <textarea name="about" id="txtDescription" class="form-control " cols="5" rows="5" placeholder="About me...."></textarea>
                                             </div>
                                             <div class="from-group">
                                                 <label for=""><input type="checkbox" id="music" name="" value="0"> Music</label>&nbsp;&nbsp;
@@ -94,11 +94,11 @@
                         </div>
                         <div class="col-md-3">
                             <div class="sub-right">
-                                <h3>subscribers</h3>
+                                <h3>Subscribers</h3>
                                 <div class="search">
                                     <form class="navbar-form" role="search">
                                         <div class="input-group">                                                        
-                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''">
                                             <div class="input-group-btn">
                                                 <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
                                             </div>
@@ -114,7 +114,7 @@
                                         </div>
                                     </li>                                    
                                 </ul>
-                                <ul ng-if="noStudent">No Student subcribed</ul>
+                                <span ng-if="noStudent">No Student subcribed</span>
                             </div>
                         </div>
                     </div>
