@@ -53,6 +53,9 @@ brotApp.controller('MainController', function($scope, $http, $location) {
           $scope.isActive = $location.path();
           if(userType=='M'){
               $scope.idbody = 'mentor';
+              if($location.path() == "/") {
+            	  window.location.href ='#/mentor/dashboard';
+              }
               return;
           } else {
         	  $scope.idbody = '';
