@@ -629,93 +629,118 @@ public class UserServiceImpl implements UserService {
         return entity;
     }
 
-    @Override
-    @RequestMapping(value = "/updateUserProfileBasic", method = RequestMethod.POST)
-    public ResponseEntity<Response> updateUserProfileBasic(@RequestBody final RequestData request) {
-        // DaoFactory factory = DaoFactory.getDaoFactory();
-        // ObjectDao dao = factory.getObjectDao();
-        Object[] queryParams = {
+    // @Override
+    // @RequestMapping(value = "/updateUserProfileBasic", method =
+    // RequestMethod.POST)
+    // public ResponseEntity<Response> updateUserProfileBasic(@RequestBody final
+    // RequestData request) {
+    // // DaoFactory factory = DaoFactory.getDaoFactory();
+    // // ObjectDao dao = factory.getObjectDao();
+    // Object[] queryParams = {
+    //
+    // request.getRequest_data().getUsername(),
+    // request.getRequest_data().getFirstname(), request
+    // .getRequest_data()
+    // .getLastname(), request.getRequest_data().getBio() };
+    //
+    // List<Object> msg = null;
+    // msg = new ArrayList<Object>();
+    // boolean status = Boolean.TRUE;
+    // status =
+    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_UPDATE_USER_PROFILE_BASIC,
+    // queryParams);
+    // if (status) {
+    // msg.add("User Profile Basic has been updated");
+    // } else {
+    // msg.add("Failed to update profile");
+    // }
+    // SimpleResponse reponse = new SimpleResponse(
+    // "" + Boolean.TRUE,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // msg);
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
+    // HttpStatus.OK);
+    // return entity;
+    // }
 
-        request.getRequest_data().getUsername(), request.getRequest_data().getFirstname(), request
-            .getRequest_data()
-            .getLastname(), request.getRequest_data().getBio() };
-
-        List<Object> msg = null;
-        msg = new ArrayList<Object>();
-        boolean status = Boolean.TRUE;
-        status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_UPDATE_USER_PROFILE_BASIC, queryParams);
-        if (status) {
-            msg.add("User Profile Basic has been updated");
-        } else {
-            msg.add("Failed to update profile");
-        }
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    msg);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    @Override
-    @RequestMapping(value = "/updateUserProfile", method = RequestMethod.POST)
-    public ResponseEntity<Response> updateUserProfile(@RequestBody final RequestData request) {
-        // DaoFactory factory = DaoFactory.getDaoFactory();
-        // ObjectDao dao = factory.getObjectDao();
-        Object[] queryParams = { request.getRequest_data().getUid(), request.getRequest_data().getUsername(), request
-            .getRequest_data()
-            .getCurrentclass(), request.getRequest_data().getAccomplishments(), request.getRequest_data().getMajorid(), request
-            .getRequest_data()
-            .getActivityid(), request.getRequest_data().getSubjectId() };
-
-        boolean delete = true;
-        String userId = request.getRequest_data().getUid();
-
-        if (request.getRequest_data().getMajorid().length() != 0) {
-            List<String> myListMajorId = new ArrayList<String>(Arrays.asList(request.getRequest_data().getMajorid().split(",")));
-            delete = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_USER_MAJOR, queryParams);
-            if (delete) {
-                insertNotResource(myListMajorId, userId, SibConstants.SqlMapper.SQL_INSERT_SIB_USER_MAJOR);
-            }
-        }
-
-        if (request.getRequest_data().getActivityid().length() != 0) {
-            List<String> myListActivityId = new ArrayList<String>(Arrays.asList(request
-                .getRequest_data()
-                .getActivityid()
-                .split(",")));
-            delete = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_USER_ACTIVITY, queryParams);
-            if (delete) {
-                insertNotResource(myListActivityId, userId, SibConstants.SqlMapper.SQL_INSERT_SIB_USER_ACTIVITY);
-            }
-        }
-
-        if (request.getRequest_data().getSubjectId().length() != 0) {
-            List<String> myListHelpId = new ArrayList<String>(Arrays.asList(request.getRequest_data().getSubjectId().split(",")));
-            delete = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_USER_SUBJECT, queryParams);
-            if (delete) {
-                insertNotResource(myListHelpId, userId, SibConstants.SqlMapper.SQL_INSERT_SIB_USER_SUBJECT);
-            }
-        }
-
-        List<Object> msg = null;
-        msg = new ArrayList<Object>();
-        boolean status = Boolean.TRUE;
-        status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_UPDATE_USER_PROFILE, queryParams);
-        if (status) {
-            msg.add("User Profile has been updated");
-        } else {
-            msg.add("Failed to update profile");
-        }
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    msg);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
+    // @Override
+    // @RequestMapping(value = "/updateUserProfile", method =
+    // RequestMethod.POST)
+    // public ResponseEntity<Response> updateUserProfile(@RequestBody final
+    // RequestData request) {
+    // // DaoFactory factory = DaoFactory.getDaoFactory();
+    // // ObjectDao dao = factory.getObjectDao();
+    // Object[] queryParams = { request.getRequest_data().getUid(),
+    // request.getRequest_data().getUsername(), request
+    // .getRequest_data()
+    // .getCurrentclass(), request.getRequest_data().getAccomplishments(),
+    // request.getRequest_data().getMajorid(), request
+    // .getRequest_data()
+    // .getActivityid(), request.getRequest_data().getSubjectId() };
+    //
+    // boolean delete = true;
+    // String userId = request.getRequest_data().getUid();
+    //
+    // if (request.getRequest_data().getMajorid().length() != 0) {
+    // List<String> myListMajorId = new
+    // ArrayList<String>(Arrays.asList(request.getRequest_data().getMajorid().split(",")));
+    // delete =
+    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_USER_MAJOR,
+    // queryParams);
+    // if (delete) {
+    // insertNotResource(myListMajorId, userId,
+    // SibConstants.SqlMapper.SQL_INSERT_SIB_USER_MAJOR);
+    // }
+    // }
+    //
+    // if (request.getRequest_data().getActivityid().length() != 0) {
+    // List<String> myListActivityId = new
+    // ArrayList<String>(Arrays.asList(request
+    // .getRequest_data()
+    // .getActivityid()
+    // .split(",")));
+    // delete =
+    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_USER_ACTIVITY,
+    // queryParams);
+    // if (delete) {
+    // insertNotResource(myListActivityId, userId,
+    // SibConstants.SqlMapper.SQL_INSERT_SIB_USER_ACTIVITY);
+    // }
+    // }
+    //
+    // if (request.getRequest_data().getSubjectId().length() != 0) {
+    // List<String> myListHelpId = new
+    // ArrayList<String>(Arrays.asList(request.getRequest_data().getSubjectId().split(",")));
+    // delete =
+    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_USER_SUBJECT,
+    // queryParams);
+    // if (delete) {
+    // insertNotResource(myListHelpId, userId,
+    // SibConstants.SqlMapper.SQL_INSERT_SIB_USER_SUBJECT);
+    // }
+    // }
+    //
+    // List<Object> msg = null;
+    // msg = new ArrayList<Object>();
+    // boolean status = Boolean.TRUE;
+    // status =
+    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_UPDATE_USER_PROFILE,
+    // queryParams);
+    // if (status) {
+    // msg.add("User Profile has been updated");
+    // } else {
+    // msg.add("Failed to update profile");
+    // }
+    // SimpleResponse reponse = new SimpleResponse(
+    // "" + Boolean.TRUE,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // msg);
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
+    // HttpStatus.OK);
+    // return entity;
+    // }
 
     @Override
     @RequestMapping("/updateLastOnlineTime")
@@ -1536,8 +1561,8 @@ public class UserServiceImpl implements UserService {
      * .ws.model.RequestData)
      */
     @Override
-    @RequestMapping(value = "/updateStudentProfile", method = RequestMethod.POST)
-    public ResponseEntity<Response> updateStudentProfile(@RequestBody final RequestData request) {
+    @RequestMapping(value = "/updateUserProfile", method = RequestMethod.POST)
+    public ResponseEntity<Response> updateUserProfile(@RequestBody final RequestData request) {
         Object[] queryParams = { request.getRequest_user().getFirstName(), request.getRequest_user().getLastName(), request
             .getRequest_user()
             .getEmail(), request.getRequest_user().getGender(), request.getRequest_user().getSchool(), request
@@ -1548,7 +1573,7 @@ public class UserServiceImpl implements UserService {
 
         String msg;
         boolean status = Boolean.TRUE;
-        status = dao.insertUpdateObject(SibConstants.SqlMapperBROT71.SQL_UPDATE_STUDENT_PROFILE, queryParams);
+        status = dao.insertUpdateObject(SibConstants.SqlMapperBROT71.SQL_UPDATE_USER_PROFILE, queryParams);
         if (status) {
             msg = "Success";
         } else {

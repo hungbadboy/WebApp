@@ -1,3 +1,4 @@
+<div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
 <div class="content">
     <div class="center-content">
         <div class="center-content-wrapper">
@@ -12,24 +13,24 @@
                             <div class="avt">
                                 <div class="box-avatar">
                                     <div class="img-avt">
-                                        <img src="assets/images/user.jpg" alt="">
+                                        <img src="{{mentor.imageUrl}}" alt="">
                                         <a href="#" class="change-avt">
                                             <img ng-src="{{imageUrl}}" alt="">
                                         </a>
                                     </div>
-                                    <h4>Linda Young</h4>
+                                    <h4>{{mentor.fullName}}</h4>
                                     <!-- <span>freshman</span> -->
                                 </div>
                                 <div class="box-information">
                                     <h5>University</h5>
-                                    <p>Hardford Public High School</p>
+                                    <p>{{mentor.school}}</p>
                                     <h5>About me</h5>
-                                    <p>Honestly, I don’t know anyone who enjoys this process. Even if you’re comfortable writing about yourself, it’s hard to know where to start or what to leave out. You know yourself better than anyone, but that only seems to make it worse.</p>
+                                    <p>{{mentor.description}}</p>
                                     <h5>Knowledge field: </h5>
-                                    <p>Miscellaneous, Applications</p>
-                                    <h5>Sex <span>FeMale</span></h5>
-                                    <h5>BIO <span>01 Nov, 2016</span></h5>
-                                    <h5>Since <span>Jan, 2015</span></h5>
+                                    <p>{{mentor.skills}}</p>
+                                    <h5>Sex <span>{{mentor.gender}}</span></h5>
+                                    <h5>BIO <span>{{mentor.bio}}</span></h5>
+                                    <h5>Since <span>{{mentor.registrationTime}}</span></h5>
                                 </div>
                             </div>
                         </div>
@@ -41,32 +42,32 @@
                                         <div class="col-md-6 left-form">
                                             <legend>Personal Information</legend>
                                             <div class="form-group">
-                                                <input type="text" name="firstname" class="form-control" value="" placeholder="Firstname">
+                                                <input type="text" id="txtFirstName" name="firstname" class="form-control" value="" placeholder="Firstname">
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" name="lastname" class="form-control" value="" placeholder="Lastname">
+                                                <input type="text" id="txtLastName" name="lastname" class="form-control" value="" placeholder="Lastname">
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" name="email" class="form-control" value="" placeholder="Email">
+                                                <input type="text" id="txtEmail" name="email" class="form-control" value="" placeholder="Email">
                                             </div>
                                             <div class="form-group">
-                                                <label for=""><input type="radio" name="sex" value="0" placeholder="">Male</label>&nbsp;&nbsp;
-                                                <label for=""><input type="radio" name="sex" value="1" placeholder="">Female</label>&nbsp;&nbsp;
-                                                <label for=""><input type="radio" name="sex" value="2" placeholder="">Other</label>&nbsp;&nbsp;
+                                                <label for=""><input type="radio" id="male" name="sex" value="0" placeholder="">Male</label>&nbsp;&nbsp;
+                                                <label for=""><input type="radio" id="female" name="sex" value="1" placeholder="">Female</label>&nbsp;&nbsp;
+                                                <label for=""><input type="radio" id="other" name="sex" value="2" placeholder="">Other</label>&nbsp;&nbsp;
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" name="university" class="form-control" value="" placeholder="University">
+                                                <input type="text" id="txtSchool" name="university" class="form-control" value="" placeholder="University">
                                             </div>
                                             <div class="form-group date">
-                                                <input type="text" name="birthday" class="form-control" value="" placeholder="BIO">
+                                                <input type="text" id="txtBIO" name="birthday" class="form-control" value="" placeholder="BIO">
                                             </div>
                                             <div class="form-group">
-                                                <textarea name="about" id="" class="form-control " cols="5" rows="5" placeholder="About me...."></textarea>
+                                                <textarea name="about" id="txtDescription" id="" class="form-control " cols="5" rows="5" placeholder="About me...."></textarea>
                                             </div>
                                             <div class="from-group">
-                                                <label for=""><input type="checkbox" name="" value="0"> Music</label>&nbsp;&nbsp;
-                                                <label for=""><input type="checkbox" name="" value="0"> Art</label>&nbsp;&nbsp;
-                                                <label for=""><input type="checkbox" name="" value="0"> Sport</label>&nbsp;&nbsp;
+                                                <label for=""><input type="checkbox" id="music" name="" value="0"> Music</label>&nbsp;&nbsp;
+                                                <label for=""><input type="checkbox" id="art" name="" value="0"> Art</label>&nbsp;&nbsp;
+                                                <label for=""><input type="checkbox" id="sport" name="" value="0"> Sport</label>&nbsp;&nbsp;
                                             </div>
                                         </div>
                                         <div class="col-md-6 right-form">
@@ -104,78 +105,16 @@
                                         </div>
                                     </form>
                                 </div>
-                                <ul class="list-std">
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
+                                <ul class="list-std" ng-if="listStudentSubscribed">
+                                    <li class="clearfix" ng-repeat="s in listStudentSubscribed track by $index">
+                                        <span class="pull-left"><img src="{{s.avatar}}" alt=""></span>
                                         <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
+                                            <h5>{{s.userName}}</h5>
+                                            <p>Hight school: {{s.school}}</p>
                                         </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
+                                    </li>                                    
                                 </ul>
+                                <ul ng-if="noStudent">No Student subcribed</ul>
                             </div>
                         </div>
                     </div>
@@ -184,3 +123,4 @@
         </div>
     </div>                
 </div>
+<div id="sidebar-right" ng-include="sidebarRight"></div>

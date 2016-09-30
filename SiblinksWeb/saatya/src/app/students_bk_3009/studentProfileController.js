@@ -262,7 +262,7 @@ brotControllers.controller('StudentProfileController',
           'favorite':favorite
         };
         console.log(student);
-        StudentService.updateUserProfile(student).then(function(data){
+        StudentService.updateStudentProfile(student).then(function(data){
           if (data.data.request_data_result == "Success") {
             window.location.href = '#student/studentProfile';
             window.location.reload();

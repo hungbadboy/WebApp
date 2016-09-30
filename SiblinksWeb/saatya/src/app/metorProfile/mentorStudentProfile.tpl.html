@@ -16,37 +16,24 @@
                             <div class="avt">
                                 <div class="box-avatar">
                                     <div class="img-avt">
-                                        <img src="assets/images/user.jpg" alt="">
+                                        <img src="{{mentor.imageUrl}}" alt="">
+                                        <a href="#" class="change-avt">
+                                            <img ng-src="{{imageUrl}}" alt="">
+                                        </a>
                                     </div>
-                                    <h4>Linda Young</h4>
-                                    <span>freshman</span>
-                                </div>
-                                <div class="count-qt">
-                                    <ul>
-                                        <li>
-                                            <b>03</b><br/>
-                                            <span>questions</span>
-                                        </li>
-                                        <li>
-                                            <b>08</b><br/>
-                                            <span>essay</span>
-                                        </li>
-                                        <li>
-                                            <b>12</b><br/>
-                                            <span>subscribed</span>
-                                        </li>
-                                    </ul>
+                                    <h4>{{mentor.fullName}}</h4>
+                                    <!-- <span>freshman</span> -->
                                 </div>
                                 <div class="box-information">
                                     <h5>University</h5>
-                                    <p>Hardford Public High School</p>
+                                    <p>{{mentor.school}}</p>
                                     <h5>About me</h5>
-                                    <p>Honestly, I don’t know anyone who enjoys this process. Even if you’re comfortable writing about yourself, it’s hard to know where to start or what to leave out. You know yourself better than anyone, but that only seems to make it worse.</p>
+                                    <p>{{mentor.description}}</p>
                                     <h5>Knowledge field: </h5>
-                                    <p>Miscellaneous, Applications</p>
-                                    <h5>Sex <span>FeMale</span></h5>
-                                    <h5>BIO <span>01 Nov, 2016</span></h5>
-                                    <h5>Since <span>Jan, 2015</span></h5>
+                                    <p>{{mentor.skills}}</p>
+                                    <h5>Sex <span>{{mentor.gender}}</span></h5>
+                                    <h5>BIO <span>{{mentor.bio}}</span></h5>
+                                    <h5>Since <span>{{mentor.registrationTime}}</span></h5>
                                 </div>
                             </div>
                         </div>
@@ -65,159 +52,17 @@
                                         </form>
                                     </div>
                                 </div>
-                                <ul class="list-std col-md-4">
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
+                                <ul class="list-std col-md-4" ng-if="listStudentSubscribed">
+                                    <li class="clearfix" ng-repeat="s in listStudentSubscribed track by $index">
+                                        <span class="pull-left"><img src="{{s.avatar}}" alt=""></span>
                                         <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
+                                            <h5>{{s.userName}}</h5>
+                                            <p>Hight school: {{s.school}}</p>
                                         </div>
                                     </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
+                                    
                                 </ul>
-                                <ul class="list-std col-md-4">
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <ul class="list-std col-md-4">
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/user.jpg" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>student name</h5>
-                                            <p>Hight school: Hardford Public</p>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <ul ng-if="noStudent">No Student subcribed</ul>
                             </div>
                         </div>
                     </div>

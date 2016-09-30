@@ -34,7 +34,7 @@ public interface UserService {
     // password);
 	//public ResponseEntity<Response> updateUserProfile(String usernames,String type, String firstname, String lastname,String imageurl,String currentclass,String accomplishments,String subjects,String helpsubjects,String bio);
 
-	public ResponseEntity<Response> updateUserProfile(RequestData video);
+    // public ResponseEntity<Response> updateUserProfile(RequestData video);
 
     public ResponseEntity<Response> findUser(String name);
     public ResponseEntity<Response> updateLastOnlineTime(String username);
@@ -57,7 +57,8 @@ public interface UserService {
     public ResponseEntity<Response> getStudentMentors(RequestData sid);
     //public ResponseEntity<Response> signupcomplete(RequestData video);
 
-	public ResponseEntity<Response> updateUserProfileBasic(RequestData request);
+    // public ResponseEntity<Response> updateUserProfileBasic(RequestData
+    // request);
 
 	public ResponseEntity<Response> listOfMajors(RequestData request);
 
@@ -119,7 +120,7 @@ public interface UserService {
 
 	public ResponseEntity<byte[]> getAvatar(String userid) throws IOException;
 
-    public ResponseEntity<Response> updateStudentProfile(RequestData request);
+    public ResponseEntity<Response> updateUserProfile(RequestData request);
 
     /**
      * @param jsonData

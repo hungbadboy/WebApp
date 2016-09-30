@@ -574,7 +574,7 @@ public class SibConstants {
         public static final String SQL_GET_COUNT_QUESTION = "GET_COUNT_QUESTION";
         public static final String SQL_GET_COUNT_SUBSCIBE = "GET_COUNT_SUBSCIBE";
         public static final String SQL_GET_COUNT_ESSAY = "GET_COUNT_ESSAY";
-        public static final String SQL_UPDATE_STUDENT_PROFILE = "UPDATE_STUDENT_PROFILE";
+        public static final String SQL_UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
         public static final String SQL_GET_ESSAY = "GET_ESSAY";
     }
 

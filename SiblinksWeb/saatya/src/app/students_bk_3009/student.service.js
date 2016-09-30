@@ -99,6 +99,41 @@ brotServices.factory('StudentService', ['$http', function($http) {
     return promise;
   };
 
+    // factory.updateUserProfile = function(email, type, firstName, lastName, imageUrl, school, currentClass, accomplishments,  subjects, helpSubjects,  bio) {
+    //     if(currentClass == null) {
+    //         currentClass = '';
+    //     }
+    //     if(accomplishments == null) {
+    //         accomplishments = '';
+    //     }
+    //     if(school == null) {
+    //         school = '';
+    //     }
+    //     return $http({
+    //         method: 'POST',
+    //         url: NEW_SERVICE_URL + 'user/updateUserProfile?username=' + email + '&type=' + type + '&firstname=' + firstName + '&lastname=' + lastName + '&imageurl=' + imageUrl + '&currentclass=' + currentClass + '&accomplishments=' + accomplishments + '&subjects=' + subjects + '&helpsubjects=' + helpSubjects + '&bio=' + bio + '&school=' + school,
+    //         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    //     });
+    // };
+
+  factory.updateUserProfileBasic = function(email, firstName, lastName, bio) {
+    var promise = $http({
+      method: 'POST',
+      url: NEW_SERVICE_URL + 'user/updateUserProfileBasic',
+      data: {
+        "request_data_type": "user",
+        "request_data_method": "updateUserProfileBasic",
+        "request_data": {
+          "username": email,
+          "firstname": firstName,
+          "lastname": lastName,
+          "bio": bio
+        }
+      }
+    });
+    return promise;
+  };
+
   factory.uploadAvatar = function (fd) {
     var url = NEW_SERVICE_URL + 'user/uploadAvartar';
     var promise = $http({
@@ -116,13 +151,39 @@ brotServices.factory('StudentService', ['$http', function($http) {
     return promise;
   }
 
-  factory.updateUserProfile = function(student){
+  factory.updateUserProfile = function(userId, email, currentClass, accomplishments, majorId, activityId, helpSubjectId) {
+    if(currentClass == null) {
+      currentClass = '';
+    }
+    if(accomplishments == null) {
+      accomplishments = '';
+    }
     return $http({
       method: 'POST',
       url: NEW_SERVICE_URL + 'user/updateUserProfile',
       data: {
         "request_data_type": "user",
         "request_data_method": "updateUserProfile",
+        "request_data": {
+          "uid": userId,
+          "username": email,
+          "currentclass": currentClass,
+          "accomplishments": accomplishments,
+          "majorid": majorId,
+          "activityid": activityId,
+          "subjectId": helpSubjectId
+        }
+      }
+    });
+  };
+
+  factory.updateStudentProfile = function(student){
+    return $http({
+      method: 'POST',
+      url: NEW_SERVICE_URL + 'user/updateStudentProfile',
+      data: {
+        "request_data_type": "user",
+        "request_data_method": "updateStudentProfile",
         "request_user":student
       }
     });
