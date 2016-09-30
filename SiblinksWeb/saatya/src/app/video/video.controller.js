@@ -25,6 +25,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.showDivWeek = false;
         $scope.showDivOlder = false;
 
+        $scope.limitSearchResult = 8;
+
         $scope.listMentorOlder = [];
         var checkExist = false;
 
@@ -46,6 +48,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 }
                 $scope.searchItem = null;
                 $scope.selected = null;
+                $scope.isSearchAction = false;
             });
 
         };
@@ -248,7 +251,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         /* Video Subscription end */
 
 
-        var video_recommended = [];
         var subjects = [];
         brot.signin.statusStorageHtml();
         $scope.login = 0;
@@ -298,6 +300,24 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 getVideoBySubject(-1, -1, 8, 0);
             }
             getAllVideos();
+            reloadHistory();
+        }
+
+        function reloadHistory(){
+            VideoService.getHistoryVideosList(localStorage.getItem('userId')).then(function (data) {
+                if (data.data.status) {
+                    $scope.listVideos = data.data.request_data_result;
+                    for (var i = 0; i < $scope.listVideos.length; i++) {
+                        $scope.listVideos[i].timeStamp = $scope.caculateTimeElapsed($scope.listVideos[i].timeStamp)
+                    }
+                    myCache.put("listVideos", $scope.listVideos);
+                }
+            });
+            $scope.numberOfHistoryVideo = 4;
+            $scope.flagShowMoreButton = true;
+            $scope.searchItem = null;
+            $scope.selected = null;
+            $scope.isSearchAction = false;
         }
 
 
@@ -368,9 +388,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         }
 
 
-
-
-
         function getAllVideos() {
             VideoService.getAllVideos().then(function (response) {
                 if (response.data.status) {
@@ -380,21 +397,33 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         }
 
         $scope.onSelect = function (item) {
-            $scope.searchItem = item;
+            var itemSelected = [];
+            itemSelected.push(item.description);
+            $scope.searchItem = itemSelected;
+            $scope.isSearchAction = true;
         };
 
         $scope.clearDataSearched = function () {
             $scope.searchItem = null;
             $scope.selected = null;
+            $scope.isSearchAction = false;
         };
 
-        // $scope.notFoundResult = function (value) {
-        //     console.log($scope.selected);
-        //    if(value === undefined){
-        //        $scope.message = "Data Not Found";
-        //        $scope.searchItem = null;
-        //    }
-        // };
+
+        $scope.isSearchAction = false;
+        $scope.msgSearchNotFound = "Search not found";
+        $scope.searchEnter = function (data) {
+            var searchValue = $('#srch-term_value').val();
+            var result = $scope.listAllVideos.filter(function (obj) {
+                if (obj.title.indexOf(searchValue) != -1) {
+                    return obj;
+                }
+                return null;
+            });
+            $scope.isSearchAction = true;
+            $scope.searchItem = result;
+        };
+
 
         function parseDataVideoRecommendedForU(data) {
             var listVideoRecommended = [];
@@ -831,8 +860,15 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
                     break;
             }
+        };
 
-
+        $scope.flagShowMoreButton = true;
+        $scope.loadMoreSearch = function () {
+            if ($scope.searchItem.length > 0 && $scope.limitSearchResult < $scope.searchItem.length) {
+                $scope.limitSearchResult += 8;
+            } else if ($scope.limitSearchResult >= $scope.searchItem.length) {
+                $scope.flagShowMoreSearch = false;
+            }
         };
 
         $scope.searchVideos = function (keyword, limit, offset) {
@@ -846,20 +882,23 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         //MTDU
         var listVideos = '';
         $scope.loadRateHistory = false;
-        if (myCache.get("listVideos") !== undefined) {
-            $log.info("My cache already exists");
-            $scope.listVideos = myCache.get("listVideos");
-        } else {
-            VideoService.getHistoryVideosList(localStorage.getItem('userId')).then(function (data) {
-                if (data.data.status) {
-                    $scope.listVideos = data.data.request_data_result;
-                    for (var i = 0; i < $scope.listVideos.length; i++) {
-                        $scope.listVideos[i].timeStamp = $scope.caculateTimeElapsed($scope.listVideos[i].timeStamp)
+        function loadHistory() {
+            if (myCache.get("listVideos") !== undefined) {
+                $log.info("My cache already exists");
+                $scope.listVideos = myCache.get("listVideos");
+            } else {
+                VideoService.getHistoryVideosList(localStorage.getItem('userId')).then(function (data) {
+                    if (data.data.status) {
+                        $scope.listVideos = data.data.request_data_result;
+                        for (var i = 0; i < $scope.listVideos.length; i++) {
+                            $scope.listVideos[i].timeStamp = $scope.caculateTimeElapsed($scope.listVideos[i].timeStamp)
+                        }
+                        $scope.loadRateHistory = true;
+                        myCache.put("listVideos", $scope.listVideos);
+                        console.log($scope.listVideos.length);
                     }
-                    $scope.loadRateHistory = true;
-                    myCache.put("listVideos", $scope.listVideos);
-                }
-            });
+                });
+            }
         }
 
         $scope.numberOfHistoryVideo = 4;
@@ -875,21 +914,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             return new Array(num);
         }
 
-        $scope.resetFlagShowMore = function () {
-            VideoService.getHistoryVideosList(localStorage.getItem('userId')).then(function (data) {
-                if (data.data.status) {
-                    $scope.listVideos = data.data.request_data_result;
-                    for (var i = 0; i < $scope.listVideos.length; i++) {
-                        $scope.listVideos[i].timeStamp = $scope.caculateTimeElapsed($scope.listVideos[i].timeStamp)
-                    }
-                    myCache.put("listVideos", $scope.listVideos);
-                }
-            });
-            $scope.numberOfHistoryVideo = 4;
-            $scope.flagShowMoreButton = true;
-            $scope.searchItem = null;
-            $scope.selected = null;
-        }
+
+
+        $scope.resetFlagShowMore = reloadHistory();
 
         $scope.deleteHistoryVideo = function (video) {
             if ($scope.listVideos == null || $scope.listVideos.length == 0)
@@ -909,7 +936,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     return true;
                 }
             });
-        }
+        };
 
 
         /* Favourite Video begin */
@@ -967,7 +994,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             $scope.flagShowMoreFavourite = true;
             $scope.searchItem = null;
             $scope.selected = null;
+            $scope.isSearchAction = false;
         }
+
 
         $scope.deleteFavouriteVideo = function (video) {
             if (userId === null || userId === undefined) {

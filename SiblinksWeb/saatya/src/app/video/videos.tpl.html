@@ -1,3 +1,6 @@
+<script type="text/ng-template" id="results.html">
+    <a>{{video.title}}</a>
+</script>
 <div class="content ask-a-question" id="videos"> <!-- Add class "unlogin" to hide sidebar left -->
     <!-- Breadcrum -->
     <div class="breadcrum">
@@ -17,15 +20,23 @@
                         <form class="navbar-form" role="search">
                             <div class="input-group">
 
-                                <input name="srch-term" id="srch-term" type="text" placeholder="Search"
-                                       ng-model="selected"
-                                       typeahead="video as video.title for video in listAllVideos | filter:$viewValue | limitTo:8"
-                                       typeahead-on-select="onSelect($item)"
-                                       typeahead-no-results="noResults"
-                                       class="form-control">
+                                <!--<input name="srch-term" id="srch-term" type="text" placeholder="Search"-->
+                                       <!--ng-model="selected"-->
+                                       <!--typeahead="video as video.title for video in listAllVideos | filter:$viewValue | limitTo:8"-->
+                                       <!--class="form-control"-->
+                                       <!--typeahead-min-length="0" typeahead-focus-first="false">-->
+
+                                <div angucomplete-alt ng-enter="searchEnter()" id="srch-term" placeholder="Search" pause="100"
+                                     selected-object="onSelect"
+                                     local-data="listAllVideos" search-fields="title" title-field="title"
+                                     minlength="1" input-class="form-control"
+                                     auto-match="true"
+                                     match-class="highlight">
+
+                                </div>
 
                                 <!--ng-enter="notFoundResult(video)"-->
-                                <!--<input angucomplete-alt id="autocompleteCate" type="text" class="form-control" placeholder="Search" name="srch-term"-->
+                                <!--<div angucomplete-alt id="autocompleteCate" type="text" class="form-control" placeholder="Search" name="srch-term"-->
                                 <!--id="srch-term"  local-data="results" search-fields="title" title-field="title"-->
                                 <!--minlength="0"  match-class="highlight">-->
                                 <!--<pre>Model: {{asyncSelected | json}}</pre>-->
@@ -146,26 +157,26 @@
 
                         <div ng-hide="!searchItem">
                             <h5>Search Result</h5>
-                            <ul ng-show="searchItem">
-                                <li>
+                            <ul>
+                                <li ng-show="searchItem" ng-repeat="search in searchItem | limitTo : limitSearchResult : 0">
                                     <div class="video-wrapper"><a href="#">
                                         <div class="videos-thumnail">
-                                            <a href="#/videos/detailVideo/{{searchItem.vid}}">
-                                                <img ng-src="{{searchItem.image}}">
+                                            <a href="#/videos/detailVideo/{{search.vid}}">
+                                                <img ng-src="{{search.image}}">
                                             </a>
                                         </div>
                                         <div class="videos-title">
-                                            <a href="#/videos/detailVideo/{{searchItem.vid}}"
-                                               title="{{searchItem.title}}">
-                                                {{ searchItem.title | limitTo: 40 }}{{searchItem.title.length > 40 ?
+                                            <a href="#/videos/detailVideo/{{search.vid}}"
+                                               title="{{search.title}}">
+                                                {{ search.title | limitTo: 40 }}{{search.title.length > 40 ?
                                                 '...' :
                                                 ''}}
                                             </a>
                                         </div>
                                     </a>
                                         <div class="videos-time-add">
-                                            <a href="#/student/mentorProfile/{{searchItem.authorID}}"><span
-                                                    class="video-poster"> {{searchItem.userName}}</span></a><span> added {{convertUnixTimeToTime(searchItem.timeStamp)}} ago</span>
+                                            <a href="#/student/mentorProfile/{{search.authorID}}"><span
+                                                    class="video-poster"> {{search.userName}}</span></a><span> added {{convertUnixTimeToTime(search.timeStamp)}} ago</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
@@ -173,24 +184,27 @@
                                                       outer-star-selection="stars"
                                                       outer-percent="rating"
                                                       rating-define="star"
-                                                      rating-stars="{{searchItem.averageRating}}"
+                                                      rating-stars="{{search.averageRating}}"
                                                       star-radius="6" sel-color="gold"
                                                       readonly="true"
                                                       back-color="white">
                                                  </span>
                                             </p>
                                             <p class="videos-rate-infor">
-                                                <span data-icon="&#x49;">{{searchItem.numViews}}</span>
+                                                <span data-icon="&#x49;">{{search.numViews}}</span>
                                                 <!--<span data-icon="&#xe089;" class="favourite">{{recommend.numFavourite}}</span>-->
-                                                <span data-icon="&#xe066;">{{searchItem.numComments}}</span>
+                                                <span data-icon="&#xe066;">{{search.numComments}}</span>
                                             </p>
                                         </div>
                                     </div>
                                 </li>
+
+                                <li ng-show="searchItem.length == 0" ng-bind="msgSearchNotFound">
+                                </li>
                             </ul>
                         </div>
                         <div class="recommended"
-                             ng-hide="!listVideoRecommended || listVideoRecommended.length == 0 || searchItem">
+                             ng-if="listVideoRecently && !searchItem && !isSearchAction">
                             <h5>Recommended</h5>
                             <ul>
                                 <li ng-repeat="recommend in listVideoRecommended track by $index">
@@ -236,8 +250,8 @@
                             </ul>
                             <div class="see-more" ng-click="loadMoreVideo(1, subjectId)"><p>show more</p></div>
                         </div>
-                        <div class="recently-uploaded"
-                             ng-hide="!listVideoRecently || listVideoRecently.length == 0 || searchItem">
+                        <div class="recently-uploaded" ng-if="listVideoRecently && !searchItem && !isSearchAction"
+                             >
                             <h5>Recently Uploaded</h5>
                             <ul>
 
@@ -283,7 +297,7 @@
                             </ul>
                             <div class="see-more" ng-click="loadMoreVideo(2, subjectId)"><p>show more</p></div>
                         </div>
-                        <div class="video-member" ng-if="!searchItem" ng-show="login == 1 && listVideoRecommendedForU">
+                        <div class="video-member" ng-if="!isSearchAction" ng-show="login == 1 && listVideoRecommendedForU">
                             <div class="video-member-header">
                                 <div class="video-member-title">
                                     <h5>{{listVideoRecommendedForU[0][0].name}}</h5>
@@ -464,28 +478,28 @@
                         </div>
                         <div class="older" ng-show="showDivOlder">
 
-                            <div ng-if="searchItem">
+                            <div ng-hide="!searchItem">
                                 <h5>Search Result</h5>
-                                <ul ng-show="searchItem">
-                                    <li>
+                                <ul>
+                                    <li ng-show="searchItem" ng-repeat="search in searchItem | limitTo : limitSearchResult : 0">
                                         <div class="video-wrapper"><a href="#">
                                             <div class="videos-thumnail">
-                                                <a href="#/videos/detailVideo/{{searchItem.vid}}">
-                                                    <img ng-src="{{searchItem.image}}">
+                                                <a href="#/videos/detailVideo/{{search.vid}}">
+                                                    <img ng-src="{{search.image}}">
                                                 </a>
                                             </div>
                                             <div class="videos-title">
-                                                <a href="#/videos/detailVideo/{{searchItem.vid}}"
-                                                   title="{{searchItem.title}}">
-                                                    {{ searchItem.title | limitTo: 40 }}{{searchItem.title.length > 40 ?
+                                                <a href="#/videos/detailVideo/{{search.vid}}"
+                                                   title="{{search.title}}">
+                                                    {{ search.title | limitTo: 40 }}{{search.title.length > 40 ?
                                                     '...' :
                                                     ''}}
                                                 </a>
                                             </div>
                                         </a>
                                             <div class="videos-time-add">
-                                                <a href="#/student/mentorProfile/{{searchItem.authorID}}"><span
-                                                        class="video-poster"> {{searchItem.userName}}</span></a><span> added {{convertUnixTimeToTime(searchItem.timeStamp)}} ago</span>
+                                                <a href="#/student/mentorProfile/{{search.authorID}}"><span
+                                                        class="video-poster"> {{search.userName}}</span></a><span> added {{convertUnixTimeToTime(search.timeStamp)}} ago</span>
                                             </div>
                                             <div class="videos-rate">
                                                 <p class="videos-start">
@@ -493,19 +507,22 @@
                                                       outer-star-selection="stars"
                                                       outer-percent="rating"
                                                       rating-define="star"
-                                                      rating-stars="{{searchItem.averageRating}}"
+                                                      rating-stars="{{search.averageRating}}"
                                                       star-radius="6" sel-color="gold"
                                                       readonly="true"
                                                       back-color="white">
                                                  </span>
                                                 </p>
                                                 <p class="videos-rate-infor">
-                                                    <span data-icon="&#x49;">{{searchItem.numViews}}</span>
+                                                    <span data-icon="&#x49;">{{search.numViews}}</span>
                                                     <!--<span data-icon="&#xe089;" class="favourite">{{recommend.numFavourite}}</span>-->
-                                                    <span data-icon="&#xe066;">{{searchItem.numComments}}</span>
+                                                    <span data-icon="&#xe066;">{{search.numComments}}</span>
                                                 </p>
                                             </div>
                                         </div>
+                                    </li>
+
+                                    <li ng-show="searchItem.length == 0" ng-bind="msgSearchNotFound">
                                     </li>
                                 </ul>
                             </div>
@@ -561,28 +578,28 @@
                 <!-- Content of History -->
                 <div class="tab-pane" id="history">
 
-                    <div ng-show="searchItem">
+                    <div ng-hide="!searchItem">
                         <h5>Search Result</h5>
                         <ul>
-                            <li>
+                            <li ng-show="searchItem" ng-repeat="search in searchItem | limitTo : limitSearchResult : 0">
                                 <div class="video-wrapper"><a href="#">
                                     <div class="videos-thumnail">
-                                        <a href="#/videos/detailVideo/{{searchItem.vid}}">
-                                            <img ng-src="{{searchItem.image}}">
+                                        <a href="#/videos/detailVideo/{{search.vid}}">
+                                            <img ng-src="{{search.image}}">
                                         </a>
                                     </div>
                                     <div class="videos-title">
-                                        <a href="#/videos/detailVideo/{{searchItem.vid}}"
-                                           title="{{searchItem.title}}">
-                                            {{ searchItem.title | limitTo: 40 }}{{searchItem.title.length > 40 ?
+                                        <a href="#/videos/detailVideo/{{search.vid}}"
+                                           title="{{search.title}}">
+                                            {{ search.title | limitTo: 40 }}{{search.title.length > 40 ?
                                             '...' :
                                             ''}}
                                         </a>
                                     </div>
                                 </a>
                                     <div class="videos-time-add">
-                                        <a href="#/student/mentorProfile/{{searchItem.authorID}}"><span
-                                                class="video-poster"> {{searchItem.userName}}</span></a><span> added {{convertUnixTimeToTime(searchItem.timeStamp)}} ago</span>
+                                        <a href="#/student/mentorProfile/{{search.authorID}}"><span
+                                                class="video-poster"> {{search.userName}}</span></a><span> added {{convertUnixTimeToTime(search.timeStamp)}} ago</span>
                                     </div>
                                     <div class="videos-rate">
                                         <p class="videos-start">
@@ -590,19 +607,22 @@
                                                       outer-star-selection="stars"
                                                       outer-percent="rating"
                                                       rating-define="star"
-                                                      rating-stars="{{searchItem.averageRating}}"
+                                                      rating-stars="{{search.averageRating}}"
                                                       star-radius="6" sel-color="gold"
                                                       readonly="true"
                                                       back-color="white">
                                                  </span>
                                         </p>
                                         <p class="videos-rate-infor">
-                                            <span data-icon="&#x49;">{{searchItem.numViews}}</span>
+                                            <span data-icon="&#x49;">{{search.numViews}}</span>
                                             <!--<span data-icon="&#xe089;" class="favourite">{{recommend.numFavourite}}</span>-->
-                                            <span data-icon="&#xe066;">{{searchItem.numComments}}</span>
+                                            <span data-icon="&#xe066;">{{search.numComments}}</span>
                                         </p>
                                     </div>
                                 </div>
+                            </li>
+
+                            <li ng-show="searchItem.length == 0" ng-bind="msgSearchNotFound">
                             </li>
                         </ul>
                     </div>
@@ -673,28 +693,28 @@
                 <!-- Content of Favourite -->
                 <div class="tab-pane" id="favourite">
 
-                    <div ng-show="searchItem">
+                    <div ng-hide="!searchItem">
                         <h5>Search Result</h5>
                         <ul>
-                            <li>
+                            <li ng-show="searchItem" ng-repeat="search in searchItem | limitTo : limitSearchResult : 0">
                                 <div class="video-wrapper"><a href="#">
                                     <div class="videos-thumnail">
-                                        <a href="#/videos/detailVideo/{{searchItem.vid}}">
-                                            <img ng-src="{{searchItem.image}}">
+                                        <a href="#/videos/detailVideo/{{search.vid}}">
+                                            <img ng-src="{{search.image}}">
                                         </a>
                                     </div>
                                     <div class="videos-title">
-                                        <a href="#/videos/detailVideo/{{searchItem.vid}}"
-                                           title="{{searchItem.title}}">
-                                            {{ searchItem.title | limitTo: 40 }}{{searchItem.title.length > 40 ?
+                                        <a href="#/videos/detailVideo/{{search.vid}}"
+                                           title="{{search.title}}">
+                                            {{ search.title | limitTo: 40 }}{{search.title.length > 40 ?
                                             '...' :
                                             ''}}
                                         </a>
                                     </div>
                                 </a>
                                     <div class="videos-time-add">
-                                        <a href="#/student/mentorProfile/{{searchItem.authorID}}"><span
-                                                class="video-poster"> {{searchItem.userName}}</span></a><span> added {{convertUnixTimeToTime(searchItem.timeStamp)}} ago</span>
+                                        <a href="#/student/mentorProfile/{{search.authorID}}"><span
+                                                class="video-poster"> {{search.userName}}</span></a><span> added {{convertUnixTimeToTime(search.timeStamp)}} ago</span>
                                     </div>
                                     <div class="videos-rate">
                                         <p class="videos-start">
@@ -702,19 +722,22 @@
                                                       outer-star-selection="stars"
                                                       outer-percent="rating"
                                                       rating-define="star"
-                                                      rating-stars="{{searchItem.averageRating}}"
+                                                      rating-stars="{{search.averageRating}}"
                                                       star-radius="6" sel-color="gold"
                                                       readonly="true"
                                                       back-color="white">
                                                  </span>
                                         </p>
                                         <p class="videos-rate-infor">
-                                            <span data-icon="&#x49;">{{searchItem.numViews}}</span>
+                                            <span data-icon="&#x49;">{{search.numViews}}</span>
                                             <!--<span data-icon="&#xe089;" class="favourite">{{recommend.numFavourite}}</span>-->
-                                            <span data-icon="&#xe066;">{{searchItem.numComments}}</span>
+                                            <span data-icon="&#xe066;">{{search.numComments}}</span>
                                         </p>
                                     </div>
                                 </div>
+                            </li>
+
+                            <li ng-show="searchItem.length == 0" ng-bind="msgSearchNotFound">
                             </li>
                         </ul>
                     </div>

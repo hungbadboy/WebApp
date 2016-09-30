@@ -13,8 +13,6 @@ brotControllers
             '$window',
             'QuestionsService',
             'AnswerService',
-            'SubjectServices',
-            'CategoriesService',
             'HomeService',
             'CommentService',
             'StudentService',
@@ -22,7 +20,7 @@ brotControllers
             function ($sce, $http, $scope, $rootScope, $routeParams,
                       $location, $timeout, $log, $window,
                       QuestionsService, AnswerService,
-                      SubjectServices, CategoriesService,
+
                       HomeService, CommentService, StudentService,
                       myCache) {
                 var userId = localStorage.getItem('userId');

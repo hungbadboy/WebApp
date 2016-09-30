@@ -38,7 +38,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tools.ant.types.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -1045,9 +1044,9 @@ public class PostServiceImpl implements PostService {
 		Object[] queryParams = { request.getRequest_data().getPid() };
 		boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_REMOVE_POST, queryParams);
 
-//		if (status) {
-//			status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_REMOVE_ANSWER_BY_POST, queryParams);
-//		}
+		if (status) {
+			dao.insertUpdateObject(SibConstants.SqlMapper.SQL_REMOVE_ANSWER_BY_POST, queryParams);
+		}
 		SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(),
 				request.getRequest_data_method(), status);
 		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
