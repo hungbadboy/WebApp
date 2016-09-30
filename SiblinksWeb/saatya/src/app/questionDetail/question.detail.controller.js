@@ -28,7 +28,6 @@ brotControllers
                 var userId = localStorage.getItem('userId');
                 $scope.userId = userId;
                 var question_id = $routeParams.question_id;
-                $scope.limitAnswes = 5;
                 $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
                 var oldImagePath="";
                 var oldImagePathEdited="";
