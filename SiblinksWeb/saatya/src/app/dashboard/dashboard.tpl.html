@@ -247,38 +247,38 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="dashboard-video">
-                                        <div class="video-detail" id="video">
-                                            <!-- <img src="{{vTopViewed.image}}" alt="">
-                                            <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span> -->
-                                        </div>
+                                <div class="dashboard-video" ng-if="videosTopViewed">
+                                    <div class="video-detail" id="player">
+                                        <img src="{{vTopViewed.image}}" alt="">
+                                        <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
+                                    </div>
 
-                                        <!-- <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zOD2BuV1nGo" frameborder="0"></iframe> -->
-                                        <div class="video-wrapper">
-                                            <div class="videos-title">
-                                                {{vTopViewed.description}}
-                                            </div>
-                                            <div class="videos-rate">
-                                                <!-- <div class="videos-start">
-                                                    <img src="assets/images/star.png">
-                                                    <p class="rate"></p>
-                                                </div> -->
-                                                <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
-                                                <p class="videos-rate-infor">
-                                                    <span data-icon="&#x49;">{{vTopViewed.numViews}}</span>
-                                                    <!-- <span data-icon="&#xe089;">12</span> -->
-                                                    <span data-icon="&#xe066;">{{vTopViewed.numComments}}</span>
-                                                </p>
-                                            </div>
-                                            <div class="recent-view">
-                                                <h4>Most view </h4>
-                                                <div class="recent-view-button">
-                                                    <a ng-click="topViewedPre(topViewedPos)"><span data-icon="&#x34;"></span></a>
-                                                    <a ng-click="topViewedNext(topViewedPos)"><span data-icon="&#x35;"></span></a>
-                                                </div>
+                                    <!-- <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zOD2BuV1nGo" frameborder="0"></iframe> -->
+                                    <div class="video-wrapper">
+                                        <div class="videos-title">
+                                            {{vTopViewed.description}}
+                                        </div>
+                                        <div class="videos-rate">
+                                            <!-- <div class="videos-start">
+                                                <img src="assets/images/star.png">
+                                                <p class="rate"></p>
+                                            </div> -->
+                                            <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                            <p class="videos-rate-infor">
+                                                <span data-icon="&#x49;">{{vTopViewed.numViews}}</span>
+                                                <!-- <span data-icon="&#xe089;">12</span> -->
+                                                <span data-icon="&#xe066;">{{vTopViewed.numComments}}</span>
+                                            </p>
+                                        </div>
+                                        <div class="recent-view">
+                                            <h4>Most view </h4>
+                                            <div class="recent-view-button">
+                                                <a ng-click="topViewedPre(topViewedPos)"><span data-icon="&#x34;"></span></a>
+                                                <a ng-click="topViewedNext(topViewedPos)"><span data-icon="&#x35;"></span></a>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </div><!-- /End Bottom right area -->
                         </div>
                         <!-- /End Content of center side -->
