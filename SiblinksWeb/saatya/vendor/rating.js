@@ -170,7 +170,7 @@
                 var filler = angular.element(el[0].querySelector('.stars-selected'));
 
                 $scope.howManyStars = starsUtility.createRange( attrs.stars ) || starsUtility.createRange(5);
-                $scope.starRadius = parseInt( attrs.starRadius ) || 20;
+                $scope.starRadius = parseFloat( attrs.starRadius ) || 20;
                 $scope.percent = $scope.prevPercent = starsUtility.calculatePercent( attrs );
                 $scope.backColor = attrs.backColor || 'white';
                 $scope.emptyBackColor = attrs.emptyBackColor || '#d3d3d3';

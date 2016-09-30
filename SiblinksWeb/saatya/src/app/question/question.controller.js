@@ -119,7 +119,8 @@ brotControllers
                                     video.title = element.title;
                                     video.image = element.image;
                                     video.url = element.url;
-                                    video.rating = element.rating;
+                                    video.numRatings = element.numRatings;
+                                    video.averageRating = element.averageRating;
                                     video.uid = element.uid;
                                     video.vid = element.vid;
                                     listVideoRate.push(video);

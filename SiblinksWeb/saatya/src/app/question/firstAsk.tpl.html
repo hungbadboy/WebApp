@@ -21,15 +21,13 @@
            <!-- /End Ask a Question -->
                         
            <div class="top-mentors-videos" ng-controller="QuestionController">
-               <div class="top-mentors" ng-include="'src/app/topMentor/topMentors.tpl.html'">
-
-               </div><!-- /End top memtor -->
-
                <!-- Top videos -->
-               <div class="top-videos"  ng-include="'src/app/topVideo/topVideos.tpl.html'" >
-
-               </div><!-- /End top memtor -->
-                  <!-- /End top memtor -->
+               <div class="top-videos"  ng-include="'src/app/topVideo/topVideos.tpl.html'" ></div>
+               <!-- /End top video -->
+               <!-- /Top mentor -->
+               <div class="top-mentors" ng-include="'src/app/topMentor/topMentors.tpl.html'"></div>
+               <!-- /End top mentor -->
+               
            </div>
        </section><!-- /End content -->
 

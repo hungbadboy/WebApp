@@ -22,10 +22,13 @@
                    <p class="top-mentors-name">
                        <a href="#mentor/mentorProfile/{{mentor.userid}}"><strong>{{mentor.userName}}</strong></a>
                    </p>
-                   <p class="top-mentors-essay">
-                       <a href="#/ask_a_question/{{subject.id}}" ng-repeat="subject in  mentor.listSubject">
-                       {{subject.name}} {{($last)? "":","}}
+                   <p class="top-mentors-essay" ng-show="mentor.listSubject.length">
+                       <a  href="#/ask_a_question/{{subject.id}}" ng-repeat="subject in  mentor.listSubject">
+                       {{subject.name}}{{($last)? "":", "}}
                        </a>
+                   </p>
+                   <p class="top-mentors-essay" ng-show="!mentor.listSubject.length">
+                   	None
                    </p>
                    <p class="top-mentors-answed">
                        {{mentor.numsub}} subcrible, {{mentor.numAnswers}} answed
