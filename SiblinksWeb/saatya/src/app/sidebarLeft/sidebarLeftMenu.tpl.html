@@ -12,45 +12,62 @@
             </div>
             <div class="browse"><p>Browse</p></div>
             <ul class="mobimenu nav sidebar-nav">
-                <li ng-class="{active: isActive=='/mentor/dashboard'}">
+                <li ng-class="{active: currentPath=='/mentor/dashboard'}">
                     <a href="#/mentor/dashboard">
                         <span class="fa fa-tachometer"></span>
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
-                <li ng-class="{active: isActive=='/mentor/managerQA'}">
+                <li ng-class="{active: currentPath=='/mentor/managerQA'}">
                     <a href="#/mentor/managerQA">
                         <span data-icon="&#x77;"></span>
                         <span class="menu-title">Q&A</span>
                         <span data-icon="&#x34;" class="sub-menu"></span>
                     </a>
                 </li>
-                <li ng-class="{active: isActive=='/mentor/mentorVideo'}">
+                <li ng-class="{active: currentPath=='/mentor/mentorVideo'}">
                     <a href="#/mentor/mentorVideo">
                         <span data-icon="&#x49;"></span>
                         <span class="menu-title">Videos</span>
                         <span data-icon="&#x34;" class="sub-menu"></span>
                     </a>
+                    <ul class="menuSubmenu">
+                       <li class="active">
+                           <a href="#/mentor/videoGeneral">
+                               <span class="menu-title">General</span>
+                           </a>
+                       </li>
+                       <li>
+                           <a href="#/mentor/managerVideo">
+                               <span class="menu-title">Videos Manager</span>
+                           </a>
+                       </li>
+                       <li>
+                           <a href="#/mentor/managerPlaylist">
+                               <span class="menu-title">Playlist Manager</span>
+                           </a>
+                       </li>
+                   </ul>
                 </li>
-                <li ng-class="{active: isActive=='/mentor/essay'}">
+                <li ng-class="{active: currentPath=='/mentor/essay'}">
                     <a href="#/mentor/essay">
                         <span data-icon="&#xe101;"></span>
                         <span class="menu-title">Essay</span>
-                        <span data-icon="&#x34;" class="sub-menu"></span>
+                        <!-- <span data-icon="&#x34;" class="sub-menu"></span> -->
                     </a>
                 </li>
-               <!--  <li ng-class="{active: isActive=='/mentor/analytics'}">
+               <!--  <li ng-class="{active: currentPath=='/mentor/analytics'}">
                     <a href="#/mentor/analytics">
                         <span data-icon="&#x67;"></span>
                         <span class="menu-title">Analytics</span>
                         <span data-icon="&#x34;" class="sub-menu"></span>
                     </a>
                 </li> -->
-                <li ng-class="{active: isActive=='/mentor/profile'}">
+                <li ng-class="{active: currentPath=='/mentor/profile'}">
                     <a href="#/mentor/profile">
                         <span data-icon="&#xe08a;"></span>
                         <span class="menu-title">Profile</span>
-                        <span data-icon="&#x34;" class="sub-menu"></span>
+                        <!-- <span data-icon="&#x34;" class="sub-menu"></span> -->
                     </a>
                 </li>
             </ul>

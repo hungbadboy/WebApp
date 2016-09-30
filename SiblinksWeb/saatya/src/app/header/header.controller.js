@@ -255,16 +255,6 @@ brotControllers.controller('UserHeaderController',
 //                }
             };
             
-//            // Active menu
-//            $scope.isActive = null;
-//            $scope.$on('$routeChangeSuccess', function() {
-//                var path = $location.path();
-//                if(path.indexOf('question')>0){
-//                    $scope.isActive = '/ask_a_question';
-//                    return;
-//                }
-//              $scope.isActive = $location.path();
-//            });
             
             // Toggle user information
             $scope.isShowHideUserInfo = false;
