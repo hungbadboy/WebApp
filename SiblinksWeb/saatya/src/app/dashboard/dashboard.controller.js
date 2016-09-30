@@ -21,10 +21,7 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
           data.data.request_data_result[i].timeStamp = convertUnixTimeToTime(data.data.request_data_result[i].timeStamp);
         }
         $scope.questions = data.data.request_data_result;
-      }
-      else{
-        $scope.nodata = true;
-      }
+      }      
     });
   }
 
@@ -42,7 +39,7 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
         $scope.videosTopViewed = data.data.request_data_result;
         $scope.vTopViewed = $scope.videosTopViewed[0];            
         $scope.topViewedPos = 0;
-        // initYoutubePlayer($scope.vTopViewed.url);
+        initYoutubePlayer($scope.vTopViewed.url);
       }
     });
   }
@@ -50,12 +47,10 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
   function initYoutubePlayer(youtubeUrl){
     var videoid = youtubeUrl.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
     if (videoid != null) {
-      var vid = videoid[1];
-      // onYouTubeIframeAPIReady(vid);
       if (typeof(player) == "undefined") {
         onYouTubeIframeAPIReady(videoid[1]);
       } else {
-        player.loadVideoById(videoid[1]);
+        player.cueVideoById(videoid[1]);
       }      
     }
   }
@@ -64,12 +59,12 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
     if (pos == 0) {
       $scope.topViewedPos = $scope.videosTopViewed.length - 1;
       $scope.vTopViewed = $scope.videosTopViewed[$scope.videosTopViewed.length - 1];
-      // initYoutubePlayer($scope.vTopViewed.url);
+      initYoutubePlayer($scope.vTopViewed.url);
     }
     else{
       $scope.topViewedPos = pos - 1;
       $scope.vTopViewed = $scope.videosTopViewed[pos - 1];
-      // initYoutubePlayer($scope.vTopViewed.url);
+      initYoutubePlayer($scope.vTopViewed.url);
     }
   }
 
@@ -77,19 +72,19 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
     if (pos == $scope.videosTopViewed.length - 1) {
       $scope.topViewedPos = 0;
       $scope.vTopViewed = $scope.videosTopViewed[0];
-      // initYoutubePlayer($scope.vTopViewed.url);
+      initYoutubePlayer($scope.vTopViewed.url);
     }
     else{
       $scope.topViewedPos = pos + 1;
       $scope.vTopViewed = $scope.videosTopViewed[pos + 1];
-      // initYoutubePlayer($scope.vTopViewed.url);
+      initYoutubePlayer($scope.vTopViewed.url);
     }
   }
 
   var player;
   function onYouTubeIframeAPIReady(youtubeId) {
     player = new YT.Player('player', {
-        height: '460',
+        height: '360',
         width: '100%',
         videoId: youtubeId,
         events: {
@@ -102,17 +97,12 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
             theme: 'dark'
         }
     });
-    console.log(player);
   }
 
   function onPlayerReady(event) {
-    // event.target.playVideo();
   }
 
   function onPlayerStateChange(event) {
-    if (event.data === 0) {
-        // window.location.href = '#/videos/detailVideo/' + videoid;
-    }
   }
 
 }]);
