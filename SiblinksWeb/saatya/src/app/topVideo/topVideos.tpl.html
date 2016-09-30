@@ -25,13 +25,14 @@
                      <a href="#/videos/detailVideo/{{video.vid}}">{{video.title}}</a>
                  </p>
                  <p class="video-rate">
+                 	<span>Rate: {{video.averageRating}} ({{video.numRatings}} votes)</span>
                      <span  ng-if="video" star-rating stars="5" id="divRateTopVideo"
 	                          outer-star-selection="stars"
 	                          readonly="true"
 	                          outer-percent="rating"
 	                          rating-define="star"
-	                          rating-stars="{{video.rating}}"
-	                          star-radius="9" sel-color="gold"
+	                          rating-stars="{{video.averageRating}}"
+	                          star-radius="6" sel-color="gold"
 	                          back-color="white">
 	                 </span>
                  </p>
