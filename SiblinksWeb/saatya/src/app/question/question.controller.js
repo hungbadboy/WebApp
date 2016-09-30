@@ -11,22 +11,19 @@ brotControllers
             '$routeParams',
             '$location',
             '$log',
-            'SubjectServices',
+            '$modal',
             'QuestionsService',
-            'CategoriesService',
             'MentorService',
             'AnswerService',
             'HomeService',
-            'CommentService',
-            'StudentService',
             'VideoService',
             'myCache',
             function ($sce, $route, $scope, $rootScope, $timeout,
-                      $http, $routeParams, $location, $log,
-                      SubjectServices, QuestionsService,
-                      CategoriesService, MentorService,
-                      AnswerService, HomeService, CommentService,
-                      StudentService, VideoService, myCache) {
+                      $http, $routeParams, $location, $log,$modal,
+                       QuestionsService,
+                       MentorService,
+                      AnswerService, HomeService,
+                       VideoService, myCache) {
 
                 var subjectid = $routeParams.subjectid;
                 if (isEmpty(subjectid)) {
@@ -230,7 +227,16 @@ brotControllers
                     window.location.href = '/#/question_detail/' + id + "";
                 }
                 $scope.showFormAdd = function () {
-                    $(".form-ask-question").css({"left": 0});
+                   $(".form-ask-question").css({"left": 0});
+                   //  var modalInstance = $modal.open({
+                   //      templateUrl: 'src/app/question/popupAskQuestion.tpl.html',
+                   //      controller: 'popupAskQuestionController',
+                   //      resolve: {
+                   //          q_id: function () {
+                   //              return "";
+                   //          }
+                   //      }
+                   //  });
                 }
                 $scope.closePopupAskQuestion = function () {
                     $(".popup-images, .form-ask-question").css({"left": "100%"});
