@@ -50,6 +50,8 @@ brotControllers
                 var currentPage = 0;
                 var isLoadMore = false;
                 $scope.isDisplayMore = false;
+                var imagePathOld_BK;
+                
                 init();
                 function init() {
 
@@ -156,6 +158,7 @@ brotControllers
                                 objPosted.numviews = questionData.NUMVIEWS == null ? 0 : questionData.NUMVIEWS;
                                 objPosted.time = convertUnixTimeToTime(questionData.TIMESTAMP);
                                 objPosted.image = detectMultiImage(questionData.IMAGEPATH);
+                                objPosted.authorId = questionData.AUTHORID;
                                 //objPosted.count = questionData.length;
                                 if (result.answers !== undefined) {
                                     if (result.answers[i] != null) {
@@ -375,6 +378,39 @@ brotControllers
                     idRemove = aid;
                     eventRemove = event;
                 };
+                
 
+                $scope.isEditQuestion = false;
+                $scope.showEditQuestionId="";
+                $scope.showEditQuestion = function(qid) {
+                	$scope.isEditQuestion = $scope.isEditQuestion ? false : true;
+                	if(qid == $scope.showEditQuestionId) {
+                		$scope.showEditQuestionId= "";
+                	} else {
+                		$scope.isEditQuestion = true;
+                		$scope.showEditQuestionId= qid;
+                	}
+          	  	}
+                
+               $scope.editQuestion = function (qid) {
+                    $scope.titlePopupAsk = "Edit question";
+                    $scope.isEdit = true;
+//                    qidEdit = qid;
+//                    $scope.imagePathOld = imagePathOld_BK;
+//                    $scope.initCategory = {subject: $scope.question.subject, subjectId: $scope.question.subjectId};
+//                    $scope.initCategory.originalObject = $scope.initCategory;
+//                    $('#autocompleteQuest_value').val($scope.question.question_text);
+//                    $(".form-ask-question").css({"left": 0});
 
-            }]);
+                }
+                $scope.deleteQuestion = function (qid) {
+	                QuestionsService.removePost(qid).then(function (data) {
+	                    if (data.data.status == "true") {
+	                        window.location.href = '#/ask_a_question/-1';
+	                    } else {
+	                       $scope.errorMessage = "Can't delete question";
+	                    }
+	                });
+
+                }
+ }]);

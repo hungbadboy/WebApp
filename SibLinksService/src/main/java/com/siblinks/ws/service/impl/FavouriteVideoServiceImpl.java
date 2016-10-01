@@ -83,10 +83,11 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
         logger.info("addFavouriteVideo " + new Date());
         TransactionDefinition def = new DefaultTransactionDefinition();
         TransactionStatus status = transactionManager.getTransaction(def);
-        SimpleResponse reponse = null;
+        boolean isAdd = false;
+        String message = "";
         try {
             // Insert in the video_favourite
-            dao.insertUpdateObject(
+            isAdd = dao.insertUpdateObject(
                 SibConstants.SqlMapper.SQL_VIDEO_FAVOURITE_INSERT,
                 new Object[] { favourite.getUid(), favourite.getVid() });
 
@@ -94,13 +95,14 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
             dao.insertUpdateObject(SibConstants.SqlMapper.SQL_VIDEO_FAVOURITE_UPDATE, new Object[] { favourite.getVid() });
 
             transactionManager.commit(status);
-            reponse = new SimpleResponse("" + Boolean.TRUE, "favouriteService", "deleteMenuData", "");
+            message = "Favourite add successful";
             logger.info("addfavourite success " + new Date());
         } catch (DataAccessException e) {
+            message = e.getMessage();
             logger.error("addfavourite error " + new Date());
-            reponse = new SimpleResponse("" + Boolean.FALSE, "favouriteService", "deleteMenuData", "");
             transactionManager.rollback(status);
         }
+        SimpleResponse reponse = new SimpleResponse("" + isAdd, "favouriteService", "deleteMenuData", message);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -112,9 +114,10 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
     @RequestMapping(value = "/delFavourite", method = RequestMethod.POST)
     public ResponseEntity<Response> deleteFavouriteVideo(@RequestBody final FavouriteData favourite) {
 
-        SimpleResponse reponse = null;
         TransactionDefinition def = new DefaultTransactionDefinition();
         TransactionStatus status = transactionManager.getTransaction(def);
+        boolean isDelete = false;
+        String message ="";
         try {
             if (favourite.getVid() != null && !"".equals(favourite.getVid())) {
 
@@ -122,7 +125,7 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_VIDEO_UNFAVOURITE_UPDATE, new Object[] { favourite.getVid() });
 
                 // Delete in the video_favourite
-                dao.insertUpdateObject(
+                isDelete = dao.insertUpdateObject(
                     SibConstants.SqlMapper.SQL_VIDEO_FAVOURITE_DELETE,
                     new Object[] { favourite.getUid(), favourite.getVid() });
             } else {
@@ -132,19 +135,20 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_VIDEO_UNFAVOURITE_UPDATE_ALL_BY_USER, params);
 
                 // Delete in the video_favourite
-                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_VIDEO_FAVOURITE_DELETE_ALL, params);
+                isDelete = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_VIDEO_FAVOURITE_DELETE_ALL, params);
             }
-
+            
             // commit
             transactionManager.commit(status);
-            reponse = new SimpleResponse("" + Boolean.TRUE, "favouriteService", "deleteFavouriteVideo", "");
+            message =((isDelete)? " Delete favourite successful": "Delete favourite failure");
             logger.info("delfavourite success " + new Date());
 
         } catch (Exception e) {
             logger.error("addfavourite error " + new Date());
-            reponse = new SimpleResponse("" + Boolean.FALSE, "adminService", "deleteFavouriteVideo", "");
+            message = "System error " + e.getMessage();
             transactionManager.rollback(status);
         }
+        SimpleResponse reponse = new SimpleResponse("" + isDelete, "adminService", "deleteFavouriteVideo", message);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
