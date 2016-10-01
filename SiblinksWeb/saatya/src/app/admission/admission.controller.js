@@ -1,7 +1,11 @@
 // =========================================== ADMINSSION.CONTROLLER.JS==============
-brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$location', '$http', '$timeout', 'AdmissionService', 'StudentService',
-	function ($scope, $rootScope, $log, $location, $http, $timeout, AdmissionService, StudentService) {
-	
+brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$location', '$http', '$timeout', 'AdmissionService', 'StudentService','MentorService','myCache',
+	function ($scope, $rootScope, $log, $location, $http, $timeout, AdmissionService, StudentService, MentorService, myCache) {
+	var userId = localStorage.getItem('userId');
+	var LIMIT_TOP_MENTORS = 5;
+	var limit = 10;
+    var offset = 0;
+    
 	/* College Admission begin */
 	$scope.displayNumberOfTutVideo = 3;
 	$scope.displayNumberOfArticle = 3;
@@ -17,6 +21,36 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 	$scope.countNext = 0;
 	$scope.indexAdmission = 0;
 	
+	init();
+	function init() {
+		// Get Top Mentor
+		MentorService.getTopMentorsByLikeRateSubcrible(LIMIT_TOP_MENTORS, offset, 'subcribe', userId).then(function (data) {
+            var data_result = data.data.request_data_result;
+            var subjects = myCache.get("subjects");
+            if (data_result) {
+                var listTopMentors = [];
+                for (var i = 0; i < data_result.length; i++) {
+                    var mentor = {};
+                    mentor.userid = data_result[i].userid;
+                    mentor.userName = data_result[i].userName;
+                    mentor.lastName = data_result[i].lastName;
+                    mentor.firstName = data_result[i].firstName;
+                    mentor.imageUrl = data_result[i].imageUrl;
+                    mentor.numlike = data_result[i].numlike;
+                    mentor.numsub = data_result[i].numsub;
+                    mentor.numvideos = data_result[i].numvideos;
+                    mentor.isOnline = data_result[i].isOnline;
+                    mentor.defaultSubjectId = data_result[i].defaultSubjectId;
+                    if(data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
+                    	mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
+                    }
+                    mentor.numAnswers = data_result[i].numAnswers;
+                    listTopMentors.push(mentor);
+                }
+            }
+            $scope.listTopmentors = listTopMentors;
+        });
+	}
 	
 	$scope.rangeAdmission = function(count){
 		var ratings = []; 
