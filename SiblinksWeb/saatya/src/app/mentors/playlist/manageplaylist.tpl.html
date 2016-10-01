@@ -1,40 +1,4 @@
-<!-- <main id="main">
-    <div class="ask-a-question">
-        <div class="breadcrum">
-            <div class="container">
-                <h5>Siblinks <span>/ Playlist</span></h5>
-            </div>
-        </div>
-        <div class="container">
-            <button ng-click="addNew()">Add</button>
-
-            <div class="newest" ng-repeat="v in playlist">		
-				<div class="col-md-12">
-		          <div class="col-md-6">
-		            <div class="col-md-1"><div><input type="checkbox" name=""></div></div>
-		            <div class="col-md-3"><img src="{{v.image}}" style="width: 100%;"></div>
-		            <div class="col-md-6">
-		              <div> {{v.name}} </div>
-		              <div> {{v.CreateDate}}</div>
-		              <div> {{v.numView}} Views</div>
-		              <div> {{v.numComment}} Comments</div>
-		              <div>*****</div>
-		            </div>
-		          </div>
-		          <div class="col-md-6">		            
-		            <div class="col-md-4">
-		              <button class="col-md-12" ng-click="update(v.plid)">edit</button>
-		              <button class="col-md-12" ng-click="delete(v.plid)">delete</button>
-		            </div>
-	          		</div>
-		        </div>		
-			</div>
-        </div>
-</main>
- -->
-
  <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
-
  <div class="content">
     <div class="center-content">
         <div class="center-content-wrapper">
@@ -111,7 +75,7 @@
                                             <div class="check-box"><input type="checkbox" ng-model="p.selected" class="check-input" name="checkall" /></div>
                                             <div class="box-detail-play clearfix">
                                                 <span class="item-thumbnail">
-                                                    <img src="{{p.image}}" alt="">
+                                                    <a href="#/mentor/playlist/detail/{{p.plid}}"><img src="{{p.image}}" alt=""></a>
                                                     <div class="box-all-vd">
                                                         <p>
                                                             <b>{{p.count_videos}}</b>
@@ -121,7 +85,7 @@
                                                     </div>
                                                 </span>
                                                 <div class="detail-pl-inner">
-                                                    <h5>{{p.name}}</h5>
+                                                    <a href="#/mentor/playlist/detail/{{p.plid}}"><h5>{{p.name}}</h5></a>
                                                     <span class="add-time">{{p.timeStamp}} ago</span>
                                                     
                                                     <p class="list-view">

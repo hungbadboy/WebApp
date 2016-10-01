@@ -88,7 +88,6 @@ brotControllers.controller('PlaylistController',
     $scope.deleteMultiplePlaylist = function(){
       var selectedPlaylist = checkSelectedPlaylist();
       if (selectedPlaylist.length > 0) {
-        console.log(selectedPlaylist);
         if (confirm("Are you sure?")) {
           PlaylistService.deleteMultiplePlaylist(selectedPlaylist).then(function(data){
             console.log(data.data.request_data_result);
@@ -119,7 +118,6 @@ brotControllers.controller('PlaylistController',
     }
 
     $scope.loadPlaylistBySubject = function(){
-      console.log($scope.subject);
       if($scope.subject == 0){
         if(cachePlaylist.length > 0) {
           $scope.playlist.length = 0;

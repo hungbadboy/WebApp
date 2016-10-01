@@ -254,6 +254,7 @@ module.exports = function ( grunt ) {
                       'src/app/playlist/AddPlaylistController.js',
                       'src/app/mentors/playlist/Playlist.service.js',
                       'src/app/playlist/updatePlaylistController.js',
+                      'src/app/playlist/playlistDetailController.js',
                       // Profile
                       'src/app/students/studentProfileController.js',
                       'src/app/metorProfile/mentorProfileController.js',
@@ -261,7 +262,8 @@ module.exports = function ( grunt ) {
                       'src/app/mentors/video/mentorVideoManageController.js',
                       'src/app/mentors/video/VideoManagerController.js',
                       'src/app/mentors/video/choosePlaylistController.js',
-                      'src/app/mentors/video/uploadTutorialController.js'
+                      'src/app/mentors/video/uploadTutorialController.js',
+                      'src/app/mentors/video/mentorVideoDetailController.js'
                       ],
                 dest: '<%= build_dir %>/src/app/<%= pkg.name %>-<%= pkg.version %>.js'
             },
