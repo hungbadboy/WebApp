@@ -52,11 +52,11 @@
                                             <span >asked {{question.time}} ago </span><br>
                                             <p>in <a href="#/ask_a_question/{{question.subjectid}}">{{question.subject}}</a></p>
                                         </div>
-                                        <div class="edit-details-question" data-icon="&#xe037;" ng-click="showEditQuestion(question.id)" ng-if="question.authorId == userId && question.count_answer == 0">
+                                        <div class="edit-details-question" data-icon="&#xe037;" ng-click="showEditQuestion(question.id)" ng-if="question.authorId == userId">
                                             <div class="edit-question" id="qid{{question.id}}" ng-show="isEditQuestion && question.id == showEditQuestionId">
                                                 <ul>
                                                     <li class="edit" ng-click="editQuestion(question.id+'')"><a href="/"><span data-icon="&#xe08a;"></span>Edit</a></li>
-                                                    <li class="delete" ng-really-message="Are you sure  delete?" ng-really-click ="deleteQuestion(question.id)"><a href="/"><span data-icon="&#x51;"></span>Delete</a></li>
+                                                    <li class="delete" ng-show="question.count_answer == 0" ng-really-message="Are you sure  delete?" ng-really-click ="deleteQuestion(question.id)"><a href="/"><span data-icon="&#x51;"></span>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </div>

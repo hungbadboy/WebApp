@@ -23,7 +23,6 @@
                 <p class="new-ask-button" ng-click="showFormAdd()">New Ask</p>
               </div><!-- /End new ask question -->
             </div><!-- /End head of question -->
-
             <!-- Content of question -->
             <div class="content-question col-md-12">
               <div class="content-question-wrapper">
@@ -38,20 +37,18 @@
                         <span> asked &nbsp;{{question.timeStamp}} ago </span><br>
                         <p> <a href="#/viewQuestionBySubject/{{question.subjectId}}">{{question.subject}}</a></p>
                       </div>
-                      <div class="edit-details-question" data-icon="&#xe037;" ng-click="showEditQuestion()" ng-if="question.authorId == userId && countAnswer == 0">
+                      <div class="edit-details-question" data-icon="&#xe037;" ng-click="showEditQuestion()" ng-if="question.authorId == userId">
                         <div class="edit-question inactive" >
                           <ul>
                             <li class="edit" ng-click="editQuestion(question.question_id)"><span data-icon="&#xe08a;">&nbsp;&nbsp;</span>Edit</li>
-                            <li class="delete" ng-really-message="Are you sure  delete?" ng-really-click ="deleteQuestion(question.question_id)"><span data-icon="&#x51;">&nbsp;&nbsp;</span>Delete</li>
+                            <li class="delete" ng-show="countAnswer == 0" ng-really-message="Are you sure  delete?" ng-really-click ="deleteQuestion(question.question_id)"><span data-icon="&#x51;">&nbsp;&nbsp;</span>Delete</li>
                           </ul>
                         </div>
                       </div>
                     </div>
                     <!-- Detail Content of Question -->
                     <div class="detail-content-question col-xs-12">
-                      <div >
-                        <pre>{{question.question_text}}</pre>
-                        </div>
+                      <p class="pre-wrap">{{question.question_text}}</p>
                     </div><!-- /End Detail Content of Question -->
 
                     <!-- Images of question -->
