@@ -231,7 +231,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	}).
 	when('/mentor/playlist/detail/:plid', {
 		templateUrl: 'src/app/mentors/playlist/mentor-playlist-detail.tpl.html',
-		controller: 'PlaylistDetailController',
+		controller: 'MentorPlaylistDetailController',
 		reloadOnSearch: false
 	}).
 	otherwise({

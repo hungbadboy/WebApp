@@ -283,11 +283,13 @@ public class PlayplistServiceImpl implements PlaylistService {
         Object[] queryParams = { plid };
         entityName = SibConstants.SqlMapperBROT44.SQL_GET_PLAYLIST_BY_ID;
         List<Object> readObject = dao.readObjects(entityName, queryParams);
+        Map<String, Object> objectReturn = null;
         SimpleResponse reponse = null;
         if (readObject != null && readObject.size() > 0) {
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", readObject);
+            objectReturn = (Map<String, Object>) readObject.get(0);
+            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", objectReturn);
         } else {
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", "No data found");
+            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", SibConstants.NO_DATA);
         }
 
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);

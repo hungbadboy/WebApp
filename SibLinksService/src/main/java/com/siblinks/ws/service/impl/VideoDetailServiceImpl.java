@@ -1,8 +1,6 @@
 package com.siblinks.ws.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,7 +24,6 @@ import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.VideoDetailService;
-import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.SibConstants;
 import com.siblinks.ws.util.StringUtil;
 
@@ -150,14 +147,17 @@ public class VideoDetailServiceImpl implements VideoDetailService {
 	@Override
 	@RequestMapping(value = "/getVideoByPlaylistId/{pid}", method = RequestMethod.GET)
 	public ResponseEntity<Response> getVideoByPlaylistId(@PathVariable(value = "pid") final long vid) {
-		String entityName = null;
 
 		Object[] queryParams = { vid };
+        SimpleResponse reponse = null;
 
-		entityName = SibConstants.SqlMapper.SQL_GET_VIDEOS_BY_PLAYLIST;
+        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEOS_BY_PLAYLIST, queryParams);
+        if (readObject != null && readObject.size() > 0) {
+            reponse = new SimpleResponse("" + true, "Video", "getVideoByPlaylistId", readObject);
+        } else {
+            reponse = new SimpleResponse("" + true, "Video", "getVideoByPlaylistId", SibConstants.NO_DATA);
+        }
 
-		List<Object> readObject = dao.readObjects(entityName, queryParams);
-		SimpleResponse reponse = new SimpleResponse("" + true, "Video", "getVideoByPlaylistId", readObject);
 		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
 		return entity;
 	}
