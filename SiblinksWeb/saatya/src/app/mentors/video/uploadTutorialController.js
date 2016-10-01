@@ -51,6 +51,8 @@ brotControllers.controller('UploadTutorialController',
     }
 
     $scope.openEdit = function (v){
+      $scope.error = null;
+      $scope.success = null;
       $scope.editVideo = v;
       $('#txtUploadTitle').val(v.title);
       $scope.link = v.url;
@@ -70,11 +72,11 @@ brotControllers.controller('UploadTutorialController',
       var description = $('#txtUploadDescription').val();
 
       var check = true;
-      var error = '';
 
       if (title == null || title.trim().length == 0) {
         check = false;
-        error += "Please input Title. \n";
+        $scope.error = "Please input Title. \n";
+        angular.element('#txtUploadTitle').trigger('focus');
       }
 
       if (check) {
@@ -85,12 +87,15 @@ brotControllers.controller('UploadTutorialController',
         }
 
         VideoService.updateTutorial(request).then(function(data){
-          loadVideoRecently();
-          $scope.editVideo = null;
-          clearContent();
+          if (data.data.request_data_result === "Success") {
+            $scope.success = "Upload Tutorial successful.";
+            $scope.editVideo = null;
+            loadVideoRecently();
+            clearContent();
+          } else{
+            $scope.error = data.data.request_data_result;
+          }
         });
-      } else{
-        alert(error);
       }
     }
 
@@ -100,22 +105,23 @@ brotControllers.controller('UploadTutorialController',
       var description = $('#txtUploadDescription').val();
 
       var check = true;
-      var error = '';
+      $scope.error = '';
       if (title == null || title.trim().length == 0) {
         check = false;
-        error += "Please input Title. \n";
-      }
-      if (link == null || link.trim().length == 0) {
+        $scope.error = "Please input Title. \n";
+        angular.element('#txtUploadTitle').trigger('focus');
+      } else if (link == null || link.trim().length == 0) {
         check = false;
-        error += "Please input Link. \n";
-      }
-      if (!$scope.vid) {
+        $scope.error = "Please input Link. \n";
+        angular.element('#txtUploadLink').trigger('focus');
+      } else if (!$scope.vid) {
         check = false;
-        error += "Please input valid link. \n";
-      }
-      if ($('#uploadSubject').val() == 0) {
+        $scope.error = "Please input valid link. \n";
+        angular.element('#txtUploadLink').trigger('focus');
+      } else if ($('#uploadSubject').val() == 0) {
         check = false;
-        error += "Please select subject. \n";
+        $scope.error = "Please select subject. \n";
+        angular.element('#uploadSubject').trigger('focus');        
       }
 
       if (check) {
@@ -130,11 +136,14 @@ brotControllers.controller('UploadTutorialController',
           "plid": $('#uploadPlaylist').val() == 0 ? null : $('#uploadPlaylist').val()
         }
         VideoService.uploadTutorial(request).then(function(data){
-          loadVideoRecently();
-          clearContent();
+          if (data.data.request_data_result === "Success") {
+            $scope.success = "Upload Tutorial successful.";
+            loadVideoRecently();
+            clearContent();
+          } else{
+            $scope.error = data.data.request_data_result;
+          }
         });
-      } else{
-        alert(error);
       }
     }
 

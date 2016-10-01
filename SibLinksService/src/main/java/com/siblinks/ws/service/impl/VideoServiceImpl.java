@@ -1715,7 +1715,7 @@ public class VideoServiceImpl implements VideoService {
         status = dao.insertUpdateObject(entityName, queryParams);
         String message = "";
         if (status) {
-            message = "Done";
+            message = "Success";
         } else {
             message = "Fail";
         }
@@ -2218,7 +2218,7 @@ public class VideoServiceImpl implements VideoService {
         String plid = request.getRequest_data().getPlid();
 
         Object[] queryParams;
-
+        SimpleResponse reponse = null;
         String entityName = null;
 
         List<Object> readObject = null;
@@ -2250,12 +2250,12 @@ public class VideoServiceImpl implements VideoService {
                 }
             }
             transactionManager.commit(status);
+            reponse = new SimpleResponse("" + true, "videos", "insertVideo", "Success");
         } catch (Exception e) {
+            reponse = new SimpleResponse("" + true, "videos", "insertVideo", "Failed");
             transactionManager.rollback(status);
             logger.debug(e.getMessage());
         }
-
-        SimpleResponse reponse = new SimpleResponse("" + true, "videos", "insertVideo", readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
