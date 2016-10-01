@@ -212,7 +212,6 @@ brotControllers.controller('StudentProfileController',
 
             $scope.update = function () {
                 var check = true;
-                var error = '';
 
                 var favorite = "";
                 if ($('#music').is(':checked')) {
@@ -242,12 +241,10 @@ brotControllers.controller('StudentProfileController',
                     gender = "O";
                 }
 
-
-                if ($('#email').val()) {
-                    if (!isValidEmailAddress($('#email').val())) {
-                        check = false;
-                        error += "Email is not valid";
-                    }
+                if (!isValidEmailAddress($('#email').val())) {
+                    check = false;
+                    $scope.error = "Email is not valid";
+                    angular.element('#email').trigger('focus');
                 }
 
                 if (check) {
@@ -265,17 +262,12 @@ brotControllers.controller('StudentProfileController',
                     console.log(student);
                     StudentService.updateUserProfile(student).then(function (data) {
                         if (data.data.request_data_result == "Success") {
-                            window.location.href = '#student/studentProfile';
-                            window.location.reload();
+                            $scope.success = "Change information successful.";
                         }
                         else {
-                            console.log(error);
-                            // alert("Something went wrong. Please try again later.");
+                            $scope.error = data.data.request_data_result;
                         }
                     });
-                }
-                else {
-                    console.log(error);
                 }
             }
             

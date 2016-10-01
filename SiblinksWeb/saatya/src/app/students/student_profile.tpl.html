@@ -176,7 +176,7 @@
                          <div class="content-question col-md-12 tab-pane" id="essay">
                              <div class="content-question-wrapper">
                                  <!-- Essay 01 -->
-                                 <div class="question essay_01" ng-if="essays != 'No data found'" ng-repeat="essay in essays track by $index">
+                                 <div class="question essay_01" ng-if="essays" ng-repeat="essay in essays track by $index">
                                      <div class="number-question col-xs-1">
                                          <h4>{{index+1}}</h4>
                                      </div>
@@ -198,7 +198,7 @@
                                          </div>
                                      </div>
                                  </div><!-- End Essay 01 -->
-                                 <div ng-if="essays == 'No data found'">
+                                 <div ng-if="!essays">
                                      <h5 class="essay-title">No data found</h5>
                                  </div>
                              </div>
@@ -221,13 +221,19 @@
                              </ul>
                                 <div class="tab-content">
                                       <div class="content-question tab-pane active" id="perInfor">
-                                          <form action="" method="">
+                                            <div ng-if="success" class="succesful">
+                                              <span>{{success}}</span>
+                                            </div>
+                                            <div ng-if="error" class="validate_error">
+                                               <span>{{error}}</span>
+                                            </div>
+                                            <form action="" method="">
                                               <div class="personal-information">
                                                   <div class="left-form">
-                                                      <p><input type="text" placeholder="Firstname" name="firstname"></p>
-                                                      <p><input type="text" placeholder="Lastname" name="lastname"></p>
-                                                      <p><input type="email" placeholder="Email" name="email"></p>
-                                                      <p><input type="text" placeholder="High School" name="school"></p>
+                                                      <p><input type="text" id="firstName" placeholder="Firstname" name="firstname"></p>
+                                                      <p><input type="text" id="lastName" placeholder="Lastname" name="lastname"></p>
+                                                      <p><input type="email" id="email" placeholder="Email" name="email"></p>
+                                                      <p><input type="text" id="school" placeholder="High School" name="school"></p>
                                                       <p class="favorite field">
                                                           <p>Favourite field</p>
                                                           <div ng-repeat="subject in subjects">
@@ -238,39 +244,39 @@
                                                   </div>
                                                   <div class="right-form">
                                                       <p class="sex">
-                                                          <input type="radio" name="gender" value="male" checked><label>Male</label>
-                                                          <input type="radio" name="gender" value="female"><label> Female</label>
-                                                          <input type="radio" name="gender" value="other"><label> Other</label>
+                                                          <input type="radio" id="male" name="gender" value="male" checked><label>Male</label>
+                                                          <input type="radio" id="female" name="gender" value="female"><label> Female</label>
+                                                          <input type="radio" id="other" name="gender" value="other"><label> Other</label>
                                                       </p>
                                                       
                                                       <p><input type="text" id="bio" ng-model="date" placeholder="BIO" brotdatepicker /></p>
-                                                      <p><textarea placeholder="About me..." name="aboutme"></textarea></p>
+                                                      <p><textarea placeholder="About me..." id="about" name="aboutme"></textarea></p>
                                                   </div>
                                                   
                                                   <div class="submit col-md-12">
-                                                      <button type="button" id="reset">Reset</button>
-                                                      <button type="button" id="update">Update</button>
+                                                      <!-- <button type="button" id="reset" ng-click="reset()">Reset</button> -->
+                                                      <button type="button" id="update" ng-click="update()">Update</button>
                                                   </div>
                                               </div>
-                                          </form>
+                                            </form>
                                       </div>
                                       <div class="content-question tab-pane" id="changPass">
-                                       	<div ng-if="msgSuccess" class="succesful">
-						          <span>{{msgSuccess}}</span>
-						        </div>
-							    <div ng-if="msgError" class="validate_error">
-							       <span>{{msgError}}</span>
-							    </div>
-                                          <form acition="" method="">
-                                          	<div class="change-password">
+                                       	    <div ng-if="msgSuccess" class="succesful">
+        						              <span>{{msgSuccess}}</span>
+        						            </div>
+            							    <div ng-if="msgError" class="validate_error">
+            							       <span>{{msgError}}</span>
+            							    </div>
+                                            <form acition="" method="">
+                                          	    <div class="change-password">
                                                   <p><input id="currentPwd" type="password"  ng-model="currentPwd" placeholder="Current password" name="currentPwd"></p>
                                                   <p><input id="newPwd" type="password" ng-model="newPwd" placeholder="New password" name="newPwd" ></p>
                                                   <p><input id="confirmPwd" type="password"  ng-model="confirmPwd" placeholder="Confirm password" name="confirmPwd"></p>
-                                              </div>
-                                              <div class="submit col-md-12">
-                                                  <button type="button" ng-click="reset()">Reset</button>
+                                                </div>
+                                                <div class="submit col-md-12">
+                                                  <!-- <button type="button" ng-click="reset()">Reset</button> -->
                                                   <button type="button" ng-click="changePassword(currentPwd,newPwd,confirmPwd)">Update</button>
-                                              </div>
+                                                </div>
                                           </form>
                                       </div>
                                   </div>
