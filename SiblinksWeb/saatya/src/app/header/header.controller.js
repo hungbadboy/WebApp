@@ -269,6 +269,9 @@ brotControllers.controller('UserHeaderController',
                 resolve: {
                     u_id: function () {
                         return userId;
+                    },
+                    v_id: function(){
+                        return -1;
                     }
                 }
               });

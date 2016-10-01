@@ -1,6 +1,6 @@
 brotControllers.controller('MentorPlaylistDetailController', 
-  ['$scope', '$modal', '$routeParams', '$http', '$location', 'PlaylistService', 'videoDetailService', 'myCache',
-                                       function ($scope, $modal, $routeParams, $http, $location, PlaylistService, videoDetailService, myCache) {
+  ['$scope', '$modal', '$routeParams', '$http', '$location', 'PlaylistService', 'videoDetailService', 'VideoService',
+                                       function ($scope, $modal, $routeParams, $http, $location, PlaylistService, videoDetailService, VideoService) {
 
     var plid = $routeParams.plid;
     var userId = localStorage.getItem('userId'); 
@@ -28,7 +28,6 @@ brotControllers.controller('MentorPlaylistDetailController',
     			data.numView = data.numView != null ? data.numView : 0;
     			data.numComment = data.numComment != null ? data.numComment : 0;
     			data.timeStamp = convertUnixTimeToTime(data.timeStamp); 
-    			console.log(data);
     			$scope.playlist = data;
     		}
     	});
@@ -38,8 +37,35 @@ brotControllers.controller('MentorPlaylistDetailController',
     	videoDetailService.getVideoByPlaylistId(plid).then(function (data) {
     		if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
     			$scope.videos = data.data.request_data_result;
-    			console.log($scope.videos);
+                for (var i = $scope.videos.length - 1; i >= 0; i--) {
+                    $scope.videos[i].timeStamp = convertUnixTimeToTime($scope.videos[i].timeStamp);
+                }
     		}
     	});
+    }
+
+    $scope.delete = function(vid){
+        if (confirm('Are you sure?')) {
+            VideoService.deleteVideo(vid, userId).then(function(data){
+              if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+                getVideosInPlaylist();
+              }
+            });
+        }
+    }
+
+    $scope.openEdit = function(vid){
+        var modalInstance = $modal.open({
+            templateUrl: 'src/app/mentors/video/upload_tutorial_popup.tpl.html',
+            controller: 'UploadTutorialController',
+            resolve: {
+                v_id: function(){
+                    return vid;
+                },
+                u_id: function(){
+                    return userId;
+                }
+            }
+        });
     }
 }]);

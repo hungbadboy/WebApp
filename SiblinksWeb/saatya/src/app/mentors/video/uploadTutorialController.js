@@ -1,6 +1,6 @@
 brotControllers.controller('UploadTutorialController', 
-  ['$scope', '$modalInstance', '$routeParams', '$http', '$location', 'VideoService', 'MentorService', 'HomeService', 'myCache', 'u_id' ,
-                                       function ($scope, $modalInstance, $routeParams, $http, $location, VideoService, MentorService, HomeService, myCache, u_id) {
+  ['$scope', '$modalInstance', '$routeParams', '$http', '$location', 'VideoService', 'videoDetailService', 'HomeService', 'myCache', 'u_id' , 'v_id',
+                                       function ($scope, $modalInstance, $routeParams, $http, $location, VideoService, videoDetailService, HomeService, myCache, u_id, v_id) {
 
 
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
@@ -11,9 +11,21 @@ brotControllers.controller('UploadTutorialController',
     init();
 
     function init(){
-      initSubject();
-      initPlaylist();
-      loadVideoRecently();
+      if (!isNaN(v_id) && v_id > 0) {
+        getVideoDetail();
+      } else{
+        initSubject();
+        initPlaylist();
+        loadVideoRecently();
+      }      
+    }
+
+    function getVideoDetail(){
+      videoDetailService.getVideoDetailById(v_id).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+          displayEdit(data.data.request_data_result);
+        }
+      });
     }
 
     function loadVideoRecently(){
@@ -50,14 +62,24 @@ brotControllers.controller('UploadTutorialController',
       }      
     }
 
-    $scope.openEdit = function (v){
+    function displayEdit(v){
+      console.log(v);
+      if (Array.isArray(v)) {
+        $scope.editVideo = v[0];
+      } else{
+        $scope.editVideo = v;
+      }
       $scope.error = null;
       $scope.success = null;
-      $scope.editVideo = v;
-      $('#txtUploadTitle').val(v.title);
-      $scope.link = v.url;
+      
+      $('#txtUploadTitle').val($scope.editVideo.title);
+      $scope.link = $scope.editVideo.url;
       checkLink($scope.link);
-      $('#txtUploadDescription').val(v.description);
+      $('#txtUploadDescription').val($scope.editVideo.description);
+    }
+
+    $scope.openEdit = function (v){
+      displayEdit(v);
     }
 
     function getSubjectIndex(id,data){
@@ -88,7 +110,7 @@ brotControllers.controller('UploadTutorialController',
 
         VideoService.updateTutorial(request).then(function(data){
           if (data.data.request_data_result === "Success") {
-            $scope.success = "Upload Tutorial successful.";
+            $scope.success = "Udate Tutorial successful.";
             $scope.editVideo = null;
             loadVideoRecently();
             clearContent();
