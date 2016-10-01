@@ -224,6 +224,11 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		controller: 'VideoManagerController',
 		reloadOnSearch: false
 	}).
+	when('/mentor/video/videoDetail/:vid', {
+		templateUrl: 'src/app/mentors/video/mentor-video-detail.tpl.html',
+		controller: 'MentorVideoDetailController',
+		reloadOnSearch: false
+	}).
 	otherwise({
         redirectTo: '/'
     });

@@ -1,4 +1,3 @@
-
 <!-- Sidebar left menu -->
 <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
 <!-- /End Sidebar left menu -->    
@@ -9,7 +8,6 @@
                 <div class="dashboard-wrapper">
                     <div class="dashboard-header">    
                     <h4>Manage Video</h4>
-                    <p>Ut a porttitor leo. Aliquam fermentum nec elit lobortis tristique </p>
                     </div>
                     <div class="manager-video">
                         <div class="row top-mag">
@@ -59,18 +57,18 @@
                                     <div class="check-box"><input ng-model="v.selected" type="checkbox" class="check-input" name="checkall" ng-click="optionSelected()"/></div>
                                     <div class="box-detail-play clearfix">
                                         <span class="item-thumbnail">
-                                            <img src="{{v.image}}" alt="">
+                                            <a href="#/mentor/video/videoDetail/{{v.vid}}"><img src="{{v.image}}" alt=""></a>
                                         </span>
                                         <div class="detail-pl-inner">
-                                            <h5>{{v.title}}</h5>
+                                            <a href="#/mentor/video/videoDetail/{{v.vid}}"><h5>{{v.title}}</h5></a>
                                             <span class="add-time">{{v.timeStamp}} ago</span>
-                                            <div  class="list-star pull-left" star-rating stars="5"
+                                            <!-- <div  class="list-star pull-left" star-rating stars="5"
                                                   outer-star-selection="stars"
                                                   outer-percent="rating"
                                                   rating-define="star"
                                                   rating-stars="{{v.averageRating}}"
                                                   star-radius="12" sel-color="gold"
-                                                  back-color="white"></div>
+                                                  back-color="white"></div> -->
                                             <p class="list-view">
                                                 <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
                                                 <!-- <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp; -->
@@ -118,102 +116,3 @@
 <!-- Sidebar right -->
 <div id="sidebar-right" ng-include="sidebarRight"></div>
 <!-- End Sidebar right -->
-
-<!-- Upload image popup -->
-<div class="modal fade" id="uploadImg">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Media Manager</h3>
-                <div class="add-selected">Add selected</div>
-            </div>
-            <div class="modal-body clearfix media-manager">
-                <form action="">
-                    <div class="media-manager-wrapper">
-                        <div class="media-upload">
-                            <div id="drop_zone"><h5>Drop files anywhere to upload</h5></div>
-                            <label for="files">Select Image</label>
-                            <input type="file" id="files" name="files[]" multiple />
-                        </div>
-                        <div class="media-uploaded">
-                            <ul>
-                                <li class="">
-                                    <img src="assets/images/image-01.png">
-                                    <div class="choose-uploaded">
-                                      <img src="assets/images/choose-uploaded.png">
-                                    </div>
-                                </li>
-                                <li class="">
-                                    <img src="assets/images/image-02.png">
-                                    <div class="choose-uploaded">
-                                      <img src="assets/images/choose-uploaded.png">
-                                    </div>
-                                </li>
-                                <li class="">
-                                    <img src="assets/images/image-03.png">
-                                    <div class="choose-uploaded">
-                                      <img src="assets/images/choose-uploaded.png">
-                                    </div>
-                                </li>
-                                <li class="">
-                                    <img src="assets/images/image-04.png">
-                                    <div class="choose-uploaded">
-                                      <img src="assets/images/choose-uploaded.png">
-                                    </div>
-                                </li>
-                                <li class="">
-                                    <img src="assets/images/image-05.png">
-                                    <div class="choose-uploaded">
-                                      <img src="assets/images/choose-uploaded.png">
-                                    </div>
-                                </li>
-                                <li class="">
-                                    <img src="assets/images/image-06.png">
-                                    <div class="choose-uploaded">
-                                      <img src="assets/images/choose-uploaded.png">
-                                    </div>
-                                </li>
-                                <li class="">
-                                    <img src="assets/images/image-07.png">
-                                    <div class="choose-uploaded">
-                                      <img src="assets/images/choose-uploaded.png">
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="pagination-number show-item">
-                            <nav>
-                              <ul class="pagination">
-                                <li class="page-item disabled previous">
-                                  <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">
-                                        <p><</p>
-                                    </span>
-                                    <span class="sr-only">Previous</span>
-                                  </a>
-                                </li>
-                                <li class="page-item active">
-                                  <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item next">
-                                  <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">
-                                        <p>></p>
-                                    </span>
-                                    <span class="sr-only">Next</span>
-                                  </a>
-                                </li>
-                              </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /End Upload image popup -->
-
-

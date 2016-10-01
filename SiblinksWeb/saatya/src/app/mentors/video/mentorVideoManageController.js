@@ -30,7 +30,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
     }
 
     function getLatestComments(){
-      MentorService.getLatestComments(userId, 5, 5).then(function(data){
+      MentorService.getLatestComments(userId, 5, 0).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data"){
           $scope.comments = formatCommentProfile(data.data.request_data_result);
         }
@@ -52,7 +52,6 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
 
     function getLatestRatings(){
       MentorService.getLatestRatings(userId).then(function(data){
-        console.log(data.data.request_data_result);
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data"){
           $scope.ratings = formatRatingProfile(data.data.request_data_result);
         }
