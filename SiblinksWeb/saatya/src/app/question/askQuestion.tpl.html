@@ -56,7 +56,7 @@
                                             <div class="edit-question" id="qid{{question.id}}" ng-show="isEditQuestion && question.id == showEditQuestionId">
                                                 <ul>
                                                     <li class="edit" ng-click="editQuestion(question.id+'')"><a href="/"><span data-icon="&#xe08a;"></span>Edit</a></li>
-                                                    <li class="delete" ng-show="question.count_answer == 0" ng-really-message="Are you sure  delete?" ng-really-click ="deleteQuestion(question.id)"><a href="/"><span data-icon="&#x51;"></span>Delete</a></li>
+                                                    <li class="delete" ng-show="question.count_answer == 0 || !question.count_answer" ng-really-message="Are you sure  delete?" ng-really-click ="deleteQuestion(question.id)"><a href="/"><span data-icon="&#x51;"></span>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -83,8 +83,8 @@
                                         <div class="answer-question col-xs-12">
                                             <div class="number-answer">
                                                 <div class="total-number-answer">
-                                                	<div ng-if="question.count_answer > 0" class="total-answer" ng-click="viewAnswer(question.id)">{{question.count_answer}} answer</div>
-                                                    <div ng-if="question.count_answer == 0" class="total-answer">No answer</div>
+                                                	<div ng-if="question.count_answer > 0 && question.count_answer" class="total-answer" ng-click="viewAnswer(question.id)">{{question.count_answer}} answer</div>
+                                                    <div ng-if="question.count_answer == 0 || !question.count_answer" class="total-answer">No answer</div>
                                                     <div class="total-view">&nbsp;<span data-icon=""></span>&nbsp;&nbsp;&nbsp; {{question.numviews}} views</div>
                                                 </div>
                                                 <!-- Detail-answer-question -->

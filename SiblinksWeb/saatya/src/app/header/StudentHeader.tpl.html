@@ -36,11 +36,11 @@
                     <div class="notification">
                         <img src="assets/images/bell.png"><span ng-if="countNotification > 0" ng-click="popupNotification()">{{countNotification}}</span>
                     </div>
-                    <div class="user-login">
+                    <div class="user-login" hide-When-Click-Anywhere>
                         <div class="user-img">
                              <span><img ng-src="{{imageUrl}}" ng-if="imageUrl"></span>
                          </div>
-                         <div class="profile-user"><img src="assets/images/arrow.png" ng-click="toggleUserInfo()"></div>
+                         <div class="profile-user" ng-click="toggleUserInfo()"><img src="assets/images/arrow.png"></div>
                          <div id="user-info" class="user-info" ng-show="isShowHideUserInfo">
                              <ul>
                                  <li class="profile"><a href="#/student/studentProfile" ><span data-icon="&#xe08a;"></span>Profile</a></li>

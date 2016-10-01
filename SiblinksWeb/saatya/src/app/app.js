@@ -15,7 +15,7 @@ brotApp.controller('MainController', function($scope, $http, $location) {
 	  $scope.idbody ="";
 	  $scope.logined="";
 	  $scope.currentPath="";
-	 
+	  
 	
 	  var userId = "";
       var userType = "";
@@ -50,6 +50,7 @@ brotApp.controller('MainController', function($scope, $http, $location) {
        
       $scope.$on('$routeChangeSuccess', function() {
           var path = $location.path();
+          $scope.isShowHideUserInfo = false;
           $scope.currentPath = $location.path();
           if(userType=='M'){
               $scope.idbody = 'mentor';
