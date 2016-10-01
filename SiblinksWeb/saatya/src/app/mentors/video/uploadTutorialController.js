@@ -138,6 +138,16 @@ brotControllers.controller('UploadTutorialController',
       }
     }
 
+    $scope.delete = function(vid){
+      if (confirm("Are you sure?")) {
+        VideoService.deleteVideo(vid, u_id).then(function(data){
+          if (data.data.status) {
+             loadVideoRecently();       
+          }
+        });
+      }
+    }
+
     function clearContent(){
       $('#txtUploadTitle').val('');
       $('#txtUploadLink').val('');
@@ -146,6 +156,7 @@ brotControllers.controller('UploadTutorialController',
       $scope.uploadSubject = [0];
       $scope.uploadPlaylist = [0];
       $scope.vid = null;
+      $scope.link = null;
     }
 
     $scope.cancel = function(){
@@ -153,7 +164,7 @@ brotControllers.controller('UploadTutorialController',
     }
 
     $scope.validateLink = function(){
-      checkLink($('#txtUploadLink').val());      
+      checkLink($('#txtUploadLink').val());
     }
 
     function checkLink(link){
@@ -169,7 +180,7 @@ brotControllers.controller('UploadTutorialController',
 
     var player;
     function onYouTubeIframeAPIReady(youtubeId) {
-      player = new YT.Player('player', {
+      player = new YT.Player('uplad_player', {
           height: '280',
           width: '360',
           videoId: youtubeId,
