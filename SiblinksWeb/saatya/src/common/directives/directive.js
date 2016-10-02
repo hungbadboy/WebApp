@@ -1107,28 +1107,18 @@ brotControllers.directive('readMore', function() {
 
 brotControllers.directive('hideWhenClickAnywhere',['$document', function ($document) {
 	  return {	    
-	    scope: {
-	      defaultDisplay: '@'
-	    },	     
 	    restrict: 'A',	    
 	    link: function (scope, element, attrs) {
-	    	scope.isShowHideUserInfo = false;
-
-	        scope.toggleUserInfo = function(){
-	          scope.isShowHideUserInfo = !scope.isShowHideUserInfo;
-	        }
-	        
-	        $document.bind('click', function(event){
-	            var isClickedElementChildOfPopup = element.find(event.target).length > 0;
-  
-	            if (isClickedElementChildOfPopup) {
-	              return;
-	            }
-	            scope.isShowHideUserInfo = false;
-	            scope.$apply();
-	          });
-	    } 
-	    
-	  };
+	    	
+	    	var el = element[0];
+	        angular.element($document).bind('click', function(){
+	          if(el.className === 'user-info' && !isToggleUserInfo){
+	        	  angular.element(el).addClass('ng-hide');
+	        	return;
+	          }
+	          isToggleUserInfo = false;
+	        });
+	      } 
+	   };
 	  
 	}]);

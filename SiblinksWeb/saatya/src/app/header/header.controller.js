@@ -258,8 +258,10 @@ brotControllers.controller('UserHeaderController',
             
             
             // Toggle user information
+            $scope.isShowHideUserInfo = true;
             $scope.toggleUserInfo = function() {
             	$scope.isShowHideUserInfo = $scope.isShowHideUserInfo ? false : true;
+            	isToggleUserInfo = true;
       	  	}
 
             $scope.showUpload = function(){

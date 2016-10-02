@@ -4,7 +4,7 @@ var brotApp = angular.module('brotApp', [ 'ngRoute', 'brotControllers',
 //		, 'suggestSearch'
 		]
 );
-
+var isToggleUserInfo= false;
 var brotControllers = angular.module('brotControllers', ['infinite-scroll','stars','angular-sticky-kit']);
 var brotServices = angular.module('brotServices', ['ngResource']);
 //var suggestSearch = angular.module('suggestSearch', ['autocomplete']);
@@ -50,7 +50,6 @@ brotApp.controller('MainController', function($scope, $http, $location) {
        
       $scope.$on('$routeChangeSuccess', function() {
           var path = $location.path();
-          $scope.isShowHideUserInfo = false;
           $scope.currentPath = $location.path();
           if(userType=='M'){
               $scope.idbody = 'mentor';
