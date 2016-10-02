@@ -1,16 +1,16 @@
-<div class="navigation ">
+<div class="navigation " ng-controller="SideLeftRightController">
     <nav class="navbar">
         <div class="navbar-collapse">
             <div class="mentor-infor">
                 <div class="mentor-infor-img">
-                    <img ng-src="{{imageUrl}}"/>
+                    <img ng-src="{{avatar}}"/>
                 </div>
                 <div class="mentor-infor-name">
                     <p>Welcome</p>
-                    <p><strong>{{nameHome}}</strong></p>
+                    <p><strong>{{fullName}}</strong></p>
                 </div>
             </div>
-            <div class="browse"><p>Browse</p></div>
+            <div class="browse"><p></p></div>
             <ul class="mobimenu nav sidebar-nav">
                 <li ng-class="{active: currentPath=='/mentor/dashboard'}">
                     <a href="#/mentor/dashboard">
@@ -33,17 +33,17 @@
                     </a>
                     <ul class="menuSubmenu">
                        <li class="active">
-                           <a href="#/mentor/videoGeneral">
+                           <a href="#/mentor/mentorVideo">
                                <span class="menu-title">General</span>
                            </a>
                        </li>
                        <li>
-                           <a href="#/mentor/managerVideo">
+                           <a href="#/mentor/videoManager">
                                <span class="menu-title">Videos Manager</span>
                            </a>
                        </li>
                        <li>
-                           <a href="#/mentor/managerPlaylist">
+                           <a href="#/mentor/playlistManager">
                                <span class="menu-title">Playlist Manager</span>
                            </a>
                        </li>

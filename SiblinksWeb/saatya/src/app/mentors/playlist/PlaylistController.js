@@ -5,6 +5,7 @@ brotControllers.controller('PlaylistController',
 
     var userId = localStorage.getItem('userId'); 
     $scope.subject = [0];
+    $scope.playlistSubject = [0];
     var cachePlaylist = [];
 
     init();
@@ -100,19 +101,19 @@ brotControllers.controller('PlaylistController',
     function checkSelectedPlaylist(){
       var selectedPlaylist = [];
       angular.forEach($scope.playlist, function(p){
-        if (p.count_videos > 0) {
-          alert('Please remove all videos in the playlist first.');
-          return [];
-        } else{
+        
           if (!!p.selected) {
-            selectedPlaylist.push(p.plid);
+            if (p.count_videos > 0) {
+              alert('Please remove all videos in the playlist first.');
+              return [];
+            } else{}
+              selectedPlaylist.push(p.plid);
           }else{
             var i = selectedPlaylist.indexOf(p.plid);
             if(i != -1){
               selectedPlaylist.splice(i, 1);
             }
           }
-        }        
       });
       return selectedPlaylist;
     }
@@ -149,21 +150,21 @@ brotControllers.controller('PlaylistController',
 
     $scope.add = function(){
       var title = $('#txtTitle').val();
-      var subject = $('#playlist_subject').val();
+      var subject = $('#playlistSubject').val();
 
       var check = true;
-      var msg = '';
-      if (files == undefined) {
-        check = false;
-        msg += 'Please select playlist thumbnail. \n';
-      }
       if (title == null || title.trim().length == 0) {
         check = false;
-        msg += 'Please input playlist title. \n'; 
-      }
-      if (subject == 0) {
+        $scope.error = 'Please input playlist title. \n'; 
+        angular.element('#txtTitle').trigger('focus');
+      } else if (subject == 0) {
         check = false;
-        msg += 'Please select playlist subject. \n';  
+        $scope.error = 'Please select playlist subject. \n';  
+        angular.element('#playlistSubject').trigger('focus');       
+      } else if (files == undefined) {
+        check = false;
+        $scope.error = 'Please select playlist thumbnail. \n';
+        angular.element('#changeImg').trigger('focus');
       }
 
       if (check) {
@@ -180,13 +181,12 @@ brotControllers.controller('PlaylistController',
           console.log(data.data);
           if (data.data.request_data_result != null && data.data.request_data_result == "success") {
             //reload page
+            $scope.success = "Insert playlist successful.";
             loadPlaylist();
           } else{
-            alert('Insert playlist failed.');
+            $scope.error = data.data.request_data_result;
           }
         });
-      } else{
-        alert(msg);
       }
     }
 }]);

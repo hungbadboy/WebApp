@@ -203,7 +203,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		controller: 'ForgotPassword'
 	}).
 	when('/mentor/playlistManager', {
-		templateUrl: 'src/app/mentors/playlist/manageplaylist.tpl.html',
+		templateUrl: 'src/app/mentors/playlist/manage_playlist.tpl.html',
 		controller: 'PlaylistController'
 	}).
 	when('/mentor/essay', {

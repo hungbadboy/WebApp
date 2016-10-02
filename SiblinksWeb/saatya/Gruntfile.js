@@ -229,6 +229,7 @@ module.exports = function ( grunt ) {
                       'src/app/dashboard/dashboard.services.js',
                       'src/app/sidebarRight/sidebarRight.services.js',
                       'src/app/sidebarRight/sidebarRight.controller.js',
+                      'src/app/sidebarLeft/sidebarLeftMenu.controller.js',
                       'src/app/managerQA/managerQA.controller.js',
                       'src/app/managerQA/managerQA.service.js',
                       'src/app/managerQA/popupAnswer.controller.js',
