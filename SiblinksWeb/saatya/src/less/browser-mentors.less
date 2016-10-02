@@ -94,12 +94,12 @@
 }
 
 .mentors-infor-details {
-    width: 65%;
-    float: left;
+/*     width: 65%;
+float: left; */
 }
 .mentors-infor-img {
-    width: 35%;
-    float: left;
+/*     width: 35%;
+float: left; */
 }
 .mentors-infor {
     width: ~"calc(50% - 15px)";
@@ -128,28 +128,40 @@
 }
 
 .mentors-infor-details {
-    padding: 7px 10px 7px 5px;
+    padding: 7px 10px 45px 5px;
+    text-align: center;
 }
-.mentors-infor-details div {
-    margin: 3px 0;
+.mentors-infor-details a {
+    display: block;
+    font-size: 18px;
+    color: #505050;
+    padding: 12px 0;
 }
 .mentors-name>span {
     color: #ffcc00;
-    float: right;
+    padding-bottom: 12px;
+    display: block;
 }
 
 .mentors-name {
     font-weight: 700;
 }
-
+.mentors-edu span{
+    color: #505050;
+    font-weight: 500;
+    padding-bottom: 5px;
+    display: block;
+}
+.mentors-skill span{
+    color: #909090;
+    display: block;
+    padding-bottom: 15px;
+}
 .mentors-edu,
 .mentors-skill,
 .mentors-desciption,
 .mentors-rate {
     font-size: 12px;
-    overflow: hidden;
-    width: 100%;
-    float: left;
 }
 
 .mentors-rate p {
@@ -157,10 +169,12 @@
     float: left;
     margin-bottom: 0px;
 }
-
+.subscribers.active{
+    background-color: #ff5353;
+}
 .subscribers {
     padding: 6px 5px;
-    background: #ff5353;
+    background-color: #bcc6d0;
     color: #fff;
     border-radius: 4px;
     float: left;
@@ -193,33 +207,57 @@ span.number-subscribers {
 .likes,
 .videos,
 .answers {
-    margin-left: 10px;
+    margin-left: 20px;
     text-align: center;
 }
 .unsubcrib-hover {
     background: #bbc6d1;
 }
 .mentors-infor-img-wrapper {
-    width: 100%;
-    position: relative;
     text-align: center;
-    top: -15px;
     cursor: pointer;
+    position: relative;
+    width: 43%;
+    margin: 0 auto;
 }
 .mentors-infor-img-wrapper img {
-    width: 100%;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
 }
-.mentors-img-hover {
+.mentors-img-hover{
+    background: rgba(255,204,0,0.3);
+    display: none;
     position: absolute;
     top: 0;
-    width: 100%;
-    background: rgba(255,204,0,0.3);
+    right: 0;
     height: 100%;
-    display: none;
+    width: 100%;
+    text-align: center;
+    padding-top: 10%;
+    cursor: pointer;
+    border-radius: 50%;
 }
 .mentors-img-hover span[data-icon]:before {
     color: #fff;
     font-size: 85px;
     position: relative;
-    top: 30%;
+    top: 10%;
+}
+.line-tt{
+    border-top: 1px solid #ededed;
+    margin-bottom: 45px;
+    display: block;
+    clear: both;
+}
+.manager-profile-std .likes,
+.manager-profile-std .videos,
+.manager-profile-std .answers {
+    margin-left: 12px;
+}
+.manager-profile-std .mentors-infor-details{
+    padding-right: 0;
+}
+.manager-profile-std .browser-mentors-infor-wrapper .col-md-4{
+    padding-left: 0;
 }
