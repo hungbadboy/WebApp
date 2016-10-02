@@ -650,6 +650,27 @@ brotServices.factory('VideoService', ['$http', function ($http) {
       });
     }
 
+    factory.getVideosNonePlaylist = function(uid, offset){
+        return $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'video/getVideosNonePlaylist?uid='+uid+'&offset='+offset+''
+        });
+    }
+
+    factory.getVideosNonePlaylistBySubject = function(uid, subjectid, offset){
+        return $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'video/getVideosNonePlaylistBySubject?uid='+uid+'&subjectId='+subjectid+'&offset='+offset+''
+        });
+    }
+
+    factory.searchVideosNonePlaylist = function(uid, keyword, offset){
+        return $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'video/searchVideosNonePlaylist?uid='+uid+'&keyword='+keyword+'&offset='+offset+''
+        });
+    }
+
     /* API Favourite Video end */
     
     return factory;

@@ -2565,7 +2565,13 @@ public class VideoServiceImpl implements VideoService {
                     }
                 }
             }
-            String msg = String.format("Insert success %d videos and fail %d videos into playlist", countSuccess, countFail);
+            String msg = "";
+            if (countSuccess == vids.size()) {
+                msg = "Success";
+            } else {
+                msg = String.format("Insert success %d videos and fail %d videos into playlist", countSuccess, countFail);
+            }
+
             response = new SimpleResponse(true + "", request.getRequest_data_type(), request.getRequest_data_method(), msg);
         } else {
             response = new SimpleResponse(true + "", request.getRequest_data_type(), request.getRequest_data_method(), "Missing authorId or plid.");
@@ -2619,5 +2625,56 @@ public class VideoServiceImpl implements VideoService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
         return entity;
 
+    }
+
+    @Override
+    @RequestMapping(value = "/getVideosNonePlaylist", method = RequestMethod.GET)
+    public ResponseEntity<Response> getVideosNonePlaylist(final long uid, final int offset) {
+        String strEntity = SibConstants.SqlMapperBROT163.SQL_GET_VIDEOS_NONE_PLAYLIST;
+
+        List<Object> readObjects = dao.readObjects(strEntity, new Object[] { uid, offset });
+
+        SimpleResponse response;
+        if (readObjects != null && !readObjects.isEmpty()) {
+            response = new SimpleResponse("" + Boolean.TRUE, "video", "getVideosNonePlaylist", readObjects);
+        } else {
+            response = new SimpleResponse("" + Boolean.FALSE, "video", "getVideosNonePlaylist", SibConstants.NO_DATA);
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/getVideosNonePlaylistBySubject", method = RequestMethod.GET)
+    public ResponseEntity<Response> getVideosNonePlaylistBySubject(final long uid, final long subjectId, final int offset) {
+        String strEntity = SibConstants.SqlMapperBROT163.SQL_GET_VIDEOS_NONE_PLAYLIST_BY_SUBJECT;
+
+        List<Object> readObjects = dao.readObjects(strEntity, new Object[] { uid, subjectId, offset });
+
+        SimpleResponse response;
+        if (readObjects != null && !readObjects.isEmpty()) {
+            response = new SimpleResponse("" + Boolean.TRUE, "video", "getVideosNonePlaylistBySubject", readObjects);
+        } else {
+            response = new SimpleResponse("" + Boolean.FALSE, "video", "getVideosNonePlaylistBySubject", SibConstants.NO_DATA);
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/searchVideosNonePlaylist", method = RequestMethod.GET)
+    public ResponseEntity<Response> searchVideosNonePlaylist(final long uid, final String keyword, final int offset) {
+        String strEntity = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_NONE_PLAYLIST;
+        
+        String whereClause = String.format(" and v.title like '%%%s%%' order by v.timeStamp DESC limit 5 offset %d", keyword, offset);
+        List<Object> readObjects = dao.readObjectsWhereClause(strEntity, whereClause, new Object[] { uid });
+        SimpleResponse response;
+        if (readObjects != null && !readObjects.isEmpty()) {
+            response = new SimpleResponse("" + Boolean.TRUE, "video", "searchVideosNonePlaylist", readObjects);
+        } else {
+            response = new SimpleResponse("" + Boolean.FALSE, "video", "searchVideosNonePlaylist", SibConstants.NO_DATA);
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+        return entity;
     }
 }

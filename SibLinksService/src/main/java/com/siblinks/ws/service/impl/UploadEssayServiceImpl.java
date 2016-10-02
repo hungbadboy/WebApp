@@ -573,7 +573,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         if (readObject != null && readObject.size() > 0) {
             reponse = new SimpleResponse("" + true, "essay", "getEssayProfile", readObject);
         } else {
-            reponse = new SimpleResponse("" + true, "essay", "getEssayProfile", "No data found");
+            reponse = new SimpleResponse("" + true, "essay", "getEssayProfile", SibConstants.NO_DATA);
         }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;

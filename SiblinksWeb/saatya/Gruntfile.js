@@ -254,6 +254,7 @@ module.exports = function ( grunt ) {
                       'src/app/mentors/playlist/Playlist.service.js',
                       'src/app/playlist/updatePlaylistController.js',
                       'src/app/mentors/playlist/mentorPlaylistDetailController.js',
+                      'src/app/mentors/playlist/chooseVideoController.js',
                       // Profile
                       'src/app/students/studentProfileController.js',
                       'src/app/metorProfile/mentorProfileController.js',

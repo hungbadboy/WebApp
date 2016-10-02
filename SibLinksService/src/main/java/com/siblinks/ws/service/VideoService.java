@@ -123,6 +123,12 @@ public interface VideoService {
 
      public ResponseEntity<Response> addVideosToPlaylist(RequestData request);
 
+    public ResponseEntity<Response> getVideosNonePlaylist(long uid, int offset);
+
+    public ResponseEntity<Response> getVideosNonePlaylistBySubject(long uid, long subjectId, int offset);
+
+    public ResponseEntity<Response> searchVideosNonePlaylist(long uid, String keyword, int offset);
+
      /*
       * @author Tavv
       */

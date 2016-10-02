@@ -68,4 +68,16 @@ brotControllers.controller('MentorPlaylistDetailController',
             }
         });
     }
+
+    $scope.openAddVideo = function(){
+        var modalInstance = $modal.open({
+            templateUrl: 'src/app/mentors/playlist/choose_video_popup.tpl.html',
+            controller: 'ChooseVideoController',
+            resolve:{
+                pl_id: function(){
+                    return plid;
+                }
+            }            
+        });
+    }
 }]);

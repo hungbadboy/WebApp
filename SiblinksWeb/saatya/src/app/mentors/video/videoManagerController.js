@@ -30,10 +30,7 @@ brotControllers.controller('VideoManagerController',
       VideoService.getVideos(userId, 10).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
           $scope.videos = formatData(data.data.request_data_result);
-          $scope.novideo = false;
           cacheVideos = $scope.videos.slice(0);
-        } else{
-          $scope.novideo = true;
         }
       });
     }    
@@ -70,10 +67,7 @@ brotControllers.controller('VideoManagerController',
         VideoService.getVideosBySubject(userId, $scope.subject, 10).then(function(data){
           if(data.data.request_data_result != null && data.data.request_data_result != "Found no data"){
             $scope.videos = formatData(data.data.request_data_result);
-            $scope.novideo = false;
           }
-          else
-            $scope.novideo = true;
         });
       }
     };
@@ -164,7 +158,7 @@ brotControllers.controller('VideoManagerController',
 
     function openAddPlaylistPopup(selectedVideos){
       var modalInstance = $modal.open({
-        templateUrl: 'src/app/mentors/choose_playlist_popup.tpl.html',
+        templateUrl: 'src/app/mentors/video/choose_playlist_popup.tpl.html',
         controller: 'ChoosePlaylistController',
         resolve: {
             u_id: function () {

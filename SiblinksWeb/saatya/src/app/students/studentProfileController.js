@@ -19,12 +19,12 @@ brotControllers.controller('StudentProfileController',
             
             var isInit = true;
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
-            $scope.sections = [
-                {name: 'My Questions'},
-                {name: 'Essay'},
-                {name: 'Setting'}
-            ];
-            $scope.selected = $scope.sections[0];
+            // $scope.sections = [
+            //     {name: 'My Questions'},
+            //     {name: 'Essay'},
+            //     {name: 'Setting'}
+            // ];
+            // $scope.selected = $scope.sections[0];
             
             init();
 
@@ -67,7 +67,9 @@ brotControllers.controller('StudentProfileController',
 
             function getEssayProfile() {
                 StudentService.getEssayProfile(userId, 0, 0).then(function (data) {
-                    $scope.essays = data.data.request_data_result;
+                    if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+                        $scope.essays = data.data.request_data_result;
+                    }
                 });
             }
 
@@ -80,11 +82,14 @@ brotControllers.controller('StudentProfileController',
                         $scope.student.registrationTime = moment($scope.student.registrationTime).format('MMM, YYYY ', 'en');
                         if ($scope.student.gender == "M") {
                             $('#male').prop('checked', true);
+                            $scope.student.gender = "Male";
                         }
                         if ($scope.student.gender == "F") {
                             $('#female').prop('checked', true);
+                            $scope.student.gender = "Female";
                         } else {
                             $('#other').prop('checked', true);
+                            $scope.student.gender = "Other";
                         }
                         displaySetting();
                     }
@@ -129,29 +134,29 @@ brotControllers.controller('StudentProfileController',
                 return listImage;
             };
 
-            $scope.setMaster = function (section) {
-                $scope.selected = section;
+            // $scope.setMaster = function (section) {
+            //     $scope.selected = section;
 
-                if ($scope.selected.name == "Setting") {
-                    $("#setting").addClass('active');
-                    $("#essay").removeClass('active');
-                    $("#my-questions").removeClass('active');
-                }
-                else if ($scope.selected.name == "Essay") {
-                    $("#essay").addClass('active');
-                    $("#setting").removeClass('active');
-                    $("#my-questions").removeClass('active');
-                }
-                else {
-                    $("#my-questions").addClass('active');
-                    $("#essay").removeClass('active');
-                    $("#setting").removeClass('active');
-                }
-            }
+            //     if ($scope.selected.name == "Setting") {
+            //         $("#setting").addClass('active');
+            //         $("#essay").removeClass('active');
+            //         $("#my-questions").removeClass('active');
+            //     }
+            //     else if ($scope.selected.name == "Essay") {
+            //         $("#essay").addClass('active');
+            //         $("#setting").removeClass('active');
+            //         $("#my-questions").removeClass('active');
+            //     }
+            //     else {
+            //         $("#my-questions").addClass('active');
+            //         $("#essay").removeClass('active');
+            //         $("#setting").removeClass('active');
+            //     }
+            // }
 
-            $scope.isSelected = function (section) {
-                return $scope.selected === section;
-            }
+            // $scope.isSelected = function (section) {
+            //     return $scope.selected === section;
+            // }
 
             $scope.onFileSelect = function ($files) {
                 var fd = new FormData();
