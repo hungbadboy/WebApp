@@ -6,6 +6,28 @@
     <div class="breadcrum">
         <div class="container">
             <h5>Siblinks <span>/ Videos</span></h5>
+            <!-- Search form -->
+            <div class="search">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-search" placeholder="Search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''" >
+                        <div class="input-group-btn">
+                            <button class="btn btn-default btn-search-video" type="submit"><span data-icon="&#x55;"></span></button>
+                        </div>
+                        <!--<div angucomplete-alt ng-enter="searchEnter()" id="srch-term" placeholder="Search"-->
+                             <!--pause="100"-->
+                             <!--selected-object="onSelect"-->
+                             <!--local-data="listAllVideos" search-fields="title" title-field="title"-->
+                             <!--minlength="1" input-class="form-control form-control-search"-->
+                             <!--auto-match="true"-->
+                             <!--match-class="highlight">-->
+                        <!--<div class="input-group-btn">-->
+                            <!--<button class="btn btn-default btn-search-video" type="submit"><span data-icon="&#x55;"></span></button>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </form>
+            </div><!-- /End Search form -->
         </div>
     </div><!-- /End Breadcrum -->
     <!-- Container -->
@@ -15,48 +37,6 @@
             <!-- Left Side -->
             <div class="videos-content-header col-lg-3 col-md-4" id="videos-content">
                 <div class="videos-content-header-top">
-                    <!-- Search form -->
-                    <div class="search">
-                        <form class="navbar-form" role="search">
-                            <div class="input-group">
-
-                                <!--<input name="srch-term" id="srch-term" type="text" placeholder="Search"-->
-                                       <!--ng-model="selected"-->
-                                       <!--typeahead="video as video.title for video in listAllVideos | filter:$viewValue | limitTo:8"-->
-                                       <!--class="form-control"-->
-                                       <!--typeahead-min-length="0" typeahead-focus-first="false">-->
-
-                                <div angucomplete-alt ng-enter="searchEnter()" id="srch-term" placeholder="Search" pause="100"
-                                     selected-object="onSelect"
-                                     local-data="listAllVideos" search-fields="title" title-field="title"
-                                     minlength="1" input-class="form-control"
-                                     auto-match="true"
-                                     match-class="highlight">
-
-                                </div>
-
-                                <!--ng-enter="notFoundResult(video)"-->
-                                <!--<div angucomplete-alt id="autocompleteCate" type="text" class="form-control" placeholder="Search" name="srch-term"-->
-                                <!--id="srch-term"  local-data="results" search-fields="title" title-field="title"-->
-                                <!--minlength="0"  match-class="highlight">-->
-                                <!--<pre>Model: {{asyncSelected | json}}</pre>-->
-                                <!--<input type="text" ng-model="asyncSelected" placeholder="Search"-->
-                                <!--typeahead="suggestion for suggestion in searchVideos($viewValue, 6, 0)"-->
-                                <!--typeahead-loading="loadingLocations" typeahead-no-results="noResults"-->
-                                <!--class="form-control">-->
-                                <!--<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>-->
-                                <!--<div ng-show="noResults">-->
-                                <!--<i class="glyphicon glyphicon-remove"></i> No Results Found-->
-                                <!--</div>-->
-
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default" type="submit"><span data-icon="&#x55;"></span>
-                                    </button>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div><!-- /End Search form -->
                     <!-- Tab left menu -->
                     <ul class="nav nav-tabs">
                         <li class="all-video active">
@@ -89,7 +69,7 @@
                 </div><!-- /End Left Side -->
 
                 <!-- Top subcrible -->
-                <div class="top-mentors" id="video-mentor" ng-if="login == 1" >
+                <div class="top-mentors" id="video-mentor" ng-if="login == 1">
 
                     <div class="top-mentor-wrapper col-xs-12" id="video-mentor subcribles_wrapper">
                         <!-- top-mentor-header -->
@@ -109,8 +89,10 @@
                                             <a href="#/student/mentorProfile/{{mentor.MentorId}}"><img
                                                     ng-src="{{mentor.avatar}}">
                                                 <span ng-class="{'offline' : !mentor.isOnline, 'online' : mentor.isOnline}">
-                                                <img ng-if="mentor.isOnline" src="assets/images/ask question/online.png"/>
-                                                <img ng-if="!mentor.isOnline" src="assets/images/ask question/offline.png"/></span></a>
+                                                <img ng-if="mentor.isOnline"
+                                                     src="assets/images/ask question/online.png"/>
+                                                <img ng-if="!mentor.isOnline"
+                                                     src="assets/images/ask question/offline.png"/></span></a>
                                         </div>
                                         <div class="top-mentors-info">
                                             <p class="top-mentors-name">
@@ -158,7 +140,8 @@
                         <div ng-hide="!searchItem">
                             <h5>Search Result</h5>
                             <ul>
-                                <li ng-show="searchItem" ng-repeat="search in searchItem | limitTo : limitSearchResult : 0">
+                                <li ng-show="searchItem"
+                                    ng-repeat="search in searchItem | limitTo : limitSearchResult : 0">
                                     <div class="video-wrapper"><a href="#">
                                         <div class="videos-thumnail">
                                             <a href="#/videos/detailVideo/{{search.vid}}">
@@ -204,7 +187,7 @@
                             </ul>
                         </div>
                         <div class="recommended"
-                             ng-if="listVideoRecently && !searchItem && !isSearchAction">
+                             ng-if="listVideoRecommended.length != 0 && !searchItem && !isSearchAction" scroller="sc-recommended" data-on-total-scroll="loadMoreVideo" >
                             <h5>Recommended</h5>
                             <ul>
                                 <li ng-repeat="recommend in listVideoRecommended track by $index">
@@ -248,10 +231,10 @@
                                     </div>
                                 </li>
                             </ul>
-                            <div class="see-more" ng-click="loadMoreVideo(1, subjectId)"><p>show more</p></div>
+                            <!--<div class="see-more" ng-click="loadMoreVideo(1, subjectId)"><p>show more</p></div>-->
                         </div>
-                        <div class="recently-uploaded" ng-if="listVideoRecently && !searchItem && !isSearchAction"
-                             >
+                        <div class="recently-uploaded"  ng-if="listVideoRecently.length != 0 && !searchItem && !isSearchAction"
+                             scroller="sc-recently" data-on-total-scroll="loadMoreVideo">
                             <h5>Recently Uploaded</h5>
                             <ul>
 
@@ -295,65 +278,68 @@
                                     </div>
                                 </li>
                             </ul>
-                            <div class="see-more" ng-click="loadMoreVideo(2, subjectId)"><p>show more</p></div>
+                            <!--<div class="see-more" ng-click="loadMoreVideo(2, subjectId)"><p>show more</p></div>-->
                         </div>
-                        <div class="video-member" ng-if="!isSearchAction" ng-show="login == 1 && listVideoRecommendedForU">
-                            <div class="video-member-header">
-                                <div class="video-member-title">
-                                    <h5>{{listVideoRecommendedForU[0][0].name}}</h5>
-                                    <p><span>recommended videos for you</span></p>
+                        <div class="video-member" ng-if="!isSearchAction"
+                             ng-show="login == 1 && listVideoRecommendedForU" scroller="sc-recommended-4-u" scroller="sc-recommended" data-on-total-scroll="expand">
+                            <div ng-repeat="recommendedForYou in listVideoRecommendedForU | limitTo : limitOfRecommendedForU"  >
+                                <div class="video-member-header">
+                                    <div class="video-member-title">
+                                        <h5>{{recommendedForYou[0].name}}</h5>
+                                        <p><span>recommended videos for you</span></p>
+                                    </div>
+                                    <div class="video-member-subcriber">
+                                        <p>
+                                            <button ng-click="setSubscribeMentor(recommendedForYou[0].userId)">
+                                                <span data-icon="&#x4c;">subscrible</span>
+                                                <span class="number-subscribers">{{recommendedForYou[0].countSubscribe}}</span>
+                                            </button>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="video-member-subcriber">
-                                    <p>
-                                        <button ng-click="setSubscribeMentor(listVideoRecommendedForU[0][0].userId)">
-                                            <span data-icon="&#x4c;">subscrible</span>
-                                            <span class="number-subscribers">{{listVideoRecommendedForU[0][0].countSubscribe}}</span>
-                                        </button>
-                                    </p>
-                                </div>
-                            </div>
-                            <ul>
+                                <ul>
 
-                                <li ng-repeat="recommended in listVideoRecommendedForU[0] track by $index">
-                                    <div class="video-wrapper"><a href="#/videos/detailVideo/{{recommended.vid}}">
-                                        <div class="videos-thumnail">
-                                            <img ng-src="{{recommended.image}}">
-                                        </div>
-                                        <div class="videos-title">
-                                            <a title="{{recommended.title}}">
-                                                {{ recommended.title | limitTo: 40 }}{{recommended.title.length
-                                                > 40 ?
-                                                '...' :
-                                                ''}}
-                                            </a>
-                                        </div>
-                                    </a>
-                                        <div class="videos-time-add">
-                                            <a href="#/student/mentorProfile/{{recommended.userId}}"><span
-                                                    class="video-poster"> {{recommended.name}}</span></a><span> added {{recommended.time}} ago</span>
-                                        </div>
-                                        <div class="videos-rate">
-                                            <p class="videos-start">
+                                    <li ng-repeat="detailVideo in recommendedForYou | limitTo : 4">
+                                        <div class="video-wrapper"><a href="#/videos/detailVideo/{{detailVideo.vid}}">
+                                            <div class="videos-thumnail">
+                                                <img ng-src="{{detailVideo.image}}">
+                                            </div>
+                                            <div class="videos-title">
+                                                <a title="{{detailVideo.title}}">
+                                                    {{ detailVideo.title | limitTo: 40 }}{{detailVideo.title.length
+                                                    > 40 ?
+                                                    '...' :
+                                                    ''}}
+                                                </a>
+                                            </div>
+                                        </a>
+                                            <div class="videos-time-add">
+                                                <a href="#/student/mentorProfile/{{detailVideo.userId}}"><span
+                                                        class="video-poster"> {{detailVideo.name}}</span></a><span> added {{detailVideo.time}} ago</span>
+                                            </div>
+                                            <div class="videos-rate">
+                                                <p class="videos-start">
                                                 <span ng-if="isReadyLoadRatedR4U" star-rating stars="5"
                                                       outer-star-selection="stars"
                                                       outer-percent="rating"
                                                       rating-define="star"
-                                                      rating-stars="{{recommended.avgRating}}"
+                                                      rating-stars="{{detailVideo.avgRating}}"
                                                       star-radius="6" sel-color="gold"
                                                       readonly="true"
                                                       back-color="white">
                                                  </span>
-                                            </p>
-                                            <p class="videos-rate-infor">
-                                                <span data-icon="&#x49;">{{recommended.numViews}}</span>
-                                                <!--<span data-icon="&#xe089;" class="favourite">{{recommended.numFavourite}}</span>-->
-                                                <span data-icon="&#xe066;">{{recommended.numComments}}</span>
-                                            </p>
+                                                </p>
+                                                <p class="videos-rate-infor">
+                                                    <span data-icon="&#x49;">{{detailVideo.numViews}}</span>
+                                                    <!--<span data-icon="&#xe089;" class="favourite">{{recommended.numFavourite}}</span>-->
+                                                    <span data-icon="&#xe066;">{{detailVideo.numComments}}</span>
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
 
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div><!-- /End Content of All -->
@@ -481,7 +467,8 @@
                             <div ng-hide="!searchItem">
                                 <h5>Search Result</h5>
                                 <ul>
-                                    <li ng-show="searchItem" ng-repeat="search in searchItem | limitTo : limitSearchResult : 0">
+                                    <li ng-show="searchItem"
+                                        ng-repeat="search in searchItem | limitTo : limitSearchResult : 0">
                                         <div class="video-wrapper"><a href="#">
                                             <div class="videos-thumnail">
                                                 <a href="#/videos/detailVideo/{{search.vid}}">
@@ -630,7 +617,7 @@
                     <div ng-show="!searchItem">
                         <h4>Watch history</h4>
                         <!--<span ng-if="login == 1" class="number-media number-subscrip"-->
-                                                    <!--ng-bind="listVideos.length"></span>-->
+                        <!--ng-bind="listVideos.length"></span>-->
                         <div class="clear-history"><p ng-click="deleteHistoryVideo('')">Clear history</p></div>
                         <div class="video-list-content">
                             <ul>
@@ -745,7 +732,7 @@
                     <div ng-show="!searchItem">
                         <h4>Favourite Video</h4>
                         <!--<span class="number-media number-subscrip"-->
-                                                      <!--ng-bind="listVideoFavourite.length"></span>-->
+                        <!--ng-bind="listVideoFavourite.length"></span>-->
                         <div class="clear-history"><p ng-click="deleteFavouriteVideo('')">Clear history</p></div>
                         <div class="video-list-content">
                             <ul>
