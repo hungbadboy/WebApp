@@ -102,7 +102,16 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
                             mentor.numAnswers= data_result[i].numAnswers;
                             mentor.isSubs= data_result[i].isSubs;
                             mentor.defaultSubjectId = data_result[i].defaultSubjectId;
-                            mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
+                            var listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
+                            var strSubject="";
+                            if (listSubject != null && listSubject !== undefined) {
+                            	var listSubjectName =[];
+                            	for (var j = 0; j < data_result.length; j++) {
+                            		listSubjectName.push(listSubject[j].name);
+                            	}
+                            	strSubject = listSubjectName.join(", ");
+                            }
+                            mentor.listSubject =strSubject;
                             mentor.numAnswers = data_result[i].numAnswers;
                             listTopMentors.push(mentor);
                         }
