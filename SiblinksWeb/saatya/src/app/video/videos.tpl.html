@@ -10,22 +10,23 @@
             <div class="search">
                 <form class="navbar-form" role="search">
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-search" placeholder="Search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''" >
+                        <!-- <input type="text" class="form-control form-control-search" placeholder="Search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''" >
                         <div class="input-group-btn">
                             <button class="btn btn-default btn-search-video" type="submit"><span data-icon="&#x55;"></span></button>
-                        </div>
-                        <!--<div angucomplete-alt ng-enter="searchEnter()" id="srch-term" placeholder="Search"-->
-                             <!--pause="100"-->
-                             <!--selected-object="onSelect"-->
-                             <!--local-data="listAllVideos" search-fields="title" title-field="title"-->
-                             <!--minlength="1" input-class="form-control form-control-search"-->
-                             <!--auto-match="true"-->
-                             <!--match-class="highlight">-->
-                        <!--<div class="input-group-btn">-->
-                            <!--<button class="btn btn-default btn-search-video" type="submit"><span data-icon="&#x55;"></span></button>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                    </div>
+                        </div> -->
+                        <div angucomplete-alt id="srch-term" ng-enter="searchEnter()" placeholder="Search" pause="300"
+	                                selected-object="onSelect"
+	                                local-data="listAllVideos" search-fields="title" title-field="title"
+	                                minlength="0" input-class="form-control form-control-small form-control-search"
+	                                match-class="highlight" />
+	                                
+                        <div class="input-group-btn">
+                        <button class="btn btn-default btn-search-video" type="submit">
+                        	<span data-icon="&#x55;"></span>
+                        </button>
+                       </div>
+                     
+                   </div>
                 </form>
             </div><!-- /End Search form -->
         </div>
