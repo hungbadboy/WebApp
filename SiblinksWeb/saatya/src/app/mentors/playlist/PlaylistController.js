@@ -152,41 +152,47 @@ brotControllers.controller('PlaylistController',
       var title = $('#txtTitle').val();
       var subject = $('#playlistSubject').val();
 
-      var check = true;
       if (title == null || title.trim().length == 0) {
-        check = false;
         $scope.error = 'Please input playlist title. \n'; 
         angular.element('#txtTitle').trigger('focus');
+        return;
       } else if (subject == 0) {
-        check = false;
         $scope.error = 'Please select playlist subject. \n';  
         angular.element('#playlistSubject').trigger('focus');       
+        return;
       } else if (files == undefined) {
-        check = false;
         $scope.error = 'Please select playlist thumbnail. \n';
-        angular.element('#changeImg').trigger('focus');
+        angular.element('#file1').trigger('focus');
+        return;
       }
+      
+      $scope.error = null;
+      var fd = new FormData();
 
-      if (check) {
-        var fd = new FormData();
+      fd.append('image', files);
+      fd.append('title', title);
+      fd.append('description', $('#txtDescription').val());
+      fd.append('url', null);
+      fd.append('subjectId', subject);
+      fd.append('createBy', userId);
 
-        fd.append('image', files);
-        fd.append('title', title);
-        fd.append('description', $('#txtDescription').val());
-        fd.append('url', null);
-        fd.append('subjectId', subject);
-        fd.append('createBy', userId);
+      PlaylistService.insertPlaylist(fd).then(function(data){
+        console.log(data.data);
+        if (data.data.request_data_result != null && data.data.request_data_result == "success") {
+          //reload page
+          $scope.success = "Insert playlist successful.";
+          loadPlaylist();
+          clearContent();
+        } else{
+          $scope.error = data.data.request_data_result;
+        }
+      });
+    }
 
-        PlaylistService.insertPlaylist(fd).then(function(data){
-          console.log(data.data);
-          if (data.data.request_data_result != null && data.data.request_data_result == "success") {
-            //reload page
-            $scope.success = "Insert playlist successful.";
-            loadPlaylist();
-          } else{
-            $scope.error = data.data.request_data_result;
-          }
-        });
-      }
+    function clearContent(){
+      $('#txtTitle').val('');
+      $('#changeImg').val('');
+      $('#txtDescription').val('')
+      $scope.playlistSubject = [0];
     }
 }]);

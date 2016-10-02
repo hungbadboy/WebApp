@@ -47,14 +47,15 @@
                                             <textarea name="desciptions" rows="6" cols="5" id="txtDescription" class="form-control textarea-custom" placeholder="Desciptions"></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <select id="playlistSubject" data-ng-model="playlistSubject" class="select-sbj">
+                                            <select id="playlistSubject" data-ng-model="playlistSubject" class="form-control">
                                                 <option value="0">Select Subject</option>
                                                 <option ng-repeat="s in subjects track by $index" value="{{s.subjectId}}">{{s.subject}}</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)" accept='image/*'>
+                                            <input type="file" class="inputfile" name="file1" id="file1" value="" ng-file-select="onFileSelect($files)" accept='image/*'>
                                             <label for="file1" class="label-1">
+                                                <!-- <input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)" accept='image/*'> -->
                                                 <img src="assets/images/icon-upload.png" alt="">
                                                 <span>to upload<br/> playlist thumbnail</span>
                                             </label>
@@ -80,7 +81,7 @@
                                             <div class="check-box"><input type="checkbox" ng-model="p.selected" class="check-input" name="checkall" /></div>
                                             <div class="box-detail-play clearfix">
                                                 <span class="item-thumbnail">
-                                                    <a href="#/mentor/playlist/detail/{{p.plid}}"><img src="{{p.image}}" alt=""></a>
+                                                    <a href="#/mentor/playlist/detail/{{p.plid}}"><img class="item-fix-size" src="{{p.image}}" alt=""></a>
                                                     <div class="box-all-vd">
                                                         <p>
                                                             <b>{{p.count_videos}}</b>
