@@ -14,14 +14,14 @@
                         <div class="input-group-btn">
                             <button class="btn btn-default btn-search-video" type="submit"><span data-icon="&#x55;"></span></button>
                         </div> -->
-                        <div angucomplete-alt id="srch-term" ng-enter="searchEnter()" placeholder="Search" pause="300"
+                        <div angucomplete-alt id="srch-term" ng-enter="searchEnter()" placeholder="Search" pause="50"
 	                                selected-object="onSelect"
 	                                local-data="listAllVideos" search-fields="title" title-field="title"
 	                                minlength="0" input-class="form-control form-control-small form-control-search"
-	                                match-class="highlight" />
+	                                match-class="highlight" ></div>
 	                                
                         <div class="input-group-btn">
-                        <button class="btn btn-default btn-search-video" type="submit">
+                        <button class="btn btn-default btn-search-video" type="submit" ng-click="searchEnter()">
                         	<span data-icon="&#x55;"></span>
                         </button>
                        </div>
