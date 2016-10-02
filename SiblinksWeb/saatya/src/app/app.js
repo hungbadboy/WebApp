@@ -4,7 +4,7 @@ var brotApp = angular.module('brotApp', [ 'ngRoute', 'brotControllers',
 //		, 'suggestSearch'
 		]
 );
-
+var isToggleUserInfo= false;
 var brotControllers = angular.module('brotControllers', ['infinite-scroll','stars','angular-sticky-kit']);
 var brotServices = angular.module('brotServices', ['ngResource']);
 //var suggestSearch = angular.module('suggestSearch', ['autocomplete']);
@@ -15,7 +15,7 @@ brotApp.controller('MainController', function($scope, $http, $location) {
 	  $scope.idbody ="";
 	  $scope.logined="";
 	  $scope.currentPath="";
-	 
+	  
 	
 	  var userId = "";
       var userType = "";

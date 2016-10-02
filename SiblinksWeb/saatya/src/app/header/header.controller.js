@@ -4,6 +4,7 @@ brotControllers.controller('UserHeaderController',
         function ($scope, $modal, $rootScope, $http, $location, $log, NotificationService, LogoutService,myCache, HomeService) {
             // check login page
             brot.signin.statusStorageHtml();
+            $scope.isHidden = false;
             $rootScope.notifications = [];
             // include
             $scope.headerByUser="src/app/header/CommonHeader.tpl.html";
@@ -257,9 +258,10 @@ brotControllers.controller('UserHeaderController',
             
             
             // Toggle user information
-            $scope.isShowHideUserInfo = false;
+            $scope.isShowHideUserInfo = true;
             $scope.toggleUserInfo = function() {
             	$scope.isShowHideUserInfo = $scope.isShowHideUserInfo ? false : true;
+            	isToggleUserInfo = true;
       	  	}
 
             $scope.showUpload = function(){

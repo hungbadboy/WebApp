@@ -130,6 +130,9 @@
         width: ~"calc(100% - 50px)";
     }
 }
+
+
+
 /***For max screen 1540***/
 @media screen and (max-width: 1560px) { 
      /*======Mentor.ManageVideo==========*/
@@ -219,9 +222,9 @@
 @media screen and (max-width: 1281px) { 
 
     /***Menu***/
-    .background-color {
-        width: ~"calc((100% - 970px)/2 + 107px)";
-    }
+    /*.background-color {
+        width: ~"calc((100% - 970px)/2 + 100px)";
+    }*/
     .module-navigation .navigation .navbar-default {
         margin-left: 0%;
     }
@@ -231,6 +234,18 @@
     
     .navigation .nav>li>a {
         padding: 10px 9px;
+    }
+    .module-navigation .main-logo {
+        width: 20%;
+    }
+    .module-navigation .navigation {
+        width: 80%;
+    }
+    .background-color {
+        width: ~"calc((100% - 970px)/2 + 106px)";
+    }
+    .navigation ul {
+        top: 15px;
     }
     /*information & content*/
     .information-content>div,
@@ -312,11 +327,18 @@
 @media screen and (max-width: 1200px) { 
     .user-nofitication {
         margin-right: 0%;
+        width: 130px;
+
     }
     .top-mentors.col-md-4 {
         position: absolute;
         right: -33%;
     }
+    .background-color {
+        width: ~"calc((100% - 970px)/2 + 82px)";
+    }
+    
+    
     /*Ask a question*/
     .total-question.col-xs-6 {
         width: 42%;
@@ -403,6 +425,7 @@
     .newest-answer.col-md-3 {
         width: 63%;
         margin-left: 30%;
+        margin-top: 0px;
     }
 
     /*Student Profile*/
@@ -448,10 +471,6 @@
     .number-video>h4 {
         font-size: 24px;
     }
-    /*#history .video-list-content li:before, 
-    #favourite .video-list-content li:before {
-        left: 85.5%;
-    }*/
 
     /*College*/
     .college-admission-content-wrapper {
@@ -602,7 +621,7 @@
         background-color: #ffcc00;
     }
     .background-color {
-        width: ~"calc((100% - 750px)/2 + 107px)";
+        width: ~"calc((100% - 750px)/2 + 100px)";
     }
     .module-navigation .navigation .navbar-default {
         width: 68%;
@@ -611,6 +630,10 @@
         position: absolute;
         top: 77px;
         right: ~"calc((100% - 750px)/2 + 123px)";
+    }
+    .user-nofitication {
+        margin-right: 0%;
+        width: 148px;
     }
 
     /*Banner*/
@@ -722,6 +745,7 @@
         width: 58%;
         text-align: center;
         margin: auto;
+        padding-bottom: 0;
     }
 
     .mentor-profile .top-mentors-img {
@@ -741,6 +765,9 @@
         top: 306px;
         left: -34%;
         text-align: left;
+    }
+    .summary-rate li {
+        width: 23%;
     }
     
     /*Videos page*/
@@ -779,6 +806,9 @@
     .carousel-inner {
         height: 77px;
     }
+    .post-comment.col-md-8 {
+        width: 100%;
+    }
     
 
 }
@@ -800,6 +830,9 @@
         top: 77px;
         right: 0;
         margin-right: -77.5px;
+    }
+    .user-nofitication {
+        width: 155px;
     }
 
     /*Tutorial*/
@@ -933,6 +966,42 @@
         left: -100px;
     }
 
+    /*Mentor profile */
+    .mentor-profile.col-md-5 {
+        width: 100%;
+    }
+    .top-mentors-info-detail {
+        left: 0;
+    }
+    .subscribers-button {
+        text-align: center;
+    }
+    .mentors-video-recently.col-md-6.col-md-offset-3 {
+        width: 100%;
+        margin: 0;
+        position: relative;
+        top: 310px;
+        padding: 0;
+        overflow: hidden;
+        float: left;
+    }
+    .top-mentors-info-detail {
+        width: 100%;
+    }
+    .newest-answer.col-md-3 {
+        width: 100%;
+        margin-left: 0;
+        height: auto;
+        float: left;
+        background: #fff;
+        margin-top: 310px;
+    }
+    .mentors-profile-headers .subscribers {
+        margin: 20px 0;
+    }
+    .search {
+        margin-right: 15px;
+    }
 
 }
 
