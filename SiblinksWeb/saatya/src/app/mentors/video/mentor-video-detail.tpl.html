@@ -10,17 +10,18 @@
                     </div>
                     <div class="manager-detail-video">
                         <div class="play-video">
-                            <div class="box-btn-sl clearfix">
+                            <div class="box-btn-sl clearfix" ng-if="plid">
                                 <a href="#" class="btn-prev"><img src="assets/images/icon-left-sl-vd.png" alt=""></a>
                                 <a href="#" class="btn-next"><img src="assets/images/icon-right-sl-vd.png" alt=""></a>
                             </div>
                             <div class="group-video-pl">
                                 <div class="item-pl-video clearfix">
                                     <div class="col-md-1"></div>
-                                    <div class="video-play col-md-7">
-                                        <img src="assets/images/img-video-l.png" alt="">
-                                    </div>
-                                    <!-- <div class="video-wait col-md-3">
+                                    <div class="col-md-2" ng-if="vid"></div>
+                                    <div class="video-play col-md-6" id="detailPlayer">
+                                        <!-- <img src="assets/images/img-video-l.png" alt=""> -->
+                                    </div>                                    
+                                    <div class="video-wait col-md-3" ng-if="plid" style="margin-left: 45px;">
                                         <div class="top-w clearfix">
                                             <h5 class="pull-left">Learn Algebra Series</h5>
                                             <span class="pull-right" data-icon="&#xe037;"></span>
@@ -73,7 +74,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    </div> -->
+                                    </div>
                                     <div class="col-md-1"></div>
                                 </div>
                             </div>

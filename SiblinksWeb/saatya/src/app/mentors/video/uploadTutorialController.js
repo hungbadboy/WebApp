@@ -1,6 +1,6 @@
 brotControllers.controller('UploadTutorialController', 
-  ['$scope', '$modalInstance', '$routeParams', '$http', '$location', 'VideoService', 'videoDetailService', 'HomeService', 'myCache', 'u_id' , 'v_id',
-                                       function ($scope, $modalInstance, $routeParams, $http, $location, VideoService, videoDetailService, HomeService, myCache, u_id, v_id) {
+  ['$rootScope','$scope', '$modalInstance', '$routeParams', '$http', '$location', 'VideoService', 'videoDetailService', 'HomeService', 'myCache', 'u_id' , 'v_id',
+                                       function ($rootScope, $scope, $modalInstance, $routeParams, $http, $location, VideoService, videoDetailService, HomeService, myCache, u_id, v_id) {
 
 
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
@@ -22,7 +22,7 @@ brotControllers.controller('UploadTutorialController',
 
     function getVideoDetail(){
       videoDetailService.getVideoDetailById(v_id).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
           displayEdit(data.data.request_data_result);
         }
       });
@@ -63,7 +63,6 @@ brotControllers.controller('UploadTutorialController',
     }
 
     function displayEdit(v){
-      console.log(v);
       if (Array.isArray(v)) {
         $scope.editVideo = v[0];
       } else{
@@ -110,10 +109,24 @@ brotControllers.controller('UploadTutorialController',
 
         VideoService.updateTutorial(request).then(function(data){
           if (data.data.request_data_result === "Success") {
-            $scope.success = "Udate Tutorial successful.";
-            $scope.editVideo = null;
-            loadVideoRecently();
-            clearContent();
+            if (!isNaN(v_id) && v_id > 0) {
+               // $rootScope.video.vid = v_id;
+               // $rootScope.video.title = title.trim();
+               // $rootScope.video.description = description;
+               var video = {
+                 'vid': v_id,
+                 'title': title.trim(),
+                 'description': description
+               } 
+               $rootScope.$broadcast('passing', video);
+
+               $modalInstance.dismiss('cancel');
+            }else{
+              $scope.success = "Update Tutorial successful.";
+              $scope.editVideo = null;
+              loadVideoRecently();
+              clearContent(); 
+            }            
           } else{
             $scope.error = data.data.request_data_result;
           }

@@ -1,6 +1,6 @@
 brotControllers.controller('MentorPlaylistDetailController', 
-  ['$scope', '$modal', '$routeParams', '$http', '$location', 'PlaylistService', 'videoDetailService', 'VideoService',
-                                       function ($scope, $modal, $routeParams, $http, $location, PlaylistService, videoDetailService, VideoService) {
+  ['$rootScope', '$scope', '$modal', '$routeParams', '$http', '$location', 'PlaylistService', 'videoDetailService', 'VideoService',
+                                       function ($rootScope, $scope, $modal, $routeParams, $http, $location, PlaylistService, videoDetailService, VideoService) {
 
     var plid = $routeParams.plid;
     var userId = localStorage.getItem('userId'); 
@@ -54,7 +54,7 @@ brotControllers.controller('MentorPlaylistDetailController',
         }
     }
 
-    $scope.openEdit = function(vid){
+    $scope.openEdit = function(vid){        
         var modalInstance = $modal.open({
             templateUrl: 'src/app/mentors/video/upload_tutorial_popup.tpl.html',
             controller: 'UploadTutorialController',
@@ -80,4 +80,22 @@ brotControllers.controller('MentorPlaylistDetailController',
             }            
         });
     }
+
+    $scope.playAll = function(){
+        window.location.href = '#/mentor/playlist/playall/'+plid+'';
+        window.location.reload();
+    }
+
+    $scope.$on('passing', function(e,a){
+        var result = $.grep($scope.videos, function(v){
+            return v.vid == a.vid;
+        });
+
+        var index = $scope.videos.indexOf(result[0]);
+        if (index != -1) {
+            $scope.videos[index].title = a.title;
+            $scope.videos[index].description = a.description;
+
+        }
+    });
 }]);
