@@ -25,7 +25,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.showDivWeek = false;
         $scope.showDivOlder = false;
 
-        $scope.limitSearchResult = 15;
+        $scope.limitSearchResult = 8;
 
         $scope.listMentorOlder = [];
         var checkExist = false;
@@ -49,6 +49,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 $scope.searchItem = null;
                 $scope.selected = null;
                 $scope.isSearchAction = false;
+                clearSearch();
             });
 
         };
@@ -88,6 +89,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             $scope.flagShowMoreWeek = true;
             $scope.flagShowMoreOlder = true;
             $scope.listMentorOlder = [];
+            clearSearch();
         }
 
         $scope.isReadyLoadRatedRecently = false;
@@ -327,6 +329,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             $scope.searchItem = null;
             $scope.selected = null;
             $scope.isSearchAction = false;
+            clearSearch();
         }
 
 
@@ -417,6 +420,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             $scope.searchItem = null;
             $scope.selected = null;
             $scope.isSearchAction = false;
+            clearSearch();
         };
 
 
@@ -515,6 +519,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             }
 
         }
+
+
 
         function parseDataVideoRecently(data) {
             if (data) {
@@ -893,8 +899,13 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.expand = function () {
             if ($scope.limitOfRecommendedForU < $scope.listVideoRecommendedForU.length) {
                 currentPageRecommended++;
-                $scope.limitOfRecommendedForU += 3;
+                $scope.limitOfRecommendedForU += increamented;
             }
+        };
+
+
+        function clearSearch() {
+            $("input#srch-term").val("");
         };
 
         $scope.flagShowMoreButton = true;
