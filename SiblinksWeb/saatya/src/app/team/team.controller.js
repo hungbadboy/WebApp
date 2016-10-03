@@ -91,8 +91,8 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
 
                             var mentor = {};
                             mentor.userid = data_result[i].userid;
-                            mentor.lastName = data_result[i].lastName;
-                            mentor.firstName= data_result[i].firstName;
+                            mentor.lastName = (data_result[i].lastName == null)? "" : data_result[i].lastName;
+                            mentor.firstName= (data_result[i].firstName == null)? "" : data_result[i].firstName;
                             mentor.accomplishments= data_result[i].accomplishments;
                             mentor.bio= data_result[i].bio;
                             mentor.numsub= data_result[i].numsub;
@@ -106,7 +106,7 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
                             var strSubject="";
                             if (listSubject != null && listSubject !== undefined) {
                             	var listSubjectName =[];
-                            	for (var j = 0; j < data_result.length; j++) {
+                            	for (var j = 0; j < listSubject.length; j++) {
                             		listSubjectName.push(listSubject[j].name);
                             	}
                             	strSubject = listSubjectName.join(", ");
