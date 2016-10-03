@@ -1,26 +1,27 @@
 brotServices.factory('AnswerService', ['$http', '$log', function($http) {
   var factory = {};
 
-  factory.postAnswer = function(userId, authorId, question_id, content,subjectId) {
-    var rs;
-    var promise = $http({
-      method: 'POST',
-      url: NEW_SERVICE_URL + 'post/createAnswer',
-      data: {
-        "request_data_type": "post",
-        "request_data_method": "createAnswer",
-        "request_data": {
-          "authorID": authorId,
-          "uid":userId,
-          "pid": question_id,
-          "subjectId":subjectId,
-          "content": content
+  // factory.postAnswer = function(userId, authorId, question_id, content,subjectId) {
+  //   var rs;
+  //   var promise = $http({
+  //     method: 'POST',
+  //     url: NEW_SERVICE_URL + 'post/createAnswer',
+  //     data: {
+  //       "request_data_type": "post",
+  //       "request_data_method": "createAnswer",
+  //       "request_data": {
+  //         "studentId": authorId,
+  //         "mentorId":userId,
+  //         "pid": question_id,
+  //         "subjectId":subjectId,
+  //         "content": content
+  //
+  //       }
+  //     }
+  //   });
+  //   return promise;
+  // };
 
-        }
-      }
-    });
-    return promise;
-  };
 
   factory.getAnswersByQuestion = function(question_id, page, limit) {
     var promise = $http({

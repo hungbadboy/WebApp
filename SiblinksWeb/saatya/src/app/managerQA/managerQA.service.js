@@ -20,6 +20,24 @@ brotServices.factory('managerQAService', ['$http', function ($http) {
         });
         return promise;
     };
+    factory.postAnswer = function (fd) {
+        var url = NEW_SERVICE_URL + 'post/createAnswer';
+        var promise = $http({
+            method: 'POST',
+            url: url,
+            headers: {
+                'Content-Type': undefined
+            },
+            data: fd,
+            transformRequest: function (data, headersGetterFunction) {
+                return data;
+            }
+
+        });
+        return promise;
+    }
+
+
 
     return factory;
 }]);

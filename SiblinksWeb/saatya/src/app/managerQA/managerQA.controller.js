@@ -17,6 +17,8 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.subjectsChild = [];
         var oldImagePath = "";
         var imagePathOld_BK;
+        var MAX_SIZE_IMG_UPLOAD = 10485760;
+        var MAX_IMAGE = 4;
         init();
 
 
@@ -97,9 +99,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 }
                 $scope.currentPid = qid;
                 var viewNew = parseInt(obj[0].numViews, 10) + 1;
-                //$scope.subjects = myCache.get("subjects");
-               // $scope.initCategory = {subject: obj[0].subject, subjectId: obj[0].subjectId};
-                //$('#autocompleteQuest_value').val(obj[0].content);
                 $scope.imagePathOld = detectMultiImage(obj[0].imagePath);
                 imagePathOld_BK = $scope.imagePathOld;
                 oldImagePath = obj[0].imagePath;
@@ -135,39 +134,92 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
         }
 
-        $scope.answerQuestion = function (qid, authorId,subjectId) {
-            if (userId == null) {
+        $scope.answerQuestion = function (pid) {
+            var content = $('#txtAnswer').val();
+            if (!content) {
+                $timeout(function () {
+                    $rootScope.myVarQ = false;
+                }, 2500);
+                $scope.QAErrorMsg='You enter text your answer';
+
                 return;
             }
-            var content = $('#txtAnswer').val();
-            AnswerService.postAnswer(userId, authorId, qid, content,subjectId).then(function (data) {
+
+            if (isEmpty(userId) ||userId=='-1') {
+                $scope.QAErrorMsg='Please login before you ask a question';
+                $timeout(function () {
+                    $rootScope.myVarU = false;
+                }, 2500);
+                return;
+            }
+            if ($scope.filesArray.length > MAX_IMAGE) {
+                $scope.QAErrorMsg='You only upload ' + MAX_IMAGE +' image';
+                $rootScope.myVarU = !$scope.myVarU;
+                $timeout(function () {
+                    $rootScope.myVarU = false;
+                }, 2500);
+                return;
+            }
+
+            fd = new FormData();
+            var totalSize = 0;
+            if ($scope.filesArray != null) {
+                for (var i = 0; i < $scope.filesArray.length; i++) {
+                    file = $scope.filesArray[i];
+                    fd.append('file', file);
+                    totalSize += file.size;
+                }
+            }
+
+            if(totalSize > MAX_SIZE_IMG_UPLOAD){
+                $scope.askErrorMsg='Image over 10M';
+                $rootScope.myVarU = !$scope.myVarU;
+                $timeout(function () {
+                    $rootScope.myVarU = false;
+                }, 2500);
+                return;
+            }
+
+            fd.append('studentId', $scope.questionDetail.authorId);
+            fd.append('mentorId', userId);
+            fd.append('content', content);
+            fd.append('subjectId', $scope.questionDetail.subjectId);
+            fd.append('pid', pid);
+            managerQAService.postAnswer(fd).then(function (data) {
                 var rs = data.data.status;
                 if(rs){
                     $('#txtAnswer').val("");
-                    QuestionsService.getAnswerByQid(qid, typeOrderAnswer, "", "").then(function (data) {
+                    QuestionsService.getAnswerByQid(pid, typeOrderAnswer, "", "").then(function (data) {
                         var answers = data.data.request_data_result;
                         $scope.listAnswer = answers;
+                        $scope.stepsModel = [];
                     });
                 }
+                else {
+                    $scope.QAErrorMsg = "Can't answer";
+                }
             });
-        }
+
+        };
 
 
         $scope.selectedSubject = function (selected) {
+            selected.originalObject.id;
             //selectCategory = selected;
-            for (var i = 0; i < listDefaultSubjectId.length; i++) {
-                if (listDefaultSubjectId[i].parentId == selected) {
-                    $scope.subjectsChild.push(listDefaultSubjectId[i]);
-                }
-            }
+            // for (var i = 0; i < listDefaultSubjectId.length; i++) {
+            //     if (listDefaultSubjectId[i].parentId == selected) {
+            //         $scope.subjectsChild.push(listDefaultSubjectId[i]);
+            //     }
+            // }
         };
         $scope.stepsModel = [];
+        $scope.filesArray = [];
         $scope.onFileSelect = function ($files) {
             $scope.askErrorMsg = "";
             if ($files != null) {
                 for (var i = 0; i < $files.length; i++) {
                     var file = $files[i];
-                   // $scope.filesArray.push(file);
+                    $scope.filesArray.push(file);
                     var reader = new FileReader();
                     reader.onload = $scope.imageIsLoaded;
                     reader.readAsDataURL(file);
@@ -176,7 +228,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
         };
         $scope.removeImg = function (index) {
-            //$scope.filesArray.splice(index, 1);
+            $scope.filesArray.splice(index, 1);
             $scope.stepsModel.splice(index, 1);
 
         }
@@ -185,6 +237,20 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $scope.$apply(function () {
                 $scope.stepsModel.push(e.target.result);
             });
+        }
+        $scope.zoomImage = function (img) {
+            $scope.currentImage = ( img + "");
+            $(".popup-images").css({"left": 0});
+        }
+        $scope.imageHoverIn = function (eId) {
+            $("#"+eId).addClass('show');
+        }
+
+        $scope.imageHoverOut = function (eId) {
+            $("#"+eId).removeClass('show');
+        }
+        $scope.closePopupAskQuestion = function () {
+            $(".popup-images").css({"left": "100%"});
         }
 
         function detectMultiImage(imagePath) {
