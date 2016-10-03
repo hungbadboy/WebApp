@@ -30,7 +30,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
     }
 
     function getLatestComments(){
-      MentorService.getLatestComments(userId, 5, 0).then(function(data){
+      MentorService.getLatestComments(userId, 10, 0).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data"){
           $scope.comments = formatCommentProfile(data.data.request_data_result);
         }
@@ -43,8 +43,19 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
           data[i].imageUrl = 'http://www.capheseo.com/Content/T000/Images/no-avatar.png';
         else
           data[i].imageUrl = data[i].imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + data[i].imageUrl: data[i].imageUrl;
+        var firstname = '';
+        if (data[i].firstName == null || data[i].firstName.length == 0) {
+          firstname = '';
+        } else
+          firstname = data[i].firstName;
 
-        data[i].fullName = data[i].firstName + ' ' + data[i].lastName;
+        var lastname = '';
+        if (data[i].lastName == null || data[i].lastName.length == 0) {
+          lastname = '';
+        } else
+          lastname = data[i].lastName;
+
+        data[i].fullName = lastname + ' ' + firstname;
         data[i].timestamp = convertUnixTimeToTime(data[i].timestamp);
       }
       return data;
@@ -65,7 +76,19 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
         else
           data[i].imageUrl = data[i].imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + data[i].imageUrl: data[i].imageUrl;
 
-        data[i].fullName = data[i].firstName + ' ' + data[i].lastName;
+        var firstname = '';
+        if (data[i].firstName == null || data[i].firstName.length == 0) {
+          firstname = '';
+        } else
+          firstname = data[i].firstName;
+
+        var lastname = '';
+        if (data[i].lastName == null || data[i].lastName.length == 0) {
+          lastname = '';
+        } else
+          lastname = data[i].lastName;
+
+        data[i].fullName = firstname + ' ' + lastname;
       }
       return data;
     }
@@ -84,8 +107,8 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
     // }
 
     $scope.loadMoreComments = function(){
-      MentorService.getLatestComments(userId, 5, $scope.comments,length).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) 
+      MentorService.getLatestComments(userId, 10, $scope.comments.length).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") 
           $scope.comments = formatCommentProfile(data.data.request_data_result);
       });
     }
@@ -131,7 +154,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
 
     $scope.loadMoreVideos = function(){
       VideoService.getVideos(userId, $scope.videos.length).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) 
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") 
           $scope.videos.concat(formatData(data.request_data_result));
       });
     }

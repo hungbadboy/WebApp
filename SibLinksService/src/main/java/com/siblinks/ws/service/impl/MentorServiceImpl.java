@@ -886,7 +886,7 @@ public class MentorServiceImpl implements MentorService {
       */
      @Override
      @RequestMapping(value = "/getLatestComments", method = RequestMethod.GET)
-     public ResponseEntity<Response> getLatestComments(@RequestParam final long mentorid, @RequestParam final int limit, @RequestParam final int offset) {
+    public ResponseEntity<Response> getLatestComments(final long mentorid, final int limit, final int offset) {
           Object[] queryParams = new Object[] { mentorid, limit, offset };
 
           List<Object> readObject = null;
