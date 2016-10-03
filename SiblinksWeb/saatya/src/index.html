@@ -19,7 +19,7 @@
   		<div class="module-navigation" ng-include="headerByUser"></div>
   	</header>
  	<!-- main start -->
-	<main id="main" ng-view autoscroll="true"></main>
+	<main id="main" ng-view autoscroll="true" ng-class="{'clearfix mentorProfile': currentPath == '/mentor/profile'}"></main>
 	<!-- end #main -->
 	<!-- footer area -->
 	<footer id="footer">
