@@ -76,7 +76,7 @@ brotControllers.controller('StudentProfileController',
 
             $scope.isReadyLoadPoint = false;
             function getInfoMentorProfile() {
-                MentorService.getStudentMentorProfile(84).then(function (data) {
+                MentorService.getStudentMentorProfile(userId).then(function (data) {
                     var subjects = myCache.get("subjects");
                     if (data.data.status) {
                         if (data.data.request_data_result) {

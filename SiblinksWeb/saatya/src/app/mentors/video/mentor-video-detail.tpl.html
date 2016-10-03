@@ -6,7 +6,7 @@
             <section id="dashboard">
                 <div class="dashboard-wrapper">
                     <div class="dashboard-header">    
-                    <h4>Manage Video</h4>
+                    <h4>Video Detail</h4>
                     </div>
                     <div class="manager-detail-video">
                         <div class="play-video">
@@ -83,7 +83,7 @@
                             <div class="col-md-8">
                                 <div class="main-cm-detail">
                                     <div class="top-cm">
-                                        <h3>How to learn Physics effectively</h3>
+                                        <h3>{{ video.title | limitTo: 30 }}{{video.title.length > 30 ? '...' : ''}}</h3>
                                         <span class="time">9 months ago</span>
                                         <div class="btn-count clearfix">
                                             <div class="bx-btn pull-left">
@@ -92,89 +92,63 @@
                                                 <button class="btn-remove">Delete</button>
                                             </div>
                                             <p class="list-view pull-right">
-                                                <span><i class="fa fa-play-circle-o" aria-hidden="true"></i> 324</span>&nbsp;&nbsp;
-                                                <a href="#"><span class="like-h" data-icon="&#xe089;"></span> 12</a>&nbsp;&nbsp;
-                                                <span><i class="fa fa-comments" aria-hidden="true"></i> 16</span>&nbsp;&nbsp;
+                                                <span><i class="fa fa-play-circle-o" aria-hidden="true"></i> {{video.numViews}}</span>&nbsp;&nbsp;
+                                                <span><i class="fa fa-comments" aria-hidden="true"></i> {{video.numComments}}</span>&nbsp;&nbsp;
                                             </p>
                                         </div>
                                         <div class="txt-dg clearfix">
-                                            <p class="pull-left">Rate <span>5.0 (4 votes)</span></p>&nbsp;&nbsp;
-                                            <ul class="list-star pull-left">
-                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            </ul>
+                                            <span><p class="pull-left" style="margin-top: 6px;">Rating
+                                                <div  class="pull-left" star-rating stars="5"
+                                                      outer-star-selection="stars"
+                                                      outer-percent="rating"
+                                                      rating-define="star"
+                                                      rating-stars="{{video.averageRating}}"
+                                                      star-radius="12" sel-color="gold"
+                                                      back-color="white"></div>
+                                            </p></span>
                                         </div>
                                     </div>
                                     <div class="show-about">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a risus mollis, scelerisque nunc at, viverra nisi. Donec ornare fringilla turpis id lobortis. Nullam eu turpis elit. Donec a feugiat metus. Aliquam interdum nibh eu efficitur pellentesque. Nullam commodo ac dolor ac aliquet. Curabitur quis maximus justo, ac rutrum est. Sed arcu risus, posuere sit amet velit ut, rutrum consequat nunc.</p>
+                                        <p>{{video.description}}</p>
                                         <a href="#">Readmore<span data-icon="&#x33;"></span></a>
                                     </div>
                                     <div class="catego clearfix">
-                                        <p class="pull-right"><span>Catalogue</span>&nbsp;&nbsp;<b>Chemistry, Biology</b></p>
+                                        <p class="pull-right"><span>Catalogue</span>&nbsp;&nbsp;<b>{{video.subject}}</b></p>
                                     </div>
                                     <div class="form-commnent">
-                                        <h3>16 Comments</h3>
+                                        <h3 ng-if="comments">{{comments.length}} Comments</h3>
+                                        <h3 ng-if="!comments">No comment here</h3>
                                         <form action="">
                                             <div class="box-chat-onl clearfix">
-                                                <a href="#" class="col-md-1"><img src="assets/images/user.jpg" alt=""></a>
+                                                <a href="#" class="col-md-1"><img src="{{avatar}}" alt=""></a>
                                                 <div class="texta col-md-11">
-                                                    <textarea name="" placeholder="add your reply here"></textarea>
+                                                    <textarea id="txtComment" ng-click="showButton()" name="" placeholder="Add your reply here"></textarea>
+                                                    <div class="comment-action">
+                                                        <button ng-click="cancelComment()" class="cancel">Cancel</button>
+                                                        <button ng-click="addComment()" class="add-comment">Add comment</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="detail-commnet">
                                                 <ul>
-                                                    <li class="clearfix">
+                                                    <li class="clearfix" ng-repeat="c in comments track by $index">
                                                         <span class="chat-img col-md-1">
-                                                            <img src="assets/images/user.jpg" alt="User Avatar">
+                                                            <img class="avatar-fix-size" src="{{c.imageUrl}}" alt="User Avatar">
                                                         </span>
                                                         <div class="chat-body col-md-11">
                                                             <div class="header">
-                                                                <strong class="primary-font">You</strong><a href="#">8 <span class="like-h" data-icon="&#xe089;"></span></a><span class="time">asked 1 mins ago</span>
+                                                                <strong class="primary-font">{{c.fullName}}</strong><span class="time">{{c.timestamp}} ago</span>
                                                                 <a href="#" class="txt-dlt pull-right">Delete</a>
                                                             </div>
                                                             <p>
-                                                                Donec volutpat turpis risus, ac aliquet ligula varius ut. Cras lacus orci, scelerisque quis sem sed, condimentum cursus quam
-                                                            </p>
-                                                        </div>
-                                                        <ul class="sub-cm">
-                                                            <li class="clearfix">
-                                                                <span class="chat-img col-md-1">
-                                                                    <img src="assets/images/user.jpg" alt="User Avatar">
-                                                                </span>
-                                                                <div class="chat-body col-md-11">
-                                                                    <div class="header">
-                                                                        <strong class="primary-font">You</strong><a href="#">8 <span class="like-h" data-icon="&#xe089;"></span></a><span class="time">asked 1 mins ago</span>
-                                                                        <a href="#" class="txt-dlt pull-right">Delete</a>
-                                                                    </div>
-                                                                    <p>
-                                                                        Donec volutpat turpis risus, ac aliquet ligula varius ut. Cras lacus orci, scelerisque quis sem sed, condimentum cursus quam
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="clearfix">
-                                                        <span class="chat-img col-md-1">
-                                                            <img src="assets/images/user.jpg" alt="User Avatar">
-                                                        </span>
-                                                        <div class="chat-body col-md-11">
-                                                            <div class="header">
-                                                                <strong class="primary-font">You</strong><a href="#">8 <span class="like-h" data-icon="&#xe089;"></span></a><span class="time">asked 1 mins ago</span>
-                                                                <a href="#" class="txt-dlt pull-right">Delete</a>
-                                                            </div>
-                                                            <p>
-                                                                Donec volutpat turpis risus, ac aliquet ligula varius ut. Cras lacus orci, scelerisque quis sem sed, condimentum cursus quam
+                                                                {{c.content}}
                                                             </p>
                                                         </div>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </form>
-                                    </div>
-                                    <p class="btn-load"><a href="#">load more comments</a></p>
+                                    </div>                                    
                                 </div>
                             </div>
                             <div class="col-md-4 right-sub-video">
