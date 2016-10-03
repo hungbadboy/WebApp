@@ -45,7 +45,7 @@ brotControllers
                 var eventRemove;
                 var questionForAnswer;
 
-                var limit = 10;
+                var limit = 20;
                 var offset = 0;
                 var currentPage = 0;
                 var isLoadMore = false;
@@ -155,6 +155,8 @@ brotControllers
                                 objPosted.subjectid = questionData.SUBJECTID;
                                 objPosted.name = questionData.FIRSTNAME;
                                 objPosted.content = questionData.CONTENT;
+                                objPosted.count_answer = questionData.NUMREPLIES;
+
                                 objPosted.numviews = questionData.NUMVIEWS == null ? 0 : questionData.NUMVIEWS;
                                 objPosted.time = convertUnixTimeToTime(questionData.TIMESTAMP);
                                 objPosted.image = detectMultiImage(questionData.IMAGEPATH);
@@ -164,7 +166,6 @@ brotControllers
                                     if (result.answers[i] != null) {
                                         var answer = result.answers[i];
                                         var answer_result = answer.body.request_data_result;
-                                        objPosted.count_answer = answer_result.length;
                                         var listAnswer = [];
                                         for (var y = 0; y < answer_result.length; y++) {
 
@@ -331,8 +332,6 @@ brotControllers
                 };
 
                 $scope.isLoadMore = false;
-
-
                 $scope.loadMorePost = function (ev) {
                     currentPage++;
                     isLoadMore = true;
@@ -351,8 +350,6 @@ brotControllers
                         $scope.isDisplayMore = false;
                         getQuestions(userId, limit, newoffset, $scope.curentOrderType, oldQid, subjectid);
                     }
-
-
                 };
 
 
