@@ -189,7 +189,7 @@
                             </ul>
                         </div>
                         <div class="recommended"
-                             ng-if="listVideoRecommended.length != 0 && !searchItem && !isSearchAction" scroller="sc-recommended" data-on-total-scroll="loadMoreVideo" >
+                             ng-show="listVideoRecommended && !searchItem && !isSearchAction" scroller="sc-recommended" data-on-total-scroll="loadMoreVideo" >
                             <h5>Recommended</h5>
                             <ul>
                                 <li ng-repeat="recommend in listVideoRecommended track by $index">
@@ -235,7 +235,7 @@
                             </ul>
                             <!--<div class="see-more" ng-click="loadMoreVideo(1, subjectId)"><p>show more</p></div>-->
                         </div>
-                        <div class="recently-uploaded"  ng-if="listVideoRecently.length != 0 && !searchItem && !isSearchAction"
+                        <div class="recently-uploaded"  ng-show="listVideoRecently && !searchItem && !isSearchAction"
                              scroller="sc-recently" data-on-total-scroll="loadMoreVideo">
                             <h5>Recently Uploaded</h5>
                             <ul>

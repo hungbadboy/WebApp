@@ -7,7 +7,7 @@ brotControllers.controller('StudentProfileController',
             var limit = 10;
             var offset = 0;
             var isLoadMore = false;
-            
+
             // Declare show message
             $scope.msgError = "";
             $scope.msgSuccess = "";
@@ -15,8 +15,8 @@ brotControllers.controller('StudentProfileController',
             $scope.currentPwd = "";
             $scope.newPwd = "";
             $scope.confirmPwd = "";
-            $scope.isLoadMore=false;
-            
+            $scope.isLoadMore = false;
+
             var isInit = true;
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
             // $scope.sections = [
@@ -25,12 +25,13 @@ brotControllers.controller('StudentProfileController',
             //     {name: 'Setting'}
             // ];
             // $scope.selected = $scope.sections[0];
-            
+
             init();
 
             function init() {
                 getMentorInfo();
                 getStudentProfile();
+                getInfoMentorProfile();
                 getEssayProfile();
                 getMyQuestions(userId, limit, offset, "newest", "-1", "-1");
             }
@@ -72,6 +73,66 @@ brotControllers.controller('StudentProfileController',
                     }
                 });
             }
+
+            $scope.isReadyLoadPoint = false;
+            function getInfoMentorProfile() {
+                MentorService.getStudentMentorProfile(84).then(function (data) {
+                    var subjects = myCache.get("subjects");
+                    if (data.data.status) {
+                        if (data.data.request_data_result) {
+                            $scope.studentMentorProfile = data.data.request_data_result;
+                            var gender = $scope.studentMentorProfile.gender;
+                            if (!gender) {
+                                $scope.gender = "Other";
+                            } else if (gender == "Mal") {
+                                $scope.gender = "Male";
+                            } else if (gender == "Fem") {
+                                $scope.gender = "Female";
+                            }
+                            $scope.birthDay = calculateBirthDay($scope.studentMentorProfile.birthDay);
+
+                            if(subjects){
+                                $scope.subjects = getSubjectNameById($scope.studentMentorProfile.defaultSubjectId, subjects);
+                            }else{
+                                var skillNull = {id:-1,name:"None"};
+                                $scope.subjects.push(skillNull);
+                            }
+
+                        } else {
+                            $scope.studentMentorProfile = null;
+                        }
+                        $scope.isReadyLoadPoint = true;
+
+                    }
+                });
+            }
+
+
+            function calculateBirthDay(timeStamp) {
+                // var currentTime = new Date()
+                // if (strBod) {
+                //     var year = 0;
+                //     if (strBod.lastIndexOf("-") != -1) {
+                //         year = strBod.substring(strBod.lastIndexOf("-") + 1, strBod.length)
+                //     } else if (strBod.lastIndexOf(",") != -1) {
+                //         year = strBod.substring(strBod.lastIndexOf(",") + 1, strBod.length)
+                //     }
+                //     if (year != 0) {
+                //         var currentYear = currentTime.getFullYear()
+                //         return currentYear - year;
+                //     }
+                //     return null;
+                // }
+                if(!timeStamp){
+                    return null;
+                }
+                var _now = Math.floor(Date.now() / 1000);
+                var d = new Date();
+                d.setTime(587795857);
+                var secondElapsed = parseInt(Math.floor((_now - timeStamp)));
+                return Math.floor(secondElapsed / (3600 * 24 * 12 * 30));
+            }
+
 
             function getStudentProfile() {
                 StudentService.getUserProfile(userId).then(function (data) {
@@ -275,7 +336,7 @@ brotControllers.controller('StudentProfileController',
                     });
                 }
             }
-            
+
             /**
              * Get my question
              */
@@ -348,6 +409,7 @@ brotControllers.controller('StudentProfileController',
                     }
                 });
             }
+
             /**
              * Cancel subscriber
              */
@@ -367,11 +429,11 @@ brotControllers.controller('StudentProfileController',
                     }
                 });
             };
-            
-            
+
+
             /**
-            * Preview image
-            */
+             * Preview image
+             */
             $scope.zoomImage = function (img) {
                 $scope.currentImage = ( img );
                 $(".popup-images").css({"left": 0});
@@ -381,14 +443,14 @@ brotControllers.controller('StudentProfileController',
                 $(".popup-images, .form-ask-question").css({"left": "100%"});
             }
             $scope.imageHoverIn = function (eId) {
-            	angular.element("#"+eId).addClass('show');
+                angular.element("#" + eId).addClass('show');
             }
             $scope.imageHoverOut = function (eId) {
-            	angular.element("#"+eId).removeClass('show');
+                angular.element("#" + eId).removeClass('show');
             }
-            
+
             /**
-             * Link to question detail 
+             * Link to question detail
              */
             $scope.detailQuestion = function (id) {
                 window.location.href = '/#/question_detail/' + id + "";

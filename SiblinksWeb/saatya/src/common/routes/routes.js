@@ -10,7 +10,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	//Profile
 	when('/student/mentorProfile/:mentorId', {
 		templateUrl: 'src/app/students/studentMentorProfile.tpl.html',
-		controller : 'MentorProfileController'
+		controller : 'StudentProfileController'
 	}).
 	when('/student/studentProfile', {
 		templateUrl: 'src/app/students/student_profile.tpl.html',

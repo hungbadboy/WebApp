@@ -92,6 +92,14 @@ brotServices.factory('MentorService', ['$http', function ($http) {
         return promise;
     };
 
+    factory.getStudentMentorProfile = function (userid) {
+        var promise = $http({
+            method: 'GET',
+            url: NEW_SERVICE_URL + 'user/getUserProfile?userid=' + userid
+        });
+        return promise;
+    };
+
     factory.getStudentSubscribed = function (mentorId, limit, offset) {
         var rs;
         var promise = $http({
