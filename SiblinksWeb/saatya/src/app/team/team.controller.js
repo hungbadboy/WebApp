@@ -91,9 +91,9 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
 
                             var mentor = {};
                             mentor.userid = data_result[i].userid;
-                            mentor.lastName = (data_result[i].lastName == null)? "" : data_result[i].lastName;
-                            mentor.firstName= (data_result[i].firstName == null)? "" : data_result[i].firstName;
-                            mentor.accomplishments= data_result[i].accomplishments;
+                            mentor.lastName = (data_result[i].lastName == null || data_result[i].lastName === undefined)? "" : data_result[i].lastName;
+                            mentor.firstName= (data_result[i].firstName == null || data_result[i].firstName === undefined)? "" : data_result[i].firstName;
+                            mentor.accomplishments= (data_result[i].accomplishments == null || data_result[i].accomplishments === undefined)? "" : data_result[i].accomplishments;
                             mentor.bio= data_result[i].bio;
                             mentor.numsub= data_result[i].numsub;
                             mentor.imageUrl = data_result[i].imageUrl;
