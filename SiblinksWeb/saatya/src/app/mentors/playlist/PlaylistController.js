@@ -33,10 +33,7 @@ brotControllers.controller('PlaylistController',
             if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
                $scope.playlist = parseData(data.data.request_data_result);   
                cachePlaylist = $scope.playlist.slice(0);
-               $scope.nodata = false;
-            } else{
-              $scope.nodata = true;
-            }   
+            }  
         });
     }
 

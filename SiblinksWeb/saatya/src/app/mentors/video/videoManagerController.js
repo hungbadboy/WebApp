@@ -7,6 +7,8 @@ brotControllers.controller('VideoManagerController',
     
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
 
+    // $scope.loadMore = new LoadMore();
+
     $scope.subject = [0];
 
     var cacheVideos = [];
@@ -46,9 +48,14 @@ brotControllers.controller('VideoManagerController',
     }
 
     $scope.loadMoreVideos = function(){
-      VideoService.getVideos(userId, $scope.videos.length).then(function(data){
+      VideoService.getVideos(userId, $scope.videos.length + 10).then(function(data){
+        
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-          $scope.videos.concat(formatData(data.request_data_result));
+          var oldArr = $scope.videos;
+          var newArr = formatData(data.data.request_data_result);
+          var totalArr = oldArr.concat(newArr);
+          $scope.videos = totalArr;
+
           cacheVideos = $scope.videos.slice(0);
         }
       });
@@ -75,7 +82,10 @@ brotControllers.controller('VideoManagerController',
     $scope.loadMoreVideosBySubject = function(){
       VideoService.getVideosBySubject(userId, $scope.subject, $scope.videos.length).then(function(data){
         if(data.data.request_data_result != null && data.data.request_data_result != "Found no data")
-          $scope.videos.concat(formatData(data.data.request_data_result));
+          var oldArr = $scope.videos;
+          var newArr = formatData(data.data.request_data_result);
+          var totalArr = oldArr.concat(newArr);
+          $scope.videos = totalArr;
       });
     }
 
@@ -171,3 +181,21 @@ brotControllers.controller('VideoManagerController',
       });
     }
 }]);
+
+
+// brotServices.factory('LoadMore', function($http){
+//   var LoadMore = function(){
+//     this.items = [];
+//     this.busy = false;
+//     this.after = '';
+//   }
+
+//   LoadMore.prototype.loaMoreVideos = function(){
+//     if (this.busy) {return;}
+//     this.busy = true;
+//     console.log("loaMoreVideos");
+
+//   };
+
+//   return LoadMore;
+// });

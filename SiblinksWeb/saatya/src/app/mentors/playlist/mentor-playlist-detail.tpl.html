@@ -17,16 +17,8 @@
                                     <div class="detail-pl-inner pull-left">
                                         <a href="#"><h5>{{playlist.name}}</h5></a>
                                         <span class="add-time">{{playlist.timeStamp}} ago</span>
-                                        <ul class="list-star">
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                        </ul>
                                         <p class="list-view">
                                             <span><img src="assets/images/icon-play.png" alt=""> {{playlist.numView}}</span>&nbsp;&nbsp;
-                                            <!-- <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp; -->
                                             <span><img src="assets/images/icon-comment.png" alt=""> {{playlist.numComment}}</span>&nbsp;&nbsp;
                                         </p>
                                         <div class="bx-btn">
@@ -60,7 +52,7 @@
                                             <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
                                             <div class="box-detail-play clearfix">
                                                 <span class="item-thumbnail">
-                                                    <a href="#"><img src="{{v.image}}" alt=""></a>
+                                                    <a href="#/mentor/video/detail/{{v.vid}}"><img class="item-fix-size" src="{{v.image}}" alt=""></a>
                                                     <!-- <div class="box-all-vd">
                                                         <p>
                                                             <b>10</b>
@@ -68,15 +60,17 @@
                                                     </div> -->
                                                 </span>
                                                 <div class="detail-pl-inner">
-                                                    <a href="#"><h5>{{v.title}}</h5></a>
+                                                    <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 40}}{{v.title.length > 40 ? '...' : ''}}</h5></a>
                                                     <span class="add-time">{{v.timeStamp}} ago</span>
                                                     <ul class="list-star">
-                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                        <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                    </ul>
+                                                        <div  class="pull-left" star-rating stars="5"
+                                                              outer-star-selection="stars"
+                                                              outer-percent="rating"
+                                                              rating-define="star"
+                                                              rating-stars="{{v.averageRating}}"
+                                                              star-radius="12" sel-color="gold"
+                                                              back-color="white"></div>
+                                                    </ul></br>
                                                     <p class="list-view">
                                                         <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
                                                         <!-- <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp; -->
@@ -84,7 +78,7 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            <p class="box-description">
+                                            <p class="box-description pre-wap">
                                                 {{v.description}}
                                             </p>
                                             <p class="box-playlist">

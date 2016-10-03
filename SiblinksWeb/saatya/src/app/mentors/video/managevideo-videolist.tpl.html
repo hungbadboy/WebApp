@@ -53,44 +53,50 @@
                                 <div class="text-ac">Action</div>
                             </div>
                             <div class="group-item">
-                                <div class="item" ng-if="videos" ng-repeat="v in videos track by $index">
-                                    <div class="check-box"><input ng-model="v.selected" type="checkbox" class="check-input" name="checkall" ng-click="optionSelected()"/></div>
-                                    <div class="box-detail-play clearfix">
-                                        <span class="item-thumbnail">
-                                            <a href="#/mentor/video/detail/{{v.vid}}"><img class="item-fix-size" src="{{v.image}}" alt=""></a>
-                                        </span>
-                                        <div class="detail-pl-inner">
-                                            <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title}}</h5></a>
-                                            <span class="add-time">{{v.timeStamp}} ago</span>
-                                            <!-- <div  class="list-star pull-left" star-rating stars="5"
-                                                  outer-star-selection="stars"
-                                                  outer-percent="rating"
-                                                  rating-define="star"
-                                                  rating-stars="{{v.averageRating}}"
-                                                  star-radius="12" sel-color="gold"
-                                                  back-color="white"></div> -->
-                                            <p class="list-view">
-                                                <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
-                                                <!-- <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp; -->
-                                                <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
-                                            </p>
+                                <div ng-if="videos">
+                                    <div class="item" ng-repeat="v in videos track by $index">
+                                        <div class="check-box"><input ng-model="v.selected" type="checkbox" class="check-input" name="checkall" ng-click="optionSelected()"/></div>
+                                        <div class="box-detail-play clearfix">
+                                            <span class="item-thumbnail">
+                                                <a href="#/mentor/video/detail/{{v.vid}}"><img class="item-fix-size" src="{{v.image}}" alt=""></a>
+                                            </span>
+                                            <div class="detail-pl-inner">
+                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 30}}{{v.title.length > 30 ? '...' : ''}}</h5></a>
+                                                <span class="add-time">{{v.timeStamp}} ago</span>
+                                                <ul class="list-star">
+                                                    <div  class="pull-left" star-rating stars="5"
+                                                      outer-star-selection="stars"
+                                                      outer-percent="rating"
+                                                      rating-define="star"
+                                                      rating-stars="{{v.averageRating}}"
+                                                      star-radius="12" sel-color="gold"
+                                                      back-color="white"></div>
+                                                </ul></br>
+                                                
+                                                <p class="list-view">
+                                                    <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
+                                                    <!-- <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp; -->
+                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p class="box-playlist">
+                                            {{v.playlistname}}
+                                        </p>
+                                        <p class="box-description">
+                                            {{v.description}}
+                                        </p>
+                                        <div class="box-ac">
+                                            <ul class="list-ac">
+                                                <li><a href="">Edit</a></li>
+                                                <!-- <li><a href="" ng-click="addToPlaylist(v.vid)">Add playlist</a></li> -->
+                                                <li><a href="" ng-click="deleteVideo(v.vid)">Delete</a></li>
+                                            </ul>
                                         </div>
                                     </div>
-                                    <p class="box-playlist">
-                                        {{v.playlistname}}
-                                    </p>
-                                    <p class="box-description">
-                                        {{v.description}}
-                                    </p>
-                                    <div class="box-ac">
-                                        <ul class="list-ac">
-                                            <li><a href="">Edit</a></li>
-                                            <!-- <li><a href="" ng-click="addToPlaylist(v.vid)">Add playlist</a></li> -->
-                                            <li><a href="" ng-click="deleteVideo(v.vid)">Delete</a></li>
-                                        </ul>
-                                    </div>
                                 </div>
-                                <div ng-if="!videos">No data</div>
+                                
+                                <div ng-if="!videos" style="margin-top: 15px; margin-left: 20px;"><h4>No Tutorial here</h4></div>
                             </div>
                             <div class="row clearfix">
                             </div>

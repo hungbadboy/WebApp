@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                             <div class="col-md-8">                                
-                                <div class="main-manager-video main-list-video" ng-if="playlist">
+                                <div class="main-manager-video main-list-video">
                                     <div class="btn-mg">
                                         <button class="btn-delete" ng-click="deleteMultiplePlaylist()">Delete Selected</button>
                                     </div>
@@ -77,7 +77,7 @@
                                         <div class="text-ac">Action</div>
                                     </div>
                                     <div class="group-item">
-                                        <div class="item"  ng-repeat="p in playlist track by $index">
+                                        <div class="item" ng-if="playlist" ng-repeat="p in playlist track by $index">
                                             <div class="check-box"><input type="checkbox" ng-model="p.selected" class="check-input" name="checkall" /></div>
                                             <div class="box-detail-play clearfix">
                                                 <span class="item-thumbnail">
@@ -111,7 +111,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        
+                                        <div ng-if="!playlist" style="margin-left: 15px;"><h5>No Playlist here</h5></div>
                                     </div>
                                    <!--  <div class="row clearfix">
                                         <p class="btn-load-more"><a class="load-more-mng" href="#">load more</a></p>
@@ -126,7 +126,7 @@
                                         <button class="btn-delete" ng-click="deleteMultiplePlaylist()">Delete Selected</button>
                                     </div>
                                 </div>
-                                <div ng-if="nodata">No data</div>
+                                
                             </div>
                         </div>
                     </div>

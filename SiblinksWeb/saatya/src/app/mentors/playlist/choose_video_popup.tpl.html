@@ -1,4 +1,4 @@
-<div class="modal-content modal-add-video"> 
+<div class="modal-content modal-add-video popup-padding"> 
     <div role="tabpanel">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
@@ -31,7 +31,6 @@
                                 <option ng-repeat="s in subjects track by $index" value="{{s.subjectId}}">{{s.subject}}</option>              
                             </select>
                         </div>
-                        <div class="col-md-1 btn-filter"><button>Filter</button></div>
                     </div>
                 </div>
                 <div class="btn-mg">
@@ -47,10 +46,10 @@
                         <div class="check-box col-md-1"><input type="checkbox" class="check-input-md" name="checkall" ng-model="v.selected" ng-click="optionSelected()"/></div>
                         <div class="box-detail-play col-md-6 clearfix">
                             <span class="item-thumbnail pull-left">
-                                <img src="{{v.image}}" alt="">
+                                <img class="item-fix-size" src="{{v.image}}" alt="">
                             </span>
                             <div class="detail-pl-inner pull-left">
-                                <h5>{{v.title}}</h5>
+                                <h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5>
                                 <span class="add-time">{{v.timeStamp}} ago</span>
                                 <!-- <ul class="list-star">
                                     <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
