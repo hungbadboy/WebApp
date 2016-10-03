@@ -283,7 +283,7 @@ ul.nav.nav-tabs li a {
     width: 100%;
     float: left;
     position: relative;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .student-subcripted-name {
@@ -1655,15 +1655,19 @@ span.img-tb{
     padding-left: 0;
     padding-right: 0;
 }
-/*.mentor-manage-qa-content .left-qa ul.nav.nav-tabs li a{
+.box-main-replied button.reply {
+    background: #ffcc00;
     color: #505050;
-    background: none !important;
-    margin-bottom: 0;
-    border: none;
-    border-radius: 0;
-    font-weight: normal;
-    font-size: 16px;
-}*/
+    padding: 5px 20px;
+    border-radius: 4px;
+    float: right;
+    margin-right: 20px;
+    margin-top: 10px;
+    font-weight: 500;
+}
+.box-main-replied button.reply:hover {
+    background: #edf1f5;
+}
 .mentor-manage-qa-content .left-qa .t-panel{
     border-bottom: 1px solid #edf1f5;
     padding-top: 15px;
@@ -1782,6 +1786,7 @@ span.img-tb{
     margin-bottom: 0;
     /* text-align: right; */
 }
+
 .mentor-manage-qa-content .group-item-qa .item-qa .bx-dt-qa p.list-view {
     text-align: right;
 }
@@ -1824,7 +1829,7 @@ span.img-tb{
 .bx-detail-rpl .bt-item .follow{
     padding: 4px 9px !important;
 }
-.mentor-manage-qa-content .item-qa .bt-item .list-view a .like-h{
+.mentor-manage-qa-content .item-qa .bt-item .list-view .like-h{
     color:#ff6363;
 }
 .mentor-manage-qa-content .btn-load{
@@ -2045,10 +2050,20 @@ span.img-tb{
 }
 .box-main-replied .form-chat .upload-image{
     padding: 10px 0 32px 66px;
+    width: auto;
+    float: left;
+}
+.box-main-replied .add-image {
+    position: relative;
+    width: 100%;
+    float: left;
 }
 
 .chat li{
     margin-bottom: 40px;
+    width: 100%;
+    overflow: hidden;
+    padding-right: 20px;
 }
 
 .chat li.left .chat-body{
@@ -2073,7 +2088,7 @@ span.img-tb{
     font-size: 12px;
     color: #909090;
 }
-.chat li a .like-h{
+.chat li .like-h{
     color: #ff6363;
     padding: 0 5px;
 }
@@ -2292,6 +2307,20 @@ span.img-tb{
 .sub-right .txt-ifm p{
     font-size: 12px;
     color: #505050;
+}
+#setting-broswer {
+    background: #fff;
+    padding: 20px;
+}
+.box-avatar input[type=file] {
+    display: none;
+}
+span.broswer-img span:before {
+    color: rgba(255,255,255,0.8);
+}
+.search.search-mentor-student {
+    width: 100%;
+    float: left;
 }
 /*========//CSS MANAGER MENTOR PROFILE=============*/
 
@@ -2992,3 +3021,198 @@ li.page-item.next a {
 .lastest-comment .question:last-child:after {
     height: 0;
 }
+
+/*===============HOME=================*/
+.form-login-home .top-login{
+    padding: 15px 30px 30px;
+    background-color: #fff;
+    opacity: 0.9;
+}
+.form-login-home .box-bttom {
+    padding: 5px 30px 30px;
+    background-color: #fff;
+}
+.form-login-home h3{
+    font-size: 18px !important;
+    color: #505050 !important;
+    line-height: 20px !important;
+    margin-bottom: 5px;
+}
+.form-login-home .txt-about{
+    font-size: 12px;
+    color: #909090;
+}
+.form-login-home .form-login form{
+    padding: 10px 0;
+}
+.form-login-home .form-login form input[type="text"], .form-login-home .form-login form input[type="password"]{
+    height: 42px;
+    border-radius: 0;
+}
+.form-login-home .form-login form .group-rmb{
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+.form-login-home .form-login form .group-rmb .form-group.pull-left{
+    position: relative;
+}
+.form-login-home .form-login form .group-rmb input[type="checkbox"]{
+    position: absolute;
+    top: -5px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+}
+.form-login-home .form-login form .group-rmb label{
+    padding-left: 25px;
+    font-weight: 600;
+}
+.form-login-home .form-login form .group-rmb p a{
+    color: #f3c303;
+    padding-left: 5px;
+}
+.form-login-home  .form-login form input[type="submit"]{
+    width: 100%;
+    border-radius: 5px;
+    background-color: #505050;
+    color: #fff;
+    border: none;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+.box-bttom h2{
+    font-size: 24px;
+    font-weight: 600;
+    color: #505050 !important;
+    text-align: center;
+}
+.box-bttom h2 span{
+    font-weight: normal;
+}
+.box-bttom p{
+    text-align: center;
+    color: #909090;
+    font-size: 12px;
+}
+.bx-social{
+    text-align: center;
+}
+.bx-social span:first-child{
+    padding-right: 10px;
+}
+section.ask-mentors{
+    background: url('images/banner-lg.png') top center no-repeat !important;
+    background-size: cover !important;
+    padding: 90px 0 81px;
+}
+section.ask-mentors h2{
+    color: #fff;
+}
+section.ask-mentors h3{
+    font-size: 24px;
+    color: #fff;
+    line-height: 30px;
+}
+.ask-mentors-description{
+    padding-top: 170px !important;
+}
+.information-home{
+    background-color: #f5c602;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+.information-home .left-if{
+    padding-top: 170px;
+    padding-bottom: 205px;
+}
+.information-home .left-if h3{
+    font-size: 30px;
+    color: #505050;
+    padding-bottom: 10px;
+}
+.information-home .left-if p{
+    font-size: 18px;
+    color: #505050;
+}
+ .information-home .right-if{
+    position: absolute;
+    top: 0;
+    right: 0;
+} 
+.about-home{
+    padding-top: 84px;
+    background-color: #edf1f5;
+}
+.about-home .right-about h2{
+    font-size: 36px;
+    color: #505050;
+    font-weight: 600;
+    padding-bottom: 10px;
+    padding-top: 50px;
+}
+.about-home .right-about p{
+    font-size: 18px;
+    padding-bottom: 15px;
+}
+.about-home .right-about a{
+    font-size: 30px;
+    font-weight: 600;
+    color: #505050;
+    background-color: #f5c602;
+    padding: 15px 0;
+    display: block;
+    text-align: center;
+    width: 60%;
+    border-radius: 10px;
+}
+.testimonial{
+    background: url('images/bkg-testt-home.png') top center no-repeat;
+    background-size: cover;
+    padding: 56px 0 22px;
+}
+.testimonial h2{
+    text-align: center;
+    color: #f5c602;
+    font-weight: 600;
+}
+.testimonial .slider li .thumb-mainslider{
+    padding: 50px 0 30px;
+}
+.testimonial .slider li .thumb-mainslider img{
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+.testimonial .slider li p{
+    text-align: center;
+    font-size: 18px;
+    color: #fff;
+    width: 70%;
+    margin: 0 auto;
+}
+.testimonial .slider li .author{
+    text-align: center;
+}
+.testimonial .slider li .author b{
+    color: #f5c602;
+    font-size: 14px;
+}
+.testimonial .slider li .author span{
+    color: #909090;
+    font-size: 14px;
+}
+.testimonial .bx-wrapper .bx-pager.bx-default-pager a:hover, .testimonial .bx-wrapper .bx-pager.bx-default-pager a.active{
+    background-color: #fff;
+}
+.testimonial .bx-wrapper .bx-pager.bx-default-pager a{
+    background: #898c8e;
+}
+.testimonial .slider li span.icon-p{
+    position: absolute;
+    top: 42%;
+    left: 10%;
+}
+/*=================//HOME================*/
