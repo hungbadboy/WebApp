@@ -17,7 +17,8 @@
                         <div angucomplete-alt id="srch-term" ng-enter="searchEnter()" placeholder="Search" pause="50"
 	                                selected-object="onSelect"
 	                                local-data="listAllVideos" search-fields="title" title-field="title"
-	                                minlength="0" input-class="form-control form-control-small form-control-search"
+	                                minlength="1" input-class="form-control form-control-small form-control-search"
+                                    text-no-results="Video Not Found"
 	                                match-class="highlight" ></div>
 	                                
                         <div class="input-group-btn">
@@ -138,11 +139,11 @@
                     </div>
                     <div class="video-list-content">
 
-                        <div ng-hide="!searchItem">
+                        <div ng-hide="!searchItem" scroller="sc-search" data-on-total-scroll="loadMoreSearch">
                             <h5>Search Result</h5>
                             <ul>
                                 <li ng-show="searchItem"
-                                    ng-repeat="search in searchItem | limitTo : limitSearchResult : 0">
+                                    ng-repeat="search in searchItem | limitTo : limitSearchResult">
                                     <div class="video-wrapper"><a href="#">
                                         <div class="videos-thumnail">
                                             <a href="#/videos/detailVideo/{{search.vid}}">
