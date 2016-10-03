@@ -18,10 +18,10 @@
                         <div class="col-md-4 search">
                             <form class="navbar-form" role="search">
                                 <div class="input-group">
+                                    <input type="text" class="form-control-search input-search" placeholder="Type your search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-default" ><img src="assets/images/icon-search.png" alt=""></button>
+                                        <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
                                     </div>
-                                    <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
                                 </div>
                             </form>
                         </div>
@@ -41,21 +41,21 @@
                         <div role="tabpanel tab-all">
                             <!-- Nav tabs -->
                             <div class="t-panel">
-                                <span class="active">All</span>
-                                <span>Answered</span>
-                                <span>Unanswered</span>
+                                <p ng-click="selectTab('all')" ng-class="{'active':currentTab == 'all'}">All</p>
+                                <p ng-click="selectTab('answered')" ng-class="{'active':currentTab == 'answered'}">Answered</p>
+                                <p ng-click="selectTab('unanswered')" ng-class="{'active':currentTab == 'unanswered'}">Unanswered</p>
                             </div>
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="tab-1">
-                                    <div class="group-item-qa" ng-if="listQuestions" >
+                                    <div class="group-item-qa" ng-if="listQuestions" scroller="askQuestion" data-on-total-scroll="loadMorePost" >
                                         <div  ng-repeat="question in listQuestions" class="item-qa clearfix" ng-class="{'active':question.pid == currentPid}"
                                               ng-click="selectQuestion(question.pid)">
                                             <div class="col-md-3">
-                                                <img ng-src="{{question.imageUrl}}" alt="avatar">
+                                                <img ng-src="{{question.imageUrl}}" class="avatar-fix-size" alt="avatar">
                                             </div>
                                             <div class="col-md-9 bx-dt-qa">
-                                                <h5>{{question.firstName + " "+ question.lastName}}<span class="time">asked {{convertUnixTimeToTime(question.timestamp)}} ago</span></h5>
+                                                <h5>{{question.firstName + " "+ question.lastName}}<span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span></h5>
                                                 <p><span>in</span> <b>{{question.subject}}</b></p>
                                                 <p>
                                                     <p>{{ question.content | limitTo: 185 }}{{question.content.length > 185 ? '...' : ''}}</p>
@@ -132,7 +132,7 @@
                                         <div class="form-chat">
                                             <form action="">
                                                 <div class="box-chat-onl clearfix">
-                                                    <a class="col-md-1"> <img ng-src="{{mentorAvatar}}" alt=""></a>
+                                                    <a class="col-md-1"> <img class="avatar-fix-size" ng-src="{{mentorAvatar}}" alt=""></a>
                                                     <div class="texta">
                                                         <textarea name="" id="txtAnswer" class="col-md-11" placeholder="Add your reply here" ></textarea>
                                                         <div class="left-border"></div>
@@ -148,28 +148,33 @@
                                                     </div>
                                                 </div>
 
-                                                    <output id="list" class="upload-image ">
+                                                    <output id="list" class="upload-image" style="width: auto;float: left;">
                                                         <div ng-repeat="step in stepsModel track by $index">
                                                             <img class="thumb" ng-src="{{step}}" />
                                                             <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
                                                         </div>
                                                     </output>
 
-                                                <!--<span class="add-img">-->
-                                                <!--<input type="file" class="input-file-2"-->
-                                                       <!--id="files" name="files[]" multiple/>-->
-                                                    <!--<label for="files"><img src="assets/images/add-img.png"></label>-->
-                                                                    <!--</span>-->
+                                                <span class="add-img">
+                                                    <label style="margin-top: 10px;"><img ng-click="openFile()" src="assets/images/add-img.png"></label>
+                                                                    </span>
                                                 <button ng-click="answerQuestion(questionDetail.question_id)" class="reply">Reply</button>
                                                 <div class="detail-chat">
-                                                    <ul class="chat">
-                                                        <li ng-repeat="answer in listAnswer" class="clearfix" ng-class="{'right':userId == answer.userId}">
-                                                                            <span class="chat-img pull-right">
+                                                    <ul class="chat" ng-if="listAnswer">
+                                                        <li ng-repeat="answer in listAnswer" class="clearfix" ng-class="{'right':userId == answer.authorID,'left':userId != answer.authorID}">
+                                                                            <span class="chat-img" ng-class="{'pull-right':userId == answer.authorID,'pull-left':userId != answer.authorID}">
                                                                                 <img ng-src="{{answer.imageUrl}}" alt="Avatar">
                                                                             </span>
                                                             <div class="chat-body clearfix">
-                                                                <div class="header">
-                                                                    <strong class="pull-right primary-font">You</strong><span class="pull-right time">asked {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}} <span class="like-h" data-icon="&#xe089;"></span>
+                                                                <div class="header" ng-if="userId == answer.authorID">
+                                                                    <strong class="primary-font pull-right" ><a>You</a></strong>
+                                                                    <span class="pull-right time" >asked {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
+                                                                    <span class="like-h" data-icon="&#xe089;"></span>
+                                                                </div>
+                                                                <div class="header" ng-if="userId != answer.authorID">
+                                                                    <strong class="primary-font pull-left"><a>{{answer.firstName +" " +answer.lastName}}</a></strong>
+                                                                    <span class="time pull-left" >asked {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
+                                                                    <span class="like-h" data-icon="&#xe089;"></span>
                                                                 </div>
                                                                 <p>
                                                                     <p class="pre-wrap">

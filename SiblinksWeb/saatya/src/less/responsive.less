@@ -38,6 +38,9 @@
     .manager-profile .box-avatar {
         background: none;
     }
+    .manager-profile .box-avatar {
+        padding-bottom: 70px;
+    }
     
     /*======Mentor.Studentprofile==========*/
     .manager-profile-std .avt .count-qt {
@@ -88,6 +91,13 @@
     .mentor-manage-qa-content .left-essay .t-panel span {
         padding: 10px 10px 7px;
     }
+
+    /*======Mentor.Q&A==========*/
+    .mentor-manage-qa-content .left-essay .t-panel p {
+        padding: 10px 5px 7px;
+    }
+
+
 }
 @media screen and (max-width: 1600px) { 
     .information-content>div,
@@ -127,7 +137,20 @@
     }
     .box-main-replied .form-chat .box-chat-onl .texta textarea {
         margin-left: 25px;
-        width: ~"calc(100% - 50px)";
+        width: ~"(100% - 50px)";
+    }
+    .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .images-question li,
+    .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .images-question .item-img,
+    .images-question .item-img>img {
+        width: 80px;
+        height: 80px;
+    }
+    .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .images-question li {
+        margin-right: 5px;
+    }
+    .box-main-replied .form-chat .box-chat-onl .texta textarea {
+        margin-left: 0px;
+        padding: 10px 20px;
     }
 }
 
@@ -555,6 +578,23 @@
         width: 100%;
     }
 
+    /*Menotr Landing page*/
+    .information-home .left-if{
+        padding-bottom: 172px;
+    }
+    .about-home .right-about h2{
+        padding-top: 20px;
+    }
+    .about-home .right-about a{
+        font-size: 18px;
+    }
+    .about-home img{
+        width: 100%;
+    }
+    .testimonial .slider li p{
+        width: 82%;
+    }
+
     
 
 }
@@ -809,6 +849,35 @@
     .post-comment.col-md-8 {
         width: 100%;
     }
+
+    /*mentor landing page*/
+    section.ask-mentors{
+        padding: 30px 0 35px;  
+    }
+    .ask-mentors-description{
+        padding-top: 0 !important;
+        padding-left: 0!important;
+    }
+    .information-home .left-if{
+        padding: 40px 0;
+    }
+    .information-home .right-if{
+        position: static;
+    }
+    .about-home .right-about{
+        padding-bottom: 40px;
+        text-align: center;
+    }
+    .about-home .right-about a{
+        margin: 0 auto;
+    }
+    .testimonial .slider li span.icon-p{
+        top: 43%;
+        left: 0%;  
+    }
+    .testimonial .slider li p{
+        width: 100%;
+    }
     
 
 }
@@ -1003,6 +1072,18 @@
         margin-right: 15px;
     }
 
+    /*Mentor landing page*/
+    section.ask-mentors{
+        padding: 25px 0 35px;  
+    }
+    .information-home .right-if img{
+        width: 100%;
+    }
+    section.ask-mentors h3{
+        font-size: 18px;
+        line-height: 20px;
+    }
+
 }
 
 /***For max screen 680***/
@@ -1138,6 +1219,15 @@
     }
     .unlogin .video-list-content li {
         width: 100%;
+    }
+
+    /*Mentor panding Page*/
+    .testimonial .slider li p{
+        font-size: 14px;
+        padding-bottom: 10px;
+    }
+    .testimonial{
+        padding: 20px 0 0px;
     }
 
 }

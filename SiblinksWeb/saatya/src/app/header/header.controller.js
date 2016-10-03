@@ -278,5 +278,11 @@ brotControllers.controller('UserHeaderController',
                 }
               });
             }
+            /**
+             * Show small left side bar
+             */
+            $scope.showSmallLeftSideBar = function showSmallLeftSideBar() {
+            	angular.element(".mentor-left-header, #sidebar-menu, .mentor-center-header, .center-content").toggleClass("in");
+            }
         }]);
 //=========================================== HEADER.CONTROLLER.JS==============

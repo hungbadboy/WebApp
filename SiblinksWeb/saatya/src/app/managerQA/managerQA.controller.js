@@ -7,11 +7,11 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.subjectId = "-1";
         var LIMIT = 10;
         var lastQId = "";
+        var lastQIdBK = "-1";
         var userId = localStorage.getItem('userId');
         var defaultSubjectId = localStorage.getItem('defaultSubjectId');
         $scope.mentorAvatar  = localStorage.getItem('imageUrl');
         $scope.userId = userId;
-        var type = "";
         var typeOrderAnswer = "newest";
         var listDefaultSubjectId;
         $scope.subjectsChild = [];
@@ -19,11 +19,43 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         var imagePathOld_BK;
         var MAX_SIZE_IMG_UPLOAD = 10485760;
         var MAX_IMAGE = 4;
+        $scope.currentTab = 'all';
+        var currentPage = 0;
         init();
 
 
         function init() {
-            managerQAService.getListQuestionQA("-1", userId, lastQId, type, LIMIT).then(function (data) {
+            managerQAService.getListQuestionQA("-1", userId, lastQId, $scope.currentTab, LIMIT).then(function (data) {
+                var allSubjects = myCache.get("subjects");
+                listDefaultSubjectId = getSubjectNameByIdQA(defaultSubjectId, allSubjects);
+                $scope.subjectsParent = [];
+
+                for (var i = 0; i < listDefaultSubjectId.length; i++) {
+                    if (listDefaultSubjectId[i].level == '0') {
+                        $scope.subjectsParent.push(listDefaultSubjectId[i]);
+                    }
+                }
+                if (data.data.status) {
+                    $scope.listQuestions = data.data.request_data_result;
+                    if ($scope.listQuestions.length > 0) {
+                        lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].qid;
+                    }
+
+                }
+                if ($scope.listQuestions != null && $scope.listQuestions.length > 0) {
+                    $scope.currentPid = $scope.listQuestions[0].pid;
+                    getQuestionById($scope.currentPid);
+                }
+            });
+
+        }
+
+        $scope.loadMorePost = function () {
+            currentPage++;
+            if (lastQIdBK == lastQId) {
+                return;
+            }
+            managerQAService.getListQuestionQA("-1", userId, lastQId, $scope.currentTab, LIMIT).then(function (data) {
                 var allSubjects = myCache.get("subjects");
                 listDefaultSubjectId = getSubjectNameById(defaultSubjectId, allSubjects);
                 $scope.subjectsParent = [];
@@ -45,8 +77,21 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                     getQuestionById($scope.currentPid);
                 }
             });
+            lastQIdBK = lastQId;
 
+        }
+        $scope.openFile= function () {
+            $('#file1').click();
+        }
 
+        $scope.selectTab= function (tab) {
+            if($scope.currentTab == tab){
+                return ;
+            }
+            $scope.currentTab = tab;
+            lastQId = "";
+            lastQIdBK="-1";
+            init();
         }
 
         $scope.convertUnixTimeToTime = function (datetime) {
@@ -273,5 +318,48 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             return listImage;
 
         };
+
+        // get subject from default subject
+        function getSubjectNameByIdQA(strSubjectId, listcate) {
+            if (strSubjectId == null || strSubjectId === undefined) {
+                return;
+            }
+            var subject = {};
+            var listSubject = [];
+            if (isEmpty(strSubjectId)) {
+                listSubject.push(subject);
+                return listSubject;
+            }
+            if (strSubjectId.indexOf(',') < -1) {
+                for (var y = 0; y < listcate.length; y++) {
+                    if (listcate[y].subjectId == strSubjectId || listcate[y].parentId == strSubjectId) {
+                        subject.id = strSubjectId;
+                        subject.name = listcate[y].subject;
+                        subject.level = listcate[y].level;
+                        subject.parentId = listcate[y].parentId;
+                        return listSubject.push(subject);
+                    }
+
+                }
+            }
+            else {
+                var list = strSubjectId.split(',');
+                for (var i = 0; i < list.length; i++) {
+                    for (var y = 0; y < listcate.length; y++) {
+                        if (listcate[y].subjectId == list[i] || listcate[y].parentId == list[i]) {
+                            subject = [];
+                            subject.name = listcate[y].subject;
+                            subject.id = listcate[y].subjectId;
+                            subject.level = listcate[y].level;
+                            subject.parentId = listcate[y].parentId;
+                            listSubject.push(subject);
+                        }
+
+                    }
+                }
+            }
+
+            return listSubject;
+        }
 
     }]);

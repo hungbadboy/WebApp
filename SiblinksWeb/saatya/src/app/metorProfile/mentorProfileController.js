@@ -118,6 +118,8 @@ brotControllers.controller('MentorProfileController',
                 for(var i = 0; i < response.length ; i++){
                     var obj = {};
                     obj.userId = response[i].userid;
+                    obj.lastName = (response[i].lastName == null || response[i].lastName === undefined)? "" : response[i].lastName;
+                    obj.firstName= (response[i].firstName == null || response[i].firstName === undefined)? "" : response[i].firstName;
                     obj.userName = response[i].userName != null ? response[i].userName : ' ';
                     obj.avatar = response[i].imageUrl;
                     obj.defaultSubjectId = response[i].defaultSubjectId;
@@ -128,6 +130,8 @@ brotControllers.controller('MentorProfileController',
             }
         }
     });
+    
+    
 
     $scope.saveChange = function(){
       var check = true;

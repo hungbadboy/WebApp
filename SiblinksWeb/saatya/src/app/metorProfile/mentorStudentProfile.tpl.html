@@ -2,28 +2,42 @@
 <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
 <!-- /End Sidebar left menu -->
 <div class="content">
-    <div class="center-content">
-        <div class="center-content-wrapper">
-            <section id="dashboard">
-                <div class="dashboard-wrapper">
-                    <div class="dashboard-header">    
-                    <h4>Manage Video</h4>
-                    </div>
-                    <div class="manager-profile manager-profile-std clearfix">
-                        <div class="col-md-3">
-                            <div class="avt">
-                                <div class="box-avatar">
-                                    <div class="img-avt">
-                                        <img src="{{mentor.imageUrl}}" alt="">
-                                        <a href="#" class="change-avt">
-                                            <img ng-src="{{imageUrl}}" alt="">
-                                        </a>
-                                    </div>
-                                    <h4>{{mentor.fullName}}</h4>
-                                    <!-- <span>freshman</span> -->
-                                </div>
-                                <div class="box-information">
-                                    <h5>University</h5>
+     <div class="center-content">
+         <div class="center-content-wrapper">
+             <section id="dashboard">
+                 <div class="dashboard-wrapper">
+                     <div class="dashboard-header">    
+                     <h4>Student Profile</h4>
+                     <p>&nbsp;</p>
+                     </div>
+                     <div class="manager-profile manager-profile-std clearfix">
+                         <div class="col-md-3">
+                             <div class="avt">
+                                 <div class="box-avatar">
+                                     <div class="img-avt">
+                                         <img src="{{mentor.imageUrl}}" alt="">
+                                     </div>
+                                     <h4>{{mentor.fullName}}</h4>
+                                     <span>&nbsp;</span>
+                                 </div>
+                                 <div class="count-qt">
+                                     <ul>
+                                         <li>
+                                             <b>03</b><br/>
+                                             <span>questions</span>
+                                         </li>
+                                         <li>
+                                             <b>08</b><br/>
+                                             <span>essay</span>
+                                         </li>
+                                         <li>
+                                             <b>12</b><br/>
+                                             <span>subscribed</span>
+                                         </li>
+                                     </ul>
+                                 </div>
+                                 <div class="box-information">
+                                 	<h5>University</h5>
                                     <p>{{mentor.school}}</p>
                                     <h5>About me</h5>
                                     <p>{{mentor.description}}</p>
@@ -32,43 +46,76 @@
                                     <h5>Sex <span>{{mentor.gender}}</span></h5>
                                     <h5>BIO <span>{{mentor.bio}}</span></h5>
                                     <h5>Since <span>{{mentor.registrationTime}}</span></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="sub-right clearfix">
-                                <h3>Subscribers</h3>
-                                <div class="row">
-                                    <div class="search col-md-4">
-                                        <form class="navbar-form" role="search">
-                                            <div class="input-group">
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
-                                                </div>
-                                                <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <ul class="list-std col-md-4" ng-if="listStudentSubscribed">
-                                    <li class="clearfix" ng-repeat="s in listStudentSubscribed track by $index">
-                                        <span class="pull-left"><img src="{{s.avatar}}" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>{{s.userName}}</h5>
-                                            <p>Hight school: {{s.school}}</p>
-                                        </div>
-                                    </li>
-                                    
-                                </ul>
-                                <ul ng-if="noStudent">No Student subcribed</ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>                
-</div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-md-9">
+                             <div class="sub-right clearfix">
+                                 <h3>Subscribers</h3>
+                                 <div class="row">
+                                     <div class="search col-md-4">
+                                         <form class="navbar-form" role="search">
+                                             <div class="input-group">                                                   
+                                                 <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''">
+                                                 <div class="input-group-btn">
+                                                     <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
+                                                 </div>
+                                             </div>
+                                         </form>
+                                     </div>
+                                 </div>
+                                 <div class="browser-mentors-infor">
+                                     <div class="browser-mentors-infor-wrapper clearfix" ng-if="listStudentSubscribed">
+                                         <div class="col-md-4" ng-repeat="s in listStudentSubscribed track by $index">
+                                             <div class="mentors-infor-img">
+                                                 <div class="mentors-infor-img-wrapper">
+                                                     <a href="#/mentor/mentorProfile/{{s.userId}}"><img src="{{s.avatar}}"></a>
+                                                     <div class="mentors-img-hover">
+                                                         <a href="#/mentor/mentorProfile/{{s.userId}}"><span data-icon="&#x4c;"></span></a>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="mentors-infor-details">
+                                                 <div class="mentors-name">
+                                                     <a href="#/mentor/mentorProfile/{{s.userId}}">{{s.userName}}</a> 
+                                                     <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span>
+                                                 </div>
+                                                 <div class="mentors-edu">
+                                                     <span>{{s.school}}</span>
+                                                 </div>
+                                                 <div class="mentors-skill">
+                                                     <span>{{s.school}}</span>
+                                                 </div>
+                                                 <div class="mentors-rate clearfix">
+                                                     <button class="subscribers active" data-icon="&#x4c;">
+                                                         <span>Subscribe</span>
+                                                         <span class="number-subscribers">456</span>
+                                                     </button>
+                                                     <p class="likes">
+                                                         <span class="number-likes"><strong>68</strong></span><br>
+                                                         <span class="title-likes">likes</span>
+                                                     </p>
+                                                     <p class="videos">
+                                                         <span class="number-videos"><strong>12</strong></span><br>
+                                                         <span class="title-videos">videos</span>
+                                                     </p>
+                                                     <p class="answers">
+                                                         <span class="number-answers"><strong>232</strong></span><br>
+                                                         <span class="title-answers">answers</span>
+                                                     </p>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div><!-- /End information of mentors -->
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+     </div>                
+ </div>
 <!-- Sidebar right -->
 <div id="sidebar-right" ng-include="sidebarRight"></div>
 <!-- End Sidebar right -->
