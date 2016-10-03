@@ -27,7 +27,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         function init() {
             managerQAService.getListQuestionQA("-1", userId, lastQId, $scope.currentTab, LIMIT).then(function (data) {
                 var allSubjects = myCache.get("subjects");
-                listDefaultSubjectId = getSubjectNameById(defaultSubjectId, allSubjects);
+                listDefaultSubjectId = getSubjectNameByIdQA(defaultSubjectId, allSubjects);
                 $scope.subjectsParent = [];
 
                 for (var i = 0; i < listDefaultSubjectId.length; i++) {
@@ -318,5 +318,48 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             return listImage;
 
         };
+
+        // get subject from default subject
+        function getSubjectNameByIdQA(strSubjectId, listcate) {
+            if (strSubjectId == null || strSubjectId === undefined) {
+                return;
+            }
+            var subject = {};
+            var listSubject = [];
+            if (isEmpty(strSubjectId)) {
+                listSubject.push(subject);
+                return listSubject;
+            }
+            if (strSubjectId.indexOf(',') < -1) {
+                for (var y = 0; y < listcate.length; y++) {
+                    if (listcate[y].subjectId == strSubjectId || listcate[y].parentId == strSubjectId) {
+                        subject.id = strSubjectId;
+                        subject.name = listcate[y].subject;
+                        subject.level = listcate[y].level;
+                        subject.parentId = listcate[y].parentId;
+                        return listSubject.push(subject);
+                    }
+
+                }
+            }
+            else {
+                var list = strSubjectId.split(',');
+                for (var i = 0; i < list.length; i++) {
+                    for (var y = 0; y < listcate.length; y++) {
+                        if (listcate[y].subjectId == list[i] || listcate[y].parentId == list[i]) {
+                            subject = [];
+                            subject.name = listcate[y].subject;
+                            subject.id = listcate[y].subjectId;
+                            subject.level = listcate[y].level;
+                            subject.parentId = listcate[y].parentId;
+                            listSubject.push(subject);
+                        }
+
+                    }
+                }
+            }
+
+            return listSubject;
+        }
 
     }]);
