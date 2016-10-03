@@ -118,6 +118,8 @@ brotControllers.controller('MentorProfileController',
                 for(var i = 0; i < response.length ; i++){
                     var obj = {};
                     obj.userId = response[i].userid;
+                    obj.lastName = (data_result[i].lastName == null || data_result[i].lastName === undefined)? "" : data_result[i].lastName;
+                    obj.firstName= (data_result[i].firstName == null || data_result[i].firstName === undefined)? "" : data_result[i].firstName;
                     obj.userName = response[i].userName != null ? response[i].userName : ' ';
                     obj.avatar = response[i].imageUrl;
                     obj.defaultSubjectId = response[i].defaultSubjectId;
