@@ -106,7 +106,7 @@ public class ManagerQAServiceImpl implements managerQAService {
             whereCause += " AND X.subjectId = " + subjectId;
         }
 
-        Object[] queryParams = { userId };
+        Object[] queryParams = { userId, userId };
         List<Object> readObject = null;
         boolean status = true;
 

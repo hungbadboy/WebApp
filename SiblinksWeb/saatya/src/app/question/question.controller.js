@@ -246,7 +246,7 @@ brotControllers
                 }
 
                 $scope.viewAnswer = function (qid) {
-                    if($('#spamview_'+qid).text() == 'View')
+                    if( $('.detail-answer-question_'+qid).hasClass('hide'))
                     {
                         $('#spamview_'+qid).text('Hide');
                         $('.detail-answer-question_'+qid).removeClass('hide');
@@ -256,14 +256,6 @@ brotControllers
                         $('#spamview_'+qid).text('View');
                         $('.detail-answer-question_'+qid).addClass('hide');
                     }
-                    // if(num == 0){
-                    //     return;
-                    // }
-                    // if($scope.limitAnswes == num){
-                    //     $scope.limitAnswes = 0;
-                    // }else {
-                    //     $scope.limitAnswes = num;
-                    // }
                 }
 
                 $scope.isShowOrder = false;

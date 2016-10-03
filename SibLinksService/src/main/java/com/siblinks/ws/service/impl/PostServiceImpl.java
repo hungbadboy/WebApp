@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -40,8 +41,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -79,6 +85,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     ObjectDao dao;
+    
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     @Autowired
     private Environment environment;
@@ -141,10 +150,15 @@ public class PostServiceImpl implements PostService {
         return entity;
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     @RequestMapping(value = "/createAnswer", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> createAnswer(@RequestBody final RequestData request) {
+    public @ResponseBody ResponseEntity<Response> createAnswer(
+            @RequestParam("pid") final String pid,
+            @RequestParam("content") final String content,
+            @RequestParam("studentId") final String studentId,
+            @RequestParam("mentorId") final String mentorId,
+            @RequestParam("file") final MultipartFile[] files,
+            @RequestParam("subjectId") final String subjectId) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(
@@ -156,34 +170,72 @@ public class PostServiceImpl implements PostService {
             return entity;
         }
 
-       
-
-        long pid = 0l; 
-        String questionID = request.getRequest_data().getPid();
-        Object[] queryParamsAnswer = { questionID, request.getRequest_data().getAuthorID(), request.getRequest_data().getContent()};
-        pid = dao.insertObject(SibConstants.SqlMapper.SQL_CREATE_ANSWER, queryParamsAnswer);
-       
-
-        Object[] queryParams ={
-    		   request.getRequest_data().getUid(),
-    		   request.getRequest_data().getAuthorID() ,
-    		   "answerQuestion",
-    		   "Answer to question",
-    		   "answered a question: " + request.getRequest_data().getContent(),
-    		   request.getRequest_data().getSubjectId(),
-    		   request.getRequest_data().getPid()
-    		   
-       };
-        dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_NUMREPLIES_QUESTION, new Object[]{questionID});
+        long id = 0l;
         boolean status = false;
-        status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION, queryParams);
-		if (pid > 0 && status == true) {
-			status = true;
-		}
-		SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(),
-				request.getRequest_data_method(), status);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
+        String error = validateFileImage(files);
+        if (!StringUtil.isNull(error)) {
+            SimpleResponse reponse = new SimpleResponse(
+                                                        "" +
+                                                        Boolean.FALSE,
+                                                        "post",
+                                                        "createAnswer",
+                                                        error);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(
+                                                                           reponse,
+                                                                           HttpStatus.OK);
+            return entity;
+        }
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus statusBD = transactionManager.getTransaction(def);
+        try {
+
+            MultipartFile file;
+            String filePath = "";
+            String pathget = environment.getProperty("directoryGetImageAnswer");
+            if (files != null && files.length > 0) {
+                for (int i = 0; i < files.length; i++) {
+                    file = files[i];
+                    filePath += pathget +
+                                uploadFile(file, "directoryImageAnswer") +
+                                ".png";
+                    if (i < files.length - 1) {
+                        filePath += ";";
+                    }
+                }
+            }
+
+            Object[] queryParamsAnswer = { pid, mentorId, content, filePath };
+            id = dao.insertObject(
+                SibConstants.SqlMapper.SQL_CREATE_ANSWER,
+                queryParamsAnswer);
+            Object[] queryParams = { mentorId, studentId, "answerQuestion", "Answer to question", "answered a question: " +
+                                                                                                  content, subjectId, pid };
+            dao.insertUpdateObject(
+                SibConstants.SqlMapper.SQL_UPDATE_NUMREPLIES_QUESTION,
+                new Object[] { pid });
+
+            status = dao.insertUpdateObject(
+                SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION,
+                queryParams);
+            if (id > 0 && status == true) {
+                status = true;
+            }
+            transactionManager.commit(statusBD);
+            logger.info("Insert Menu success " + new Date());
+        } catch (NullPointerException | NumberFormatException | DataAccessException | FileNotFoundException e) {
+            transactionManager.rollback(statusBD);
+        }
+
+        SimpleResponse reponse = new SimpleResponse(
+                                                    "" +
+                                                    status,
+                                                    "POST",
+                                                    "createAnswer",
+                                                    status);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(
+                                                                       reponse,
+                                                                       HttpStatus.OK);
+        return entity;
     }
 
     @Override
@@ -540,171 +592,7 @@ public class PostServiceImpl implements PostService {
         return entity;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @RequestMapping(value = "/getPostListRelatedPN", method = RequestMethod.POST)
-    public ResponseEntity<Response> getPostListRelatedPN(@RequestBody final RequestData request) {
-
-        CommonUtil util = CommonUtil.getInstance();
-
-        Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
-        List<Object> readObject = null;
-        if (request.getRequest_data().getSubjectId().equals("0")) {
-            readObject = dao.readObjects(
-                SibConstants.SqlMapper.SQL_GET_POST_LIST_PN,
-                new Object[] { Integer.parseInt(map.get(Parameters.FROM)), Integer.parseInt(map.get(Parameters.TO)) });
-        } else if (request.getRequest_data().getTopicId() != null) {
-            readObject = dao.readObjects(
-                SibConstants.SqlMapper.SQL_GET_POST_LIST_SUBID_RELATED_PN,
-                new Object[] { request.getRequest_data().getSubjectId(), request.getRequest_data().getTopicId(), request
-                    .getRequest_data()
-                    .getPid(), Integer.parseInt(map.get(Parameters.FROM)), Integer.parseInt(map.get(Parameters.TO)) });
-        } else {
-            readObject = dao.readObjects(
-                SibConstants.SqlMapper.SQL_GET_POST_LIST_RELATED_PN,
-                new Object[] { request.getRequest_data().getPid(), Integer.parseInt(map.get(Parameters.FROM)), Integer
-                    .parseInt(map.get(Parameters.TO)) });
-        }
-
-        List<List<Object>> resParentObject = new ArrayList<List<Object>>();
-
-        if (readObject != null) {
-            for (Object object : readObject) {
-                List<Object> resChildObject = new ArrayList<Object>();
-                Map<String, Object> map1 = (Map) object;
-                String pid = "" + map1.get("pid");
-                List<Object> readObject1 = dao.readObjects(SibConstants.SqlMapper.SQL_POST_GET_TAGS, new Object[] { pid });
-
-                Map<String, Object> tags = null;
-
-                try {
-                    if (readObject1 != null) {
-                        for (Object obj : readObject1) {
-                            tags = (Map) obj;
-                            Iterator<Entry<String, Object>> it = tags.entrySet().iterator();
-                            while (it.hasNext()) {
-                                Map.Entry pairs = it.next();
-                                if (pairs.getKey().equals("pid")) {
-                                    it.remove();
-                                }
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    logger.error(e);
-                }
-
-                Map<String, Object> mymap = new HashMap<String, Object>();
-                mymap.put("tags", readObject1);
-                resChildObject.add(map1);
-                resChildObject.add(mymap);
-                resParentObject.add(resChildObject);
-            }
-        }
-
-        String count = null;
-
-        if (request.getRequest_data().getTopicId() != null) {
-            count = dao.getCount(
-                SibConstants.SqlMapper.SQL_GET_POST_LIST_SUBID_PN_COUNT,
-                new Object[] { request.getRequest_data().getSubjectId(), request.getRequest_data().getTopicId() });
-        } else {
-            count = dao.getCount(
-                SibConstants.SqlMapper.SQL_GET_POST_LIST_PN_COUNT,
-                new Object[] { request.getRequest_data().getSubjectId() });
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    resParentObject,
-                                                    count);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @RequestMapping(value = "/getPostListSubjectPN", method = RequestMethod.POST)
-    public ResponseEntity<Response> getPostListSubjectPN(@RequestBody final RequestData request) {
-
-        CommonUtil util = CommonUtil.getInstance();
-
-        Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
-
-        List<Object> readObject = null;
-        if (request.getRequest_data().getSubjectId().equals("0")) {
-            readObject = dao.readObjects(
-                SibConstants.SqlMapper.SQL_GET_POST_LIST_PN,
-                new Object[] { map.get(Parameters.FROM), map.get(Parameters.TO) });
-        } else {
-            readObject = dao.readObjects(
-                SibConstants.SqlMapper.SQL_GET_POST_LIST_SUBJECTID_PN,
-                new Object[] { request.getRequest_data().getSubjectId(), Integer.parseInt(map.get(Parameters.FROM)), Integer
-                    .parseInt(map.get(Parameters.TO)) });
-        }
-        List<List<Object>> resParentObject = new ArrayList<List<Object>>();
-        if (readObject != null) {
-            for (Object object : readObject) {
-                List<Object> resChildObject = new ArrayList<Object>();
-                Map<String, Object> map1 = (Map) object;
-                String pid = "" + map1.get("pid");
-                List<Object> readObject1 = dao.readObjects(SibConstants.SqlMapper.SQL_POST_GET_TAGS, new Object[] { pid });
-
-                Map<String, Object> tags = null;
-
-                try {
-                    if (readObject1 != null) {
-                        for (Object obj : readObject1) {
-                            tags = (Map) obj;
-                            Iterator<Entry<String, Object>> it = tags.entrySet().iterator();
-                            while (it.hasNext()) {
-                                Map.Entry pairs = it.next();
-                                if (pairs.getKey().equals("pid")) {
-                                    it.remove();
-                                }
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    logger.error(e);
-                }
-
-                Map<String, Object> map2 = (Map) object;
-
-                List<Object> readObject2 = getOneAnswerWithQuestion(map2);
-                Object count = countAnswer(map2);
-
-                Map<String, Object> mymap = new HashMap<String, Object>();
-                mymap.put("tags", readObject1);
-                Map<String, Object> mymap2 = new HashMap<String, Object>();
-                mymap2.put("answer", readObject2);
-                mymap2.put("count", count);
-                resChildObject.add(map1);
-                resChildObject.add(mymap2);
-                resChildObject.add(mymap);
-                resParentObject.add(resChildObject);
-            }
-        }
-
-        String count = null;
-        count = dao.getCount(
-            SibConstants.SqlMapper.SQL_GET_POST_LIST_SUBJECTID_PN_COUNT,
-            new Object[] { request.getRequest_data().getSubjectId() });
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    resParentObject,
-                                                    count);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
+   
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @RequestMapping(value = "/getAnswerListPN", method = RequestMethod.POST)
@@ -819,77 +707,6 @@ public class PostServiceImpl implements PostService {
 		return entity;
 	}
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @RequestMapping(value = "/getStudentPostsPN", method = RequestMethod.POST)
-    public ResponseEntity<Response> getStudentPostsPN(@RequestBody final RequestData request) {
-
-        CommonUtil util = CommonUtil.getInstance();
-
-        Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("studentId", request.getRequest_data().getUid());
-        queryParams.put("from", map.get("from"));
-        queryParams.put("to", map.get("to"));
-
-        List<List<Object>> resParentObject = new ArrayList<List<Object>>();
-        List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_STUDENT_POST_LIST_PN, queryParams);
-
-        if (readObject != null) {
-            for (Object object : readObject) {
-                List<Object> resChildObject = new ArrayList<Object>();
-                Map<String, Object> map1 = (Map) object;
-                String pid = (String) map1.get("pid");
-                queryParams.put("pid", pid);
-                List<Object> readObject1 = dao.readObjects(SibConstants.SqlMapper.SQL_POST_GET_TAGS, queryParams);
-
-                Map<String, Object> tags = null;
-
-                try {
-                    if (readObject1 != null) {
-                        for (Object obj : readObject1) {
-                            tags = (Map) obj;
-                            Iterator<Entry<String, Object>> it = tags.entrySet().iterator();
-                            while (it.hasNext()) {
-                                Map.Entry pairs = it.next();
-                                if (pairs.getKey().equals("pid")) {
-                                    it.remove();
-                                }
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    logger.error(e);
-                }
-
-                Map<String, Object> mymap = new HashMap<String, Object>();
-                mymap.put("tags", readObject1);
-                resChildObject.add(map1);
-                resChildObject.add(mymap);
-                resParentObject.add(resChildObject);
-            }
-        }
-
-        String count = null;
-        if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
-            count = dao.getCount(
-                SibConstants.SqlMapper.SQL_GET_STUDENT_POST_LIST_PN_COUNT,
-                new Object[] { request.getRequest_data().getUid() });
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    resParentObject,
-                                                    count);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
@@ -1123,189 +940,7 @@ public class PostServiceImpl implements PostService {
         return entity;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @RequestMapping(value = "/searchPostsInSubcategory", method = RequestMethod.POST)
-    public ResponseEntity<Response> searchPostsInSubcategory(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("subcategory", request.getRequest_data().getSubcategory().trim());
-
-        List<List<Object>> resParentObject = new ArrayList<List<Object>>();
-
-        List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SEARCH_POSTS_IN_SUBCATEGORY, queryParams);
-        if (readObject != null) {
-            for (Object object : readObject) {
-                List<Object> resChildObject = new ArrayList<Object>();
-                Map<String, Object> map = (Map) object;
-                String pid = (String) map.get("pid");
-                queryParams.put("pid", pid);
-                List<Object> readObject1 = dao.readObjects(SibConstants.SqlMapper.SQL_POST_GET_TAGS, queryParams);
-                Map<String, Object> tags = null;
-                try {
-                    if (readObject1 != null) {
-                        for (Object obj : readObject1) {
-                            tags = (Map) obj;
-                            Iterator<Entry<String, Object>> it = tags.entrySet().iterator();
-                            while (it.hasNext()) {
-                                Map.Entry pairs = it.next();
-                                if (pairs.getKey().equals("pid")) {
-                                    it.remove();
-                                }
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    logger.error(e);
-                }
-
-                Map<String, Object> mymap = new HashMap<String, Object>();
-                mymap.put("tags", readObject1);
-                resChildObject.add(map);
-                resChildObject.add(mymap);
-                resParentObject.add(resChildObject);
-            }
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    resParentObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @RequestMapping(value = "/searchPostsWithTag", method = RequestMethod.POST)
-    public ResponseEntity<Response> searchPostsWithTag(@RequestBody final RequestData request) {
-
-        CommonUtil util = CommonUtil.getInstance();
-
-        Map<String, String> map1 = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("subjectId", request.getRequest_data().getSubjectId());
-        queryParams.put("subject", request.getRequest_data().getTag().trim());
-        queryParams.put("tag", request.getRequest_data().getTag().trim());
-        queryParams.put("content", request.getRequest_data().getTag().trim());
-        queryParams.put("from", map1.get("from"));
-        queryParams.put("to", map1.get("to"));
-
-        List<List<Object>> resParentObject = new ArrayList<List<Object>>();
-
-        List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SEARCH_POSTS_WITH_TAG, queryParams);
-
-        if (readObject != null) {
-            for (Object object : readObject) {
-                List<Object> resChildObject = new ArrayList<Object>();
-                Map<String, Object> map = (Map) object;
-                String pid = (String) map.get("pid");
-                queryParams.put("pid", pid);
-                List<Object> readObject1 = dao.readObjects(SibConstants.SqlMapper.SQL_POST_GET_TAGS, queryParams);
-
-                Map<String, Object> tags = null;
-                try {
-                    if (readObject1 != null) {
-                        for (Object obj : readObject1) {
-                            tags = (Map) obj;
-                            Iterator<Entry<String, Object>> it = tags.entrySet().iterator();
-                            while (it.hasNext()) {
-                                Map.Entry pairs = it.next();
-                                if (pairs.getKey().equals("pid")) {
-                                    it.remove();
-                                }
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    logger.error(e);
-                }
-
-                Map<String, Object> map2 = (Map) object;
-                List<Object> readObject2 = getOneAnswerWithQuestion(map2);
-                Object count = countAnswer(map2);
-
-                Map<String, Object> mymap = new HashMap<String, Object>();
-                mymap.put("tags", readObject1);
-                Map<String, Object> mymap2 = new HashMap<String, Object>();
-                mymap2.put("answer", readObject2);
-                mymap2.put("count", count);
-                resChildObject.add(map);
-                resChildObject.add(mymap2);
-                resChildObject.add(mymap);
-                resParentObject.add(resChildObject);
-            }
-        }
-
-        String count = null;
-        count = dao.getCount(
-            SibConstants.SqlMapper.SQL_GET_POST_LIST_SUBJECT_PN_COUNT,
-            new Object[] { request.getRequest_data().getTag().trim(), request.getRequest_data().getSubjectId() });
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    resParentObject,
-                                                    count);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    @RequestMapping(value = "/postAnswer", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> postAnswer(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("authorID", request.getRequest_data().getAuthorID());
-        queryParams.put("pid", request.getRequest_data().getPid());
-        queryParams.put("content", request.getRequest_data().getContent());
-
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_ANSWER, queryParams);
-        if (status) {
-            // increment the numRatings column in sib_videos table
-            queryParams.put("pid", request.getRequest_data().getPid());
-            status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_NUM_REPLIES_UPDATE, queryParams);
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    request.getRequest_data().getPid());
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
+  
 
     @Override
     @RequestMapping(value = "/editAnswer", method = RequestMethod.POST)
@@ -1372,106 +1007,9 @@ public class PostServiceImpl implements PostService {
         return entity;
     }
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    @RequestMapping(value = "/addAnswerComment", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> addAnswerComment(@RequestBody final RequestData request) {
+   
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("author", request.getRequest_data().getAuthor());
-        queryParams.put("authorId", request.getRequest_data().getAuthorID());
-        queryParams.put("content", request.getRequest_data().getContent());
-        queryParams.put("image", null);
-
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
-        Map<String, String> queryParamsIns = null;
-        int cid = 0;
-        if (status) {
-            Map<String, String> queryParams1 = new HashMap<String, String>();
-
-            queryParams1.put("content", request.getRequest_data().getContent());
-            queryParams1.put("authorId", request.getRequest_data().getAuthorID());
-
-            List<Object> readObject = null;
-            readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams1);
-            if (readObject != null && readObject.size() > 0) {
-                queryParamsIns = new HashMap<String, String>();
-                queryParamsIns.put("cid", ((Map) readObject.get(0)).get("cid").toString());
-                queryParamsIns.put("aid", request.getRequest_data().getAid());
-                boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_ANSWER_COMMENT, queryParamsIns);
-                cid = Integer.valueOf(queryParamsIns.get("cid"));
-            }
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    cid);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @RequestMapping(value = "/searchPostWithAnswersComments", method = RequestMethod.POST)
-    public ResponseEntity<Response> searchPostWithAnswersComments(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("pid", request.getRequest_data().getPid());
-
-        List<List<Object>> resParentObject = new ArrayList<List<Object>>();
-
-        List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SEARCH_POST_ANSWERS, queryParams);
-        if (readObject != null && readObject.size() > 0) {
-            for (Object object : readObject) {
-                List<Object> resChildObject = new ArrayList<Object>();
-                Map<String, Object> map = (Map) object;
-                String aid = (String) map.get("aid");
-                queryParams.put("aid", aid);
-                List<Object> readObject1 = dao.readObjects(SibConstants.SqlMapper.SQL_SEARCH_ANSWER_COMMENTS, queryParams);
-
-                Map<String, Object> mymap = new HashMap<String, Object>();
-                mymap.put("comments", readObject1);
-                resChildObject.add(map);
-                resChildObject.add(mymap);
-                resParentObject.add(resChildObject);
-            }
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    resParentObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
+ 
 
     @Override
     @RequestMapping(value = "/updateViewQuestion", method = RequestMethod.POST)
@@ -1507,57 +1045,6 @@ public class PostServiceImpl implements PostService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
 
         return entity;
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @RequestMapping(value = "/getSubjectIdWithTopicId", method = RequestMethod.POST)
-    public ResponseEntity<Response> getSubjectIdWithTopicId(@RequestBody final RequestData request) {
-
-        List<Object> readObject = null;
-        readObject = dao.readObjects(
-            SibConstants.SqlMapper.SQL_GET_IDSUBJECT_WITH_IDCATEGORY,
-            new Object[] { request.getRequest_data().getTopicId() });
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    public List<Object> getOneAnswerWithQuestion(final Map<String, Object> map) {
-        Map<String, String> queryParams = new HashMap<String, String>();
-        String pid1 = "" + map.get("pid");
-        queryParams.put("pid", pid1);
-
-        List<Object> readObject = null;
-
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_ONE_ANSWER_FORUM, queryParams);
-
-        Map<String, Object> answer = null;
-
-        try {
-            if (readObject != null) {
-                for (Object obj : readObject) {
-                    answer = (Map) obj;
-                    Iterator<Entry<String, Object>> it = answer.entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry pairs = it.next();
-                        if (pairs.getKey().equals("pid")) {
-                            it.remove();
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            logger.error(e);
-        }
-
-        return readObject;
     }
 
     public List<Object> countAnswer(final Map<String, Object> map) {

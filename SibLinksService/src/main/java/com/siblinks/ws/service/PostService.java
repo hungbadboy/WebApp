@@ -53,34 +53,18 @@ public interface PostService {
 	public ResponseEntity<Response> searchPosts(RequestData video);
 	
 	
-	public ResponseEntity<Response> searchPostsWithTag(RequestData video);
-	
-	public ResponseEntity<Response> searchPostsInSubcategory(RequestData video);
-	
-	
-	
-	public ResponseEntity<Response> postAnswer(RequestData video);
 	public ResponseEntity<Response> editAnswer(RequestData video);
 	public ResponseEntity<Response> removeAnswer(RequestData video);
 	
-	public ResponseEntity<Response> addAnswerComment(RequestData video);
-	
-	public ResponseEntity<Response> searchPostWithAnswersComments(RequestData video);
-	
-	public ResponseEntity<Response> getStudentPostsPN(RequestData sid);
 
 	public ResponseEntity<Response> getAnswerById(RequestData request);
 
-	public ResponseEntity<Response> createAnswer(RequestData request);
+	public ResponseEntity<Response> createAnswer(String pid, String content, String studentId,String mentorId, MultipartFile[] files,
+            String subjectId);
 
 	public ResponseEntity<Response> updateViewQuestion(RequestData request);
 
-	public ResponseEntity<Response> getPostListSubjectPN(RequestData request);
 
-	public ResponseEntity<Response> getPostListRelatedPN(RequestData request);
-
-	public ResponseEntity<Response> getSubjectIdWithTopicId(RequestData request);
-	
 	public ResponseEntity<Response> getStudentPosted(long id, String limit, String offset, String orderType,
 			String oldQid,String subjectid);
 

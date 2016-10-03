@@ -35,9 +35,8 @@ brotControllers
                 //10M
                 var MAX_SIZE_IMG_UPLOAD = 10485760;
                 var MAX_IMAGE = 4;
-
+                var type = "newest";
                 init();
-                var type = "new";
 
                 function init() {
                     if (isEmpty(question_id)) {
