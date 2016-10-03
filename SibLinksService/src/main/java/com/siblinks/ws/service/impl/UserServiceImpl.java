@@ -895,57 +895,66 @@ public class UserServiceImpl implements UserService {
             result = new HashMap<String, Object>();
             // Count subscribe
             readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_SUBSCRIBERS, queryParams);
-            result.put("count_subscribers", 0);
+
             if (!CollectionUtils.isEmpty(readObject)) {
                 for (Object object : readObject) {
                     Map<String, String> mapObject = (HashMap<String, String>) object;
-                    result.put("count_subscribers", mapObject.get("Count(*)"));
+                    result.put("count_subscribers", mapObject.get("countSubscribers"));
                 }
+            } else {
+                result.put("count_subscribers", 0);
             }
 
             // Count answer
             readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_ANSWERS, queryParams);
-            result.put("count_answers", 0);
             if (!CollectionUtils.isEmpty(readObject)) {
                 for (Object object : readObject) {
                     Map<String, String> mapObject = (HashMap<String, String>) object;
                     result.put("count_answers", mapObject.get("count(*)"));
                 }
+            } else {
+                result.put("count_answers", 0);
             }
 
             // Count videos
             readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_VIDEOS, queryParams);
-            result.put("count_videos", 0);
+
             if (!CollectionUtils.isEmpty(readObject)) {
                 for (Object object : readObject) {
                     Map<String, String> mapObject = (HashMap<String, String>) object;
                     result.put("count_videos", mapObject.get("count(*)"));
                 }
+            } else {
+                result.put("count_videos", 0);
             }
             // Count Like
             readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_LIKES, queryParams);
-            result.put("count_likes", 0);
+
             if (!CollectionUtils.isEmpty(readObject)) {
                 for (Object object : readObject) {
                     Map<String, String> mapObject = (HashMap<String, String>) object;
                     result.put("count_likes", mapObject.get("count(*)"));
                 }
+            } else {
+                result.put("count_likes", 0);
             }
 
             // List skill
-            readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_MENTOR_SKILLS, queryParams);
-            String skills = "";
-            if (!CollectionUtils.isEmpty(readObject)) {
-                for (Object object : readObject) {
-                    Map<String, String> mapObject = (HashMap<String, String>) object;
-                    if (skills.length() == 0) {
-                        skills += mapObject.get("subject");
-                    } else {
-                        skills += ", " + mapObject.get("subject");
-                    }
-                }
-            }
-            result.put("skills", skills);
+            // readObject =
+            // dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_MENTOR_SKILLS,
+            // queryParams);
+            // String skills = "";
+            // if (!CollectionUtils.isEmpty(readObject)) {
+            // for (Object object : readObject) {
+            // Map<String, String> mapObject = (HashMap<String, String>) object;
+            // if (skills.length() == 0) {
+            // skills += mapObject.get("subject");
+            // } else {
+            // skills += ", " + mapObject.get("subject");
+            // }
+            // }
+            // }
+            // result.put("skills", skills);
         } else {
             // do nothing
         }
