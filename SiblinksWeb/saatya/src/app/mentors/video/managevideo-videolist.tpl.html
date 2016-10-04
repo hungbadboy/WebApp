@@ -15,7 +15,12 @@
                                 <div class="col-md-5 search">
                                     <form class="navbar-form" role="search">
                                         <div class="input-group">                                                        
-                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" ng-enter="search()">
+                                            <!-- <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" ng-enter="search()"> -->
+                                            <div id="srch-term" angucomplete-alt id="srch-term" ng-enter="search()" placeholder="Search" pause="50" selected-object="onSelect"
+                                                local-data="listAllVideos" search-fields="title" title-field="title"
+                                                minlength="1" input-class="form-control input-search"
+                                                text-no-results="Tutorial Not Found"
+                                                match-class="highlight" ></div>
                                             <div class="input-group-btn">
                                                 <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
                                             </div>
@@ -28,16 +33,6 @@
                                         <option ng-repeat="s in listSubjects track by $index" value="{{s.subjectId}}" >{{s.subject}}</option>
                                     </select>
                                 </div>
-                               <!--  <div class="col-md-2 sl-newwest">
-                                    <select class="select-newwest">
-                                        <option value="0">Option 1</option>
-                                        <option value="1">Option 2</option>
-                                        <option value="2">Option 3</option>
-                                        <option value="3">Option 4</option>
-                                        <option value="4">Option 5</option>
-                                    </select>
-                                </div> -->
-                                <!-- <div class="col-md-2 btn-filter"><button>Filter</button></div> -->
                             </div>
                         </div>
                         <div class="btn-mg">

@@ -18,6 +18,7 @@ brotControllers.controller('VideoManagerController',
     function init(){
       loadSubjects();
       loadVideos();
+      getAllVideos();
     }
 
     function loadSubjects(){      
@@ -143,14 +144,18 @@ brotControllers.controller('VideoManagerController',
     }
 
     $scope.search = function(){
-      var keyword = $('#srch-term').val();
+      var keyword = $('input#srch-term').val();
       if (keyword != null && keyword.trim().length > 0) {
         // call api
         VideoService.searchVideosMentor(userId, keyword, 10).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.videos = formatData(data.data.request_data_result);
+          } else{
+            $scope.videos = null;
           }
         });
+      } else{
+        $scope.videos = cacheVideos;
       }
     }
 
@@ -180,22 +185,21 @@ brotControllers.controller('VideoManagerController',
         }
       });
     }
+
+    function getAllVideos() {
+        VideoService.getAllVideos().then(function (response) {
+            if (response.data.status) {
+                $scope.listAllVideos = response.data.request_data_result;
+            }
+        });
+    }
+
+    $scope.onSelect = function (selected) {
+      console.log(selected);
+      VideoService.searchVideosMentor(userId, selected.title, 10).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+          $scope.videos = formatData(data.data.request_data_result);
+        }
+      });
+    };
 }]);
-
-
-// brotServices.factory('LoadMore', function($http){
-//   var LoadMore = function(){
-//     this.items = [];
-//     this.busy = false;
-//     this.after = '';
-//   }
-
-//   LoadMore.prototype.loaMoreVideos = function(){
-//     if (this.busy) {return;}
-//     this.busy = true;
-//     console.log("loaMoreVideos");
-
-//   };
-
-//   return LoadMore;
-// });

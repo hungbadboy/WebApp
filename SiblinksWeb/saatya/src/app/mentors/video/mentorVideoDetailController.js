@@ -10,6 +10,7 @@ brotControllers.controller('MentorVideoDetailController',
     
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
 
+    $scope.currentId = 0;
     init();
 
     function init(){
@@ -22,6 +23,7 @@ brotControllers.controller('MentorVideoDetailController',
             // get playlist detail
             $scope.plid = plid;
             angular.element(document.querySelector('#video_balance')).remove();
+            angular.element(document.querySelector('#btnDelete')).remove();
             loadPlaylistDetail();
             getVideosInPlaylist();
         } 
@@ -78,10 +80,8 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     function getVideoDetail(id, userId){
-        console.log(id);
         videoDetailService.getVideoDetailMentor(id, userId).then(function(data){
             var result = data.data.request_data_result;
-            console.log(result);
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.video = result[0];
                 $scope.video.averageRating = $scope.video.averageRating != null ? $scope.video.averageRating : 0;
@@ -118,6 +118,12 @@ brotControllers.controller('MentorVideoDetailController',
                 data[i].fullName = firstname + ' ' + lastname;
         }
         return data;
+    }
+
+    $scope.selectIndex = function(index){
+        if (index > $scope.videos.length) 
+            index = 0;
+        $scope.currentId = $scope.videos[index].vid;
     }
 
     function initYoutubePlayer(url){

@@ -197,7 +197,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
         String whereClause = String.format("and A.subjectId IN (%s) limit 10 offset %d", Ids, offset);
         List<Object> readObjects = dao.readObjectsWhereClause(SibConstants.SqlMapperBROT163.SQL_GET_VIDEO_RELATED_MENTOR, whereClause, new Object[] { uid });
         SimpleResponse reponse = null;
-        if (readObjects != null & readObjects.size() > 0) {
+        if (readObjects != null && readObjects.size() > 0) {
             reponse = new SimpleResponse("" + true, "Video", "getVideoById", readObjects);
         } else {
             reponse = new SimpleResponse("" + true, "Video", "getVideoById", SibConstants.NO_DATA);

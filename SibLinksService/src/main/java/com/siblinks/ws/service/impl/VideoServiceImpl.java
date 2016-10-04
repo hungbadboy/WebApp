@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -2519,11 +2520,11 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> searchVideos(@RequestParam final long uid, @RequestParam final String keyword, @RequestParam final int offset) {
         SimpleResponse reponse = null;
         Object[] queryParams = new Object[] { uid };
-
+        String term = StringEscapeUtils.escapeJava(keyword);
         String whereClause = String.format(
             " and a.title like '%%%s%%' OR a.description like '%%%s%%' order by timeStamp DESC limit 10 offset %d",
-            keyword,
-            keyword,
+            term,
+            term,
             offset);
         String entityName = SibConstants.SqlMapperBROT126.SQL_SEARCH_VIDEOS;
 
