@@ -6,6 +6,11 @@ var brotApp = angular.module('brotApp', [ 'ngRoute', 'brotControllers',
 );
 var isToggleUserInfo= false;
 var brotControllers = angular.module('brotControllers', ['infinite-scroll','stars','angular-sticky-kit']);
+
+brotControllers.run(function ($templateCache) {
+    $templateCache.put('testimonials', jQuery('#testimonials').html());
+});
+
 var brotServices = angular.module('brotServices', ['ngResource']);
 //var suggestSearch = angular.module('suggestSearch', ['autocomplete']);
 

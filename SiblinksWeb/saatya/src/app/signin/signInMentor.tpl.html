@@ -1,0 +1,136 @@
+<div class="content">
+    <!-- Ask mentor section -->
+    <section class="ask-mentors signin-mentor">
+        <div class="ask-mentors-wrapper container">
+            <!-- Ask mentor content -->
+            <div class="ask-mentors-content">
+                <div class="ask-mentors-description signin-mentor-descript col-lg-7 col-md-6">
+                    <h2>Lorem ipsum dolor sit amet</h2>
+                    <h3>Maecenas eget est lacinia dui auctor fermentum in<br/> lacinia dui.</h3>
+                </div>
+                <div class="ask-mentors-form-question col-lg-4 col-md-5 col-md-offset-1">
+                    <div class="form-login-home">
+                        <div class="top-login">
+                            <h3>Mentor Sign in</h3>
+                            <p class="txt-about">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <div ng-if="loginMess" class="validate_error">
+					           <span>{{loginMess}}</span>
+					        </div>
+                            <div class="form-login">
+                                <form action="">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="" value="" placeholder="Your email" ng-enter="nextFocus()" id="userName"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" name="" value="" placeholder="Password" ng-enter="login()" id="passWord"/>
+                                    </div>
+                                    <div class="group-rmb clearfix">
+                                        <div class="form-group pull-left">
+                                            <input type="checkbox" name="" value="">
+                                            <label for="">Remember me</label>
+                                        </div>
+                                        <p class="pull-right"><span data-icon="&#x7e;"></span><a href="javascript:void(0)" ng-click="showForgotPassword()">Forgot password?</a></p>
+                                    </div>
+                                    <input type="submit" name="login" value="LOG IN" ng-click="login()"/>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="box-bttom">
+                            <h2><span>or</span> APPLY NOW</h2>
+                            <p>Nam eget felis ut sapien lobortis facilisis. Vivamus nulla ex, pulvinar</p>
+                            <div class="bx-social">
+                            	<span><a href="javascript:void(0)" ng-click="loginFacebook()" class="facebook-account"><img src="assets/images/icon-fb-lg.png" alt=""/></a></span>
+                      			<span><a href="javascript:void(0)" ng-click="loginGoogle()" class="google-account"><img src="assets/images/icon-gg-lg.png" alt=""/></a></span>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /Ask mentor section -->
+    <!-- Information Section  -->
+    <section class="information-home">
+        <div class="container">
+            <div class="col-md-6 left-if">
+                <h3>Donec dignissim nunc sem, non pulvinar quam dignissim vitae</h3>
+                <p>Proin sagittis felis ac sem vestibulum facilisis. Integer iaculis velit nisi, id finibus arcu suscipit sed. Sed bus consectetur pulvinar</p>
+            </div>
+        </div>
+        <div class="col-md-6 right-if">
+            <img src="assets/images/img-if-home.png" alt="">
+        </div>
+    </section>
+    <!-- /Information-->
+
+    <!-- About Section -->
+    <section class="about-home">
+        <div class="container">
+            <div class="col-md-6">
+                <img src="assets/images/img-left-about.png" alt="">
+            </div>
+            <!-- Content right -->
+            <div class="col-md-6 right-about">
+                <h2>Upload your Video Tutorials</h2>
+                <p>Proin bibendum sem risus. Integer non nibh hendrerit, auctor nibh luctus, euismod dui. Donec gravida iaculis tortor, at pulvinar dui molestie nec</p>
+                <a href="#">Become a mentor</a>
+            </div>
+        </div>
+    </section>
+    <!-- /About Section -->
+
+    <!-- Idea section -->
+    <section class="testimonial">
+        <div class="container">
+            <h2>Testimonials</h2>
+            <div class="list-wrapper"></div>
+            <script type="text/ng-template" id="testimonials">
+            <ul class="slider clearfix" bx-slider>
+                <li bx-slider-item>
+                    <div class="cont-mainslider">
+                        <div class="thumb-mainslider">
+                            <a href="#">
+                                <img src="assets/images/user.jpg"/>
+                            </a>
+                        </div><!-- thumb-mainslider -->
+                        <p>Proin sodales imperdiet elit a efficitur. Donec ullamcorper tristique lobortis. Mauris iaculis venenatis iaculis. Donec non enim hendrerit, finibus orci faucibus, feugiat turpis. Sed commodo ex in lorem pharetra varius</p>
+                        <div class="author">
+                            <b>Landy Moore</b><span> - Harvard University faculty</span>
+                        </div>
+                    </div><!-- cont-mainslider -->
+                    <span class="icon-p"><img src="assets/images/icon-p-slider.png" alt=""></span>
+                </li>
+                <li bx-slider-item>
+                    <div class="cont-mainslider">
+                        <div class="thumb-mainslider">
+                            <a href="#">
+                                <img src="assets/images/user.jpg"/>
+                            </a>
+                        </div><!-- thumb-mainslider -->
+                        <p>Proin sodales imperdiet elit a efficitur. Donec ullamcorper tristique lobortis. Mauris iaculis venenatis iaculis. Donec non enim hendrerit, finibus orci faucibus, feugiat turpis. Sed commodo ex in lorem pharetra varius</p>
+                        <div class="author">
+                            <b>Landy Moore</b><span> - Harvard University faculty</span>
+                        </div>
+                    </div><!-- cont-mainslider -->
+                    <span class="icon-p"><img src="assets/images/icon-p-slider.png" alt=""></span>
+                </li>
+                <li bx-slider-item>
+                    <div class="cont-mainslider">
+                        <div class="thumb-mainslider">
+                            <a href="#">
+                                <img src="assets/images/user.jpg"/>
+                            </a>
+                        </div><!-- thumb-mainslider -->
+                        <p>Proin sodales imperdiet elit a efficitur. Donec ullamcorper tristique lobortis. Mauris iaculis venenatis iaculis. Donec non enim hendrerit, finibus orci faucibus, feugiat turpis. Sed commodo ex in lorem pharetra varius</p>
+                        <div class="author">
+                            <b>Landy Moore</b><span> - Harvard University faculty</span>
+                        </div>
+                    </div><!-- cont-mainslider -->
+                    <span class="icon-p"><img src="assets/images/icon-p-slider.png" alt=""></span>
+                </li>
+            </ul>
+		</script>
+        </div>
+    </section>
+    <!-- /Idea section -->
+</div>

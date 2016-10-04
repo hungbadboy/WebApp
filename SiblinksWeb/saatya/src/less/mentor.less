@@ -126,7 +126,7 @@
 #sidebar-menu .mentor-infor-img img {
     width: 80px;
     /*start hungpd*/
-    height: 76px;
+    height: 80px;
     /*end hungpd*/
     float: left;
     border-radius: 50%;
@@ -187,7 +187,7 @@
 #sidebar-menu.in .mentor-infor-img img {
     width: 48px;
     /*hungpd add height*/
-    height:46px;
+    height:48px;
 }
 #sidebar-menu.in .mentor-infor {
     padding: 0 10px;
@@ -199,7 +199,7 @@
 #sidebar-menu .mentor-infor-img img {
     width: 80px;
     /*start hungpd*/
-    height: 76px;
+    height: 80px;
     /*end hungpd*/
     -webkit-transition: width 0.5s; /* For Safari 3.1 to 6.0 */
     transition: width 0.5s;
@@ -863,6 +863,19 @@ span.icon-play-video {
 .manager-video .top-mag .sl-sbj{
     padding-right: 0;
 }
+.manager-video .top-mag .btn-filter {
+    padding-right: 0;
+    margin-top: 15px;
+    width: 75px;
+    float: right;
+    margin-right: 0;
+}
+.manager-video .top-mag .sl-newwest {
+    padding: 0;
+    margin-top: 15px;
+    width: calc(100% - 90px);
+    float: left;
+}
 .manager-video .top-mag .select-sbj{
     height: 42px;
     background-color: #edf1f5;
@@ -870,6 +883,7 @@ span.icon-play-video {
 .manager-video .top-mag .select-newwest{
     height: 42px;
     background-color: #edf1f5;
+    cursor: pointer;
 }
 .manager-video .top-mag .btn-filter button{
     background-color: #f3c303;
@@ -1660,11 +1674,11 @@ span.img-tb{
 .box-main-replied button.reply {
     background: #ffcc00;
     color: #505050;
-    padding: 5px 20px;
+    padding: 7px 25px;
     border-radius: 4px;
     float: right;
     margin-right: 20px;
-    margin-top: 10px;
+    margin-top: 15px;
     font-weight: 500;
 }
 .box-main-replied button.reply:hover {
@@ -1849,21 +1863,43 @@ span.img-tb{
 .box-main-replied .slider-rpl{
     position: relative;
 }
-.box-main-replied .slider-rpl .box-btn-sl{
-    
+.mentor-manage-video .box-main-replied .slider-rpl .box-btn-sl{
+    position: relative;
+    top: -110px;
+    z-index: 1;
 }
 .box-main-replied .slider-rpl .box-btn-sl .btn-prev{
     position: absolute;
     left: 15px;
-    margin-top: 15px;
+    margin-top: 5px;
+    font-size: 36px;
+}
+.box-main-replied .slider-rpl .box-btn-sl .btn-prev span:before,
+.box-main-replied .slider-rpl .box-btn-sl .btn-next span:before {
+    color: rgba(0,0,0,0.5);
+}
+.box-main-replied .slider-rpl .box-btn-sl .btn-prev:hover span:before,
+.box-main-replied .slider-rpl .box-btn-sl .btn-next:hover span:before {
+    color: rgba(0,0,0,0.8);
 }
 .box-main-replied .slider-rpl .box-btn-sl .btn-next{
     position: absolute;
     right: 15px;
-    margin-top: 15px;
+    margin-top: 5px;
+    font-size: 36px;
 }
-.box-main-replied .slider-rpl .group-item-sl{
-
+.mentor-manage-video .box-main-replied .slider-rpl .group-item-sl{
+    position: relative;
+    top: -110px;
+}
+.mentor-manage-essay .box-main-replied .slider-rpl .group-item-sl{
+    position: relative;
+    top: -52px;
+}
+.mentor-manage-essay .box-main-replied .slider-rpl .box-btn-sl{
+    position: relative;
+    top: -52px;
+    z-index: 1;
 }
 .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl p.text-rpl{
     text-align: center;
@@ -2100,6 +2136,17 @@ span.img-tb{
     height: 50px;
     border-radius: 50%;
 }
+.box-main-replied output {
+    width: auto;
+    float: left;
+}
+.box-main-replied span.add-img label {
+    margin-top: 10px;
+    margin-left: 5px;
+}
+.box-main-replied .message-validate {
+    color: red;
+}
 
 /*========//CSS MANAGER mentor-manageQ&A=============*/
 
@@ -2313,6 +2360,7 @@ span.img-tb{
 #setting-broswer {
     background: #fff;
     padding: 20px;
+    height: 605px;
 }
 .box-avatar input[type=file] {
     display: none;
@@ -2931,6 +2979,7 @@ li.page-item.next a {
 .modal-add-video .modal-body,
 .modal-add-video form{
     padding: 0;
+    overflow: hidden;
 }
 .modal-add-video .modal-content{
     padding: 25px 20px 40px 25px;
@@ -2942,6 +2991,17 @@ li.page-item.next a {
     font-size: 18px;
     color: #505050;
     padding-bottom: 12px;
+}
+#modal-edit-video .modal-title,
+#modal-edit-videoplaylist .modal-title {
+    width: auto;
+    float: left;
+}
+#modal-edit-video .video-title,
+#modal-edit-videoplaylist .video-title {
+    width: auto;
+    float: right;
+    margin: 0;
 }
 .modal-add-video form input.input-custom-link{
     background: url('images/icon-play.png') 410px center no-repeat;
@@ -3023,7 +3083,9 @@ li.page-item.next a {
 .lastest-comment .question:last-child:after {
     height: 0;
 }
-
+.modal .modal-dialog {
+    margin-top: 5%;
+}
 /*===============HOME=================*/
 .form-login-home .top-login{
     padding: 15px 30px 30px;
@@ -3103,7 +3165,7 @@ li.page-item.next a {
 .bx-social span:first-child{
     padding-right: 10px;
 }
-section.ask-mentors{
+section.signin-mentor{
     background: url('images/banner-lg.png') top center no-repeat !important;
     background-size: cover !important;
     padding: 90px 0 81px;
@@ -3116,14 +3178,16 @@ section.ask-mentors h3{
     color: #fff;
     line-height: 30px;
 }
-.ask-mentors-description{
+.signin-mentor-descript{
     padding-top: 170px !important;
 }
 .information-home{
     background-color: #f5c602;
     position: relative;
     overflow: hidden;
+    /*hungpd 
     height: 100%;
+    */
 }
 .information-home .left-if{
     padding-top: 170px;
@@ -3218,3 +3282,39 @@ section.ask-mentors h3{
     left: 10%;
 }
 /*=================//HOME================*/
+
+/*===========MODAL EDIT================*/
+.modal-edit-video form .label-2{
+    position: relative;
+    display: inline-block;
+    padding: 75px 20px 65px;
+    cursor: pointer;
+    width: 445px;
+    background-color: #f0f3f4;
+    text-align: center;
+    font-size: 15px;
+    color: #909090;
+    font-weight: normal;
+}
+.modal-edit-video form .inputfile{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.modal-edit-video form .label-2:before{
+    width: 1px;
+    height: 100%;
+    content: '';
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.modal-edit-video form .label-2 img{
+    display: block;
+    padding-bottom: 10px;
+    margin: 0 auto;
+}
+/*===========//MODAL EDIT================*/

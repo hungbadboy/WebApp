@@ -1,4 +1,4 @@
-brotControllers.controller('SignIn', function ($scope, $location, $rootScope, $http, $timeout, StudentService) {
+brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope, $http, $timeout, StudentService) {
     $scope.loginMess = "";
     $scope.login = function () {
         var userName = angular.element('#userName').val();

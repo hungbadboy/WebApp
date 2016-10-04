@@ -15,11 +15,6 @@
     }
     
     /*======Mentor.Mentorprofile==========*/
-    .manager-profile>div {
-        width: 100%;
-        padding: 0;
-        margin: 15px 0 ;
-    }
     .manager-profile .box-avatar,
     .box-information {
         width: 50%;
@@ -39,9 +34,36 @@
         background: none;
     }
     .manager-profile .box-avatar {
-        padding-bottom: 70px;
+        padding-bottom: 14%;
     }
-    
+    .manager-profile .manager-profile-image {
+        width: 70%;
+        float: left;
+        padding-right: 15px;
+        margin-bottom: 15px
+    }
+
+    .manager-profile .manager-profile-infor {
+        width: 70%;
+        float: left;
+        padding-right: 15px;
+        padding-left: 0;
+    }
+
+    .manager-profile-student {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30%;
+    }
+
+    .manager-profile {
+        position: relative;
+        overflow: hidden;
+    }
+    #setting-broswer {
+        height: auto;
+    }
     /*======Mentor.Studentprofile==========*/
     .manager-profile-std .avt .count-qt {
         position: absolute;
@@ -52,9 +74,6 @@
     }
     .manager-profile .box-avatar {
         padding-top: 20px;
-    }
-    .mentorProfile .sub-right .list-std li {
-        width: 33.3333%;
     }
 
     /*======Mentor.Dashboard==========*/
@@ -137,7 +156,7 @@
     }
     .box-main-replied .form-chat .box-chat-onl .texta textarea {
         margin-left: 25px;
-        width: ~"(100% - 50px)";
+        width: ~"calc(100% - 50px)";
     }
     .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .images-question li,
     .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .images-question .item-img,
@@ -152,6 +171,31 @@
         margin-left: 0px;
         padding: 10px 20px;
     }
+    
+    /*======mentor.manage-detail======*/
+    .video-play img{
+        width: 100%;
+    }
+    ul.list-videp-w img{
+        width: 70px;
+    }
+    .manager-detail-video .play-video .group-video-pl .item-pl-video .list-videp-w{
+        height: 218px;
+    }
+    .manager-detail-video .play-video .group-video-pl .item-pl-video .list-videp-w li{
+        padding-bottom: 12px;
+    }
+    .manager-detail-video .play-video .group-video-pl .item-pl-video .list-videp-w li h6{
+        padding-left: 5px;
+        font-size: 12px;
+    }
+    .right-sub-video.col-md-4{
+        padding-right: 0;
+    }
+    .right-sub-video .list-sub-video li .sub-vd-right{
+        padding-left: 10px;
+    }
+
 }
 
 
@@ -236,18 +280,85 @@
     .sub-right .list-std li {
         width: 50%;
     }
-    .mentorProfile .sub-right .list-std li {
+    /*.mentorProfile .sub-right .list-std li {
         width: 50%;
+    }*/
+    .manager-profile .manager-profile-image,
+    .manager-profile .manager-profile-infor,
+    .manager-profile .manager-profile-student {
+        width: 100%;
+        padding: 0;
+    }
+    .manager-profile .manager-profile-student {
+        position: relative;
+        margin-top: 15px;
+    }
+    .manager-profile .box-avatar {
+        padding-bottom: 10%;
+    }
+
+    /*======mentor.manage-detail======*/
+    .video-play.col-md-7{
+        float: none;
+        width: 80%;
+        margin: 0 auto;
+        padding: 0;
+    }
+    .video-play img{
+        width: 100%;
+    }
+    .video-wait.col-md-3{
+        float: none;
+        width: 80%;
+        margin: 0 auto;
+    }
+    ul.list-videp-w img{
+        width: 100%;
+    }
+    .manager-detail-video .play-video .group-video-pl .item-pl-video .list-videp-w li{
+        padding-bottom: 20px;
+    }
+    .manager-detail-video .play-video .group-video-pl .item-pl-video .list-videp-w{
+        height: 320px;
+    }
+    .manager-detail-video .play-video .group-video-pl .item-pl-video .list-videp-w li h6{
+        padding-left: 15px;
+        font-size: 14px;
+    }
+    .manager-detail-video .ctn-main .form-commnent,
+    .manager-detail-video .ctn-main .top-cm{
+        padding-left: 20px;
+    }
+    .manager-detail-video .ctn-main .top-cm .btn-count .list-view span, 
+    .manager-detail-video .ctn-main .top-cm .btn-count .list-view a, 
+    .manager-detail-video .ctn-main .top-cm .btn-count .list-view i{
+        font-size: 14px;
+    }
+    .manager-detail-video .ctn-main .form-commnent form .box-chat-onl .texta{
+        padding-left: 37px;
+    }
+    .manager-detail-video .ctn-main .form-commnent form .box-chat-onl .texta:before{
+        left: 25px;
+    }
+    .chat-body{
+        padding-left: 25px !important;
+    }
+    .sub-cm .chat-body{
+        padding-left: 10px !important;
+    }
+    .right-sub-video .list-sub-video li .sub-vd-right{
+        padding-left: 0;
+        padding-top: 10px;
+    }
+    .right-sub-video .list-sub-video li{
+        padding-bottom: 5px;
     }
 
 }
 /***For max screen 1281***/
 @media screen and (max-width: 1281px) { 
 
-    /***Menu***/
-    /*.background-color {
-        width: ~"calc((100% - 970px)/2 + 100px)";
-    }*/
+    /*======Menu======*/
     .module-navigation .navigation .navbar-default {
         margin-left: 0%;
     }
@@ -256,7 +367,7 @@
     }
     
     .navigation .nav>li>a {
-        padding: 10px 9px;
+        padding: 12px 20px;
     }
     .module-navigation .main-logo {
         width: 20%;
@@ -264,28 +375,22 @@
     .module-navigation .navigation {
         width: 80%;
     }
-    .background-color {
-        width: ~"calc((100% - 970px)/2 + 106px)";
-    }
     .navigation ul {
         top: 15px;
     }
-    /*information & content*/
+    /*======information & content======*/
     .information-content>div,
     .about-content>div {
         margin-top: 2vh;
         margin-bottom: 2vh;
     }
-    .user-nofitication {
-        margin-right: 12%;
-    }
-    /*First ask quesiton*/
+    /*======First ask quesiton======*/
     .first-ask-content .top-mentors, 
     .first-ask-content .top-videos {
         margin: 30px 0 15px 15px;
     }
 
-    /*login page*/
+    /*======login page======*/
     .account-user-form form {
         margin-top: 0;
     }
@@ -360,9 +465,11 @@
     .background-color {
         width: ~"calc((100% - 970px)/2 + 82px)";
     }
+    .navigation .nav>li>a {
+        padding: 12px 9px;
+    }
     
-    
-    /*Ask a question*/
+    /*======Ask a question======*/
     .total-question.col-xs-6 {
         width: 42%;
         float: left;
@@ -384,8 +491,8 @@
         width: 365px;
         float: left;
         margin: 30px 15px;
-    } 
-    /*First ask question*/   
+    }
+    /*======First ask question======*/   
     .create-ask {
         width: 100%;
         height: auto;
@@ -429,7 +536,7 @@
         margin-right: 30px;
     }
 
-    /*Browser mentors*/
+    /*======Browser mentors======*/
     .mentors-infor-details {
         width: 70%;
         float: left;
@@ -439,7 +546,7 @@
         float: left;
     }
 
-    /*Mentors Profile*/
+    /*======Mentors Profile======*/
     .mentors-video-recently.col-md-6.col-md-offset-3 {
         width: 70%;
         padding-left: 5%;
@@ -451,7 +558,7 @@
         margin-top: 0px;
     }
 
-    /*Student Profile*/
+    /*======Student Profile======*/
     .student-header-detail {
         width: 360px;
         float: left;
@@ -481,7 +588,7 @@
         margin-left: 0;
     }
 
-    /*Videos page*/
+    /*======Videos page======*/
     .video-list-content li {
         width: 50%;
     }
@@ -495,7 +602,7 @@
         font-size: 24px;
     }
 
-    /*College*/
+    /*======College======*/
     .college-admission-content-wrapper {
         width: 100%;
         margin-left: 0;
@@ -515,7 +622,7 @@
 
     }
 
-    /*Video mentor*/
+    /*======Video mentor======*/
     #videos .video-list-content li {
         height: auto;
         overflow: hidden;
@@ -574,11 +681,11 @@
     .sub-right .list-std li {
         width: 100%;
     }
-    .mentorProfile .sub-right .list-std li {
+    /*.mentorProfile .sub-right .list-std li {
         width: 100%;
-    }
+    }*/
 
-    /*Menotr Landing page*/
+    /*======Mentor Landing page======*/
     .information-home .left-if{
         padding-bottom: 172px;
     }
@@ -614,7 +721,7 @@
         font-size: 14px;
     }
 
-    /***Menu***/
+    /*======Menu======*/
     .mobimenu {
         position: absolute;
         width: 200px;
@@ -676,17 +783,17 @@
         width: 148px;
     }
 
-    /*Banner*/
+    /*======Banner======*/
     .form-question {
         margin: 20px 0 15px 0;
     }
-    /*download section*/
+    /*======download section======*/
     .ask-mentors-download-content,
     .ask-mentors-download-images {
         text-align: center;
     }
     
-    /*Information*/
+    /*======Information======*/
     .information {
         height: auto;
     }
@@ -698,7 +805,7 @@
         overflow: hidden;
     }
 
-    /*About*/
+    /*======About======*/
     .about {
         height: auto;
         padding-bottom: 0;
