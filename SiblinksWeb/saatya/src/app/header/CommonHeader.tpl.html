@@ -7,7 +7,7 @@
     </div>
     <!-- /logo -->
     <!-- Menu navigation -->
-    <div class="navigation col-xs-9 ">
+    <div class="navigation col-xs-9 " ng-hide="(currentPath == '/mentor/signin')">
         <nav class="navbar navbar-default">
         <!-- menu on mobile -->
 			<div class="navbar-header">
@@ -26,7 +26,7 @@
 			        <li ng-class="{active: currentPath=='/ask_a_question' || currentPath =='/first-ask'}" ><a href="#/ask_a_question/-1">Ask a Question</a></li>
 			        <li ng-class="{active: currentPath=='/videos' }"><a href="#/videos">Videos</a></li>
 			        <li ng-class="{active: currentPath=='/college_admission'}"><a href="#/college_admission">College Admission</a></li>
-			        <li ng-class="{active: currentPath=='/team'}"><a href="#team">Mentors</a></li>
+			        <li ng-class="{active: currentPath=='/mentor/signin'}"><a href="#/mentor/signin">Become a mentor</a></li>
 			    </ul>
 			</div>
         </nav>
@@ -37,11 +37,11 @@
                         <a href="#/signup">Register</a>
                     </div>
                     <div class="login">
-                        <a href="#/signin" data>Login</a>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-id">Login</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div><!-- /module-navigation -->
-<div class="background-color"></div>
+<div class="background-color" ng-hide="(currentPath == '/mentor/signin')"></div>

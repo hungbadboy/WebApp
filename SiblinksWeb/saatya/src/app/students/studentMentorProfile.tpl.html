@@ -17,12 +17,14 @@
                     <p class="top-mentors-name">
                     <h4>{{studentMentorProfile.firstname + ' ' +studentMentorProfile.lastName}}</h4>
                     </p>
-                    <p><strong>Education:</strong> {{studentMentorProfile.school}}</p>
-                    <p id="starPoint" star-rating stars="5" outer-star-selection="stars" outer-percent="rating" rating-define="star"
+                    <p><strong>Education:</strong> {{studentMentorProfile.school != null ? studentMentorProfile.school :
+                        "Unknow..."}}</p>
+                    <p id="starPoint" star-rating stars="5" outer-star-selection="stars" outer-percent="rating"
+                       rating-define="star"
                        ng-if="isReadyLoadPoint"
                        rating-stars="{{studentMentorProfile.points != null ? studentMentorProfile.points : 0}}"
                        star-radius="7" sel-color="gold" readonly="true"
-                       >
+                    >
                     </p>
                 </div>
                 <div class="top-mentors-info-detail">
@@ -34,13 +36,13 @@
                         </p>
                         <div class="about-mentor">
                             <strong>About me</strong><br>
-                            <span>{{studentMentorProfile.description}}</span>
+                            <span>{{studentMentorProfile.description != null ? studentMentorProfile.description: "Unknow..."}}</span>
                         </div>
                     </div>
                     <div class="subscribers-button">
                         <button>
                             <p class="subscribers" data-icon="&#x4c;">
-                                <span>subscribe me</span>
+                                <span ng-click="setSubscribeMentor()">subscribe me</span>
                             </p>
                             <!-- <p class="subscribers unsubcrib" data-icon="&#x4e;"> -->
                             <!-- add class in when allready subcriber -->
@@ -85,15 +87,19 @@
         <!-- Content -->
         <section class="content mentors-profile-content">
             <div class="mentors-video-recently col-md-6 col-md-offset-3">
-                <div class="feature-video">
+                <div ng-show="videosRecently" class="feature-video">
                     <div class="feature-thumnail">
-                        <img src="assets/images/feature.png">
+                        <a href="#/videos/detailVideo/{{videosRecently[0].vid}}">
+                            <img ng-src="{{videosRecently[0].image}}">
+                        </a>
                         <div class="hover-video">
-                            <a href="/"><span data-icon="&#x45;"></span></a>
+                            <a href="#/videos/detailVideo/{{videosRecently[0].vid}}"><span
+                                    data-icon="&#x45;"></span></a>
                         </div>
                     </div>
                     <div class="feature-detail">
-                        <h5>In his free time, he lovers to read and play tennis.</h5>
+                        <a href="#/videos/detailVideo/{{videosRecently[0].vid}}"><h5>{{videosRecently[0].title}}</h5>
+                        </a>
                         <p>Newest video uploaded</p>
                     </div>
                 </div>
@@ -108,78 +114,47 @@
                                     <h4>Recently uploaded videos</h4>
                                 </div>
                                 <div class="see-more">
-                                    <p>See More</p>
+                                    <a href="/#/videos"><p>See More</p></a>
                                 </div>
                             </div><!-- /End top-mentor-header -->
                             <!-- List of top mentors -->
                             <div class="top-videos-list">
-                                <ul>
-                                    <li>
+                                <ul ng-show="!videosRecently || videosRecently.length == 1 ">
+                                    <li>No Have Video Recently....</li>
+                                </ul>
+                                <ul ng-show="videosRecently && videosRecently.length > 1">
+                                    <li ng-repeat="video in videosRecently track by $index" ng-if="$index > 0">
                                         <div class="video-thumnail">
-                                            <img src="assets/images/video-02.png">
+                                            <a href="#/videos/detailVideo/{{video.vid}}">
+                                                <img ng-src="{{video.image}}">
+                                            </a>
                                             <div class="hover-video">
-                                                <a href="/"><span data-icon="&#x45;"></span></a>
+                                                <a href="#/videos/detailVideo/{{video.vid}}"><span
+                                                        data-icon="&#x45;"></span></a>
                                             </div>
                                         </div>
                                         <div class="video-info">
                                             <p class="video title">
-                                                <a href="#">Trigonometric Tutorial 1</a>
+                                                <a href="#/videos/detailVideo/{{video.vid}}">{{video.title}}</a>
                                             </p>
                                             <p class="video-time">
-                                                <span>2 hours ago</span>
+                                                <span>{{convertUnixTimeToTime(video.timeStamp)}} ago</span>
                                             </p>
                                             <p class="video-rate">
-                                                <span>Rate: 5.0 (4 votes)</span>
-                                                <span data-icon="&#xe033; &#xe033; &#xe033; &#xe033; &#xe033;"></span>
+                                                <span>Rate: {{video.averageRating != null ? video.averageRating : 0}} ({{video.numRatings}} votes)</span>
+                                                <span id="rate-studentMentorProfile" ng-if="isReadyLoadRatingRecently"
+                                                      star-rating stars="5"
+                                                      outer-star-selection="stars"
+                                                      outer-percent="rating"
+                                                      rating-define="star"
+                                                      rating-stars="{{video.averageRating != null ? video.averageRating : 0}}"
+                                                      star-radius="7" sel-color="gold"
+                                                      readonly="true"
+                                                      back-color="white">
+                                                 </span>
                                             </p>
                                             <p class="video-view">
-                                                <span>view: 5564</span>
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="video-thumnail">
-                                            <img src="assets/images/video-04.png">
-                                            <div class="hover-video">
-                                                <a href="/"><span data-icon="&#x45;"></span></a>
-                                            </div>
-                                        </div>
-                                        <div class="video-info">
-                                            <p class="video title">
-                                                <a href="#">Trigonometric Tutorial 1</a>
-                                            </p>
-                                            <p class="video-time">
-                                                <span>2 hours ago</span>
-                                            </p>
-                                            <p class="video-rate">
-                                                <span>Rate: 5.0 (4 votes)</span>
-                                                <span data-icon="&#xe033; &#xe033; &#xe033; &#xe033; &#xe033;"></span>
-                                            </p>
-                                            <p class="video-view">
-                                                <span>view: 5564</span>
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="video-thumnail">
-                                            <img src="assets/images/video-03.png">
-                                            <div class="hover-video">
-                                                <a href="/"><span data-icon="&#x45;"></span></a>
-                                            </div>
-                                        </div>
-                                        <div class="video-info">
-                                            <p class="video title">
-                                                <a href="#">Trigonometric Tutorial 1</a>
-                                            </p>
-                                            <p class="video-time">
-                                                <span>2 hours ago</span>
-                                            </p>
-                                            <p class="video-rate">
-                                                <span>Rate: 5.0 (4 votes)</span>
-                                                <span data-icon="&#xe033; &#xe033; &#xe033; &#xe033; &#xe033;"></span>
-                                            </p>
-                                            <p class="video-view">
-                                                <span>view: 5564</span>
+                                                <span>view: {{video.numViews}}</span>
                                             </p>
                                         </div>
                                     </li>
@@ -203,108 +178,20 @@
                         </div><!-- /End top-mentor-header -->
                         <!-- List of answered mentors -->
                         <div class="mentor-profile-answered">
-                            <ul>
-                                <li class="answered answered-01">
+                            <ul ng-show="!listNewestAnswers">
+                                <li>No Answer</li>
+                            </ul>
+                            <ul ng-show="listNewestAnswers">
+                                <li class="answered" ng-repeat="answer in listNewestAnswers">
                                     <div class="number-answered">
                                         <p></p>
                                     </div>
                                     <div class="detail-answered">
                                         <p class="answered-time">
-                                            answered 3 hours ago
+                                            answered {{convertUnixTimeToTime(answer.timeStamp)}} ago
                                         </p>
-                                        <p class="answered-content">Yes! Many colleges allow high school students to
-                                            enroll and receive credit for entry....</p>
-                                        <p class="answered-rate">23
-                                            <span data-icon="&#xe089;" id="heart"></span>
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="answered">
-                                    <div class="number-answered">
-                                        <p></p>
-                                    </div>
-                                    <div class="detail-answered">
-                                        <p class="answered-time">
-                                            answered 3 hours ago
-                                        </p>
-                                        <p class="answered-content">Yes! Many colleges allow high school students to
-                                            enroll and receive credit for entry....</p>
-                                        <p class="answered-rate">23
-                                            <span data-icon="&#xe089;" id="heart"></span>
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="answered">
-                                    <div class="number-answered">
-                                        <p></p>
-                                    </div>
-                                    <div class="detail-answered">
-                                        <p class="answered-time">
-                                            answered 3 hours ago
-                                        </p>
-                                        <p class="answered-content">Yes! Many colleges allow high school students to
-                                            enroll and receive credit for entry....</p>
-                                        <p class="answered-rate">23
-                                            <span data-icon="&#xe089;" id="heart"></span>
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="answered">
-                                    <div class="number-answered">
-                                        <p></p>
-                                    </div>
-                                    <div class="detail-answered">
-                                        <p class="answered-time">
-                                            answered 3 hours ago
-                                        </p>
-                                        <p class="answered-content">Yes! Many colleges allow high school students to
-                                            enroll and receive credit for entry....</p>
-                                        <p class="answered-rate">23
-                                            <span data-icon="&#xe089;" id="heart"></span>
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="answered">
-                                    <div class="number-answered">
-                                        <p></p>
-                                    </div>
-                                    <div class="detail-answered">
-                                        <p class="answered-time">
-                                            answered 3 hours ago
-                                        </p>
-                                        <p class="answered-content">Yes! Many colleges allow high school students to
-                                            enroll and receive credit for entry....</p>
-                                        <p class="answered-rate">23
-                                            <span data-icon="&#xe089;" id="heart"></span>
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="answered">
-                                    <div class="number-answered">
-                                        <p></p>
-                                    </div>
-                                    <div class="detail-answered">
-                                        <p class="answered-time">
-                                            answered 3 hours ago
-                                        </p>
-                                        <p class="answered-content">Yes! Many colleges allow high school students to
-                                            enroll and receive credit for entry....</p>
-                                        <p class="answered-rate">23
-                                            <span data-icon="&#xe089;" id="heart"></span>
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="answered">
-                                    <div class="number-answered">
-                                        <p></p>
-                                    </div>
-                                    <div class="detail-answered">
-                                        <p class="answered-time">
-                                            answered 3 hours ago
-                                        </p>
-                                        <p class="answered-content">Yes! Many colleges allow high school students to
-                                            enroll and receive credit for entry....</p>
-                                        <p class="answered-rate">23
+                                        <p class="answered-content">{{answer.content}}</p>
+                                        <p class="answered-rate">{{answer.numlikes}}
                                             <span data-icon="&#xe089;" id="heart"></span>
                                         </p>
                                     </div>
@@ -315,6 +202,7 @@
 
                     </div><!-- /End top memtor -->
                 </div>
+            </div>
         </section><!-- /End content -->
     </div><!-- End container -->
 </div>

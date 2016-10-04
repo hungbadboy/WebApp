@@ -23,6 +23,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.reflect.Parameter;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.RequestData;
@@ -91,22 +91,33 @@ public class ManagerQAServiceImpl implements managerQAService {
         String limit = request.getRequest_data().getLimit();
         String lastQId = request.getRequest_data().getPid();
         String type = request.getRequest_data().getType();
+        String search = request.getRequest_data().getContent();
         String whereCause = "";
+       
+        if(!StringUtil.isNull(search)){
+            search = StringEscapeUtils.escapeJava(search);
+            whereCause += " AND X.content like '%"+search+"%' ";
+        }
         if (Parameters.UNANSWERED.equals(type)) {
             whereCause += " AND X.numReplies = 0 ";
         }
         if (Parameters.ANSWERED.equals(type)) {
             whereCause += " AND X.numReplies > 0 ";
         }
-        if (!StringUtil.isNull(lastQId)) {
+        if (!StringUtil.isNull(lastQId)&& !"-1".equals(lastQId)) {
             whereCause += " AND X.pid <  " + lastQId;
         }
 
-        if (StringUtil.isNull(subjectId) && !"-1".equals(subjectId)) {
+        if (!StringUtil.isNull(subjectId) && !"-1".equals(subjectId)) {
             whereCause += " AND X.subjectId = " + subjectId;
         }
+        else {
+            whereCause += " AND X.subjectId in (SELECT defaultSubjectId FROM Sib_Users where userid = " +
+                          userId +
+                          " )";
+        }
 
-        Object[] queryParams = { userId, userId };
+        Object[] queryParams = { userId };
         List<Object> readObject = null;
         boolean status = true;
 

@@ -511,6 +511,8 @@ public class SibConstants {
         public static final String SQL_SEARCH_VIDEO = "SEARCH_VIDEO";
         public static final String SQL_GET_ALL_VIDEO = "GET_ALL_VIDEO";
 
+        public static final String SQL_GET_NEWEST_ANSWERS = "GET_NEWEST_ANSWERS";
+
     }
 
     public class SqlMapperBROT4 {

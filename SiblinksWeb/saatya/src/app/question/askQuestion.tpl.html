@@ -17,15 +17,15 @@
                         <div class="head-question">
                             <!-- Questions user have -->
                             <div class="total-question col-xs-6">
-                                <h4> You have <strong>{{totalQuestion}}</strong> questions
+                                <h4> You have <strong>{{totalQuestion}}</strong> question(s)
                                     <i ng-click="toggleShowOrder()" class="fa fa-angle-down"
                                        aria-hidden="true"></i></h4>
                                 <div class="sort">{{curentOrderType}}</div>
                                 <div ng-show="isShowOrder" class="sort-answer ">
                                     <ul>
-                                        <li class="newest" ng-click="orderQuestions('newest')">newest</li>
-                                        <li class="answered" ng-click="orderQuestions('answered')">answered</li>
-                                        <li class="unanswer" ng-click="orderQuestions('unanswer')">unanswer</li>
+                                        <li class="newest" ng-click="orderQuestions('newest')">Newest</li>
+                                        <li class="answered" ng-click="orderQuestions('answered')">Answered</li>
+                                        <li class="unanswer" ng-click="orderQuestions('unanswer')">Unanswered</li>
                                     </ul>
                                 </div>
                             </div><!-- /End questions user have -->
@@ -56,7 +56,7 @@
                                             <div class="edit-question" id="qid{{question.id}}" ng-show="isEditQuestion && question.id == showEditQuestionId">
                                                 <ul>
                                                     <li class="edit" ng-click="editQuestion(question.id+'')"><a href="/"><span data-icon="&#xe08a;"></span>Edit</a></li>
-                                                    <li class="delete" ng-show="question.count_answer == 0 || !question.count_answer" ng-really-message="Are you sure  delete?" ng-really-click ="deleteQuestion(question.id)"><a href="/"><span data-icon="&#x51;"></span>Delete</a></li>
+                                                    <li class="delete" ng-show="question.count_answer == 0 || !question.count_answer" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteQuestion(question.id)"><a href="/"><span data-icon="&#x51;"></span>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </div>

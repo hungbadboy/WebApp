@@ -30,9 +30,13 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/signup/signUpEmail.tpl.html',
 		controller : 'SignUpController'
 	}).
-	when('/signin', {
-		templateUrl: 'src/app/signin/signIn.tpl.html',
-		controller : 'SignIn'
+	when('/student/signin', {
+		templateUrl: 'src/app/signin/signInStudent.tpl.html',
+		controller : 'SignInCtrl'
+	}).
+	when('/mentor/signin', {
+		templateUrl: 'src/app/signin/signInMentor.tpl.html',
+		controller : 'SignInCtrl'
 	}).
 	when('/signupcomplete', {
 		templateUrl: 'src/app/signUpComplete.tpl.html',

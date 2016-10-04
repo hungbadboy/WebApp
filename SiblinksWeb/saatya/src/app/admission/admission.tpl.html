@@ -2,7 +2,7 @@
         <!-- Breadcrum -->
         <div class="breadcrum">
             <div class="container">
-                <h5>Siblinks <span>/ College Admission</span></h5>
+                <h5>SibLinks <span>/ College Admission</span></h5>
             </div>
         </div><!-- /End Breadcrum -->
         <!-- Container -->
@@ -12,7 +12,7 @@
                 <!-- Left content -->
                 <div class="college-admission-content-wrapper col-md-8">
                     <div class="step-essay">
-                        <h3>Step your <span>Essay</span></h3>
+                        <h3>How It <span>Works</span></h3>
                         <div class="step">
                             <ul>
                             	<li ng-repeat="lstAdmission in listAdmission track by $index" ng-if="$index >= stepAdmission && $index < stepAdmission + 3" id="admission{{$index+1}}" ng-class="$first? 'in active' : $index == 1 ? 'active' : ''">
@@ -29,7 +29,7 @@
                     <div class="college-video">
                         <div class="video-list-content video-admission-content">                                
                             <div class="tutorial" ng-show="flagShowDivTuttorial">
-                                <h5>Tutorial Video</h5>
+                                <h5>Tutorial Videos</h5>
                                 <ul>
                                     <li ng-repeat="lstVideoTutAdmission in listVideoTuttorialAdmission track by $index" ng-if="$index < displayNumberOfTutVideo">
                                         <div class="video-wrapper">
@@ -58,10 +58,10 @@
                                         </div>
                                     </li>
                                 </ul>
-                                <div class="see-more" ng-click="showMoreTutVideo()" ng-show="flagShowMoreTutVideo"><p>show more</p></div>
+                                <div class="see-more" ng-click="showMoreTutVideo()" ng-show="flagShowMoreTutVideo"><p>Show more</p></div>
                             </div>
                             <div class="article" ng-show="flagShowDivArticle">
-                                <h5>Article</h5>
+                                <h5>Articles</h5>
                                 <ul>
                                     <li ng-repeat="lstArticleAdmission in listArticleAdmission track by $index" ng-if="$index < displayNumberOfArticle" >
                                         <div id="{{lstArticleAdmission.arId}}" data-ng-click="showPopupArticle($event)" class="video-wrapper">
@@ -128,12 +128,12 @@
 	                                    </div>
                                     </li>
                                 </ul>
-                                <div class="see-more" ng-click="showMoreArticle()" ng-show="flagShowMoreArticle"><p>show more</p></div>
+                                <div class="see-more" ng-click="showMoreArticle()" ng-show="flagShowMoreArticle"><p>Show more</p></div>
                             </div>
                         </div>
                     </div>
-                    <button class="back" ng-click="backStepAdmission()" ng-show="showBackNextButton">Back</button>
-                    <button class="next" ng-click="nextStepAdmission()" ng-show="showBackNextButton">Next Step</button>
+<!--                     <button class="back" ng-click="backStepAdmission()" ng-show="showBackNextButton">Back</button> -->
+<!--                     <button class="next" ng-click="nextStepAdmission()" ng-show="showBackNextButton">Next Step</button> -->
                 </div><!-- /EndLeft content -->
 
                 <!-- Right content -->
@@ -144,10 +144,10 @@
                             <!-- Your essay header -->
                             <div class="your-essay-header">
                                 <div class="your-essay-header-title">
-                                    <span data-icon="&#x5c;"></span><h3>Your essay</h3>
+                                    <span data-icon="&#x5c;"></span><h3>Your essay(s)</h3>
                                 </div>
                                 <div class="see-more">
-                                    <p>See More</p>
+                                    <p>See more</p>
                                 </div>
                             </div><!-- /End Your essay header -->
                             <!-- Your essay Content -->
