@@ -35,8 +35,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.reflect.Parameter;
-import com.mysql.jdbc.StringUtils;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.RequestData;
@@ -106,15 +104,20 @@ public class ManagerQAServiceImpl implements managerQAService {
         if (Parameters.ANSWERED.equals(type)) {
             whereCause += " AND X.numReplies > 0 ";
         }
-        if (!StringUtil.isNull(lastQId)) {
+        if (!StringUtil.isNull(lastQId)&& !"-1".equals(lastQId)) {
             whereCause += " AND X.pid <  " + lastQId;
         }
 
-        if (StringUtil.isNull(subjectId) && !"-1".equals(subjectId)) {
+        if (!StringUtil.isNull(subjectId) && !"-1".equals(subjectId)) {
             whereCause += " AND X.subjectId = " + subjectId;
         }
+        else {
+            whereCause += " AND X.subjectId in (SELECT defaultSubjectId FROM Sib_Users where userid = " +
+                          userId +
+                          " )";
+        }
 
-        Object[] queryParams = { userId, userId };
+        Object[] queryParams = { userId };
         List<Object> readObject = null;
         boolean status = true;
 
