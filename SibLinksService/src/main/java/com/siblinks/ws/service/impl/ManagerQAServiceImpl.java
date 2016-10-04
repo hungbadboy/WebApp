@@ -23,6 +23,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.reflect.Parameter;
+import com.mysql.jdbc.StringUtils;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.RequestData;
@@ -91,7 +93,13 @@ public class ManagerQAServiceImpl implements managerQAService {
         String limit = request.getRequest_data().getLimit();
         String lastQId = request.getRequest_data().getPid();
         String type = request.getRequest_data().getType();
+        String search = request.getRequest_data().getContent();
         String whereCause = "";
+       
+        if(!StringUtil.isNull(search)){
+            search = StringEscapeUtils.escapeJava(search);
+            whereCause += " AND X.content like '%"+search+"%' ";
+        }
         if (Parameters.UNANSWERED.equals(type)) {
             whereCause += " AND X.numReplies = 0 ";
         }
