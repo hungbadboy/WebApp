@@ -14,7 +14,7 @@
                 <!-- Content of page -->
                 <div class="manager-video mentor-manage-qa-content mentor-manage-video">
                     <div class="row top-mag">
-                        <div class="col-md-4">
+                        <div class="col-md-4 mentor-qa-search">
                             <div class="col-md-12 search">
                                 <form class="navbar-form" role="search">
                                     <div class="input-group">
@@ -26,11 +26,12 @@
                                 </form>
                             </div>
                             <div class="sl-newwest">
-                                <div angucomplete-alt id="autocompleteSubs" placeholder="Search subjects.." pause="300"
+                            <div angucomplete-alt id="autocompleteSubs" placeholder="Search subjects.." pause="300"
                                      selected-object="selectedSubject"
                                      local-data="subjectsParent" search-fields="name" title-field="name"
-                                     minlength="0" input-class="select-sbj"
-                                     match-class="highlight" />
+                                     minlength="0" input-class=""
+                                     match-class="highlight"  />
+
                             </div>
                             <div class="btn-filter"><button ng-click="fillerSubject()">Filter</button></div>
                         </div>
@@ -52,7 +53,7 @@
                                             <div  ng-repeat="question in listQuestions" class="item-qa clearfix" ng-class="{'active':question.pid == currentPid}"
                                                   ng-click="selectQuestion(question.pid)">
                                                 <div class="col-md-3">
-                                                    <img ng-src="{{question.imageUrl}}" class="avatar-fix-size" alt="avatar">
+                                                    <a><img ng-src="{{question.imageUrl}}" alt="avatar"></a>
                                                 </div>
                                                 <div class="col-md-9 bx-dt-qa">
                                                     <h5>{{question.firstName + " "+ question.lastName}}<span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span></h5>
@@ -169,13 +170,13 @@
                                                                             </span>
                                                                 <div class="chat-body clearfix">
                                                                     <div class="header" ng-if="userId == answer.authorID">
-                                                                        <strong class="primary-font pull-right" ><a>You</a></strong>
-                                                                        <span class="pull-right time" >asked {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
+                                                                        <strong class="primary-font pull-right" ></strong>
+                                                                        <span class="pull-right time" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
                                                                         <span class="like-h" data-icon="&#xe089;"></span>
                                                                     </div>
                                                                     <div class="header" ng-if="userId != answer.authorID">
                                                                         <strong class="primary-font pull-left"><a>{{answer.firstName +" " +answer.lastName}}</a></strong>
-                                                                        <span class="time pull-left" >asked {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
+                                                                        <span class="time pull-left" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
                                                                         <span class="like-h" data-icon="&#xe089;"></span>
                                                                     </div>
                                                                     <p>
