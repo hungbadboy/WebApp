@@ -1,12 +1,12 @@
 jQuery(document).ready(function($) {
 
     //*******Home page
-//    $(".item-img").mouseenter(function(){
-//     	$(this).find(".item-hover").show(); //show click button when hover tutorial
-//    });
-//    $(".item-img").mouseleave(function(){
-//     	$(this).find(".item-hover").hide(); //hide click button when hover tutorial
-//    });
+    $(".item-img").mouseenter(function(){
+     	$(this).find(".item-hover").show(); //show click button when hover tutorial
+    });
+    $(".item-img").mouseleave(function(){
+     	$(this).find(".item-hover").hide(); //hide click button when hover tutorial
+    });
     // $(".add-img").click(function(){
     //     $(".media-manager").css({"left":0}); //show manager upload when click on add more image
     // })
@@ -64,7 +64,7 @@ jQuery(document).ready(function($) {
         $(this).find(".mentors-img-hover, .hover-video").hide(); //show img mentor then show to icon to go to mentors details
     });
     $(".edit-details-question").click(function(){  //
-        $(".edit-question").toggle();
+        $(this).find(".edit-question").toggle();
     })
     $(".sort").click(function(){        //show sort answer
         $(".sort-answer").toggle();
@@ -132,6 +132,10 @@ jQuery(document).ready(function($) {
     $("#question-details .total-answer i").click(function(){
         $(".sort-answer").slideToggle()
     })
+    $(".menuSub").click(function(){
+      $("#sidebar-menu .navigation .nav>.active>a span.sub-menu").toggleClass ("show");
+      $(this).next().slideToggle();
+    })
 
     // Slide for student Mentor page
     $('#studentCarousel[data-type="multi"] .item').each(function(){
@@ -158,6 +162,12 @@ jQuery(document).ready(function($) {
     $(".navbar-header button").on( "click",function(){
         $(".mentor-left-header, #sidebar-menu, .mentor-center-header, .center-content").toggleClass("in");
     })
+
+    var winwidth = window.innerWidth;
+    if (winwidth < 1200) {
+      $(".line-tt").remove();
+      $(".browser-mentors-infor-wrapper div.col-md-4:nth-child(2)").append("<div class='line-tt'></div>");
+    }
    
     // $(".top-mentors-videos").stick_in_parent();
     //Bxslider - Slider images of ask a question page
@@ -249,7 +259,7 @@ jQuery(document).ready(function($) {
               // Render thumbnail.
               var div = document.createElement('div');
               div.innerHTML = ['<img class="thumb" src="', e.target.result,
-                                '" title="', escape(theFile.name), '"/><div class="remove-image"><img src="assets/images/remove-img.png"></div>'].join('');
+                                '" title="', escape(theFile.name), '"/><div class="remove-image"><img src="../images/remove-img.png"></div>'].join('');
               document.getElementById('list').insertBefore(div, null);
               $(".media-manager").hide();
 

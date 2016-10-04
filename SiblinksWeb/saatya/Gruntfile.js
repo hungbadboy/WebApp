@@ -236,7 +236,7 @@ module.exports = function ( grunt ) {
                       'src/app/video/videoTutorialController.js', 
                       'src/app/question_detail.js',
                       'src/app/faqsController.js', 'src/app/mentorSignUpController.js',
-                      'src/app/question/popupAskQuestion.controller.js',                    
+                      'src/app/question/popupAskQuestion.controller.js',
                       'src/app/video.js', 'src/app/videoChatController.js', 'src/app/uploadEssayController.js',
                       //'src/app/admissionController.js',
                       'src/app/team/team.controller.js',

@@ -284,5 +284,11 @@ brotControllers.controller('UserHeaderController',
             $scope.showSmallLeftSideBar = function showSmallLeftSideBar() {
             	angular.element(".mentor-left-header, #sidebar-menu, .mentor-center-header, .center-content").toggleClass("in");
             }
+            /**
+             * Show modal login mentor and student
+             */
+            $scope.showModalLogin = function showModalLogin() {
+            	angular.element('#modal-id').trigger('click');
+            }
         }]);
 //=========================================== HEADER.CONTROLLER.JS==============
