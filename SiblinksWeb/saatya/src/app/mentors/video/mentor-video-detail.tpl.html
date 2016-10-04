@@ -84,7 +84,7 @@
                                 <div class="main-cm-detail">
                                     <div class="top-cm">
                                         <h3>{{ video.title | limitTo: 30 }}{{video.title.length > 30 ? '...' : ''}}</h3>
-                                        <span class="time">9 months ago</span>
+                                        <span class="time">{{video.timeStamp}} ago</span>
                                         <div class="btn-count clearfix">
                                             <div class="bx-btn pull-left">
                                                 <button class="btn-add active" data-toggle="modal" href='#modal-id'>Add to playlist</button>
@@ -116,8 +116,7 @@
                                         <p class="pull-right"><span>Catalogue</span>&nbsp;&nbsp;<b>{{video.subject}}</b></p>
                                     </div>
                                     <div class="form-commnent">
-                                        <h3 ng-if="comments">{{comments.length}} Comments</h3>
-                                        <h3 ng-if="!comments">No comment here</h3>
+                                        <h3 ng-if="comments">{{comments.length}} Comments</h3>                                        
                                         <form action="">
                                             <div class="box-chat-onl clearfix">
                                                 <a href="#" class="col-md-1"><img src="{{avatar}}" alt=""></a>
@@ -148,62 +147,25 @@
                                                 </ul>
                                             </div>
                                         </form>
+                                        <h3 ng-if="!comments">No comment here</h3>
                                     </div>                                    
                                 </div>
                             </div>
                             <div class="col-md-4 right-sub-video">
                                 <h4>Related Videos</h4>
-                                <ul class="list-sub-video">
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/img-sub-video.png" alt=""></span>
-                                        <div class="sub-vd-right pull-left">
-                                            <h5>Trigonometric Tutorial 1</h5>
-                                            <p>from <b>Brian Scott</b></p>
-                                            <p>View: <span>5564</span></p>
-                                        </div> 
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/img-sub-video.png" alt=""></span>
-                                        <div class="sub-vd-right pull-left">
-                                            <h5>Trigonometric Tutorial 1</h5>
-                                            <p>from <b>Brian Scott</b></p>
-                                            <p>View: <span>5564</span></p>
-                                        </div> 
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/img-sub-video.png" alt=""></span>
-                                        <div class="sub-vd-right pull-left">
-                                            <h5>Trigonometric Tutorial 1</h5>
-                                            <p>from <b>Brian Scott</b></p>
-                                            <p>View: <span>5564</span></p>
-                                        </div> 
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/img-sub-video.png" alt=""></span>
-                                        <div class="sub-vd-right pull-left">
-                                            <h5>Trigonometric Tutorial 1</h5>
-                                            <p>from <b>Brian Scott</b></p>
-                                            <p>View: <span>5564</span></p>
-                                        </div> 
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/img-sub-video.png" alt=""></span>
-                                        <div class="sub-vd-right pull-left">
-                                            <h5>Trigonometric Tutorial 1</h5>
-                                            <p>from <b>Brian Scott</b></p>
-                                            <p>View: <span>5564</span></p>
-                                        </div> 
-                                    </li>
-                                    <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/img-sub-video.png" alt=""></span>
-                                        <div class="sub-vd-right pull-left">
-                                            <h5>Trigonometric Tutorial 1</h5>
-                                            <p>from <b>Brian Scott</b></p>
-                                            <p>View: <span>5564</span></p>
-                                        </div> 
-                                    </li>
-                                    <p class="btn-load"><a href="#">load more videos</a></p>
-                                </ul>
+                                <div ng-if="videosRelated" scroller="sc-related" data-on-total-scroll="loadMoreVideoRelated">
+                                    <ul class="list-sub-video">
+                                        <li class="clearfix" ng-repeat="v in videosRelated track by $index">
+                                            <span class="pull-left"><img style="width: 150px; height: 84px;" src="{{v.image}}" alt=""></span>
+                                            <div class="sub-vd-right pull-left">
+                                                <h5>{{ v.title | limitTo: 20 }}{{v.title.length > 20 ? '...' : ''}}</h5>
+                                                <p>from <b>{{v.firstName + ' ' + v.lastName}}</b></p>
+                                                <p>View: <span>{{v.numViews}}</span></p>
+                                            </div> 
+                                        </li>                                    
+                                    </ul>
+                                </div> 
+                                <div ng-if="!videosRelated"><h5>No video related</h5></div>                               
                             </div>
                         </div>
                     </div>

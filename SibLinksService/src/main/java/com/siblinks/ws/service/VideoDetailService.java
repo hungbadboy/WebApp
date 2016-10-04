@@ -18,5 +18,7 @@ public interface VideoDetailService {
 
 	public ResponseEntity<Response> getVideoByPlaylistId(long vid);
 	
-	
+    public ResponseEntity<Response> getVideoDetailMentor(long vid, long uid);
+
+    public ResponseEntity<Response> getVideoRelatedMentor(long subjectId, long uid, int offset);
 }

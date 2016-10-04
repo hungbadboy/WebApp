@@ -17,7 +17,7 @@ brotControllers.controller('MentorVideoDetailController',
     		// get video detail
             $scope.vid = vid;
             getVideoDetail();
-            getCommentVideoDetail();
+            getCommentVideoDetail();            
     	} else if (!isNaN(plid) && plid > 0) {
             // get playlist detail
             $scope.plid = plid;
@@ -29,8 +29,29 @@ brotControllers.controller('MentorVideoDetailController',
     	}
     }
     
+    function getVideoRelated(){
+        videoDetailService.getVideoRelatedMentor($scope.video.subjectId, userId, 0).then(function(data){
+            var result = data.data.request_data_result;
+            if (result && result != "Found no data") {
+                $scope.videosRelated = result;        
+            }
+        });
+    }
+
+    $scope.loadMoreVideoRelated = function(){
+        videoDetailService.getVideoRelatedMentor($scope.video.subjectId, userId, $scope.videosRelated.length).then(function(data){
+            var result = data.data.request_data_result;
+            if (result && result != "Found no data") {
+                var oldData = $scope.videosRelated;
+                var newData = result;
+                var totalData = oldData.concat(newData);
+                $scope.videosRelated = totalData;        
+            }
+        });
+    }
+
     function getVideoDetail(){
-        videoDetailService.getVideoDetailById(vid).then(function(data){
+        videoDetailService.getVideoDetailMentor(vid, userId).then(function(data){
             var result = data.data.request_data_result;
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.video = result[0];
@@ -38,8 +59,8 @@ brotControllers.controller('MentorVideoDetailController',
                 $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
                 $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
                 initYoutubePlayer($scope.video.url);
+                getVideoRelated();
             }
-            console.log($scope.video);
         });
     }
 
@@ -49,7 +70,6 @@ brotControllers.controller('MentorVideoDetailController',
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.comments = formatDat(result);
             }
-            console.log($scope.comments);
         });
     }
 

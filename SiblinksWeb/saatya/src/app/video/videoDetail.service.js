@@ -10,6 +10,21 @@ brotServices.factory('videoDetailService', ['$http', function ($http) {
         return promise;
     };
 
+    factory.getVideoDetailMentor = function (vid, uid) {
+        var promise = $http({
+            method: 'get',
+            url: NEW_SERVICE_URL + 'videodetail/getVideoDetailMentor?vid='+vid+'&uid='+uid+''
+        });
+        return promise;
+    };
+
+    factory.getVideoRelatedMentor = function (subid, uid, offset) {
+        var promise = $http({
+            method: 'get',
+            url: NEW_SERVICE_URL + 'videodetail/getVideoRelatedMentor?subjectId='+subid+'&uid='+uid+'&offset='+offset+''
+        });
+        return promise;
+    };
     factory.getVideoByPlaylistId = function (pid) {
         var promise = $http({
             method: 'get',
