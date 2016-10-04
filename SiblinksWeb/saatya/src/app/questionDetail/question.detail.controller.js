@@ -120,13 +120,6 @@ brotControllers
                     }
                     $scope.imagePathOld.splice(index, 1);
 
-                    // for(var i = 0 ; i< $scope.imagePathOld.length;i++) {
-                    //     oldImagePathEdited += $scope.imagePathOld[i];
-                    //     if (i < $scope.imagePathOld.length - 1) {
-                    //         oldImagePathEdited += ";";
-                    //     }
-                    // }
-
                 }
 
                 $scope.zoomImage = function (img) {

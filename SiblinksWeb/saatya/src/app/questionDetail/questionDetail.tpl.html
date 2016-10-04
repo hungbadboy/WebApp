@@ -91,7 +91,8 @@
                             </div>
                             <div class="detail-mentor-answer">
                               <div class="mentor-name">
-                                <strong>{{answer.firstName+""+ answer.lastName}}</strong>&nbsp;&nbsp;&nbsp;<span>answered {{answer.timeStamp}} ago</span>
+                                  <a href="#/student/mentorProfile/{{answer.authorID}}"><strong>{{answer.firstName+""+ answer.lastName}}</strong>&nbsp;</a>
+                                  &nbsp;&nbsp;<span>answered {{answer.timeStamp}} ago</span>
                                 &nbsp;&nbsp;&nbsp;
 
                                 <span>{{answer.countLike + likeCount}} <span
@@ -99,7 +100,7 @@
                                         ng-click="likeAnswer(answer.aid)"></span></span>
                               </div>
                               <div class="mentor-answer">
-                                <p> <div data-ng-bind-html="answer.answer_text"></div></p>
+                                  <p class="pre-wrap"> {{answer.answer_text}}</p>
                               </div>
                             </div>
                           </div>
@@ -133,7 +134,7 @@
             </div> -->
           </div>
 
-        </div><!-- /End question of user -->
+        <!-- /End question of user -->
           <div class="top-mentors-videos col-lg-4" ng-controller="QuestionController">
               <!-- Top mentor -->
               <div class="top-mentors" ng-include="'src/app/topMentor/topMentors.tpl.html'">
@@ -149,7 +150,7 @@
     </div><!-- End container -->
 
     <!-- Form add new ask -->
-      <div class="form-ask-question" >
+      <div class="form-ask-question" ng-controller="QuestionDetailCtrl">
           <div class="form-ask-question-wrapper">
               <form action="" method=""
                     class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
