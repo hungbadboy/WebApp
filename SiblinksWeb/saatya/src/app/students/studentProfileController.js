@@ -7,7 +7,7 @@ brotControllers.controller('StudentProfileController',
             var limit = 10;
             var offset = 0;
             var isLoadMore = false;
-
+            var mentorId = $routeParams.mentorId;
             // Declare show message
             $scope.msgError = "";
             $scope.msgSuccess = "";
@@ -34,6 +34,8 @@ brotControllers.controller('StudentProfileController',
                 getInfoMentorProfile();
                 getEssayProfile();
                 getMyQuestions(userId, limit, offset, "newest", "-1", "-1");
+                getVideosRecently();
+                getNewestAnswers(mentorId, 6, 0);
             }
 
 
@@ -75,15 +77,16 @@ brotControllers.controller('StudentProfileController',
             }
 
             $scope.isReadyLoadPoint = false;
+            $scope.isReadyLoadRatingRecently = false;
             function getInfoMentorProfile() {
-                MentorService.getStudentMentorProfile(84).then(function (data) {
+                MentorService.getStudentMentorProfile(mentorId).then(function (data) {
                     var subjects = myCache.get("subjects");
                     if (data.data.status) {
                         if (data.data.request_data_result) {
                             $scope.studentMentorProfile = data.data.request_data_result;
                             var gender = $scope.studentMentorProfile.gender;
                             if (!gender) {
-                                $scope.gender = "Other";
+                                $scope.gender = "Gender: None";
                             } else if (gender == "Mal") {
                                 $scope.gender = "Male";
                             } else if (gender == "Fem") {
@@ -103,6 +106,36 @@ brotControllers.controller('StudentProfileController',
                         }
                         $scope.isReadyLoadPoint = true;
 
+                    }
+                });
+            }
+
+            function getVideosRecently() {
+                VideoService.getVideosRecently(mentorId).then(function (data) {
+                    if (data.data.status) {
+                        if (data.data.request_data_result == "Found no data") {
+                            $scope.videosRecently = null;
+                            return;
+                        }
+                        $scope.videosRecently = data.data.request_data_result;
+                        $scope.isReadyLoadRatingRecently = true;
+                    }
+                });
+            }
+
+            $scope.convertUnixTimeToTime = function (time) {
+                return convertUnixTimeToTime(time);
+            };
+
+
+            function getNewestAnswers(authorId, limit, offset) {
+                StudentService.getNewestAnswersById(authorId, limit, offset).then(function (data) {
+                    if (data.data.status) {
+                        if (data.data.request_data_result.length > 0) {
+                            $scope.listNewestAnswers = data.data.request_data_result;
+                        } else {
+                            $scope.listNewestAnswers = null;
+                        }
                     }
                 });
             }
@@ -422,6 +455,25 @@ brotControllers.controller('StudentProfileController',
                         if (response.data.request_data_type == "unsubs") {
                             $scope.isSubscribe = 1;
                             $scope.listMentorBySubs.splice(idx, 1);
+                        }
+                        else {
+                            $scope.isSubscribe = -1;
+                        }
+                    }
+                });
+            };
+
+            /**
+             * set Subscriber
+             */
+            $scope.setSubscribeMentor = function () {
+                if (isEmpty(userId)) {
+                    return;
+                }
+                VideoService.setSubscribeMentor(userId, mentorId).then(function (response) {
+                    if (response.data.status == "true") {
+                        if (response.data.request_data_type == "subs") {
+                            $scope.isSubscribe = 1;
                         }
                         else {
                             $scope.isSubscribe = -1;
