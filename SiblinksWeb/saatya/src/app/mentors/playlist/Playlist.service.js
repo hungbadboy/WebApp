@@ -117,5 +117,21 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
       return promise;
     }
 
+    factory.deleteVideoInPlaylist = function(vids){
+      var promise = $http({
+          method: 'POST',
+          url: NEW_SERVICE_URL + 'playlist/deleteVideoInPlaylist',
+          data:{
+              "request_data_type": "playlist",
+              "request_data_method": "deleteVideoInPlaylist",
+              "request_data":{
+                  "vids": vids
+              }
+          }
+          
+      });
+      return promise;
+    }
+
     return factory;
 } ]);

@@ -204,7 +204,7 @@ public class PlayplistServiceImpl implements PlaylistService {
     public ResponseEntity<Response> deletePlaylist(@RequestBody final RequestData request) throws Exception {
         SimpleResponse reponse = null;
         try {
-            boolean status = deletePlaylist(request.getRequest_playlist().getPlid());
+            boolean status = deletePlaylist(request.getRequest_playlist().getPlid(), request.getRequest_playlist().getCreateBy());
             if (status) {
                 reponse = new SimpleResponse("" + true, "playlist", "deletePlaylist", "success");
             } else {
@@ -217,7 +217,7 @@ public class PlayplistServiceImpl implements PlaylistService {
         return entity;
     }
 
-    private boolean deletePlaylist(final String plid) {
+    private boolean deletePlaylist(final String plid, final String uid) {
         boolean flag = false;
 
         TransactionDefinition def = new DefaultTransactionDefinition();
@@ -228,6 +228,7 @@ public class PlayplistServiceImpl implements PlaylistService {
 
             dao.insertUpdateObject(SibConstants.SqlMapperBROT44.SQL_DELETE_PLAYLIST_VIDEO, queryParams);
 
+            queryParams = new Object[] { plid, uid };
             dao.insertUpdateObject(SibConstants.SqlMapperBROT44.SQL_DELETE_PLAYLIST, queryParams);
             transactionManager.commit(status);
             flag = true;
@@ -356,13 +357,14 @@ public class PlayplistServiceImpl implements PlaylistService {
     @Override
     @RequestMapping(value = "/deleteMultiplePlaylist", method = RequestMethod.POST)
     public ResponseEntity<Response> deleteMultiplePlaylist(@RequestBody final RequestData request) throws Exception {
+        String uid = request.getRequest_playlist().getCreateBy();
         ArrayList<String> plids = request.getRequest_playlist().getPlids();
         SimpleResponse reponse = null;
         int countSuccess = 0;
         int countFail = 0;
         boolean status = false;
         for (String plid : plids) {
-            status = deletePlaylist(plid);
+            status = deletePlaylist(plid, uid);
             if (status) {
                 countSuccess++;
             } else {
@@ -371,6 +373,27 @@ public class PlayplistServiceImpl implements PlaylistService {
         }
         String msg = String.format("Delete success %d playlist and failed %d playlist", countSuccess, countFail);
         reponse = new SimpleResponse("" + true, "playlist", "deleteMultiplePlaylist", msg);
+
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/deleteVideoInPlaylist", method = RequestMethod.POST)
+    public ResponseEntity<Response> deleteVideoInPlaylist(@RequestBody final RequestData request) throws Exception {
+        ArrayList<String> vids = request.getRequest_data().getVids();
+        SimpleResponse reponse = null;
+
+        Object[] params = null;
+        try {
+            for (String vid : vids) {
+                params = new Object[] { vid };
+                dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_DELETE_VIDEO_IN_PLAYLIST, params);
+            }
+            reponse = new SimpleResponse("" + true, "playlist", "deleteVideoInPlaylist", "Success");
+        } catch (Exception e) {
+            reponse = new SimpleResponse("" + true, "playlist", "deleteVideoInPlaylist", e.getMessage());
+        }
 
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;

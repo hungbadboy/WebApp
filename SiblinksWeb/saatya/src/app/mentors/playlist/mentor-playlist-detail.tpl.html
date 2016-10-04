@@ -37,11 +37,11 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="btn-mg">
-                                    <button class="btn-delete">Remove</button>
+                                    <button class="btn-delete" ng-click="removeAll()">Remove</button>
                                 </div>
                                 <div class="main-manager-video main-playlist-detail">
                                     <div class="filters clearfix">
-                                        <div class="check-all"><input id="check-all" type="checkbox" name="checkall" /></div>
+                                        <div class="check-all"><input id="check-all" ng-model="selectedAll" type="checkbox" name="checkall" ng-click="selectAll()" /></div>
                                         <div class="text-trf">video informations</div>
                                         <div class="text-des">description</div>
                                         <div class="text-play">order</div>
@@ -49,7 +49,7 @@
                                     </div>
                                     <div class="group-item" ng-show="videos">
                                         <div class="item" ng-repeat="v in videos track by $index">
-                                            <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
+                                            <div class="check-box"><input type="checkbox" ng-model="v.selected" class="check-input" name="checkall" ng-click="optionSelected()" /></div>
                                             <div class="box-detail-play clearfix">
                                                 <span class="item-thumbnail">
                                                     <a href="#/mentor/video/detail/{{v.vid}}"><img class="item-fix-size" src="{{v.image}}" alt=""></a>
@@ -92,14 +92,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div ng-if="!videos"><h5 style="margin-left: 15px; margin-top: 15px;">No video show</h5></div>
                                     <div class="filters filters-bottom clearfix">
-                                        <div class="check-all"><input id="check-all" type="checkbox" name="checkall" /></div>
+                                        <div class="check-all"><input id="check-all" ng-model="selectedAll" type="checkbox" name="checkall" ng-click="selectAll()"  /></div>
                                         <div class="text-trf">video informations</div>
                                         <div class="text-des">description</div>
                                         <div class="text-ac">action</div>
                                     </div>
                                     <div class="btn-mg">
-                                        <button class="btn-delete">Remove</button>
+                                        <button class="btn-delete" ng-click="removeAll()">Remove</button>
                                     </div>
                                 </div>
                             </div>

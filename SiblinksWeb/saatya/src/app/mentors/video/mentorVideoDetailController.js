@@ -1,6 +1,6 @@
 brotControllers.controller('MentorVideoDetailController', 
-  ['$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService', 'videoDetailService',
-                                       function ($scope, $modal, $routeParams, $http, $location, VideoService, MentorService, videoDetailService) {
+  ['$scope', '$modal', '$routeParams', '$http', '$location', 'videoDetailService','PlaylistService',
+                                       function ($scope, $modal, $routeParams, $http, $location, videoDetailService, PlaylistService) {
 
 
     var vid = $routeParams.vid;
@@ -16,12 +16,14 @@ brotControllers.controller('MentorVideoDetailController',
     	if (!isNaN(vid) && vid > 0) {
     		// get video detail
             $scope.vid = vid;
-            getVideoDetail();
+            getVideoDetail(vid, userId);
             getCommentVideoDetail();            
     	} else if (!isNaN(plid) && plid > 0) {
             // get playlist detail
             $scope.plid = plid;
-            initYoutubePlayer();
+            angular.element(document.querySelector('#video_balance')).remove();
+            loadPlaylistDetail();
+            getVideosInPlaylist();
         } 
         else{
     		window.location.href = '#/mentor/dashboard';
@@ -29,6 +31,31 @@ brotControllers.controller('MentorVideoDetailController',
     	}
     }
     
+    function loadPlaylistDetail(){
+        PlaylistService.loadPlaylistById(plid).then(function(data){            
+            if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+                var data = data.data.request_data_result;
+
+                data.numView = data.numView != null ? data.numView : 0;
+                data.numComment = data.numComment != null ? data.numComment : 0;
+                data.timeStamp = convertUnixTimeToTime(data.timeStamp); 
+                $scope.playlist = data;                
+            }
+        });
+    }
+
+    function getVideosInPlaylist(){
+        videoDetailService.getVideoByPlaylistId(plid).then(function (data) {
+            if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+                $scope.videos = data.data.request_data_result;
+                for (var i = $scope.videos.length - 1; i >= 0; i--) {
+                    $scope.videos[i].timeStamp = convertUnixTimeToTime($scope.videos[i].timeStamp);
+                }
+
+                getVideoDetail($scope.videos[0].vid, userId);                
+            }
+        });
+    }
     function getVideoRelated(){
         videoDetailService.getVideoRelatedMentor($scope.video.subjectId, userId, 0).then(function(data){
             var result = data.data.request_data_result;
@@ -50,9 +77,11 @@ brotControllers.controller('MentorVideoDetailController',
         });
     }
 
-    function getVideoDetail(){
-        videoDetailService.getVideoDetailMentor(vid, userId).then(function(data){
+    function getVideoDetail(id, userId){
+        console.log(id);
+        videoDetailService.getVideoDetailMentor(id, userId).then(function(data){
             var result = data.data.request_data_result;
+            console.log(result);
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.video = result[0];
                 $scope.video.averageRating = $scope.video.averageRating != null ? $scope.video.averageRating : 0;

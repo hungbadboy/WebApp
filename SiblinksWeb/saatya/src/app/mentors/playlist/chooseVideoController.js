@@ -1,6 +1,6 @@
 brotControllers.controller('ChooseVideoController', 
-  ['$scope', '$modalInstance', '$routeParams', '$http', '$location', 'PlaylistService', 'VideoService', 'myCache', 'pl_id',
-                                       function ($scope, $modalInstance, $routeParams, $http, $location, PlaylistService, VideoService, myCache, pl_id) {
+  ['$rootScope','$scope', '$modalInstance', '$routeParams', '$http', '$location', 'PlaylistService', 'VideoService', 'myCache', 'pl_id',
+                                       function ($rootScope, $scope, $modalInstance, $routeParams, $http, $location, PlaylistService, VideoService, myCache, pl_id) {
 
     var userId = localStorage.getItem('userId'); 
     $scope.subject = [0];
@@ -128,7 +128,7 @@ brotControllers.controller('ChooseVideoController',
           VideoService.addVideosToPlaylist(request).then(function(data){
             var result = data.data.request_data_result;
             if (result != null && result == "Success") {
-                alert("Add video to playlist successful.");
+                $rootScope.$broadcast('addVideo');
                 $modalInstance.dismiss('cancel');
             } else
                 alert(result);

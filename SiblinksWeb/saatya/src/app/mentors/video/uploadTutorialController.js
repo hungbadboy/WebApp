@@ -110,9 +110,6 @@ brotControllers.controller('UploadTutorialController',
         VideoService.updateTutorial(request).then(function(data){
           if (data.data.request_data_result === "Success") {
             if (!isNaN(v_id) && v_id > 0) {
-               // $rootScope.video.vid = v_id;
-               // $rootScope.video.title = title.trim();
-               // $rootScope.video.description = description;
                var video = {
                  'vid': v_id,
                  'title': title.trim(),

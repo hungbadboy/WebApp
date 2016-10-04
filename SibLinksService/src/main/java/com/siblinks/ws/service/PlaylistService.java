@@ -83,4 +83,6 @@ public interface PlaylistService {
     public ResponseEntity<Response> getPlaylistBySubject(long uid, long subjectId, int offset) throws Exception;
 
     public ResponseEntity<Response> deleteMultiplePlaylist(RequestData request) throws Exception;
+
+    public ResponseEntity<Response> deleteVideoInPlaylist(RequestData request) throws Exception;
 }

@@ -17,60 +17,24 @@
                             <div class="group-video-pl">
                                 <div class="item-pl-video clearfix">
                                     <div class="col-md-1"></div>
-                                    <div class="col-md-2" ng-if="vid"></div>
+                                    <div id="video_balance" class="col-md-2"></div>
                                     <div class="video-play col-md-6" id="detailPlayer">
                                         <!-- <img src="assets/images/img-video-l.png" alt=""> -->
                                     </div>                                    
                                     <div class="video-wait col-md-3" ng-if="plid" style="margin-left: 45px;">
                                         <div class="top-w clearfix">
-                                            <h5 class="pull-left">Learn Algebra Series</h5>
+                                            <h5 class="pull-left">{{ playlist.name | limitTo: 20 }}{{playlist.name.length > 20 ? '...' : ''}}</h5>
                                             <span class="pull-right" data-icon="&#xe037;"></span>
                                         </div>
                                         <div class="top-nav-w clearfix">
-                                            <span class="pull-left">Brian Scott</span>
-                                            <span class="pull-right">4 of 16 videos</span>
+                                            <span class="pull-left">{{playlist.fistName + ' ' + playlist.lastName}}</span>
+                                            <span class="pull-right">{{$index+1}} of {{videos.length}} videos</span>
                                         </div>
                                         <ul class="list-videp-w">
-                                            <li>
+                                            <li ng-repeat="v in videos track by $index">
                                                 <a class="clearfix" href="#">
-                                                    <span class="pull-left"><img src="assets/images/img-video-sm.png" alt=""></span>
-                                                    <h6 class="pull-left">Chapter 1: Commutative and<br/> Associative Properties</h6>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="clearfix" href="#">
-                                                    <span class="pull-left"><img src="assets/images/img-video-sm.png" alt=""></span>
-                                                    <h6 class="pull-left">Chapter 1: Commutative and<br/> Associative Properties</h6>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="clearfix" href="#">
-                                                    <span class="pull-left"><img src="assets/images/img-video-sm.png" alt=""></span>
-                                                    <h6 class="pull-left">Chapter 1: Commutative and<br/> Associative Properties</h6>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="clearfix" href="#">
-                                                    <span class="pull-left"><img src="assets/images/img-video-sm.png" alt=""></span>
-                                                    <h6 class="pull-left">Chapter 1: Commutative and<br/> Associative Properties</h6>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="clearfix" href="#">
-                                                    <span class="pull-left"><img src="assets/images/img-video-sm.png" alt=""></span>
-                                                    <h6 class="pull-left">Chapter 1: Commutative and<br/> Associative Properties</h6>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="clearfix" href="#">
-                                                    <span class="pull-left"><img src="assets/images/img-video-sm.png" alt=""></span>
-                                                    <h6 class="pull-left">Chapter 1: Commutative and<br/> Associative Properties</h6>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="clearfix" href="#">
-                                                    <span class="pull-left"><img src="assets/images/img-video-sm.png" alt=""></span>
-                                                    <h6 class="pull-left">Chapter 1: Commutative and<br/> Associative Properties</h6>
+                                                    <span class="pull-left"><img style="width: 116px; height: 65px;" src="{{v.image}}" alt=""></span>
+                                                    <h6 class="pull-left">{{ v.title | limitTo: 15 }}{{v.name.title > 15 ? '...' : ''}}</h6>
                                                 </a>
                                             </li>
                                         </ul>
