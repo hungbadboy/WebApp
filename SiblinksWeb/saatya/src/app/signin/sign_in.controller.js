@@ -1,5 +1,18 @@
 brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope, $http, $timeout, StudentService) {
     $scope.loginMess = "";
+    $scope.bestDeals = [
+                       {src: 'http://placehold.it/110x110&text=Best%20Deal%201', title: 'Best Deal 1' },
+                       {src: 'http://placehold.it/110x110&text=Best%20Deal%202', title: 'Best Deal 2' },
+                       {src: 'http://placehold.it/110x110&text=Best%20Deal%203', title: 'Best Deal 3' },
+                       {src: 'http://placehold.it/110x110&text=Best%20Deal%204', title: 'Best Deal 4' },
+                       {src: 'http://placehold.it/110x110&text=Best%20Deal%205', title: 'Best Deal 5' },
+                       {src: 'http://placehold.it/110x110&text=Best%20Deal%206', title: 'Best Deal 6 Best Deal 6 Best Deal 6' },
+                       {src: 'http://placehold.it/110x110&text=Best%20Deal%207', title: 'Best Deal 7' },
+                       {src: 'http://placehold.it/110x110&text=Best%20Deal%208', title: 'Best Deal 8' },
+                       {src: 'http://placehold.it/110x110&text=Best%20Deal%209', title: 'Best Deal 9' },
+                       {src: 'http://placehold.it/110x110&text=Best%20Deal%2010', title: 'Best Deal 10' }
+                     ];
+    
     $scope.login = function () {
         var userName = angular.element('#userName').val();
         if (userName == null || userName === '') {

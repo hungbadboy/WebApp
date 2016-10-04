@@ -195,6 +195,9 @@
     .right-sub-video .list-sub-video li .sub-vd-right{
         padding-left: 10px;
     }
+    .mentor-qa-search {
+        width: 40%;
+    }
 
 }
 
@@ -265,9 +268,6 @@
     .manager-video .top-mag .sl-newwest, .manager-video .top-mag .sl-sbj {
         padding-right: 0;
         width: 140px;
-    }
-    .manager-video .top-mag .btn-filter {
-        width: 106px;
     }
     .box-main-replied .form-chat .box-chat-onl .texta:before {
         left: 68px;
@@ -354,6 +354,14 @@
         padding-bottom: 5px;
     }
 
+    /*mentor Q&A*/
+    .mentor-qa-search {
+        width: 100%;
+    }
+    .manager-video .top-mag .sl-newwest {
+        width: ~"calc(100% - 90px)";
+    }
+
 }
 /***For max screen 1281***/
 @media screen and (max-width: 1281px) { 
@@ -377,6 +385,9 @@
     }
     .navigation ul {
         top: 15px;
+    }
+    .module-navigation .mentor-left-header .main-logo {
+        width: auto;
     }
     /*======information & content======*/
     .information-content>div,
@@ -450,6 +461,8 @@
         width: 100%;
         margin-top: 15px;
     }
+
+
     
 }
 @media screen and (max-width: 1200px) { 
@@ -537,13 +550,18 @@
     }
 
     /*======Browser mentors======*/
-    .mentors-infor-details {
-        width: 70%;
+    .browser-mentors-infor-wrapper>div {
+        width: 50%;
         float: left;
     }
-    .mentors-infor-img {
-        width: 30%;
-        float: left;
+    .browser-mentors-infor-wrapper>div:nth-last-child(-n+3) {
+        border-bottom: 1px solid #ececed;
+    }
+    .browser-mentors-infor-wrapper>div:nth-last-child(-n+2) {
+        border: none;
+    }
+    .browser-mentors .searchbrecrum {
+        width: 40%;
     }
 
     /*======Mentors Profile======*/
@@ -871,6 +889,9 @@
         position: relative;
         overflow: hidden;
     }
+    .browser-mentors .searchbrecrum {
+        width: 35%;
+    }
 
     /*Mentor Profile*/
     .mentors-video-recently.col-md-6.col-md-offset-3 {
@@ -1189,6 +1210,21 @@
     section.ask-mentors h3{
         font-size: 18px;
         line-height: 20px;
+    }
+    /*======Browser mentors======*/
+    .browser-mentors-infor-wrapper>div {
+        width: 100%;
+        float: left;
+    }
+    .browser-mentors-infor-wrapper>div:nth-last-child(-n+2) {
+        border-bottom: 1px solid #ececed;
+    }
+    .browser-mentors-infor-wrapper>div:last-child{
+        border: none;
+    }
+    .browser-mentors .searchbrecrum {
+        width: 100%;
+        margin-bottom: 20px;
     }
 
 }
