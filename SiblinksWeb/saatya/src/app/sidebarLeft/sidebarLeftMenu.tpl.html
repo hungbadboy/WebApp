@@ -32,9 +32,9 @@
                     <a href="javascript:void(0)" ng-click="showSubMenu('sub-menu-video')">
                         <span data-icon="&#x49;"></span>
                         <span class="menu-title">Videos</span>
-                        <span data-icon="&#x34;" class="sub-menu" ng-class="{show : isShowSubMenu}"></span>
+                        <span data-icon="&#x34;" class="sub-menu" ng-class="{show : (currentPath =='/mentor/mentorVideo' || currentPath =='/mentor/videoManager' ||  currentPath == '/mentor/playlistManager')}"></span>
                     </a>
-                    <ul class="menuSubmenu" id="sub-menu-video">
+                    <ul class="menuSubmenu" id="sub-menu-video" ng-class="{show : (currentPath =='/mentor/mentorVideo' || currentPath =='/mentor/videoManager' ||  currentPath == '/mentor/playlistManager')}">
                        <li ng-class="{active : currentPath == '/mentor/mentorVideo'}">
                            <a href="#/mentor/mentorVideo">
                                <span class="menu-title">General</span>
