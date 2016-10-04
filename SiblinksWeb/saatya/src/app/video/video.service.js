@@ -94,89 +94,7 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         return promise;
     }
 
-    factory.getVideosWithTopic = function (idTopic) {
-        var pathWS = NEW_SERVICE_URL + 'video/getVideosWithTopic';
-        return $http.post(pathWS, {
-            "request_data_type": "video",
-            "request_data_method": "get_using_topic",
-            "request_data": {
-                "topicId": idTopic
-            }
 
-        }).success(function (data) {
-        });
-    };
-
-    factory.getVideoWithTopicPN = function (subjectId, topicId, page, order) {
-        var promise = $http({
-            method: 'POST',
-            url: NEW_SERVICE_URL + 'video/getVideosWithTopicPN',
-            data: {
-                "request_data_type": "video",
-                "request_data_method": "getVideosWithTopicPN",
-                "request_data": {
-                    "subjectId": subjectId,
-                    "topicId": topicId,
-                    "pageno": page,
-                    "limit": 10,
-                    "order": order,
-                    "totalCountFlag": true
-                }
-            }
-        });
-        return promise;
-    };
-
-    // factory.getVideosWithTopic = function(vid, subject,topic){
-    //      var promise = $http({
-    //         // method: 'POST',
-    //         // url: NEW_SERVICE_URL + 'video/getVideosWithTopic',
-    //         // data: {
-    //         //     "request_data_type": "video",
-    //         //     "request_data_method": "get_using_topic",
-    //         //     "request_data": {
-    //         //         "vid": vid,
-    //         //         "subject": subject,
-    //         //         "topic": topic
-    //         //     }
-    //         // }
-
-
-    //         method: 'POST',
-    //         url: NEW_SERVICE_URL + 'video/searchVideosUsingTag',
-    //         data: {
-    //             "request_data_type": "video",
-    //             "request_data_method": "search_videos",
-    //             "request_data": {
-    //                 "tag": "math",
-    //                 "vid": 1
-    //             }
-    //         }
-    //     }).success(function(data){
-    //         return data.response;
-    //     });
-    //     return promise;
-    // }
-
-    // factory.searchVideos = function(title, vid){
-    //      var promise = $http({
-
-    //         method: 'POST',
-    //         url: NEW_SERVICE_URL + 'video/searchVideos',
-    //         data: {
-    //             "request_data_type": "video",
-    //             "request_data_method": "search_videos",
-    //             "request_data": {
-    //                 "title": title,
-    //                 "vid": vid
-    //             }
-    //         }
-    //     }).success(function(data){
-    //         return data.response;
-    //     });
-    //     alert("server don't support");
-    //     return promise;
-    // }
 
     factory.searchAllVideos = function (title) {
         var promise = $http({
@@ -528,7 +446,24 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         });
         return promise;
     };
-    
+
+    factory.checkFavouriteVideo = function(uid, vid) {
+
+        var promise = $http({
+            method: 'POST',
+            url: NEW_SERVICE_URL + 'favourite/checkFavouriteVideo',
+            data:{
+                "uid":uid,
+                "vid":vid
+            }
+        }).success(function (response) {
+            rs = response;
+            return rs;
+        });
+        return promise;
+    };
+
+
     factory.deleteFavouriteVideo = function(uid, vid) {
 
     	var promise = $http({
@@ -545,6 +480,24 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         });
         return promise;
     };
+
+    factory.addfavourite = function(uid, vid) {
+
+        var promise = $http({
+            method: 'POST',
+            url: NEW_SERVICE_URL + 'favourite/addfavourite',
+            data: {
+                "uid":uid,
+                "vid":vid
+            }
+
+        }).success(function (response) {
+            rs = response;
+            return rs;
+        });
+        return promise;
+    };
+
 
     factory.deleteMultipleVideo = function(vids, authorid){
         var promise = $http({

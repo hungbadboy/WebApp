@@ -70,5 +70,13 @@ public interface FavouriteVideoService {
      * @return
      */
     public ResponseEntity<Response> deleteFavouriteVideo(final FavouriteData favouriteData);
+
+    /**
+     * check favourites video
+     * 
+     * @param video
+     * @return 
+     */
+    public ResponseEntity<Response> checkFavouriteVideo(FavouriteData favourite);
 	
 }

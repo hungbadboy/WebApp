@@ -75,6 +75,14 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                                     }
                                 }
                             });
+                            VideoService.checkFavouriteVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
+                                if (data.data.status == 'true') {
+                                    $scope.isFavorite = 1;
+                                }
+                                else {
+                                    $scope.isFavorite = 0;
+                                }
+                            });
 
                         }
                     }
@@ -287,7 +295,21 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             }
             return input;
         };
+        $scope.addfavourite = function (vid) {
+            if ($scope.isFavorite == 1) {
+                return;
+            }
+            VideoService.addfavourite($scope.userId, vid).then(function (data) {
+                if (data.request_data_result == 'Favourite add successful') {
+                    $('#btnFavorite').addClass('favorited');
+                }
+                else {
+                    $('#btnFavorite').removeClass('favorited');
+                }
+            });
 
+
+        }
 
         function onYouTubeIframeAPIReady(youtubeId) {
             player = new YT.Player('video', {

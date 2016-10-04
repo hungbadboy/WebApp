@@ -89,6 +89,14 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                                         }
                                     }
                                 });
+                                VideoService.checkFavouriteVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
+                                    if (data.data.status == 'true') {
+                                        $scope.isFavorite = 1;
+                                    }
+                                    else {
+                                        $scope.isFavorite = 0;
+                                    }
+                                });
 
                             }
 
@@ -138,6 +146,24 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                     else {
                         $scope.videoInfo = data.data.request_data_result[0];
                         $scope.rateNum = $scope.videoInfo.averageRating;
+                        videoDetailService.checkSubscribe($scope.videoInfo.userid, $scope.userId).then(function (data) {
+                            if (data.data.status == 'true') {
+                                if (data.data.request_data_result[0].isSubs == '0') {
+                                    $scope.isSubscribe = 0;
+                                }
+                                else {
+                                    $scope.isSubscribe = 1;
+                                }
+                            }
+                        });
+                        VideoService.checkFavouriteVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
+                            if (data.data.status == 'true') {
+                                $scope.isFavorite = 1;
+                            }
+                            else {
+                                $scope.isFavorite = 0;
+                            }
+                        });
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
@@ -196,6 +222,24 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             $scope.videoInfo.description = "No description";
                         }
                         $scope.rateNum = $scope.videoInfo.averageRating;
+                        videoDetailService.checkSubscribe($scope.videoInfo.userid, $scope.userId).then(function (data) {
+                            if (data.data.status == 'true') {
+                                if (data.data.request_data_result[0].isSubs == '0') {
+                                    $scope.isSubscribe = 0;
+                                }
+                                else {
+                                    $scope.isSubscribe = 1;
+                                }
+                            }
+                        });
+                        VideoService.checkFavouriteVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
+                            if (data.data.status == 'true') {
+                                $scope.isFavorite = 1;
+                            }
+                            else {
+                                $scope.isFavorite = 0;
+                            }
+                        });
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
@@ -255,6 +299,24 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             $scope.videoInfo.description = "No description";
                         }
                         $scope.rateNum = $scope.videoInfo.averageRating;
+                        VideoService.checkFavouriteVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
+                            if (data.data.status == 'true') {
+                                $scope.isFavorite = 1;
+                            }
+                            else {
+                                $scope.isFavorite = 0;
+                            }
+                        });
+                        VideoService.checkFavouriteVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
+                            if (data.data.status == 'true') {
+                                if (data.data.status == 'true') {
+                                    $scope.isFavorite = 1;
+                                }
+                                else {
+                                    $scope.isFavorite = 0;
+                                }
+                            }
+                        });
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
@@ -449,6 +511,22 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 }
             });
         };
+
+        $scope.addfavourite = function (vid) {
+            if ($scope.isFavorite == 1) {
+                return;
+            }
+            VideoService.addfavourite($scope.userId, vid).then(function (data) {
+                if (data.request_data_result == 'Favourite add successful') {
+                    $('#btnFavorite').addClass('favorited');
+                }
+                else {
+                    $('#btnFavorite').removeClass('favorited');
+                }
+            });
+
+
+        }
 
 
 
