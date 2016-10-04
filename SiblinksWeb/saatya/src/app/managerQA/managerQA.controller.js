@@ -37,29 +37,27 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 }
                 if (data.data.status) {
                     $scope.listQuestions = data.data.request_data_result;
-                    if ($scope.listQuestions.length > 0) {
+                    $scope.listQuestions = data.data.request_data_result;
+                    if ($scope.listQuestions != null && $scope.listQuestions.length > 0) {
                         lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].qid;
+                        $scope.currentPid = $scope.listQuestions[0].pid;
+                        getQuestionById($scope.currentPid);
+                    }
+                    else {
+                        $scope.questionDetail = null;
                     }
 
-                }
-                if ($scope.listQuestions != null && $scope.listQuestions.length > 0) {
-                    $scope.currentPid = $scope.listQuestions[0].pid;
-                    getQuestionById($scope.currentPid);
                 }
             });
 
         }
 
         $scope.loadMorePost = function () {
-            currentPage++;
-            if (lastQIdBK == lastQId) {
+            //currentPage++;
+            if (isEmpty(lastQIdBK)) {
                 return;
             }
             managerQAService.getListQuestionQA("-1", userId, lastQId, $scope.currentTab, LIMIT).then(function (data) {
-                var allSubjects = myCache.get("subjects");
-                listDefaultSubjectId = getSubjectNameById(defaultSubjectId, allSubjects);
-                $scope.subjectsParent = [];
-
                 for (var i = 0; i < listDefaultSubjectId.length; i++) {
                     if (listDefaultSubjectId[i].level == '0') {
                         $scope.subjectsParent.push(listDefaultSubjectId[i]);
@@ -67,17 +65,15 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 }
                 if (data.data.status) {
                     $scope.listQuestions = data.data.request_data_result;
-                    if ($scope.listQuestions.length > 0) {
+                    if ($scope.listQuestions != null && $scope.listQuestions.length > 0) {
                         lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].qid;
+                    }
+                    else{
+                        lastQIdBK = "";
                     }
 
                 }
-                if ($scope.listQuestions != null && $scope.listQuestions.length > 0) {
-                    $scope.currentPid = $scope.listQuestions[0].pid;
-                    getQuestionById($scope.currentPid);
-                }
             });
-            lastQIdBK = lastQId;
 
         }
         $scope.openFile= function () {
@@ -97,22 +93,12 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.convertUnixTimeToTime = function (datetime) {
             return convertUnixTimeToTime(datetime);
         }
-        $scope.selectParentChange = function () {
-            $scope.subjectsChild = {};
-            for (var i = 0; i < $scope.subjectsParent.length; i++) {
-                var sub = $scope.subjectsParent[i];
-                if (sub.parentId == $scope.selectedParent.parentId) {
-                    $scope.subjectsChild.push(sub[i]);
-                }
-            }
-        }
 
-        function getQuestionQA(subjectId, userId, lastQId, type, limit, child) {
-            //init();
-            managerQAService.getListQuestionQA(subjectId, userId, lastQId, type, limit, child).then(function (data) {
+        function getQuestionQA(subjectId, userId, lastQId, type, limit) {
+            managerQAService.getListQuestionQA(subjectId, userId, lastQId, type, limit).then(function (data) {
                 if (data.data.status) {
                     $scope.listQuestions = data.data.request_data_result;
-                    if ($scope.listQuestions.length > 0) {
+                    if ($scope.listQuestions != null && $scope.listQuestions.length > 0) {
                         lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].qid;
                     }
 
@@ -247,20 +233,85 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
         };
 
-
+        var selectedSubsId = null;
         $scope.selectedSubject = function (selected) {
-            selected.originalObject.id;
-            //selectCategory = selected;
-            // for (var i = 0; i < listDefaultSubjectId.length; i++) {
-            //     if (listDefaultSubjectId[i].parentId == selected) {
-            //         $scope.subjectsChild.push(listDefaultSubjectId[i]);
-            //     }
-            // }
+            selectedSubsId = selected.originalObject.id;
+            getListQuestionAndDetail(selectedSubsId);
         };
+
+        $scope.fillerSubject = function () {
+            if(isEmpty(selectedSubsId)){
+                init();
+            }
+            getListQuestionAndDetail(selectedSubsId);
+        }
+
+        $scope.nextQuestion = function (str) {
+            if($scope.listQuestions == null && $scope.listQuestions.length == 0){
+                return;
+            }
+            var index = 0;
+            var len = $scope.listQuestions.length;
+            for (var i = 0 ; i< len; i++){
+                if($scope.currentPid ==  $scope.listQuestions[i].pid)
+                {
+                    index = i;
+                    $scope.currentPid = $scope.listQuestions[i].pid;
+                    break;
+                }
+            }
+            if(str=='next'){
+                if(index == len){
+                    $scope.currentPid = $scope.listQuestions[0].pid;
+                    getQuestionById($scope.currentPid);
+                }
+                else{
+                    $scope.currentPid = $scope.listQuestions[index+1].pid;
+                    getQuestionById($scope.currentPid);
+                }
+            }
+            else {
+                if(index == 0){
+                    $scope.currentPid = $scope.listQuestions[len-1].pid;
+                    getQuestionById($scope.currentPid);
+                }
+                else{
+                    $scope.currentPid = $scope.listQuestions[index-1].pid;
+                    getQuestionById($scope.currentPid);
+                }
+            }
+        }
+
+        function getListQuestionAndDetail(selectedSubsId) {
+            managerQAService.getListQuestionQA(selectedSubsId, userId, lastQId, $scope.currentTab, LIMIT).then(function (data) {
+                var allSubjects = myCache.get("subjects");
+                listDefaultSubjectId = getSubjectNameByIdQA(defaultSubjectId, allSubjects);
+                $scope.subjectsParent = [];
+
+                for (var i = 0; i < listDefaultSubjectId.length; i++) {
+                    if (listDefaultSubjectId[i].level == '0') {
+                        $scope.subjectsParent.push(listDefaultSubjectId[i]);
+                    }
+                }
+                if (data.data.status) {
+                    $scope.listQuestions = data.data.request_data_result;
+                    if ($scope.listQuestions != null && $scope.listQuestions.length > 0) {
+                        lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].qid;
+                        $scope.currentPid = $scope.listQuestions[0].pid;
+                        getQuestionById($scope.currentPid);
+                    }
+                    else {
+                        $scope.questionDetail = null;
+                    }
+
+                }
+
+            });
+        }
         $scope.stepsModel = [];
         $scope.filesArray = [];
         $scope.onFileSelect = function ($files) {
-            $scope.askErrorMsg = "";
+            $scope.QAErrorMsg = "";
             if ($files != null) {
                 for (var i = 0; i < $files.length; i++) {
                     var file = $files[i];

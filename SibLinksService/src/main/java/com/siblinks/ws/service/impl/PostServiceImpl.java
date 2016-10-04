@@ -92,7 +92,6 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private Environment environment;
 
-    @SuppressWarnings("rawtypes")
     @Override
     @RequestMapping(value = "/createPost", method = RequestMethod.POST)
     public ResponseEntity<Response> createPost(

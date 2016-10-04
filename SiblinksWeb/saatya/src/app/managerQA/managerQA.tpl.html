@@ -32,7 +32,7 @@
                                  minlength="0" input-class="select-sbj"
                                  match-class="highlight" />
                         </div>
-                        <div class="col-md-2 btn-filter"><button>Filter</button></div>
+                        <div class="col-md-2 btn-filter"><button ng-click="fillerSubject()">Filter</button></div>
                     </div>
                 </div>
                 <!-- /End Top content -->
@@ -79,11 +79,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8 box-main-replied">
+                    <div class="col-md-8 box-main-replied" ng-if="questionDetail">
                         <div class="slider-rpl">
                             <div class="box-btn-sl clearfix">
-                                <img class="btn-prev" src="assets/images/icon-sl-left.png" alt="Prev">
-                                <img class="btn-next" src="assets/images/icon-sl-right.png" alt="Next">
+                                <a href="javascript:void(0)" class="btn-prev"><img  ng-click="nextQuestion('prev')" src="assets/images/icon-sl-left.png" alt="Prev"></a>
+                                <a href="javascript:void(0)" class="btn-next"><img  ng-click="nextQuestion('next')" src="assets/images/icon-sl-right.png" alt="Next"></a>
                             </div>
                             <div class="group-item-sl">
                                 <div class="item-sl-rpl">

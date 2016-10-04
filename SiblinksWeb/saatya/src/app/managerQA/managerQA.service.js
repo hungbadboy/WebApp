@@ -13,7 +13,7 @@ brotServices.factory('managerQAService', ['$http', function ($http) {
                     "subjectId": subjectId,
                     "uid": userId,
                     "limit": limit,
-                    "qid": lastQId,
+                    "pid": lastQId,
                     "type": type
                 }
             }
