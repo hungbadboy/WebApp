@@ -71,16 +71,17 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
       return promise;
     };
 
-    factory.updatePlaylist = function(playlist) {      
-
+    factory.updatePlaylist = function(fd) {
         var promise = $http({
           method: 'POST',
           url: NEW_SERVICE_URL + 'playlist/updatePlaylist',
-          data: {
-            "request_data_type": "playlist",
-            "request_data_method": "updatePlaylist",
-            "request_playlist":playlist
-            }
+          headers:{
+            'Content-Type': undefined
+          },
+          data: fd,
+          transformRequest: function (data, headersGetterFunction) {
+            return data;
+          }
         });
         return promise;
     };

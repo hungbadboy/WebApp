@@ -11,6 +11,7 @@ brotControllers.controller('UploadTutorialController',
     init();
 
     function init(){
+      angular.element(document.querySelector('#main-popup')).addClass('modal-add-video');
       if (!isNaN(v_id) && v_id > 0) {
         getVideoDetail();
       } else{

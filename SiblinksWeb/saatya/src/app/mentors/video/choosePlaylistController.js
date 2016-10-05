@@ -1,13 +1,12 @@
 brotControllers.controller('ChoosePlaylistController', 
-  ['$scope', '$modalInstance', '$routeParams', '$http', '$location', 'VideoService', 'MentorService', 'myCache', 'u_id', 'v_ids',
-                                       function ($scope, $modalInstance, $routeParams, $http, $location, VideoService, MentorService, myCache, u_id, v_ids) {
+  ['$rootScope','$scope', '$modal', '$modalInstance', '$routeParams', '$http', '$location', 'VideoService', 'MentorService', 'myCache', 'u_id', 'v_ids',
+                                       function ($rootScope,$scope, $modal, $modalInstance, $routeParams, $http, $location, VideoService, MentorService, myCache, u_id, v_ids) {
 
 
     $scope.playlist = [0];
     init();
 
     function init(){
-      console.log(v_ids);
       initPlaylist();
     }
 
@@ -36,9 +35,25 @@ brotControllers.controller('ChoosePlaylistController',
       }
 
       VideoService.addVideosToPlaylist(request).then(function(data){
-        window.location.href = '#/mentor/videoManager';       
+        $rootScope.$broadcast('addPlaylist');
         $modalInstance.dismiss('cancel');
-        window.location.reload();
       });
+    }
+
+    $scope.addNewPlaylist = function(){
+      var modalInstance = $modal.open({
+        templateUrl: 'src/app/mentors/playlist/addUpdatePlaylist.tpl.html',
+        controller: 'AddUpdatePlaylistController',
+        resolve:{
+          pl_id: function(){
+            return null;
+          },
+          v_ids: function(){
+            return v_ids;
+          }
+        }
+      });
+
+      $modalInstance.dismiss('cancel');
     }
 }]);

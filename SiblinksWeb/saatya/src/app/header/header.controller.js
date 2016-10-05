@@ -276,7 +276,7 @@ brotControllers.controller('UserHeaderController',
                         return -1;
                     }
                 }
-              });
+              });                
             }
             /**
              * Show small left side bar

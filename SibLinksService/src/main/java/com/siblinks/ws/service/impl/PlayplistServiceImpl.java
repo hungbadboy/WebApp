@@ -132,7 +132,31 @@ public class PlayplistServiceImpl implements PlaylistService {
             throws Exception {
         String entityName = null;
         boolean insertObject;
+        SimpleResponse reponse = null;
+        try {
+            String fullPath = uploadPlaylistThumbnail(image);
+            if (fullPath.length() > 0) {
+                // insert playlist
+                Object[] queryParams = { title, description, fullPath, url, subjectId, createBy };
+                entityName = SibConstants.SqlMapperBROT44.SQL_INSERT_PLAYLIST;
+                insertObject = dao.insertUpdateObject(entityName, queryParams);
 
+                if (insertObject) {
+                    reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", "success");
+                } else {
+                    reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", "failed");
+                }
+            } else {
+                reponse = new SimpleResponse("" + Boolean.FALSE, "Upload playlist thumbnail failed");
+            }
+        } catch (Exception e) {
+            reponse = new SimpleResponse("" + Boolean.FALSE, e.getMessage());
+        }
+
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
+    }
+
+    private String uploadPlaylistThumbnail(final MultipartFile image) throws Exception {
         String fullPath = "";
         String filename = "";
         String name;
@@ -144,7 +168,6 @@ public class PlayplistServiceImpl implements PlaylistService {
         String nameExt = FilenameUtils.getExtension(name);
         boolean status = strExtenstionFile.contains(nameExt.toLowerCase());
         BufferedOutputStream stream = null;
-        SimpleResponse reponse = null;
         if (directory != null && status) {
             try {
                 RandomString randomName = new RandomString();
@@ -162,36 +185,15 @@ public class PlayplistServiceImpl implements PlaylistService {
 
                 fullPath = service + filename;
             } catch (Exception e) {
-                reponse = new SimpleResponse("" + Boolean.FALSE, "Upload playlist thumbnail failed");
+                throw new Exception("Upload playlist thumbnail failed");
             } finally {
                 if (stream != null) {
                     stream.close();
                 }
             }
-
-            if (fullPath.length() > 0) {
-                try {
-                    // insert playlist
-                    Object[] queryParams = { title, description, fullPath, url, subjectId, createBy };
-                    entityName = SibConstants.SqlMapperBROT44.SQL_INSERT_PLAYLIST;
-                    insertObject = dao.insertUpdateObject(entityName, queryParams);
-
-                    if (insertObject) {
-                        reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", "success");
-                    } else {
-                        reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", "failed");
-                    }
-                } catch (Exception e) {
-                    reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", "failed");
-                }
-            } else {
-                reponse = new SimpleResponse("" + Boolean.FALSE, "Upload playlist thumbnail failed");
-            }
-            return new ResponseEntity<Response>(reponse, HttpStatus.OK);
-
-        } else {
-            return new ResponseEntity<Response>(HttpStatus.NO_CONTENT);
         }
+
+        return fullPath;
     }
 
     /*
@@ -237,38 +239,6 @@ public class PlayplistServiceImpl implements PlaylistService {
             transactionManager.rollback(status);
         }
         return flag;
-    }
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.siblinks.ws.service.PlaylistService#updatePlaylist(com.siblinks.ws
-     * .model.RequestData)
-     */
-    @Override
-    @RequestMapping(value = "/updatePlaylist", method = RequestMethod.POST)
-    public ResponseEntity<Response> updatePlaylist(@RequestBody final RequestData request) throws Exception {
-        String entityName = null;
-        boolean insertObject;
-        try {
-            Object[] queryParams = { request.getRequest_playlist().getName(), request.getRequest_playlist().getDescription(), request
-                .getRequest_playlist()
-                .getImage(), request.getRequest_playlist().getPlid() };
-            entityName = SibConstants.SqlMapperBROT44.SQL_UPDATE_PLAYLIST;
-            insertObject = dao.insertUpdateObject(entityName, queryParams);
-        } catch (Exception e) {
-            throw e;
-        }
-
-        SimpleResponse reponse = null;
-        if (insertObject) {
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", "success");
-        } else {
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", "failed");
-        }
-
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
     }
 
     /*
@@ -393,6 +363,32 @@ public class PlayplistServiceImpl implements PlaylistService {
             reponse = new SimpleResponse("" + true, "playlist", "deleteVideoInPlaylist", "Success");
         } catch (Exception e) {
             reponse = new SimpleResponse("" + true, "playlist", "deleteVideoInPlaylist", e.getMessage());
+        }
+
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/updatePlaylist", method = RequestMethod.POST)
+    public ResponseEntity<Response> updatePlaylist(@RequestParam final MultipartFile image, @RequestParam final String title,
+            @RequestParam final String description, @RequestParam final long subjectId, @RequestParam final long createBy, @RequestParam final long plid)
+            throws Exception {
+        String entityName = null;
+        boolean insertObject;
+        SimpleResponse reponse = null;
+        try {
+            String fullPath = uploadPlaylistThumbnail(image);
+            Object[] queryParams = { title, description, fullPath, plid, createBy };
+            entityName = SibConstants.SqlMapperBROT44.SQL_UPDATE_PLAYLIST;
+            insertObject = dao.insertUpdateObject(entityName, queryParams);
+            if (insertObject) {
+                reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", "success");
+            } else {
+                reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", "failed");
+            }
+        } catch (Exception e) {
+            throw e;
         }
 
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
