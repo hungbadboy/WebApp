@@ -108,11 +108,11 @@
                                                                 <div class="images-question">
                                                                     <ul>
                                                                         <li class="item" ng-repeat="aimage in answer.imageAnswer track by $index">
-                                                                            <div class="item-img">
-                                                                                <img  ng-mouseover="imageHoverIn('aimg_'+answer.aid +''+$index)"
-                                                                                      ng-mouseleave="imageHoverOut('aimg_'+answer.aid +''+$index)" ng-click="zoomImage(image)" ng-src="{{aimage}}">
-                                                                                <div class="item-hover">
-                                                                                    <img id="aimg_{{+answer.aid +''+$index}}" ng-click="zoomImage(aimage)" src="assets/images/ask question/look-img.png">
+                                                                            <div ng-mouseover="imageHoverIn('aimg_'+answer.aid +''+$index)"
+                                                                                 ng-mouseleave="imageHoverOut('aimg_'+answer.aid +''+$index)" class="item-img">
+                                                                                <img   ng-click="zoomImage(image)" ng-src="{{aimage}}">
+                                                                                <div id="aimg_{{+answer.aid +''+$index}}" class="item-hover">
+                                                                                    <img  ng-click="zoomImage(aimage)" src="assets/images/ask question/look-img.png">
                                                                                 </div>
                                                                             </div>
                                                                         </li>
