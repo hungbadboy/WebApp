@@ -19,7 +19,7 @@
                             <div class="total-question col-xs-6">
                                 <h4> You have <strong>{{totalQuestion}}</strong> question(s)
                                     <i ng-click="toggleShowOrder()" class="fa fa-angle-down"
-                                       aria-hidden="true"></i></h4>
+                                       aria-hidden="true" click-anywhere-but-here="isShowOrder = false"></i></h4>
                                 <div class="sort">{{curentOrderType}}</div>
                                 <div ng-show="isShowOrder" class="sort-answer ">
                                     <ul>
@@ -52,7 +52,7 @@
                                             <span >asked {{question.time}} ago </span><br>
                                             <p>in <a href="#/ask_a_question/{{question.subjectid}}">{{question.subject}}</a></p>
                                         </div>
-                                        <div  class="edit-details-question" data-icon="&#xe037;" ng-click="showEditQuestion(question.id)" ng-if="question.authorId == userId">
+                                        <div  class="edit-details-question" data-icon="&#xe037;" click-anywhere-but-here="showEditQuestion(question.id)" ng-click="showEditQuestion(question.id)" ng-if="question.authorId == userId">
                                             <div class="edit-question" id="qid{{question.id}}" ng-show="isEditQuestion && question.id == showEditQuestionId">
                                                 <ul>
                                                     <li class="edit" ng-click="editQuestion(question.id,question.image,question.imagepath,question.content,question.subjectid,question.subject)">
