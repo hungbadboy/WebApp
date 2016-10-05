@@ -24,11 +24,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -371,21 +373,43 @@ public class PlayplistServiceImpl implements PlaylistService {
 
     @Override
     @RequestMapping(value = "/updatePlaylist", method = RequestMethod.POST)
-    public ResponseEntity<Response> updatePlaylist(@RequestParam final MultipartFile image, @RequestParam final String title,
+    public ResponseEntity<Response> updatePlaylist(@RequestParam(required = false) final MultipartFile image, @RequestParam final String oldImage,
+            @RequestParam final String title,
             @RequestParam final String description, @RequestParam final long subjectId, @RequestParam final long createBy, @RequestParam final long plid)
             throws Exception {
         String entityName = null;
-        boolean insertObject;
+        boolean updateObject;
         SimpleResponse reponse = null;
         try {
-            String fullPath = uploadPlaylistThumbnail(image);
-            Object[] queryParams = { title, description, fullPath, plid, createBy };
+            String newImage = null;
+            Object[] queryParams = null;
             entityName = SibConstants.SqlMapperBROT44.SQL_UPDATE_PLAYLIST;
-            insertObject = dao.insertUpdateObject(entityName, queryParams);
-            if (insertObject) {
-                reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", "success");
+            if (image != null) {
+                newImage = uploadPlaylistThumbnail(image);
+            }
+
+            if (newImage != null) {
+                queryParams = new Object[] { title, description, newImage, plid, createBy };
             } else {
-                reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", "failed");
+                queryParams = new Object[] { title, description, oldImage, plid, createBy };
+            }
+
+            updateObject = dao.insertUpdateObject(entityName, queryParams);
+            if (updateObject) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("status", "success");
+                map.put("newImage", newImage);
+                reponse = new SimpleResponse("" + true, "playlist", "updatePlaylist", map);
+
+                if (newImage != null && !"".equals(newImage) && oldImage != null && !"".equals(oldImage)) {
+                    String fileName = oldImage.substring(oldImage.lastIndexOf("/"), oldImage.length());
+                    File fileOld = new File(environment.getProperty("directoryPlaylistImage") + fileName);
+                    if (fileOld.exists()) {
+                        FileUtils.forceDeleteOnExit(fileOld);
+                    }
+                }
+            } else {
+                reponse = new SimpleResponse("" + true, "playlist", "updatePlaylist", "failed");
             }
         } catch (Exception e) {
             throw e;

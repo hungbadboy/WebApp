@@ -201,6 +201,21 @@ brotControllers.controller('PlaylistController',
       });
     }
 
+    $scope.$on('updatePlaylist', function(e, a){
+      console.log(a);
+      var item = $.grep($scope.playlist, function(p){
+        return p.plid == a.plid;
+      });
+
+      var index = $scope.playlist.indexOf(item[0]);
+      if (index != -1) {
+        $scope.playlist[index].name = a.name;        
+        $scope.playlist[index].subject = a.subject;
+        if (a.newImage && a.newImage.length > 0) {}
+          $scope.playlist[index].image = a.newImage;
+      }
+    });
+
     function clearContent(){
       $('#txtTitle').val('');
       $('#changeImg').val('');
