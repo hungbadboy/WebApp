@@ -429,7 +429,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.searchEnter = function (data) {
             var searchValue = $("input#srch-term").val();
             var result = $scope.listAllVideos.filter(function (obj) {
-                if (obj.title.indexOf(searchValue) != -1) {
+                if (obj.title.toLowerCase().indexOf(searchValue.toLowerCase()) != -1) {
                     return obj;
                 }
                 return null;
