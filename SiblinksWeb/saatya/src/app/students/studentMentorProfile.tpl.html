@@ -41,8 +41,8 @@
                     </div>
                     <div class="subscribers-button">
                         <button>
-                            <p class="subscribers" data-icon="&#x4c;">
-                                <span ng-click="setSubscribeMentor()">subscribe me</span>
+                            <p class="{{!isSubscribe ? 'subscribers active' : 'subscribers'}}" >
+                                <span>{{isSubscribe ? 'Subscribed' : 'Subscribe Me'}}</span>
                             </p>
                             <!-- <p class="subscribers unsubcrib" data-icon="&#x4e;"> -->
                             <!-- add class in when allready subcriber -->
@@ -88,7 +88,7 @@
         <section class="content mentors-profile-content">
             <div class="mentors-video-recently col-md-6 col-md-offset-3">
                 <div ng-show="videosRecently" class="feature-video">
-                    <div class="feature-thumnail">
+                    <div class="feature-thumnail" ng-mouseover="hoverNewestVideo()" ng-mouseleave="unHoverNewestVideo()">
                         <a href="#/videos/detailVideo/{{videosRecently[0].vid}}">
                             <img ng-src="{{videosRecently[0].image}}">
                         </a>

@@ -153,6 +153,13 @@ brotServices.factory('StudentService', ['$http', function ($http) {
         return promise;
     };
 
+    factory.checkSubscribe = function (studentId, mentorId) {
+        return $http({
+            method: 'GET',
+            url: NEW_SERVICE_URL + 'student/checkStudentSubscribe?studentId=' + studentId + '&mentorId=' + mentorId
+        });
+    }
+
     factory.getListActivities = function () {
         var promise = $http({
             method: 'POST',
