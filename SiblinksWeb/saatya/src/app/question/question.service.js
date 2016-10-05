@@ -258,7 +258,7 @@ brotServices.factory('QuestionsService', ['$http','$log', function($http, $log) 
   };
 
 
-  factory.getAnswerByQid = function(question_id,type,limit,offset) {
+  factory.getAnswerByQid = function(question_id,type,limit,offset,uid) {
     var promise = $http({
       method: 'POST',
       url: NEW_SERVICE_URL + 'post/getAnswerByQid',
@@ -269,7 +269,8 @@ brotServices.factory('QuestionsService', ['$http','$log', function($http, $log) 
           "pid": question_id,
           "type":type,
           "limit": limit,
-          "offset": offset
+          "offset": offset,
+          "uid":uid
 
         }
       }

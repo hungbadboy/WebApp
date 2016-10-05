@@ -38,6 +38,7 @@ public class Parameters {
     public static final String ANSWERED = "answered";
     public static final String UNANSWERED = "unanswered";
     public static final String SUBCRIBE = "Subcribe";
+    public static final String LIKEANSWER =  "likeAnswer";
     public static final String VALUE_OF = "valueof";
     public static final String PARENT_ID = "parentId";
 }

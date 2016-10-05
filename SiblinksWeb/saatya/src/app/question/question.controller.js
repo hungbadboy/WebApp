@@ -185,13 +185,10 @@ brotControllers
                                             objAnswer.name = answer_result[y].firstName + " " + answer_result[y].lastName;
                                             objAnswer.content = answer_result[y].content;
                                             objAnswer.avatar = answer_result[y].imageUrl;
-                                            objAnswer.countLike = answer_result[y].countLike;
-                                            if (answer_result[y].likeAnswer == null || answer_result[y].likeAnswer === "N") {
-                                                objAnswer.like = "No Like";
-                                            } else {
-                                                objAnswer.like = "Liked";
-                                            }
-                                            objAnswer.time = convertUnixTimeToTime(answer_result[y].timeStamp);
+                                            objAnswer.countLike = answer_result[y].numlike;
+                                            objAnswer.imageAnswer = detectMultiImage(answer_result[y].imageAnswer);
+                                            objAnswer.like = answer_result[y].like;
+                                            objAnswer.time = convertUnixTimeToTime(answer_result[y].TIMESTAMP);
                                             listAnswer.push(objAnswer);
                                             objPosted.answers = listAnswer;
                                         }
@@ -317,21 +314,18 @@ brotControllers
                 }
 
 
-                $scope.likeCount = 0;
-                $scope.likeAnswer = function (aid) {
+                $scope.likeAnswer = function (aid,pid) {
                     if (!isEmpty(userId) && userId != -1) {
                         AnswerService.likeAnswer(userId, aid + "").then(function (data) {
-                            if (data.data.status == 'Fail') {
-                                $scope.likeCount = -1;
+                            if (data.data.status == 'true') {
+                                if (data.data.request_data_type == "like") {
+                                    $('.heart'+pid+aid).attr('id','heart');
+                                }
+                                else {
+                                    $('.heart'+pid+aid).attr('id','');
+                                }
                             }
-                            else {
-                                $scope.likeCount = 1;
-                            }
-
                         });
-                    }
-                    else {
-                        $scope.likeCount = 0;
                     }
                 };
 
@@ -436,7 +430,7 @@ brotControllers
                     $scope.imagePathOld.splice(index, 1);
 
                 }
-                $scope.updateQuestion = function () {
+                $scope.redirectForum = function () {
                     // get question of student
 
                     if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
@@ -455,6 +449,82 @@ brotControllers
                             $rootScope.myVarQ = false;
                         }, 2500);
                         $scope.askErrorMsg='You enter text or upload for your question';
+                        $("#autocompleteQuest_value").focus();
+                        return;
+                    }
+
+                    if (isEmpty(userId) ||userId=='-1') {
+                        $scope.askErrorMsg='Please login before you ask a question';
+                        $rootScope.myVarU = !$scope.myVarU;
+                        $timeout(function () {
+                            $rootScope.myVarU = false;
+                        }, 2500);
+                        return;
+                    }
+                    fd = new FormData();
+                    var totalSize = 0;
+                    if ($scope.filesArray != null) {
+                        for (var i = 0; i < $scope.filesArray.length; i++) {
+                            file = $scope.filesArray[i];
+                            totalSize += file.size;
+                            fd.append('file', file);
+                        }
+                    }
+                    if ($scope.filesArray.length > MAX_IMAGE) {
+                        $scope.askErrorMsg='You only upload ' + MAX_IMAGE +' image';
+                        $rootScope.myVarU = !$scope.myVarU;
+                        $timeout(function () {
+                            $rootScope.myVarU = false;
+                        }, 2500);
+                        return;
+                    }
+
+                    if(totalSize > MAX_SIZE_IMG_UPLOAD){
+                        $scope.askErrorMsg='Image over 10M';
+                        $rootScope.myVarU = !$scope.myVarU;
+                        $timeout(function () {
+                            $rootScope.myVarU = false;
+                        }, 2500);
+                        return;
+                    }
+
+                    fd.append('userId', userId);
+                    fd.append('content', questions);
+
+                    fd.append('subjectId', $scope.selectedSubject.originalObject.subjectId);
+                    HomeService.addQuestion(fd).then(function (data) {
+                        if (data.data.status == "true") {
+                            $(".popup-images, .form-ask-question").css({"left": "100%"});
+                            window.location.href = '/#/ask_a_question/-1';
+                            window.location.reload();
+                        }
+                        else {
+                            $scope.askErrorMsg =data.data.request_data_result;
+                        }
+                    });
+
+
+                };
+
+                $scope.updateQuestion = function () {
+                    // get question of student
+
+                    if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
+                        $scope.askErrorMsg='Please choose category';
+                        $("#autocompleteCate_value").focus();
+                        $rootScope.myVarC = !$scope.myVarC;
+                        $timeout(function () {
+                            $rootScope.myVarC = false;
+                        }, 2500);
+                        return;
+                    }
+                    var questions = $('#autocompleteQuest_value').val();
+                    if (!questions) {
+                        $rootScope.myVarQ = !$scope.myVarQ;
+                        $timeout(function () {
+                            $rootScope.myVarQ = false;
+                        }, 2500);
+                        $scope.askErrorMsg='You enter text to your question';
                         $("#autocompleteQuest_value").focus();
                         return;
                     }
@@ -538,10 +608,10 @@ brotControllers
 	                QuestionsService.removePost(qid).then(function (data) {
 	                    if (data.data.status == "true") {
 	                        window.location.href = '#/ask_a_question/-1';
+                            window.location.reload();
 	                    } else {
 	                       $scope.errorMessage = "Can't delete question";
 	                    }
 	                });
-
                 }
  }]);
