@@ -248,11 +248,11 @@ public class LikeServiceImpl implements LikeService {
         if (readObject.size() == 0) {
             status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_QUESTION_ID_LIKE, queryParams);
 
-            queryParamsIns = getParamLikeQuestion(SibConstants.SqlMapper.SQL_GET_POST_WITH_POSTID, queryParams, request);
-            if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-                entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION;
-                notifi = dao.insertUpdateObject(entityName, queryParamsIns);
-            }
+//            queryParamsIns = getParamLikeQuestion(SibConstants.SqlMapper.SQL_GET_POST_WITH_POSTID, queryParams, request);
+//            if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
+//                entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION;
+//                notifi = dao.insertUpdateObject(entityName, queryParamsIns);
+//            }
         } else {
             entityName = SibConstants.SqlMapper.SQL_SELECT_QUESTION;
             readObject = dao.readObjects(entityName, queryParams);
@@ -260,11 +260,11 @@ public class LikeServiceImpl implements LikeService {
                 entityName = SibConstants.SqlMapper.SQL_UPDATE_LIKE_POST;
                 status = dao.insertUpdateObject(entityName, queryParams);
 
-                queryParamsIns = getParamLikeQuestion("GET_POST_WITH_POSTID", queryParams, request);
-                if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-                    entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION;
-                    notifi = dao.insertUpdateObject(entityName, queryParamsIns);
-                }
+//                queryParamsIns = getParamLikeQuestion("GET_POST_WITH_POSTID", queryParams, request);
+//                if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
+//                    entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION;
+//                    notifi = dao.insertUpdateObject(entityName, queryParamsIns);
+//                }
             } else {
                 entityName = SibConstants.SqlMapper.SQL_UPDATE_UNLIKE_POST;
                 status = dao.insertUpdateObject(entityName, queryParams);
@@ -311,16 +311,6 @@ public class LikeServiceImpl implements LikeService {
         if (readObject.size() == 0) {
             entityName = SibConstants.SqlMapper.SQL_ANSWER_ID_LIKE;
             status = dao.insertUpdateObject(entityName, queryParams);
-
-            Object[] params = getParamLikeAnswer(
-                SibConstants.SqlMapper.SQL_GET_POSTID_WITH_ANSWER,
-                SibConstants.SqlMapper.SQL_GET_POST_WITH_POSTID,
-                queryParams,
-                request);
-            if (!params[0].toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-                entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION;
-                notifi = dao.insertUpdateObject(entityName, params);
-            }
             statusType = "like";
         } else {
             entityName = SibConstants.SqlMapper.SQL_UPDATE_LIKE_ANSWER;
@@ -864,46 +854,6 @@ public class LikeServiceImpl implements LikeService {
         queryParamsIns.put("notification", "liked your discussion");
 
         return queryParamsIns;
-    }
-
-    public Map<String, String> getParamLikeQuestion(final String sql, final Object[] queryParams, final RequestData request) {
-
-        List<Object> readObject = null;
-        Map<String, String> queryParamsIns = new HashMap<String, String>();
-
-        readObject = dao.readObjects(sql, queryParams);
-        queryParamsIns.put("authorID", request.getRequest_data().getAuthorID());
-        queryParamsIns.put("pid", request.getRequest_data().getPid());
-        queryParamsIns.put("uid", ((Map) readObject.get(0)).get("authorID").toString());
-        queryParamsIns.put("subjectId", ((Map) readObject.get(0)).get("subjectId").toString());
-        queryParamsIns.put("type", "likeQuestion");
-        queryParamsIns.put("title", "Like question");
-        queryParamsIns.put("notification", "liked your question");
-        return queryParamsIns;
-    }
-
-    public Object[] getParamLikeAnswer(final String sql1, final String sql2, final Object[] queryParams,
-            final RequestData request) {
-
-        List<Object> readObject = null;
-        Map<String, String> queryParamsIns = new HashMap<String, String>();
-        Object[] paramsInsNotify = null;
-        readObject = dao.readObjects(sql1, new Object[] { queryParams[1] });
-        System.out.println(readObject);
-        if (!CollectionUtils.isEmpty(readObject)) {
-            queryParamsIns.put("pid", ((Map) readObject.get(0)).get("pid").toString());
-            queryParamsIns.put("uid", ((Map) readObject.get(0)).get("authorID").toString());
-            readObject = dao.readObjects(sql2, new Object[] { "" + ((Map) readObject.get(0)).get("pid") });
-            System.out.println(readObject);
-            if (!CollectionUtils.isEmpty(readObject)) {
-                String contentNotify = "Liked your answer in question : " + ((Map) readObject.get(0)).get("title").toString();
-                paramsInsNotify = new Object[] { queryParamsIns.get("uid"), request
-                    .getRequest_data()
-                    .getAuthorID(), "likeAnswer", "Like Answer", contentNotify, ((Map) readObject.get(0))
-                        .get("subjectId"), ((Map) readObject.get(0)).get("topicId"), queryParamsIns.get("pid") };
-            }
-        }
-        return paramsInsNotify;
     }
 
     public Map<String, String> paramLikeAnswer(final String sql1, final String sql2, final Object[] queryParams,
