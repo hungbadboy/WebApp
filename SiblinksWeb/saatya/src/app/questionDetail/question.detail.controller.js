@@ -94,6 +94,7 @@ brotControllers
                                 answer_text = $sce.trustAsHtml(answer_text);
                                 an.answer_text = answer_text;
                                 an.timeStamp = convertUnixTimeToTime(an.TIMESTAMP);
+                                an.imageAnswerPath = detectMultiImage(an.imageAnswer);
                                 listAnswer.push(an);
                             }
                         } else {

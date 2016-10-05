@@ -101,6 +101,17 @@
                               </div>
                               <div class="mentor-answer">
                                   <p class="pre-wrap"> {{answer.answer_text}}</p>
+                                  <ul>
+                                      <li class="item" ng-repeat="aimage in answer.imageAnswerPath track by $index">
+                                          <div class="item-img">
+                                              <img  ng-mouseover="imageHoverIn('aimg_'+answer.aid +''+$index)"
+                                                    ng-mouseleave="imageHoverOut('aimg_'+answer.aid +''+$index)" ng-click="zoomImage(aimage)" ng-src="{{aimage}}">
+                                              <div class="item-hover">
+                                                  <img id="aimg_{{+answer.aid +''+$index}}" ng-click="zoomImage(aimage)" src="assets/images/ask question/look-img.png">
+                                              </div>
+                                          </div>
+                                      </li>
+                                  </ul>
                               </div>
                             </div>
                           </div>
