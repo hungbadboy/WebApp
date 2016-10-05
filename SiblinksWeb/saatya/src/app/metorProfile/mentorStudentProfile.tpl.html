@@ -2,125 +2,142 @@
 <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
 <!-- /End Sidebar left menu -->
 <div class="content">
-     <div class="center-content">
-         <div class="center-content-wrapper">
-             <section id="dashboard">
-                 <div class="dashboard-wrapper">
-                     <div class="dashboard-header">    
-                     <h4>Student Profile</h4>
-                     <p>&nbsp;</p>
-                     </div>
-                     <div class="manager-profile manager-profile-std clearfix">
-                         <div class="col-md-3">
-                             <div class="avt">
-                                 <div class="box-avatar">
-                                     <div class="img-avt">
-                                         <img src="{{mentor.imageUrl}}" alt="">
-                                     </div>
-                                     <h4>{{mentor.fullName}}</h4>
-                                     <span>&nbsp;</span>
-                                 </div>
-                                 <div class="count-qt">
-                                     <ul>
-                                         <li>
-                                             <b>03</b><br/>
-                                             <span>questions</span>
-                                         </li>
-                                         <li>
-                                             <b>08</b><br/>
-                                             <span>essay</span>
-                                         </li>
-                                         <li>
-                                             <b>12</b><br/>
-                                             <span>subscribed</span>
-                                         </li>
-                                     </ul>
-                                 </div>
-                                 <div class="box-information">
-                                 	<h5>University</h5>
-                                    <p>{{mentor.school}}</p>
+    <div class="center-content">
+        <div class="center-content-wrapper">
+            <section id="dashboard">
+                <div class="dashboard-wrapper">
+                    <div class="manager-profile manager-profile-std clearfix">
+                        <div class="col-md-3">
+                            <div class="avt">
+                                <div class="box-avatar">
+                                    <div class="img-avt">
+                                        <img ng-src="{{studentInfo.imageUrl != null ? studentInfo.imageUrl : 'assets/images/noavartar.jpg'}}"
+                                             alt="">
+                                    </div>
+                                    <h4>{{studentInfo.firstname != null ? studentInfo.firstname : ''}}
+                                        {{studentInfo.lastName != null ? studentInfo.lastName : ''}}</h4>
+                                </div>
+                                <div class="count-qt">
+                                    <ul>
+                                        <li>
+                                            <b>{{studentInfo.count_question}}</b><br/>
+                                            <span>questions</span>
+                                        </li>
+                                        <li>
+                                            <b>{{studentInfo.count_essay}}</b><br/>
+                                            <span>essay</span>
+                                        </li>
+                                        <li>
+                                            <b>{{studentInfo.count_subscribe}}</b><br/>
+                                            <span>subscribed</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="box-information">
+                                    <h5>University</h5>
+                                    <p>{{studentInfo.school != null ? studentInfo.school : EMPTY_DATA}}</p>
                                     <h5>About me</h5>
-                                    <p>{{mentor.description}}</p>
+                                    <p>{{studentInfo.bio != null ? studentInfo.bio : EMPTY_DATA}}.</p>
                                     <h5>Knowledge field: </h5>
-                                    <p>{{mentor.skills}}</p>
-                                    <h5>Sex <span>{{mentor.gender}}</span></h5>
-                                    <h5>BIO <span>{{mentor.bio}}</span></h5>
-                                    <h5>Since <span>{{mentor.registrationTime}}</span></h5>
-                                 </div>
-                             </div>
-                         </div>
-                         <div class="col-md-9">
-                             <div class="sub-right clearfix">
-                                 <h3>Subscribers</h3>
-                                 <div class="row">
-                                     <div class="search">
-                                         <form class="navbar-form" role="search">
-                                             <div class="input-group">                                                   
-                                                 <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''">
-                                                 <div class="input-group-btn">
-                                                     <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
-                                                 </div>
-                                             </div>
-                                         </form>
-                                         <div class="slide-broswer">
-                                             <a href="#" class="btn-prev"><span data-icon="&#x34;"></span></a>
-                                             <a href="#" class="btn-next"><span data-icon="&#x35;"></span></a>
-                                         </div>
-                                         
-                                     </div>
-                                 </div>
-                                 <div class="browser-mentors-infor">
-                                     <div class="browser-mentors-infor-wrapper clearfix" ng-if="listStudentSubscribed">
-                                         <div class="col-md-4" ng-repeat="s in listStudentSubscribed track by $index">
-                                             <div class="mentors-infor-img">
-                                                 <div class="mentors-infor-img-wrapper">
-                                                     <a href="#/mentor/mentorProfile/{{s.userId}}"><img src="{{s.avatar}}"></a>
-                                                     <div class="mentors-img-hover">
-                                                         <a href="#/mentor/mentorProfile/{{s.userId}}"><span data-icon="&#x4c;"></span></a>
-                                                     </div>
-                                                 </div>
-                                             </div>
-                                             <div class="mentors-infor-details">
-                                                 <div class="mentors-name">
-                                                     <a href="#/mentor/mentorProfile/{{s.userId}}">{{s.userName}}</a> 
-                                                     <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span>
-                                                 </div>
-                                                 <div class="mentors-edu">
-                                                     <span>{{s.school}}</span>
-                                                 </div>
-                                                 <div class="mentors-skill">
-                                                     <span>{{s.school}}</span>
-                                                 </div>
-                                                 <div class="mentors-rate clearfix">
-                                                     <button class="subscribers active" data-icon="&#x4c;">
-                                                         <span>Subscribe</span>
-                                                         <span class="number-subscribers">456</span>
-                                                     </button>
-                                                     <p class="likes">
-                                                         <span class="number-likes"><strong>68</strong></span><br>
-                                                         <span class="title-likes">likes</span>
-                                                     </p>
-                                                     <p class="videos">
-                                                         <span class="number-videos"><strong>12</strong></span><br>
-                                                         <span class="title-videos">videos</span>
-                                                     </p>
-                                                     <p class="answers">
-                                                         <span class="number-answers"><strong>232</strong></span><br>
-                                                         <span class="title-answers">answers</span>
-                                                     </p>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div><!-- /End information of mentors -->
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </section>
-         </div>
-     </div>                
- </div>
+                                    <p ng-bind="subjects">
+                                    </p>
+                                    <h5>Sex <span>{{gender}}</span></h5>
+                                    <h5>BIO <span>{{birthDay}}</span></h5>
+                                    <h5>Since <span>{{sinceDay}}</span></h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="sub-right clearfix">
+                                <h3>Subscriptions</h3>
+                                <div class="row">
+                                    <div class="search">
+                                        <form class="navbar-form" role="search">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control input-search form-control-search" ng-model="query"
+                                                       placeholder="Type your search" name="srch-term" id="srch-term"
+                                                       onfocus="this.placeholder = ''">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-default" type="submit"><img
+                                                            src="assets/images/icon-search.png" alt=""></button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="slide-broswer">
+                                            <a href="#" class="btn-prev"><span data-icon="&#x34;"></span></a>
+                                            <a href="#" class="btn-next"><span data-icon="&#x35;"></span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="browser-mentors-infor">
+                                    <div class="browser-mentors-infor-wrapper clearfix">
+                                        <div class="col-md-4" ng-show="!listMentorSubs">
+                                            No have mentor subscribed
+                                        </div>
+                                        <div class="col-md-4" ng-show="listMentorSubs"
+                                             ng-repeat="mentor in listMentorSubs | filter:query track by $index">
+                                            <div class="mentors-infor-img">
+                                                <div class="mentors-infor-img-wrapper" ng-mouseover="hoverProfileMentor()" ng-mouseleave="unHoverProfileMentor()">
+                                                    <a href="#/student/mentorProfile/{{mentor.userid}}"><img
+                                                            ng-src="{{mentor.imageUrl != null ? mentor.imageUrl : 'assets/images/noavartar.jpg'}}"></a>
+                                                    <div class="mentors-img-hover">
+                                                        <a href="#/student/mentorProfile/{{mentor.userid}}"><span
+                                                                data-icon="&#x4c;"></span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mentors-infor-details">
+                                                <div class="mentors-name">
+                                                    <a href="#/student/mentorProfile/{{mentor.userid}}">{{mentor.firstName!=
+                                                        null ? mentor.firstName : ''}} {{mentor.lastName != null ?
+                                                        mentor.lastName : ''}}</a>
+                                                    <span id="rate-studentMentorProfile"
+                                                          ng-if="isReadyLoadPointSubscribed"
+                                                          star-rating stars="5"
+                                                          outer-star-selection="stars"
+                                                          outer-percent="rating"
+                                                          rating-define="star"
+                                                          rating-stars="{{mentor.avgrate}}"
+                                                          star-radius="7" sel-color="gold"
+                                                          readonly="true"
+                                                          back-color="white"></span>
+                                                </div>
+                                                <div class="mentors-edu">
+                                                    <span>{{mentor.accomplishments != null ? mentor.accomplishments : EMPTY_DATA}}</span>
+                                                </div>
+                                                <div class="mentors-skill">
+                                                    <span>{{mentor.listSubject != null ? mentor.listSubject : 'None'}}</span>
+                                                </div>
+                                                <div class="mentors-rate clearfix">
+                                                    <button class="subscribers active" style="margin-top : 2px;">
+                                                        <span>subscrible</span>
+                                                        <span class="number-subscribers">{{mentor.numsub}}</span>
+                                                    </button>
+                                                    <p class="likes">
+                                                        <span class="number-likes"><strong>{{mentor.numlike}}</strong></span><br>
+                                                        <span class="title-likes">likes</span>
+                                                    </p>
+                                                    <p class="videos">
+                                                        <span class="number-videos"><strong>{{mentor.numvideos}}</strong></span><br>
+                                                        <span class="title-videos">videos</span>
+                                                    </p>
+                                                    <p class="answers">
+                                                        <span class="number-answers"><strong>{{mentor.numAnswers}}</strong></span><br>
+                                                        <span class="title-answers">answers</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- /End information of mentors -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
 <!-- Sidebar right -->
 <div id="sidebar-right" ng-include="sidebarRight"></div>
 <!-- End Sidebar right -->

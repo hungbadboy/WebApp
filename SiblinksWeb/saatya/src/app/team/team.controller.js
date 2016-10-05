@@ -35,7 +35,7 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
 
             $("#span_"+userid).text("unsubscribe");
 
-        }
+        };
         $scope.unHoverSubcribe = function (isSubs,userid) {
             if(isSubs != '1'||isEmpty(userid))
             {
@@ -44,7 +44,7 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
             $("#subscribers_"+userid).attr("data-icon","N");
             $("#span_"+userid).text("subscribe");
 
-        }
+        };
 
         $scope.setSubscribeMentor = function (mentorId) {
             if(isEmpty(userId)||userId == -1){
@@ -112,7 +112,6 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
                             	strSubject = listSubjectName.join(", ");
                             }
                             mentor.listSubject =strSubject;
-                            mentor.numAnswers = data_result[i].numAnswers;
                             listTopMentors.push(mentor);
                         }
                         $scope.listTopmentors = listTopMentors;

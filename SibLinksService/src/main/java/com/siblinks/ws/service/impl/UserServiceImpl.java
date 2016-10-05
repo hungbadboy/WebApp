@@ -103,7 +103,8 @@ public class UserServiceImpl implements UserService {
         if (!AuthenticationFilter.isAuthed(context)) {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(
                                                                            new SimpleResponse(
-                                                                                              "" + Boolean.FALSE,
+                                                                                              "" +
+                                                                                              Boolean.FALSE,
                                                                                               "Authentication required."),
                                                                            HttpStatus.FORBIDDEN);
             return entity;
@@ -123,7 +124,8 @@ public class UserServiceImpl implements UserService {
         readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USERID, queryParams);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -137,8 +139,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @RequestMapping(value = "/getAllUsers", method = RequestMethod.GET)
     public ResponseEntity<Response> getAllUsers(@RequestParam(value = "_search") final String search,
-            @RequestParam(value = "nd") final String nd, @RequestParam(value = "rows") final int rows, @RequestParam(
-                    value = "page") final int page, @RequestParam(value = "sidx") final String sidx,
+            @RequestParam(value = "nd") final String nd, @RequestParam(value = "rows") final int rows,
+            @RequestParam(value = "page") final int page, @RequestParam(value = "sidx") final String sidx,
             @RequestParam(value = "sord") final String sord) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
@@ -162,7 +164,8 @@ public class UserServiceImpl implements UserService {
         if (!AuthenticationFilter.isAuthed(context)) {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(
                                                                            new SimpleResponse(
-                                                                                              "" + Boolean.FALSE,
+                                                                                              "" +
+                                                                                              Boolean.FALSE,
                                                                                               "Authentication required."),
                                                                            HttpStatus.FORBIDDEN);
             return entity;
@@ -171,7 +174,8 @@ public class UserServiceImpl implements UserService {
         List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_NOTE_USER, queryParams);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -186,7 +190,8 @@ public class UserServiceImpl implements UserService {
         if (!AuthenticationFilter.isAuthed(context)) {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(
                                                                            new SimpleResponse(
-                                                                                              "" + Boolean.FALSE,
+                                                                                              "" +
+                                                                                              Boolean.FALSE,
                                                                                               "Authentication required."),
                                                                            HttpStatus.FORBIDDEN);
             return entity;
@@ -197,7 +202,8 @@ public class UserServiceImpl implements UserService {
         readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_STUDENT_MENTORS, queryParams);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -212,7 +218,8 @@ public class UserServiceImpl implements UserService {
         if (!AuthenticationFilter.isAuthed(context)) {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(
                                                                            new SimpleResponse(
-                                                                                              "" + Boolean.FALSE,
+                                                                                              "" +
+                                                                                              Boolean.FALSE,
                                                                                               "Authentication required."),
                                                                            HttpStatus.FORBIDDEN);
             return entity;
@@ -225,7 +232,8 @@ public class UserServiceImpl implements UserService {
         List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_COL_UNIVERSITIES, queryParams);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -240,7 +248,8 @@ public class UserServiceImpl implements UserService {
         if (!AuthenticationFilter.isAuthed(context)) {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(
                                                                            new SimpleResponse(
-                                                                                              "" + Boolean.FALSE,
+                                                                                              "" +
+                                                                                              Boolean.FALSE,
                                                                                               "Authentication required."),
                                                                            HttpStatus.FORBIDDEN);
             return entity;
@@ -250,7 +259,8 @@ public class UserServiceImpl implements UserService {
         List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_MAJORS, queryParams);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -265,7 +275,8 @@ public class UserServiceImpl implements UserService {
         if (!AuthenticationFilter.isAuthed(context)) {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(
                                                                            new SimpleResponse(
-                                                                                              "" + Boolean.FALSE,
+                                                                                              "" +
+                                                                                              Boolean.FALSE,
                                                                                               "Authentication required."),
                                                                            HttpStatus.FORBIDDEN);
             return entity;
@@ -276,7 +287,8 @@ public class UserServiceImpl implements UserService {
         List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_EXTRA_ACTIVITIES, queryParams);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -292,7 +304,8 @@ public class UserServiceImpl implements UserService {
         if (!AuthenticationFilter.isAuthed(context)) {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(
                                                                            new SimpleResponse(
-                                                                                              "" + Boolean.FALSE,
+                                                                                              "" +
+                                                                                              Boolean.FALSE,
                                                                                               "Authentication required."),
                                                                            HttpStatus.FORBIDDEN);
             return entity;
@@ -301,12 +314,14 @@ public class UserServiceImpl implements UserService {
         Object[] queryParams = { request.getRequest_data().getEmail(), request.getRequest_data().getPassword(), request
             .getRequest_data()
             .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getUsertype(), request
-            .getRequest_data()
-            .getDob(), request.getRequest_data().getEducation(), request.getRequest_data().getAccomp(), request
-            .getRequest_data()
-            .getColmajor(), request.getRequest_data().getActivities(), request.getRequest_data().getHelpin(), request
-            .getRequest_data()
-            .getFamilyincome(), request.getRequest_data().getYourdream(), environment.getProperty("directoryImageAvatar") };
+                .getRequest_data()
+                .getDob(), request.getRequest_data().getEducation(), request.getRequest_data().getAccomp(), request
+                    .getRequest_data()
+                    .getColmajor(), request.getRequest_data().getActivities(), request.getRequest_data().getHelpin(), request
+                        .getRequest_data()
+                        .getFamilyincome(), request
+                            .getRequest_data()
+                            .getYourdream(), environment.getProperty("directoryImageAvatar") };
 
         List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_REGISTER_USER_EXIST, queryParams);
 
@@ -325,23 +340,23 @@ public class UserServiceImpl implements UserService {
             }
 
             if (request.getRequest_data().getColmajor() != null) {
-                List<String> myListMajorId = new ArrayList<String>(Arrays.asList(request
-                    .getRequest_data()
-                    .getColmajor()
-                    .split(",")));
+                List<String> myListMajorId = new ArrayList<String>(
+                                                                   Arrays.asList(
+                                                                       request.getRequest_data().getColmajor().split(",")));
                 insertNotResource(myListMajorId, userId, "INSERT_SIB_USER_MAJOR");
             }
 
             if (request.getRequest_data().getActivities() != null) {
-                List<String> myListActivityId = new ArrayList<String>(Arrays.asList(request
-                    .getRequest_data()
-                    .getActivities()
-                    .split(",")));
+                List<String> myListActivityId = new ArrayList<String>(
+                                                                      Arrays.asList(
+                                                                          request.getRequest_data().getActivities().split(",")));
                 insertNotResource(myListActivityId, userId, "INSERT_SIB_USER_ACTIVITY");
             }
 
             if (request.getRequest_data().getHelpin() != null) {
-                List<String> myListHelpId = new ArrayList<String>(Arrays.asList(request.getRequest_data().getHelpin().split(",")));
+                List<String> myListHelpId = new ArrayList<String>(
+                                                                  Arrays
+                                                                      .asList(request.getRequest_data().getHelpin().split(",")));
                 insertNotResource(myListHelpId, userId, "INSERT_SIB_USER_SUBJECT");
             }
         } else {
@@ -350,7 +365,8 @@ public class UserServiceImpl implements UserService {
         }
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + status,
+                                                    "" +
+                                                    status,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -530,7 +546,7 @@ public class UserServiceImpl implements UserService {
     // }
     // } else {
     // status = Boolean.FALSE;
-    // msg.add("User Name  is not correct");
+    // msg.add("User Name is not correct");
     // }
     //
     // SimpleResponse reponse = new SimpleResponse("" + status, msg);
@@ -563,14 +579,16 @@ public class UserServiceImpl implements UserService {
                             .getUsername() });
                     if (status) {
                         reponse = new SimpleResponse(
-                                                     "" + Boolean.TRUE,
+                                                     "" +
+                                                     Boolean.TRUE,
                                                      request.getRequest_data_type(),
                                                      request.getRequest_data_method(),
                                                      "Success");
                     } else {
                         // update db error
                         reponse = new SimpleResponse(
-                                                     "" + Boolean.FALSE,
+                                                     "" +
+                                                     Boolean.FALSE,
                                                      request.getRequest_data_type(),
                                                      request.getRequest_data_method(),
                                                      "Change password is failed. Please contace with administrator");
@@ -578,7 +596,8 @@ public class UserServiceImpl implements UserService {
                 } else {
                     // Don't match old password
                     reponse = new SimpleResponse(
-                                                 "" + Boolean.FALSE,
+                                                 "" +
+                                                 Boolean.FALSE,
                                                  request.getRequest_data_type(),
                                                  request.getRequest_data_method(),
                                                  "old password is not correct");
@@ -586,7 +605,8 @@ public class UserServiceImpl implements UserService {
             } else {
                 // User register Google or FaceBook
                 reponse = new SimpleResponse(
-                                             "" + Boolean.FALSE,
+                                             "" +
+                                             Boolean.FALSE,
                                              request.getRequest_data_type(),
                                              request.getRequest_data_method(),
                                              "Your user can not change password. User registered by Facebook or Google.");
@@ -594,7 +614,8 @@ public class UserServiceImpl implements UserService {
         } else {
             // User is not exist
             reponse = new SimpleResponse(
-                                         "" + Boolean.FALSE,
+                                         "" +
+                                         Boolean.FALSE,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          "User is not exist");
@@ -616,9 +637,8 @@ public class UserServiceImpl implements UserService {
         BCryptPasswordEncoder ecy = new BCryptPasswordEncoder(SibConstants.LENGHT_AUTHENTICATION);
         // check old password correct or not
         SimpleResponse reponse = null;
-        boolean status = dao.insertUpdateObject(
-            SibConstants.SqlMapper.SQL_SIB_RESET_PASSWORD,
-            new Object[] { ecy.encode(newPwd), token });
+        boolean status = dao
+            .insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_RESET_PASSWORD, new Object[] { ecy.encode(newPwd), token });
         if (status) {
             reponse = new SimpleResponse("" + Boolean.TRUE, "", "changePasswordForgot", "Success");
         } else {
@@ -836,10 +856,14 @@ public class UserServiceImpl implements UserService {
             // Get information relate
             String userType = "" + result.get(Parameters.USER_TYPE);
             Map<String, Object> relateUserProfile = getRelateUserProfile(userType, queryParams);
-            result.putAll(relateUserProfile);
-            reponse = new SimpleResponse("" + true, result);
+            if (relateUserProfile != null) {
+                result.putAll(relateUserProfile);
+                reponse = new SimpleResponse("" + true, "user", "getUserProfile", result);
+            } else {
+                reponse = new SimpleResponse("" + true, "user", "getUserProfile", SibConstants.USER_NOT_EXISTS);
+            }
         } else {
-            reponse = new SimpleResponse("" + Boolean.FALSE, "User is not exists");
+            reponse = new SimpleResponse("" + Boolean.FALSE, SibConstants.NO_DATA);
         }
 
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -971,7 +995,8 @@ public class UserServiceImpl implements UserService {
         readObject = dao.readObjects(SibConstants.SqlMapper.SQL_ACCOMPLISHMENT_READ, queryParams);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -991,7 +1016,8 @@ public class UserServiceImpl implements UserService {
         readObject = dao.readObjects(SibConstants.SqlMapper.SQL_MAJOR_READ, queryParams);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -1009,7 +1035,8 @@ public class UserServiceImpl implements UserService {
         readObject = dao.readObjects(SibConstants.SqlMapper.SQL_ACTIVITY_READ, queryParams);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -1027,7 +1054,8 @@ public class UserServiceImpl implements UserService {
         readObject = dao.readObjects(SibConstants.SqlMapper.SQL_HELP_READ, queryParams);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -1052,7 +1080,8 @@ public class UserServiceImpl implements UserService {
             msg.add("Failed to update password");
         }
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     msg);
@@ -1112,7 +1141,8 @@ public class UserServiceImpl implements UserService {
         readObject = dao.readObjectsNotResource(SibConstants.SqlMapper.SQL_GET_ADDRESS_WEB);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -1128,7 +1158,8 @@ public class UserServiceImpl implements UserService {
         readObject = dao.readObjectsNotResource(SibConstants.SqlMapper.SQL_GET_POLICY);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -1144,7 +1175,8 @@ public class UserServiceImpl implements UserService {
         readObject = dao.readObjectsNotResource(SibConstants.SqlMapper.SQL_GET_TERMS);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
@@ -1164,7 +1196,8 @@ public class UserServiceImpl implements UserService {
         status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_ACCOMPLISHMENT_MOBILE, queryParams);
 
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     status);
@@ -1196,7 +1229,8 @@ public class UserServiceImpl implements UserService {
             msg.add("Failed to update major");
         }
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     msg);
@@ -1209,7 +1243,9 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Response> updateActivitiesMobile(@RequestBody final RequestData request) {
         Object[] queryParams = { request.getRequest_data().getUid(), request.getRequest_data().getActivityid() };
 
-        List<String> myListActivityId = new ArrayList<String>(Arrays.asList(request.getRequest_data().getActivityid().split(",")));
+        List<String> myListActivityId = new ArrayList<String>(
+                                                              Arrays
+                                                                  .asList(request.getRequest_data().getActivityid().split(",")));
 
         boolean status = true;
         List<Object> msg = null;
@@ -1226,7 +1262,8 @@ public class UserServiceImpl implements UserService {
             msg.add("Failed to update activities");
         }
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     msg);
@@ -1258,7 +1295,8 @@ public class UserServiceImpl implements UserService {
             msg.add("Failed to update HelpIn");
         }
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     msg);
@@ -1283,7 +1321,8 @@ public class UserServiceImpl implements UserService {
             msg.add("Failed to update grade");
         }
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     msg);
@@ -1306,7 +1345,8 @@ public class UserServiceImpl implements UserService {
             msg.add("Failed to update school");
         }
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     msg);
@@ -1330,25 +1370,25 @@ public class UserServiceImpl implements UserService {
 
         boolean status = false;
 
-        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request
-            .getRequest_data()
-            .getUsername() });
+        List<Object> readObject = dao
+            .readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request.getRequest_data().getUsername() });
         SimpleResponse reponse = null;
         if (CollectionUtils.isEmpty(readObject)) {
             Object[] queryParamsFB = { request.getRequest_data().getUsername(), request.getRequest_data().getUsertype(), request
                 .getRequest_data()
-                .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getImage(), request
-                .getRequest_data()
-                .getFacebookid() };
+                .getFirstname(), request.getRequest_data().getLastname(), request
+                    .getRequest_data()
+                    .getImage(), request.getRequest_data().getFacebookid() };
             status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_USER_FACEBOOK, queryParamsFB);
             if (status) {
-                readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { request
-                    .getRequest_data()
-                    .getUsername() });
+                readObject = dao.readObjects(
+                    SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME,
+                    new Object[] { request.getRequest_data().getUsername() });
             }
 
             reponse = new SimpleResponse(
-                                         "" + status,
+                                         "" +
+                                         status,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          readObject);
@@ -1356,10 +1396,12 @@ public class UserServiceImpl implements UserService {
         } else {
             Map<String, String> mapUser = (HashMap<String, String>) readObject.get(SibConstants.NUMBER.ZERO);
             // Check Facebook id for update
-            if (mapUser.get("idFacebook") != null && mapUser.get("idFacebook").equals(request.getRequest_data().getFacebookid())) {// Registered
+            if (mapUser.get("idFacebook") != null &&
+                mapUser.get("idFacebook").equals(request.getRequest_data().getFacebookid())) {// Registered
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_FACEBOOK, queryParams);
                 reponse = new SimpleResponse(
-                                             "" + status,
+                                             "" +
+                                             status,
                                              request.getRequest_data_type(),
                                              request.getRequest_data_method(),
                                              readObject);
@@ -1385,24 +1427,24 @@ public class UserServiceImpl implements UserService {
 
         boolean status = Boolean.FALSE;
 
-        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request
-            .getRequest_data()
-            .getUsername() });
+        List<Object> readObject = dao
+            .readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request.getRequest_data().getUsername() });
         SimpleResponse reponse = null;
         if (CollectionUtils.isEmpty(readObject)) {
             Object[] queryParamsGG = { request.getRequest_data().getUsername(), request.getRequest_data().getUsertype(), request
                 .getRequest_data()
-                .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getImage(), request
-                .getRequest_data()
-                .getGoogleid() };
+                .getFirstname(), request.getRequest_data().getLastname(), request
+                    .getRequest_data()
+                    .getImage(), request.getRequest_data().getGoogleid() };
             status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_USER_GOOGLE, queryParamsGG);
             if (status) {
-                readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { request
-                    .getRequest_data()
-                    .getUsername() });
+                readObject = dao.readObjects(
+                    SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME,
+                    new Object[] { request.getRequest_data().getUsername() });
             }
             reponse = new SimpleResponse(
-                                         "" + status,
+                                         "" +
+                                         status,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          readObject);
@@ -1410,13 +1452,14 @@ public class UserServiceImpl implements UserService {
             Map<String, String> mapUser = (HashMap<String, String>) readObject.get(SibConstants.NUMBER.ZERO);
             // Check google id for update
             if (mapUser.get("idGoogle") != null && mapUser.get("idGoogle").equals(request.getRequest_data().getGoogleid())) {// Registered
-                status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_GOOGLE, new Object[] { request
-                    .getRequest_data()
-                    .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getImage(), request
-                    .getRequest_data()
-                    .getGoogleid() });
+                status = dao.insertUpdateObject(
+                    SibConstants.SqlMapper.SQL_UPDATE_INFO_GOOGLE,
+                    new Object[] { request.getRequest_data().getFirstname(), request.getRequest_data().getLastname(), request
+                        .getRequest_data()
+                        .getImage(), request.getRequest_data().getGoogleid() });
                 reponse = new SimpleResponse(
-                                             "" + status,
+                                             "" +
+                                             status,
                                              request.getRequest_data_type(),
                                              request.getRequest_data_method(),
                                              readObject);
@@ -1435,8 +1478,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @RequestMapping(value = "/uploadAvartar", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Response> uploadAvatar(@RequestParam("uploadfile") final MultipartFile uploadfile, @RequestParam(
-            value = "userid") final String userid, @RequestParam("imageUrl") final String oldNameImgAvatar) throws IOException {
+    public ResponseEntity<Response> uploadAvatar(@RequestParam("uploadfile") final MultipartFile uploadfile,
+            @RequestParam(value = "userid") final String userid, @RequestParam("imageUrl") final String oldNameImgAvatar)
+            throws IOException {
 
         String filename = "";
         String name;
@@ -1575,10 +1619,10 @@ public class UserServiceImpl implements UserService {
         Object[] queryParams = { request.getRequest_user().getFirstName(), request.getRequest_user().getLastName(), request
             .getRequest_user()
             .getEmail(), request.getRequest_user().getGender(), request.getRequest_user().getSchool(), request
-            .getRequest_user()
-            .getBio(), request.getRequest_user().getDescription(), request.getRequest_user().getFavorite(), request
-            .getRequest_user()
-            .getUserid() };
+                .getRequest_user()
+                .getBio(), request.getRequest_user().getDescription(), request
+                    .getRequest_user()
+                    .getFavorite(), request.getRequest_user().getUserid() };
 
         String msg;
         boolean status = Boolean.TRUE;
@@ -1589,7 +1633,8 @@ public class UserServiceImpl implements UserService {
             msg = "Failed";
         }
         SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
+                                                    "" +
+                                                    Boolean.TRUE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     msg);
@@ -1604,7 +1649,8 @@ public class UserServiceImpl implements UserService {
         if (!AuthenticationFilter.isAuthed(context)) {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(
                                                                            new SimpleResponse(
-                                                                                              "" + Boolean.FALSE,
+                                                                                              "" +
+                                                                                              Boolean.FALSE,
                                                                                               "Authentication required."),
                                                                            HttpStatus.FORBIDDEN);
             return entity;

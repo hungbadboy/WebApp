@@ -81,18 +81,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8  box-main-replied" style="height: 300px;" ng-if="questionDetail">
+                        <div class="col-md-8  box-main-replied"  ng-if="questionDetail">
                             <div class="slider-rpl">
-                                <div class="box-btn-sl clearfix">
+                                <div class="box-btn-sl clearfix"style="margin-top: 24px;">
                                     <a href="javascript:void(0)" class="btn-prev"><span ng-click="nextQuestion('prev')" data-icon="&#x34;"></span></a>
                                     <a href="javascript:void(0)" class="btn-next"><span  ng-click="nextQuestion('next')" data-icon="&#x35;"></span></a>
                                 </div>
                                 <div class="group-item-sl">
                                     <div class="item-sl-rpl">
                                         <p class="text-rpl">{{questionDetail.numReplies}} Replied</p>
-                                        <div ng-if="QAErrorMsg" class="validate_error">
-                                            <span>{{QAErrorMsg}}</span>
-                                        </div>
                                         <div class="bx-detail-rpl">
                                             <div class="top-rpl clearfix">
                                                 <div class="col-md-2">
@@ -109,9 +106,7 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            <p class =" pre-wrap">
-                                                {{questionDetail.question_text}}
-                                            </p>
+                                            <p class =" pre-wrap">{{questionDetail.question_text}}</p>
 
                                             <div class="images-question">
                                                 <ul>
@@ -136,6 +131,9 @@
                                             </div><!-- /End POPUP of images's question -->
                                             <div class="form-chat">
                                                 <form action="">
+                                                    <div ng-if="QAErrorMsg" class="validate_error">
+                                                        <span>{{QAErrorMsg}}</span>
+                                                    </div>
                                                     <div class="box-chat-onl clearfix">
                                                         <a class="col-md-1"> <img class="avatar-fix-max-size60" ng-src="{{mentorAvatar}}" alt=""></a>
                                                         <div class="texta">
@@ -165,7 +163,7 @@
                                                                     </span>
                                                     <button ng-click="answerQuestion(questionDetail.question_id)" class="reply">Reply</button>
                                                     <div class="detail-chat">
-                                                        <ul class="chat" ng-if="listAnswer" scroller="askQuestionAnswer" data-on-total-scroll="loadMoreAnswer">
+                                                        <ul class="chat" style="min-height: 400px;">
                                                             <li ng-repeat="answer in listAnswer | unique:'aid'" class="clearfix {{userId == answer.authorID ? 'right' : 'left'}}">
                                                                             <span class="chat-img" ng-class="{'pull-right':userId == answer.authorID,'pull-left':userId != answer.authorID}">
                                                                                 <img class="avatar-fix-max-size60" ng-src="{{answer.imageUrl}}" alt="Avatar">
@@ -181,11 +179,7 @@
                                                                         <span class="time pull-left" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
                                                                         <span class="like-h" data-icon="&#xe089;"></span>
                                                                     </div>
-                                                                    <p>
-                                                                    <p class="pre-wrap">
-                                                                        {{answer.content}}
-                                                                    </p>
-                                                                    </p>
+                                                                    <p class="pre-wrap">{{answer.content}}</p>
                                                                 </div>
                                                             </li>
 
