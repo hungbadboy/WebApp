@@ -75,6 +75,22 @@
     .manager-profile .box-avatar {
         padding-top: 20px;
     }
+    .manager-profile-std .box-avatar{
+        width: 100%;
+        background: #ffcc00;
+    }
+    .manager-profile-std .avt:before,
+    .manager-profile-std .avt .count-qt,
+    .manager-profile-std .box-information {
+        width: 100%;
+        height: auto;
+        position: relative;
+        overflow: hidden;
+    }
+    .manager-profile-std .browser-mentors-infor-wrapper>div {
+        width: 50%;
+        float: left;
+    }
 
     /*======Mentor.Dashboard==========*/
     .dashboard-video {
@@ -199,6 +215,53 @@
         width: 40%;
     }
 
+    .manager-video .group-item .item .check-box,
+    .main-manager-video .filters .check-all{
+        width: 4%;
+    }
+    .manager-video .group-item .item .box-detail-play, 
+    .main-manager-video .filters .text-trf{
+        width: 45.3%;
+    }
+    .manager-video .group-item .item .box-detail-play .item-thumbnail, 
+    .manager-video .group-item .item .box-detail-play .detail-pl-inner{
+        width: auto;
+    }
+    .main-manager-video .filters .text-des, 
+    .manager-video .group-item .item .box-description{
+        width: 20%;
+    }
+    .main-manager-video .filters .text-play,
+    .manager-video .group-item .item .box-playlist{
+        width: 10%;
+    }
+    .manager-video .group-item .item .box-ac, 
+    .main-manager-video .filters .text-ac{
+        width: 16%;
+    }
+    .manager-video .group-item .item .box-ac{
+        padding-top: 9px;
+    }
+    .manager-video .group-item .item .box-detail-play .detail-pl-inner{
+        padding-left: 15px;
+    }
+
+    .manager-playlist.manager-video .group-item .item .box-detail-play, 
+    .manager-playlist .main-manager-video .filters .text-trf{
+        width: 51.2%;
+    }
+    .manager-playlist.manager-video .group-item .item .box-ac, 
+    .manager-playlist .main-manager-video .filters .text-ac{
+        width: 13%;
+    }
+    .manager-video .group-item .item .box-ac .list-ac li a{
+        padding-right: 5px;
+    }
+    .manager-playlist.manager-video .main-list-video .group-item .item .box-ac, 
+    .manager-playlist .main-manager-video.main-list-video .filters .text-ac{
+        width: 32%;
+    }
+
 }
 
 
@@ -237,6 +300,12 @@
     .dashboard-content-bottom-right {
         width: 100%;
     }
+
+    /*======Mentor.Studentprofile==========*/
+    .manager-profile-std .browser-mentors-infor-wrapper>div {
+        width: 100%;
+        float: left;
+    }
 }
 /***For max screen 2400***/
 @media screen and (max-width: 1441px) { 
@@ -274,6 +343,10 @@
     }
     .box-main-replied .form-chat .box-chat-onl .texta textarea {
         width: ~"calc(100% - 78px)";
+    }
+    .mentor-manage-video .box-main-replied .slider-rpl .group-item-sl,
+    .mentor-manage-video .box-main-replied .slider-rpl .box-btn-sl {
+        top: 0;
     }
 
     /*======Mentor.Studentprofile==========*/
@@ -361,6 +434,77 @@
     .manager-video .top-mag .sl-newwest {
         width: ~"calc(100% - 90px)";
     }
+
+    .manager-video .main-list-video .group-item .item .check-box,
+    .main-manager-video.main-list-video .filters .check-all{
+        width: 5%;
+    }
+    .manager-playlist.manager-video .main-list-video .group-item .item .box-detail-play, 
+    .manager-playlist .main-manager-video.main-list-video .filters .text-trf{
+        width: 46.2%;
+    }
+    .main-manager-video.main-list-video .filters .text-play, 
+    .manager-video .main-list-video .group-item .item .box-playlist{
+        width: 16%;
+    }
+    .manager-playlist.manager-video .main-list-video .group-item .item .box-ac, 
+    .manager-playlist .main-manager-video.main-list-video .filters .text-ac{
+        width: 29%;
+    }
+    .manager-video .group-item .item .box-detail-play, 
+    .main-manager-video .filters .text-trf{
+        width: 31.3%;
+    }
+    /*  .manager-video .group-item .item .box-detail-play .item-thumbnail, 
+        .manager-video .group-item .item .box-detail-play .detail-pl-inner{
+       width: auto;
+        }  */
+    .main-manager-video .filters .text-des, 
+    .manager-video .group-item .item .box-description {
+        width: 25%;
+    }
+    .main-manager-video .filters .text-play, 
+    .manager-video .group-item .item .box-playlist {
+        width: 11%;
+    }
+    .manager-video .group-item .item .box-ac, 
+    .main-manager-video .filters .text-ac {
+        width: 24%;
+    }
+    .manager-video .group-item .item .box-ac{
+        padding-top: 9px;
+    }
+    .manager-video .group-item .item .box-detail-play .detail-pl-inner{
+        padding-left: 0;
+    }
+
+    .manager-playlist.manager-video .group-item .item .box-detail-play, 
+    .manager-playlist .main-manager-video .filters .text-trf{
+        width: 32.2%;
+    }
+    .manager-playlist.manager-video .group-item .item .box-ac, 
+    .manager-playlist .main-manager-video .filters .text-ac{
+        width: 16%;
+    }
+    .manager-playlist .main-manager-video .filters .text-des, 
+    .manager-playlist.manager-video .group-item .item .box-description{
+        width: 34%;
+    }
+    .manager-video .group-item .item .box-detail-play .detail-pl-inner h5{
+        text-align: left;
+    }
+    .manager-playlist-detail .top-vd-dt .box-detail-play .detail-pl-inner{
+        padding-left: 0;
+    }
+    .manager-playlist .top-mag .col-md-6 {
+        width: 100%;
+        margin: auto;
+        padding-left: 0;
+    }
+     .manager-playlist-detail .top-mag .search {
+        width: 50%;
+        float: left;
+     }
 
 }
 /***For max screen 1281***/
@@ -462,6 +606,11 @@
         margin-top: 15px;
     }
 
+    .manager-profile-std .col-md-3,
+    .manager-profile-std .col-md-9 {
+        width: 100%;
+    }
+
 
     
 }
@@ -554,12 +703,12 @@
         width: 50%;
         float: left;
     }
-    .browser-mentors-infor-wrapper>div:nth-last-child(-n+3) {
+/*     .browser-mentors-infor-wrapper>div:nth-last-child(-n+3) {
         border-bottom: 1px solid #ececed;
     }
     .browser-mentors-infor-wrapper>div:nth-last-child(-n+2) {
         border: none;
-    }
+    } */
     .browser-mentors .searchbrecrum {
         width: 40%;
     }
@@ -1216,12 +1365,12 @@
         width: 100%;
         float: left;
     }
-    .browser-mentors-infor-wrapper>div:nth-last-child(-n+2) {
+/*     .browser-mentors-infor-wrapper>div:nth-last-child(-n+2) {
         border-bottom: 1px solid #ececed;
     }
     .browser-mentors-infor-wrapper>div:last-child{
         border: none;
-    }
+    } */
     .browser-mentors .searchbrecrum {
         width: 100%;
         margin-bottom: 20px;

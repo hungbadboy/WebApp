@@ -829,6 +829,7 @@ span.icon-play-video {
     background-color: #fff;
     padding: 22px;
     margin-top: 23px;
+    overflow: hidden;
 }
 .manager-video .top-mag .search{
     padding: 0;
@@ -932,7 +933,38 @@ span.icon-play-video {
     font-weight: 600;
     margin-left: 15px;
 }
-
+.col-md-2.sl-sort {
+    width: auto;
+    float: right;
+    top: 20px;
+}
+.main-manager-video,
+.btn-act
+ {
+    width: 100%;
+    float: left;
+}
+.btn-act .btn-mg {
+    width: auto;
+    float: left;
+}
+.sl-sort button {
+    background: #edf1f5;
+    padding: 10px 15px;
+    margin: 3px;
+    border-radius: 4px;
+    position: relative;
+    font-weight: 600;
+}
+.sl-sort button:hover {
+    background: #ffcc00;
+}
+.sl-sort button span:nth-child(2):before {
+    position: absolute;
+    right: 15px;
+    top: 17px;
+    color: #909090;
+}
 .main-manager-video .filters{
     border-top: 1px solid #e0e1e1;
     border-bottom: 1px solid #e0e1e1;
@@ -2440,7 +2472,34 @@ span.broswer-img span:before {
     background-color: #eef0f0;
     height: auto;
     z-index: 1;
-} 
+}
+.manager-profile-std .search form {
+    width: 50%;
+    float: left;
+}
+.manager-profile-std .slide-broswer {
+    width: auto;
+    float: right;
+    margin-right: 15px;
+}
+.manager-profile-std .slide-broswer a span:before {
+    font-size: 20px;
+    border: 1px solid #ececed;
+    padding: 0 2px 2px;
+}
+.manager-profile-std .slide-broswer a:hover span:before {
+    background: #ffcc00;
+}
+.manager-profile-std .col-md-3 {
+    width: 338px;
+}
+.manager-profile-std .col-md-9 {
+    width: ~"calc(100% - 338px)";
+}
+.manager-profile-std .sub-right .row {
+    width: 100%;
+    margin: 0;
+}
 /*========//CSS MANAGER MENTOR PROFILE STUDENT=============*/
 
 /*========CSS MANAGER MENTOR DETAIL VIDEO=============*/
