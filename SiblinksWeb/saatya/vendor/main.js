@@ -134,22 +134,22 @@ jQuery(document).ready(function($) {
     })
 
     // Slide for student Mentor page
-    $('#studentCarousel[data-type="multi"] .item').each(function(){
-      var next = $(this).next();
-      if (!next.length) {
-        next = $(this).siblings(':first');
-      }
-      next.children(':first-child').clone().appendTo($(this));
-      
-      for (var i=0;i<2;i++) {
-        next=next.next();
-        if (!next.length) {
-          next = $(this).siblings(':first');
-        }
-        
-        next.children(':first-child').clone().appendTo($(this));
-      }
-    });
+//    $('#studentCarousel[data-type="multi"] .item').each(function(){
+//      var next = $(this).next();
+//      if (!next.length) {
+//        next = $(this).siblings(':first');
+//      }
+//      next.children(':first-child').clone().appendTo($(this));
+//      
+//      for (var i=0;i<2;i++) {
+//        next=next.next();
+//        if (!next.length) {
+//          next = $(this).siblings(':first');
+//        }
+//        
+//        next.children(':first-child').clone().appendTo($(this));
+//      }
+//    });
         // get margin for mentor content
     // var widthmenu= $(".mentor-left-header").width();
     //     widthwindow = $("body").width(); 
@@ -197,11 +197,11 @@ jQuery(document).ready(function($) {
 //              }
 //            });
             // $(".popup-images").reloadSlider();
-            linkRealSliders(realSlider,realThumbSlider);
-            
-            if($j("#bxslider-pager li").length<5){
-              $j("#bxslider-pager .bx-next").hide();
-            }
+//            linkRealSliders(realSlider,realThumbSlider);
+//            
+//            if($j("#bxslider-pager li").length<5){
+//              $j("#bxslider-pager .bx-next").hide();
+//            }
 
 
         // sincronizza sliders realizzazioni
@@ -215,16 +215,16 @@ jQuery(document).ready(function($) {
 //        }
 
         //slider!=$thumbSlider. slider is the realslider
-        function changeRealThumb(slider,newIndex){
-          
-          var $thumbS=$j("#bxslider-pager");
-          $thumbS.find('.active').removeClass("active");
-          $thumbS.find('li[data-slideIndex="'+newIndex+'"]').addClass("active");
-          
-          if(slider.getSlideCount()-newIndex>=4)slider.goToSlide(newIndex);
-          else slider.goToSlide(slider.getSlideCount()-4);
-
-        }
+//        function changeRealThumb(slider,newIndex){
+//          
+//          var $thumbS=$j("#bxslider-pager");
+//          $thumbS.find('.active').removeClass("active");
+//          $thumbS.find('li[data-slideIndex="'+newIndex+'"]').addClass("active");
+//          
+//          if(slider.getSlideCount()-newIndex>=4)slider.goToSlide(newIndex);
+//          else slider.goToSlide(slider.getSlideCount()-4);
+//
+//        }
     //End Bxslider - Slider images of ask a question page
     
     

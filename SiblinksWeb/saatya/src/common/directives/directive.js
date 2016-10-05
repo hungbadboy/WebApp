@@ -1206,3 +1206,34 @@ brotControllers.directive('slideit',function() {
         }
      }; 
  });
+
+brotControllers.directive('btfcarousel', function($timeout) {
+    return {
+       restrict: 'E',
+       scope: {
+         links: '='
+       },
+       templateUrl: 'src/app/carousel/carousel.tpl.html',
+       link: function(scope, element) {
+         $timeout(function() {
+           $('.carousel-indicators li',element).first().addClass('active');
+           $('.carousel-inner .item',element).first().addClass('active');
+           $('.carousel[data-type="multi"] .item').each(function(){
+        	   var next = $(this).next();
+        	   if (!next.length) {
+        	     next = $(this).siblings(':first');
+        	   }
+        	   next.children(':first-child').clone().appendTo($(this));
+        	   
+        	   for (var i=0;i<2;i++) {
+        	     next=next.next();
+        	     if (!next.length) {
+        	     	next = $(this).siblings(':first');
+        	   	}
+        	     next.children(':first-child').clone().appendTo($(this));
+        	   }
+        	 });
+         });
+       }
+    }
+ });

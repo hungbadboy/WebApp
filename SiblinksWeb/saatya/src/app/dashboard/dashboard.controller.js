@@ -1,7 +1,13 @@
 brotControllers.controller('DashboardController',['$scope','$http', 'MentorService', 'VideoService',
   function($scope, $http, MentorService, VideoService) {
 
-
+	$scope.data =[
+	               { imageUrl:"assets/images/mentor-04.png", name:"Student1", caption:""},
+	               { imageUrl:"assets/images/mentor-04.png", name:"Student2", caption:""},
+	               { imageUrl:"assets/images/mentor-04.png", name:"Student3", caption:""},
+	               { imageUrl:"assets/images/mentor-04.png", name:"Student4", caption:""},
+	               { imageUrl:"assets/images/mentor-04.png", name:"Student5", caption:""},
+	            ];
   //Author: Hoai Nguyen;
   //event click on "Submit" button;
   var userId = localStorage.getItem('userId');
@@ -11,7 +17,7 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
   function init(){
     getMainDashboardInfo();
     getVideosTopViewed();
-    getNewestQuestions();    
+    getNewestQuestions();
   }
 
   function getNewestQuestions(){
