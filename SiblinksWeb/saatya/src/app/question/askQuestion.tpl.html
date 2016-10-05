@@ -19,7 +19,7 @@
                             <div class="total-question col-xs-6">
                                 <h4> You have <strong>{{totalQuestion}}</strong> question(s)
                                     <i ng-click="toggleShowOrder()" class="fa fa-angle-down"
-                                       aria-hidden="true"></i></h4>
+                                       aria-hidden="true" click-anywhere-but-here="isShowOrder = false"></i></h4>
                                 <div class="sort">{{curentOrderType}}</div>
                                 <div ng-show="isShowOrder" class="sort-answer ">
                                     <ul>
@@ -52,7 +52,7 @@
                                             <span >asked {{question.time}} ago </span><br>
                                             <p>in <a href="#/ask_a_question/{{question.subjectid}}">{{question.subject}}</a></p>
                                         </div>
-                                        <div  class="edit-details-question" data-icon="&#xe037;" ng-click="showEditQuestion(question.id)" ng-if="question.authorId == userId">
+                                        <div  class="edit-details-question" data-icon="&#xe037;" click-anywhere-but-here="showEditQuestion(question.id)" ng-click="showEditQuestion(question.id)" ng-if="question.authorId == userId">
                                             <div class="edit-question" id="qid{{question.id}}" ng-show="isEditQuestion && question.id == showEditQuestionId">
                                                 <ul>
                                                     <li class="edit" ng-click="editQuestion(question.id,question.image,question.imagepath,question.content,question.subjectid,question.subject)">
@@ -105,6 +105,20 @@
                                                             </div>
                                                             <div class="mentor-answer">
                                                                 <p class="pre-wrap ">{{answer.content}}</p>
+                                                                <div class="images-question">
+                                                                    <ul>
+                                                                        <li class="item" ng-repeat="aimage in answer.imageAnswer track by $index">
+                                                                            <div ng-mouseover="imageHoverIn('aimg_'+answer.aid +''+$index)"
+                                                                                 ng-mouseleave="imageHoverOut('aimg_'+answer.aid +''+$index)" class="item-img">
+                                                                                <img   ng-click="zoomImage(image)" ng-src="{{aimage}}">
+                                                                                <div id="aimg_{{+answer.aid +''+$index}}" class="item-hover">
+                                                                                    <img  ng-click="zoomImage(aimage)" src="assets/images/ask question/look-img.png">
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div><!-- /End Images of question -->
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -181,8 +195,8 @@
                 <span class="add-img">
                                 <input type="file" multiple id="files" ng-file-select="onFileSelect($files)"
                                        accept='image/*'/>
-                                <label for="files"><img src="assets/images/add-img.png"></label></span>
-                <p  style="width: 100%;float: left;">
+                                <label style="margin-top: 11px;" for="files"><img src="assets/images/add-img.png"></label></span>
+                <p style="width: 100%;float: left;">
                     <button ng-if="!isEdit" type="button" ng-click="redirectForum()" class="ask-question-now">Ask Now</button>
                     <button ng-if="isEdit" type="button" ng-click="updateQuestion()" class="ask-question-now">Update</button>
                 </p>

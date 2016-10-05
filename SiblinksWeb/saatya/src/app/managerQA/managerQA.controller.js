@@ -213,6 +213,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         }
 
         $scope.answerQuestion = function (pid) {
+            $scope.QAErrorMsg="";
             var content = $('#txtAnswer').val();
             if (!content) {
                 $timeout(function () {
@@ -250,7 +251,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
 
             if(totalSize > MAX_SIZE_IMG_UPLOAD){
-                $scope.askErrorMsg='Image over 10M';
+                $scope.QAErrorMsg='Image over 10M';
                 $rootScope.myVarU = !$scope.myVarU;
                 $timeout(function () {
                     $rootScope.myVarU = false;
@@ -282,6 +283,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         };
 
         $scope.selectedSubject = function (selected) {
+            if(isEmpty(selected)){
+                return;
+            }
             currentPage = 0;
             $scope.isLoadMore = true;
             selectedSubsId = selected.originalObject.id;
@@ -301,6 +305,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         }
 
         $scope.nextQuestion = function (str) {
+            $scope.QAErrorMsg="";
             if($scope.listQuestions == null && $scope.listQuestions.length == 0){
                 return;
             }

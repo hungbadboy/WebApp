@@ -1292,8 +1292,7 @@ public class PostServiceImpl implements PostService {
     //delele file
 	private void delefile(final String filename, final String path) {
 		String directory = environment.getProperty(path);
-		java.nio.file.Path p = Paths.get(filename);
-		String name = p.getFileName().toString();
+		String name = FilenameUtils.getName(filename);
 		File file = new File(Paths.get(directory, name).toString());
 		file.delete();
 	}

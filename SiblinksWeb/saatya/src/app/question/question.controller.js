@@ -242,6 +242,8 @@ brotControllers
                     $scope.imagePathOld = [];
                     $('#autocompleteQuest_value').val("");
                     $(".form-ask-question").css({"left": 0});
+                    $scope.filesArray = [];
+                    $scope.stepsModel = [];
                 }
                 $scope.closePopupAskQuestion = function () {
                     $(".popup-images, .form-ask-question").css({"left": "100%"});

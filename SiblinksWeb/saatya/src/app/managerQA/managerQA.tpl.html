@@ -20,7 +20,7 @@
                                     <div class="input-group">
                                         <input type="text" ng-enter="searchQuestion()" ng-model="textSearch" class="form-control-search input-search" placeholder="Type your search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-default" ><img src="assets/images/icon-search.png" alt=""></button>
+                                            <button class="btn btn-default"  ng-click="searchQuestion()" ><img src="assets/images/icon-search.png" alt=""></button>
                                         </div>
                                     </div>
                                 </form>
@@ -48,12 +48,12 @@
                                 </div>
                                 <!-- Tab panes -->
                                 <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="tab-1">
+                                    <div style="max-height: 426px;" role="tabpanel" class="tab-pane active" id="tab-1">
                                         <div class="group-item-qa" ng-if="listQuestions" scroller="askQuestion" data-on-total-scroll="loadMorePost" >
                                             <div  ng-repeat="question in listQuestions | unique:'pid'" class="item-qa clearfix" ng-class="{'active':question.pid == currentPid}"
                                                   ng-click="selectQuestion(question.pid)">
                                                 <div class="col-md-3">
-                                                    <a><img ng-src="{{question.imageUrl}}" alt="avatar"></a>
+                                                    <a><img class="avatar-fix-max-size60" ng-src="{{question.imageUrl}}" alt="avatar"></a>
                                                 </div>
                                                 <div class="col-md-9 bx-dt-qa">
                                                     <h5>{{question.firstName + " "+ question.lastName}}<span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span></h5>
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8 box-main-replied" ng-if="questionDetail">
+                        <div class="col-md-8  box-main-replied" style="height: 300px;" ng-if="questionDetail">
                             <div class="slider-rpl">
                                 <div class="box-btn-sl clearfix">
                                     <a href="javascript:void(0)" class="btn-prev"><span ng-click="nextQuestion('prev')" data-icon="&#x34;"></span></a>
@@ -90,11 +90,13 @@
                                 <div class="group-item-sl">
                                     <div class="item-sl-rpl">
                                         <p class="text-rpl">{{questionDetail.numReplies}} Replied</p>
-                                        <div ng-if="QAErrorMsg" class="message-validate">{{QAErrorMsg}}</div>
+                                        <div ng-if="QAErrorMsg" class="validate_error">
+                                            <span>{{QAErrorMsg}}</span>
+                                        </div>
                                         <div class="bx-detail-rpl">
                                             <div class="top-rpl clearfix">
                                                 <div class="col-md-2">
-                                                    <img ng-src="{{questionDetail.avatar}}" alt="avatar">
+                                                    <img class="avatar-fix-max-size60" ng-src="{{questionDetail.avatar}}" alt="avatar">
                                                 </div>
                                                 <div class="col-md-6 bx-dt-qa">
                                                     <h5>{{questionDetail.firstName +" "+ questionDetail.lastName}}</h5>
@@ -135,7 +137,7 @@
                                             <div class="form-chat">
                                                 <form action="">
                                                     <div class="box-chat-onl clearfix">
-                                                        <a class="col-md-1"> <img class="avatar-fix-size" ng-src="{{mentorAvatar}}" alt=""></a>
+                                                        <a class="col-md-1"> <img class="avatar-fix-max-size60" ng-src="{{mentorAvatar}}" alt=""></a>
                                                         <div class="texta">
                                                             <textarea name="" id="txtAnswer" class="col-md-11" placeholder="Add your reply here" ></textarea>
                                                             <div class="left-border"></div>
@@ -166,7 +168,7 @@
                                                         <ul class="chat" ng-if="listAnswer" scroller="askQuestionAnswer" data-on-total-scroll="loadMoreAnswer">
                                                             <li ng-repeat="answer in listAnswer | unique:'aid'" class="clearfix {{userId == answer.authorID ? 'right' : 'left'}}">
                                                                             <span class="chat-img" ng-class="{'pull-right':userId == answer.authorID,'pull-left':userId != answer.authorID}">
-                                                                                <img ng-src="{{answer.imageUrl}}" alt="Avatar">
+                                                                                <img class="avatar-fix-max-size60" ng-src="{{answer.imageUrl}}" alt="Avatar">
                                                                             </span>
                                                                 <div class="chat-body clearfix">
                                                                     <div class="header" ng-if="userId == answer.authorID">
