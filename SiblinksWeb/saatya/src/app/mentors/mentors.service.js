@@ -168,6 +168,13 @@ brotServices.factory('MentorService', ['$http', function ($http) {
     });
   }
 
+  factory.getAllStudentSubscribed = function(uid){
+    return $http({
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'mentor/getAllStudentSubscribed?uid='+uid+''
+    });
+  }
+
     // factory.searchMentors = function(key) {
 
     //     var mentors;

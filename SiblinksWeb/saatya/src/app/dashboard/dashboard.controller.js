@@ -18,6 +18,18 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
     getMainDashboardInfo();
     getVideosTopViewed();
     getNewestQuestions();
+    getStudentsSubcribed();
+  }
+
+  function getStudentsSubcribed(){
+    MentorService.getAllStudentSubscribed(userId).then(function(data){
+      var result = data.data.request_data_result;
+      console.log(result);
+      if (result && result !== "Found no data") {
+        $scope.data = result;
+      } else
+        $scope.data = null;
+    });
   }
 
   function getNewestQuestions(){

@@ -1176,4 +1176,19 @@ public class MentorServiceImpl implements MentorService {
 
     }
 
+    @Override
+    @RequestMapping(value = "/getAllStudentSubscribed", method = RequestMethod.GET)
+    public ResponseEntity<Response> getAllStudentSubscribed(final long uid) {
+        SimpleResponse response;
+
+        List<Object> readObjects = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_ALL_STUDENT_SUBSCRIBED, new Object[] { uid });
+        if (readObjects != null && readObjects.size() > 0) {
+            response = new SimpleResponse("" + true, "mentor", "getAllStudentSubscribed", readObjects);
+        } else {
+            response = new SimpleResponse("" + true, "mentor", "getAllStudentSubscribed", SibConstants.NO_DATA);
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+        return entity;
+    }
+
 }

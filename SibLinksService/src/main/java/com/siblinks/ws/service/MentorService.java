@@ -91,4 +91,6 @@ public interface MentorService {
      ResponseEntity<Response> getNewestQuestions(long uid);
 
      ResponseEntity<Response> getAllSubjects(long uid);
+
+    ResponseEntity<Response> getAllStudentSubscribed(long uid);
 }
