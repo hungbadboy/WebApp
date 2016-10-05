@@ -86,7 +86,7 @@
                                                     In {{q.subject}}
                                                 </p>
                                                 <p class="newest-qa-detail">
-                                                    {{q.content}}
+                                                    {{q.content | limitTo : 30}}{{q.content.length > 30 ? '...' : ''}}
                                                 </p>
                                             </div>
                                             <div class="student-rate ">
@@ -200,7 +200,7 @@
                                 <!-- <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zOD2BuV1nGo" frameborder="0"></iframe> -->
                                 <div class="video-wrapper">
                                     <div class="videos-title">
-                                        {{vTopViewed.description}}
+                                        {{videosTopViewed.description | limitTo : 70}}{{videosTopViewed.description.length > 70 ? '...' : ''}}
                                     </div>
                                     <div class="videos-rate">
                                         <!-- <div class="videos-start">

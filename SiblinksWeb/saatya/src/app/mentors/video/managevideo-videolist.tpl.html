@@ -64,7 +64,7 @@
                                                       outer-percent="rating"
                                                       rating-define="star"
                                                       rating-stars="{{v.averageRating}}"
-                                                      star-radius="12" sel-color="gold"
+                                                      star-radius="7" sel-color="gold"
                                                       back-color="white"></div>
                                                 </ul></br>
                                                 
@@ -78,9 +78,7 @@
                                         <p class="box-playlist">
                                             {{v.playlistname}}
                                         </p>
-                                        <p class="box-description pre-wrap">
-                                            {{v.description}}
-                                        </p>
+                                        <p class="box-description pre-wrap">{{v.description | limitTo : 250}}{{v.description.length > 250 ? '...' : ''}}</p>
                                         <div class="box-ac">
                                             <ul class="list-ac">
                                                 <li><a href="" ng-click="edit(v.vid)">Edit</a></li>

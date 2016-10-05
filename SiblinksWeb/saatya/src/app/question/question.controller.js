@@ -333,11 +333,11 @@ brotControllers
 
                 $scope.isLoadMore = false;
                 $scope.loadMorePost = function (ev) {
-                    currentPage++;
-                    isLoadMore = true;
                     if ($scope.isDisplayMore) {
                         return;
                     }
+                    currentPage++;
+                    isLoadMore = true;
                     $scope.isDisplayMore = true;
 
                     var newoffset = limit * currentPage;
