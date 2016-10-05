@@ -283,6 +283,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         };
 
         $scope.selectedSubject = function (selected) {
+            if(isEmpty(selected)){
+                return;
+            }
             currentPage = 0;
             $scope.isLoadMore = true;
             selectedSubsId = selected.originalObject.id;
