@@ -48,6 +48,7 @@ public class SibConstants {
     public static final int LENGHT_AUTHENTICATION = 10;
     public static final String ROOT = "/siblinks/services";
     public static final String NO_DATA = "Found no data";
+    public static final String USER_NOT_EXISTS = "User is not exists";
 
     public class MessageKey {
         public static final String REQUEST_DATA_RESUTL = "request_data_result";
@@ -471,6 +472,7 @@ public class SibConstants {
         public static final String SQL_GET_VIDEOS_BY_PLAYLIST = "GET_VIDEOS_BY_PLAYLIST";
         public static final String SQL_GET_STUDENT_SUBSCRIBED = "GET_STUDENT_SUBSCRIBED";
         public static final String SQL_MENTOR_GET_ACTIVITY_STUDENT = "MENTOR_GET_ACTIVITY_OF_STUDENT";
+        public static final String SQL_SUBSCRIBED_FROM_MENTOR_VIEW_STUDENT = "GET_SUBSCRIBED_FROM_MENTOR_VIEW_STUDENT";
         // Manager Category
         public static final String SQL_GET_ALL_CATEGORY = "GET_ALL_CATEGORY";
         public static final String SQL_GET_CATEGORY_BY_ID = "GET_CATEGORY_BY_ID";
@@ -493,6 +495,7 @@ public class SibConstants {
         public static final String SQL_CHECK_SUBSCRIBE = "CHECK_SUBSCRIBE";
         public static final String SQL_UPDATE_AVG_RATE = "UPDATE_AVG_RATE";
         public static final String SQL_GET_ALL_SUBJECTID_CATEGORY = "GET_ALL_SUBJECTID_CATEGORY";
+        public static final String SQL_CHECK_STUDENT_SUBSCRIBE = "CHECK_STUDENT_SUBSCRIBE";
         // Favourite
         public static final String SQL_VIDEO_FAVOURITE_INSERT = "VIDEO_FAVOURITE_INSERT";
         public static final String SQL_VIDEO_FAVOURITE_READ_ALL_BY_USER = "VIDEO_FAVOURITE_READ_ALL_BY_USER";

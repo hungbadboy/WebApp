@@ -52,7 +52,7 @@
                                             <span >asked {{question.time}} ago </span><br>
                                             <p>in <a href="#/ask_a_question/{{question.subjectid}}">{{question.subject}}</a></p>
                                         </div>
-                                        <div  class="edit-details-question" data-icon="&#xe037;" click-anywhere-but-here="showEditQuestion(question.id)" ng-click="showEditQuestion(question.id)" ng-if="question.authorId == userId">
+                                        <div  class="edit-details-question" data-icon="&#xe037;" click-anywhere-but-here="isEditQuestion = 'false'" ng-click="showEditQuestion(question.id)" ng-if="question.authorId == userId">
                                             <div class="edit-question" id="qid{{question.id}}" ng-show="isEditQuestion && question.id == showEditQuestionId">
                                                 <ul>
                                                     <li class="edit" ng-click="editQuestion(question.id,question.image,question.imagepath,question.content,question.subjectid,question.subject)">
@@ -90,7 +90,7 @@
                                                     <div class="total-view">&nbsp;<span data-icon=""></span>&nbsp;&nbsp;&nbsp; {{question.numviews}} views</div>
                                                 </div>
                                                 <!-- Detail-answer-question -->
-                                                <div class="detail-answer-question hide detail-answer-question_{{question.id}}" ng-if="question" id=""
+                                                <div class="detail-answer-question hide" ng-if="question.answers" id="detail-answer-question_{{question.id}}"
                                                      ng-repeat="answer in question.answers track by $index ">
                                                     <div class="mentor-answer">
                                                         <div class="image-mentor">
