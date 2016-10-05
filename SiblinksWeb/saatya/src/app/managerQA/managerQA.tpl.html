@@ -50,7 +50,7 @@
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="tab-1">
                                         <div class="group-item-qa" ng-if="listQuestions" scroller="askQuestion" data-on-total-scroll="loadMorePost" >
-                                            <div  ng-repeat="question in listQuestions" class="item-qa clearfix" ng-class="{'active':question.pid == currentPid}"
+                                            <div  ng-repeat="question in listQuestions | unique:'pid'" class="item-qa clearfix" ng-class="{'active':question.pid == currentPid}"
                                                   ng-click="selectQuestion(question.pid)">
                                                 <div class="col-md-3">
                                                     <a><img ng-src="{{question.imageUrl}}" alt="avatar"></a>
@@ -163,8 +163,8 @@
                                                                     </span>
                                                     <button ng-click="answerQuestion(questionDetail.question_id)" class="reply">Reply</button>
                                                     <div class="detail-chat">
-                                                        <ul class="chat" ng-if="listAnswer">
-                                                            <li ng-repeat="answer in listAnswer" class="clearfix" ng-class="{'right':userId == answer.authorID,'left':userId != answer.authorID}">
+                                                        <ul class="chat" ng-if="listAnswer" scroller="askQuestionAnswer" data-on-total-scroll="loadMoreAnswer">
+                                                            <li ng-repeat="answer in listAnswer | unique:'aid'" class="clearfix {{userId == answer.authorID ? 'right' : 'left'}}">
                                                                             <span class="chat-img" ng-class="{'pull-right':userId == answer.authorID,'pull-left':userId != answer.authorID}">
                                                                                 <img ng-src="{{answer.imageUrl}}" alt="Avatar">
                                                                             </span>
