@@ -22,11 +22,17 @@ brotControllers.controller('AddUpdatePlaylistController',
       } else {
          HomeService.getAllCategory().then(function (data) {
              if (data.data.status) {
-                 $scope.subjects = data.data.request_data_result;
+                 $scope.subjects = data.data.request_data_result;                 
                  myCache.put("subjects", data.data.request_data_result);
              }
          });
       }
+      var item = {
+        'subjectId': 0,
+        'subject' : 'Select Subject'
+       }
+       $scope.subjects.splice(0, 0, item);
+       $scope.updateSubject = $scope.subjects[0].subjectId;
     }
 
     function getPlaylistById(plid){
@@ -167,8 +173,20 @@ brotControllers.controller('AddUpdatePlaylistController',
     }
 
     var files;
+    $scope.stepsModel = [];
     $scope.onFileSelect = function($files){
-      if($files != null)
+      if ($files != null) {
         files = $files[0];
+        var reader = new FileReader();
+        reader.onload = $scope.imageIsLoaded;
+        reader.readAsDataURL(files);
+      }
+    }
+
+    $scope.imageIsLoaded = function (e) {
+      $scope.$apply(function () {
+        $scope.stepsModel.splice(0, 1);
+        $scope.stepsModel.push(e.target.result);
+      });
     }
 }]);

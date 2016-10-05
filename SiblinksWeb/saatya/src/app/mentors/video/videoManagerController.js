@@ -194,7 +194,6 @@ brotControllers.controller('VideoManagerController',
         VideoService.getAllVideos().then(function (response) {
             if (response.data.status) {
                 $scope.listAllVideos = response.data.request_data_result;
-                console.log($scope.listAllVideos);
             }
         });
     }

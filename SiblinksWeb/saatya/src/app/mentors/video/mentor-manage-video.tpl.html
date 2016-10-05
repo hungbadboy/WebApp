@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="detail-vd">
                                     <!-- <h5>Ut at sem quis urna fringilla congue a <br/>in ex. Aliquam sed imperdiet elit</h5> -->
-                                    <h5>{{v.description}}</h5>
+                                    <h5>{{v.description | limitTo : 70}}{{v.description.length > 70 ? '...' : ''}}</h5>
                                     <div class="clearfix">
                                         <!-- <ul class="list-star pull-left">
                                             <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
@@ -74,7 +74,7 @@
                                     <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
                                 </div>
                                 <div class="detail-vd detail-vd-2">
-                                    <h5>{{vTopRated.description}}</h5>
+                                    <h5>{{vTopRated.description | limitTo : 70}}{{vTopRated.description.length > 70 ? '...' : ''}}</h5>
                                     <div class="clearfix">
                                         <!-- <ul class="list-star pull-left">
                                             <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
@@ -104,7 +104,7 @@
                                     <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
                                 </div>
                                 <div class="detail-vd detail-vd-3">
-                                    <h5>{{vTopViewed.description}}</h5>
+                                    <h5>{{vTopViewed.description | limitTo : 70}}{{vTopViewed.description.length > 70 ? '...' : ''}}</h5>
                                     <div class="clearfix">
                                        <!--  <ul class="list-star pull-left">
                                             <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
@@ -145,7 +145,7 @@
                                                           outer-percent="rating"
                                                           rating-define="star"
                                                           rating-stars="{{r.rating}}"
-                                                          star-radius="12" sel-color="gold"
+                                                          star-radius="7" sel-color="gold"
                                                           back-color="white"></div>
                                                      </span>
                                                 </div>

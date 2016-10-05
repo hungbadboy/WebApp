@@ -58,6 +58,11 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
+                                            <div ng-repeat="step in stepsModel track by $index">
+                                                <img style="width: 100%; margin-bottom: 15px;" ng-src="{{step}}"/>
+                                                <div class="remove-image"><img src="assets/images/remove-img.png"
+                                                                               ng-click="removeImg($index)"></div>
+                                            </div>
                                             <input type="file" class="inputfile" name="file1" id="file1" value="" ng-file-select="onFileSelect($files)" accept='image/*'>
                                             <label for="file1" class="label-1">
                                                 <!-- <input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)" accept='image/*'> -->
@@ -96,7 +101,7 @@
                                                     </div>
                                                 </span>
                                                 <div class="detail-pl-inner">
-                                                    <a href="#/mentor/playlist/detail/{{p.plid}}"><h5>{{p.name}}</h5></a>
+                                                    <a href="#/mentor/playlist/detail/{{p.plid}}"><h5>{{p.name | limitTo : 20}}{{p.name.length > 20 ? '...' : ''}}</h5></a>
                                                     <span class="add-time">{{p.timeStamp}} ago</span>
                                                     
                                                     <p class="list-view">
@@ -111,7 +116,7 @@
                                             <div class="box-ac">
                                                 <ul class="list-ac">
                                                     <li><a href="" ng-click="openEdit(p.plid)">Edit</a></li>
-                                                    <li><a href="#">Add playlist</a></li>
+                                                    <li><a href="">Add playlist</a></li>
                                                     <li><a href="" ng-click="delete(p)">Delete</a></li>
                                                 </ul>
                                             </div>

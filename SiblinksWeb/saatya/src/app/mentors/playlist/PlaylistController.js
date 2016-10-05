@@ -171,9 +171,21 @@ brotControllers.controller('PlaylistController',
     }
 
     var files;
+    $scope.stepsModel = [];
     $scope.onFileSelect = function($files){
-      if($files != null)
+      if ($files != null) {
         files = $files[0];
+        var reader = new FileReader();
+        reader.onload = $scope.imageIsLoaded;
+        reader.readAsDataURL(files);
+      }
+    }
+
+    $scope.imageIsLoaded = function (e) {
+      $scope.$apply(function () {
+          $scope.stepsModel.splice(0, 1);
+          $scope.stepsModel.push(e.target.result);
+      });
     }
 
     $scope.add = function(){
