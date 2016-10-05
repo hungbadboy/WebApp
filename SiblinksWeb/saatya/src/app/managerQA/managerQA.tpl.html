@@ -3,12 +3,12 @@
 <!-- /End Sidebar left menu -->
 <!-- Main center content -->
 <div class="content">
-    <div class="center-content in">
+    <div class="center-content">
         <div class="center-content-wrapper">
             <section id="dashboard">
                 <!-- Content header -->
                 <div class="dashboard-header">
-                    <h4>Manage QA</h4>
+                    <h4>Manage Q&A</h4>
                     <p> </p>
                 </div>
                 <!-- /End Content header -->
@@ -77,14 +77,14 @@
 
                                         </div>
                                         <div ng-if="notFound">{{notFound}}</div>
-                                        <!--<p class="btn-load"><a href="#">load more</a></p>-->
+                                        <p class="btn-load"><a href="javascript:void(0)"></a></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-8 box-main-replied">
                             <div class="slider-rpl">
-                                <div class="box-btn-sl clearfix">
+                                <div class="box-btn-sl clearfix" style="margin-top: 5px">
                                     <a href="javascript:void(0)" class="btn-prev"><span ng-click="nextQuestion('prev')" data-icon="&#x34;"></span></a>
                                     <a href="javascript:void(0)" class="btn-next"><span  ng-click="nextQuestion('next')" data-icon="&#x35;"></span></a>
                                 </div>
@@ -148,6 +148,7 @@
                                                             <!--<img src="assets/images/img-upload.png" alt="">-->
                                                             <!--</label>-->
                                                         </div>
+
                                                     </div>
                                                     <!--<div class="add-image">-->
                                                         <!--<p class="upload-image">-->
@@ -159,18 +160,19 @@
                                                         <!--<button class="reply">Reply</button>-->
                                                     <!--</div>-->
                                                     <div class="add-image">
-                                                    <output id="list" class="upload-image" style="width: auto;float: left;">
+                                                    <output class="upload-image" id="list"  style="width: auto;float: left;">
                                                         <div ng-repeat="step in stepsModel track by $index">
                                                             <img class="thumb" ng-src="{{step}}" />
                                                             <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
                                                         </div>
                                                     </output>
+
                                                         <span class="add-img">
-                                                            <label for="file1"><img src="assets/images/add-img.png"></label>
+                                                            <label for="file1"><img style="margin-top: 5px" src="assets/images/add-img.png"></label>
                                                         </span>
                                                         <button ng-click="answerQuestion(questionDetail.question_id)" class="reply">Reply</button>
                                                     </div>
-
+                                                    <p></p>
                                                     <div class="detail-chat">
                                                         <!--<ul class="chat">-->
                                                             <!--<li class="right clearfix">-->
