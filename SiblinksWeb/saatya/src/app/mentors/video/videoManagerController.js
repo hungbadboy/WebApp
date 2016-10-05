@@ -159,9 +159,13 @@ brotControllers.controller('VideoManagerController',
       }
     }
 
-    $scope.addToPlaylist = function(vid){
-      var selectedVideos = [vid];
-      openAddPlaylistPopup(selectedVideos);
+    $scope.addToPlaylist = function(v){
+      if (v.playlistname != 'none') 
+        alert("This video already in another playlist.");
+      else{
+        var selectedVideos = [v.vid];
+        openAddPlaylistPopup(selectedVideos);
+      }
     }
 
     $scope.addMultipleToPlaylist = function(){
@@ -202,4 +206,36 @@ brotControllers.controller('VideoManagerController',
         }
       });
     };
+
+    $scope.edit = function(vid){
+      var modalInstance = $modal.open({
+        templateUrl: 'src/app/mentors/video/upload_tutorial_popup.tpl.html',
+        controller: 'UploadTutorialController',
+        resolve:{
+          u_id: function () {
+              return userId;
+          },
+          v_id: function(){
+            return vid;
+          }
+        }
+      });
+    }
+
+    $scope.$on('passing', function(e,a){
+      var result = $.grep($scope.videos, function(v){
+            return v.vid == a.vid;
+        });
+
+        var index = $scope.videos.indexOf(result[0]);
+        if (index != -1) {
+            $scope.videos[index].title = a.title;
+            $scope.videos[index].description = a.description;
+
+        }
+    });
+
+    $scope.$on('addPlaylist', function(){
+      loadVideos();
+    })
 }]);

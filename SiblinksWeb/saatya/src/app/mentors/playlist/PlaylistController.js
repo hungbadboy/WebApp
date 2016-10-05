@@ -186,6 +186,21 @@ brotControllers.controller('PlaylistController',
       });
     }
 
+    $scope.openEdit = function(plid){
+      var modalInstance = $modal.open({
+        templateUrl:'src/app/mentors/playlist/addUpdatePlaylist.tpl.html',
+        controller:'AddUpdatePlaylistController',
+        resolve:{
+          pl_id: function(){
+            return plid;
+          },
+          v_ids: function(){
+            return null;
+          }
+        }
+      });
+    }
+
     function clearContent(){
       $('#txtTitle').val('');
       $('#changeImg').val('');
