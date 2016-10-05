@@ -115,7 +115,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
 
     function loadVideos(){
         // clearContent();
-        VideoService.getVideos(userId, 10).then(function(data){
+        VideoService.getVideos(userId, 0).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.videos = formatData(data.data.request_data_result);
             $scope.v = $scope.videos[0];
@@ -229,68 +229,80 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
     };
 
   $scope.newestPrev = function(pos){
-    if (pos == 0) {
-      $scope.newestPos = $scope.videos.length - 1;
-      $scope.v = $scope.videos[$scope.videos.length - 1];
-    }
-    else{
-      $scope.newestPos = pos - 1;
-      $scope.v = $scope.videos[pos - 1];
+    if ($scope.videos && $scope.videos.length > 0) {
+      if (pos == 0) {
+        $scope.newestPos = $scope.videos.length - 1;
+        $scope.v = $scope.videos[$scope.videos.length - 1];
+      }
+      else{
+        $scope.newestPos = pos - 1;
+        $scope.v = $scope.videos[pos - 1];
+      }
     }
   }
 
   $scope.newestNext = function(pos){
-    if (pos == $scope.videos.length - 1) {
-      $scope.newestPos = 0;
-      $scope.v = $scope.videos[0];
-    }
-    else{
-      $scope.newestPos = pos + 1;
-      $scope.v = $scope.videos[pos + 1];
+    if ($scope.videos && $scope.videos.length > 0) {
+      if (pos == $scope.videos.length - 1) {
+        $scope.newestPos = 0;
+        $scope.v = $scope.videos[0];
+      }
+      else{
+        $scope.newestPos = pos + 1;
+        $scope.v = $scope.videos[pos + 1];
+      }
     }
   }
 
   $scope.topRatedPre = function(pos){
-    if (pos == 0) {
-      $scope.topRatedPos = $scope.videosTopRated.length - 1;
-      $scope.vTopRated = $scope.videosTopRated[$scope.videosTopRated.length - 1];
-    }
-    else{
-      $scope.topRatedPos = pos - 1;
-      $scope.vTopRated = $scope.videosTopRated[pos - 1];
+    if ($scope.videosTopRated && $scope.videosTopRated.length > 0) {
+      if (pos == 0) {
+        $scope.topRatedPos = $scope.videosTopRated.length - 1;
+        $scope.vTopRated = $scope.videosTopRated[$scope.videosTopRated.length - 1];
+      }
+      else{
+        $scope.topRatedPos = pos - 1;
+        $scope.vTopRated = $scope.videosTopRated[pos - 1];
+      }
     }
   }
 
   $scope.topRatedNext = function(pos){
-    if (pos == $scope.videos.length - 1) {
-      $scope.topRatedPos = 0;
-      $scope.vTopRated = $scope.videosTopRated[0];
-    }
-    else{
-      $scope.topRatedPos = pos + 1;
-      $scope.vTopRated = $scope.videosTopRated[pos + 1];
-    }
+    if ($scope.videosTopRated && $scope.videosTopRated.length > 0) {
+      if (pos == $scope.videos.length - 1) {
+        $scope.topRatedPos = 0;
+        $scope.vTopRated = $scope.videosTopRated[0];
+      }
+      else{
+        $scope.topRatedPos = pos + 1;
+        $scope.vTopRated = $scope.videosTopRated[pos + 1];
+      }
+    }    
   }
 
   $scope.topViewedPre = function(pos){
-    if (pos == 0) {
-      $scope.topViewedPos = $scope.videosTopViewed.length - 1;
-      $scope.vTopViewed = $scope.videosTopViewed[$scope.videosTopViewed.length - 1];
-    }
-    else{
-      $scope.topViewedPos = pos - 1;
-      $scope.vTopViewed = $scope.videosTopViewed[pos - 1];
+    if ($scope.videosTopViewed && $scope.videosTopViewed.length > 0) {
+      if (pos == 0) {
+        $scope.topViewedPos = $scope.videosTopViewed.length - 1;
+        $scope.vTopViewed = $scope.videosTopViewed[$scope.videosTopViewed.length - 1];
+      }
+      else{
+        $scope.topViewedPos = pos - 1;
+        $scope.vTopViewed = $scope.videosTopViewed[pos - 1];
+      }
     }
   }
 
   $scope.topViewedNext = function(pos){
-    if (pos == $scope.videosTopViewed.length - 1) {
-      $scope.topViewedPos = 0;
-      $scope.vTopViewed = $scope.videosTopViewed[0];
-    }
-    else{
-      $scope.topViewedPos = pos + 1;
-      $scope.vTopViewed = $scope.videosTopViewed[pos + 1];
+    if ($scope.videosTopViewed && $scope.videosTopViewed.length > 0) {
+      if (pos == $scope.videosTopViewed.length - 1) {
+        $scope.topViewedPos = 0;
+        $scope.vTopViewed = $scope.videosTopViewed[0];
+      }
+      else{
+        $scope.topViewedPos = pos + 1;
+        $scope.vTopViewed = $scope.videosTopViewed[pos + 1];
+      }
     }
   }
 }]);

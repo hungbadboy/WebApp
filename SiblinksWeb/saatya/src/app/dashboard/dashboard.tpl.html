@@ -86,7 +86,7 @@
                                                     In {{q.subject}}
                                                 </p>
                                                 <p class="newest-qa-detail">
-                                                    {{q.content}}
+                                                    {{q.content | limitTo : 30}}{{q.content.length > 30 ? '...' : ''}}
                                                 </p>
                                             </div>
                                             <div class="student-rate ">
