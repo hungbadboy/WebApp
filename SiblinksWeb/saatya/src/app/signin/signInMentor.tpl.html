@@ -31,7 +31,7 @@
                                         </div>
                                         <p class="pull-right"><span data-icon="&#x7e;"></span><a href="javascript:void(0)" ng-click="showForgotPassword()">Forgot password?</a></p>
                                     </div>
-                                    <input type="submit" name="login" value="LOG IN" ng-click="login()"/>
+                                    <button type="submit" name="login" value="LOG IN"  ng-click="login()">LOG IN</button>
                                 </form>
                             </div>
                         </div>
@@ -78,59 +78,14 @@
         </div>
     </section>
     <!-- /About Section -->
-
-    <!-- Idea section -->
-    <section class="testimonial">
-        <div class="container">
-            <h2>Testimonials</h2>
-            <div class="list-wrapper"></div>
-            <script type="text/ng-template" id="testimonials">
-            <ul class="slider clearfix" bx-slider>
-                <li bx-slider-item>
-                    <div class="cont-mainslider">
-                        <div class="thumb-mainslider">
-                            <a href="#">
-                                <img src="assets/images/user.jpg"/>
-                            </a>
-                        </div><!-- thumb-mainslider -->
-                        <p>Proin sodales imperdiet elit a efficitur. Donec ullamcorper tristique lobortis. Mauris iaculis venenatis iaculis. Donec non enim hendrerit, finibus orci faucibus, feugiat turpis. Sed commodo ex in lorem pharetra varius</p>
-                        <div class="author">
-                            <b>Landy Moore</b><span> - Harvard University faculty</span>
-                        </div>
-                    </div><!-- cont-mainslider -->
-                    <span class="icon-p"><img src="assets/images/icon-p-slider.png" alt=""></span>
-                </li>
-                <li bx-slider-item>
-                    <div class="cont-mainslider">
-                        <div class="thumb-mainslider">
-                            <a href="#">
-                                <img src="assets/images/user.jpg"/>
-                            </a>
-                        </div><!-- thumb-mainslider -->
-                        <p>Proin sodales imperdiet elit a efficitur. Donec ullamcorper tristique lobortis. Mauris iaculis venenatis iaculis. Donec non enim hendrerit, finibus orci faucibus, feugiat turpis. Sed commodo ex in lorem pharetra varius</p>
-                        <div class="author">
-                            <b>Landy Moore</b><span> - Harvard University faculty</span>
-                        </div>
-                    </div><!-- cont-mainslider -->
-                    <span class="icon-p"><img src="assets/images/icon-p-slider.png" alt=""></span>
-                </li>
-                <li bx-slider-item>
-                    <div class="cont-mainslider">
-                        <div class="thumb-mainslider">
-                            <a href="#">
-                                <img src="assets/images/user.jpg"/>
-                            </a>
-                        </div><!-- thumb-mainslider -->
-                        <p>Proin sodales imperdiet elit a efficitur. Donec ullamcorper tristique lobortis. Mauris iaculis venenatis iaculis. Donec non enim hendrerit, finibus orci faucibus, feugiat turpis. Sed commodo ex in lorem pharetra varius</p>
-                        <div class="author">
-                            <b>Landy Moore</b><span> - Harvard University faculty</span>
-                        </div>
-                    </div><!-- cont-mainslider -->
-                    <span class="icon-p"><img src="assets/images/icon-p-slider.png" alt=""></span>
-                </li>
-            </ul>
-		</script>
-        </div>
-    </section>
-    <!-- /Idea section -->
+	<!-- Idea section -->
+	<section class="testimonial">
+		<div class="container">
+			<h2>Testimonials</h2>
+			<div id="sliderwrapper">
+				<div slideit="bestDeals" click="bestDealClicked"></div>
+			</div>
+		</div>
+	</section>
+	<!-- /Idea section -->
 </div>

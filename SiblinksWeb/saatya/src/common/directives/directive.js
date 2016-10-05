@@ -1123,45 +1123,70 @@ brotControllers.directive('hideWhenClickAnywhere',['$document', function ($docum
 	  
 	}]);
 
-brotControllers.directive('bxSlider', function () {
-    var BX_SLIDER_OPTIONS = {
-        minSlides: 2,
-        maxSlides: 7,
-        slideWidth: 120
-    };
-
+brotControllers.directive('slideit',function() {
     return {
         restrict: 'A',
-        require: 'bxSlider',
-        priority: 0,
-        controller: function() {},
-        link: function (scope, element, attrs, ctrl) {
-            var slider;
-            ctrl.update = function() {
-                slider && slider.destroySlider();
-                slider = element.bxSlider(BX_SLIDER_OPTIONS);
-            };
+        replace: true,
+        scope: {
+          slideit: '=',
+          bestDealClicked: "=click"
+        },
+        template: '<ul class="slider clearfix">'
+        +'<li>'
+        +'<div class="cont-mainslider">'
+        +'<div class="thumb-mainslider">'
+        +'<a href="#">'
+        +'<img src="assets/images/user.jpg"/>'
+        +'</a>'
+        +'</div><!-- thumb-mainslider -->'
+        +'<p>Proin sodales imperdiet elit a efficitur. Donec ullamcorper tristique lobortis. Mauris iaculis venenatis iaculis. Donec non enim hendrerit, finibus orci faucibus, feugiat turpis. Sed commodo ex in lorem pharetra varius</p>'
+        +'<div class="author">'
+        +'<b>Landy Moore</b><span> - Harvard University faculty</span>'
+        +'</div>'
+        +'</div><!-- cont-mainslider -->'
+        +'<span class="icon-p"><img src="assets/images/icon-p-slider.png" alt=""></span>'
+        +'</li>'
+        +'<li>'
+        +'<div class="cont-mainslider">'
+        +'<div class="thumb-mainslider">'
+        +'<a href="#">'
+        +'<img src="assets/images/user.jpg"/>'
+        +'</a>'
+        +'</div><!-- thumb-mainslider -->'
+        +'<p>Proin sodales imperdiet elit a efficitur. Donec ullamcorper tristique lobortis. Mauris iaculis venenatis iaculis. Donec non enim hendrerit, finibus orci faucibus, feugiat turpis. Sed commodo ex in lorem pharetra varius</p>'
+        +'<div class="author">'
+        +'<b>Landy Moore</b><span> - Harvard University faculty</span>'
+        +'</div>'
+        +'</div><!-- cont-mainslider -->'
+        +'<span class="icon-p"><img src="assets/images/icon-p-slider.png" alt=""></span>'
+        +'</li>'
+        +'<li>'
+        +'<div class="cont-mainslider">'
+        +'<div class="thumb-mainslider">'
+        +'<a href="#">'
+        +'<img src="assets/images/user.jpg"/>'
+        +'</a>'
+        +'</div><!-- thumb-mainslider -->'
+        +'<p>Proin sodales imperdiet elit a efficitur. Donec ullamcorper tristique lobortis. Mauris iaculis venenatis iaculis. Donec non enim hendrerit, finibus orci faucibus, feugiat turpis. Sed commodo ex in lorem pharetra varius</p>'
+        +'<div class="author">'
+        +'<b>Landy Moore</b><span> - Harvard University faculty</span>'
+        +'</div>'
+        +'</div><!-- cont-mainslider -->'
+        +'<span class="icon-p"><img src="assets/images/icon-p-slider.png" alt=""></span>'
+        +'</li>'
+        +'</ul>',
+        link: function(scope, elm, attrs) {
+           elm.ready(function() {
+//             scope.$applyAsync (function() {
+//                 scope.bestDeals = scope.slideit;
+//             });
+             elm.bxSlider
+             ({
+            	 speed:1000,
+                 nextText:'',
+                 prevText:''
+                 });   
+           });
         }
-    }
-})
-brotControllers.directive('bxSliderItem', function($timeout) {
-    return {
-        require: '^bxSlider',
-        link: function(scope, elm, attr, bxSliderCtrl) {
-            if (scope.$last) {
-                bxSliderCtrl.update();
-            }
-        }
-    }
-})
-brotControllers.directive('listWrapper', ['$timeout', function ($timeout) {
-    return {
-        restrict: 'C',
-        priority: 500,
-        replace: false,
-        templateUrl: 'testimonials',
-        scope: {},
-        link: function (scope, element, attrs) {
-        }
-    };
-}])
+     }; 
+ });

@@ -70,8 +70,9 @@ module.exports = {
         js: [
 			'vendor/jquery.min.js',
 			'vendor/jquery-ui.js',
-			'vendor/main.js',
+			//'vendor/main.js',
 			'vendor/bootstrap.js',
+			'vendor/jquery.bxslider.min.js',
 			'vendor/angular.min.js',
             'vendor/jquery.sticky-kit.js',
             'vendor/angular-sticky-kit.js',
@@ -85,7 +86,6 @@ module.exports = {
             'vendor/jquery.mCustomScrollbar.js',
             'vendor/jquery.mousewheel.min.js',
             'vendor/jquery.1.7.js',
-            'vendor/jquery.bxslider.min.js',
             'vendor/d3.min.js',
             'vendor/nv.d3.js',
             'ckeditor/ckeditor.js',

@@ -10,33 +10,33 @@
     <div class="mentors-profile-headers">
         <div class="container">
             <div class="mentor-profile col-md-5">
-                <div class="top-mentors-img">
-                    <img ng-src="{{studentMentorProfile.imageUrl}}">
+                <div class="top-mentors-img" >
+                    <img style="width: 100%;   border-radius: 50%;    height: 120px" ng-src="{{studentMentorProfile.imageUrl != null ? studentMentorProfile.imageUrl : 'assets/images/noavartar.jpg'}}">
                 </div>
                 <div class="top-mentors-info">
                     <p class="top-mentors-name">
-                    <h4>{{studentMentorProfile.firstname + ' ' +studentMentorProfile.lastName}}</h4>
+                    <h4>{{studentMentorProfile.lastName != null ? studentMentorProfile.lastName : ''}} {{studentMentorProfile.firstname != null ? studentMentorProfile.firstname : ''}}</h4>
                     </p>
-                    <p><strong>Education:</strong> {{studentMentorProfile.school != null ? studentMentorProfile.school :
-                        "Unknow..."}}</p>
+                    <p><strong>Education:</strong> {{studentMentorProfile.accomplishments != null ? studentMentorProfile.accomplishments :
+                        EMPTY_DATA}}</p>
                     <p id="starPoint" star-rating stars="5" outer-star-selection="stars" outer-percent="rating"
                        rating-define="star"
                        ng-if="isReadyLoadPoint"
-                       rating-stars="{{studentMentorProfile.points != null ? studentMentorProfile.points : 0}}"
+                       rating-stars="{{studentMentorProfile.avgrate != null ? studentMentorProfile.avgrate : 0}}"
                        star-radius="7" sel-color="gold" readonly="true"
                     >
                     </p>
                 </div>
                 <div class="top-mentors-info-detail">
                     <div class="top-mentors-info-detail-wrapper">
-                        <p>{{gender}}, {{birthDay != null ? birthDay : "Unknow"}} year old</p>
+                        <p>{{gender}}, {{birthDay != null ? birthDay : EMPTY_DATA}} year old</p>
                         <p class="skilled">
                             <strong>Skilled at</strong><br>
                             <span ng-if="subjects" ng-repeat="skill in subjects" id="skill.id">{{skill.name}}{{$last ? '' : ', '}}</span>
                         </p>
                         <div class="about-mentor">
                             <strong>About me</strong><br>
-                            <span>{{studentMentorProfile.description != null ? studentMentorProfile.description: "Unknow..."}}</span>
+                            <span>{{studentMentorProfile.bio != null ? studentMentorProfile.bio: EMPTY_DATA}}</span>
                         </div>
                     </div>
                     <div class="subscribers-button">

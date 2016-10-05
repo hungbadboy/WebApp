@@ -52,11 +52,13 @@
                                             <span >asked {{question.time}} ago </span><br>
                                             <p>in <a href="#/ask_a_question/{{question.subjectid}}">{{question.subject}}</a></p>
                                         </div>
-                                        <div class="edit-details-question" data-icon="&#xe037;" ng-click="showEditQuestion(question.id)" ng-if="question.authorId == userId">
+                                        <div  class="edit-details-question" data-icon="&#xe037;" ng-click="showEditQuestion(question.id)" ng-if="question.authorId == userId">
                                             <div class="edit-question" id="qid{{question.id}}" ng-show="isEditQuestion && question.id == showEditQuestionId">
                                                 <ul>
-                                                    <li class="edit" ng-click="editQuestion(question.id+'')"><a href="/"><span data-icon="&#xe08a;"></span>Edit</a></li>
-                                                    <li class="delete" ng-show="question.count_answer == 0 || !question.count_answer" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteQuestion(question.id)"><a href="/"><span data-icon="&#x51;"></span>Delete</a></li>
+                                                    <li class="edit" ng-click="editQuestion(question.id,question.image,question.imagepath,question.content,question.subjectid,question.subject)">
+                                                        <a href="javascript:void(0)"><span data-icon="&#xe08a;"></span>Edit</a></li>
+                                                    <li class="delete" ng-show="question.count_answer == 0 || !question.count_answer" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteQuestion(question.id)">
+                                                        <a href="javascript:void(0)"><span data-icon="&#x51;"></span>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -96,15 +98,13 @@
                                                         </div>
                                                         <div class="detail-mentor-answer">
                                                             <div class="mentor-name">
-                                                                <strong>{{answer.name}}</strong>&nbsp;&nbsp;&nbsp;<span>answered {{answer.time}} ago
+                                                                <a href="#/student/mentorProfile/{{answer.authorID}}"><strong>{{answer.name}}</strong></a>&nbsp;&nbsp;&nbsp;<span>answered {{answer.time}} ago
                                                                 </span>&nbsp;&nbsp;&nbsp;<span>{{answer.countLike + likeCount}} <span
                                                                     data-icon="&#xe089;" id="heart"
                                                                     ng-click="likeAnswer(answer.aid)"></span></span>
                                                             </div>
                                                             <div class="mentor-answer">
-                                                                <p>
-                                                                <div data-ng-bind-html="answer.content"></div>
-                                                                </p>
+                                                                <p class="pre-wrap ">{{answer.content}}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -148,33 +148,43 @@
     </div><!-- End container -->
 
     <!-- Form add new ask -->
-    <div class="form-ask-question" ng-controller="HomeController">
+    <div class="form-ask-question">
         <div class="form-ask-question-wrapper">
-            <form action="" method="" class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
-                <h3>Ask a question</h3>
+            <form action="" method=""
+                  class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
+                <h3>{{titlePopupAsk}}</h3>
                 <div ng-if="askErrorMsg" class="validate_error">
                     <span>{{askErrorMsg}}</span>
                 </div>
                 <p>
-                <div angucomplete-alt id="autocompleteCate_value" placeholder="Search category.." pause="300"
+                <div angucomplete-alt id="autocompleteCate" initial-value="initCategory" placeholder="Search category.." pause="300"
                      selected-object="selectedSubject"
                      local-data="subjects" search-fields="subject" title-field="subject"
                      image-field="image" minlength="0" input-class="form-control form-control-small"
                      match-class="highlight"/>
                 </p>
                 <p><textarea id="autocompleteQuest_value" placeholder="{{questionIndex}}"></textarea></p>
-                <output class="upload-image " id="list">
+                <output style="width: auto;float: left;" class="upload-image " id="list">
+
+                    <div ng-repeat="image in imagePathOld track by $index" ng-if="image">
+                        <img class="thumb" ng-src="{{image}}"/>
+                        <div class="remove-image"><img src="assets/images/remove-img.png"
+                                                       ng-click="removeImgOld($index)"></div>
+                    </div>
                     <div ng-repeat="step in stepsModel track by $index">
                         <img class="thumb" ng-src="{{step}}"/>
-                        <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
+                        <div class="remove-image"><img src="assets/images/remove-img.png"
+                                                       ng-click="removeImg($index)"></div>
                     </div>
                 </output>
+
                 <span class="add-img">
-                  <input type="file" multiple id="files" ng-file-select="onFileSelect($files)" accept='image/*'/>
-                  <label for="files"><img src="assets/images/add-img.png"></label>
-                </span>
-                <p>
-                  <button type="button" ng-click="redirectForum()" class="ask-question-now">Ask Now</button>
+                                <input type="file" multiple id="files" ng-file-select="onFileSelect($files)"
+                                       accept='image/*'/>
+                                <label for="files"><img src="assets/images/add-img.png"></label></span>
+                <p  style="width: 100%;float: left;">
+                    <button ng-if="!isEdit" type="button" ng-click="redirectForum()" class="ask-question-now">Ask Now</button>
+                    <button ng-if="isEdit" type="button" ng-click="updateQuestion()" class="ask-question-now">Update</button>
                 </p>
                 <p class="close-form close" ng-click="closePopupAskQuestion()"><span data-icon="&#xe051;"></span></p>
             </form>

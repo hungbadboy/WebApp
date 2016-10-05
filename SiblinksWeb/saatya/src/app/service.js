@@ -242,7 +242,7 @@ brotServices.factory('AnswerService', ['$http', '$log', function ($http) {
                 "request_data": {
                     "authorID": userId,
                     "pid": questionId,
-                    "content": content),
+                    "content": content,
                     "tags": []
                 }
             }

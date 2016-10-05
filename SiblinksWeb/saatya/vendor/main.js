@@ -162,40 +162,40 @@ jQuery(document).ready(function($) {
     // $(".top-mentors-videos").stick_in_parent();
     //Bxslider - Slider images of ask a question page
 
-        var $j = jQuery.noConflict();
-
-        var realSlider= $j("ul#bxslider").bxSlider({
-              speed:1000,
-              pager:false,
-              nextText:'',
-              prevText:'',
-              infiniteLoop:false,
-              hideControlOnEnd:true,
-              onSlideBefore:function($slideElement, oldIndex, newIndex){
-                changeRealThumb(realThumbSlider,newIndex);
-                
-              }
-              
-            });
-            
-            var realThumbSlider=$j("ul#bxslider-pager").bxSlider({
-              minSlides: 5,
-              maxSlides: 5,
-              slideWidth: 100,
-              slideMargin: 15,
-              moveSlides: 1,
-              pager:false,
-              speed:1000,
-              infiniteLoop:false,
-              hideControlOnEnd:true,
-              nextText:'<span>></span>',
-              prevText:'<span><</span>',
-              onSlideBefore:function($slideElement, oldIndex, newIndex){
-                /*$j("#sliderThumbReal ul .active").removeClass("active");
-                $slideElement.addClass("active"); */
-
-              }
-            });
+//        var $j = jQuery.noConflict();
+//
+//        var realSlider= $j("ul#bxslider").bxSlider({
+//              speed:1000,
+//              pager:false,
+//              nextText:'',
+//              prevText:'',
+//              infiniteLoop:false,
+//              hideControlOnEnd:true,
+//              onSlideBefore:function($slideElement, oldIndex, newIndex){
+//                changeRealThumb(realThumbSlider,newIndex);
+//                
+//              }
+//              
+//            });
+//            
+//            var realThumbSlider=$j("ul#bxslider-pager").bxSlider({
+//              minSlides: 5,
+//              maxSlides: 5,
+//              slideWidth: 100,
+//              slideMargin: 15,
+//              moveSlides: 1,
+//              pager:false,
+//              speed:1000,
+//              infiniteLoop:false,
+//              hideControlOnEnd:true,
+//              nextText:'<span>></span>',
+//              prevText:'<span><</span>',
+//              onSlideBefore:function($slideElement, oldIndex, newIndex){
+//                /*$j("#sliderThumbReal ul .active").removeClass("active");
+//                $slideElement.addClass("active"); */
+//
+//              }
+//            });
             // $(".popup-images").reloadSlider();
             linkRealSliders(realSlider,realThumbSlider);
             
@@ -205,14 +205,14 @@ jQuery(document).ready(function($) {
 
 
         // sincronizza sliders realizzazioni
-        function linkRealSliders(bigS,thumbS){
-          
-          $j("ul#bxslider-pager").on("click","a",function(event){
-            event.preventDefault();
-            var newIndex=$j(this).parent().attr("data-slideIndex");
-                bigS.goToSlide(newIndex);
-          });
-        }
+//        function linkRealSliders(bigS,thumbS){
+//          
+//          $j("ul#bxslider-pager").on("click","a",function(event){
+//            event.preventDefault();
+//            var newIndex=$j(this).parent().attr("data-slideIndex");
+//                bigS.goToSlide(newIndex);
+//          });
+//        }
 
         //slider!=$thumbSlider. slider is the realslider
         function changeRealThumb(slider,newIndex){

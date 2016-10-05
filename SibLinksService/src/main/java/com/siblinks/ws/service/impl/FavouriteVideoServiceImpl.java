@@ -106,6 +106,29 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/checkFavouriteVideo", method = RequestMethod.POST)
+    public ResponseEntity<Response> checkFavouriteVideo(@RequestBody final FavouriteData favourite) {
+       
+        String message = "false";
+        try {
+            List<Object> readObjects = dao.readObjects( SibConstants.SqlMapper.SQL_CHECK_VIDEO_FAVOURITE,
+                new Object[] {favourite.getVid(), favourite.getUid()});
+            if (readObjects != null && readObjects.size() > 0) {
+                message = "true";
+            }
+        } catch (Exception e) {
+            message = e.getMessage();
+        }
+        SimpleResponse reponse = new SimpleResponse("" + message, "checkFavouriteVideo", "checkFavouriteVideo", message);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
 
     /**
      * {@inheritDoc}
