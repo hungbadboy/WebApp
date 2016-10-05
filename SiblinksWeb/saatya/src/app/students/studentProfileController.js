@@ -16,6 +16,7 @@ brotControllers.controller('StudentProfileController',
             $scope.newPwd = "";
             $scope.confirmPwd = "";
             $scope.isLoadMore = false;
+            $scope.EMPTY_DATA = StatusError.MSG_UNKNOWN;
 
             var isInit = true;
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
@@ -81,24 +82,20 @@ brotControllers.controller('StudentProfileController',
             function getInfoMentorProfile() {
                 MentorService.getStudentMentorProfile(mentorId).then(function (data) {
                     var subjects = myCache.get("subjects");
-                    if (data.data.status) {
+                    if (data.data.status == "true") {
                         if (data.data.request_data_result) {
                             $scope.studentMentorProfile = data.data.request_data_result;
                             var gender = $scope.studentMentorProfile.gender;
-                            if (!gender) {
-                                $scope.gender = "Gender: None";
-                            } else if (gender == "Mal") {
-                                $scope.gender = "Male";
-                            } else if (gender == "Fem") {
-                                $scope.gender = "Female";
-                            }
+
+                            $scope.gender = validateGender(gender);
+
                             $scope.birthDay = calculateBirthDay($scope.studentMentorProfile.birthDay);
 
-                            if(subjects){
+                            if($scope.studentMentorProfile.defaultSubjectId){
                                 $scope.subjects = getSubjectNameById($scope.studentMentorProfile.defaultSubjectId, subjects);
                             }else{
-                                var skillNull = {id:-1,name:"None"};
-                                $scope.subjects.push(skillNull);
+                                var skillNull = [{id:-1,name:"None"}];
+                                $scope.subjects= skillNull;
                             }
 
                         } else {
@@ -113,7 +110,7 @@ brotControllers.controller('StudentProfileController',
             function getVideosRecently() {
                 VideoService.getVideosRecently(mentorId).then(function (data) {
                     if (data.data.status) {
-                        if (data.data.request_data_result == "Found no data") {
+                        if (data.data.request_data_result == StatusError.MSG_DATA_NOT_FOUND) {
                             $scope.videosRecently = null;
                             return;
                         }
