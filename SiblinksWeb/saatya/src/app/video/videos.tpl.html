@@ -15,19 +15,19 @@
                             <button class="btn btn-default btn-search-video" type="submit"><span data-icon="&#x55;"></span></button>
                         </div> -->
                         <div angucomplete-alt id="srch-term" ng-enter="searchEnter()" placeholder="Search" pause="50"
-	                                selected-object="onSelect"
-	                                local-data="listAllVideos" search-fields="title" title-field="title"
-	                                minlength="1" input-class="form-control form-control-small form-control-search"
-                                    text-no-results="Video Not Found"
-	                                match-class="highlight" ></div>
-	                                
+                             selected-object="onSelect"
+                             local-data="listAllVideos" search-fields="title" title-field="title"
+                             minlength="1" input-class="form-control form-control-small form-control-search"
+                             text-no-results="Video Not Found"
+                             match-class="highlight"></div>
+
                         <div class="input-group-btn">
-                        <button class="btn btn-default btn-search-video" type="submit" ng-click="searchEnter()">
-                        	<span data-icon="&#x55;"></span>
-                        </button>
-                       </div>
-                     
-                   </div>
+                            <button class="btn btn-default btn-search-video" type="submit" ng-click="searchEnter()">
+                                <span data-icon="&#x55;"></span>
+                            </button>
+                        </div>
+
+                    </div>
                 </form>
             </div><!-- /End Search form -->
         </div>
@@ -189,7 +189,7 @@
                             </ul>
                         </div>
                         <div class="recommended"
-                             ng-show="listVideoRecommended && !searchItem && !isSearchAction" scroller="sc-recommended" data-on-total-scroll="loadMoreVideo" >
+                             ng-show="listVideoRecommended && !searchItem && !isSearchAction">
                             <h5>Recommended</h5>
                             <ul>
                                 <li ng-repeat="recommend in listVideoRecommended track by $index">
@@ -233,10 +233,10 @@
                                     </div>
                                 </li>
                             </ul>
-                            <!--<div class="see-more" ng-click="loadMoreVideo(1, subjectId)"><p>show more</p></div>-->
+                            <!--<a class="show-more" style="float : right" ng-click="loadMoreVideo(1)">Show More</a>-->
+                            <div class="see-more" ng-show="isShowRecommended" ng-click="loadMoreVideo(1)"><span>Show More</span></div>
                         </div>
-                        <div class="recently-uploaded"  ng-show="listVideoRecently && !searchItem && !isSearchAction"
-                             scroller="sc-recently" data-on-total-scroll="loadMoreVideo">
+                        <div class="recently-uploaded" ng-show="listVideoRecently && !searchItem && !isSearchAction">
                             <h5>Recently Uploaded</h5>
                             <ul>
 
@@ -280,11 +280,11 @@
                                     </div>
                                 </li>
                             </ul>
-                            <!--<div class="see-more" ng-click="loadMoreVideo(2, subjectId)"><p>show more</p></div>-->
+                            <div class="see-more" ng-show="isShowRecently" ng-click="loadMoreVideo(2)"><span>Show More</span></div>
                         </div>
                         <div class="video-member" ng-if="!isSearchAction"
-                             ng-show="login == 1 && listVideoRecommendedForU" scroller="sc-recommended-4-u" scroller="sc-recommended" data-on-total-scroll="expand">
-                            <div ng-repeat="recommendedForYou in listVideoRecommendedForU | limitTo : limitOfRecommendedForU"  >
+                             ng-show="login == 1 && listVideoRecommendedForU">
+                            <div ng-repeat="recommendedForYou in listVideoRecommendedForU | limitTo : limitOfRecommendedForU">
                                 <div class="video-member-header">
                                     <div class="video-member-title">
                                         <h5>{{recommendedForYou[0].name}}</h5>
@@ -339,9 +339,9 @@
                                             </div>
                                         </div>
                                     </li>
-
                                 </ul>
                             </div>
+                            <div class="see-more" ng-show="isShowRecommendedForU" ng-click="loadMoreVideo(3)"><span>Show More</span></div>
                         </div>
                     </div>
                 </div><!-- /End Content of All -->

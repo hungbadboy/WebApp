@@ -284,9 +284,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         };
 
 
-        var limit = 12;
+        var limit = 8;
         var offset = 0;
-        var limitOfLoadMore = 4;
+        var limitOfLoadMore = 8;
         var currentPageRecommended = 0, currentPageRecently = 0;
         var isInitRecommended = true;
         var isInitRecently = true;
@@ -294,6 +294,10 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.totalVideosRecommended = 0;
         $scope.totalVideosRecently = 0;
         $scope.scrollWithBlock = undefined;
+        $scope.limitOfRecommendedForU = 3;
+        $scope.isShowRecommendedForU = true;
+        $scope.isShowRecommended = true;
+        $scope.isShowRecently = true;
         var hasLoadMore = false;
         init();
 
@@ -393,7 +397,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                                 $scope.totalVideosRecently = $scope.listVideoRecently.length;
                             }
                         }
-                        console.log($scope.totalVideosRecommended);
                     }
                 });
                 return subjectId;
@@ -519,7 +522,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             }
 
         }
-
 
 
         function parseDataVideoRecently(data) {
@@ -837,11 +839,11 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         $scope.isLoadMoreRecommended = false;
         $scope.isLoadMoreRecently = false;
-        $scope.loadMoreVideo = function () {
-            var blockToLoad = findScrollWithBlock();
-            if (blockToLoad == undefined || blockToLoad == null) {
-                return;
-            }
+        $scope.loadMoreVideo = function (blockToLoad) {
+            // var blockToLoad = findScrollWithBlock();
+            // if (blockToLoad == undefined || blockToLoad == null) {
+            //     return;
+            // }
             hasLoadMore = true;
             var subjectId = $scope.subjectId;
             switch (blockToLoad) {
@@ -857,8 +859,10 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     if (newoffsetRecommended > $scope.totalVideosRecommended) {
                         newoffsetRecommended = $scope.totalVideosRecommended;
                         $scope.isLoadMoreRecommended = true;
+                        $scope.isShowRecommended = false;
                     } else {
                         $scope.isLoadMoreRecommended = false;
+                        $scope.isShowRecommended = true;
                         if (userId) {
                             getVideoBySubject(userId, subjectId, limitOfLoadMore, newoffsetRecommended);
                         } else {
@@ -878,9 +882,11 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     if (newoffsetRecently > $scope.totalVideosRecently) {
                         newoffsetRecently = $scope.totalVideosRecently;
                         $scope.isLoadMoreRecently = true;
+                        $scope.isShowRecently = false;
                     }
                     else {
                         $scope.isLoadMoreRecently = false;
+                        $scope.isShowRecently = true;
                         if (userId) {
                             getVideoBySubject(userId, subjectId, limitOfLoadMore, newoffsetRecently);
                         } else {
@@ -889,17 +895,17 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     }
                     break;
                 case 3 :
-
+                    var increamented = 3;
+                    // $scope.expand = function () {
+                    if ($scope.limitOfRecommendedForU < $scope.listVideoRecommendedForU.length) {
+                        currentPageRecommended++;
+                        $scope.limitOfRecommendedForU += increamented;
+                        $scope.isShowRecommendedForU = true;
+                    } else {
+                        $scope.isShowRecommendedForU = false;
+                    }
+                    // };
                     break;
-            }
-        };
-
-        $scope.limitOfRecommendedForU = 3;
-        var increamented  = 3;
-        $scope.expand = function () {
-            if ($scope.limitOfRecommendedForU < $scope.listVideoRecommendedForU.length) {
-                currentPageRecommended++;
-                $scope.limitOfRecommendedForU += increamented;
             }
         };
 
