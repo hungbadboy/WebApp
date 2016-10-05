@@ -158,7 +158,6 @@ brotControllers.controller('StudentProfileController',
                 });
             }
 
-
             function calculateBirthDay(timeStamp) {
                 // var currentTime = new Date()
                 // if (strBod) {
