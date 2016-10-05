@@ -164,7 +164,7 @@
                      match-class="highlight"/>
                 </p>
                 <p><textarea id="autocompleteQuest_value" placeholder="{{questionIndex}}"></textarea></p>
-                <output class="upload-image " id="list">
+                <output style="width: auto;float: left;" class="upload-image " id="list">
 
                     <div ng-repeat="image in imagePathOld track by $index" ng-if="image">
                         <img class="thumb" ng-src="{{image}}"/>
@@ -182,7 +182,7 @@
                                 <input type="file" multiple id="files" ng-file-select="onFileSelect($files)"
                                        accept='image/*'/>
                                 <label for="files"><img src="assets/images/add-img.png"></label></span>
-                <p>
+                <p  style="width: 100%;float: left;">
                     <button ng-if="!isEdit" type="button" ng-click="redirectForum()" class="ask-question-now">Ask Now</button>
                     <button ng-if="isEdit" type="button" ng-click="updateQuestion()" class="ask-question-now">Update</button>
                 </p>
