@@ -43,7 +43,7 @@
                             <div  scroller="askQuestion" data-on-total-scroll="loadMorePost" class="content-question-wrapper">
                                 <!-- Question 01 -->
                                 <div  ng-if="askQuestion" ng-repeat="question in askQuestion track by $index" class="question question_{{$index+1}}" >
-                                    <div class="number-question col-xs-1" ng-class="{'answered':question.count_answer > 0}">
+                                    <div ng-click="detailQuestion(question.id)" class="number-question col-xs-1" ng-class="{'answered':question.count_answer > 0}">
                                         <!--<h4>{{$index+1}}</h4>-->
                                         <img src="assets/images/icon-comment-ask.png">
                                     </div>
@@ -99,9 +99,9 @@
                                                         <div class="detail-mentor-answer">
                                                             <div class="mentor-name">
                                                                 <a href="#/student/mentorProfile/{{answer.authorID}}"><strong>{{answer.name}}</strong></a>&nbsp;&nbsp;&nbsp;<span>answered {{answer.time}} ago
-                                                                </span>&nbsp;&nbsp;&nbsp;<span>{{answer.countLike + likeCount}} <span
-                                                                    data-icon="&#xe089;" id="heart"
-                                                                    ng-click="likeAnswer(answer.aid)"></span></span>
+                                                                </span>&nbsp;&nbsp;&nbsp;<span>{{answer.countLike }} <span
+                                                                    data-icon="&#xe089;" id="{{answer.like=='1'?'heart':''}}" class="heart{{question.id +''+ answer.aid}}"
+                                                                    ng-click="likeAnswer(answer.aid,question.id)"></span></span>
                                                             </div>
                                                             <div class="mentor-answer">
                                                                 <p class="pre-wrap ">{{answer.content}}</p>

@@ -262,6 +262,9 @@ function getSubjectNameById(strSubjectId, listcate) {
     if (strSubjectId == null || strSubjectId === undefined) {
         return;
     }
+    if (listcate == null || listcate === undefined) {
+        return;
+    }
     var subject = {};
     var listSubject = [];
     if (isEmpty(strSubjectId)) {

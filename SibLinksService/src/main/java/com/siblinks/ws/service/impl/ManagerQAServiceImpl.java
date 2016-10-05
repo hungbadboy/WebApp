@@ -89,7 +89,7 @@ public class ManagerQAServiceImpl implements managerQAService {
         String subjectId = request.getRequest_data().getSubjectId();
         String userId = request.getRequest_data().getUid();
         String limit = request.getRequest_data().getLimit();
-        String lastQId = request.getRequest_data().getPid();
+        String offset = request.getRequest_data().getOffset();
         String type = request.getRequest_data().getType();
         String search = request.getRequest_data().getContent();
         String whereCause = "";
@@ -104,17 +104,14 @@ public class ManagerQAServiceImpl implements managerQAService {
         if (Parameters.ANSWERED.equals(type)) {
             whereCause += " AND X.numReplies > 0 ";
         }
-        if (!StringUtil.isNull(lastQId)&& !"-1".equals(lastQId)) {
-            whereCause += " AND X.pid <  " + lastQId;
-        }
 
         if (!StringUtil.isNull(subjectId) && !"-1".equals(subjectId)) {
             whereCause += " AND X.subjectId = " + subjectId;
         }
         else {
-            whereCause += " AND X.subjectId in (SELECT defaultSubjectId FROM Sib_Users where userid = " +
+            whereCause += " AND FIND_IN_SET(X.subjectId , (SELECT defaultSubjectId FROM Sib_Users where userid = " +
                           userId +
-                          " )";
+                          " ))";
         }
 
         Object[] queryParams = { userId };
@@ -124,6 +121,10 @@ public class ManagerQAServiceImpl implements managerQAService {
         whereCause += " ORDER BY X.datetime DESC ";
         if (!StringUtil.isNull(limit)) {
             whereCause += " LIMIT " + limit;
+        }
+        
+        if (!StringUtil.isNull(offset)) {
+            whereCause += " OFFSET " + offset;
         }
 
         readObject = dao.readObjectsWhereClause(

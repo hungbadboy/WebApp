@@ -24,10 +24,10 @@ brotApp.controller('ForgotPassword', function($scope, $http) {
     }).success(function(json) {
         if(json.status) {
           $scope.showItem = true;
-          $scope.sucessmsg='Forget password is successful. We sent to reset password in your email';
+          $scope.sucessmsg ='We have sent a link to reset your password to ' + email + '.';
           
         } else {
-        	$scope.errormsg = 'Email address is not exist';
+        	$scope.errormsg = 'Sorry, SibLinks doesn\'t recognize that account';
         }
     });
   };

@@ -83,7 +83,7 @@ brotControllers
                     QuestionsService.updateViewQuestion(question_id, "view").then(function (data) {
                     });
                     var listAnswer = [];
-                    QuestionsService.getAnswerByQid(question_id, type, "", "").then(function (data) {
+                    QuestionsService.getAnswerByQid(question_id, type, "", "",userId).then(function (data) {
 
                         var answers = data.data.request_data_result;
                         $scope.countAnswer = answers.length;
@@ -149,21 +149,18 @@ brotControllers
                 };
 
 
-                $scope.likeCount = 0;
                 $scope.likeAnswer = function (aid) {
                     if (!isEmpty(userId) && userId != -1) {
                         AnswerService.likeAnswer(userId, aid + "").then(function (data) {
-                            if (data.data.status == 'Fail') {
-                                $scope.likeCount = 1;
+                            if (data.data.status == 'true') {
+                                if (data.data.request_data_type == "like") {
+                                    $('.heart'+aid).attr('id','heart');
+                                }
+                                else {
+                                    $('.heart'+aid).attr('id','');
+                                }
                             }
-                            else {
-                                $scope.likeCount = 1;
-                            }
-
                         });
-                    }
-                    else {
-                        $scope.likeCount = 0;
                     }
                 };
 

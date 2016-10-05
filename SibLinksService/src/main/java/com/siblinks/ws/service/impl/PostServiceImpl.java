@@ -1078,9 +1078,9 @@ public class PostServiceImpl implements PostService {
 			whereClause += " AND P.NUMREPLIES = 0";
 		}
 		
-		if (!"-1".equals(oldQid)) {
-			whereClause += " AND P.PID > " + oldQid;
-		}
+//		if (!"-1".equals(oldQid)) {
+//			whereClause += " AND P.PID > " + oldQid;
+//		}
 		
 		if (!"-1".equals(subjectid)) {
 			whereClause += " AND P.subjectId=  " + subjectid;
@@ -1105,7 +1105,7 @@ public class PostServiceImpl implements PostService {
                 String result = readObject.get(i).toString();
                 String temp = result.substring(0, result.indexOf(","));
                 long _id = Long.parseLong(temp.substring(temp.lastIndexOf("=") + 1));
-                Object objAnwser = getAnswersList(_id, limit, offset);
+                Object objAnwser = getAnswersList(id,_id, limit, offset);
                 if (objAnwser == null) {
                     readObjectAnswers.add(null);
                 } else {
@@ -1161,26 +1161,24 @@ public class PostServiceImpl implements PostService {
         return entity;
     }
 
-    public Object getAnswersList(final long id, final String limit, final String offset) {
+    public Object getAnswersList(long uid,final long id, final String limit, final String offset) {
 
-        CommonUtil util = CommonUtil.getInstance();
 
-        Map<String, String> map = util.getOffset(limit, offset);
+        String entityName = SibConstants.SqlMapper.SQL_GET_ANSWER_BY_QID;
 
-        String sqlMapper = "";
         List<Object> readObject = null;
-        if (id == 0) {
-            readObject = dao.readObjects(
-                SibConstants.SqlMapper.SQL_GET_POST_ANSWER_LIST_PN,
-                new Object[] { Integer.parseInt(map.get("limit")), Integer.parseInt(map.get("offset")) });
-        } else {
-            readObject = dao.readObjects(
-                SibConstants.SqlMapper.SQL_GET_POST_ANSWER_LIST_SUBID_PN,
-                new Object[] { id, Integer.parseInt(map.get("limit")), Integer.parseInt(map.get("offset")) });
+        String whereClause = "";
+        Object[] queryParams = { uid,id };
+        whereClause += " ORDER BY X.TIMESTAMP DESC";
+  
+        if (!StringUtil.isNull(limit)) {
+            whereClause += " LIMIT " + limit;
         }
-        if (readObject.isEmpty()) {
-            return null;
+        if (!StringUtil.isNull(offset)) {
+            whereClause += " OFFSET " + offset;
         }
+        
+        readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
 
         SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "get answer", "getAnswersList", readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -1259,7 +1257,8 @@ public class PostServiceImpl implements PostService {
 		String offset = request.getRequest_data().getOffset();
 		String qid = request.getRequest_data().getPid();
 		String type = request.getRequest_data().getType();
-		Object[] queryParams = { qid };
+		String uid = request.getRequest_data().getUid();
+		Object[] queryParams = { uid,qid };
 
 		String entityName = SibConstants.SqlMapper.SQL_GET_ANSWER_BY_QID;
 

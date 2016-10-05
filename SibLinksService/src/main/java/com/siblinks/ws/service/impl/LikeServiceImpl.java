@@ -44,6 +44,7 @@ import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.LikeService;
+import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.SibConstants;
 
 /**
@@ -306,8 +307,7 @@ public class LikeServiceImpl implements LikeService {
         String entityName = SibConstants.SqlMapper.SQL_LIKE_ANSWER_READ;
         readObject = dao.readObjects(entityName, queryParams);
         boolean status = true, notifi = true;
-        String message = "";
-        String statusType;
+        String statusType = "like";
         if (readObject.size() == 0) {
             entityName = SibConstants.SqlMapper.SQL_ANSWER_ID_LIKE;
             status = dao.insertUpdateObject(entityName, queryParams);
@@ -323,41 +323,15 @@ public class LikeServiceImpl implements LikeService {
             }
             statusType = "like";
         } else {
-            entityName = SibConstants.SqlMapper.SQL_SELECT_ANSWER;
-            readObject = dao.readObjects(entityName, queryParams);
-            if (readObject.size() == 0) {
-                entityName = SibConstants.SqlMapper.SQL_UPDATE_LIKE_ANSWER;
-                status = dao.insertUpdateObject(entityName, queryParams);
-
-                Object[] params = getParamLikeAnswer("GET_POSTID_WITH_ANSWER", "GET_POST_WITH_POSTID", queryParams, request);
-                if (!params[0].toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-                    entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION;
-                    notifi = dao.insertUpdateObject(entityName, params);
-                }
-                statusType = "like";
-            } else {
-                entityName = SibConstants.SqlMapper.SQL_UPDATE_UNLIKE_ANSWER;
-                status = dao.insertUpdateObject(entityName, queryParams);
+            entityName = SibConstants.SqlMapper.SQL_UPDATE_LIKE_ANSWER;
+            status = dao.insertUpdateObject(entityName, queryParams);
+            String subscribe = (String) ((Map) readObject.get(0)).get(Parameters.LIKEANSWER);
+            if (subscribe != null && subscribe.equals("Y")) {
                 statusType = "unlike";
             }
+           
         }
-        entityName = SibConstants.SqlMapper.SQL_LIKE_ANSWER_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-
-        if (status) {
-            message = "Done";
-        } else {
-            message = "Fail";
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "statusType: " +
-                                                    statusType +
-                                                    ",status: " +
-                                                    message,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + status, statusType, request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }

@@ -2,323 +2,276 @@
 <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
 <!-- /End Sidebar left menu -->
 <!-- Main center content -->
-<div class="content">
-    <div class="center-content">
-        <div class="center-content-wrapper">
-            <section id="dashboard">
-                <!-- Content header -->
-              <div class="dashboard-header">    
-                  <h4>Manage Essay</h4>
-                  <p>Ut a porttitor leo. Aliquam fermentum nec elit lobortis tristique </p>
-              </div>
-              <!-- /End Content header -->
-              <!-- Content of page -->
-              <div class="manager-video mentor-manage-qa-content">
-                  <div class="row top-mag">
-                      <div class="col-md-12">
-                          <div class="col-md-4 search">
-                              <form class="navbar-form" role="search">
-                                  <div class="input-group">
-                                      <div class="input-group-btn">
-                                          <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
-                                      </div>
-                                      <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
-                                  </div>
-                              </form>
-                          </div>
-                      </div>
-                  </div>
-                  <!-- /End Top content -->
-                  <div class="main-qa clearfix">
-                      <div class="col-md-4 left-qa left-essay">
-                          <div role="tabpanel tab-all">
-                              <!-- Nav tabs -->
-                              <ul class="nav nav-tabs" role="tablist">
-                                  <li role="presentation" class="active">
-                                      <a href="{{currentPath}}#tab-1" aria-controls="new" role="tab" data-toggle="tab">New</a>
-                                  </li>
-                                  <li role="presentation">
-                                      <a href="{{currentPath}}#tab-2" aria-controls="processing" role="tab" data-toggle="tab">Processing</a>
-                                  </li>
-                                  <li role="presentation">
-                                      <a href="{{currentPath}}#tab-3" aria-controls="ignored" role="tab" data-toggle="tab">Ignored</a>
-                                  </li>
-                                  <li role="presentation">
-                                      <a href="{{currentPath}}#tab-4" aria-controls="replied" role="tab" data-toggle="tab">Replied</a>
-                                  </li>
-                              </ul>
-                              <!-- Tab panes -->
-                              <div class="tab-content">
-                                  <div role="tabpanel" class="tab-pane active" id="tab-1">
-                                      <div class="group-item-qa">
-                                          <div class="item-qa active clearfix">
-                                              <div class="col-md-3">
-                                                  <img src="assets/images/user.jpg" alt="">
-                                              </div>
-                                              <div class="col-md-9 bx-dt-qa">
-                                                  <h5>Student name <span class="time">asked 5 mins ago</span></h5>
-                                                  <b>Essay title</b>
-                                                  <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
-                                                  <div class="clearfix bt-item">
-                                                      <div class="col-md-6 replied"><h6>Replied<span>&nbsp;5 min ago</span></h6></div>
-                                                      <div class="col-md-6">
-                                                          <ul class="list-star pull-right">
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                          </ul>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div class="item-qa clearfix">
-                                              <div class="col-md-3">
-                                                  <img src="assets/images/user.jpg" alt="">
-                                              </div>
-                                              <div class="col-md-9 bx-dt-qa">
-                                                  <h5>Student name <span class="time">asked 5 mins ago</span></h5>
-                                                  <b>Essay title</b>
-                                                  <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
-                                                  <div class="clearfix bt-item">
-                                                      <div class="col-md-6 replied"><h6>Replied<span>&nbsp;5 min ago</span></h6></div>
-                                                      <div class="col-md-6">
-                                                          <ul class="list-star pull-right">
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                          </ul>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div class="item-qa clearfix">
-                                              <div class="col-md-3">
-                                                  <img src="assets/images/user.jpg" alt="">
-                                              </div>
-                                              <div class="col-md-9 bx-dt-qa">
-                                                  <h5>Student name <span class="time">asked 5 mins ago</span></h5>
-                                                  <b>Essay title</b>
-                                                  <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
-                                                  <div class="clearfix bt-item">
-                                                      <div class="col-md-6 replied"><h6>Replied<span>&nbsp;5 min ago</span></h6></div>
-                                                      <div class="col-md-6">
-                                                          <ul class="list-star pull-right">
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                          </ul>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div class="item-qa clearfix">
-                                              <div class="col-md-3">
-                                                  <img src="assets/images/user.jpg" alt="">
-                                              </div>
-                                              <div class="col-md-9 bx-dt-qa">
-                                                  <h5>Student name <span class="time">asked 5 mins ago</span></h5>
-                                                  <b>Essay title</b>
-                                                  <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
-                                                  <div class="clearfix bt-item">
-                                                      <div class="col-md-6 replied"><h6>Replied<span>&nbsp;5 min ago</span></h6></div>
-                                                      <div class="col-md-6">
-                                                          <ul class="list-star pull-right">
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                          </ul>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div class="item-qa clearfix">
-                                              <div class="col-md-3">
-                                                  <img src="assets/images/user.jpg" alt="">
-                                              </div>
-                                              <div class="col-md-9 bx-dt-qa">
-                                                  <h5>Student name <span class="time">asked 5 mins ago</span></h5>
-                                                  <b>Essay title</b>
-                                                  <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
-                                                  <div class="clearfix bt-item">
-                                                      <div class="col-md-6 replied"><h6>Replied<span>&nbsp;5 min ago</span></h6></div>
-                                                      <div class="col-md-6">
-                                                          <ul class="list-star pull-right">
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                          </ul>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div class="item-qa clearfix">
-                                              <div class="col-md-3">
-                                                  <img src="assets/images/user.jpg" alt="">
-                                              </div>
-                                              <div class="col-md-9 bx-dt-qa">
-                                                  <h5>Student name <span class="time">asked 5 mins ago</span></h5>
-                                                  <b>Essay title</b>
-                                                  <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
-                                                  <div class="clearfix bt-item">
-                                                      <div class="col-md-6 replied"><h6>Replied<span>&nbsp;5 min ago</span></h6></div>
-                                                      <div class="col-md-6">
-                                                          <ul class="list-star pull-right">
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                              <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                          </ul>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <p class="btn-load"><a href="#">load more</a></p>
-                                  </div>
-                                  <div role="tabpanel" class="tab-pane" id="tab-2">tab-2</div>
-                                  <div role="tabpanel" class="tab-pane" id="tab-3">tab-3</div>
-                                  <div role="tabpanel" class="tab-pane" id="tab-4">tab-4</div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-md-8 box-main-replied">
-                          <div class="slider-rpl">
-                              <div class="box-btn-sl clearfix">
-                                  <a href="#" class="btn-prev"><img src="assets/images/icon-sl-left.png" alt=""></a>
-                                  <a href="#" class="btn-next"><img src="assets/images/icon-sl-right.png" alt=""></a>
-                              </div>
-                              <div class="group-item-sl">
-                                  <div class="item-sl-rpl">
-                                      <p class="text-rpl">1 Replied</p>
-                                      <div class="bx-detail-rpl">
-                                          <div class="top-rpl clearfix">
-                                              <div class="col-md-2">
-                                                  <img src="assets/images/user.jpg" alt="">
-                                              </div>
-                                              <div class="col-md-10 bx-dt-qa">
-                                                  <h5>Student name</h5>
-                                                  <span class="time">asked 5 mins ago</span>
-                                                  <p class="txt-essay"><b>Essay title - Etiam venenatis ac elit in mattis</b></p>
-                                              </div>
-                                          </div>
-                                          <p class="text-rpl-2">
-                                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla molestie justo eu ante vehicula fermentum. Fusce id odio enim. Ut sit amet velit urna. Etiam vehicula ante vel risus malesuada, sit amet vulputate purus pulvinar. Duis ex nunc, viverra eu fringilla eleifend, vulputate a neque. Ut venenatis felis ac fringilla dignissim. Pellentesque efficitur eget diam a aliquet. Donec efficitur, odio eu auctor porta, ligula dolor hendrerit ex, quis pharetra turpis felis ac mauris. Phasellus finibus ultrices nulla, ac semper erat pharetra in.
-                                          </p>
-                                          <p>
-                                              Fusce vulputate bibendum rhoncus. Sed posuere odio sem, fermentum aliquet metus vulputate ut. Mauris tempor metus at pretium sodales. Etiam tristique ipsum eu dui varius, ac hendrerit arcu pharetra. Etiam lacus diam, ultrices eu feugiat quis, bibendum sit amet nibh. Mauris venenatis blandit neque, at dapibus purus facilisis vel. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
-                                          </p>
-                                          <div class="bx-dowfile clearfix">
-                                              <p class="pull-left"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
-                                              <ul class="list-star pull-right">
-                                                  <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                  <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                  <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                  <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                  <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                              </ul>
-                                          </div><!-- /End Images of question -->
-                                          <div class="form-chat form-chat-essay">
-                                              <form action="">
-                                                  <div class="box-chat-onl clearfix">
-                                                      <a href="#" class="col-md-1"><img src="assets/images/user.jpg" alt=""></a>
-                                                      <div class="texta">
-                                                          <textarea name="" class="col-md-11" placeholder="add your reply here" ></textarea>
-                                                      </div>
-                                                      <div class="icon-upload">
-                                                          <input class="input-file" name="file1" id="file1" type="file">
-                                                          <label for="file1" class="label-1">
-                                                              <span data-icon="&#xe016;"></span>
-                                                          </label>
-                                                      </div>
-                                                  </div>
-                                                  <div class="detail-chat">
-                                                      <ul class="chat">
-                                                          <li class="left clearfix">
-                                                              <span class="chat-img pull-left">
-                                                                  <img src="assets/images/user.jpg" alt="User Avatar">
-                                                              </span>
-                                                              <div class="chat-body clearfix">
-                                                                  <div class="header">
-                                                                      <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                  </div>
-                                                                  <p>
-                                                                      Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
-                                                                  </p>
-                                                                  <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
-                                                              </div>
-                                                          </li>
-                                                          <li class="left clearfix">
-                                                              <span class="chat-img pull-left">
-                                                                  <img src="assets/images/user.jpg" alt="User Avatar">
-                                                              </span>
-                                                              <div class="chat-body clearfix">
-                                                                  <div class="header">
-                                                                      <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                  </div>
-                                                                  <p>
-                                                                      Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
-                                                                  </p>
-                                                                  <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
-                                                              </div>
-                                                          </li>
-                                                          <li class="left clearfix">
-                                                              <span class="chat-img pull-left">
-                                                                  <img src="assets/images/user.jpg" alt="User Avatar">
-                                                              </span>
-                                                              <div class="chat-body clearfix">
-                                                                  <div class="header">
-                                                                      <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                  </div>
-                                                                  <p>
-                                                                      Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
-                                                                  </p>
-                                                                  <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
-                                                              </div>
-                                                          </li>
-                                                          <li class="left clearfix">
-                                                              <span class="chat-img pull-left">
-                                                                  <img src="assets/images/user.jpg" alt="User Avatar">
-                                                              </span>
-                                                              <div class="chat-body clearfix">
-                                                                  <div class="header">
-                                                                      <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                  </div>
-                                                                  <p>
-                                                                      Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
-                                                                  </p>
-                                                                  <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
-                                                              </div>
-                                                          </li>
-                                                      </ul>
-                                                  </div>
-                                              </form>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <!--item-sl-rpl-->
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <!-- /End Content of page -->
-                
-            </section>
-        </div>
-    </div>              
-</div>
-<!-- /End Main center content -->
+            <div class="content">
+                <div class="center-content">
+                    <div class="center-content-wrapper">
+                        <section id="dashboard">
+                            <!-- Content header -->
+                            <div class="dashboard-header">    
+                                <h4>Manage Essay</h4>
+                                <p>Ut a porttitor leo. Aliquam fermentum nec elit lobortis tristique </p>
+                            </div>
+                            <!-- /End Content header -->
+                            <!-- Content of page -->
+                            <div class="manager-video mentor-manage-qa-content mentor-manage-essay">
+                                <div class="row top-mag">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4 search">
+                                            <form class="navbar-form" role="search">
+                                                <div class="input-group">
+                                                    
+                                                    <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /End Top content -->
+                                <div class="main-qa clearfix">
+                                    <div class="col-md-4 left-qa left-essay">
+                                        <div role="tabpanel tab-all">
+                                            <!-- Nav tabs -->
+                                            <div class="t-panel">
+                                                <p class="active">New<sup class="sup1">12</sup></p>
+                                                <p>Processing<sup class="sup2">12</sup></p>
+                                                <p>Ignored<sup class="sup3">12</sup></p>
+                                                <p>Replied<sup class="sup4">12</sup></p>
+                                            </div>
+                                            <!-- Tab panes -->
+                                            <div class="tab-content">
+                                                <div class="tab-pane active">
+                                                    <div class="group-item-qa">
+                                                        <div class="item-qa active clearfix">
+                                                            <div class="col-md-3">
+                                                                <a href=""><a href=""><img src="assets/images/user.jpg" alt=""></a></a>
+                                                            </div>
+                                                            <div class="col-md-9 bx-dt-qa">
+                                                                <h5>Student name <span class="time">asked 5 mins ago</span></h5>
+                                                                <b>Essay title</b>
+                                                                <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
+                                                                <div class="clearfix bt-item">
+                                                                    <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Process</div>
+                                                                    <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-qa clearfix">
+                                                            <div class="col-md-3">
+                                                                <a href=""><img src="assets/images/user.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-md-9 bx-dt-qa">
+                                                                <h5>Student name <span class="time">asked 5 mins ago</span></h5>
+                                                                <b>Essay title</b>
+                                                                <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
+                                                                <div class="clearfix bt-item">
+                                                                    <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Process</div>
+                                                                    <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-qa clearfix">
+                                                            <div class="col-md-3">
+                                                                <a href=""><img src="assets/images/user.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-md-9 bx-dt-qa">
+                                                                <h5>Student name <span class="time">asked 5 mins ago</span></h5>
+                                                                <b>Essay title</b>
+                                                                <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
+                                                                <div class="clearfix bt-item">
+                                                                    <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Process</div>
+                                                                    <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-qa clearfix">
+                                                            <div class="col-md-3">
+                                                                <a href=""><img src="assets/images/user.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-md-9 bx-dt-qa">
+                                                                <h5>Student name <span class="time">asked 5 mins ago</span></h5>
+                                                                <b>Essay title</b>
+                                                                <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
+                                                                <div class="clearfix bt-item">
+                                                                    <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Process</div>
+                                                                    <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-qa clearfix">
+                                                            <div class="col-md-3">
+                                                                <a href=""><img src="assets/images/user.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-md-9 bx-dt-qa">
+                                                                <h5>Student name <span class="time">asked 5 mins ago</span></h5>
+                                                                <b>Essay title</b>
+                                                                <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
+                                                                <div class="clearfix bt-item">
+                                                                    <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Process</div>
+                                                                    <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-qa clearfix">
+                                                            <div class="col-md-3">
+                                                                <a href=""><img src="assets/images/user.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-md-9 bx-dt-qa">
+                                                                <h5>Student name <span class="time">asked 5 mins ago</span></h5>
+                                                                <b>Essay title</b>
+                                                                <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
+                                                                <div class="clearfix bt-item">
+                                                                    <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Process</div>
+                                                                    <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <p class="btn-load"><a href="#">load more</a></p> -->
+                                                </div>
+                                                .
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 box-main-replied">
+                                        <div class="slider-rpl">
+                                            <div class="box-btn-sl clearfix">
+                                                <a href="#" class="btn-prev"><span data-icon="&#x34;"></span></a>
+                                                <a href="#" class="btn-next"><span data-icon="&#x35;"></span></a>
+                                            </div>
+                                            <div class="group-item-sl">
+                                                <div class="item-sl-rpl">
+                                                    <p class="text-rpl">1 Replied</p>
+                                                    <div class="bx-detail-rpl">
+                                                        <div class="top-rpl clearfix">
+                                                            <div class="col-md-2">
+                                                                <a href=""><img src="assets/images/user.jpg" alt=""></a>
+                                                            </div>
+                                                            <div class="col-md-7 bx-dt-qa">
+                                                                <h5>Student name</h5>
+                                                                <span class="time">asked 5 mins ago</span>
+                                                                <p class="txt-essay"><b>Essay title - Etiam venenatis ac elit in mattis</b></p>
+                                                            </div>
+                                                            <div class="bt-item col-md-3">
+                                                                <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Process</div>
+                                                                <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                            </div>
+                                                        </div>
+                                                        <p class="text-rpl-2">
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla molestie justo eu ante vehicula fermentum. Fusce id odio enim. Ut sit amet velit urna. Etiam vehicula ante vel risus malesuada, sit amet vulputate purus pulvinar. Duis ex nunc, viverra eu fringilla eleifend, vulputate a neque. Ut venenatis felis ac fringilla dignissim. Pellentesque efficitur eget diam a aliquet. Donec efficitur, odio eu auctor porta, ligula dolor hendrerit ex, quis pharetra turpis felis ac mauris. Phasellus finibus ultrices nulla, ac semper erat pharetra in.
+                                                        </p>
+                                                        <p>
+                                                            Fusce vulputate bibendum rhoncus. Sed posuere odio sem, fermentum aliquet metus vulputate ut. Mauris tempor metus at pretium sodales. Etiam tristique ipsum eu dui varius, ac hendrerit arcu pharetra. Etiam lacus diam, ultrices eu feugiat quis, bibendum sit amet nibh. Mauris venenatis blandit neque, at dapibus purus facilisis vel. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
+                                                        </p>
+                                                        <div class="bx-dowfile clearfix">
+                                                            <p class="pull-left"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
+                                                            <ul class="list-star pull-right">
+                                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                            </ul>
+                                                        </div><!-- /End Images of question -->
+                                                        <div class="form-chat form-chat-essay">
+                                                            <form action="">
+                                                                <div class="box-chat-onl clearfix">
+                                                                    <a href="#" class="col-md-1"><img src="assets/images/user.jpg" alt=""></a>
+                                                                    <div class="texta">
+                                                                        <textarea name="" class="col-md-11" placeholder="add your reply here" ></textarea>
+                                                                        <div class="left-border"></div>
+                                                                    </div>
+                                                                    <div class="icon-upload">
+                                                                        <input class="input-file" name="file1" id="file1" type="file">
+                                                                        <label for="file1" class="label-1">
+                                                                            <span data-icon="&#xe016;"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix">
+                                                                    <div class="btnreply pull-right">
+                                                                        <input type="submit" name="reply" value="Reply">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="detail-chat">
+                                                                    <ul class="chat">
+                                                                        <li class="left clearfix">
+                                                                            <span class="chat-img pull-left">
+                                                                                <img src="assets/images/user.jpg" alt="User Avatar">
+                                                                            </span>
+                                                                            <div class="chat-body clearfix">
+                                                                                <div class="header">
+                                                                                    <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
+                                                                                </div>
+                                                                                <p>
+                                                                                    Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
+                                                                                </p>
+                                                                                <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li class="left clearfix">
+                                                                            <span class="chat-img pull-left">
+                                                                                <img src="assets/images/user.jpg" alt="User Avatar">
+                                                                            </span>
+                                                                            <div class="chat-body clearfix">
+                                                                                <div class="header">
+                                                                                    <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
+                                                                                </div>
+                                                                                <p>
+                                                                                    Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
+                                                                                </p>
+                                                                                <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li class="left clearfix">
+                                                                            <span class="chat-img pull-left">
+                                                                                <img src="assets/images/user.jpg" alt="User Avatar">
+                                                                            </span>
+                                                                            <div class="chat-body clearfix">
+                                                                                <div class="header">
+                                                                                    <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
+                                                                                </div>
+                                                                                <p>
+                                                                                    Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
+                                                                                </p>
+                                                                                <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li class="left clearfix">
+                                                                            <span class="chat-img pull-left">
+                                                                                <img src="assets/images/user.jpg" alt="User Avatar">
+                                                                            </span>
+                                                                            <div class="chat-body clearfix">
+                                                                                <div class="header">
+                                                                                    <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
+                                                                                </div>
+                                                                                <p>
+                                                                                    Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
+                                                                                </p>
+                                                                                <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--item-sl-rpl-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /End Content of page -->
+                            
+                        </section>
+                    </div>
+                </div>              
+            </div>
+            <!-- /End Main center content -->
 <!-- Sidebar right -->
 <div id="sidebar-right" ng-include="sidebarRight"></div>
 <!-- End Sidebar right -->

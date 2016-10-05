@@ -96,7 +96,7 @@
                                 &nbsp;&nbsp;&nbsp;
 
                                 <span>{{answer.countLike + likeCount}} <span
-                                        data-icon="&#xe089;" id="heart"
+                                        data-icon="&#xe089;" class="heart{{answer.aid}}" id="{{answer.like=='1'?'heart':''}}"
                                         ng-click="likeAnswer(answer.aid)"></span></span>
                               </div>
                               <div class="mentor-answer">

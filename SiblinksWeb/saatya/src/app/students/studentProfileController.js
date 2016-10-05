@@ -17,6 +17,7 @@ brotControllers.controller('StudentProfileController',
             $scope.confirmPwd = "";
             $scope.isLoadMore = false;
             $scope.EMPTY_DATA = StatusError.MSG_UNKNOWN;
+            $scope.isSubscribe = false;
 
             var isInit = true;
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
@@ -37,6 +38,7 @@ brotControllers.controller('StudentProfileController',
                 getMyQuestions(userId, limit, offset, "newest", "-1", "-1");
                 getVideosRecently();
                 getNewestAnswers(mentorId, 6, 0);
+                isSubscribed();
             }
 
 
@@ -91,11 +93,11 @@ brotControllers.controller('StudentProfileController',
 
                             $scope.birthDay = calculateBirthDay($scope.studentMentorProfile.birthDay);
 
-                            if($scope.studentMentorProfile.defaultSubjectId){
+                            if ($scope.studentMentorProfile.defaultSubjectId) {
                                 $scope.subjects = getSubjectNameById($scope.studentMentorProfile.defaultSubjectId, subjects);
-                            }else{
-                                var skillNull = [{id:-1,name:"None"}];
-                                $scope.subjects= skillNull;
+                            } else {
+                                var skillNull = [{id: -1, name: "None"}];
+                                $scope.subjects = skillNull;
                             }
 
                         } else {
@@ -106,6 +108,15 @@ brotControllers.controller('StudentProfileController',
                     }
                 });
             }
+
+
+            $scope.hoverNewestVideo = function () {
+                $(".feature-thumnail .hover-video").show();
+            };
+
+            $scope.unHoverNewestVideo = function () {
+                $(".feature-thumnail .hover-video").hide();
+            };
 
             function getVideosRecently() {
                 VideoService.getVideosRecently(mentorId).then(function (data) {
@@ -124,6 +135,16 @@ brotControllers.controller('StudentProfileController',
                 return convertUnixTimeToTime(time);
             };
 
+            function isSubscribed() {
+                StudentService.checkSubscribe(userId, mentorId).then(function (dataResponse) {
+                    if (dataResponse.data.status == "false" || dataResponse.data.request_data_result == false
+                        || dataResponse.data.request_data_result == StatusError.MSG_USER_ID_NOT_EXIST) {
+                        $scope.isSubscribe =  false;
+                    } else {
+                        $scope.isSubscribe =  dataResponse.data.request_data_result;
+                    }
+                });
+            }
 
             function getNewestAnswers(authorId, limit, offset) {
                 StudentService.getNewestAnswersById(authorId, limit, offset).then(function (data) {
@@ -153,7 +174,7 @@ brotControllers.controller('StudentProfileController',
                 //     }
                 //     return null;
                 // }
-                if(!timeStamp){
+                if (!timeStamp) {
                     return null;
                 }
                 var _now = Math.floor(Date.now() / 1000);
