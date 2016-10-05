@@ -8,7 +8,7 @@
                     <h4>Manage Profile</h4>
                     </div>
                     <div class="manager-profile clearfix">
-                        <div class="col-md-3">
+                        <div class="col-md-3 manager-profile-image">
                             <div class="avt">
                                 <div class="box-avatar">
                                     <div class="img-avt">
@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 manager-profile-infor">
                            <div class="col-md-12 tab-pane" id="setting-broswer">
                            <div class="user-profile-setting">
                                <ul class="nav nav-tabs">
@@ -99,7 +99,7 @@
                            </div>
                        </div><!-- /End Content Of Setting --> 
                       </div>
-                      <div class="col-md-3">
+                      <div class="col-md-3 manager-profile-student">
                         <div class="sub-right">
                             <h3>Subscribers</h3>
                             <div class="search search-mentor-student">
@@ -124,31 +124,6 @@
                              <span ng-show="!listStudentSubscribed">No Student subscribed</span>
                         </div>
                     </div>
-                       	<!-- <div class="col-md-3">
-                            <div class="sub-right">
-                                <h3>Subscribers</h3>
-                                <div class="search">
-                                    <form class="navbar-form" role="search">
-                                        <div class="input-group">                                                        
-                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''">
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <ul class="list-std" ng-show="listStudentSubscribed">
-                                    <li class="clearfix" ng-repeat="s in listStudentSubscribed track by $index">
-                                        <span class="pull-left"><img src="{{s.avatar}}" alt=""></span>
-                                        <div class="txt-ifm pull-left">
-                                            <h5>{{s.userName}}</h5>
-                                            <p>Hight school: {{s.school}}</p>
-                                        </div>
-                                    </li>                                    
-                                </ul>
-                                <span ng-show="!listStudentSubscribed">No Student subcribed</span>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
             </section>

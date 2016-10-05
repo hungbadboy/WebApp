@@ -30,6 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -73,6 +74,9 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
 
     @Autowired
     private VelocityEngine velocityEngine;
+
+    @Autowired
+    private Environment env;
 
 	@Override
 	@RequestMapping(value = "/contact", method = RequestMethod.POST)
@@ -168,7 +172,8 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
                 NotifyByEmail notify = new NotifyByEmail();
                 notify.setMailSender(mailSender);
                 notify.setVelocityEngine(velocityEngine);
-                notify.sendHmtlTemplateEmail(email, "Forgot Password", "MAIL_Notify_4.vm", map);
+                notify
+                    .sendHmtlTemplateEmail(email, env.getProperty("app.subject-email.forgot-password"), "MAIL_Notify_4.vm", map);
             } catch (Exception e) {
                 logger.error(e);
                 isSendSuccess = false;
