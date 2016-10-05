@@ -14,12 +14,12 @@
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
-<body id="{{idbody}}" ng-class="{home: idbody ==''}">
+<body id="{{idbody}}" ng-class="{home: idbody =='', 'student-profile': currentPath.indexOf('/mentor/mentorProfile/') >=0}">
   	<header id="header" ng-controller="UserHeaderController">
   		<div class="module-navigation" ng-include="headerByUser"></div>
   	</header>
  	<!-- main start -->
-	<main id="main" ng-view autoscroll="true" ng-class="{'clearfix mentorProfile': currentPath == '/mentor/profile'}"></main>
+	<main id="main" ng-view autoscroll="true" ng-class="{'clearfix': currentPath=='/mentor/profile/'}"></main>
 	<!-- end #main -->
 	<div class="modal fade" id="modal-id">
         <div class="modal-dialog modal-pp-login">
