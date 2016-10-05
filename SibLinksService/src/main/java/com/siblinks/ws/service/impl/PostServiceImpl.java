@@ -1078,9 +1078,9 @@ public class PostServiceImpl implements PostService {
 			whereClause += " AND P.NUMREPLIES = 0";
 		}
 		
-		if (!"-1".equals(oldQid)) {
-			whereClause += " AND P.PID > " + oldQid;
-		}
+//		if (!"-1".equals(oldQid)) {
+//			whereClause += " AND P.PID > " + oldQid;
+//		}
 		
 		if (!"-1".equals(subjectid)) {
 			whereClause += " AND P.subjectId=  " + subjectid;
