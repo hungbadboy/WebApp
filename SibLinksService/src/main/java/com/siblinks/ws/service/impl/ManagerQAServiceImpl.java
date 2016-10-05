@@ -109,9 +109,9 @@ public class ManagerQAServiceImpl implements managerQAService {
             whereCause += " AND X.subjectId = " + subjectId;
         }
         else {
-            whereCause += " AND X.subjectId in (SELECT defaultSubjectId FROM Sib_Users where userid = " +
+            whereCause += " AND FIND_IN_SET(X.subjectId , (SELECT defaultSubjectId FROM Sib_Users where userid = " +
                           userId +
-                          " )";
+                          " ))";
         }
 
         Object[] queryParams = { userId };
