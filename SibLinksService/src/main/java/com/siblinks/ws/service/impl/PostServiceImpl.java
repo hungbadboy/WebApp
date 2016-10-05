@@ -1105,7 +1105,7 @@ public class PostServiceImpl implements PostService {
                 String result = readObject.get(i).toString();
                 String temp = result.substring(0, result.indexOf(","));
                 long _id = Long.parseLong(temp.substring(temp.lastIndexOf("=") + 1));
-                Object objAnwser = getAnswersList(id,_id, limit, offset);
+                Object objAnwser = getAnswersList(id,_id, "", "");
                 if (objAnwser == null) {
                     readObjectAnswers.add(null);
                 } else {
