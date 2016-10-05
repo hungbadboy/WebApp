@@ -13,7 +13,12 @@
                                 <div class="col-md-7 search">
                                     <form class="navbar-form" role="search">
                                         <div class="input-group">                                                        
-                                            <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" ng-enter="search()">
+                                            <!-- <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" ng-enter="search()"> -->
+                                            <div id="srch-term" angucomplete-alt id="srch-term" ng-enter="search()" placeholder="Search" pause="50" selected-object="onSelect"
+                                                local-data="listAllPlaylist" search-fields="name" title-field="name"
+                                                minlength="1" input-class="form-control input-search"
+                                                text-no-results="Playlist Not Found"
+                                                match-class="highlight" ></div>
                                             <div class="input-group-btn">
                                                 <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
                                             </div>

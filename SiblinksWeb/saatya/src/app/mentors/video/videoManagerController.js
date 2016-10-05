@@ -146,8 +146,8 @@ brotControllers.controller('VideoManagerController',
     $scope.search = function(){
       var keyword = $('input#srch-term').val();
       if (keyword != null && keyword.trim().length > 0) {
-        // call api
-        VideoService.searchVideosMentor(userId, keyword, 10).then(function(data){
+        VideoService.searchVideosMentor(userId, keyword, 0).then(function(data){
+          console.log(data.data.request_data_result);
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.videos = formatData(data.data.request_data_result);
           } else{
@@ -194,17 +194,19 @@ brotControllers.controller('VideoManagerController',
         VideoService.getAllVideos().then(function (response) {
             if (response.data.status) {
                 $scope.listAllVideos = response.data.request_data_result;
+                console.log($scope.listAllVideos);
             }
         });
     }
 
     $scope.onSelect = function (selected) {
-      console.log(selected);
-      VideoService.searchVideosMentor(userId, selected.title, 10).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-          $scope.videos = formatData(data.data.request_data_result);
-        }
-      });
+      if (selected !== undefined) {
+        VideoService.searchVideosMentor(userId, selected.title, 10).then(function(data){
+          if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+            $scope.videos = formatData(data.data.request_data_result);
+          }
+        });
+      }      
     };
 
     $scope.edit = function(vid){

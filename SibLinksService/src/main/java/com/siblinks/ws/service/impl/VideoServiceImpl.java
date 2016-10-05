@@ -2522,7 +2522,7 @@ public class VideoServiceImpl implements VideoService {
         Object[] queryParams = new Object[] { uid };
         String term = StringEscapeUtils.escapeJava(keyword);
         String whereClause = String.format(
-            " and a.title like '%%%s%%' OR a.description like '%%%s%%' order by timeStamp DESC limit 10 offset %d",
+            " and (a.title like '%%%s%%' OR a.description like '%%%s%%') order by a.timeStamp DESC limit 10 offset %d",
             term,
             term,
             offset);

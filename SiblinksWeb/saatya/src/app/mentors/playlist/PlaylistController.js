@@ -13,6 +13,7 @@ brotControllers.controller('PlaylistController',
     function init(){
       loadPlaylist();
       initSubject();
+      getAllPlaylist();
     }
 
     function initSubject(){
@@ -26,6 +27,15 @@ brotControllers.controller('PlaylistController',
              }
          });
       }
+    }
+
+    function getAllPlaylist(){
+      PlaylistService.getAllPlaylist().then(function(data){
+        var result = data.data.request_data_result;
+        if (result && result != "Found no data") {
+          $scope.listAllPlaylist = result;
+        }
+      });
     }
 
     function loadPlaylist(){        
@@ -135,8 +145,29 @@ brotControllers.controller('PlaylistController',
       }      
     }
 
-    $scope.search = function(){
+    $scope.onSelect = function(selected){
+      if (selected !== undefined) {
+        PlaylistService.searchPlaylist(userId, selected.title, 0).then(function(data){
+          var result = data.data.request_data_result;
+          if (result && result != "Found no data") {
+            $scope.playlist = parseData(result);
+          } else
+            $scope.playlist = null;
+        });
+      }      
+    }
 
+    $scope.search = function(){
+      var keyword = $('input#srch-term').val();
+      if (keyword && keyword.trim().length > 0) {
+        PlaylistService.searchPlaylist(userId, keyword, 0).then(function(data){
+          var result = data.data.request_data_result;
+          if (result && result != "Found no data") {
+            $scope.playlist = parseData(result);
+          } else
+            $scope.playlist = null;
+        });
+      }
     }
 
     var files;

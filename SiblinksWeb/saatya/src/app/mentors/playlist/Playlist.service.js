@@ -134,5 +134,21 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
       return promise;
     }
 
+    factory.getAllPlaylist = function(){
+      var promise = $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'playlist/getAllPlaylist'
+      });
+      return promise;
+    }
+
+    factory.searchPlaylist = function(uid, keyword, offset){
+      var promise = $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'playlist/searchPlaylist?uid='+uid+'&keyword='+keyword+'&offset='+offset+''
+      });
+      return promise;
+    }
+
     return factory;
 } ]);

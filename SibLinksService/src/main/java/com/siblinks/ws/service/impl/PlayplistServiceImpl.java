@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -270,15 +271,16 @@ public class PlayplistServiceImpl implements PlaylistService {
     }
 
     @Override
-    // @RequestMapping(value = "/searchPlaylist", method = RequestMethod.GET)
+    @RequestMapping(value = "/searchPlaylist", method = RequestMethod.GET)
     public ResponseEntity<Response> searchPlaylist(@RequestParam final long uid, @RequestParam final String keyword, @RequestParam final int offset)
             throws Exception {
         Object[] queryParams = { uid };
         String entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST;
+        String term = StringEscapeUtils.escapeJava(keyword);
         String whereClause = String.format(
-            "and p.name like '%%%s%%' or p.description like '%%%s%%' order by p.CreateDate DESC limit 10 offset %d",
-            keyword,
-            keyword,
+            "and (p.name like '%%%s%%' or p.description like '%%%s%%') order by p.CreateDate DESC limit 10 offset %d",
+            term,
+            term,
             offset);
 
         List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
@@ -415,6 +417,24 @@ public class PlayplistServiceImpl implements PlaylistService {
             throw e;
         }
 
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/getAllPlaylist", method = RequestMethod.GET)
+    public ResponseEntity<Response> getAllPlaylist() throws Exception {
+        SimpleResponse reponse = null;
+        try {
+            List<Object> readObjects = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_ALL_PLAYLIST, new Object[] {});
+            if (readObjects != null && readObjects.size() > 0) {
+                reponse = new SimpleResponse(true + "", "playlist", "getAllPlaylist", readObjects);
+            } else {
+                reponse = new SimpleResponse(true + "", "playlist", "getAllPlaylist", SibConstants.NO_DATA);
+            }
+        } catch (Exception e) {
+            reponse = new SimpleResponse(true + "", "playlist", "getAllPlaylist", e.getMessage());
+        }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
