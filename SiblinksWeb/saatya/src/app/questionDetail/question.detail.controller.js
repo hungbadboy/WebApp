@@ -16,13 +16,13 @@ brotControllers
             'HomeService',
             'CommentService',
             'StudentService',
-            'myCache',
+            'myCache','$document',
             function ($sce, $http, $scope, $rootScope, $routeParams,
                       $location, $timeout, $log, $window,
                       QuestionsService, AnswerService,
 
                       HomeService, CommentService, StudentService,
-                      myCache) {
+                      myCache,$document) {
                 var userId = localStorage.getItem('userId');
                 $scope.userId = userId;
                 var question_id = $routeParams.question_id;
@@ -41,6 +41,7 @@ brotControllers
                 $scope.isShowEdit = false;
                 $scope.propertyName = 'TIMESTAMP';
                 $scope.reverse = true;
+                var bodyRef = angular.element( $document[0].body );
                 init();
 
                 function init() {
@@ -166,12 +167,13 @@ brotControllers
                 };
 
                 $scope.editQuestion = function (qid) {
+                    bodyRef.addClass('disableScroll');
                     $scope.titlePopupAsk = "Edit question";
                     $scope.isEdit = true;
                     qidEdit = qid;
                     $scope.imagePathOld = imagePathOld_BK;
                     $scope.initCategory = {subject: $scope.question.subject, subjectId: $scope.question.subjectId};
-                    $scope.initCategory.originalObject = $scope.initCategory;
+                    $scope.$broadcast('angucomplete-alt:changeInput',"autocompleteCate", $scope.initCategory);
                     $('#autocompleteQuest_value').val($scope.question.question_text);
                     $(".form-ask-question").css({"left": 0});
 
@@ -193,14 +195,13 @@ brotControllers
                     $scope.stepsModel.splice(index, 1);
 
                 }
-                $scope.selectedSubject = function (selected) {
-                    $scope.initCategory = selected;
-                };
+                // $scope.selectedSubject = function (selected) {
+                //     $scope.initCategory = selected;
+                // };
 
                 $scope.updateQuestion = function () {
-                    // get question of student
-
-                    if ($scope.initCategory == null || $scope.initCategory === undefined || $scope.initCategory.originalObject == null) {
+                    // detail question
+                    if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
                         $scope.askErrorMsg='Please choose category';
                         $("#autocompleteCate_value").focus();
                         $rootScope.myVarC = !$scope.myVarC;
@@ -267,7 +268,7 @@ brotControllers
                     fd.append('oldImagePathEdited', oldImagePathEdited);
                     fd.append('oldImagePath', oldImagePath);
 
-                    fd.append('subjectId', $scope.initCategory.originalObject.subjectId);
+                    fd.append('subjectId', $scope.selectedSubject.originalObject.subjectId);
                     QuestionsService.updateQuestion(fd).then(function (data) {
                         if (data.data.status == "true") {
                             $(".popup-images, .form-ask-question").css({"left": "100%"});
@@ -303,9 +304,8 @@ brotControllers
                 }
 
                 $scope.redirectForum = function () {
-                    // get question of student
-
-                    if ($scope.initCategory == null || $scope.initCategory === undefined || $scope.initCategory.originalObject == null) {
+                    // detail question
+                    if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
                         $scope.askErrorMsg='Please choose category';
                         $("#autocompleteCate_value").focus();
                         $rootScope.myVarC = !$scope.myVarC;
@@ -320,7 +320,7 @@ brotControllers
                         $timeout(function () {
                             $rootScope.myVarQ = false;
                         }, 2500);
-                        $scope.askErrorMsg='You enter text or upload for your question';
+                        $scope.askErrorMsg='You enter text for your question';
                         $("#autocompleteQuest_value").focus();
                         return;
                     }
@@ -364,7 +364,7 @@ brotControllers
                     fd.append('userId', userId);
                     fd.append('content', questions);
 
-                    fd.append('subjectId', $scope.initCategory.originalObject.subjectId);
+                    fd.append('subjectId',$scope.selectedSubject.originalObject .subjectId);
                     HomeService.addQuestion(fd).then(function (data) {
                         if (data.data.status == "true") {
                             $(".popup-images, .form-ask-question").css({"left": "100%"});
@@ -381,6 +381,7 @@ brotControllers
 
 
                 $scope.showFormAdd = function () {
+                    bodyRef.addClass('disableScroll');
                     $scope.titlePopupAsk = "Ask a question";
                     $scope.isEdit = false;
                     //$scope.initCategory = {};
@@ -393,6 +394,7 @@ brotControllers
                 }
                 
                 $scope.closePopupAskQuestion = function () {
+                    bodyRef.removeClass('disableScroll');
                     $(".popup-images, .form-ask-question").css({"left": "100%"});
                 }
                 

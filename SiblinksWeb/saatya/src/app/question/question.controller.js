@@ -18,12 +18,13 @@ brotControllers
             'HomeService',
             'VideoService',
             'myCache',
+            '$document',
             function ($sce, $route, $scope, $rootScope, $timeout,
                       $http, $routeParams, $location, $log,$modal,
                        QuestionsService,
                        MentorService,
                       AnswerService, HomeService,
-                       VideoService, myCache) {
+                       VideoService, myCache,$document) {
 
                 var subjectid = $routeParams.subjectid;
                 if (isEmpty(subjectid)) {
@@ -58,6 +59,7 @@ brotControllers
                 var MAX_SIZE_IMG_UPLOAD = 10485760;
                 var MAX_IMAGE = 4;
                 $scope.displayOrder = 'Newest';
+                var bodyRef = angular.element( $document[0].body );
                 
                 init();
                 function init() {
@@ -238,6 +240,7 @@ brotControllers
                     window.location.href = '/#/question_detail/' + id + "";
                 }
                 $scope.showFormAdd = function () {
+                    bodyRef.addClass('disableScroll');
                     $scope.titlePopupAsk = "Ask a question";
                     $scope.isEdit = false;
                     //$scope.initCategory = {};
@@ -249,6 +252,7 @@ brotControllers
                     $scope.stepsModel = [];
                 }
                 $scope.closePopupAskQuestion = function () {
+                    bodyRef.removeClass('disableScroll');
                     $(".popup-images, .form-ask-question").css({"left": "100%"});
                 }
 
@@ -402,6 +406,7 @@ brotControllers
 
 
                 $scope.editQuestion = function (qid, image, imagepath, content, subjectid, subject) {
+                    bodyRef.addClass('disableScroll');
                     $scope.titlePopupAsk = "Edit question";
                     $scope.isEdit = true;
                     qidEdit = qid;

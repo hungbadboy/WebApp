@@ -26,11 +26,9 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         var LIMIT_VIDEO = 5;
         var OFFSET = 0;
 
-         $scope.currentvid = 0;
-
-
+        $scope.currentvid = 0;
         var player;
-        var idRemove, editCommentId, listDiscuss = [];
+        var idRemove, editCommentId;
 
         init();
 
@@ -46,10 +44,11 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                         $scope.errorInfo = "Playlist not found";
                         return;
                     }
+
                     $scope.videosList = data.data.request_data_result;
                     $scope.videoPlaylistInfo = data.data.request_data_result[0];
-                    $scope.indexVideo = 0;
                     $scope.currentvid = $scope.videosList[$scope.index].vid;
+                    $('#listPlaylist'+$scope.currentvid).focus();
                     videoDetailService.getVideoDetailById($scope.currentvid).then(function (data) {
                         if (data.data.status == 'true') {
                             if (data.data.request_data_result.length == 0) {
@@ -65,6 +64,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                             if (videoid != null) {
                                 onYouTubeIframeAPIReady(videoid[1]);
+
                                 getCommentVideo($scope.currentvid);
                                 videoDetailService.getVideoByCategoryId($scope.videoInfo.subjectId, LIMIT_VIDEO, OFFSET).then(function (data) {
                                     if (data.data.status == 'true') {
@@ -286,7 +286,8 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 newvid = checkVideoInListToNext($scope.videosList, $scope.currentvid);
             }
             $scope.currentvid = newvid;
-
+            $("#mCSB_5_container").mCustomScrollbar("scrollTo",'#listPlaylist'+$scope.currentvid);
+            // $('#listPlaylist'+$scope.currentvid).focus();
 
             videoDetailService.getVideoDetailById(newvid).then(function (data) {
                 if (data.data.status == 'true') {
@@ -518,10 +519,12 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
             }
             VideoService.addfavourite($scope.userId, vid).then(function (data) {
                 if (data.request_data_result == 'Favourite add successful') {
-                    $('#btnFavorite').addClass('favorited');
+                    $('#btnFavorite').addClass('btn-warning');
+                    $scope.isFavorite = 1;
                 }
                 else {
-                    $('#btnFavorite').removeClass('favorited');
+                    $scope.isFavorite = 0;
+                    $('#btnFavorite').removeClass('btn-warning');
                 }
             });
 
