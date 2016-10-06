@@ -104,6 +104,7 @@ public class StudentServiceImpl implements StudentService {
      * @param offset
      * @return listMentorSubscribed see with Mentor view profile Student
      */
+    @Override
     @RequestMapping(value = "/getSubscribedMentorViewStudent", method = RequestMethod.GET)
     public ResponseEntity<Response> getSubscribedMentorViewStudent(@RequestParam final long userId,
             @RequestParam final long studentId, @RequestParam final String limit, @RequestParam final String offset) {
@@ -163,6 +164,7 @@ public class StudentServiceImpl implements StudentService {
 
     }
 
+    @Override
     @RequestMapping(value = "/checkStudentSubscribe", method = RequestMethod.GET)
     public ResponseEntity<Response> checkStudentSubscribe(@RequestParam final long studentId, @RequestParam final long mentorId) {
         boolean status;

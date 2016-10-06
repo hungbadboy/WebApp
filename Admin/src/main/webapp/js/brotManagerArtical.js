@@ -29,7 +29,7 @@ $(document).ready(function () {
 	            editable: true,
 	            edittype: "textarea",
 	            formatter: function(v){
-	            	return "<div style='max-height:20px'>"+decodeURIComponent(v)+"</div";
+	            	return "<div style='max-height:20px'>"+decodeURIComponent(v)+"</div>";
 	            }
 	        },
 	        {label: 'Description', name: 'description', width: 150, classes:'ellipsis',

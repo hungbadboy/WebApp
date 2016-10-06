@@ -36,12 +36,17 @@
 	</definition>
 	<definition name="colleageadmission" extends="baseLayout">
 		<put-attribute name="title" value="Manager Colleage Admission" />
-		<put-attribute name="body" value="/manageCollegeApplication.jsp" />
+		<put-attribute name="body" value="/brotManageCollege.jsp" />
 	</definition>
 	<definition name="articals" extends="baseLayout">
 		<put-attribute name="title" value="Manager Artical" />
 		<put-attribute name="menu" value="/Menu.jsp" />
 		<put-attribute name="body" value="/brotManageArticles.jsp" />
+	</definition>
+	<definition name="videos" extends="baseLayout">
+		<put-attribute name="title" value="Manager Videos" />
+		<put-attribute name="menu" value="/Menu.jsp" />
+		<put-attribute name="body" value="/brotManageVideosAdmission.jsp" />
 	</definition>
 	<definition name="comments" extends="baseLayout">
 		<put-attribute name="title" value="MANAGEER COMMENTS" />

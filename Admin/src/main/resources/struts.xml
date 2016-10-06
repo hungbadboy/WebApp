@@ -161,6 +161,11 @@
 			<result name="login">/loginUser.jsp</result>
 			<result name="success" type="tiles">articals</result>
 		</action>
+		<action name="videos">
+			<interceptor-ref name="loginStack"></interceptor-ref>
+			<result name="login">/loginUser.jsp</result>
+			<result name="success" type="tiles">videos</result>
+		</action>
 		<action name="comments">
 			<interceptor-ref name="loginStack"></interceptor-ref>
 			<result name="login">/loginUser.jsp</result>

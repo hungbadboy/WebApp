@@ -61,15 +61,15 @@
 </s:form> --%>
 
 <div align="center">
-<h2>sdkhaksjh</h2>
+<h2>Manager Brother Hood</h2>
 	<ul id="portfolio-list" class="clear">
 		
 		<li><a href="#"><img style='width:100px; height:100px' src="css/images/manage.png" onMouseOver="displayDescription(this, true);" onMouseOut="displayDescription(this, false);"
-				alt="Saatya Manage" title="Saatya Manage" /></a>
+				alt="Brother Hood Manage" title="Borther Hood Manage" /></a>
 		</li>
 
 		<li><a href="#" ><img style='width:100px; height:100px' src="css/images/admin.jpg" onMouseOver="displayDescription(this, true);" onMouseOut="displayDescription(this, false);"
-				alt="Saatya Administrator" title="Saatya Administrator" /> </a>
+				alt="Brother Hood Administrator" title="Brother Hood Administrator" /> </a>
 		</li>
 	</ul>
 
@@ -77,13 +77,13 @@
 
 <hr />
 
-<div id="Saatya Manage_description" class="tabDescription" style="display: none;" align="center">
-	<h3>Saatya Manage</h3>
+<div id="Brother Hood Manage_description" class="tabDescription" style="display: none;" align="center">
+	<h3>Brother Hood Manage</h3>
 	<p>Manage Subject | Manage Video | Manage User Information</p>
 </div>
 
-<div id="Saatya Administrator_description" class="tabDescription" style="display: none;" align="center">
-	<h3>Saatya Application Administrator</h3>
+<div id="Brother-Hood" class="tabDescription" style="display: none;" align="center">
+	<h3>Brother Hood Application Administrator</h3>
 	<p>Admin can manage information.</p>
 </div>
 
