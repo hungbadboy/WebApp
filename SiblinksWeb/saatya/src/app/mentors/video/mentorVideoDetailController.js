@@ -95,6 +95,7 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     function loadVideoDetail(v){
+        $scope.currentId = v.vid;
         $scope.video = v;
         $scope.video.averageRating = $scope.video.averageRating != null ? $scope.video.averageRating : 0;
         $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
@@ -147,7 +148,6 @@ brotControllers.controller('MentorVideoDetailController',
     $scope.selectIndex = function(index){
         if (index > $scope.videos.length) 
             index = 0;
-        $scope.currentId = $scope.videos[index].vid;
         loadVideoDetail($scope.videos[index]);
     }
 
