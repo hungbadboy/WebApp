@@ -63,9 +63,12 @@ brotControllers.controller('MentorVideoDetailController',
                     if (index != -1) {
                         $scope.currentId = $scope.videos[index].vid;
                         loadVideoDetail($scope.videos[index]);
+                        $scope.pos = index;
                     }
-                } else
+                } else{
                     loadVideoDetail($scope.videos[0]);
+                    $scope.pos = 0;
+                }
             } else
                 $scope.videos = null;
         });
@@ -193,6 +196,30 @@ brotControllers.controller('MentorVideoDetailController',
             }
         });
 
+    }
+
+    $scope.preVideo = function(pos){
+        if ($scope.videos && $scope.videos.length > 0) {
+            if (pos == 0) {
+                $scope.pos = $scope.videos.length - 1;
+                loadVideoDetail($scope.videos[$scope.pos]);
+            } else{
+                $scope.pos = pos - 1;
+                loadVideoDetail($scope.videos[$scope.pos]);
+            }
+        }
+    }
+
+    $scope.nextVideo = function(pos){
+        if ($scope.videos && $scope.videos.length > 0) {
+            if (pos == $scope.videos.length - 1) {
+                $scope.pos = 0;
+                loadVideoDetail($scope.videos[$scope.pos]);
+            } else{
+                $scope.pos = pos + 1;
+                loadVideoDetail($scope.videos[$scope.pos]);
+            }
+        }
     }
 
     $scope.addToPlaylist = function(vid){
