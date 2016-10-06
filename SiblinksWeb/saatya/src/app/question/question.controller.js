@@ -94,9 +94,10 @@ brotControllers
                             for (var i = 0; i < data_result.length; i++) {
                                 var mentor = {};
                                 mentor.userid = data_result[i].userid;
-                                mentor.userName = data_result[i].userName;
-                                mentor.lastName = data_result[i].lastName;
-                                mentor.firstName = data_result[i].firstName;
+                                mentor.userName = data_result[i].userName ? data_result[i].userName : '';
+                                mentor.lastName = data_result[i].lastName ? data_result[i].lastName : '';
+                                mentor.firstName = data_result[i].firstName ? data_result[i].firstName : '';
+                                mentor.fullName = mentor.firstName + ' ' +mentor.lastName;
                                 mentor.imageUrl = data_result[i].imageUrl;
                                 mentor.numlike = data_result[i].numlike;
                                 mentor.numsub = data_result[i].numsub;
