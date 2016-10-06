@@ -152,6 +152,7 @@ brotControllers
                                 return;
                             }
                             for (var i = 0; i < result.question.length; i++) {
+                                $scope.isDisplayMore = false;
                                 var objPosted = {};
                                 var questionData = result.question[i];
                                 objPosted.id = questionData.PID;
@@ -331,7 +332,6 @@ brotControllers
                     }
                 };
 
-                $scope.isLoadMore = false;
                 $scope.loadMorePost = function (ev) {
                     if ($scope.isDisplayMore) {
                         return;
@@ -339,17 +339,10 @@ brotControllers
                     currentPage++;
                     isLoadMore = true;
                     $scope.isDisplayMore = true;
-
                     var newoffset = limit * currentPage;
                     console.log(newoffset);
-                    if (newoffset > $scope.totalQuestion) {
-                        $scope.isDisplayMore = true;
-                        return;
-                    }
-                    else {
-                        $scope.isDisplayMore = false;
-                        getQuestions(userId, limit, newoffset, $scope.curentOrderType, oldQid, subjectid);
-                    }
+                    getQuestions(userId, limit, newoffset, $scope.curentOrderType, oldQid, subjectid);
+
                 };
 
 

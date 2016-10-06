@@ -36,6 +36,7 @@ brotControllers
                 var MAX_SIZE_IMG_UPLOAD = 10485760;
                 var MAX_IMAGE = 4;
                 var type = "newest";
+                $scope.countAnswer = 0;
                 init();
 
                 function init() {
@@ -90,9 +91,7 @@ brotControllers
                         if (answers != null) {
                             for (var i = 0; i < answers.length; i++) {
                                 var an = answers[i];
-                                var answer_text = decodeURIComponent(an.content);
-                                answer_text = $sce.trustAsHtml(answer_text);
-                                an.answer_text = answer_text;
+
                                 an.timeStamp = convertUnixTimeToTime(an.TIMESTAMP);
                                 an.imageAnswerPath = detectMultiImage(an.imageAnswer);
                                 listAnswer.push(an);
