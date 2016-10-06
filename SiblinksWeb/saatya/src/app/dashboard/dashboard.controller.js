@@ -24,7 +24,6 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
   function getStudentsSubcribed(){
     MentorService.getAllStudentSubscribed(userId).then(function(data){
       var result = data.data.request_data_result;
-      console.log(result);
       if (result && result !== "Found no data") {
         $scope.data = result;
       } else
@@ -39,7 +38,8 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
           data.data.request_data_result[i].timeStamp = convertUnixTimeToTime(data.data.request_data_result[i].timeStamp);
         }
         $scope.questions = data.data.request_data_result;
-      }      
+      } else
+        $scope.questions = null;   
     });
   }
 
