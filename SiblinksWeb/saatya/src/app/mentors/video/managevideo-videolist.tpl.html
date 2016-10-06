@@ -76,7 +76,7 @@
                                             </div>
                                         </div>
                                         <p class="box-playlist">
-                                            {{v.playlistname}}
+                                            {{v.playlistname | limitTo: 15}}{{v.playlistname.length > 15 ? '...' : ''}}
                                         </p>
                                         <p class="box-description pre-wrap">{{v.description | limitTo : 250}}{{v.description.length > 250 ? '...' : ''}}</p>
                                         <div class="box-ac">
@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
                                 
-                                <div ng-if="!videos" style="margin-top: 15px; margin-left: 20px;"><h4>No Tutorial here</h4></div>
+                                <div ng-if="!videos" style="margin-top: 15px; margin-left: 20px;"><h5>No Tutorial here</h5></div>
                             </div>
                             <div class="row clearfix">
                             </div>
