@@ -24,6 +24,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.showDivRecent = false;
         $scope.showDivWeek = false;
         $scope.showDivOlder = false;
+        $scope.loadRateHistory = false;
 
         $scope.limitSearchResult = 8;
 
@@ -294,11 +295,14 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.totalVideosRecommended = 0;
         $scope.totalVideosRecently = 0;
         $scope.scrollWithBlock = undefined;
-        $scope.limitOfRecommendedForU = 3;
+        $scope.limitOfRecommendedForU = 2;
         $scope.isShowRecommendedForU = true;
         $scope.isShowRecommended = true;
         $scope.isShowRecently = true;
+        $scope.subsWithIndex = -1;
         var hasLoadMore = false;
+
+
         init();
 
         function init() {
@@ -326,6 +330,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         $scope.listVideos[i].timeStamp = $scope.caculateTimeElapsed($scope.listVideos[i].timeStamp)
                     }
                     myCache.put("listVideos", $scope.listVideos);
+                    $scope.loadRateHistory = true;
                 }
             });
             $scope.numberOfHistoryVideo = 4;
@@ -803,7 +808,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             }
         };
 
-        $scope.setSubscribeMentor = function (mentorId) {
+        $scope.setSubscribeMentor = function (mentorId, index) {
             if (isEmpty(userId)) {
                 return;
             }
@@ -811,7 +816,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 if (response.data.status == "true") {
                     if (response.data.request_data_type == "subs") {
                         $scope.isSubscribe = 1;
-                        removeObject(0);
+                        removeObject(index);
                         console.log("Set Subscribe Mentor Successful");
                     }
                     else {
@@ -895,16 +900,13 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     }
                     break;
                 case 3 :
-                    var increamented = 3;
-                    // $scope.expand = function () {
+                    var increamented = 2;
                     if ($scope.limitOfRecommendedForU < $scope.listVideoRecommendedForU.length) {
-                        currentPageRecommended++;
                         $scope.limitOfRecommendedForU += increamented;
                         $scope.isShowRecommendedForU = true;
                     } else {
                         $scope.isShowRecommendedForU = false;
                     }
-                    // };
                     break;
             }
         };
@@ -912,7 +914,12 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         function clearSearch() {
             $("input#srch-term").val("");
-        };
+        }
+
+        function detectLengthText(){
+            console.log($('.video-description-history').width());
+        }
+
 
         $scope.flagShowMoreButton = true;
         $scope.loadMoreSearch = function () {
@@ -929,11 +936,10 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     $scope.results = response.data.request_data_result;
                 }
             });
-        }
+        };
 
         //MTDU
         var listVideos = '';
-        $scope.loadRateHistory = false;
         function loadHistory() {
             if (myCache.get("listVideos") !== undefined) {
                 $log.info("My cache already exists");
@@ -945,9 +951,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         for (var i = 0; i < $scope.listVideos.length; i++) {
                             $scope.listVideos[i].timeStamp = $scope.caculateTimeElapsed($scope.listVideos[i].timeStamp)
                         }
-                        $scope.loadRateHistory = true;
                         myCache.put("listVideos", $scope.listVideos);
-                        console.log($scope.listVideos.length);
                     }
                 });
             }
@@ -1046,7 +1050,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             $scope.searchItem = null;
             $scope.selected = null;
             $scope.isSearchAction = false;
-        }
+        };
 
 
         $scope.deleteFavouriteVideo = function (video) {
