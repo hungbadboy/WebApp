@@ -40,7 +40,7 @@
                             <!--<div class="content-question-wrapper" infinite-scroll="loadMorePost()"-->
                             <!--infinite-scroll-disabled="isLoadMore" infinite-scroll-container='".content-question"'-->
                             <!--infinite-scroll-parent="true" >-->
-                            <div  scroller="askQuestion" data-on-total-scroll="loadMorePost" class="content-question-wrapper">
+                            <div  class="content-question-wrapper" infinite-scroll-disabled='isDisplayMore' infinite-scroll-distance='1' infinite-scroll="loadMorePost()">
                                 <!-- Question 01 -->
                                 <div  ng-if="askQuestion" ng-repeat="question in askQuestion track by $index" class="question question_{{$index+1}}" >
                                     <div ng-click="detailQuestion(question.id)" class="number-question col-xs-1" ng-class="{'answered':question.count_answer > 0}">
@@ -133,11 +133,13 @@
                                         </div>
                                         <!-- /End answer of question -->
                                      </div>
-                                  <div class="load-more">
-                                      <p ng-show="isLoadMore">End</p>
-                                  </div>
+
                               </div>
+
                             </div><!-- /End content of question -->
+                            <div class="load-more">
+                                <p ng-show="isDisplayMore">End</p>
+                            </div>
                         </div>
                     </div><!-- /End question of user -->
                 </div>

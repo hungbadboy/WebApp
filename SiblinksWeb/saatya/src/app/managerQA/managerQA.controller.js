@@ -163,7 +163,12 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         //
         // }
         $scope.selectQuestion = function (qid) {
+            if($scope.currentPid == qid){
+                return;
+            }
             getQuestionById(qid);
+            QuestionsService.updateViewQuestion(qid, "view").then(function (data) {
+            });
         }
 
         function getQuestionById(qid) {
@@ -201,8 +206,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 $scope.questionDetail = question;
 
 
-            });
-            QuestionsService.updateViewQuestion(qid, "view").then(function (data) {
             });
             QuestionsService.getAnswerByQid(qid, typeOrderAnswer, LIMIT, 0).then(function (data) {
                 var answers = data.data.request_data_result;
@@ -267,12 +270,15 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             managerQAService.postAnswer(fd).then(function (data) {
                 var rs = data.data.status;
                 if(rs){
+                    //clear content when answer suscces
                     $('#txtAnswer').val("");
+                    $scope.stepsModel = [];
+                    $scope.filesArray = [];
                     QuestionsService.getAnswerByQid(pid, typeOrderAnswer, "", "").then(function (data) {
                         var answers = data.data.request_data_result;
                         $scope.isLoadMoreAnswer = true;
                         $scope.listAnswer = answers;
-                        $scope.stepsModel = [];
+
                     });
                 }
                 else {
