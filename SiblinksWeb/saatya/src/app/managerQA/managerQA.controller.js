@@ -214,7 +214,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             });
 
         }
-   
+
         $scope.focusSubject = function () {
             $('#autocompleteSubs').focus();
         }
