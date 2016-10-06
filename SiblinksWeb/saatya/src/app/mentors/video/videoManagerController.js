@@ -1,6 +1,6 @@
 brotControllers.controller('VideoManagerController', 
-  ['$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService', 'myCache', 'HomeService',
-                                       function ($scope, $modal, $routeParams, $http, $location, VideoService, MentorService, myCache, HomeService) {
+  ['$rootScope','$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService', 'myCache', 'HomeService',
+                                       function ($rootScope,$scope, $modal, $routeParams, $http, $location, VideoService, MentorService, myCache, HomeService) {
 
 
     var userId = localStorage.getItem('userId');
@@ -30,11 +30,13 @@ brotControllers.controller('VideoManagerController',
     }
 
     function loadVideos(){
-      VideoService.getVideos(userId, 10).then(function(data){
+      VideoService.getVideos(userId, 0).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
           $scope.videos = formatData(data.data.request_data_result);
           cacheVideos = $scope.videos.slice(0);
-        }
+        } else
+          $scope.videos = null;
+        console.log($scope.videos);
       });
     }    
 
@@ -49,14 +51,15 @@ brotControllers.controller('VideoManagerController',
     }
 
     $scope.loadMoreVideos = function(){
-      VideoService.getVideos(userId, $scope.videos.length + 10).then(function(data){
-        
+      var offset = 0;
+      if ($scope.videos && $scope.videos.length > 0) 
+        offset = $scope.videos.length;
+      VideoService.getVideos(userId, offset + 10).then(function(data){        
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
           var oldArr = $scope.videos;
           var newArr = formatData(data.data.request_data_result);
           var totalArr = oldArr.concat(newArr);
           $scope.videos = totalArr;
-
           cacheVideos = $scope.videos.slice(0);
         }
       });
@@ -71,11 +74,11 @@ brotControllers.controller('VideoManagerController',
           loadVideos();
         }
       } else{
-        $scope.videos.length = 0;
-        VideoService.getVideosBySubject(userId, $scope.subject, 10).then(function(data){
+        VideoService.getVideosBySubject(userId, $scope.subject, 0).then(function(data){
           if(data.data.request_data_result != null && data.data.request_data_result != "Found no data"){
             $scope.videos = formatData(data.data.request_data_result);
-          }
+          } else
+            $scope.videos = null;
         });
       }
     };
@@ -221,6 +224,17 @@ brotControllers.controller('VideoManagerController',
           }
         }
       });
+    }
+
+    $scope.goToDetail = function(v){
+      if (v.plid && v.plid > 0) {
+        setStorage('vidInPlaylist', v.vid, 30);
+        window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
+        window.location.reload();
+      } else{
+        window.location.href = '#/mentor/video/detail/'+v.vid+'';
+        window.location.reload();
+      }
     }
 
     $scope.$on('passing', function(e,a){

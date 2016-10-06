@@ -31,12 +31,11 @@
                                             <span class="pull-right">{{$index+1}} of {{videos.length}} videos</span>
                                         </div>
                                         <ul class="list-videp-w">
-                                            <li class="video-list-item active" ng-repeat="v in videos track by $index" ng-click="selectIndex($index)" ng-class="{'active':currentId==v.vid}" >
+                                            <li class="video-list-item" ng-repeat="v in videos track by $index" ng-click="selectIndex($index)" ng-class="{'active':currentId==v.vid}" >
                                                 <a class="clearfix" href="">
                                                     <span class="pull-left"><img style="width: 116px; height: 65px;" src="{{v.image}}" alt=""></span>
                                                     <h6 class="pull-left">{{ v.title | limitTo: 15 }}{{v.name.title > 15 ? '...' : ''}}</h6>
                                                 </a>
-                                                {{currentId}} + {{v.vid}}
                                             </li>
                                         </ul>
                                     </div>
@@ -75,7 +74,7 @@
                                     </div>
                                     <div class="show-about">
                                         <p>{{video.description}}</p>
-                                        <a href="#">Readmore<span data-icon="&#x33;"></span></a>
+                                        <a href="#">Show more<span data-icon="&#x33;"></span></a>
                                     </div>
                                     <div class="catego clearfix">
                                         <p class="pull-right"><span>Catalogue</span>&nbsp;&nbsp;<b>{{video.subject}}</b></p>
