@@ -1,11 +1,12 @@
 brotControllers.controller('MentorVideoDetailController', 
-  ['$scope', '$modal', '$routeParams', '$http', '$location', 'videoDetailService','PlaylistService',
-                                       function ($scope, $modal, $routeParams, $http, $location, videoDetailService, PlaylistService) {
+  ['$rootScope','$scope', '$modal', '$routeParams', '$http', '$location', 'videoDetailService','PlaylistService',
+                                       function ($rootScope,$scope, $modal, $routeParams, $http, $location, videoDetailService, PlaylistService) {
 
 
     var vid = $routeParams.vid;
     var plid = $routeParams.plid;
     var userId = localStorage.getItem('userId');
+    var vidInPlaylist = localStorage.getItem('vidInPlaylist');
     $scope.avatar = localStorage.getItem('imageUrl');
     
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
@@ -14,6 +15,7 @@ brotControllers.controller('MentorVideoDetailController',
     init();
 
     function init(){
+        angular.element(document.querySelector('#btnDelete')).remove();
     	if (!isNaN(vid) && vid > 0) {
     		// get video detail
             $scope.vid = vid;
@@ -22,8 +24,7 @@ brotControllers.controller('MentorVideoDetailController',
     	} else if (!isNaN(plid) && plid > 0) {
             // get playlist detail
             $scope.plid = plid;
-            angular.element(document.querySelector('#video_balance')).remove();
-            angular.element(document.querySelector('#btnDelete')).remove();
+            angular.element(document.querySelector('#video_balance')).remove();            
             loadPlaylistDetail();
             getVideosInPlaylist();
         } 
@@ -53,9 +54,20 @@ brotControllers.controller('MentorVideoDetailController',
                 for (var i = $scope.videos.length - 1; i >= 0; i--) {
                     $scope.videos[i].timeStamp = convertUnixTimeToTime($scope.videos[i].timeStamp);
                 }
+                if (vidInPlaylist && vidInPlaylist > 0) {
+                    var result = $.grep($scope.videos, function(v){
+                        return v.vid == vidInPlaylist;
+                    });
 
-                getVideoDetail($scope.videos[0].vid, userId);                
-            }
+                    var index = $scope.videos.indexOf(result[0]);
+                    if (index != -1) {
+                        $scope.currentId = $scope.videos[index].vid;
+                        loadVideoDetail($scope.videos[index]);
+                    }
+                } else
+                    loadVideoDetail($scope.videos[0]);
+            } else
+                $scope.videos = null;
         });
     }
     function getVideoRelated(){
@@ -77,6 +89,15 @@ brotControllers.controller('MentorVideoDetailController',
                 $scope.videosRelated = totalData;        
             }
         });
+    }
+
+    function loadVideoDetail(v){
+        $scope.video = v;
+        $scope.video.averageRating = $scope.video.averageRating != null ? $scope.video.averageRating : 0;
+        $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
+        // $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
+        initYoutubePlayer($scope.video.url);
+        getVideoRelated();
     }
 
     function getVideoDetail(id, userId){
@@ -124,6 +145,7 @@ brotControllers.controller('MentorVideoDetailController',
         if (index > $scope.videos.length) 
             index = 0;
         $scope.currentId = $scope.videos[index].vid;
+        loadVideoDetail($scope.videos[index]);
     }
 
     function initYoutubePlayer(url){
