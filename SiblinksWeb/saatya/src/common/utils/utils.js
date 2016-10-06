@@ -318,7 +318,7 @@ function validateGender(key) {
         case "O":
             return "Other";
         default :
-            return StatusError.MSG_UNKNOWN;
+            return "Other";
     }
 }
 

@@ -44,6 +44,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
@@ -565,15 +566,18 @@ public class UserServiceImpl implements UserService {
         SimpleResponse reponse = null;
         if (!CollectionUtils.isEmpty(readObject)) {
             // Verify password
-            String rawPwd = ecy.encode(request.getRequest_user().getPassword());
+            System.out.println(request.getRequest_user().getPassword());
+            // String rawPwd =
+            // ecy.encode(request.getRequest_user().getPassword());
             Map<String, String> user = (HashMap<String, String>) readObject.get(SibConstants.NUMBER.ZERO);
             String encryptPwd = user.get(Parameters.PASSWORD);
-            if (encryptPwd != null && "".equals(encryptPwd)) {
+            System.out.println(encryptPwd != null && !StringUtils.isEmpty(encryptPwd));
+            if (encryptPwd != null && !StringUtils.isEmpty(encryptPwd)) {
                 // Verify old password
-                if (CommonUtil.verifyPassword(rawPwd, encryptPwd)) {
+                if (CommonUtil.verifyPassword(request.getRequest_user().getPassword(), encryptPwd)) {
                     // Update new password
                     boolean status = dao.insertUpdateObject(
-                        SibConstants.SqlMapper.SQL_SIB_RESET_PASSWORD,
+                        SibConstants.SqlMapper.SQL_UPDATE_PASSWORD,
                         new Object[] { ecy.encode(request.getRequest_user().getNewpassword()), request
                             .getRequest_user()
                             .getUsername() });
@@ -1059,32 +1063,6 @@ public class UserServiceImpl implements UserService {
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
                                                     readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
-    public ResponseEntity<Response> forgotPassword(@RequestBody final RequestData request) {
-        Object[] queryParams = { request.getRequest_data().getEmail(), request.getRequest_data().getPassword() };
-
-        List<Object> msg = new ArrayList<Object>();
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_PASSWORD, queryParams);
-        if (status) {
-            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_TOKEN_FORGOT_PASSWORD, queryParams);
-            msg.add("Password has been updated");
-        } else {
-            msg.add("Failed to update password");
-        }
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    msg);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
