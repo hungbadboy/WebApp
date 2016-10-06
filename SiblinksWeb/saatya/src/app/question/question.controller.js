@@ -250,15 +250,15 @@ brotControllers
                 }
 
                 $scope.viewAnswer = function (qid) {
-                    if( $('#detail-answer-question_'+qid).hasClass('hide'))
+                    if( $('.detail-answer-question_'+qid).hasClass('hide'))
                     {
                         $('#spamview_'+qid).text('Hide');
-                        $('#detail-answer-question_'+qid).removeClass('hide');
+                        $('.detail-answer-question_'+qid).removeClass('hide');
 
                     }
                     else {
                         $('#spamview_'+qid).text('View');
-                        $('#detail-answer-question_'+qid).addClass('hide');
+                        $('.detail-answer-question_'+qid).addClass('hide');
                     }
                 }
 
