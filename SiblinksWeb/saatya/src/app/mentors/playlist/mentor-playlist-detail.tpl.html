@@ -40,12 +40,12 @@
                                     <button class="btn-delete" ng-click="removeAll()">Remove</button>
                                 </div>
                                 <div class="main-manager-video main-playlist-detail">
-                                    <div class="filters clearfix">
+                                    <div class="filters filters-bottom clearfix">
                                         <div class="check-all"><input id="check-all" ng-model="selectedAll" type="checkbox" name="checkall" ng-click="selectAll()" /></div>
-                                        <div class="text-trf">video informations</div>
-                                        <div class="text-des">description</div>
-                                        <div class="text-play">order</div>
-                                        <div class="text-ac">action</div>
+                                        <div class="text-trf">Video informations</div>
+                                        <div class="text-des">Description</div>
+                                        <div class="text-play">Subject</div>
+                                        <div class="text-ac">Action</div>
                                     </div>
                                     <div class="group-item" ng-show="videos">
                                         <div class="item" ng-repeat="v in videos track by $index">
@@ -53,22 +53,17 @@
                                             <div class="box-detail-play clearfix">
                                                 <span class="item-thumbnail">
                                                     <a href="#/mentor/video/detail/{{v.vid}}"><img class="item-fix-size" src="{{v.image}}" alt=""></a>
-                                                    <!-- <div class="box-all-vd">
-                                                        <p>
-                                                            <b>10</b>
-                                                        </p>
-                                                    </div> -->
                                                 </span>
                                                 <div class="detail-pl-inner">
-                                                    <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 40}}{{v.title.length > 40 ? '...' : ''}}</h5></a>
-                                                    <span class="add-time">{{v.timeStamp}} ago</span>
+                                                    <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
+                                                    <span class="add-time">added {{v.timeStamp}} ago</span>
                                                     <ul class="list-star">
                                                         <div  class="pull-left" star-rating stars="5"
                                                               outer-star-selection="stars"
                                                               outer-percent="rating"
                                                               rating-define="star"
                                                               rating-stars="{{v.averageRating}}"
-                                                              star-radius="12" sel-color="gold"
+                                                              star-radius="7" sel-color="gold"
                                                               back-color="white"></div>
                                                     </ul></br>
                                                     <p class="list-view">
@@ -79,7 +74,7 @@
                                                 </div>
                                             </div>
                                             <p class="box-description pre-wap">
-                                                {{v.description}}
+                                                {{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}
                                             </p>
                                             <p class="box-playlist">
                                                 {{v.subject}}
@@ -94,10 +89,11 @@
                                     </div>
                                     <div ng-if="!videos"><h5 style="margin-left: 15px; margin-top: 15px;">No video show</h5></div>
                                     <div class="filters filters-bottom clearfix">
-                                        <div class="check-all"><input id="check-all" ng-model="selectedAll" type="checkbox" name="checkall" ng-click="selectAll()"  /></div>
-                                        <div class="text-trf">video informations</div>
-                                        <div class="text-des">description</div>
-                                        <div class="text-ac">action</div>
+                                        <div class="check-all"><input id="check-all" ng-model="selectedAll" type="checkbox" name="checkall" ng-click="selectAll()"/></div>
+                                        <div class="text-trf">Video informations</div>
+                                        <div class="text-des">Description</div>
+                                        <div class="text-play">Subject</div>
+                                        <div class="text-ac">Action</div>
                                     </div>
                                     <div class="btn-mg">
                                         <button class="btn-delete" ng-click="removeAll()">Remove</button>
