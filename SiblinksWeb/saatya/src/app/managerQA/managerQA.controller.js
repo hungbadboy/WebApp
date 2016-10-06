@@ -214,7 +214,10 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             });
 
         }
-
+   
+        $scope.focusSubject = function () {
+            $('#autocompleteSubs').focus();
+        }
         $scope.answerQuestion = function (pid) {
             $scope.QAErrorMsg="";
             var content = $('#txtAnswer').val();

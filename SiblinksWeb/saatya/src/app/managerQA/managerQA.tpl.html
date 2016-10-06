@@ -19,7 +19,7 @@
                             <div class="col-md-12 search">
                                 <form class="navbar-form" role="search">
                                     <div class="input-group">
-                                        <input type="text" ng-enter="searchQuestion()" ng-model="textSearch" class="form-control-search input-search" placeholder="Type your search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''">
+                                        <input type="text" ng-enter="searchQuestion()" ng-model="textSearch" class="form-control-search input-search" placeholder="Type your search" name="srch-term" id="srch-term">
                                         <div class="input-group-btn">
                                             <button class="btn btn-default"  ng-click="searchQuestion()" ><img src="assets/images/icon-search.png" alt=""></button>
                                         </div>
@@ -30,9 +30,9 @@
                                 <div angucomplete-alt id="autocompleteSubs" placeholder="Search subjects.." pause="300"
                                      selected-object="selectedSubject"
                                      local-data="subjectsParent" search-fields="name" title-field="name"
-                                     minlength="0" input-class=""
-                                     match-class="highlight"  />
-                                <span data-icon="&#x43;"></span>
+                                     minlength="0" input-class="form-control-search"
+                                     match-class="highlight"   />
+                                <span ng-click="focusSubject()" data-icon="&#x43;"></span>
                             </div>
                             <div class="btn-filter"><button ng-click="fillerSubject()">Filter</button></div>
                         </div>
@@ -84,7 +84,7 @@
                         </div>
                         <div class="col-md-8 box-main-replied">
                             <div class="slider-rpl">
-                                <div class="box-btn-sl clearfix" style="margin-top: 5px">
+                                <div class="box-btn-sl clearfix">
                                     <a href="javascript:void(0)" class="btn-prev"><span ng-click="nextQuestion('prev')" data-icon="&#x34;"></span></a>
                                     <a href="javascript:void(0)" class="btn-next"><span  ng-click="nextQuestion('next')" data-icon="&#x35;"></span></a>
                                 </div>
@@ -173,7 +173,7 @@
                                                         <button ng-click="answerQuestion(questionDetail.question_id)" class="reply">Reply</button>
                                                     </div>
                                                     <p></p>
-                                                    <div class="detail-chat">
+                                                    <div style="margin-top: 120px;" class="detail-chat">
                                                         <!--<ul class="chat">-->
                                                             <!--<li class="right clearfix">-->
                                                                             <!--<span class="chat-img pull-right">-->
