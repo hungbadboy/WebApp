@@ -57,6 +57,7 @@ brotControllers
                 //10M
                 var MAX_SIZE_IMG_UPLOAD = 10485760;
                 var MAX_IMAGE = 4;
+                $scope.displayOrder = 'Newest';
                 
                 init();
                 function init() {
@@ -362,15 +363,12 @@ brotControllers
                     eventRemove = event;
                 };
                 
-
-                $scope.isEditQuestion = false;
                 $scope.showEditQuestionId="";
                 $scope.showEditQuestion = function(qid) {
-                	$scope.isEditQuestion = $scope.isEditQuestion ? false : true;
+                	$scope.isEditQuestion = true;
                 	if(qid == $scope.showEditQuestionId) {
                 		$scope.showEditQuestionId= "";
                 	} else {
-                		$scope.isEditQuestion = true;
                 		$scope.showEditQuestionId= qid;
                 	}
           	  	}

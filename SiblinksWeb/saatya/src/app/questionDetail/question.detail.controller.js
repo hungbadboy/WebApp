@@ -37,6 +37,10 @@ brotControllers
                 var MAX_IMAGE = 4;
                 var type = "newest";
                 $scope.countAnswer = 0;
+                $scope.isShowOrder = false;
+                $scope.isShowEdit = false;
+                $scope.propertyName = 'TIMESTAMP';
+                $scope.reverse = true;
                 init();
 
                 function init() {
@@ -103,10 +107,7 @@ brotControllers
                     });
 
                     // get data when edit
-
-
                 }
-
 
                 $scope.removeImg = function (index) {
                     $scope.filesArray.splice(index, 1);
@@ -379,14 +380,6 @@ brotControllers
                 };
 
 
-                $scope.showEditQuestion = function () {
-                    $(".edit-question").toggle();
-                }
-                
-                $scope.showOrder = function () {
-                    $('.sort-answer').toggle();
-                }
-                
                 $scope.showFormAdd = function () {
                     $scope.titlePopupAsk = "Ask a question";
                     $scope.isEdit = false;

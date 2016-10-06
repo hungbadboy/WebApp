@@ -1,169 +1,171 @@
 <div class="content ask-a-question" id="question-details">
-<!-- Breadcrum -->
-<div class="breadcrum">
-    <div class="container">
-        <h5>Siblinks /Ask a Question <span>/ Ask anythink and your Siblinks from Havard</span></h5>
-    </div>
-</div><!-- /End Breadcrum -->
-<!-- Container -->
-<div class="container">
-    <!-- Content -->
-    <section class="ask-a-question-content">
-        <!-- Question of user -->
-        <div class="questions col-lg-8">
-            <div class="questions-wrapper col-md-12">
-                <!-- head of question -->
-                <div class="head-question">
-                    <!-- Questions user have -->
-                    <div class="total-question col-xs-6">
-                        <h4> View a question</h4>
-                    </div><!-- /End questions user have -->
-                    <!-- New ask question -->
-                    <div class="new-ask col-xs-6">
-                        <p ng-click="showFormAdd()" class="new-ask-button">New Ask</p>
-                    </div><!-- /End new ask question -->
-                </div><!-- /End head of question -->
-
-                <!-- Content of question -->
-                <div class="content-question col-md-12">
-                    <div class="content-question-wrapper">
-                        <!-- Question Details-->
-                        <div class="question question_01">
-                            <div class="number-question col-xs-1">
-                                <h4><span data-icon="&#x75;"></span></h4>
-                            </div>
-                            <div class="detail-question col-xs-offset-1">
-                                <div class="infor-of-question col-xs-12">
-                                    <div class="details-question-title">
-                                        <span>asked {{question.timeStamp}} ago </span><br>
-                                        <p>in <a href="#/ask_a_question/{{question.subjectId}}">{{question.subject}}</a></p>
-                                    </div>
-                                    <div class="edit-details-question" data-icon="&#xe037;" ng-click="showEditQuestion()" ng-if="question.authorId == userId">
-                                        <div class="edit-question inactive" >
-                                            <ul>
-                                                <li class="edit" ng-click="editQuestion(question.question_id)"><span data-icon="&#xe08a;">&nbsp;&nbsp;</span>Edit</li>
-                                                <li class="delete" ng-show="countAnswer == 0" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteQuestion(question.question_id)"><span data-icon="&#x51;">&nbsp;&nbsp;</span>Delete</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Detail Content of Question -->
-                                <div class="detail-content-question col-xs-12">
-                                    <p class="pre-wrap">{{question.question_text}}</p>
-                                </div><!-- /End Detail Content of Question -->
-
-                                <!-- Images of question -->
-                                <div class="images-question">
-                                    <ul ng-if="question.imagePath">
-                                        <li class="item" ng-repeat="image in question.imagePath track by $index">
-                                            <div class="item-img" ng-if="image" ng-mouseover="imageHoverIn(question.id +''+$index)" ng-mouseleave="imageHoverOut(question.id +''+$index)" ng-click="zoomImage(image)">
-                                                <img ng-src="{{image}}">
-                                                <div class="item-hover" id="{{question.id}}{{$index}}">
-                                                    <img src="assets/images/ask question/look-img.png" ng-click="zoomImage(image)">
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div><!-- /End Images of question -->
-
-
-                                <!-- Answer of question -->
-                                <div class="answer-question col-xs-12">
-                                    <div class="number-answer">
-                                        <div class="total-number-answer">
-                                            <div class="total-answer">{{countAnswer}} answer <i ng-show="countAnswer != '0'" ng-click="showOrder()" class="fa fa-angle-down" aria-hidden="true"></i>
-                                                <!-- <div class="sort">answered</div>  -->
-                                                <div class="sort-answer inactive">
-                                                    <ul>
-                                                        <li class="newest">Newest</li>
-                                                        <li class="answered">Answered</li>
-                                                        <li class="unanswer">Unanswered</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="total-view">
-                                                &nbsp;&nbsp;&nbsp; {{question.numview}}  views
-                                            </div>
-                                        </div>
-                                        <!-- Detail-answer-question -->
-                                        <div class="detail-answer-question">
-                                            <div class="mentor-answer" ng-repeat="answer in listAnswer track by $index">
-                                                <div class="image-mentor">
-                                                    <a href="#/student/mentorProfile/{{answer.authorID}}"><img ng-src="{{answer.imageUrl}}"></a>
-                                                </div>
-                                                <div class="detail-mentor-answer">
-                                                    <div class="mentor-name">
-                                                        <a href="#/student/mentorProfile/{{answer.authorID}}">
-                                                            <strong>{{answer.firstName+""+ answer.lastName}}</strong>&nbsp;</a>
-                                                        &nbsp;&nbsp;<span>answered {{answer.timeStamp}} ago</span>
-                                                        <span>{{answer.numlike}} <span
-                                                                data-icon="&#xe089;" class="heart{{answer.aid}}" id="{{answer.like=='1'?'heart':''}}"
-                                                                ng-click="likeAnswer(answer.aid)"></span></span>
-                                                    </div>
-                                                    <div class="mentor-answer">
-                                                        <p class="pre-wrap">{{answer.content}}</p>
-                                                        <!--images-question strart-->
-                                                        <div class="images-question">
-                                                            <ul>
-                                                                <li class="item" ng-repeat="aimage in answer.imageAnswerPath track by $index">
-                                                                    <div class="item-img"  ng-mouseover="imageHoverIn('aimg_'+answer.aid +''+$index)"
-                                                                         ng-mouseleave="imageHoverOut('aimg_'+answer.aid +''+$index)">
-                                                                        <img  ng-click="zoomImage(aimage)" ng-src="{{aimage}}">
-                                                                        <div id="aimg_{{+answer.aid +''+$index}}" class="item-hover">
-                                                                            <img  ng-click="zoomImage(aimage)" src="assets/images/ask question/look-img.png">
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <!--images-question end-->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div><!-- /End Detail-answer-question -->
-                                        <!--<div class="load-more">-->
-                                            <!--<p>Load more comments</p>-->
-                                        <!--</div>-->
-                                    </div>
-                                </div><!-- /End answer of question -->
-                            </div>
-                        </div><!-- End question -->
-
-                    </div>
-                    <!-- POPUP of images's question -->
-                    <div class="popup-images">
-                        <div class="popup-images-wrapper">
-                            <img ng-src="{{currentImage}}" width="800px" height="600px">
-                        </div>
-                        <div class="close-popup-images" ng-click="closePopupAskQuestion()">
-                        </div>
-                    </div><!-- /End POPUP of images's question -->
-
-                </div><!-- /End content of question -->
-
-                <!-- <div class="scroll-load-more col-md-12">
-                    <p>Scroll to load more</p>
-                </div> -->
-            </div>
-
-        </div><!-- /End question of user -->
-        <div class="top-mentors-videos col-lg-4" ng-controller="QuestionController">
-            <!-- Top mentor -->
-            <div class="top-mentors" ng-include="'src/app/topMentor/topMentors.tpl.html'">
-
-            </div>
-            <!-- /End top memtor -->
-            <!-- Top videos -->
-            <div class="top-videos" ng-include="'src/app/topVideo/topVideos.tpl.html'" >
-
-            </div>
-            <!-- /End top memtor -->
+    <!-- Breadcrum -->
+    <div class="breadcrum">
+        <div class="container">
+            <h5>Siblinks /Ask a Question <span>/ Ask anythink and your Siblinks from Havard</span></h5>
         </div>
-    </section><!-- /End content -->
-</div><!-- End container -->
+    </div><!-- /End Breadcrum -->
+    <!-- Container -->
+    <div class="container">
+        <!-- Content -->
+        <section class="ask-a-question-content">
+            <!-- Question of user -->
+            <div class="questions col-lg-8">
+                <div class="questions-wrapper col-md-12">
+                    <!-- head of question -->
+                    <div class="head-question">
+                        <!-- Questions user have -->
+                        <div class="total-question col-xs-6">
+                            <h4> View a question</h4>
+                        </div><!-- /End questions user have -->
+                        <!-- New ask question -->
+                        <div class="new-ask col-xs-6">
+                            <p ng-click="showFormAdd()" class="new-ask-button">New Ask</p>
+                        </div><!-- /End new ask question -->
+                    </div><!-- /End head of question -->
 
-<!-- Form add new ask -->
-< <div class="form-ask-question" ng-controller="QuestionDetailCtrl">
+                    <!-- Content of question -->
+                    <div class="content-question col-md-12">
+                        <div class="content-question-wrapper">
+                            <!-- Question Details-->
+                            <div class="question question_01">
+                                <div class="number-question col-xs-1">
+                                    <h4><span data-icon="&#x75;"></span></h4>
+                                </div>
+                                <div class="detail-question col-xs-offset-1">
+                                    <div class="infor-of-question col-xs-12">
+                                        <div class="details-question-title">
+                                            <span>asked {{question.timeStamp}} ago </span><br>
+                                            <p>in <a href="#/ask_a_question/{{question.subjectId}}">{{question.subject}}</a></p>
+                                        </div>
+                                        <div class="edit-details-question" data-icon="&#xe037;" click-anywhere-but-here="isShowEdit = false"
+                                             ng-click="isShowEdit = isShowEdit ? false : true" ng-if="question.authorId == userId">
+                                            <div class="edit-question" ng-show="isShowEdit">
+                                                <ul>
+                                                    <li class="edit" ng-click="editQuestion(question.question_id)"><span data-icon="&#xe08a;">&nbsp;&nbsp;</span>Edit</li>
+                                                    <li class="delete" ng-if="countAnswer == 0" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteQuestion(question.question_id)"><span data-icon="&#x51;">&nbsp;&nbsp;</span>Delete</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Detail Content of Question -->
+                                    <div class="detail-content-question col-xs-12">
+                                        <p class="pre-wrap">{{question.question_text}}</p>
+                                    </div><!-- /End Detail Content of Question -->
+
+                                    <!-- Images of question -->
+                                    <div class="images-question">
+                                        <ul ng-if="question.imagePath">
+                                            <li class="item" ng-repeat="image in question.imagePath track by $index">
+                                                <div class="item-img" ng-if="image" ng-mouseover="imageHoverIn(question.id +''+$index)" ng-mouseleave="imageHoverOut(question.id +''+$index)" ng-click="zoomImage(image)">
+                                                    <img ng-src="{{image}}">
+                                                    <div class="item-hover" id="{{question.id}}{{$index}}">
+                                                        <img src="assets/images/ask question/look-img.png" ng-click="zoomImage(image)">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div><!-- /End Images of question -->
+
+
+                                    <!-- Answer of question -->
+                                    <div class="answer-question col-xs-12">
+                                        <div class="number-answer">
+                                            <div class="total-number-answer">
+                                                <div class="total-answer">{{countAnswer}} answer <i ng-show="countAnswer != '0'" ng-click="isShowOrder = isShowOrder ? false : true"
+                                                                                                    click-anywhere-but-here="isShowOrder = false" class="fa fa-angle-down" aria-hidden="true"></i>
+                                                    <!-- <div class="sort">answered</div>  -->
+                                                    <div class="sort-answer" ng-show="isShowOrder">
+                                                        <ul>
+                                                            <li class="newest" ng-click="propertyName = 'TIMESTAMP';reverse=true">Newest</li>
+                                                            <li class="answered" ng-click="propertyName = 'numlike';reverse=true">Top liked</li>
+                                                            <li class="unanswer" ng-click="propertyName = 'TIMESTAMP';reverse=false">Oldest</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="total-view">
+                                                    &nbsp;&nbsp;&nbsp; {{question.numview}}  views
+                                                </div>
+                                            </div>
+                                            <!-- Detail-answer-question -->
+                                            <div class="detail-answer-question">
+                                                <div class="mentor-answer" ng-repeat="answer in listAnswer | orderBy:propertyName:reverse track by $index">
+                                                    <div class="image-mentor">
+                                                        <a href="#/student/mentorProfile/{{answer.authorID}}"><img ng-src="{{answer.imageUrl}}"></a>
+                                                    </div>
+                                                    <div class="detail-mentor-answer">
+                                                        <div class="mentor-name">
+                                                            <a href="#/student/mentorProfile/{{answer.authorID}}">
+                                                                <strong>{{answer.firstName+""+ answer.lastName}}</strong>&nbsp;</a>
+                                                            &nbsp;&nbsp;<span>answered {{answer.timeStamp}} ago</span>
+                                                            <span>{{answer.numlike}} <span
+                                                                    data-icon="&#xe089;" class="heart{{answer.aid}}" id="{{answer.like=='1'?'heart':''}}"
+                                                                    ng-click="likeAnswer(answer.aid)"></span></span>
+                                                        </div>
+                                                        <div class="mentor-answer">
+                                                            <p class="pre-wrap">{{answer.content}}</p>
+                                                            <!--images-question strart-->
+                                                            <div class="images-question">
+                                                                <ul>
+                                                                    <li class="item" ng-repeat="aimage in answer.imageAnswerPath track by $index">
+                                                                        <div class="item-img"  ng-mouseover="imageHoverIn('aimg_'+answer.aid +''+$index)"
+                                                                             ng-mouseleave="imageHoverOut('aimg_'+answer.aid +''+$index)">
+                                                                            <img  ng-click="zoomImage(aimage)" ng-src="{{aimage}}">
+                                                                            <div id="aimg_{{+answer.aid +''+$index}}" class="item-hover">
+                                                                                <img  ng-click="zoomImage(aimage)" src="assets/images/ask question/look-img.png">
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <!--images-question end-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- /End Detail-answer-question -->
+                                            <!--<div class="load-more">-->
+                                            <!--<p>Load more comments</p>-->
+                                            <!--</div>-->
+                                        </div>
+                                    </div><!-- /End answer of question -->
+                                </div>
+                            </div><!-- End question -->
+
+                        </div>
+                        <!-- POPUP of images's question -->
+                        <div class="popup-images">
+                            <div class="popup-images-wrapper">
+                                <img ng-src="{{currentImage}}" width="800px" height="600px">
+                            </div>
+                            <div class="close-popup-images" ng-click="closePopupAskQuestion()">
+                            </div>
+                        </div><!-- /End POPUP of images's question -->
+
+                    </div><!-- /End content of question -->
+
+                    <!-- <div class="scroll-load-more col-md-12">
+                        <p>Scroll to load more</p>
+                    </div> -->
+                </div>
+
+            </div><!-- /End question of user -->
+            <div class="top-mentors-videos col-lg-4" ng-controller="QuestionController">
+                <!-- Top mentor -->
+                <div class="top-mentors" ng-include="'src/app/topMentor/topMentors.tpl.html'">
+
+                </div>
+                <!-- /End top memtor -->
+                <!-- Top videos -->
+                <div class="top-videos" ng-include="'src/app/topVideo/topVideos.tpl.html'" >
+
+                </div>
+                <!-- /End top memtor -->
+            </div>
+        </section><!-- /End content -->
+    </div><!-- End container -->
+
+    <!-- Form add new ask -->
+    < <div class="form-ask-question" ng-controller="QuestionDetailCtrl">
     <div class="form-ask-question-wrapper">
         <form action="" method=""
               class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
@@ -207,5 +209,5 @@
     <div class="close-popup-images" ng-click="closePopupAskQuestion()">
     </div>
 </div>
-<!-- /End Form add new ask-->
+    <!-- /End Form add new ask-->
 </div>
