@@ -42,6 +42,7 @@ brotControllers.controller('PlaylistController',
         PlaylistService.loadPlaylist(userId, 0).then(function(data){
             if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
                $scope.playlist = parseData(data.data.request_data_result);   
+               cachePlaylist.length = 0;
                cachePlaylist = $scope.playlist.slice(0);
             }  
         });
@@ -50,8 +51,12 @@ brotControllers.controller('PlaylistController',
     function loadMorePlaylist(){
       PlaylistService.loadPlaylist(userId, $scope.playlist.length).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-             $scope.playlist.concat(parseData(data.data.request_data_result));   
-             cachePlaylist = $scope.playlist.slice(0);
+            var oldArr = $scope.playlist;
+            var newArr = parseData(data.data.request_data_result);
+            var totalArr = oldArr.concat(newArr);
+            $scope.playlist = totalArr;
+            cachePlaylist.length = 0;
+            cachePlaylist = $scope.playlist.slice(0);
           }
       });
     }
@@ -137,10 +142,8 @@ brotControllers.controller('PlaylistController',
         PlaylistService.getPlaylistBySubject(userId, $scope.subject, 0).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
              $scope.playlist = parseData(data.data.request_data_result);   
-             $scope.nodata = false;           
-          } else{
-            $scope.nodata = true;
-          }
+          } else
+            $scope.playlist = null;
         });
       }      
     }
@@ -244,6 +247,18 @@ brotControllers.controller('PlaylistController',
       });
     }
 
+    $scope.addVideo = function(plid){
+      var modalInstance = $modal.open({
+        templateUrl: 'src/app/mentors/playlist/choose_video_popup.tpl.html',
+        controller:'ChooseVideoController',
+        resolve:{
+            pl_id: function(){
+            return plid;
+          }
+        }        
+      });
+    }
+
     $scope.$on('updatePlaylist', function(e, a){
       console.log(a);
       var item = $.grep($scope.playlist, function(p){
@@ -257,6 +272,10 @@ brotControllers.controller('PlaylistController',
         if (a.newImage && a.newImage.length > 0) {}
           $scope.playlist[index].image = a.newImage;
       }
+    });
+
+    $scope.$on('addVideoFromPlaylist', function(){
+      loadPlaylist();
     });
 
     function clearContent(){

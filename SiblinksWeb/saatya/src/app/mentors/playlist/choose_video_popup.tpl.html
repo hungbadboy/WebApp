@@ -26,7 +26,7 @@
                             </form>
                         </div>
                         <div class="col-md-2 sl-sbj">
-                            <select class="select-sbj" id="subject" ng-model="subject" ng-change="loadVideoBySubject()">
+                            <select style="width: 160px;" class="select-sbj" id="subject" ng-model="subject" ng-change="loadVideoBySubject()">
                                 <option value="0">Select Subjects</option>      
                                 <option ng-repeat="s in subjects track by $index" value="{{s.subjectId}}">{{s.subject}}</option>              
                             </select>
@@ -42,56 +42,55 @@
                     <div class="text-play col-md-5">playlist</div>
                 </div>
                 <div class="group-item">
-                    <div class="item clearfix" ng-repeat="v in videos track by $index">
-                        <div class="check-box col-md-1"><input type="checkbox" class="check-input-md" name="checkall" ng-model="v.selected" ng-click="optionSelected()"/></div>
-                        <div class="box-detail-play col-md-6 clearfix">
-                            <span class="item-thumbnail pull-left">
-                                <img class="item-fix-size" src="{{v.image}}" alt="">
-                            </span>
-                            <div class="detail-pl-inner pull-left">
-                                <h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5>
-                                <span class="add-time">{{v.timeStamp}} ago</span>
-                                <!-- <ul class="list-star">
-                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                </ul> -->
-                                <p class="list-view">
-                                    <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
-                                    <!-- <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp; -->
-                                    <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
-                                </p>
+                    <div style="height: 300px;" ng-if="videos" scroller="videoScrl" data-on-total-scroll="loadMoreVideos">
+                        <div class="item clearfix" ng-repeat="v in videos track by $index">
+                            <div class="check-box col-md-1"><input type="checkbox" class="check-input-md" name="checkall" ng-model="v.selected" ng-click="optionSelected()"/></div>
+                            <div class="box-detail-play col-md-6 clearfix">
+                                <span class="item-thumbnail pull-left">
+                                    <img class="item-fix-size" src="{{v.image}}" alt="">
+                                </span>
+                                <div class="detail-pl-inner pull-left">
+                                    <h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5>
+                                    <span class="add-time">{{v.timeStamp}} ago</span>
+                                    <!-- <ul class="list-star">
+                                    </ul> -->
+                                    <p class="list-view">
+                                        <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
+                                        <!-- <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp; -->
+                                        <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                    </p>
+                                </div>
                             </div>
+                            <p class="box-playlist col-md-5">
+                                {{v.playlist}}
+                            </p>
                         </div>
-                        <p class="box-playlist col-md-5">
-                            {{v.playlist}}
-                        </p>
+                        <div ng-show="!videos">No data show</div>
                     </div>
-                    <div ng-show="!videos">No data show</div>
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="up">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-modal">
-                            <form action="" method="POST" role="form">
+                            <div ng-if="success" class="succesful">
+                              <span>{{success}}</span>
+                            </div>
+                            <div ng-if="error" class="validate_error">
+                               <span>{{error}}</span>
+                            </div>
+                            <form action="" method="" role="form">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="" placeholder="Video title">
+                                    <input type="text" class="form-control" id="txtTutTitle" placeholder="Tutorial Title">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control input-custom-link" id="" placeholder="Youtube Link or ID">
+                                    <input type="text" class="form-control input-custom-link" id="txtTutLink" placeholder="Youtube Link or ID" ng-blur="validateLink()" ng-enter="validateLink()">
                                 </div>
                                 <div class="form-group">
-                                    <textarea name="desciptions" rows="8" cols="5" class="form-control textarea-custom" placeholder="Youtube Link or ID"></textarea>
+                                    <textarea name="desciptions" id="txtTutDescription" rows="8" cols="5" class="form-control textarea-custom" placeholder="Description"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <select name="" id="" class="form-control">
-                                        <option value="0">Choose subject</option>
-                                        <option value="1">Choose subject</option>
-                                        <option value="2">Choose subject</option>
-                                        <option value="3">Choose subject</option>
+                                    <select  id="insertSubject" class="form-control" ng-model="insertSubject" ng-change="changeValue(insertSubject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in subjects'>                                        
                                     </select>
                                 </div>
                             </form>
@@ -99,16 +98,13 @@
                     </div>
                     <div class="col-md-6 right-modal">
                         <h4>Get information from youtube</h4>
-                        <div class="box-video-lag">
-                            <img src="assets/images/img-lag-video.png" alt="">
-                            <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
+                        <div class="box-video-lag" id="validate">
                         </div>
-                        <p>Praesent id odio tortor. Maecenas sagittis tellus eu ipsum auctor, vel<br/> aliquet felis molestie....</p>
                     </div>
                     <div class="clearfix col-md-12">
                         <div class="bx-btn pull-right">
-                            <button class="btn-play active"><b>upload</b></button>
-                            <button class="btn-edit"><b>cancel</b></button>
+                            <button class="btn-play active" ng-click="upload()"><b>upload</b></button>
+                            <button class="btn-edit" ng-click="cancel()"><b>cancel</b></button>
                         </div>
                     </div>
                 </div>

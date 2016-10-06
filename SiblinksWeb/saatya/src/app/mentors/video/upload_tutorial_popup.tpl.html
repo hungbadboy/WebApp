@@ -57,15 +57,15 @@
         <h4>Recently added tutorials</h4>
         <div class="filter-modal clearfix">
             <div class="col-md-3">video informations</div>
-            <div class="col-md-1">subject</div>
-            <div class="col-md-5">description</div>
+            <div class="col-md-2">subject</div>
+            <div class="col-md-4">description</div>
             <div class="col-md-3">action</div>
         </div>
         <div class="group-item" ng-show="videos">
             <div class="item clearfix" ng-repeat="v in videos track by $index">
                 <div class="col-md-3">{{v.title}}</div>
-                <div class="col-md-1">{{v.subject}}</div>
-                <div class="col-md-5">{{v.description}}</div>
+                <div class="col-md-2">{{v.subject}}</div>
+                <div class="col-md-4">{{v.description | limitTo : 20}}{{v.description.length > 20 ? '...' : ''}}</div>
                 <div class="col-md-3">
                     <ul class="list-ac">
                         <li><a href="" ng-click="openEdit(v)">Edit</a></li>

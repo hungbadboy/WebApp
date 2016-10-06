@@ -107,9 +107,17 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
     // }
 
     $scope.loadMoreComments = function(){
-      MentorService.getLatestComments(userId, 10, $scope.comments.length).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") 
-          $scope.comments = formatCommentProfile(data.data.request_data_result);
+      var offset = 0;
+      if ($scope.comments && $scope.comments.length > 0)
+        offset = $scope.comments.length;
+
+      MentorService.getLatestComments(userId, 10, offset).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+          var oldArr = $scope.comments;
+          var newArr = formatCommentProfile(data.data.request_data_result);
+          var totalArr = oldArr.concat(newArr);
+          $scope.comments = totalArr;
+        }
       });
     }
 
@@ -152,12 +160,19 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
       return data;
     }
 
-    $scope.loadMoreVideos = function(){
-      VideoService.getVideos(userId, $scope.videos.length).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") 
-          $scope.videos.concat(formatData(data.request_data_result));
-      });
-    }
+    // $scope.loadMoreVideos = function(){
+    //   var offset = 0;
+    //   if ($scope.videos && $scope.videos.length > 0)
+    //     offset = $scope.videos.length;
+    //   VideoService.getVideos(userId, offset).then(function(data){
+    //     if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+    //       var oldArr = $scope.videos;
+    //       var newArr = formatData(data.request_data_result);
+    //       var totalArr = oldArr.concat(newArr);
+    //       $scope.videos = totalArr;
+    //     }
+    //   });
+    // }
 
     $scope.delete = function(vid){
       if (confirm("Are you sure?")) {

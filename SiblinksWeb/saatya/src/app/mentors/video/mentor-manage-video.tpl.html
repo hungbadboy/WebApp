@@ -166,7 +166,7 @@
                             <div class="col-md-8">
                                 <div class="box-l-comment" >
                                     <h4>Latest Comments</h4>
-                                    <div class="box-comment-fix" ng-if="comments" scroller="commentScrl" data-on-total-scroll="loadMoreComments()">
+                                    <div class="box-comment-fix" ng-if="comments" scroller="commentScrl" data-on-total-scroll="loadMoreComments">
                                         <div class="item-cm clearfix" ng-repeat="c in comments track by $index">
                                             <span class="img-tb pull-left"><a href="#/mentor/mentorProfile/{{c.authorid}}"><img class="avatar-fix-size" src="{{c.imageUrl}}" alt=""></a></span>
                                             <div class="pull-left detail-cm">

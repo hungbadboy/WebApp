@@ -48,7 +48,7 @@
                                         </div>
                                         <div class="number-total">
                                             <p>Total {{dashboard.count_answers}}</p>
-                                            <span data-icon="&#x42;">{{dashboard.count_videos_today}}</span>
+                                            <span data-icon="&#x42;">{{dashboard.count_answers_today}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                                         </div>
                                         <div class="number-total">
                                             <p>Total {{dashboard.count_videos}}</p>
-                                            <span data-icon="&#x43;">{{dashboard.count_videos}}</span>
+                                            <span data-icon="&#x43;">{{dashboard.count_videos_today}}</span>
                                         </div>
                                     </div>
                                 </div>                                            
@@ -70,7 +70,7 @@
                         <!-- Bottom left area -->
                         <div class="dashboard-content-bottom-left">
                             <div class="dashboard-content-bottom-left-wrapper">
-                                <h4>Newest Q&A</h4><a href="#"><span data-icon="&#xe037;" class="setting"></span></a>
+                                <h4>Newest Q&A</h4><a href=""><span data-icon="&#xe037;" class="setting"></span></a>
                                 <div class="newest-qa" ng-show="questions">
                                     <ul ng-repeat="q in questions track by $index">
                                         <li>

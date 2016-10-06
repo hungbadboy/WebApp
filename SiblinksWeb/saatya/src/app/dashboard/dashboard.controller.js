@@ -102,7 +102,7 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
   var player;
   function onYouTubeIframeAPIReady(youtubeId) {
     player = new YT.Player('player', {
-        height: '360',
+        height: '300',
         width: '100%',
         videoId: youtubeId,
         events: {
