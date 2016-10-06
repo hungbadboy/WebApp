@@ -21,7 +21,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/metorProfile/mentorProfile.tpl.html',
 		controller: 'MentorProfileController'
 	}).
-	when('/mentor/mentorProfile/:studentId', {
+	when('/mentor/studentProfile/:studentId', {
 		templateUrl: 'src/app/metorProfile/mentorStudentProfile.tpl.html',
 		controller: 'MentorProfileController'
 	}).
@@ -42,15 +42,6 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/signUpComplete.tpl.html',
 		controller : 'SignUpCompleteController'
 	}).
-	// when('/studentProfile/:userid', {
-	// 	templateUrl: 'src/app/student_profile.tpl.html',
-	// 	controller: 'StudentProfileController'
-	// }).
-//	when('/video_general', {
-//		templateUrl: 'src/app/video/video_general.tpl.html',
-//		controller: 'VideoController',
-//		reloadOnSearch: false
-//	}).
 	when('/mentor/mentorVideo', {
 		templateUrl: 'src/app/mentors/video/mentor-manage-video.tpl.html',
 		controller: 'MentorVideoManageController',
@@ -218,10 +209,6 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	when('/mentor/dashboard', {
 		templateUrl: 'src/app/dashboard/dashboard.tpl.html',
 		controller: 'DashboardController'
-	}).
-	when('/mentor/profile', {
-		templateUrl: 'src/app/metorProfile/mentorProfile.tpl.html',
-		controller: 'MentorProfileController'
 	}).
 	// Videos Mentor
 	when('/mentor/videoManager', {

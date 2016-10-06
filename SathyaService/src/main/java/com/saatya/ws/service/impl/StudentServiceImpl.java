@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2016-2017, Tinhvan Outsourcing JSC. All rights reserved.
+ *
+ * No permission to use, copy, modify and distribute this software
+ * and its documentation for any purpose is granted.
+ * This software is provided under applicable license agreement only.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.saatya.ws.service.impl;
 
 import java.util.Date;
@@ -28,7 +47,13 @@ import com.saatya.ws.service.StudentService;
 import com.saatya.ws.service.UserService;
 import com.saatya.ws.util.StringUtil;
 
-@Controller
+/**
+ * 
+ * @author hungpd
+ * @version 1.0
+ */
+
+@RestController
 @RequestMapping("/saatya/services/student")
 public class StudentServiceImpl implements StudentService{
 
@@ -141,13 +166,35 @@ public class StudentServiceImpl implements StudentService{
 
 		return reponse;
 	}*/
+	@Override
+	@RequestMapping(value = "/checkStudentSubscribe", method = RequestMethod.GET)
+    public ResponseEntity<Response> checkStudentSubscribe(@RequestParam final long studentId, @RequestParam final long mentorId) {
+        boolean status;
+        String message = "";
+        SimpleResponse response;
+        ResponseEntity<Response> entity;
+        if (studentId == 0 || mentorId == 0) {
+            status = false;
+            message = SibConstants.USER_NOT_EXISTS;
+            response = new SimpleResponse("" + status, "student", "checkStudentSubscribe", message);
+            entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+            return entity;
+        }
+        status = true;
+        Object[] params = { studentId, mentorId };
 
-	
+        String entityName = SibConstants.SqlMapper.SQL_CHECK_STUDENT_SUBSCRIBE;
 
-	
-
-	
-	
-	
-	
+        List<Object> readObject = dao.readObjects(entityName, params);
+        boolean isSubscribed = false;
+        if (!CollectionUtils.isEmpty(readObject)) {
+            for (Object object : readObject) { // Only one object
+                Map obj = (Map) object;
+                isSubscribed = (long) obj.get("count(*)") > 0;
+            }
+        }
+        response = new SimpleResponse("" + status, "student", "checkStudentSubscribe", isSubscribed);
+        entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+        return entity;
+	}
 }

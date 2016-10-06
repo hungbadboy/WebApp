@@ -57,6 +57,7 @@ brotControllers
                 //10M
                 var MAX_SIZE_IMG_UPLOAD = 10485760;
                 var MAX_IMAGE = 4;
+                $scope.displayOrder = 'Newest';
                 
                 init();
                 function init() {
@@ -153,6 +154,7 @@ brotControllers
                                 return;
                             }
                             for (var i = 0; i < result.question.length; i++) {
+                                $scope.isDisplayMore = false;
                                 var objPosted = {};
                                 var questionData = result.question[i];
                                 objPosted.id = questionData.PID;
@@ -332,7 +334,6 @@ brotControllers
                     }
                 };
 
-                $scope.isLoadMore = false;
                 $scope.loadMorePost = function (ev) {
                     if ($scope.isDisplayMore) {
                         return;
@@ -340,17 +341,10 @@ brotControllers
                     currentPage++;
                     isLoadMore = true;
                     $scope.isDisplayMore = true;
-
                     var newoffset = limit * currentPage;
                     console.log(newoffset);
-                    if (newoffset > $scope.totalQuestion) {
-                        $scope.isDisplayMore = true;
-                        return;
-                    }
-                    else {
-                        $scope.isDisplayMore = false;
-                        getQuestions(userId, limit, newoffset, $scope.curentOrderType, oldQid, subjectid);
-                    }
+                    getQuestions(userId, limit, newoffset, $scope.curentOrderType, oldQid, subjectid);
+
                 };
 
 
@@ -369,15 +363,12 @@ brotControllers
                     eventRemove = event;
                 };
                 
-
-                $scope.isEditQuestion = false;
                 $scope.showEditQuestionId="";
                 $scope.showEditQuestion = function(qid) {
-                	$scope.isEditQuestion = $scope.isEditQuestion ? false : true;
+                	$scope.isEditQuestion = true;
                 	if(qid == $scope.showEditQuestionId) {
                 		$scope.showEditQuestionId= "";
                 	} else {
-                		$scope.isEditQuestion = true;
                 		$scope.showEditQuestionId= qid;
                 	}
           	  	}

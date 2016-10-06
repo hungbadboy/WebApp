@@ -2,6 +2,7 @@ package com.siblinks.ws.service;
 
 import org.springframework.http.ResponseEntity;
 
+import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 
 public interface VideoAdmissionService {
@@ -45,5 +46,29 @@ public interface VideoAdmissionService {
      * @return
      */
     public ResponseEntity<Response> getVideoTuttorialAdmission(String idAdmission);
+
+    /**
+     * @param
+     * @return list all videos in Sib_Video_Admission table
+     */
+    public ResponseEntity<Response> getAllVideosAdmission();
+
+    /**
+     * @param vid
+     * @return boolean
+     */
+    public ResponseEntity<Response> deleteVideoAdmission(RequestData request);
+
+    /**
+     * @param videoAdmission
+     * @return boolean
+     */
+    public ResponseEntity<Response> updateVideoAdmission(RequestData request);
+
+    /**
+     * @param videoAdmission
+     * @return boolean
+     */
+    public ResponseEntity<Response> createVideoAdmission(RequestData request);
 
 }

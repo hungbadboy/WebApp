@@ -1,10 +1,10 @@
 <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
 <div class="content">
-    <div class="center-content">
-        <div class="center-content-wrapper">
-            <section id="dashboard">
-                <div class="dashboard-wrapper">
-                    <div class="dashboard-header">    
+  <div class="center-content">
+      <div class="center-content-wrapper">
+          <section id="dashboard">
+              <div class="dashboard-wrapper">
+                  <div class="dashboard-header">
                     <h4>Manage Profile</h4>
                     </div>
                     <div class="manager-profile clearfix">
@@ -12,19 +12,19 @@
                             <div class="avt">
                                 <div class="box-avatar">
                                     <div class="img-avt">
-                                        <img src="{{mentor.imageUrl}}" alt="">
-                                        <a href="#" class="change-avt">
-                                            <img ng-src="assets/images/img-change-avt.png" alt="change avatar">
-                                        </a>
+                                        <img ng-src="{{mentor.imageUrl}}" alt="">
                                     </div>
                                     <h4>{{mentor.fullName}}</h4>
-                                    <!-- <span>freshman</span> -->
+                                    <span class="changeImg broswer-img">
+                                        <input type="file" id="changeImg" name="changeImg[]">
+                                        <label for="changeImg"><span data-icon=""></span></label>
+                                    </span>
                                 </div>
                                 <div class="box-information">
                                     <h5>University</h5>
                                     <p>{{mentor.school}}</p>
                                     <h5>About me</h5>
-                                    <p>{{mentor.description}}</p>
+                                    <p>{{mentor.Bio}}</p>
                                     <h5>Knowledge field: </h5>
                                     <p>{{mentor.skills}}</p>
                                     <h5>Sex <span>{{mentor.gender}}</span></h5>
@@ -34,96 +34,96 @@
                             </div>
                         </div>
                         <div class="col-md-6 manager-profile-infor">
-                           <div class="col-md-12 tab-pane" id="setting-broswer">
-                           <div class="user-profile-setting">
-                               <ul class="nav nav-tabs">
-                                   <li class="active">
-                                       <a data-toggle="tab" href="/mentor/profile#perInfor">
-                                           Personal Information
-                                       </a>
-                                   </li>
-                                   <li>
-                                       <a data-toggle="tab" href="/mentor/profile#changPass">
-                                           Change password
-                                       </a>
-                                   </li>
-                               </ul>
-                               <div class="tab-content">
-                                   <div class="tab-pane active" id="perInfor">
-                                       <form action="" method="">
-                                           <div class="personal-information">
-                                               <div class="left-form">
-                                                   <p><input type="text" placeholder="Firstname" name="firstname"></p>
-                                                   <p><input type="text" placeholder="Lastname" name="lastname"></p>
-                                                   <p><input type="email" placeholder="Email" name="email"></p>
-                                                   <p><input type="text" placeholder="High School" name="school"></p>
-                                                   <p class="favorite field">
-                                                       <p>Favourite field</p>
-                                                       <input type="checkbox" value="Music" name="music"><label>Music</label>
-                                                       <input type="checkbox" value="Art" name="art"><label>Art</label>
-                                                       <input type="checkbox" value="Sport" name="sport"><label>Sport</label>
-                                                   </p>
-                                               </div>
-                                               <div class="right-form">
-                                                   <p class="sex">
-                                                       <input type="radio" name="gender" value="male" checked><label>Male</label>
-                                                       <input type="radio" name="gender" value="female"><label> Female</label>
-                                                       <input type="radio" name="gender" value="other"><label> Other</label>
-                                                   </p>
-                                                   
-                                                   <p><input type="text" placeholder="BIO" name="bio"></p>
-                                                   <p><textarea placeholder="About me..." name="aboutme"></textarea></p>
-                                               </div>
-                                               
-                                               <div class="submit col-md-12">
-                                                   <button type="button" id="reset">Reset</button>
-                                                   <button type="button" id="update">Update</button>
-                                               </div>
-                                           </div>
-                                       </form>
-                                   </div>
-                                   <div class="content-question tab-pane" id="changPass">
-                                       <form acition="" method="">
-                                           <div class="change-password">
-                                               <p><input type="password" placeholder="Current password" name="currentpassword" id="password"></p>
-                                               <p><input type="password" id="pass" placeholder="New password" name="newpassword" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Change must be at least 8 characters"></p>
-                                               <p><input type="password" placeholder="Confirm password" name="confirmpassword"></p>
-                                           </div>
-                                           <div class="submit col-md-12">
-                                               <button type="button" id="reset" ng-click="reset()">Reset</button>
-                                               <button type="button" id="update" ng-click="saveChange()">Update</button>
-                                           </div>
-                                       </form>
-                                   </div>
-                               </div>
-                           </div>
-                       </div><!-- /End Content Of Setting --> 
-                      </div>
-                      <div class="col-md-3 manager-profile-student">
-                        <div class="sub-right">
-                            <h3>Subscribers</h3>
-                            <div class="search search-mentor-student">
-                                <form class="navbar-form" role="search">
-                                    <div class="input-group">                                                        
-                                        <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <ul class="list-std" ng-show="listStudentSubscribed">
-                                <li class="clearfix" ng-repeat="s in listStudentSubscribed track by $index">
-                                    <span class="pull-left"><a href="#/mentor/mentorProfile/{{s.userId}}"><img src="{{s.avatar}}" alt=""></a></span>
-                                    <div class="txt-ifm pull-left">
-                                        <a href="#/mentor/mentorProfile/{{s.userId}}"><h5>{{s.userName}}</h5></a>
-                                        <p>Hight school:  {{s.school}}</p>
-                                    </div>
-                                </li>
-                            </ul>
-                             <span ng-show="!listStudentSubscribed">No Student subscribed</span>
-                        </div>
-                    </div>
+                         <div class="col-md-12 tab-pane" id="setting-broswer">
+	                         <div class="user-profile-setting">
+	                             <ul class="nav nav-tabs">
+	                                 <li class="active">
+	                                     <a data-toggle="tab" href="/mentor/mentorProfile#perInfor">
+	                                         Personal Information
+	                                     </a>
+	                                 </li>
+	                                 <li>
+	                                     <a data-toggle="tab" href="/mentor/mentorProfile#changPass">
+	                                         Change password
+	                                     </a>
+	                                 </li>
+	                              </ul>
+	                              <div class="tab-content">
+	                                <div class="tab-pane active" id="perInfor">
+	                                    <form action="" method="">
+	                                        <div class="personal-information">
+	                                            <div class="left-form">
+	                                                <p><input type="text" placeholder="Firstname" name="firstname"></p>
+	                                                <p><input type="text" placeholder="Lastname" name="lastname"></p>
+	                                                <p><input type="email" placeholder="Email" name="email"></p>
+	                                                <p><input type="text" placeholder="High School" name="school"></p>
+	                                                <p class="favorite field">
+	                                                    <p>Favourite field</p>
+	                                                    <input type="checkbox" value="Music" name="music"><label>Music</label>
+	                                                    <input type="checkbox" value="Art" name="art"><label>Art</label>
+	                                                    <input type="checkbox" value="Sport" name="sport"><label>Sport</label>
+	                                                </p>
+	                                            </div>
+	                                            <div class="right-form">
+	                                                <p class="sex">
+	                                                    <input type="radio" name="gender" value="male" checked><label>Male</label>
+	                                                    <input type="radio" name="gender" value="female"><label> Female</label>
+	                                                    <input type="radio" name="gender" value="other"><label> Other</label>
+	                                                </p>
+	                                                
+	                                                <p><input type="text" placeholder="BIO" name="bio"></p>
+	                                                <p><textarea placeholder="About me..." name="aboutme"></textarea></p>
+	                                            </div>
+	                                            
+	                                            <div class="submit col-md-12">
+	                                                <button type="button" id="reset">Reset</button>
+	                                                <button type="button" id="update">Update</button>
+	                                            </div>
+	                                        </div>
+	                                    </form>
+	                                </div>
+	                                <div class="content-question tab-pane" id="changPass">
+	                                    <form acition="" method="">
+	                                        <div class="change-password">
+	                                            <p><input type="password" placeholder="Current password" name="currentpassword" id="password"></p>
+	                                            <p><input type="password" id="pass" placeholder="New password" name="newpassword" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Change must be at least 8 characters"></p>
+	                                            <p><input type="password" placeholder="Confirm password" name="confirmpassword"></p>
+	                                        </div>
+	                                        <div class="submit col-md-12">
+	                                            <button type="button" id="reset" ng-click="reset()">Reset</button>
+	                                            <button type="button" id="update" ng-click="saveChange()">Update</button>
+	                                        </div>
+	                                    </form>
+	                                </div>
+	                            </div>
+	                           </div>
+                       		</div> 
+	                      </div><!-- /End Content Of Setting -->
+	                      <div class="col-md-3 manager-profile-student">
+	                        <div class="sub-right">
+	                            <h3>Subscribers</h3>
+	                            <div class="search search-mentor-student">
+	                                <form class="navbar-form" role="search">
+	                                    <div class="input-group">                                                        
+	                                        <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''">
+	                                        <div class="input-group-btn">
+	                                            <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
+	                                        </div>
+	                                    </div>
+	                                </form>
+	                            </div>
+	                            <ul class="list-std" ng-show="listStudentSubscribed">
+	                                <li class="clearfix" ng-repeat="s in listStudentSubscribed track by $index">
+	                                    <span class="pull-left"><a href="#/mentor/mentorProfile/{{s.userId}}"><img src="{{s.avatar}}" alt=""></a></span>
+	                                    <div class="txt-ifm pull-left">
+	                                        <a href="#/mentor/mentorProfile/{{s.userId}}"><h5>{{s.userName}}</h5></a>
+	                                        <p>Hight school:  {{s.school}}</p>
+	                                    </div>
+	                                </li>
+	                            </ul>
+	                             <span ng-show="!listStudentSubscribed">No Student subscribed</span>
+	                        </div>
+	                    </div>
                     </div>
                 </div>
             </section>

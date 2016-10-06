@@ -13,7 +13,7 @@
 <link rel="stylesheet" type="text/css"  href="js/plugins/DataTables-1.9.4/css/dataTables.bootstrap.css" />
 <link rel="stylesheet" type="text/css"  href="js/plugins/DataTables-1.9.4/css/jquery.dataTables.css" />
 <link rel="stylesheet" type="text/css"	href="js/plugins/appendGrid/jquery.appendGrid-1.3.1.css" /> -->
-<link rel="stylesheet"  type="text/css"	href='css/bootstrap.min.csss'/>
+<!-- <link rel="stylesheet"  type="text/css"	href='css/bootstrap.min.css'/>-->
 <link rel="stylesheet"  type="text/css"	href='css/bootstrap-theme.min.css'/>
 <link rel="stylesheet" type="text/css"	href='css/sm-core-css.css'/>
 <link rel="stylesheet" type="text/css"	href='css/sm-blue.css'/>

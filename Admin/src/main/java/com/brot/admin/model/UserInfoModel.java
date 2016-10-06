@@ -33,12 +33,22 @@ public class UserInfoModel implements Serializable {
      */
     private static final long serialVersionUID = 1L;
     private String username;
+    private String imageurl;
     private String password;
     private String firstname;
     private String lastname;
     private String userid;
     private String usertype;
     private String status;
+    private String defaultsubjectid;
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
 
     public String getUsername() {
         return username;
@@ -63,7 +73,6 @@ public class UserInfoModel implements Serializable {
     public void setPassword(final String password) {
         this.password = password;
     }
-
 
     public String getStatus() {
         return status;
@@ -96,4 +105,13 @@ public class UserInfoModel implements Serializable {
     public void setUserid(final String userid) {
         this.userid = userid;
     }
+
+    public String getDefaultsubjectid() {
+        return defaultsubjectid;
+    }
+
+    public void setDefaultsubjectid(String defaultsubjectid) {
+        this.defaultsubjectid = defaultsubjectid;
+    }
+
 }

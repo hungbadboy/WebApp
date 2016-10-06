@@ -47,7 +47,8 @@ public class RESTAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         PrintWriter writer = response.getWriter();
         JSONObject ojb = new JSONObject();
-        ojb.put(SibConstants.MessageKey.REQUEST_DATA_RESUTL, "User Name and Password is not correct");
+        ojb.put("status", false);
+        ojb.put(SibConstants.MessageKey.REQUEST_DATA_RESUTL, "Incorrect email or password");
         writer.write(ojb.toString());
         writer.flush();
     }

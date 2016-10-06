@@ -11,6 +11,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.json.JSONObject;
 
 import com.brot.admin.client.MobileServiceManagerClient;
 import com.brot.admin.exception.ServiceConnectionException;
@@ -23,8 +24,8 @@ import com.opensymphony.xwork2.ActionSupport;
 public class LoginUserAction extends BrotCommonAction {
 
     /**
-	 *
-	 */
+     *
+     */
     private static final long serialVersionUID = 1L;
     /*
      * private DataSource dataSource; private Connection connection; private
@@ -65,11 +66,14 @@ public class LoginUserAction extends BrotCommonAction {
         String status = ActionSupport.ERROR;
         try {
             String response = _instance.write(queryParams, endPointUrl);
-            ObjectMapper mapper = new ObjectMapper();
-            UserInfoModel userInfo = mapper.readValue(response.toString().toLowerCase(), new TypeReference<UserInfoModel>() {
-            });
+            JSONObject jsonObject = new JSONObject(response);
 
-            if (("" + Boolean.TRUE).equals(userInfo.getStatus())) {
+            boolean isStatus = jsonObject.getBoolean(Parameters.STATUS);
+            if (isStatus) {
+                ObjectMapper mapper = new ObjectMapper();
+                UserInfoModel userInfo = mapper.readValue(response.toString().toLowerCase(), new TypeReference<UserInfoModel>() {
+                });
+
                 status = ActionSupport.SUCCESS;
                 // Save info to model
                 (ServletActionContext.getRequest().getSession()).setAttribute(
@@ -80,7 +84,7 @@ public class LoginUserAction extends BrotCommonAction {
             } else {
                 status = ActionSupport.ERROR;
                 HttpServletRequest request = ServletActionContext.getRequest();
-                request.setAttribute("ERROR", response);
+                request.setAttribute("ERROR", jsonObject.getString(Parameters.REQUEST_DATA_RESULT));
             }
 
         } catch (ServiceConnectionException e) {
@@ -114,7 +118,6 @@ public class LoginUserAction extends BrotCommonAction {
     public String createUserAccount() {
         return ActionSupport.SUCCESS;
     }
-
 
     @Override
     public void prepare() throws Exception {
