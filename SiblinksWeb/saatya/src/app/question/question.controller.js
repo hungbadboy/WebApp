@@ -94,9 +94,10 @@ brotControllers
                             for (var i = 0; i < data_result.length; i++) {
                                 var mentor = {};
                                 mentor.userid = data_result[i].userid;
-                                mentor.userName = data_result[i].userName;
-                                mentor.lastName = data_result[i].lastName;
-                                mentor.firstName = data_result[i].firstName;
+                                mentor.userName = data_result[i].userName ? data_result[i].userName : '';
+                                mentor.lastName = data_result[i].lastName ? data_result[i].lastName : '';
+                                mentor.firstName = data_result[i].firstName ? data_result[i].firstName : '';
+                                mentor.fullName = mentor.firstName + ' ' +mentor.lastName;
                                 mentor.imageUrl = data_result[i].imageUrl;
                                 mentor.numlike = data_result[i].numlike;
                                 mentor.numsub = data_result[i].numsub;
@@ -250,15 +251,15 @@ brotControllers
                 }
 
                 $scope.viewAnswer = function (qid) {
-                    if( $('#detail-answer-question_'+qid).hasClass('hide'))
+                    if( $('.detail-answer-question_'+qid).hasClass('hide'))
                     {
                         $('#spamview_'+qid).text('Hide');
-                        $('#detail-answer-question_'+qid).removeClass('hide');
+                        $('.detail-answer-question_'+qid).removeClass('hide');
 
                     }
                     else {
                         $('#spamview_'+qid).text('View');
-                        $('#detail-answer-question_'+qid).addClass('hide');
+                        $('.detail-answer-question_'+qid).addClass('hide');
                     }
                 }
 
