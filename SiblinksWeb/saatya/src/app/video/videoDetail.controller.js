@@ -23,7 +23,6 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 
         var currentvid = 0;
 
-
         var player;
         var idRemove, editCommentId, listDiscuss = [];
 
@@ -301,10 +300,12 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             }
             VideoService.addfavourite($scope.userId, vid).then(function (data) {
                 if (data.request_data_result == 'Favourite add successful') {
-                    $('#btnFavorite').addClass('favorited');
+                    $('#btnFavorite').addClass('btn-warning');
+                    $scope.isFavorite = 1;
                 }
                 else {
-                    $('#btnFavorite').removeClass('favorited');
+                    $scope.isFavorite = 0;
+                    $('#btnFavorite').removeClass('btn-warning');
                 }
             });
 

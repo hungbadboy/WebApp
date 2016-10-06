@@ -101,11 +101,11 @@ jQuery(document).ready(function($) {
     //       autoHideScrollbar: "boolean",
     //   });
     // })
-    $(window).on("load",function(){
-      $(".series-video-list").mCustomScrollbar({
-          theme:"light"
-      });
-    })
+    // $(window).on("load",function(){
+    //   $(".series-video-list").mCustomScrollbar({
+    //       theme:"light"
+    //   });
+    // })
     $(window).on("load",function(){
       $(".essay-detail-right-content-wrapper, .article-detail-right-content-wrapper, .college-notification .top-mentors-list").mCustomScrollbar({
           theme:"dark",

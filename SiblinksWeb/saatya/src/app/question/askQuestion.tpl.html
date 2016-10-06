@@ -17,7 +17,7 @@
                         <div class="head-question">
                             <!-- Questions user have -->
                             <div class="total-question col-xs-6">
-                                <h4> You have <strong>{{totalQuestion}}</strong> {{totalQuestion > 0 ? 'questions':'question'}}
+                                <h4> You have <strong>{{totalQuestion}}</strong> {{totalQuestion > 1 ? 'questions':'question'}}
                                     <i ng-click="toggleShowOrder()" class="fa fa-angle-down"
                                        aria-hidden="true" click-anywhere-but-here="isShowOrder = false"></i></h4>
                                 <div class="sort">{{displayOrder}}</div>
@@ -173,7 +173,7 @@
                     <span>{{askErrorMsg}}</span>
                 </div>
                 <p>
-                <div angucomplete-alt id="autocompleteCate" initial-value="initCategory" placeholder="Search category.." pause="300"
+                <div angucomplete-alt id="autocompleteCate"  placeholder="Search category.." pause="300"
                      selected-object="selectedSubject"
                      local-data="subjects" search-fields="subject" title-field="subject"
                      image-field="image" minlength="0" input-class="form-control form-control-small"

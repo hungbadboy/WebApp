@@ -67,8 +67,9 @@
                                                 <span class="number-subscribers">{{videoInfo.numsub}}</span></button>
 
                                         </div>
-                                        <button ng-disabled="isFavorite == '1'" style="margin-top: 0px;" class="favorite"
-                                                id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" >Favorite</button>
+                                        &nbsp;
+                                        <button ng-disabled="isFavorite == '1'" class="favoriteVideo" ng-class="{'btn-warning':isFavorite =='1'}"
+                                                id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" ><span data-icon="&#xe031;"></span>Favorite</button>
                                     </div>
                                     <p class="videos-rate-infor">
                                         <span data-icon="&#x49;">{{videoInfo.numViews}}</span>
