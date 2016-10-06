@@ -173,14 +173,14 @@ brotControllers.controller('PlaylistController',
       }
     }
 
-    var files;
+    var file;
     $scope.stepsModel = [];
     $scope.onFileSelect = function($files){
       if ($files != null) {
-        files = $files[0];
+        file = $files[0];
         var reader = new FileReader();
         reader.onload = $scope.imageIsLoaded;
-        reader.readAsDataURL(files);
+        reader.readAsDataURL(file);
       }
     }
 
@@ -189,6 +189,12 @@ brotControllers.controller('PlaylistController',
           $scope.stepsModel.splice(0, 1);
           $scope.stepsModel.push(e.target.result);
       });
+    }
+
+     $scope.removeImg = function (index) {
+        $scope.stepsModel.splice(index, 1);
+        console.log($scope.stepsModel);
+        file = null;
     }
 
     $scope.add = function(){
@@ -203,7 +209,7 @@ brotControllers.controller('PlaylistController',
         $scope.error = 'Please select playlist subject. \n';  
         angular.element('#playlistSubject').trigger('focus');       
         return;
-      } else if (files == undefined) {
+      } else if (file == undefined) {
         $scope.error = 'Please select playlist thumbnail. \n';
         angular.element('#file1').trigger('focus');
         return;
@@ -212,7 +218,7 @@ brotControllers.controller('PlaylistController',
       $scope.error = null;
       var fd = new FormData();
 
-      fd.append('image', files);
+      fd.append('image', file);
       fd.append('title', title);
       fd.append('description', $('#txtDescription').val());
       fd.append('url', null);

@@ -151,8 +151,8 @@ brotControllers.controller('AddUpdatePlaylistController',
       
       $scope.error = null;
       var fd = new FormData();
-      if (files !== undefined)
-        fd.append('image', files);
+      if (file !== undefined)
+        fd.append('image', file);
       else
         fd.append('image', null);      
       fd.append('title', title);
@@ -172,14 +172,14 @@ brotControllers.controller('AddUpdatePlaylistController',
       $scope.updateSubject = e;
     }
 
-    var files;
+    var file;
     $scope.stepsModel = [];
     $scope.onFileSelect = function($files){
       if ($files != null) {
-        files = $files[0];
+        file = $files[0];
         var reader = new FileReader();
         reader.onload = $scope.imageIsLoaded;
-        reader.readAsDataURL(files);
+        reader.readAsDataURL(file);
       }
     }
 
@@ -188,5 +188,11 @@ brotControllers.controller('AddUpdatePlaylistController',
         $scope.stepsModel.splice(0, 1);
         $scope.stepsModel.push(e.target.result);
       });
+    }
+
+    $scope.removeImg = function (index) {
+        $scope.stepsModel.splice(index, 1);
+        console.log($scope.stepsModel);
+        file = null;
     }
 }]);
