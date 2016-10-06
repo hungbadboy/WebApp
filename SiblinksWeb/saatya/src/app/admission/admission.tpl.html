@@ -1,315 +1,592 @@
-    <div class="content ask-a-question" id="college-admission">
-        <!-- Breadcrum -->
-        <div class="breadcrum">
-            <div class="container">
-                <h5>SibLinks <span>/ College Admission</span></h5>
-            </div>
-        </div><!-- /End Breadcrum -->
-        <!-- Container -->
-        <div class="container">                
-            <!-- Content -->
-            <section class="college-admission-content">
-                <!-- Left content -->
-                <div class="college-admission-content-wrapper col-md-8">
-                    <div class="step-essay">
-                        <h3>How It <span>Works</span></h3>
-                        <div class="step">
-                            <ul>
-                            	<li ng-repeat="lstAdmission in listAdmission track by $index" ng-if="$index >= stepAdmission && $index < stepAdmission + 3" id="admission{{$index+1}}" ng-class="$first? 'in active' : $index == 1 ? 'active' : ''">
-                                    <div class="step-apply">
-                                        <h2>{{$index + 1}}</h2>
-                                        <p>{{lstAdmission.name}}</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    <button class="back" ng-click="backStepAdmission()">Back</button>
-                    <button class="next" ng-click="nextStepAdmission()">Next Step</button>
-                    </div>
-                    <div class="college-video">
-                        <div class="video-list-content video-admission-content">                                
-                            <div class="tutorial" ng-show="flagShowDivTuttorial">
-                                <h5>Tutorial Videos</h5>
-                                <ul>
-                                    <li ng-repeat="lstVideoTutAdmission in listVideoTuttorialAdmission track by $index" ng-if="$index < displayNumberOfTutVideo">
-                                        <div class="video-wrapper">
-                                           	<div class="videos-subscription-thumnail">
-                                                <a href="#/videos/detailVideo/{{lstVideoTutAdmission.vId}}">
-                                                    <img ng-src="{{lstVideoTutAdmission.image}}">
-                                                </a>
-                                            </div>
-                                            <div class="videos-subscription-title">
-                                                <a href="#/videos/detailVideo/{{lstVideoTutAdmission.vId}}" title="{{lstVideoTutAdmission.title}}">{{lstVideoTutAdmission.title}}</a>
-                                            </div>
-                                            
-                                            <div class="videos-time-add">
-                                                <span>from</span>
-                                                <span class="video-poster admission-author" id="{{lstVideoTutAdmission.authorId}}" ng-click="showProfile($event)"> {{lstVideoTutAdmission.firstName + ' ' + lstVideoTutAdmission.lastName}}</span>
-                                                <span> added {{caculateTimeElapsed(lstVideoTutAdmission.creationDate)}}</span>
-                                            </div>
-                                            <div class="videos-rate-admission">
-                                             	<p class="videos-start" ng-repeat="i in rangeAdmission(lstVideoTutAdmission.numRatings)">
-                                                    <span class="admission-star-rate" data-icon="&#xe033;"></span>
-                                                </p>
-                                                <p class="videos-rate-infor">
-                                                    <span data-icon="&#x49;"> {{lstVideoTutAdmission.numViews}}</span>
-                                                </p>
-                                            </div>
-                                        </div>
+<div class="content ask-a-question" id="college-admission">
+      <!-- Breadcrum -->
+      <div class="breadcrum">
+          <div class="container">
+              <h5>SibLinks <span>/ College Admission</span></h5>
+          </div>
+      </div><!-- /End Breadcrum -->
+      <!-- Container -->
+      <div class="container">
+          <!-- Content -->
+          <section class="college-admission-content">
+              <!-- Left content -->
+              <div class="college-admission-content-wrapper col-md-8">
+                  <div class="step-essay">
+                      <h3>Step your <span>Essay</span></h3>
+                      <div class="step">
+                          <ul>
+                          	<li ng-repeat="lstAdmission in listAdmission track by $index" id="admission{{$index+1}}" ng-class="$first? 'active': ''">
+                                  <div class="step-apply" ng-click="viewStepAdmission($index + 1)">
+                                      <h2>{{$index + 1}}</h2>
+                                      <p>{{lstAdmission.name}}</p>
+                                  </div>
+                              </li>
+                          </ul>
+                      </div>
+                  <!-- <button class="back" ng-click="backStepAdmission()">Back</button>
+                  <button class="next" ng-click="nextStepAdmission()">Next Step</button> -->
+                  </div>
+                  <div class="college-video">
+                        <div class="video-list-content">
+                          <div class="tutorial" ng-show="flagShowDivTuttorial">
+                              <h5>Tutorial Videos</h5>
+                              <ul>
+                                  <li ng-repeat="lstVideoTutAdmission in listVideoTuttorialAdmission track by $index" ng-if="$index < displayNumberOfTutVideo">
+                                      <div class="video-wrapper">
+                                         	<div class="videos-subscription-thumnail">
+                                              <a href="#/videos/detailVideo/{{lstVideoTutAdmission.vId}}">
+                                                  <img ng-src="{{lstVideoTutAdmission.image}}">
+                                              </a>
+                                          </div>
+                                                    <div class="videos-title">
+                                              <a href="#/videos/detailVideo/{{lstVideoTutAdmission.vId}}" title="{{lstVideoTutAdmission.title}}">{{lstVideoTutAdmission.title}}</a>
+                                          </div>
+                                          
+                                          <div class="videos-time-add">
+                                              <span class="video-poster" id="{{lstVideoTutAdmission.authorId}}" ng-click="showProfile($event)"> {{lstVideoTutAdmission.firstName + ' ' + lstVideoTutAdmission.lastName}}</span>
+                                              <span> added {{caculateTimeElapsed(lstVideoTutAdmission.creationDate)}}</span>
+                                          </div>
+                                          <div class="videos-rate">
+                                           	<p class="videos-start" ng-repeat="i in rangeAdmission(lstVideoTutAdmission.numRatings)">
+                                                  <span class="admission-star-rate" data-icon="&#xe033;"></span>
+                                              </p>
+                                              <p class="videos-rate-infor">
+                                                  <span data-icon="&#x49;"> {{lstVideoTutAdmission.numViews}}</span>
+                                              </p>
+                                          </div>
+                                      </div>
+                                  </li>
+                              </ul>
+                              <div class="see-more" ng-click="showMoreTutVideo()" ng-show="flagShowMoreTutVideo"><span>Show more</span></div>
+                          </div>
+                          <div class="article" ng-show="flagShowDivArticle">
+                              <h5>Articles</h5>
+                              <ul>
+                              	<div ng-repeat="lstArticleAdmission in listArticleAdmission track by $index" ng-if="$index < displayNumberOfArticle">
+                                  <li>
+                                      <div id="{{lstArticleAdmission.arId}}" class="video-wrapper" data-ng-click="showPopupArticle($event)">
+                                          <div class="videos-thumnail">
+                                              <a href="javascript:void(0)" ><img ng-src="{{lstArticleAdmission.image}}"></a>
+                                          </div>
+                                         <div class="videos-title">
+                                             <a href="javascript:void(0)">{{lstArticleAdmission.title}}</a>
+                                          </div>
+                                          <div class="videos-time-add">
+                                              <span class="video-poster" id="{{lstArticleAdmission.authorId}}" ng-click="showProfile($event);$event.stopPropagation()"> {{lstArticleAdmission.firstName + ' ' + lstArticleAdmission.lastName}}</span>
+                                              <span> added {{caculateTimeElapsed(lstArticleAdmission.createDate)}}</span>
+                                          </div>
+                                          <div class="videos-rate">
+                                              <p class="videos-rate-infor">
+                                                  <span data-icon="&#x49;"> {{lstArticleAdmission.numComments}}</span>
+                                              </p>
+                                          </div>
+                                          <div class="video-description">
+                                              <p title="{{lstArticleAdmission.description}}" class="pre-wrap">{{ lstArticleAdmission.description | limitTo: 160 }}{{lstArticleAdmission.description.length > 160 ? '...' :''}}</p>
+                                          </div>
+                                      </div>
                                     </li>
-                                </ul>
-                                <div class="see-more" ng-click="showMoreTutVideo()" ng-show="flagShowMoreTutVideo"><p>Show more</p></div>
-                            </div>
-                            <div class="article" ng-show="flagShowDivArticle">
-                                <h5>Articles</h5>
-                                <ul>
-                                    <li ng-repeat="lstArticleAdmission in listArticleAdmission track by $index" ng-if="$index < displayNumberOfArticle" >
-                                        <div id="{{lstArticleAdmission.arId}}" data-ng-click="showPopupArticle($event)" class="video-wrapper">
-                                            <div class="videos-thumnail">
-                                                <img ng-src="{{lstArticleAdmission.image}}">
-                                            </div>
-                                            <div class="videos-subscription-title">
-                                                <span title="{{lstArticleAdmission.title}}">{{lstArticleAdmission.title}}</span>
-                                            </div>
-                                            <div class="videos-time-add">
-                                                <span>from</span>
-                                                <span class="video-poster" id="{{lstArticleAdmission.authorId}}" ng-click="showProfile($event);$event.stopPropagation()"> {{lstArticleAdmission.firstName + ' ' + lstArticleAdmission.lastName}}</span>
-                                                <span> added {{caculateTimeElapsed(lstArticleAdmission.createDate)}}</span>
-                                            </div>
-                                            <div class="videos-rate">
-                                                <p class="videos-rate-infor">
-                                                    <span data-icon="&#xe066;"> {{lstArticleAdmission.numComments}}</span>
-                                                </p>
-                                            </div>
-                                            <div class="videos-admission-description">
-                                                <p title="{{lstArticleAdmission.description}}">{{lstArticleAdmission.description}}</p>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="article-detail" id="ad{{lstArticleAdmission.arId}}">
-	                                        <div class="article-detail-content">
-	                                            <div class="article-detail-content-wrapper container">
-	                                                <div class="article-detail-left col-md-3">
-	                                                    <h3>Article detail</h3>
-	                                                    <div class="article-detail-top">
-	                                                        <img ng-src="{{lstArticleAdmission.imageUrl}}">
-	                                                        {{lstArticleAdmission.title}}
-	                                                    </div>
-	                                                    <div class="article-thumb">
-	                                                        <img ng-src="{{lstArticleAdmission.image}}">
-	                                                    </div>
-	                                                    <div class="article-infor">
-	                                                        <p>from <span class="name-mentor">{{lstArticleAdmission.firstName + ' ' + lstArticleAdmission.lastName}}</span> <span class="post-time">add {{caculateTimeElapsed(lstArticleAdmission.createDate)}}</span></p>
-	                                                        <p class="video-view">
-	                                                            <span data-icon="">434</span> 
-	                                                            <span data-icon="&#xe089;" class="heart">12</span>
-	                                                        </p>
-	                                                        <p class="rate-video">
-	                                                            <span>Rate this article</span>
-	                                                            <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
-	                                                        </p>
-	                                                    </div>
-	                                                    <button class="share">Share</button>
-	                                                </div>
-	                                                <div class="article-detail-right col-md-9">
-	                                                    <div class="article-detail-right-content-wrapper">
-	                                                        <div class="article-detail-right-content mCustomScrollbar" data-mcs-theme="dark">
-	                                                            <p>{{lstArticleAdmission.description}}</p>
-	                                                        </div>
-	                                                        <!-- <button class=read-more>Read more <span data-icon="&#x33;"></span></button> -->
-	                                                    </div>
-	                                                    <div class="close-popup-detail close" ng-click="closeArticlePopup()"><span data-icon="&#xe051;"></span></div>
-	                                                </div>
-	                                                
-	                                            </div>           
-	                                        </div>
-	                                        <div class="close-popup-images">
-	                                        </div>
-	                                    </div>
-                                    </li>
-                                </ul>
-                                <div class="see-more" ng-click="showMoreArticle()" ng-show="flagShowMoreArticle"><p>Show more</p></div>
-                            </div>
-                        </div>
-                    </div>
-<!--                     <button class="back" ng-click="backStepAdmission()" ng-show="showBackNextButton">Back</button> -->
-<!--                     <button class="next" ng-click="nextStepAdmission()" ng-show="showBackNextButton">Next Step</button> -->
-                </div><!-- /EndLeft content -->
-
-                <!-- Right content -->
-                <div class="college-admission-content-sidebar col-md-4">                            
-                    <div class="college-admission-content-sidebar-wrapper">
-                        <!-- Your essay -->
-                       <div class="your-essay">
-                            <!-- Your essay header -->
-                            <div class="your-essay-header">
-                                <div class="your-essay-header-title">
-                                    <span data-icon="&#x5c;"></span><h3>Your essay(s)</h3>
-                                </div>
-                                <div class="see-more">
-                                    <p>See more</p>
-                                </div>
-                            </div><!-- /End Your essay header -->
-                            <!-- Your essay Content -->
-                            <div class="your-essay-content">
-                                <ul>
-                                    <li class="essay essay-01">
-                                        <div class="number-essay">
-                                            <p></p>
-                                        </div>
-                                        <div class="detail-essay col-xs-offset-1">
-                                            <div class="infor-of-essay">
-                                                <p><span class="essay-time">asked 5 mins ago </span></p>
-                                                <p class="essay-title">How to save children from violencek</p> 
-                                                
-                                                <p><span class="essay-reviewing">Reviewing</span><span>by mentor: </span><span class="mentor-review">Milo Brandt</span></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="essay essay-02">
-                                        <div class="number-essay">
-                                            <p></p>
-                                        </div>
-                                        <div class="detail-essay col-xs-offset-1">
-                                            <div class="infor-of-essay">
-                                                <p><span class="essay-time">asked 5 mins ago </span></p>
-                                                <p class="essay-title">How to save children from violencek</p> 
-                                                <p><span class="essay-wait-review">Waiting for review</span><span>by mentor: </span><span class="mentor-review">Milo Brandt</span></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="essay essay-03">
-                                        <div class="number-essay">
-                                            <p></p>
-                                        </div>
-                                        <div class="detail-essay col-xs-offset-1">
-                                            <div class="infor-of-essay">
-                                                <p><span class="essay-time">asked 5 mins ago </span></p>
-                                                <p class="essay-title">How to save children from violencek</p> 
-                                                <p><span class="essay-answers">Answered</span><span>by mentor: </span><span class="mentor-review">Milo Brandt</span></p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div><!-- /End Your essay Content -->
-                             <!-- Content -->
-                       </div><!-- /End Your essay -->
-                        <!-- /End top memtor -->
-                    
-                        <!-- Top mentor -->
-                        <div class="top-mentors" ng-include="'src/app/topMentor/topMentors.tpl.html'"></div><!-- /End top memtor -->
-                                <!-- <div class="top-mentor-wrapper">
-                                    top-mentor-header
-                                    <div class="top-mentor-header">
-                                        <div class="top-mentor-header-title">
-                                            <span data-icon="&#x5c;"></span><h4>Top Mentors</h4>
-                                        </div>
-                                        <div class="see-more">
-                                            <p><a href="">See More</a></p>
-                                        </div>
-                                    </div>/End top-mentor-header
-                                    List of top mentors
-                                    <div class="top-mentors-list">
-                                        <ul>
-                                            <li>
-                                                <div class="top-mentors-img online">
-                                                    <img src="assets/images/mentor-02.png">
-                                                    <span class="offline"><img src="assets/images/ask question/online.png"></span>
-                                                </div>
-                                                <div class="top-mentors-info">
-                                                    <p class="top-mentors-name">
-                                                        <strong>Brian M.Scott</strong>
-                                                    </p>
-                                                    <p class="top-mentors-essay">
-                                                        <a href="/">Financial Aid, </a>Essay
-                                                    </p>
-                                                    <p class="top-mentors-answed">
-                                                        500 subcrible, 5765 answed
-                                                    </p>
+                                    <li class="article-detail-popup">
+                                      <div class="article-detail" id="ad{{lstArticleAdmission.arId}}">
+                                       <div class="article-detail-content container">
+                                           <div class="article-detail-content-wrapper ">
+                                               <div class="article-detail-left col-md-3">
+                                                   <h3>Article detail</h3>
+                                                   <div class="article-detail-top">
+                                                       <a href="#"><img ng-src="{{lstArticleAdmission.imageUrl}}">{{lstArticleAdmission.title}}</a>
+                                                   </div>
+                                                   <div class="article-thumb">
+                                                       <a href="#"><img ng-src="{{lstArticleAdmission.image}}"></a>
+                                                   </div>
+                                                   <div class="article-infor">
+                                                       <p>from <span class="name-mentor">{{lstArticleAdmission.firstName + ' ' + lstArticleAdmission.lastName}}</span> <span class="post-time">add {{caculateTimeElapsed(lstArticleAdmission.createDate)}}</span></p>
+                                                       <p class="video-view">
+                                                           <span class="fa fa-eye">434</span> 
+                                                           <span data-icon="&#xe089;" class="heart">12</span>
+                                                       </p>
+                                                       <p class="rate-video">
+                                                           <span>Rate this article</span>
+                                                           <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
+                                                       </p>
+                                                   </div>
+                                                   <button class="share">Share</button>
+                                               </div>
+                                               <div class="article-detail-right col-md-9">
+                                                   <div class="article-detail-right-content-wrapper">
+                                                       <div class="article-detail-right-content">
+                                                           <p data-ng-bind-html="comvertToDisplay(lstArticleAdmission.content)"></p>
+                                                           
+                                                          
+                                                       </div>
+                                                       <!-- <button class=read-more>Read more <span data-icon="&#x33;"></span></button> -->
+                                                   </div>
+                                                   <div class="close-popup-detail close" ng-click="closeArticlePopup()"><span data-icon="&#xe051;"></span></div>
+                                               </div>
+                                               
+                                           </div>
+                                       </div>
+                                       <div class="close-popup-images"></div>
+                                   </div>
+                                  </li>
+                                  </div>
+                              </ul>
+                              <div class="see-more" ng-click="showMoreArticle()" ng-show="flagShowMoreArticle"><span>Show more</span></div>
+                          </div>
+                      </div>
+                  </div>
+              </div><!-- /EndLeft content -->
+              <!-- Right content -->
+              <div class="college-admission-content-sidebar col-md-4">
+                  <div class="college-admission-content-sidebar-wrapper">
+                      <!-- Your essay -->
+                     <div class="your-essay">
+                          <!-- Your essay header -->
+                          <div class="your-essay-header">
+                              <div class="your-essay-header-title">
+                              <span data-icon="&#x5c;"></span><h3>Your essay</h3>
+                              </div>
+                              <div class="see-more">
+                                  <p><a href="#">See more</a></p>
+                              </div>
+                          </div><!-- /End Your essay header -->
+                          <!-- Your essay Content -->
+                          <div class="your-essay-content">
+                              <ul>
+                                  <li class="essay essay-01">
+                                      <div class="number-essay">
+                                          <p></p>
+                                      </div>
+                                      <div class="detail-essay col-xs-offset-1">
+                                          <div class="infor-of-essay">
+                                              <p><span class="essay-time">asked 5 mins ago </span></p>
+                                              <p class="essay-title">How to save children from violencek</p> 
+                                              
+                                              <p><span class="essay-reviewing">Reviewing</span><span>by mentor: </span><span class="mentor-review">Milo Brandt</span></p>
+                                                    </div>
                                                 </div>
                                             </li>
-                                            <li>
-                                                <div class="top-mentors-img">
-                                                    <img src="assets/images/ask question/mentor-02.png">
-                                                    <span class="offline"><img src="assets/images/ask question/offline.png"></span>
-                                                </div>
-                                                <div class="top-mentors-info">
-                                                    <p class="top-mentors-name">
-                                                        <strong>Brian M.Scott</strong>
-                                                    </p>
-                                                    <p class="top-mentors-essay">
-                                                        <a href="/">Financial Aid, </a>Essay
-                                                    </p>
-                                                    <p class="top-mentors-answed">
-                                                        500 subcrible, 5765 answed
-                                                    </p>
+                                            <li class="essay-detail-popup">
+                                                <div class="essay-detail">
+                                                    <div class="essay-detail-content container">
+                                                        <div class="essay-detail-content-wrapper col-md-12">
+                                                            <div class="essay-detail-left col-md-3">
+                                                                <h3>Essay detail</h3>
+                                                                <div class="essay-detail-top">
+                                                                    <h5>How to save children from violencek</h5>
+                                                                    <span class="post-time">add 3 hours ago</span>                                                         
+                                                                </div>
+                                                                <div class="essay-thumb">
+                                                                    <div class="essay-thumb-left">
+                                                                        <p>Mentor:</p>
+                                                                        <p class="name-mentor"><a href="#">Brian M.Scott</a></p>
+                                                                        <p><span class="essay-reviewing">Reviewing</span></p><br>
+                                                                    </div>
+                                                                    <div class="essay-thumb-right">
+                                                                        <a href="#"><img src="../images/mentor-09.png"></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="essay-infor">
+                                                                    <p class="rate-video">
+                                                                        <span>Rate this reply</span>
+                                                                        <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
+                                                                        <!-- <button class="share">Share</button> -->
+                                                                    </p>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div class="essay-detail-right col-md-9">
+                                                                <h4>Desciption</h4>
+                                                                <div class="close-popup-detail close"><span data-icon="&#xe051;"></span>
+                                                                </div>
+                                                                <div class="essay-detail-right-content-wrapper">
+                                                                    
+                                                                    <div class="essay-detail-right-content">                                                                      
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="essay-detail-right-content">
+                                                                        <h5>Desciption</h5>
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="essay-detail-right-content">
+                                                                        <h5>Desciption</h5>
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div> 
+                                                                    </div>
+                                                                </div> 
+                                                            </div>
+                                                            
+                                                        </div>           
+                                                    </div>
+                                                    <div class="close-popup-images">
+                                          </div>
+                                      </div>
+                                  </li>
+                                  <li class="essay essay-02">
+                                      <div class="number-essay">
+                                          <p></p>
+                                      </div>
+                                      <div class="detail-essay col-xs-offset-1">
+                                          <div class="infor-of-essay">
+                                              <p><span class="essay-time">asked 5 mins ago </span></p>
+                                              <p class="essay-title">How to save children from violencek</p> 
+                                              <p><span class="essay-wait-review">Waiting for review</span><span>by mentor: </span><span class="mentor-review">Milo Brandt</span></p>
+                                          </div>
+                                      </div>
+                                  </li>
+                                            <li class="essay-detail-popup">
+                                                <div class="essay-detail">
+                                                    <div class="essay-detail-content container">
+                                                        <div class="essay-detail-content-wrapper">
+                                                            <div class="essay-detail-left col-md-3">
+                                                                <h3>Essay detail</h3>
+                                                                <div class="essay-detail-top">
+                                                                    <h5>How to save children from violencek</h5>
+                                                                    <span class="post-time">add 3 hours ago</span>                                                         
+                                                                </div>
+                                                                <div class="essay-thumb">
+                                                                    <div class="essay-thumb-left">
+                                                                        <p>Mentor:</p>
+                                                                        <p class="name-mentor"><a href="#">Brian M.Scott</a></p>
+                                                                        <p><span class="essay-wait-review">Waiting for review</span></p><br>
+                                                                    </div>
+                                                                    <div class="essay-thumb-right">
+                                                                        <a href="#"><img src="../images/mentor-09.png"></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="essay-infor">
+                                                                    <p class="rate-video">
+                                                                        <span>Rate this reply</span>
+                                                                        <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
+                                                                        <!-- <button class="share">Share</button> -->
+                                                                    </p>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div class="essay-detail-right col-md-9">
+                                                                <h4>Desciption</h4>
+                                                                <div class="close-popup-detail close"><span data-icon="&#xe051;"></span>
+                                                                </div>
+                                                                <div class="essay-detail-right-content-wrapper">
+                                                                    <div class="essay-detail-right-content">
+                                                                        
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="essay-detail-right-content">
+                                                                        <h5>Desciption</h5>
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="essay-detail-right-content">
+                                                                        <h4>Desciption</h4>
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div> 
+                                                                    </div>
+                                                                </div> 
+                                                            </div>
+                                                            
+                                                        </div>           
+                                                    </div>
+                                                    <div class="close-popup-images">
+                                                    </div>
                                                 </div>
                                             </li>
-                                            <li>
-                                                <div class="top-mentors-img">
-                                                    <img src="assets/images/mentor-03.png"><span class="offline"><img src="assets/images/ask question/offline.png"></span>
+                                            <li class="essay essay-01">
+                                                <div class="number-essay">
+                                                    <p></p>
                                                 </div>
-                                                <div class="top-mentors-info">
-                                                    <p class="top-mentors-name">
-                                                        <strong>Brian M.Scott</strong>
-                                                    </p>
-                                                    <p class="top-mentors-essay">
-                                                        <a href="/">Financial Aid, </a>Essay
-                                                    </p>
-                                                    <p class="top-mentors-answed">
-                                                        500 subcrible, 5765 answed
-                                                    </p>
+                                                <div class="detail-essay col-xs-offset-1">
+                                                    <div class="infor-of-essay">
+                                                        <p><span class="essay-time">asked 5 mins ago </span></p>
+                                                        <p class="essay-title">How to save children from violencek</p> 
+                                                        
+                                                        <p><span class="essay-reviewing">Reviewing</span><span>by mentor: </span><span class="mentor-review">Milo Brandt</span></p>
+                                                    </div>
                                                 </div>
                                             </li>
-                                            <li>
-                                                <div class="top-mentors-img">
-                                                    <img src="assets/images/mentor-04.png"><span class="online"><img src="assets/images/ask question/online.png"></span>
-                                                </div>
-                                                <div class="top-mentors-info">
-                                                    <p class="top-mentors-name">
-                                                        <strong>Brian M.Scott</strong>
-                                                    </p>
-                                                    <p class="top-mentors-essay">
-                                                        <a href="/">Financial Aid, </a>Essay
-                                                    </p>
-                                                    <p class="top-mentors-answed">
-                                                        500 subcrible, 5765 answed
-                                                    </p>
+                                            <li class="essay-detail-popup">
+                                                <div class="essay-detail">
+                                                    <div class="essay-detail-content container">
+                                                        <div class="essay-detail-content-wrapper col-md-12">
+                                                            <div class="essay-detail-left col-md-3">
+                                                                <h3>Essay detail</h3>
+                                                                <div class="essay-detail-top">
+                                                                    <h5>How to save children from violencek</h5>
+                                                                    <span class="post-time">add 3 hours ago</span>                                                         
+                                                                </div>
+                                                                <div class="essay-thumb">
+                                                                    <div class="essay-thumb-left">
+                                                                        <p>Mentor:</p>
+                                                                        <p class="name-mentor"><a href="#">Brian M.Scott</a></p>
+                                                                        <p><span class="essay-reviewing">Reviewing</span></p><br>
+                                                                    </div>
+                                                                    <div class="essay-thumb-right">
+                                                                        <a href="#"><img src="../images/mentor-09.png"></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="essay-infor">
+                                                                    <p class="rate-video">
+                                                                        <span>Rate this reply</span>
+                                                                        <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
+                                                                        <!-- <button class="share">Share</button> -->
+                                                                    </p>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div class="essay-detail-right col-md-9">
+                                                                <h4>Desciption</h4>
+                                                                <div class="close-popup-detail close"><span data-icon="&#xe051;"></span>
+                                                                </div>
+                                                                <div class="essay-detail-right-content-wrapper">
+                                                                    
+                                                                    <div class="essay-detail-right-content">                                                                      
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="essay-detail-right-content">
+                                                                        <h5>Desciption</h5>
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="essay-detail-right-content">
+                                                                        <h5>Desciption</h5>
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div> 
+                                                                    </div>
+                                                                </div> 
+                                                            </div>
+                                                            
+                                                        </div>           
+                                                    </div>
+                                                    <div class="close-popup-images">
+                                                    </div>
                                                 </div>
                                             </li>
-                                        </ul>
-                                    </div>/End list of top mentors
-                                </div>        --> 
-                        
-                    </div>                            
-                </div><!-- /End Right content -->
-            </section><!-- /End content -->
-        </div><!-- End container -->
-
-        <!-- Form add new ask -->
-        <div class="form-ask-question">
-            <div class="form-ask-question-wrapper">
-                <form action="" method="" class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
-                    <h3>Ask a question</h3>
-                    <p><select name="Select">
-                        <option selected>Select: Catagory</option>
-                        <option value="value1">Value 1</option> 
-                        <option value="value2">Value 2</option>
-                        <option value="value3">Value 3</option>
-                    </select></p>
-                    <p><textarea placeholder="What do you want to ask?..." id ="ask"></textarea></p>
-                    <p class="upload-image">
-                        <output id="list"></output>
-                        <span class="add-img"><input type="file" id="files" name="files[]" multiple /><label for="files"><img src="assets/images/add-img.png"></label></span>
-                    </p>
-                    <!-- <label for="files"><img src="assets/images/add-img.png"><span> add images</span></label>
-                    <input type="file" id="files" name="files[]" multiple /> -->
-                    <!-- <p><input type="button" value="Ask Now"></p> -->
-                    <p><button type="button" class="ask-question-now">Ask Now</button></p>
-                </form>
-            </div>
-            <div class="close-popup-images">
-            </div>
-        </div>
-        <!-- /End Form add new ask-->
-	</div>
+                                            <li class="essay essay-02">
+                                                <div class="number-essay">
+                                                    <p></p>
+                                                </div>
+                                                <div class="detail-essay col-xs-offset-1">
+                                                    <div class="infor-of-essay">
+                                                        <p><span class="essay-time">asked 5 mins ago </span></p>
+                                                        <p class="essay-title">How to save children from violencek</p> 
+                                                        <p><span class="essay-wait-review">Waiting for review</span><span>by mentor: </span><span class="mentor-review">Milo Brandt</span></p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="essay-detail-popup">
+                                                <div class="essay-detail">
+                                                    <div class="essay-detail-content container">
+                                                        <div class="essay-detail-content-wrapper">
+                                                            <div class="essay-detail-left col-md-3">
+                                                                <h3>Essay detail</h3>
+                                                                <div class="essay-detail-top">
+                                                                    <h5>How to save children from violencek</h5>
+                                                                    <span class="post-time">add 3 hours ago</span>                                                         
+                                                                </div>
+                                                                <div class="essay-thumb">
+                                                                    <div class="essay-thumb-left">
+                                                                        <p>Mentor:</p>
+                                                                        <p class="name-mentor"><a href="#">Brian M.Scott</a></p>
+                                                                        <p><span class="essay-wait-review">Waiting for review</span></p><br>
+                                                                    </div>
+                                                                    <div class="essay-thumb-right">
+                                                                        <a href="#"><img src="../images/mentor-09.png"></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="essay-infor">
+                                                                    <p class="rate-video">
+                                                                        <span>Rate this reply</span>
+                                                                        <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
+                                                                        <!-- <button class="share">Share</button> -->
+                                                                    </p>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div class="essay-detail-right col-md-9">
+                                                                <h4>Desciption</h4>
+                                                                <div class="close-popup-detail close"><span data-icon="&#xe051;"></span>
+                                                                </div>
+                                                                <div class="essay-detail-right-content-wrapper">
+                                                                    <div class="essay-detail-right-content">
+                                                                        
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="essay-detail-right-content">
+                                                                        <h5>Desciption</h5>
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="essay-detail-right-content">
+                                                                        <h4>Desciption</h4>
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div> 
+                                                                    </div>
+                                                                </div> 
+                                                            </div>
+                                                            
+                                                        </div>           
+                                                    </div>
+                                                    <div class="close-popup-images">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="essay essay-03 last-essay">
+                                      <div class="number-essay">
+                                          <p></p>
+                                      </div>
+                                      <div class="detail-essay col-xs-offset-1">
+                                          <div class="infor-of-essay">
+                                              <p><span class="essay-time">asked 5 mins ago </span></p>
+                                              <p class="essay-title">How to save children from violencek</p> 
+                                              <p><span class="essay-answers">Answered</span><span>by mentor: </span><span class="mentor-review">Milo Brandt</span></p>
+                                          </div>
+                                      </div>
+                                  </li>
+                                            <li class="essay-detail-popup">
+                                                <div class="essay-detail">
+                                                    <div class="essay-detail-content container">
+                                                        <div class="essay-detail-content-wrapper">
+                                                            <div class="essay-detail-left col-md-3">
+                                                                <h3>Essay detail</h3>
+                                                                <div class="essay-detail-top">
+                                                                    <h5>How to save children from violencek</h5>
+                                                                    <span class="post-time">add 3 hours ago</span>                                                         
+                                                                </div>
+                                                                <div class="essay-thumb">
+                                                                    <div class="essay-thumb-left">
+                                                                        <p>Mentor:</p>
+                                                                        <p class="name-mentor"><a href="#">Brian M.Scott</a></p>
+                                                                        <p><span class="essay-answers">Answered</span></p><br>
+                                                                    </div>
+                                                                    <div class="essay-thumb-right">
+                                                                        <a href="#"><img src="../images/mentor-09.png"></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="essay-infor">
+                                                                    <p class="rate-video">
+                                                                        <span>Rate this reply</span>
+                                                                        <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
+                                                                        <!-- <button class="share">Share</button> -->
+                                                                    </p>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div class="essay-detail-right col-md-9">
+                                                                <h4>Desciption</h4>
+                                                                <div class="close-popup-detail close"><span data-icon="&#xe051;"></span>
+                                                                </div>
+                                                                <div class="essay-detail-right-content-wrapper">
+                                                                    <div class="essay-detail-right-content">
+                                                                        
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="essay-detail-right-content">
+                                                                        <h5>Desciption</h5>
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="essay-detail-right-content">
+                                                                        <h5>Desciption</h5>
+                                                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                                                        <button class=read-more>Read more <span data-icon="&#x33;"></span></button>
+                                                                        <div class=""></div>
+                                                                        <div class="attrach-file">
+                                                                            <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                                                            <input type="file" id="attached" name="attached[]" />
+                                                                        </div> 
+                                                                    </div>
+                                                                </div> 
+                                                            </div>
+                                                            
+                                                        </div>           
+                                                    </div>
+                                                    <div class="close-popup-images">
+                                                    </div>
+                                                </div>
+                                            </li>
+                              </ul>
+                          </div><!-- /End Your essay Content -->
+                           <!-- Content -->
+                     </div><!-- /End Your essay -->
+                      <!-- /End top memtor -->
+                      <!-- Top mentor -->
+                      <div class="top-mentors" ng-include="'src/app/topMentor/topMentors.tpl.html'"></div><!-- /End top memtor -->
+                  </div>                            
+              </div><!-- /End Right content -->
+          </section><!-- /End content -->
+      </div><!-- End container -->   
+      </div>
