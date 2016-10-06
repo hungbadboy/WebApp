@@ -404,6 +404,7 @@ public class SibConstants {
         public static final String SQL_GET_ALL_TOPIC_SUB_ADMISSION = "GET_ALL_TOPIC_SUB_ADMISSION";
         public static final String SQL_DELETE_VIDEO_ADMISSION = "DELETE_VIDEO_ADMISSION";
         public static final String SQL_GET_IMAGE_VIDEO_ADMISSION = "GET_IMAGE_VIDEO_ADMISSION";
+        public static final String SQL_GET_ALL_VIDEO_ADMISSION = "GET_LIST_ALL_VIDEO_ADMISSION";// MTDU
         public static final String SQL_UPDATE_VIDEO_ADMISSION = "UPDATE_VIDEO_ADMISSION";
         public static final String SQL_CREATE_VIDEO_ADMISSION = "CREATE_VIDEO_ADMISSION";
         public static final String SQL_GET_ALL_COMMENT = "GET_ALL_COMMENT";

@@ -29,12 +29,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siblinks.ws.dao.ObjectDao;
+import com.siblinks.ws.model.RequestData;
+import com.siblinks.ws.model.VideoAdmission;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.VideoAdmissionService;
@@ -77,6 +80,78 @@ public class VideoAdmissionServiceImpl implements VideoAdmissionService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
 
         logger.debug(method + " end");
+        return entity;
+    }
+    
+    @Override
+    @RequestMapping(value = "/getAllVideosAdmission", method = RequestMethod.GET)
+    public ResponseEntity<Response> getAllVideosAdmission() {
+        String method = "getAllVideosAdmission()";
+
+        logger.debug(method + " start");
+
+        String entityName = SibConstants.SqlMapper.SQL_GET_ALL_VIDEO_ADMISSION;
+
+        List<Object> readObject = dao.readObjects(entityName, new Object[] {});
+
+        SimpleResponse reponse = new SimpleResponse(readObject);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+
+        logger.debug(method + " end");
+        return entity;
+    }
+    
+    @Override
+    @RequestMapping(value = "/deleteVideoAdmission", method = RequestMethod.POST)
+    public ResponseEntity<Response> deleteVideoAdmission(@RequestBody final RequestData request) {
+
+        Object[] queryParams = { request.getRequest_data_videoAdmission().getvId() };
+
+        boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_VIDEO_ADMISSION, queryParams);
+
+        SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE,
+                                                    request.getRequest_data_type(),
+                                                    request.getRequest_data_method(),
+                                                    flag);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+    
+    @Override
+    @RequestMapping(value = "/updateVideoAdmission", method = RequestMethod.POST)
+    public ResponseEntity<Response> updateVideoAdmission(@RequestBody final RequestData request) {
+
+        VideoAdmission videoObj = request.getRequest_data_videoAdmission();
+        Object[] queryParams = {videoObj.getTitle(), videoObj.getDescription(),
+            videoObj.getImage(), videoObj.getYoutubeUrl(), 
+            videoObj.getActive(),videoObj.getvId() };
+
+        boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_VIDEO_ADMISSION, queryParams);
+
+        SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE,
+                                                    request.getRequest_data_type(),
+                                                    request.getRequest_data_method(),
+                                                    flag);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+    
+    @Override
+    @RequestMapping(value = "/createVideoAdmission", method = RequestMethod.POST)
+    public ResponseEntity<Response> createVideoAdmission(@RequestBody final RequestData request){
+
+        VideoAdmission videoObj = request.getRequest_data_videoAdmission();
+        Object[] queryParams = {videoObj.getAuthorId(), videoObj.getTitle(),
+            videoObj.getDescription(), videoObj.getYoutubeUrl(),
+            videoObj.getImage(),videoObj.getActive()};
+
+        boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_VIDEO_ADMISSION, queryParams);
+
+        SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE,
+                                                    request.getRequest_data_type(),
+                                                    request.getRequest_data_method(),
+                                                    flag);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
