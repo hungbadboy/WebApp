@@ -272,6 +272,9 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
 
             });
         }
+        $scope.decodeContent= function (str) {
+            return decodeURIComponent(str);
+        };
 
         $scope.nextVideo = function (str) {
             if (!isEmpty($scope.videosRelatedError)) {
@@ -518,7 +521,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 return;
             }
             VideoService.addfavourite($scope.userId, vid).then(function (data) {
-                if (data.request_data_result == 'Favourite add successful') {
+                if (data.data.request_data_result == 'Favourite add successful') {
                     $('#btnFavorite').addClass('btn-warning');
                     $scope.isFavorite = 1;
                 }

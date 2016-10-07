@@ -299,7 +299,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                 return;
             }
             VideoService.addfavourite($scope.userId, vid).then(function (data) {
-                if (data.request_data_result == 'Favourite add successful') {
+                if (data.data.request_data_result == 'Favourite add successful') {
                     $('#btnFavorite').addClass('btn-warning');
                     $scope.isFavorite = 1;
                 }
@@ -343,6 +343,9 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         $scope.deleteComment = function (cid) {
             $('#deleteItem').modal('show');
             idRemove = cid;
+        };
+        $scope.decodeContent= function (str) {
+           return decodeURIComponent(str);
         };
 
 
