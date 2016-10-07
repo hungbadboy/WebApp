@@ -17,22 +17,29 @@ brotControllers.controller('AddUpdatePlaylistController',
     }
 
     function initSubject(){
-      if (myCache.get("subjects") !== undefined) {
-         $scope.subjects = myCache.get("subjects");
-      } else {
-         HomeService.getAllCategory().then(function (data) {
-             if (data.data.status) {
-                 $scope.subjects = data.data.request_data_result;                 
-                 myCache.put("subjects", data.data.request_data_result);
-             }
-         });
+      if ($scope.updateSubjects == undefined) {
+        if (myCache.get("subjects") !== undefined) {
+           $scope.updateSubjects = myCache.get("subjects");
+           if ($scope.updateSubjects[0].subjectId != 0) {
+              $scope.updateSubjects.splice(0, 0, {
+                'subjectId': 0,
+                'subject' : 'Select a Subject'
+              });
+           }          
+           $scope.updateSubject = $scope.updateSubjects[0].subjectId;
+        } else {
+           HomeService.getAllCategory().then(function (data) {
+               if (data.data.status) {
+                   $scope.updateSubjects = data.data.request_data_result;                 
+                   $scope.updateSubjects.splice(0, 0, {
+                    'subjectId': 0,
+                    'subject' : 'Select a Subject'
+                   });
+                   $scope.updateSubject = $scope.updateSubjects[0].subjectId;
+               }
+           });
+        }
       }
-      var item = {
-        'subjectId': 0,
-        'subject' : 'Select Subject'
-       }
-       $scope.subjects.splice(0, 0, item);
-       $scope.updateSubject = $scope.subjects[0].subjectId;
     }
 
     function getPlaylistById(plid){
@@ -48,28 +55,26 @@ brotControllers.controller('AddUpdatePlaylistController',
     function displayPlaylist(p){
       $('#txtUpdateTitle').val(p.name);
       $('#txtUpdateDescription').val(p.description);
-      var item = $.grep($scope.subjects, function(s){
+      var item = $.grep($scope.updateSubjects, function(s){
         return s.subjectId == $scope.playlist.subjectId;
       });
 
-      var index = $scope.subjects.indexOf(item[0]);
+      var index = $scope.updateSubjects.indexOf(item[0]);
       if (index != -1) {
-        $scope.subject = $scope.subjects[index];
-        $scope.updateSubject = $scope.subjects[index].subjectId;
+        $scope.updateSubject = $scope.updateSubjects[index].subjectId;
       }
     }
 
     $scope.add = function(){      
       var title = $('#txtTitle').val();
-      var subject = $('#playlistSubject').val();
 
       if (title == null || title.trim().length == 0) {
         $scope.error = 'Please input playlist Title. \n'; 
         angular.element('#txtTitle').trigger('focus');
         return;
-      } else if (subject == 0) {
+      } else if ($scope.updateSubject == 0) {
         $scope.error = 'Please select playlist subject. \n';  
-        angular.element('#playlistSubject').trigger('focus');       
+        angular.element('#updateSubject').trigger('focus');       
         return;
       } else if (files == undefined) {
         $scope.error = 'Please select playlist thumbnail. \n';
@@ -86,7 +91,7 @@ brotControllers.controller('AddUpdatePlaylistController',
       fd.append('title', title);
       fd.append('description', $('#txtDescription').val());
       fd.append('url', null);
-      fd.append('subjectId', subject);
+      fd.append('subjectId', $scope.updateSubject);
       fd.append('createBy', userId);
 
       return fd;
@@ -115,13 +120,13 @@ brotControllers.controller('AddUpdatePlaylistController',
           if (result != null && result.status == "success") {
             $scope.success = "Update playlist successful.";
 
-            var item = $.grep($scope.subjects, function(s){
+            var item = $.grep($scope.updateSubjects, function(s){
               return s.subjectId == $scope.updateSubject;
             });
 
-            var index = $scope.subjects.indexOf(item[0]);
+            var index = $scope.updateSubjects.indexOf(item[0]);
             if (index != -1) {
-              var subject = $scope.subjects[index];
+              var subject = $scope.updateSubjects[index];
               var pl = {
                 'plid': pl_id,
                 'name': $('#txtUpdateTitle').val(),
