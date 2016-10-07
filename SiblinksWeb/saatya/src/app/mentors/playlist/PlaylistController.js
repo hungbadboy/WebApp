@@ -4,8 +4,6 @@ brotControllers.controller('PlaylistController',
 
 
     var userId = localStorage.getItem('userId'); 
-    $scope.subject = [0];
-    $scope.playlistSubject = [0];
     var cachePlaylist = [];
 
     init();
@@ -59,7 +57,6 @@ brotControllers.controller('PlaylistController',
                cachePlaylist = $scope.playlist.slice(0);
             } else
               $scope.playlist = null;
-            console.log($scope.playlist);
         });
     }
 
@@ -118,7 +115,6 @@ brotControllers.controller('PlaylistController',
       if (selectedPlaylist.length > 0) {
         if (confirm("Are you sure?")) {
           PlaylistService.deleteMultiplePlaylist(selectedPlaylist).then(function(data){
-            console.log(data.data.request_data_result);
             loadPlaylist();
           });
         }        
@@ -147,7 +143,6 @@ brotControllers.controller('PlaylistController',
 
     $scope.loadPlaylistBySubject = function(e){
       $scope.subject = e;
-      console.log($scope.subject);
       if($scope.subject == 0){
         if(cachePlaylist.length > 0) {
           if ($scope.playlist && $scope.playlist.length > 0)
@@ -211,13 +206,11 @@ brotControllers.controller('PlaylistController',
 
      $scope.removeImg = function (index) {
         $scope.stepsModel.splice(index, 1);
-        console.log($scope.stepsModel);
         file = null;
     }
 
     $scope.add = function(){
       var title = $('#txtTitle').val();
-      // var subject = $('#playlistSubject').val();
 
       if (title == null || title.trim().length == 0) {
         $scope.error = 'Please input playlist title. \n'; 
@@ -225,7 +218,7 @@ brotControllers.controller('PlaylistController',
         return;
       } else if ($scope.addSubject == 0) {
         $scope.error = 'Please select playlist subject. \n';  
-        angular.element('#playlistSubject').trigger('focus');       
+        angular.element('#addSubject').trigger('focus');       
         return;
       } else if (file == undefined) {
         $scope.error = 'Please select playlist thumbnail. \n';
@@ -244,7 +237,6 @@ brotControllers.controller('PlaylistController',
       fd.append('createBy', userId);
 
       PlaylistService.insertPlaylist(fd).then(function(data){
-        console.log(data.data);
         if (data.data.request_data_result != null && data.data.request_data_result == "success") {
           //reload page
           $scope.success = "Insert playlist successful.";
@@ -258,7 +250,6 @@ brotControllers.controller('PlaylistController',
 
     $scope.changeAddValue = function(e){
       $scope.addSubject = e;
-      console.log($scope.addSubject);
     }
 
     $scope.openEdit = function(plid){
@@ -289,7 +280,6 @@ brotControllers.controller('PlaylistController',
     }
 
     $scope.$on('updatePlaylist', function(e, a){
-      console.log(a);
       var item = $.grep($scope.playlist, function(p){
         return p.plid == a.plid;
       });

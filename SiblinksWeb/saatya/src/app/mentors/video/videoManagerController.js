@@ -49,7 +49,6 @@ brotControllers.controller('VideoManagerController',
           cacheVideos = $scope.videos.slice(0);
         } else
           $scope.videos = null;
-        console.log($scope.videos);
       });
     }    
 
@@ -80,7 +79,6 @@ brotControllers.controller('VideoManagerController',
 
     $scope.loadVideosBySubject = function(e){
       $scope.subject = e;
-      console.log($scope.subject);
       if($scope.subject == 0){
         if(cacheVideos.length > 0) {
           if ($scope.videos && $scope.videos,length > 0)
@@ -97,7 +95,6 @@ brotControllers.controller('VideoManagerController',
             $scope.videos = null;
         });
       }
-      console.log($scope.videos);
     };
 
     $scope.loadMoreVideosBySubject = function(){
@@ -167,7 +164,6 @@ brotControllers.controller('VideoManagerController',
       var keyword = $('input#srch-term').val();
       if (keyword != null && keyword.trim().length > 0) {
         VideoService.searchVideosMentor(userId, keyword, 0).then(function(data){
-          console.log(data.data.request_data_result);
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.videos = formatData(data.data.request_data_result);
           } else{
