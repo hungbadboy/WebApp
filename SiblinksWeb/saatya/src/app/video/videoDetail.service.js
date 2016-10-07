@@ -58,7 +58,7 @@ brotServices.factory('videoDetailService', ['$http', function ($http) {
                 "request_data_method":"add_comment",
                 "request_data": {
                     "authorID": userId,
-                    "content": (content),
+                    "content": encodeURIComponent(content),
                     "vid": videoId
                 }
             }

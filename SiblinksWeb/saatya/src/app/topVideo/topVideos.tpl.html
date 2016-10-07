@@ -22,7 +22,8 @@
              </div>
              <div class="video-info">
                  <p class="video title">
-                     <a href="#/videos/detailVideo/{{video.vid}}">{{video.title}}</a>
+                     <a title="{{video.title}}" href="#/videos/detailVideo/{{video.vid}}">
+                         {{ video.title | limitTo: 50 }}{{video.title.length > 50 ? '...' : ''}}</a>
                  </p>
                  <p class="video-rate">
                  	<span>Rate: {{video.averageRating}} ({{video.numRatings}} votes)</span>

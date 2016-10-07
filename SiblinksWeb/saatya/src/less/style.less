@@ -869,9 +869,20 @@ output.up-thumb img {
     z-index: 2;
     padding: 0;
 }
-output.up-thumb .remove-image {
-    right: 0;
-    top: 0;
+output#list-edit .remove-image {
+    right: 25px;
+    top: 5px;
+    font-size: 24px;
+    z-index: 5
+}
+output#list-addnew .remove-image {
+    right: 10px;
+    top: 0px;
+    font-size: 24px;
+    z-index: 5;
+}
+output#list-edit .remove-image span:before{
+    color: #909090;
 }
 output.up-thumb .remove-image img,
 output.up-thumb.up-thumb-sec .remove-image img {

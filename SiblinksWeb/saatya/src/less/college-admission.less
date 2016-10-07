@@ -334,7 +334,7 @@ button.share {
 }
 .article-detail-left,
 .essay-detail-left  {
-    height: 66vh;
+    height: auto;
     background: #fff;
     padding: 20px;
 }
@@ -387,7 +387,7 @@ button.read-more {
 }
 .essay-detail-right,
 .article-detail-right {
-    height: 66vh;
+    height: auto;
     padding-bottom: 30px;
     overflow: hidden;
 }
@@ -581,14 +581,15 @@ button.share:hover {
 
 /*Notification*/
 .notification-content {
-    position: absolute;
+    position: fixed;
     top: 70px;
-    right: 25%;
+    right: ~"calc((100% - 1170px)/2 + 110px)";
     background: #fff;
     z-index: 3;
     border: 1px solid #ececed;
     width: 350px;
     display: none;
+    z-index: 999;
 }
 
 .ntf-left {
@@ -666,18 +667,16 @@ button.share:hover {
     content: "";
     position: absolute ;
     margin: auto;
-    top: -70px;
-    left: 0;
-    right: 0;
+    top: -6px;
+    right: 25px;
     width: 10px;
     height: 10px;
     transform: rotate(45deg);
-    -webkit-transform: rotate(90deg);
+    -webkit-transform: rotate(45deg);
     -moz-transform: rotate(45deg);
     -o-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     border-right: 10px solid #edf1f2;
     border-bottom: 10px solid #edf1f2;
     background: #edf1f2;
-    z-index: 9999;
 }
