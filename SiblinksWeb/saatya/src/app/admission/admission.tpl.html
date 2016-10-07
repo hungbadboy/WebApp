@@ -34,16 +34,16 @@
                                   <li ng-repeat="lstVideoTutAdmission in listVideoTuttorialAdmission track by $index" ng-if="$index < displayNumberOfTutVideo">
                                       <div class="video-wrapper">
                                          	<div class="videos-subscription-thumnail">
-                                              <a href="#/videos/detailVideo/{{lstVideoTutAdmission.vId}}">
+                                              <a href="#/video_admission/{{lstVideoTutAdmission.vId}}">
                                                   <img ng-src="{{lstVideoTutAdmission.image}}">
                                               </a>
                                           </div>
-                                                    <div class="videos-title">
-                                              <a href="#/videos/detailVideo/{{lstVideoTutAdmission.vId}}" title="{{lstVideoTutAdmission.title}}">{{lstVideoTutAdmission.title}}</a>
+                                          <div class="videos-title">
+                                              <a href="#/video_admission/{{lstVideoTutAdmission.vId}}" title="{{lstVideoTutAdmission.title}}">{{lstVideoTutAdmission.title}}</a>
                                           </div>
                                           
                                           <div class="videos-time-add">
-                                              <span class="video-poster" id="{{lstVideoTutAdmission.authorId}}" ng-click="showProfile($event)"> {{lstVideoTutAdmission.firstName + ' ' + lstVideoTutAdmission.lastName}}</span>
+                                              <span class="video-poster" id="{{lstVideoTutAdmission.authorId}}" ng-click="showProfile($event)"> {{(lstVideoTutAdmission.firstName=='null'? lstVideoTutAdmission.firstName:'') + ' ' + (lstVideoTutAdmission.lastName=='null'?lstVideoTutAdmission.lastName:'')}}</span>
                                               <span> added {{caculateTimeElapsed(lstVideoTutAdmission.creationDate)}}</span>
                                           </div>
                                           <div class="videos-rate">
