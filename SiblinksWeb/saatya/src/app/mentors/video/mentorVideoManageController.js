@@ -128,7 +128,8 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
             $scope.videos = formatData(data.data.request_data_result);
             $scope.v = $scope.videos[0];
             $scope.newestPos = 0;
-          }
+          } else
+            $scope.videos = null;
         });
 
         VideoService.getVideosTopRated(userId, 0).then(function(data){
@@ -136,7 +137,8 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
             $scope.videosTopRated = formatData(data.data.request_data_result);
             $scope.vTopRated = $scope.videosTopRated[0];
             $scope.topRatedPos = 0;
-          }
+          } else
+            $scope.videosTopRated = null;
         });
 
         VideoService.getVideosTopViewed(userId, 0).then(function(data){
@@ -144,7 +146,8 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
             $scope.videosTopViewed = formatData(data.data.request_data_result);
             $scope.vTopViewed = $scope.videosTopViewed[0];
             $scope.topViewedPos = 0;
-          }
+          } else
+            $scope.videosTopViewed = null;
         });
     }    
 
@@ -318,6 +321,17 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
         $scope.topViewedPos = pos + 1;
         $scope.vTopViewed = $scope.videosTopViewed[pos + 1];
       }
+    }
+  }
+
+  $scope.goToDetail = function(v){
+    if (v.plid && v.plid > 0) {
+      setStorage('vidInPlaylist', v.vid, 30);
+      window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
+      window.location.reload();
+    } else{
+      window.location.href = '#/mentor/video/detail/'+v.vid+'';
+      window.location.reload();
     }
   }
 }]);

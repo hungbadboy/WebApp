@@ -198,16 +198,23 @@
                                 </div>
 
                                 <!-- <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zOD2BuV1nGo" frameborder="0"></iframe> -->
-                                <div class="video-wrapper">
+                                <div class="video-wrapper dashboard-top">
                                     <div class="videos-title">
-                                        {{videosTopViewed.description | limitTo : 70}}{{videosTopViewed.description.length > 70 ? '...' : ''}}
+                                        <h5>{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5>
                                     </div>
                                     <div class="videos-rate">
                                         <!-- <div class="videos-start">
                                             <img src="assets/images/star.png">
                                             <p class="rate"></p>
                                         </div> -->
-                                        <p class="videos-start"><span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span></p>
+                                        <div ng-if="vTopViewed" class="list-star pull-left star-align" star-rating stars="5"
+                                              outer-star-selection="stars"
+                                              outer-percent="rating"
+                                              readonly="true"
+                                              rating-define="star"
+                                              rating-stars="{{vTopViewed.averageRating}}"
+                                              star-radius="9" sel-color="gold"
+                                              back-color="#505050" ></div>
                                         <p class="videos-rate-infor">
                                             <span data-icon="&#x49;">{{vTopViewed.numViews}}</span>
                                             <!-- <span data-icon="&#xe089;">12</span> -->

@@ -30,6 +30,7 @@
                                         <div ng-if="dashboard" class="list-star pull-left" star-rating stars="5"
                                               outer-star-selection="stars"
                                               outer-percent="rating"
+                                              readonly="true"
                                               rating-define="star"
                                               rating-stars="{{dashboard.avg_rating}}"
                                               star-radius="9" sel-color="gold"
@@ -41,20 +42,23 @@
                                 <div class="video-detail active">
                                     <img ng-show="videos" src="{{v.image}}" alt="">
                                     <img ng-show="!videos" src="assets/images/img-video.png" alt="">
-                                    <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
+                                    <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt="" ng-click="goToDetail(v)"></span>
                                 </div>
                                 <div class="detail-vd">
                                     <!-- <h5>Ut at sem quis urna fringilla congue a <br/>in ex. Aliquam sed imperdiet elit</h5> -->
-                                    <h5 ng-show="videos">{{v.description | limitTo : 70}}{{v.description.length > 70 ? '...' : ''}}</h5>
+                                    <h5 ng-show="videos">{{v.title | limitTo : 15}}{{v.title.length > 15 ? '...' : ''}}</h5>
                                     <h5 ng-show="!videos">No video</h5>
                                     <div class="clearfix">
-                                        <!-- <ul class="list-star pull-left">
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                        </ul> -->
+                                        <ul class="list-star list-star-mentor-video">
+                                            <div ng-if="v" class="pull-left" star-rating stars="5"
+                                              outer-star-selection="stars"
+                                              outer-percent="rating"
+                                              readonly="true"
+                                              rating-define="star"
+                                              rating-stars="{{v.averageRating}}"
+                                              star-radius="9" sel-color="gold"
+                                              back-color="#ff5757"></div>
+                                        </ul>
                                         <p class="list-view pull-right">
                                             <span><img src="assets/images/icon-pl.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
                                             <span><img src="assets/images/icon-cm.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
@@ -73,22 +77,24 @@
                                 <div class="video-detail">
                                     <img ng-show="videosTopRated" src="{{vTopRated.image}}" alt="">
                                     <img ng-show="!videosTopRated" src="assets/images/img-video-2.png" alt="">
-                                    <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
+                                    <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt="" ng-click="goToDetail(vTopRated)"></span>
                                 </div>
                                 <div class="detail-vd detail-vd-2">
-                                    <h5 ng-show="!videosTopRated">{{vTopRated.description | limitTo : 70}}{{vTopRated.description.length > 70 ? '...' : ''}}</h5>
+                                    <h5 ng-show="videosTopRated">{{vTopRated.title | limitTo : 15}}{{vTopRated.title.length > 15 ? '...' : ''}}</h5>
                                     <h5 ng-show="!videosTopRated">No video</h5>
                                     <div class="clearfix">
-                                        <!-- <ul class="list-star pull-left">
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                        </ul> -->
+                                        <ul class="list-star list-star-mentor-video">
+                                            <div ng-if="vTopRated" class="pull-left" star-rating stars="5"
+                                              outer-star-selection="stars"
+                                              readonly="true"
+                                              outer-percent="rating"
+                                              rating-define="star"
+                                              rating-stars="{{vTopRated.averageRating}}"
+                                              star-radius="9" sel-color="gold"
+                                              back-color="#03c3f3"></div>
+                                        </ul>
                                         <p class="list-view pull-right">
                                             <span><img src="assets/images/icon-pl.png" alt=""> {{vTopRated.numViews}}</span>&nbsp;&nbsp;
-                                            <span><img src="assets/images/icon-like.png" alt=""> {{vTopRated.numFavourite}}</span>&nbsp;&nbsp;
                                             <span><img src="assets/images/icon-cm.png" alt=""> {{vTopRated.numComments}}</span>&nbsp;&nbsp;
                                         </p>
                                     </div>
@@ -105,22 +111,24 @@
                                 <div class="video-detail">
                                     <img ng-show="videosTopViewed" src="{{vTopViewed.image}}" alt="">
                                     <img ng-show="!videosTopViewed" src="assets/images/img-video-3.png" alt="">
-                                    <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span>
+                                    <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt="" ng-click="goToDetail(vTopViewed)"></span>
                                 </div>
                                 <div class="detail-vd detail-vd-3">
-                                    <h5 ng-show="!videosTopViewed">{{vTopViewed.description | limitTo : 70}}{{vTopViewed.description.length > 70 ? '...' : ''}}</h5>
+                                    <h5 ng-show="videosTopViewed">{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5>
                                     <h5 ng-show="!videosTopViewed">No video</h5>
                                     <div class="clearfix">
-                                       <!--  <ul class="list-star pull-left">
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                            <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                        </ul> -->
+                                        <ul class="list-star list-star-mentor-video">
+                                            <div ng-if="vTopViewed" class="pull-left" star-rating stars="5"
+                                              outer-star-selection="stars"
+                                              readonly="true"
+                                              outer-percent="rating"
+                                              rating-define="star"
+                                              rating-stars="{{vTopViewed.averageRating}}"
+                                              star-radius="9" sel-color="gold"
+                                              back-color="#6254b2"></div>
+                                        </ul>
                                         <p class="list-view pull-right">
                                             <span><img src="assets/images/icon-pl.png" alt=""> {{vTopViewed.numViews}}</span>&nbsp;&nbsp;
-                                            <span><img src="assets/images/icon-like.png" alt=""> {{vTopViewed.numFavourite}}</span>&nbsp;&nbsp;
                                             <span><img src="assets/images/icon-cm.png" alt=""> {{vTopViewed.numComments}}</span>&nbsp;&nbsp;
                                         </p>
                                     </div>
