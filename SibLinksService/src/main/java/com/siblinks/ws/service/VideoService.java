@@ -132,6 +132,10 @@ public interface VideoService {
      /*
       * @author Tavv
       */
-     public ResponseEntity<Response> getVideoBySubject(long userId, String subjectId, String limit, String offset);
+    public ResponseEntity<Response> getVideoBySubject(long userId, String subjectId, String limit, String offset);
+
+    public ResponseEntity<Response> checkUserRatingVideoAdmission(RequestData request);
+
+    public ResponseEntity<Response> rateVideoAdmission(RequestData request);
 
 }

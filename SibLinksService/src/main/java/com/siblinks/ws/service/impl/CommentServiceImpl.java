@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,9 +37,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,6 +63,7 @@ import com.siblinks.ws.service.CommentsService;
 import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.RandomString;
 import com.siblinks.ws.util.SibConstants;
+import com.siblinks.ws.util.StringUtil;
 
 /**
  * 
@@ -76,6 +83,9 @@ public class CommentServiceImpl implements CommentsService {
 
     @Autowired
     ObjectDao dao;
+    
+    @Autowired
+    private PlatformTransactionManager transactionManager;
     
     @Autowired
 	private Environment environment;
@@ -141,37 +151,42 @@ public class CommentServiceImpl implements CommentsService {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             return entity;
         }
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus statusDB = transactionManager.getTransaction(def);
         String content = request.getRequest_data().getContent().replace("'", "\\\\'");
         content = content.replace("(", "\\\\(");
         content = content.replace(")", "\\\\)");
         String userName = request.getRequest_data().getAuthor();
         Object[] queryParams = { userName, request.getRequest_data().getAuthorID(), content };
         boolean status = true;
-        long idComent = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
-
         int cid = 0;
-		if(idComent > 0) {
-            Object[] queryParamsIns2 = {""+ idComent, request.getRequest_data().getVid() };
-            status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_COMMENT, queryParamsIns2);
-//            readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_POST_VIDEO, new Object[] { queryParamsIns2[1] });
-//            Map userPostVideoMap = (Map) readObject.get(0);
-//
-//            Object[] queryParamsIns3 = { commentMap.get("authorId"), request
-//                .getRequest_data()
-//                .getAuthorID(), "commentVideo", "New comment of video", "commented video : " +
-//                                                                        userPostVideoMap.get("title").toString(), userPostVideoMap
-//                                                                            .get("subjectId"), userPostVideoMap.get(
-//                                                                                "topicId"), request.getRequest_data().getVid() };
-//            System.out.println(queryParamsIns3);
-//            if (!userPostVideoMap.get("authorID").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-//                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
-//    		}
-//    		if(flag) {
-//                Object[] queryParamsUpdate = { request.getRequest_data().getVid() };
-//                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_UPDATE_VIDEO_COMMENT, queryParamsUpdate);
-//    		}
-		}
-
+        long idComent = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
+        try{
+    		if(idComent > 0) {
+                Object[] queryParamsIns2 = {idComent, request.getRequest_data().getVid() };
+                status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_COMMENT, queryParamsIns2);
+                List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_POST_VIDEO, new Object[] { request.getRequest_data().getVid() });
+                Map userPostVideoMap = (Map) readObject.get(0);
+    
+                Object[] queryParamsIns3 = { userPostVideoMap.get("authorID"), request
+                    .getRequest_data()
+                    .getAuthorID(), "commentVideo", "New comment of video", "commented video : " +
+                                                                            userPostVideoMap.get("title").toString(), userPostVideoMap
+                                                                                .get("subjectId"),  request.getRequest_data().getVid() };
+                System.out.println(queryParamsIns3);
+                if (!userPostVideoMap.get("authorID").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
+                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
+        		}
+        		
+    		}
+    		  transactionManager.commit(statusDB);
+        } catch (
+                NullPointerException
+                | NumberFormatException
+                | DataAccessException e) {
+            transactionManager.rollback(statusDB);
+            throw e;
+        }
 		SimpleResponse reponse = new SimpleResponse("" + status ,request.getRequest_data_type(),request.getRequest_data_method(), cid);
 		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
 		return entity;
@@ -313,45 +328,54 @@ public class CommentServiceImpl implements CommentsService {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             return entity;
         }
-
-        String content = request.getRequest_data_videoAdmission().getContent().replace("'", "\\\\'");
-		content = content.replace("(", "\\\\(");
-		content = content.replace(")", "\\\\)");
-
-        Object[] queryParams = { request.getRequest_data_videoAdmission().getAuthorId(), content, request
-            .getRequest_data_videoAdmission()
-            .getvId() };
-
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
-        int cid = 0;
-        if (status) {
-			List<Object> readObject = null;
-            readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams);
-            cid = Integer.valueOf(((Map) readObject.get(0)).get("cid").toString());
-            Object[] queryParamsIns = { ((Map) readObject.get(0)).get("cid").toString(), request
-                .getRequest_data_videoAdmission()
-                .getvId() };
-            boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_ADMISSION_COMMENT, queryParamsIns);
-
-            readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_INFO_VIDEO_ADMISSION, queryParamsIns);
-            Object[] queryParamsIns1 = { ((Map) readObject.get(0)).get("authorId").toString(), ((Map) readObject.get(0)).get(
-                "idSubAdmission").toString(), ((Map) readObject.get(0)).get("idTopicSubAdmission").toString(), request
-                .getRequest_data_videoAdmission()
-                .getAuthorId(), "commentVideo", "New comment of video", "commented a video: " +
-                                                                        ((Map) readObject.get(0)).get("title").toString() };
-    		if(!((Map)readObject.get(0)).get("authorId").toString().equalsIgnoreCase(request.getRequest_data_videoAdmission().getAuthorId())) {
-                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO_ADMISSION, queryParamsIns);
+        
+        String content = request.getRequest_data().getContent();
+        if (!StringUtil.isNull(content)) {
+            content = content.replace("'", "\\\\'");
+            content = content.replace("(", "\\\\(");
+            content = content.replace(")", "\\\\)");
+        } else {
+            SimpleResponse reponse = new SimpleResponse(
+                                                        "" +
+                                                        false,
+                                                        request
+                                                            .getRequest_data_type(),
+                                                        request
+                                                            .getRequest_data_method(),
+                                                        "");
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(
+                                                                           reponse,
+                                                                           HttpStatus.OK);
+            return entity;
+        }
+        
+        Object[] queryParams = { "",request.getRequest_data().getAuthorID(), content };
+        boolean flag = true;
+        long id = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus statusDB = transactionManager.getTransaction(def);
+        try{
+            if (id>0) {
+    			Object[] queryParamsIns = {request.getRequest_data().getVid(),""+ id};
+                flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_ADMISSION_COMMENT, queryParamsIns);
+                List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_DETAIL_BY_ID, new Object[] { request.getRequest_data().getVid() });
+                Map userPostVideoMap = (Map) readObject.get(0);
+    
+                Object[] queryParamsIns3 = { userPostVideoMap.get("userid"), request
+                    .getRequest_data()
+                    .getAuthorID(), "commentVideoAdmssion", "New comment of video", "commented video : " +
+                                                                            userPostVideoMap.get("title").toString(), userPostVideoMap
+                                                                                .get("idAdmission"),  request.getRequest_data().getVid() };
+                if (!userPostVideoMap.get("userid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
+                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
+                }
+    
     		}
-
-    		if(flag) {
-                Object[] queryParamsUpdate = { request.getRequest_data_videoAdmission().getvId() };
-                boolean flagUpdate = dao.insertUpdateObject(
-                    SibConstants.SqlMapper.SQL_SIB_UPDATE_VIDEO_COMMENT,
-                    queryParamsUpdate);
-    		}
-		}
-
-		SimpleResponse reponse = new SimpleResponse("" + status,request.getRequest_data_type(),request.getRequest_data_method(), cid);
+        } catch (NullPointerException | NumberFormatException | DataAccessException e) {
+            transactionManager.rollback(statusDB);
+            throw e;
+        }
+		SimpleResponse reponse = new SimpleResponse("" + flag,request.getRequest_data_type(),request.getRequest_data_method(),"" + id);
 		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
 		return entity;
 	}

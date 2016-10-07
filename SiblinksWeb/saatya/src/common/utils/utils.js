@@ -127,10 +127,10 @@ function convertUnixTimeToTime(time) {
 	
 	if(serverDateTime == null || serverDateTime === undefined) {
 		console.log('serverDateTime is null');
-		serverDateTime = Date.now() / 1000;
+		timeBackEnd();
 	}
 
-	var _now = Math.floor(serverDateTime);
+	var _now = Math.floor(serverDateTime.getTime());
     var _space = _now - time;
     var _secondDay = 3600 * 24;
     var _secondMonth = _secondDay * 30;

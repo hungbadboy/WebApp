@@ -231,6 +231,11 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		controller: 'MentorVideoDetailController',
 		reloadOnSearch: false
 	}).
+	when('/video_admission/:videoid', {
+		templateUrl: 'src/app/admission/video-admission.tpl.html',
+		controller: 'VideoAdmissionController'
+	}).
+
 	otherwise({
         redirectTo: '/'
     });
