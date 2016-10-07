@@ -1665,6 +1665,53 @@ public class VideoServiceImpl implements VideoService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
+    
+    @Override
+    @RequestMapping(value = "/rateVideoAdmission", method = RequestMethod.POST)
+    public ResponseEntity<Response> rateVideoAdmission(@RequestBody final RequestData request) {
+        String entityName = null;
+        boolean status = false;
+        if (!AuthenticationFilter.isAuthed(this.context)) {
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("false", "Authentication required."), HttpStatus.FORBIDDEN);
+            return entity;
+        }
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus statusDao = transactionManager.getTransaction(def);
+        try {
+
+            Object[] queryParams = new Object[] { request.getRequest_data().getUid(), request.getRequest_data().getVid() };
+
+            entityName = SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO_ADMISSION;
+
+            List<Object> videoRated = dao.readObjects(entityName, queryParams);
+
+            boolean isRated = videoRated.size() > 0 ? true : false;
+            String rate = request.getRequest_data().getRating();
+            String vid = request.getRequest_data().getVid();
+
+            if (!isRated) {
+                entityName = SibConstants.SqlMapper.SQL_SIB_RATE_VIDEO_ADMISSION;
+                queryParams = new Object[] { vid, request.getRequest_data().getUid(), rate };
+            } else {
+                queryParams = new Object[] { rate, vid, request.getRequest_data().getUid() };
+                entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO_ADMISSION;
+            }
+            Object[] queryUpdateRate = { rate, vid, rate, vid };
+            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_VIDEO_ADMISSION, queryUpdateRate);
+            status = dao.insertUpdateObject(entityName, queryParams);
+
+            transactionManager.commit(statusDao);
+            logger.info("Insert Menu success " + new Date());
+        } catch (NullPointerException | DataAccessException e) {
+            transactionManager.rollback(statusDao);
+            throw e;
+        }
+        SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request
+            .getRequest_data()
+            .getVid());
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
 
     @Override
     @RequestMapping(value = "/getVideosListByUser", method = RequestMethod.POST)
@@ -1863,6 +1910,22 @@ public class VideoServiceImpl implements VideoService {
         Object[] queryParams = { request.getRequest_data().getUid(), request.getRequest_data().getVid() };
 
         entityName = SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO;
+
+        List<Object> readObject = dao.readObjects(entityName, queryParams);
+
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+    
+    @Override
+    @RequestMapping(value = "/checkUserRatingVideoAdmission", method = RequestMethod.POST)
+    public ResponseEntity<Response> checkUserRatingVideoAdmission(@RequestBody final RequestData request) {
+
+        String entityName = null;
+        Object[] queryParams = { request.getRequest_data().getUid(), request.getRequest_data().getVid() };
+
+        entityName = SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO_ADMISSION;
 
         List<Object> readObject = dao.readObjects(entityName, queryParams);
 

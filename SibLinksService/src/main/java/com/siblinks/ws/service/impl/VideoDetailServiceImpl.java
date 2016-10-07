@@ -56,7 +56,18 @@ public class VideoDetailServiceImpl implements VideoDetailService {
         Object[] queryParams = { vid };
 
         List<Object> readObject = dao.readObjects(entityName, queryParams);
-        SimpleResponse reponse = new SimpleResponse("" + true, "Video", "getVideoById", readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, "Video", "getVideoDetailById", readObject);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+    @Override
+    @RequestMapping(value = "/getVideoAdmissionDetailById/{vid}", method = RequestMethod.GET)
+    public ResponseEntity<Response> getVideoAdmissionDetailById(@PathVariable(value = "vid") final long vid) {
+        String entityName = SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_DETAIL_BY_ID;
+        Object[] queryParams = { vid };
+
+        List<Object> readObject = dao.readObjects(entityName, queryParams);
+        SimpleResponse reponse = new SimpleResponse("" + true, "Video", "getVideoDetailById", readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -65,6 +76,18 @@ public class VideoDetailServiceImpl implements VideoDetailService {
     @RequestMapping(value = "/getCommentVideoById/{vid}", method = RequestMethod.GET)
     public ResponseEntity<Response> getCommentVideoById(@PathVariable(value = "vid") final long vid) {
         String entityName = SibConstants.SqlMapper.SQL_GET_COMMENT_VIDEO_BY_VID;
+        Object[] queryParams = { vid };
+
+        List<Object> readObject = dao.readObjects(entityName, queryParams);
+        SimpleResponse reponse = new SimpleResponse("" + true, "Video", "getCommentVideoById", readObject);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+    
+    @Override
+    @RequestMapping(value = "/getCommentVideoAdmissionById/{vid}", method = RequestMethod.GET)
+    public ResponseEntity<Response> getCommentVideoAdmissionById(@PathVariable(value = "vid") final long vid) {
+        String entityName = SibConstants.SqlMapper.SQL_GET_COMMENT_VIDEO_ADMISSION_BY_VID;
         Object[] queryParams = { vid };
 
         List<Object> readObject = dao.readObjects(entityName, queryParams);
@@ -104,6 +127,34 @@ public class VideoDetailServiceImpl implements VideoDetailService {
 
         return entity;
     }
+    
+    @Override
+    @RequestMapping(value = "/updateViewVideoAdmission", method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity<Response> updateViewVideoAdmission(@RequestBody final RequestData request) {
+
+        if (!AuthenticationFilter.isAuthed(context)) {
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
+            return entity;
+        }
+
+        // Map<String, String> queryParams = new HashMap<String, String>();
+        // queryParams.put("vid", request.getRequest_data().getVid());
+        Object[] queryParams = { request.getRequest_data().getVid() };
+        String entityName = SibConstants.SqlMapper.SQL_UPDATE_VIEW_VIDEO_ADMISSION;
+        boolean status = true;
+        status = dao.insertUpdateObject(entityName, queryParams);
+        String message = "";
+        if (status) {
+            message = "Done";
+        } else {
+            message = "Fail";
+        }
+
+        SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), message);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+
+        return entity;
+    }
 
     @Override
     @RequestMapping(value = "/getVideoByCategoryId", method = RequestMethod.POST)
@@ -129,6 +180,34 @@ public class VideoDetailServiceImpl implements VideoDetailService {
 
         List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
         SimpleResponse reponse = new SimpleResponse("" + true, "Video", "getVideoByCategoryId", readObject);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+    
+    @Override
+    @RequestMapping(value = "/getVideoByAdmissionId", method = RequestMethod.POST)
+    public ResponseEntity<Response> getVideoByAdmissionId(@RequestBody final RequestData request) {
+        String entityName = SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_BY_ADMISSION_ID;
+        String limit = request.getRequest_data().getLimit();
+        String offset = request.getRequest_data().getOffset();
+        String sid = request.getRequest_data().getSubjectId();
+        String type = request.getRequest_data().getType();
+
+        String whereClause = "";
+        if (!StringUtil.isNull(type)) {
+
+            whereClause += " ORDER BY A.creationDate DESC";
+        }
+        if (!StringUtil.isNull(limit)) {
+            whereClause += " LIMIT " + limit;
+        }
+        if (!StringUtil.isNull(offset)) {
+            whereClause += " OFFSET " + offset;
+        }
+        Object[] queryParams = { sid };
+
+        List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
+        SimpleResponse reponse = new SimpleResponse("" + true, "Video", "getVideoByAdmissionId", readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }

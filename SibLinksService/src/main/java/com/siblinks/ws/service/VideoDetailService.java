@@ -21,4 +21,12 @@ public interface VideoDetailService {
     public ResponseEntity<Response> getVideoDetailMentor(long vid, long uid);
 
     public ResponseEntity<Response> getVideoRelatedMentor(long subjectId, long uid, int offset);
+
+    public ResponseEntity<Response> getVideoAdmissionDetailById(long vid);
+
+    public ResponseEntity<Response> getCommentVideoAdmissionById(long vid);
+
+    public ResponseEntity<Response> updateViewVideoAdmission(RequestData request);
+
+    public ResponseEntity<Response> getVideoByAdmissionId(RequestData request);
 }
