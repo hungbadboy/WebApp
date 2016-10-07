@@ -12,7 +12,7 @@ brotControllers.controller('VideoManagerController',
     $scope.subject = [0];
 
     var cacheVideos = [];
-
+    var sub = myCache.get("subjects");
     init();
 
     function init(){
@@ -22,26 +22,29 @@ brotControllers.controller('VideoManagerController',
     }
 
     function initSubject(){
-      if ($scope.subjects == undefined) {
-        if (myCache.get("subjects") !== undefined) {
-           $scope.subjects = myCache.get("subjects");
-           $scope.subjects.splice(0, 0, {
-            'subjectId': 0,
-            'subject' : 'Select Subject'
-           });
-           $scope.subject = $scope.subjects[0].subjectId;
-        } else {
-           HomeService.getAllCategory().then(function (data) {
-               if (data.data.status) {
-                   $scope.subjects = data.data.request_data_result;                 
-                   $scope.subjects.splice(0, 0, {
-                    'subjectId': 0,
-                    'subject' : 'Select Subject'
-                   });
-                   $scope.subject = $scope.subjects[0].subjectId;
-               }
-           });
-        }
+      if (sub) {
+        var arr = angular.copy(sub);
+         if (arr[0].subjectId != 0) {
+            arr.splice(0, 0, {
+              'subjectId': 0,
+              'subject' : 'All'
+            });
+         }
+         $scope.videoMgrSubjects = arr;
+         $scope.subject = $scope.videoMgrSubjects[0].subjectId;        
+      } else{
+        HomeService.getAllCategory().then(function (data) {
+           if (data.data.status) {
+              localStorage.setItem("subjects", data.data.request_data_result);
+              var arr = angular.copy(data.data.request_data_result);
+               arr.splice(0, 0, {
+                'subjectId': 0,
+                'subject' : 'All'
+               });
+               $scope.videoMgrSubjects = arr;
+               $scope.subject = $scope.videoMgrSubjects[0].subjectId;
+           }
+         });
       }
     }
 

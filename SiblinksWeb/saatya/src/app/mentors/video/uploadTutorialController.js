@@ -4,14 +4,14 @@ brotControllers.controller('UploadTutorialController',
 
 
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
-    $scope.uploadSubject = [0];
     $scope.uploadPlaylist = [0];
     $scope.editVideo = null;
+
+    var sub = myCache.get("subjects");
 
     init();
 
     function init(){
-      angular.element(document.querySelector('#main-popup')).addClass('modal-add-video');
       if (!isNaN(v_id) && v_id > 0) {
         getVideoDetail();
       } else{
@@ -38,16 +38,31 @@ brotControllers.controller('UploadTutorialController',
     }
 
     function initSubject(){
-      if (myCache.get("subjects") !== undefined) {
-         $scope.subjects = myCache.get("subjects");
-      } else {
-         HomeService.getAllCategory().then(function (data) {
-             if (data.data.status) {
-                 $scope.subjects = data.data.request_data_result;
-                 myCache.put("subjects", data.data.request_data_result);
-             }
-         });
-      }
+      if (sub) {
+        var arr = angular.copy(sub);
+
+        if (arr[0].subjectId != 0) {
+            arr.splice(0, 0, {
+              'subjectId': 0,
+              'subject' : 'Select a Subject'
+            }); 
+            $scope.uploadTutSubjects = arr;
+         }
+         $scope.uploadTutSubject = $scope.uploadTutSubjects[0].subjectId;
+      } else{
+        HomeService.getAllCategory().then(function (data) {
+           if (data.data.status) {
+              localStorage.setItem("subjects", data.data.request_data_result);
+              var arr = angular.copy(data.data.request_data_result);
+              arr.splice(0, 0, {
+                'subjectId': 0,
+                'subject' : 'Select a Subject'
+              }); 
+              $scope.uploadTutSubject = arr;
+              $scope.uploadTutSubject = $scope.uploadTutSubjects[0].subjectId;
+           }
+       });
+      }      
     }
 
     function initPlaylist(){
@@ -151,7 +166,7 @@ brotControllers.controller('UploadTutorialController',
         check = false;
         $scope.error = "Please input valid link. \n";
         angular.element('#txtUploadLink').trigger('focus');
-      } else if ($('#uploadSubject').val() == 0) {
+      } else if ($scope.uploadTutSubject == 0) {
         check = false;
         $scope.error = "Please select subject. \n";
         angular.element('#uploadSubject').trigger('focus');        
@@ -165,7 +180,7 @@ brotControllers.controller('UploadTutorialController',
           "url": link,
           "image": thumbnail,
           "description": description,
-          "subjectId": $('#uploadSubject').val(),
+          "subjectId": $scope.uploadTutSubject,
           "plid": $('#uploadPlaylist').val() == 0 ? null : $('#uploadPlaylist').val()
         }
         VideoService.uploadTutorial(request).then(function(data){
@@ -178,6 +193,10 @@ brotControllers.controller('UploadTutorialController',
           }
         });
       }
+    }
+
+    $scope.changeSubject = function(e){
+      $scope.uploadTutSubject = e;
     }
 
     $scope.delete = function(vid){
@@ -223,7 +242,7 @@ brotControllers.controller('UploadTutorialController',
     var player;
     function onYouTubeIframeAPIReady(youtubeId) {
       player = new YT.Player('uplad_player', {
-          height: '280',
+          height: '260',
           width: '360',
           videoId: youtubeId,
           events: {

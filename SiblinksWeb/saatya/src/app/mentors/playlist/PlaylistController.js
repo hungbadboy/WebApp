@@ -5,7 +5,7 @@ brotControllers.controller('PlaylistController',
 
     var userId = localStorage.getItem('userId'); 
     var cachePlaylist = [];
-    
+    var sub = myCache.get("subjects");
     init();
 
     function init(){
@@ -14,39 +14,53 @@ brotControllers.controller('PlaylistController',
       getAllPlaylist();
     }
 
-    function initSubject(){
-      if ($scope.subjects == undefined){        
-        if (myCache.get("subjects") !== undefined) {
-           $scope.subjects = myCache.get("subjects");
-           $scope.filterSubjects = $scope.slice(0);
-           $scope.subjects.splice(0, 0, {
-            'subjectId': 0,
-            'subject' : 'Select a Subject'
-           }); 
-           $scope.addSubject = $scope.subjects[0].subjectId;           
-           $scope.filterSubjects.splice(0, 0, {
-            'subjectId': 0,
-            'subject' : 'All'
-           });
-           $scope.subject = $scope.filterSubjects[0].subjectId;
-        } else {
-           HomeService.getAllCategory().then(function (data) {
-             if (data.data.status) {
-               $scope.subjects = data.data.request_data_result;                 
-               $scope.filterSubjects = $scope.subjects.slice(0);
-               $scope.subjects.splice(0, 0, {
-                'subjectId': 0,
-                 'subject' : 'Select a Subject'
-               });
-               $scope.addSubject = $scope.subjects[0].subjectId;               
-               $scope.filterSubjects.splice(0, 0, {
-                'subjectId': 0,
-                'subject' : 'All'
-               });
-               $scope.subject = $scope.filterSubjects[0].subjectId;               
-             }
-           });
-        }
+    function initSubject(){      
+
+      if (sub){    
+        var objArr = angular.copy(sub);
+        var objArr2 = angular.copy(sub);
+
+         if (objArr[0].subjectId != 0) {
+            objArr.splice(0, 0, {
+              'subjectId': 0,
+              'subject' : 'Select a Subject'
+            });
+            $scope.subjects = objArr;
+         }
+         $scope.addSubject = $scope.subjects[0].subjectId;    
+
+         if (objArr2[0].subjectId != 0) {
+            objArr2.splice(0, 0, {
+              'subjectId': 0,
+              'subject' : 'All'
+            });
+            $scope.filterSubjects = objArr2;
+         }           
+         $scope.subject = $scope.filterSubjects[0].subjectId;
+      } else{
+        HomeService.getAllCategory().then(function (data) {
+           if (data.data.status) {
+              localStorage.setItem("subjects", data.data.request_data_result);
+              var objArr = angular.copy(data.data.request_data_result);
+              // objArr.push(data.data.request_data_result.splice(0));
+              var objArr2 = angular.copy(data.data.request_data_result);
+              // objArr2.push(data.data.request_data_result.splice(0));
+
+             objArr.splice(0, 0, {
+              'subjectId': 0,
+               'subject' : 'Select a Subject'
+             });
+             $scope.subjects = objArr;             
+             $scope.addSubject = $scope.subjects[0].subjectId;  
+
+             objArr2.splice(0, 0, {
+              'subjectId': 0,
+              'subject' : 'All'
+             });
+             $scope.filterSubjects = objArr2;
+             $scope.subject = $scope.filterSubjects[0].subjectId;               
+           }
+         });
       }      
     }
 
