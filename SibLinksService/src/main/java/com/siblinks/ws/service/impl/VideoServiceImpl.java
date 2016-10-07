@@ -2127,9 +2127,29 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject = dao.readObjects(entityName, queryParams);
         if (readObject != null && readObject.size() > 0) {
-            reponse = new SimpleResponse("" + true, "videos", "getVideos", readObject);
+            List<Object> result = new ArrayList<Object>();
+            List<Object> playlist = null;
+            // get Playlist information of video
+            Map<String, Object> map = null;
+            Map<String, Object> tmp = new HashMap<String, Object>();
+            for (Object object : readObject) {
+                map = (Map<String, Object>) object;
+                playlist = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_INFO_OF_VIDEO, new Object[] { map.get("vid") });
+                if (playlist != null && playlist.size() > 0) {
+                    for (Object item : playlist) {
+                        tmp = (Map<String, Object>) item;
+                        map.put("plid", tmp.get("plid"));
+                        map.put("playlistname", tmp.get("name"));
+                    }                    
+                } else {
+                    map.put("plid", null);
+                    map.put("playlistname", null);
+                }
+                result.add(map);
+            }
+            reponse = new SimpleResponse("" + true, "videos", "getVideosBySubject", result);
         } else {
-            reponse = new SimpleResponse("" + true, "videos", "getVideos", SibConstants.NO_DATA);
+            reponse = new SimpleResponse("" + true, "videos", "getVideosBySubject", SibConstants.NO_DATA);
         }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;

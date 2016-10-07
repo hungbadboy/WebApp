@@ -17,14 +17,27 @@ brotControllers.controller('PlaylistController',
     }
 
     function initSubject(){
+      var item = {
+        'subjectId': 0,
+        'subject' : 'Select Subject'
+      }
       if (myCache.get("subjects") !== undefined) {
          $scope.subjects = myCache.get("subjects");
+         $scope.subjects.splice(0, 0, item);
+         $scope.subject = $scope.subjects[0].subjectId;
+         $scope.addSubject = $scope.subjects[0].subjectId;
       } else {
          HomeService.getAllCategory().then(function (data) {
-             if (data.data.status) {
-                 $scope.subjects = data.data.request_data_result;
-                 myCache.put("subjects", data.data.request_data_result);
-             }
+           if (data.data.status) {
+             $scope.subjects = data.data.request_data_result;                 
+             myCache.put("subjects", data.data.request_data_result);
+
+             if ($scope.subjects) {
+              $scope.subjects.splice(0, 0, item);
+              $scope.subject = $scope.subjects[0].subjectId;
+              $scope.addSubject = $scope.subjects[0].subjectId;
+             } 
+           }
          });
       }
     }
@@ -44,7 +57,9 @@ brotControllers.controller('PlaylistController',
                $scope.playlist = parseData(data.data.request_data_result);   
                cachePlaylist.length = 0;
                cachePlaylist = $scope.playlist.slice(0);
-            }  
+            } else
+              $scope.playlist = null;
+            console.log($scope.playlist);
         });
     }
 
@@ -89,7 +104,7 @@ brotControllers.controller('PlaylistController',
         alert('Please remove all videos in the playlist first.');
       } else{
         if (confirm("Are you sure?")) {
-          PlaylistService.deletePlaylist(id).then(function(data){
+          PlaylistService.deletePlaylist(p.plid, userId).then(function(data){
             if (data.data.status) {
                loadPlaylist();         
             }
@@ -130,10 +145,13 @@ brotControllers.controller('PlaylistController',
       return selectedPlaylist;
     }
 
-    $scope.loadPlaylistBySubject = function(){
+    $scope.loadPlaylistBySubject = function(e){
+      $scope.subject = e;
+      console.log($scope.subject);
       if($scope.subject == 0){
         if(cachePlaylist.length > 0) {
-          $scope.playlist.length = 0;
+          if ($scope.playlist && $scope.playlist.length > 0)
+            $scope.playlist = null;
           $scope.playlist = cachePlaylist.slice(0);
         } else{
           loadPlaylist();
@@ -199,13 +217,13 @@ brotControllers.controller('PlaylistController',
 
     $scope.add = function(){
       var title = $('#txtTitle').val();
-      var subject = $('#playlistSubject').val();
+      // var subject = $('#playlistSubject').val();
 
       if (title == null || title.trim().length == 0) {
         $scope.error = 'Please input playlist title. \n'; 
         angular.element('#txtTitle').trigger('focus');
         return;
-      } else if (subject == 0) {
+      } else if ($scope.addSubject == 0) {
         $scope.error = 'Please select playlist subject. \n';  
         angular.element('#playlistSubject').trigger('focus');       
         return;
@@ -222,7 +240,7 @@ brotControllers.controller('PlaylistController',
       fd.append('title', title);
       fd.append('description', $('#txtDescription').val());
       fd.append('url', null);
-      fd.append('subjectId', subject);
+      fd.append('subjectId', $scope.addSubject);
       fd.append('createBy', userId);
 
       PlaylistService.insertPlaylist(fd).then(function(data){
@@ -236,6 +254,11 @@ brotControllers.controller('PlaylistController',
           $scope.error = data.data.request_data_result;
         }
       });
+    }
+
+    $scope.changeAddValue = function(e){
+      $scope.addSubject = e;
+      console.log($scope.addSubject);
     }
 
     $scope.openEdit = function(plid){

@@ -26,9 +26,7 @@
                                     </form>
                                 </div>
                                 <div class="col-md-3 sl-sbj">
-                                    <select class="select-sbj" ng-model="subject" ng-change="loadPlaylistBySubject()">
-                                        <option value="0">Select Subjects</option>
-                                        <option ng-repeat="s in subjects track by $index" value="{{s.subjectId}}">{{s.subject}}</option>
+                                    <select class="select-sbj" ng-model="subject" ng-change="loadPlaylistBySubject(subject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in subjects'>
                                     </select>
                                 </div>
                                 <!-- <div class="col-md-2 btn-filter"><button>Filter</button></div> -->
@@ -52,9 +50,7 @@
                                             <textarea name="desciptions" rows="6" cols="5" id="txtDescription" class="form-control textarea-custom" placeholder="Desciptions"></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <select id="playlistSubject" data-ng-model="playlistSubject" class="form-control">
-                                                <option value="0">Select Subject</option>
-                                                <option ng-repeat="s in subjects track by $index" value="{{s.subjectId}}">{{s.subject}}</option>
+                                            <select class="select-sbj" ng-model="addSubject" ng-change="changeAddValue(addSubject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in subjects'>
                                             </select>
                                         </div>
                                         <div class="form-group">

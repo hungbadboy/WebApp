@@ -86,7 +86,7 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
         return promise;
     };
 
-    factory.deletePlaylist = function(id) {      
+    factory.deletePlaylist = function(id, uid) {      
 
         var promise =  $http({
             method: 'POST',
@@ -95,7 +95,8 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
               "request_data_type": "playlist",
               "request_data_method": "deletePlaylist",
               "request_playlist":{
-                "plid": id 
+                "plid": id,
+                "createBy":uid
               }            
             }    
         });

@@ -16,17 +16,30 @@ brotControllers.controller('VideoManagerController',
     init();
 
     function init(){
-      loadSubjects();
+      initSubject();
       loadVideos();
       getAllVideos();
     }
 
-    function loadSubjects(){      
-      MentorService.getAllSubjects(userId).then(function (data) {
-        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-          $scope.listSubjects = data.data.request_data_result;
-        }
-      });
+    function initSubject(){
+      var item = {
+        'subjectId': 0,
+        'subject' : 'Select Subject'
+       }
+      if (myCache.get("subjects") !== undefined) {
+         $scope.subjects = myCache.get("subjects");
+         $scope.subjects.splice(0, 0, item);
+         $scope.subject = $scope.subjects[0].subjectId;
+      } else {
+         HomeService.getAllCategory().then(function (data) {
+             if (data.data.status) {
+                 $scope.subjects = data.data.request_data_result;                 
+                 myCache.put("subjects", data.data.request_data_result);
+                 $scope.subjects.splice(0, 0, item);
+                 $scope.subject = $scope.subjects[0].subjectId;
+             }
+         });
+      }
     }
 
     function loadVideos(){
@@ -65,10 +78,13 @@ brotControllers.controller('VideoManagerController',
       });
     }
 
-    $scope.loadVideosBySubject = function(){
+    $scope.loadVideosBySubject = function(e){
+      $scope.subject = e;
+      console.log($scope.subject);
       if($scope.subject == 0){
         if(cacheVideos.length > 0) {
-          $scope.videos.length = 0;
+          if ($scope.videos && $scope.videos,length > 0)
+            $scope.videos = null;
           $scope.videos = cacheVideos.slice(0);
         } else{
           loadVideos();
@@ -81,6 +97,7 @@ brotControllers.controller('VideoManagerController',
             $scope.videos = null;
         });
       }
+      console.log($scope.videos);
     };
 
     $scope.loadMoreVideosBySubject = function(){

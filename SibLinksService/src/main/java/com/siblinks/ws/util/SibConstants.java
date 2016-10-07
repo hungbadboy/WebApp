@@ -622,5 +622,6 @@ public class SibConstants {
         public static final String SQL_DELETE_VIDEO_IN_PLAYLIST = "DELETE_VIDEO_IN_PLAYLIST";
         public static final String SQL_GET_ALL_PLAYLIST = "GET_ALL_PLAYLIST";
         public static final String SQL_GET_ALL_STUDENT_SUBSCRIBED = "GET_ALL_STUDENT_SUBSCRIBED";
+        public static final String SQL_GET_PLAYLIST_INFO_OF_VIDEO = "GET_PLAYLIST_INFO_OF_VIDEO";
     }
 }
