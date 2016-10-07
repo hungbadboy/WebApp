@@ -78,6 +78,7 @@ public class SibConstants {
      * @version 1.0
      */
     public class SqlMapper {
+        public static final String SQL_GET_DATE_TIME = "GET_DATE_TIME";
         public static final String SQL_VIDEO_DATA_READ = "VIDEO_DATA_READ";
         public static final String SQL_SIB_REGISTER_USER = "SIB_REGISTER_USER";
         public static final String SQL_SIB_ADMIN_REGISTER_USER = "SIB_ADMIN_REGISTER_USER";
@@ -338,6 +339,7 @@ public class SibConstants {
         public static final String SQL_GET_ADDRESS_WEB = "GET_ADDRESS_WEB";
         public static final String SQL_GET_POLICY = "GET_POLICY";
         public static final String SQL_GET_TERMS = "GET_TERMS";
+        // Notification
         public static final String SQL_CREATE_NOTIFICATION_QUESTION = "CREATE_NOTIFICATION_QUESTION";
         public static final String SQL_CREATE_NOTIFICATION_VIDEO = "CREATE_NOTIFICATION_VIDEO";
         public static final String SQL_CREATE_NOTIFICATION_VIDEO_ADMISSION = "CREATE_NOTIFICATION_VIDEO_ADMISSION";
@@ -351,6 +353,7 @@ public class SibConstants {
         public static final String SQL_UPDATE_STATUS_ALL_NOTIFICATION = "UPDATE_STATUS_ALL_NOTIFICATION";
         public static final String SQL_GET_ALL_NOTIFICATION = "GET_ALL_NOTIFICATION";
         public static final String SQL_GET_ALL_NOTIFICATION_COUNT = "GET_ALL_NOTIFICATION_COUNT";
+        // End notification
         public static final String SQL_GET_LIKE_POST_BY_USER = "GET_LIKE_POST_BY_USER";
         public static final String SQL_GET_USER_POST_VIDEO = "GET_USER_POST_VIDEO";
         public static final String SQL_GET_INFO_ARTICLE = "GET_INFO_ARTICLE";

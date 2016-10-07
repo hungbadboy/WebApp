@@ -9,7 +9,13 @@ $rootScope.page = 1;
 init();
 
 function init() {
-
+	if(userId == null || userId === undefined) {
+		return;
+	}
+	
+/**
+ * Get Notification read
+ */
   NotificationService.getNotificationReaded(userId).then(function(data) {
     if(data.data.request_data_result.length > 0) {
       $scope.listNotifications = data.data.request_data_result;
@@ -24,7 +30,10 @@ function init() {
       $scope.errorData = DATA_ERROR_NOTIFICATION.noNewNotification;
     }
   });
-
+  
+/**
+ * Get all notification of user
+ */
   NotificationService.getAllNotification(userId, $rootScope.page).then(function(data) {
     $scope.notificationsAll = data.data.request_data_result;
     $scope.countAll = data.data.count;
@@ -41,6 +50,9 @@ function init() {
   });
 }
 
+/**
+ * Get Detail
+ */
 $scope.notificationDetail = function(nid, subjectId, topicId, videoId, questionId, articleId, idSubAdmission, idTopicSubAdmission, idEssay) {
   NotificationService.getNotificationByUserId(userId).then(function(data) {
     $scope.listNotifications = data.data.request_data_result;
@@ -113,11 +125,9 @@ $scope.addClassActive = function(page) {
   return '';
 };
 
-// $scope.addClassHidden = function(status) {
-//   if(status == 'Y') {
-//     return 'hiddenNotification';
-//   }
-//   return '';
-// };
+$scope.convertUnixTimeToTime = function (time) {
+    return convertUnixTimeToTime(time);
+};
+
 }]);
 //=========================================== NOTIFICATION.CONTROLLER.JS==============

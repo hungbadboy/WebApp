@@ -220,7 +220,7 @@ public class ObjectDaoImpl implements ObjectDao {
                 env.getProperty(dsConfigName),
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
-            int numRows = stmt.executeUpdate();
+            stmt.executeUpdate();
         } catch (Exception e) {
             flag = false;
             e.printStackTrace();
@@ -233,9 +233,7 @@ public class ObjectDaoImpl implements ObjectDao {
 
         CommonUtil util = CommonUtil.getInstance();
         logger.info("ssn " + dsConfigName, new Date());
-        String query = util.getQueryNotResource(dsConfigName);
         List<Object> listUser = new ArrayList<Object>();
-        logger.debug(query);
         try {
             Connection conn = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement stmt = conn.prepareStatement(

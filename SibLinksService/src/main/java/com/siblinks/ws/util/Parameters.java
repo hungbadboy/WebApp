@@ -41,4 +41,5 @@ public class Parameters {
     public static final String LIKEANSWER =  "likeAnswer";
     public static final String VALUE_OF = "valueof";
     public static final String PARENT_ID = "parentId";
+    public static final String CURRENT_TIME = "currentTime";
 }
