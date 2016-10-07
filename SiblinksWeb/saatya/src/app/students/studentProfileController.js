@@ -32,13 +32,15 @@ brotControllers.controller('StudentProfileController',
 
             function init() {
                 getMentorInfo();
+                if(mentorId != undefined){
+                    getVideosRecently();
+                    isSubscribed();
+                    getNewestAnswers(mentorId, 6, 0);
+                    getInfoMentorProfile();
+                }
                 getStudentProfile();
-                getInfoMentorProfile();
                 getEssayProfile();
                 getMyQuestions(userId, limit, offset, "newest", "-1", "-1");
-                getVideosRecently();
-                getNewestAnswers(mentorId, 6, 0);
-                isSubscribed();
             }
 
 
@@ -313,7 +315,7 @@ brotControllers.controller('StudentProfileController',
                         'username': userName,
                         'password': oldPwd,
                         'newpassword': newPwd
-                    }
+                    };
 
                     StudentService.changePassword(user).then(function (data) {
                         console.log(data.data.request_data_result);

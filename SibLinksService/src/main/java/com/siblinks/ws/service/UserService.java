@@ -68,7 +68,6 @@ public interface UserService {
 
 	public ResponseEntity<Response> listCategory(RequestData request);
 
-	public ResponseEntity<Response> forgotPassword(RequestData request);
 
     /**
      * This method is confirm token for forget password
