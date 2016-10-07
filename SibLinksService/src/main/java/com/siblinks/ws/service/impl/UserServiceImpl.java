@@ -1454,7 +1454,7 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/uploadAvartar", method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Response> uploadAvatar(@RequestParam("uploadfile") final MultipartFile uploadfile,
             @RequestParam(value = "userid") final String userid, @RequestParam("imageUrl") final String oldNameImgAvatar)
