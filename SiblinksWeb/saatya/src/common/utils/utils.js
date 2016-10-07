@@ -271,14 +271,16 @@ function getSubjectNameById(strSubjectId, listcate) {
         listSubject.push(subject);
         return listSubject;
     }
-    if (strSubjectId.indexOf(',') < -1) {
+    if (strSubjectId.indexOf(',') < 0) {
         for (var y = 0; y < listcate.length; y++) {
             if (listcate[y].subjectId == strSubjectId) {
                 subject.id = strSubjectId;
                 subject.name = listcate[y].subject;
                 subject.level = listcate[y].level;
                 subject.parentId = listcate[y].parentId;
-                return listSubject.push(subject);
+                listSubject.push(subject);
+                return listSubject;
+
             }
 
         }

@@ -1,49 +1,55 @@
 //=========================================== HEADER.CONTROLLER.JS==============
 brotControllers.controller('UserHeaderController',
-    ['$scope', '$modal', '$rootScope', '$http', '$location', '$log', 'NotificationService', 'LogoutService','myCache','HomeService',
-        function ($scope, $modal, $rootScope, $http, $location, $log, NotificationService, LogoutService,myCache, HomeService) {
+    ['$scope', '$modal', '$rootScope', '$http', '$location', '$log', 'NotificationService', 'LogoutService', 'myCache', 'HomeService',
+        function ($scope, $modal, $rootScope, $http, $location, $log, NotificationService, LogoutService, myCache, HomeService) {
             // check login page
             brot.signin.statusStorageHtml();
             $scope.isHidden = false;
             $rootScope.notifications = [];
             // include
-            $scope.headerByUser="src/app/header/CommonHeader.tpl.html";
+            $scope.headerByUser = "src/app/header/CommonHeader.tpl.html";
             //$scope.menuHeader="src/app/header/menuHeader.tpl.html";
-            
-            $scope.footerUser="";
+
+            $scope.footerUser = "";
             var username = localStorage.getItem('userName');
             var userId = "";
             var userType = "";
-            
-            $scope.imageUrl = "";
+
+            $rootScope.imageUrl = "";
 
             $scope.fullName = localStorage.getItem('nameHome');
-            
-            if (localStorage.getItem('imageUrl') !== undefined && localStorage.getItem('imageUrl') !='undefined') {
-            	$scope.imageUrl = localStorage.getItem('imageUrl')
-            };
-            
+
+            if (localStorage.getItem('imageUrl') !== undefined && localStorage.getItem('imageUrl') != 'undefined') {
+                // $scope.imageUrl = localStorage.getItem('imageUrl');
+                // if($rootScope.imageUrl != undefined || $rootScope.imageUrl != null){
+                //    $scope.imageUrl = $rootScope.imageUrl;
+                // }else{
+                $rootScope.imageUrl = localStorage.getItem('imageUrl') != null ? localStorage.getItem('imageUrl') : 'assets/images/noavartar.jpg';
+                // }
+            }
+            ;
+
             if (localStorage.getItem('userId') !== undefined || localStorage.getItem('userId') != 'undefined') {
                 userId = localStorage.getItem('userId');
             }
-            
+
             if (localStorage.getItem('userType') !== undefined || localStorage.getItem('userType') != 'undefined') {
-            	userType = localStorage.getItem('userType');
+                userType = localStorage.getItem('userType');
             }
-			//	  $('.icon_search').on('click', function () {
-			//	    $('.form_search').removeClass('hide').find('input').focus();
-			//	    hideNotification();
-			//	    hideProfileSetting();
-			//	  });
-			//
-			//	  $(document).on('click', function (e) {
-			//	    if(e.target != $('.form_search') && e.target.id != 'img-search' && !$('.form_search').find(e.target).length) {
-			//	      $('.form_search').addClass('hide');
-			//	      $('#header .w975').find('.search-text').val('');
-			//	      $('.form_search').find('.dropdown').removeClass('open');
-			//	      $(".check-search").prop('checked', false); 
-			//	    }
-			//	  });
+            //	  $('.icon_search').on('click', function () {
+            //	    $('.form_search').removeClass('hide').find('input').focus();
+            //	    hideNotification();
+            //	    hideProfileSetting();
+            //	  });
+            //
+            //	  $(document).on('click', function (e) {
+            //	    if(e.target != $('.form_search') && e.target.id != 'img-search' && !$('.form_search').find(e.target).length) {
+            //	      $('.form_search').addClass('hide');
+            //	      $('#header .w975').find('.search-text').val('');
+            //	      $('.form_search').find('.dropdown').removeClass('open');
+            //	      $(".check-search").prop('checked', false);
+            //	    }
+            //	  });
 
             $scope.profile = function () {
 //                $('.user-setting-wrapper span.current').trigger('click');
@@ -75,14 +81,14 @@ brotControllers.controller('UserHeaderController',
 //            };
 
             function init() {
-            	// 
+                //
                 // show or hide notification panel
-                if(myCache.get("subjects") !== undefined) {
+                if (myCache.get("subjects") !== undefined) {
                     $log.info("My cache already exists");
                     $scope.subjects = myCache.get("subjects");
                 } else {
-                    HomeService.getAllCategory().then(function(data) {
-                        if(data.data.status) {
+                    HomeService.getAllCategory().then(function (data) {
+                        if (data.data.status) {
                             $log.info("Get service subject with category");
                             $scope.subjects = data.data.request_data_result;
                             myCache.put("subjects", data.data.request_data_result);
@@ -144,16 +150,16 @@ brotControllers.controller('UserHeaderController',
 //                    });
                     // hide login
                     if (userType != null && userType != undefined && userType == 'S') {
-                    	$scope.headerByUser="src/app/header/StudentHeader.tpl.html";
-                    	$scope.footerUser="src/app/footer/footer.tpl.html";
+                        $scope.headerByUser = "src/app/header/StudentHeader.tpl.html";
+                        $scope.footerUser = "src/app/footer/footer.tpl.html";
                     } else if (userType != null && userType != undefined && userType == 'M') {
-                    	$scope.headerByUser="src/app/header/MentorHeader.tpl.html";
+                        $scope.headerByUser = "src/app/header/MentorHeader.tpl.html";
                     }
                 } else {
-                	// User is not yet login
-                	$scope.headerByUser="src/app/header/CommonHeader.tpl.html";
-                	$scope.footerUser="src/app/footer/footer.tpl.html";
-                    
+                    // User is not yet login
+                    $scope.headerByUser = "src/app/header/CommonHeader.tpl.html";
+                    $scope.footerUser = "src/app/footer/footer.tpl.html";
+
                 }
             }
 
@@ -255,34 +261,34 @@ brotControllers.controller('UserHeaderController',
 //                    $('.form_search').find('.dropdown').addClass('open');
 //                }
             };
-            
-            
+
+
             // Toggle user information
             $scope.isShowHideUserInfo = true;
-            $scope.toggleUserInfo = function() {
-            	$scope.isShowHideUserInfo = $scope.isShowHideUserInfo ? false : true;
-            	isToggleUserInfo = true;
-      	  	}
+            $scope.toggleUserInfo = function () {
+                $scope.isShowHideUserInfo = $scope.isShowHideUserInfo ? false : true;
+                isToggleUserInfo = true;
+            }
 
-            $scope.showUpload = function(){
+            $scope.showUpload = function () {
                 var modalInstance = $modal.open({
-                templateUrl: 'src/app/mentors/video/upload_tutorial_popup.tpl.html',
-                controller: 'UploadTutorialController',
-                resolve: {
-                    u_id: function () {
-                        return userId;
-                    },
-                    v_id: function(){
-                        return -1;
+                    templateUrl: 'src/app/mentors/video/upload_tutorial_popup.tpl.html',
+                    controller: 'UploadTutorialController',
+                    resolve: {
+                        u_id: function () {
+                            return userId;
+                        },
+                        v_id: function () {
+                            return -1;
+                        }
                     }
-                }
-              });                
+                });
             }
             /**
              * Show small left side bar
              */
             $scope.showSmallLeftSideBar = function showSmallLeftSideBar() {
-            	angular.element(".mentor-left-header, #sidebar-menu, .mentor-center-header, .center-content").toggleClass("in");
+                angular.element(".mentor-left-header, #sidebar-menu, .mentor-center-header, .center-content").toggleClass("in");
             }
         }]);
 //=========================================== HEADER.CONTROLLER.JS==============
