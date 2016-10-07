@@ -1,6 +1,6 @@
 brotControllers.controller('StudentProfileController',
-    ['$sce', '$scope', '$modal', '$routeParams', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService',
-        function ($sce, $scope, $modal, $routeParams, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService) {
+    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope','$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService',
+        function ($sce, $scope, $modal, $routeParams, $rootScope,$http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService) {
             var userId = localStorage.getItem('userId');
             var userName = localStorage.getItem('userName');
             var userType = localStorage.getItem('userType');
@@ -32,7 +32,7 @@ brotControllers.controller('StudentProfileController',
 
             function init() {
                 getMentorInfo();
-                if(mentorId != undefined){
+                if (mentorId != undefined) {
                     getVideosRecently();
                     isSubscribed();
                     getNewestAnswers(mentorId, 6, 0);
@@ -141,9 +141,9 @@ brotControllers.controller('StudentProfileController',
                 StudentService.checkSubscribe(userId, mentorId).then(function (dataResponse) {
                     if (dataResponse.data.status == "false" || dataResponse.data.request_data_result == false
                         || dataResponse.data.request_data_result == StatusError.MSG_USER_ID_NOT_EXIST) {
-                        $scope.isSubscribe =  false;
+                        $scope.isSubscribe = false;
                     } else {
-                        $scope.isSubscribe =  dataResponse.data.request_data_result;
+                        $scope.isSubscribe = dataResponse.data.request_data_result;
                     }
                 });
             }
@@ -186,40 +186,41 @@ brotControllers.controller('StudentProfileController',
             }
 
 
-            function getStudentProfile() {
-                StudentService.getUserProfile(userId).then(function (data) {
-                    if (data.data.status) {
-                        $scope.student = data.data.request_data_result;
-                        $scope.student.fullName = (($scope.student.firstname == null) ? '' : $scope.student.firstname) + ' ' + (($scope.student.firstname == null) ? '' : $scope.student.lastName);
-                        //$scope.student.imageUrl =  //$scope.student.imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + $scope.student.imageUrl : $scope.student.imageUrl;
-                        $scope.student.registrationTime = moment($scope.student.registrationTime).format('MMM, YYYY ', 'en');
-                        if ($scope.student.gender == "M") {
-                            $('#male').prop('checked', true);
-                            $scope.student.gender = "Male";
-                        }
-                        if ($scope.student.gender == "F") {
-                            $('#female').prop('checked', true);
-                            $scope.student.gender = "Female";
-                        } else {
-                            $('#other').prop('checked', true);
-                            $scope.student.gender = "Other";
-                        }
-                        displaySetting();
-                    }
-                });
-            }
+            // function getStudentProfile() {
+            //     StudentService.getUserProfile(userId).then(function (data) {
+            //         if (data.data.status) {
+            //             $scope.student = data.data.request_data_result;
+            //             $scope.student.fullName = (($scope.student.firstname == null) ? '' : $scope.student.firstname) + ' ' + (($scope.student.firstname == null) ? '' : $scope.student.lastName);
+            //             //$scope.student.imageUrl =  //$scope.student.imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + $scope.student.imageUrl : $scope.student.imageUrl;
+            //             $scope.student.registrationTime = moment($scope.student.registrationTime).format('MMM, YYYY ', 'en');
+            //             if ($scope.student.gender == "M") {
+            //                 $('#male').prop('checked', true);
+            //                 $scope.student.gender = "Male";
+            //             }
+            //             if ($scope.student.gender == "F") {
+            //                 $('#female').prop('checked', true);
+            //                 $scope.student.gender = "Female";
+            //             } else {
+            //                 $('#other').prop('checked', true);
+            //                 $scope.student.gender = "Other";
+            //             }
+            //             displaySetting();
+            //         }
+            //     });
+            // }
 
-            function displaySetting() {
-                $("#firstName").val($scope.student.firstname);
-                $("#lastName").val($scope.student.lastName);
-                $("#about").val($scope.student.description);
-                $("#email").val($scope.student.email);
-                $("#description").val($scope.student.description);
-                $("#bio").val($scope.student.bio);
+            function displayInformation() {
+                $("#firstName").val($scope.studentInfo.firstname);
+                $("#lastName").val($scope.studentInfo.lastName);
+                $("#about").val($scope.studentInfo.description);
+                $("#email").val($scope.studentInfo.email);
+                $("#description").val($scope.studentInfo.description);
+                $("#bod").val($scope.birthDay);
+                $("#school").val($scope.studentInfo.school);
 
                 // Get favourite
-                if ($scope.student.favorite != null && $scope.student.favorite !== undefined) {
-                    var favorite = $scope.student.favorite.split(',');
+                if ($scope.studentInfo.favorite != null && $scope.studentInfo.favorite !== undefined) {
+                    var favorite = $scope.studentInfo.favorite.split(',');
                     for (var i = 0; i < favorite.length; i++) {
                         if (favorite[i] == 'Music') {
                             $('#music').prop('checked', true);
@@ -245,7 +246,7 @@ brotControllers.controller('StudentProfileController',
                 var listImage = [];
                 listImage.push(imagePath)
                 return listImage;
-            };
+            }
 
             // $scope.setMaster = function (section) {
             //     $scope.selected = section;
@@ -279,18 +280,16 @@ brotControllers.controller('StudentProfileController',
                     fd.append("imageUrl", localStorage.getItem('imageUrl'));
                     StudentService.uploadAvatar(fd).then(function (data) {
                         if (data.data.status == "true") {
-                            $scope.student.imageUrl = data.data.request_data_result;
-                            setStorage('imageUrl', $scope.student.imageUrl, 10);
-                            $scope.imageUrl = data.data.request_data_result;
-                            window.location.href = '#student/studentProfile';
-                            window.location.reload();
+                            var urlImage = data.data.request_data_result;
+                            setStorage('imageUrl', urlImage, 10);
+                            $scope.studentInfo.imageUrl = urlImage;
+                            $rootScope.imageUrl = urlImage;
                         }
                         else {
                             $scope.errorMessage = "Can't not upload avatar";
                         }
                     });
                 }
-
             };
 
             $scope.changePassword = function (oldPwd, newPwd, confirmPwd) {
@@ -328,7 +327,7 @@ brotControllers.controller('StudentProfileController',
                 }
             };
 
-            $scope.update = function () {
+            $scope.updateProfile = function () {
                 var check = true;
 
                 var favorite = "";
@@ -361,7 +360,7 @@ brotControllers.controller('StudentProfileController',
 
                 if (!isValidEmailAddress($('#email').val())) {
                     check = false;
-                    $scope.error = "Email is not valid";
+                    $scope.msgError = "Email is not valid";
                     angular.element('#email').trigger('focus');
                 }
 
@@ -373,21 +372,31 @@ brotControllers.controller('StudentProfileController',
                         'email': $('#email').val(),
                         'gender': gender,
                         'school': $('#school').val(),
-                        'bio': $('#bio').val(),
+                        'bio': $('#bod').val(),
                         'description': $('#about').val(),
                         'favorite': favorite
                     };
                     console.log(student);
                     StudentService.updateUserProfile(student).then(function (data) {
                         if (data.data.request_data_result == "Success") {
-                            $scope.success = "Change information successful.";
+                            if (student) {
+                                $scope.studentInfo.firstname = student.firstName;
+                                $scope.studentInfo.lastName = student.lastName;
+                                $scope.gender = validateGender(student.gender);
+                                $scope.studentInfo.favorite = student.favorite;
+                                $scope.studentInfo.description = student.description;
+                                $scope.studentInfo.school = student.school;
+                                $scope.studentInfo.email = student.email;
+                                $scope.studentInfo.bio = student.bio;
+                            }
+                            $scope.msgSuccess = "Update Profile Successful !";
                         }
                         else {
-                            $scope.error = data.data.request_data_result;
+                            $scope.msgError = "Update Profile Failure !";
                         }
                     });
                 }
-            }
+            };
 
             /**
              * Get my question
@@ -526,4 +535,51 @@ brotControllers.controller('StudentProfileController',
             $scope.detailQuestion = function (id) {
                 window.location.href = '/#/question_detail/' + id + "";
             }
+
+            /**
+             * @author: Tavv
+             */
+
+            function getStudentProfile() {
+                if (userId == undefined) {
+                    return;
+                }
+                StudentService.getUserProfile(userId).then(function (dataResponse) {
+                    if (dataResponse.data.status) {
+                        if (dataResponse.data.request_data_result == StatusError.MSG_USER_ID_NOT_EXIST) {
+                            $scope.studentInfo = null;
+                            return;
+                        }
+                        var subjects = myCache.get("subjects");
+                        $scope.studentInfo = dataResponse.data.request_data_result;
+                        $scope.studentInfo.imageUrl = $scope.studentInfo.imageUrl != null ? $scope.studentInfo.imageUrl : "assets/images/noavartar.jpg";
+                        var gender = $scope.studentInfo.gender;
+                        $scope.gender = validateGender(gender);
+                        var bioTimeStamp = $scope.studentInfo.birthDay;
+                        var registrationTime = $scope.studentInfo.registrationTime;
+                        $scope.birthDay = timeConverter(bioTimeStamp, FormatDateTimeType.DD_MM_YY);
+                        $scope.sinceDay = timeConverter(registrationTime, FormatDateTimeType.MM_YY);
+                        $scope.isLoginViaFBOrGoogle = $scope.studentInfo.idFacebook != null || $scope.studentInfo.idGoogle != null;
+                        if (subjects) {
+                            var subsName = getSubjectNameById($scope.studentInfo.defaultSubjectId, subjects);
+                            if (subsName.length != 0 || subsName != undefined) {
+                                var listSubs = [];
+                                subsName.forEach(function (sub) {
+                                    if (subsName.length - 1) {
+                                        listSubs.push(sub.name);
+                                    }
+                                });
+                                $scope.subjects = listSubs.join(', ');
+                            } else {
+                                $scope.subjects = "None";
+                            }
+                        } else {
+                            $scope.subjects = "None";
+                        }
+                    }
+                    displayInformation();
+                });
+
+            }
+
         }]);

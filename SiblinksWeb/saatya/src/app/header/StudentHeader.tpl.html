@@ -33,8 +33,8 @@
         <!-- nofitication of user -->
             <div class="user-nofitication">
                 <div id="notification" class="logined">
-                    <div class="notification">
-                        <img src="assets/images/bell.png"><span ng-if="countNotification > 0" ng-click="popupNotification()">{{countNotification}}</span>
+                    <div class="notification" ng-click="popupNotification()">
+                        <img src="assets/images/bell.png"><span ng-if="countNotification > 0">{{countNotification}}</span>
                     </div>
                     <div class="user-login">
                         <div class="user-img">
@@ -52,6 +52,8 @@
                 </div>
             </div>
         </div>
-    </div>
 </div><!-- /module-navigation -->
 <div class="background-color"></div>
+<!-- Notification -->
+<div class="notification-content" ng-include="'src/app/notification/notification.tpl.html'" ng-controller="NotificationCtrl"></div><!-- /End Notification -->
+

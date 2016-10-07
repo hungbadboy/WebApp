@@ -5,7 +5,7 @@ brotControllers.controller('PlaylistController',
 
     var userId = localStorage.getItem('userId'); 
     var cachePlaylist = [];
-
+    
     init();
 
     function init(){
@@ -15,29 +15,39 @@ brotControllers.controller('PlaylistController',
     }
 
     function initSubject(){
-      var item = {
-        'subjectId': 0,
-        'subject' : 'Select Subject'
-      }
-      if (myCache.get("subjects") !== undefined) {
-         $scope.subjects = myCache.get("subjects");
-         $scope.subjects.splice(0, 0, item);
-         $scope.subject = $scope.subjects[0].subjectId;
-         $scope.addSubject = $scope.subjects[0].subjectId;
-      } else {
-         HomeService.getAllCategory().then(function (data) {
-           if (data.data.status) {
-             $scope.subjects = data.data.request_data_result;                 
-             myCache.put("subjects", data.data.request_data_result);
-
-             if ($scope.subjects) {
-              $scope.subjects.splice(0, 0, item);
-              $scope.subject = $scope.subjects[0].subjectId;
-              $scope.addSubject = $scope.subjects[0].subjectId;
-             } 
-           }
-         });
-      }
+      if ($scope.subjects == undefined){        
+        if (myCache.get("subjects") !== undefined) {
+           $scope.subjects = myCache.get("subjects");
+           $scope.filterSubjects = $scope.slice(0);
+           $scope.subjects.splice(0, 0, {
+            'subjectId': 0,
+            'subject' : 'Select a Subject'
+           }); 
+           $scope.addSubject = $scope.subjects[0].subjectId;           
+           $scope.filterSubjects.splice(0, 0, {
+            'subjectId': 0,
+            'subject' : 'All'
+           });
+           $scope.subject = $scope.filterSubjects[0].subjectId;
+        } else {
+           HomeService.getAllCategory().then(function (data) {
+             if (data.data.status) {
+               $scope.subjects = data.data.request_data_result;                 
+               $scope.filterSubjects = $scope.subjects.slice(0);
+               $scope.subjects.splice(0, 0, {
+                'subjectId': 0,
+                 'subject' : 'Select a Subject'
+               });
+               $scope.addSubject = $scope.subjects[0].subjectId;               
+               $scope.filterSubjects.splice(0, 0, {
+                'subjectId': 0,
+                'subject' : 'All'
+               });
+               $scope.subject = $scope.filterSubjects[0].subjectId;               
+             }
+           });
+        }
+      }      
     }
 
     function getAllPlaylist(){

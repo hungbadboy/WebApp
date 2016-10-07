@@ -2,6 +2,9 @@ var SERVICE_URL = 'http://ec2-54-200-200-106.us-west-2.compute.amazonaws.com:808
 //var SERVICE_URL = 
 var NEW_SERVICE_URL //@webserviceurl
     ;
+
+var serverDateTime= null;
+
 var SUBJECT_MAP_IMG = {
     'maths': {
         'white': 'assets/img/calc.png',
@@ -121,7 +124,13 @@ function capitaliseFirstLetter(str) {
 }
 
 function convertUnixTimeToTime(time) {
-    var _now = Math.floor(Date.now() / 1000);
+	
+	if(serverDateTime == null || serverDateTime === undefined) {
+		console.log('serverDateTime is null');
+		serverDateTime = Date.now() / 1000;
+	}
+
+	var _now = Math.floor(serverDateTime);
     var _space = _now - time;
     var _secondDay = 3600 * 24;
     var _secondMonth = _secondDay * 30;
@@ -366,4 +375,19 @@ function timeConverter(timeStamp, typeFormat) {
     }
     // var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
     // return time;
+}
+
+function timeBackEnd() {
+    if (!serverDateTime) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", NEW_SERVICE_URL +"/timeDB", false);
+        xmlhttp.send();
+        var j = JSON.parse(xmlhttp.responseText);
+        console.log(j);
+        serverDateTime = new Date(j);
+        return;
+    }
+
+    // Increment time by 1 second
+    serverDateTime.setTime(serverDateTime.getTime() + 1000);
 }

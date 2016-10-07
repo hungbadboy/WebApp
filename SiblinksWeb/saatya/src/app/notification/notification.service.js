@@ -4,16 +4,8 @@ brotServices.factory('NotificationService', ['$http', function($http) {
 
   factory.getNotificationByUserId = function(userId) {
     var promise = $http({
-      method: 'POST',
-      url: NEW_SERVICE_URL + 'notification/getNotificationNotReaded',
-      data: {
-        "request_data_type": "notification",
-        "request_data_method": "getNotificationNotReaded",
-        "request_data": {
-          "uid": userId,
-          "status": "N"
-        }
-      }
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'notification/getNotificationNotReaded?uid='+userId+'&status=N'
     });
     return promise;
   };
@@ -36,17 +28,8 @@ brotServices.factory('NotificationService', ['$http', function($http) {
 
   factory.getAllNotification = function(userId, pageno) {
     var promise = $http({
-      method: 'POST',
-      url: NEW_SERVICE_URL + 'notification/getAllNotification',
-      data: {
-        "request_data_type": "notification",
-        "request_data_method": "getAllNotification",
-        "request_data": {
-          "uid": userId,
-          "pageno": pageno,
-          "limit": 7
-        }
-      }
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'notification/getAllNotification?uid='+userId+'&pageno='+pageno+'&limit=7'
     });
     return promise;
   };
@@ -68,15 +51,8 @@ brotServices.factory('NotificationService', ['$http', function($http) {
 
   factory.getNotificationReaded = function(userId) {
     var promise = $http({
-      method: 'POST',
-      url: NEW_SERVICE_URL + 'notification/getNotificationReaded',
-      data: {
-        "request_data_type": "notification",
-        "request_data_method": "getNotificationReaded",
-        "request_data": {
-          "uid": userId
-        }
-      }
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'notification/getNotificationReaded?uid='+userId
     });
     return promise;
   };

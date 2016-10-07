@@ -22,23 +22,26 @@ brotControllers.controller('VideoManagerController',
     }
 
     function initSubject(){
-      var item = {
-        'subjectId': 0,
-        'subject' : 'Select Subject'
-       }
-      if (myCache.get("subjects") !== undefined) {
-         $scope.subjects = myCache.get("subjects");
-         $scope.subjects.splice(0, 0, item);
-         $scope.subject = $scope.subjects[0].subjectId;
-      } else {
-         HomeService.getAllCategory().then(function (data) {
-             if (data.data.status) {
-                 $scope.subjects = data.data.request_data_result;                 
-                 myCache.put("subjects", data.data.request_data_result);
-                 $scope.subjects.splice(0, 0, item);
-                 $scope.subject = $scope.subjects[0].subjectId;
-             }
-         });
+      if ($scope.subjects == undefined) {
+        if (myCache.get("subjects") !== undefined) {
+           $scope.subjects = myCache.get("subjects");
+           $scope.subjects.splice(0, 0, {
+            'subjectId': 0,
+            'subject' : 'Select Subject'
+           });
+           $scope.subject = $scope.subjects[0].subjectId;
+        } else {
+           HomeService.getAllCategory().then(function (data) {
+               if (data.data.status) {
+                   $scope.subjects = data.data.request_data_result;                 
+                   $scope.subjects.splice(0, 0, {
+                    'subjectId': 0,
+                    'subject' : 'Select Subject'
+                   });
+                   $scope.subject = $scope.subjects[0].subjectId;
+               }
+           });
+        }
       }
     }
 

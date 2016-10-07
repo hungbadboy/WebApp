@@ -26,7 +26,7 @@
                                     </form>
                                 </div>
                                 <div class="col-md-3 sl-sbj">
-                                    <select class="select-sbj" ng-model="subject" ng-change="loadPlaylistBySubject(subject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in subjects'>
+                                    <select class="select-sbj" ng-model="subject" ng-change="loadPlaylistBySubject(subject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in filterSubjects'>
                                     </select>
                                 </div>
                                 <!-- <div class="col-md-2 btn-filter"><button>Filter</button></div> -->

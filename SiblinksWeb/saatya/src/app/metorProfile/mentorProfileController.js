@@ -1,6 +1,6 @@
 brotControllers.controller('MentorProfileController',
-    ['$sce', '$scope', '$modal', '$routeParams', '$http', '$location', 'MentorService', 'TeamMentorService', 'VideoService', 'StudentService', 'myCache',
-        function ($sce, $scope, $modal, $routeParams, $http, $location, MentorService, TeamMentorService, VideoService, StudentService, myCache) {
+    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'MentorService', 'TeamMentorService', 'VideoService', 'StudentService', 'myCache',
+        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, MentorService, TeamMentorService, VideoService, StudentService, myCache) {
 
             var userId = localStorage.getItem('userId');
             var userType = localStorage.getItem('userType');
@@ -18,6 +18,7 @@ brotControllers.controller('MentorProfileController',
             $scope.isSubscribe = 0;
 
             $scope.isLoginViaFBOrGoogle = false;
+            $scope.isHideMessage = true;
 
             init();
 
@@ -52,6 +53,7 @@ brotControllers.controller('MentorProfileController',
                         }
                         var subjects = myCache.get("subjects");
                         $scope.mentorInfo = dataResponse.data.request_data_result;
+                        $scope.mentorInfo.imageUrl = $scope.mentorInfo.imageUrl != null ? $scope.mentorInfo.imageUrl : "assets/images/noavartar.jpg";
                         var gender = $scope.mentorInfo.gender;
                         $scope.gender = validateGender(gender);
                         var bioTimeStamp = $scope.mentorInfo.birthDay;
@@ -182,9 +184,6 @@ brotControllers.controller('MentorProfileController',
                     else
                         favorite += $('input[name="sport"][value="Sport"]').val();
                 }
-
-                console.log(favorite);
-
                 var gender = '';
                 if ($('input[name="gender"][value="male"]').is(':checked')) {
                     gender = "M";
@@ -225,16 +224,25 @@ brotControllers.controller('MentorProfileController',
                                 $scope.mentorInfo.email = mentor.email;
                                 $scope.mentorInfo.bio = mentor.bio;
                             }
-                            console.log(data.data.request_data_result);
+                            $scope.msgSuccess = "Update Profile Successful !";
                         }
                         else {
-                            console.log(data.data.request_data_result);
+                            if(error != ''){
+                                $scope.msgError = error;
+                            }else{
+                                $scope.msgError = "Update Profile Failure";
+                            }
                         }
+                        $scope.isHideMessage = false;
                     });
                 }
                 else {
                     console.log(error);
                 }
+            };
+
+            $scope.changeTab = function () {
+                $scope.isHideMessage = true;
             };
 
 
@@ -245,7 +253,6 @@ brotControllers.controller('MentorProfileController',
             $scope.resetFormPwd = function () {
                 resetFormPwd();
             };
-
 
             function resetFormPwd(){
                 $('#password').val('');
@@ -283,13 +290,12 @@ brotControllers.controller('MentorProfileController',
 
                     StudentService.changePassword(user).then(function (data) {
                         if (data.data.request_data_result == "Success") {
-                            alert("Change Password Success !!!")
                             resetFormPwd();
                             $scope.msgSuccess = "Change password successful.";
                         } else {
-                            $scope.msgError = data.data.request_data_result;
-                            alert($scope.msgError);
+                            $scope.msgError = "Change password failure. Please try again !";
                         }
+                        $scope.isHideMessage = false;
                     });
                 }
             };
@@ -511,4 +517,29 @@ brotControllers.controller('MentorProfileController',
                     }
                 });
             };
+
+
+            $scope.onFileSelect = function ($files) {
+                var fd = new FormData();
+                if ($files != null) {
+                    fd.append('uploadfile', $files[0]);
+                    fd.append("userid", userId);
+                    fd.append("imageUrl", localStorage.getItem('imageUrl'));
+                    StudentService.uploadAvatar(fd).then(function (data) {
+                        if (data.data.status == "true") {
+                            $scope.mentorInfo.imageUrl = data.data.request_data_result;
+                            setStorage('imageUrl', $scope.mentorInfo.imageUrl, 10);
+                            $rootScope.imageUrl = data.data.request_data_result;
+                            // window.location.href = '#mentor/mentorProfile';
+                            // window.location.reload();
+                        }
+                        else {
+                            $scope.errorMessage = "Can't not upload avatar";
+                        }
+                    });
+                }
+
+            };
+
+
         }]);
