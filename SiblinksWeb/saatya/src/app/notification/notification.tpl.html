@@ -1,41 +1,27 @@
-<div id="form-notification">
-  <div class="header">
-    <div class="content">
-      <div class="iconForum">
-              <img src="assets/img/mentor_profile.png">
-          </div>
-            <div class="textForum">
-              <span>Notification</span>
+    <div class="notification-wrapper">
+        <div class="ntf-header">
+            <div class="ntf-left">{{countAll}} Notifications</div>
+            <div class="ntf-right">
+                <button>see more</button>
             </div>
+        </div>
+        <div ng-if="countAll == null">
+        	<span>{{errorData}}</span>
+      	</div>
+        <div class="nft-body">
+            <ul>
+                <li  ng-repeat="n in notificationsAll">
+                	<a href="javascript:void(0)" ng-click="notificationDetail(n.id, n.subjectId, n.topicId, n.videoId, n.questionId, n.articleId, n.idSubAdmission, n.idTopicSubAdmission, n.idEssay)">
+	                    <div class="nft-type nft-qa">
+	                        <img src="assets/images/AskAQuestion.png">
+	                    </div>
+	                    <div class="nft-info" ng-if="n.type == 'answerQuestion'">Your question has been answered by 
+	                    	<span class="nft-name">{{n.firstName}} {{n.lastName}}</span>
+	                    </div>
+	                    <div class="nft-time">{{convertUnixTimeToTime(n.timestamp)}} ago</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
-  <div class="notification">
-    <div class="paging">
-      <div class="pageNotification">
-        <a href="" ng-if="countAll > 7" ng-click="prevPage()" style="float: left;"><img src="assets/img/btn_prev.png"></a>
-        <span ng-repeat="i in listPage" id="{{i}}" class="active" ng-class="addClassActive(i)" ng-click="showWithPage(i)">{{i}}</span>
-        <a href="" ng-if="countAll > 7" ng-click="nextPage()" style="margin-left: 10px;"><img class="btn_nxt" src="assets/img/btn_nxt.png"></a>
-      </div>
-      <div class="clearfix"></div>
-    </div>
-    <div class="content">
-      <div class="loadingdiv" ng-hide="showItem">
-        <img src="https://www.findshare.com/assets/images/loading-blue.gif" >
-      </div>
-      <div class="divError" ng-if="countAll == null">
-        <span>{{errorData}}</span>
-      </div>
-      <ul>
-        <li id="n{{n.id}}" class="show-notification" ng-click="notificationDetail(n.id, n.subjectId, n.topicId, n.videoId, n.questionId, n.articleId, n.idSubAdmission, n.idTopicSubAdmission, n.idEssay)" ng-repeat="n in notificationsAll">
-          <div>
-            <span class="title">{{n.title}}</span>
-            <span style="float: right;">{{n.timestamp | moment:'DD/MM/YYYY hh:mm:ss'}}</span>
-          </div>
-          <div>
-            {{n.firstName}} {{n.lastName}} {{n.notification}}
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+    <div class="top-border"></div>

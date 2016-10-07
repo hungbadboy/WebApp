@@ -69,16 +69,9 @@ brotControllers.controller('UserHeaderController',
 //                }
 //            };
 
-//            $scope.popupNotification = function () {
-//                if ($('#notification .wrap_img').hasClass('hide')) {
-//                    hideProfileSetting();
-//                    $('#notification').find('.active').addClass('hide');
-//                    showNotification($(this));
-//                } else {
-//                    hideNotification();
-//                }
-//
-//            };
+            $scope.popupNotification = function () {
+               showNotification($(this));
+            };
 
             function init() {
                 //
@@ -96,33 +89,35 @@ brotControllers.controller('UserHeaderController',
                     });
                 }
                 if (userId != null) {
-//                    NotificationService.getNotificationByUserId(userId).then(function (data) {
-//                        $scope.listNotifications = data.data.request_data_result;
-//                        $rootScope.countNotification = data.data.count;
-//                        if ($rootScope.countNotification == null) {
-//                            NotificationService.getNotificationReaded(userId).then(function (data) {
-//                                if (data.data.request_data_result.length > 0) {
-//                                    $scope.listNotifications = data.data.request_data_result;
-//                                    for (var i = 0; i < $scope.listNotifications.length; i++) {
-//                                        if ($scope.listNotifications[i].notification.length > 70) {
-//                                            $scope.listNotifications[i].notification = $scope.listNotifications[i].notification.substring(0, 70) + ' ...';
-//                                        }
-//                                    }
-//                                    $rootScope.notifications = $scope.listNotifications;
-//                                } else {
-//                                    $scope.emptyNotification = 1;
-//                                    $scope.errorData = DATA_ERROR_NOTIFICATION.noNewNotification;
-//                                }
-//                            });
-//                        } else {
-//                            for (var i = 0; i < $scope.listNotifications.length; i++) {
-//                                if ($scope.listNotifications[i].notification.length > 70) {
-//                                    $scope.listNotifications[i].notification = $scope.listNotifications[i].notification.substring(0, 70) + ' ...';
-//                                }
-//                            }
-//                            $rootScope.notifications = $scope.listNotifications;
-//                        }
-//                    });
+                	// get Notification by user
+                    NotificationService.getNotificationByUserId(userId).then(function (data) {
+                    	$rootScope.countNotification = data.data.count;
+                    });
+                    	//$scope.listNotifications = data.data.request_data_result;
+//                    	if ($rootScope.countNotification == null) {
+//                    		NotificationService.getNotificationReaded(userId).then(function (data) {
+//                              if (data.data.request_data_result.length > 0) {
+//                                  $scope.listNotifications = data.data.request_data_result;
+//                                  for (var i = 0; i < $scope.listNotifications.length; i++) {
+//                                      if ($scope.listNotifications[i].notification.length > 70) {
+//                                          $scope.listNotifications[i].notification = $scope.listNotifications[i].notification.substring(0, 70) + ' ...';
+//                                      }
+//                                  }
+//                                  $rootScope.notifications = $scope.listNotifications;
+//                              } else {
+//                                  $scope.emptyNotification = 1;
+//                                  $scope.errorData = DATA_ERROR_NOTIFICATION.noNewNotification;
+//                              }
+//                          });
+//                    	} else {
+//                    		for (var i = 0; i < $scope.listNotifications.length; i++) {
+//                              if ($scope.listNotifications[i].notification.length > 70) {
+//                                  $scope.listNotifications[i].notification = $scope.listNotifications[i].notification.substring(0, 70) + ' ...';
+//                              }
+//                          }
+//                          $rootScope.notifications = $scope.listNotifications;
+//                    	}
+//                    }
 
                     //$('#notification').removeClass('inactive');
                     // call ws to get notification of user
@@ -167,9 +162,7 @@ brotControllers.controller('UserHeaderController',
                 NotificationService.updateAllNotification(userId).then(function (data) {
                     if (data.data.request_data_result) {
                         $rootScope.countNotification = 0;
-//                        $(ele).addClass('hide');
-//                        $('#notification').find('.active').addClass('hide');
-//                        $('#notification .wrap_img').removeClass('hide');
+                        $(".notification-content").toggle(); //show notification 
                     }
                 });
             }
@@ -198,51 +191,51 @@ brotControllers.controller('UserHeaderController',
                 window.location.href = '#/notification';
             };
 
-            $scope.detailNotification = function (nid, subjectId, topicId, videoId, questionId, articleId, idSubAdmission, idTopicSubAdmission, idEssay) {
-                NotificationService.getNotificationByUserId(userId).then(function (data) {
-                    $scope.listNotifications = data.data.request_data_result;
-                    $rootScope.countNotification = data.data.count;
-                    if ($rootScope.countNotification == null) {
-                        NotificationService.getNotificationReaded(userId).then(function (data) {
-                            if (data.data.request_data_result.length > 0) {
-                                $scope.listNotifications = data.data.request_data_result;
-                                for (var i = 0; i < $scope.listNotifications.length; i++) {
-                                    if ($scope.listNotifications[i].notification.length > 70) {
-                                        $scope.listNotifications[i].notification = $scope.listNotifications[i].notification.substring(0, 70) + ' ...';
-                                    }
-                                }
-                                $rootScope.notifications = $scope.listNotifications;
-                            } else {
-                                $scope.emptyNotification = 1;
-                                $scope.errorData = DATA_ERROR_NOTIFICATION.noNewNotification;
-                            }
-                        });
-                    } else {
-                        for (var i = 0; i < $scope.listNotifications.length; i++) {
-                            if ($scope.listNotifications[i].notification.length > 70) {
-                                $scope.listNotifications[i].notification = $scope.listNotifications[i].notification.substring(0, 70) + ' ...';
-                            }
-                        }
-                        $rootScope.notifications = $scope.listNotifications;
-                    }
-
-                    if (subjectId == null) {
-                        if (articleId != null) {
-                            window.location.href = '#/admission/article/articledetail/' + articleId;
-                        } else if (idEssay != null) {
-                            window.location.href = '#/essay_detail/' + idEssay;
-                        } else {
-                            window.location.href = '#/admission/videoadmission/videodetail/' + idSubAdmission + '/' + idTopicSubAdmission + '/' + videoId;
-                        }
-                    } else {
-                        if (videoId != null && questionId == null) {
-                            window.location.href = '#/detailVideo/' + subjectId + '/' + topicId + '/' + videoId;
-                        } else {
-                            window.location.href = '#/question_detail?subject=' + subjectId + '&question_id=' + questionId;
-                        }
-                    }
-                });
-            };
+//            $scope.detailNotification = function (nid, subjectId, topicId, videoId, questionId, articleId, idSubAdmission, idTopicSubAdmission, idEssay) {
+//                NotificationService.getNotificationByUserId(userId).then(function (data) {
+//                    $scope.listNotifications = data.data.request_data_result;
+//                    $rootScope.countNotification = data.data.count;
+//                    if ($rootScope.countNotification == null) {
+//                        NotificationService.getNotificationReaded(userId).then(function (data) {
+//                            if (data.data.request_data_result.length > 0) {
+//                                $scope.listNotifications = data.data.request_data_result;
+//                                for (var i = 0; i < $scope.listNotifications.length; i++) {
+//                                    if ($scope.listNotifications[i].notification.length > 70) {
+//                                        $scope.listNotifications[i].notification = $scope.listNotifications[i].notification.substring(0, 70) + ' ...';
+//                                    }
+//                                }
+//                                $rootScope.notifications = $scope.listNotifications;
+//                            } else {
+//                                $scope.emptyNotification = 1;
+//                                $scope.errorData = DATA_ERROR_NOTIFICATION.noNewNotification;
+//                            }
+//                        });
+//                    } else {
+//                        for (var i = 0; i < $scope.listNotifications.length; i++) {
+//                            if ($scope.listNotifications[i].notification.length > 70) {
+//                                $scope.listNotifications[i].notification = $scope.listNotifications[i].notification.substring(0, 70) + ' ...';
+//                            }
+//                        }
+//                        $rootScope.notifications = $scope.listNotifications;
+//                    }
+//
+//                    if (subjectId == null) {
+//                        if (articleId != null) {
+//                            window.location.href = '#/admission/article/articledetail/' + articleId;
+//                        } else if (idEssay != null) {
+//                            window.location.href = '#/essay_detail/' + idEssay;
+//                        } else {
+//                            window.location.href = '#/admission/videoadmission/videodetail/' + idSubAdmission + '/' + idTopicSubAdmission + '/' + videoId;
+//                        }
+//                    } else {
+//                        if (videoId != null && questionId == null) {
+//                            window.location.href = '#/detailVideo/' + subjectId + '/' + topicId + '/' + videoId;
+//                        } else {
+//                            window.location.href = '#/question_detail?subject=' + subjectId + '&question_id=' + questionId;
+//                        }
+//                    }
+//                });
+//            };
 
 //            $('#header .w975').find('.search-text').keypress(function (event) {
 //                var searchText = $('#header .w975').find('.search-text').val();

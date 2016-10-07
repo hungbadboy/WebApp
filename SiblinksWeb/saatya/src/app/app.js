@@ -24,6 +24,8 @@ brotApp.controller('MainController', function($scope, $http, $location) {
 	
 	  var userId = "";
       var userType = "";
+      
+      
       if (localStorage.getItem('userId') !== undefined || localStorage.getItem('userId') != 'undefined') {
           userId = localStorage.getItem('userId');
           $scope.logined = true;

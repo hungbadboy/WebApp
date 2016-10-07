@@ -1112,9 +1112,6 @@ public class UserServiceImpl implements UserService {
     @RequestMapping(value = "/getAddressPage", method = RequestMethod.POST)
     public ResponseEntity<Response> getAddressPage(@RequestBody final RequestData request) {
 
-        // DaoFactory factory = DaoFactory.getDaoFactory();
-        // ObjectDao dao = factory.getObjectDao();
-
         List<Object> readObject = null;
         readObject = dao.readObjectsNotResource(SibConstants.SqlMapper.SQL_GET_ADDRESS_WEB);
 
