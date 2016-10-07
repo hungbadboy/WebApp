@@ -281,7 +281,14 @@ brotControllers.controller('UserHeaderController',
              * Show small left side bar
              */
             $scope.showSmallLeftSideBar = function showSmallLeftSideBar() {
-                angular.element(".mentor-left-header, #sidebar-menu, .mentor-center-header, .center-content").toggleClass("in");
+            	angular.element(".mentor-left-header, #sidebar-menu, .mentor-center-header, .center-content").toggleClass("in");
+                if($scope.currentPath =='/mentor/mentorVideo' || $scope.currentPath =='/mentor/videoManager' ||  $scope.currentPath == '/mentor/playlistManager') {
+                	if(angular.element("#sidebar-menu").hasClass("in")) {
+                		angular.element('.menuSubmenu').removeClass('show');
+                	} else {
+                		angular.element('.menuSubmenu').addClass('show');
+                	}
+                }
             }
         }]);
 //=========================================== HEADER.CONTROLLER.JS==============
