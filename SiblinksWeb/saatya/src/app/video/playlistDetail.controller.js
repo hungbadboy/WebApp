@@ -10,7 +10,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         var index = $routeParams.index;
         $scope.index = 0;
         if(!isEmpty(index)){
-            $scope.index = parseInt(index)
+            $scope.index = parseInt(index);
         }
 
         $scope.listVideos = null;
