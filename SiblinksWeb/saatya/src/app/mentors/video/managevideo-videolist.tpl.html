@@ -46,7 +46,7 @@
                                 <div class="text-ac">Action</div>
                             </div>
                             <div class="group-item">
-                                <div ng-if="videos">
+                                <div ng-if="videos" scroller="videoScrl" data-on-total-scroll="loadMoreVideos">
                                     <div class="item" ng-repeat="v in videos track by $index">
                                         <div class="check-box"><input ng-model="v.selected" type="checkbox" class="check-input" name="checkall" ng-click="optionSelected()"/></div>
                                         <div class="box-detail-play clearfix">

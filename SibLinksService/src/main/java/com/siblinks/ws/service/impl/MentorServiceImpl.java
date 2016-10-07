@@ -996,21 +996,16 @@ public class MentorServiceImpl implements MentorService {
     @RequestMapping(value = "/getDashboardInfo", method = RequestMethod.GET)
     public ResponseEntity<Response> getDashboardInfo(@RequestParam final long uid) {
         Object[] queryParams = new Object[] { uid };
-        JsonParser jsonParser = new JsonParser();
         Map<String, Object> result = new HashMap<>();
         List<Object> readObject = null;
-        String value = null;
+        Map<String, Object> tmp = new HashMap<String, Object>();
 
         // count video
         readObject = dao.readObjects(SibConstants.SqlMapperBROT70.SQL_GET_COUNT_VIDEOS, queryParams);
         if (readObject != null && readObject.size() > 0) {
             for (Object object : readObject) {
-                value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
-                if (value == null || value.isEmpty() || value.contains("null")) {
-                    result.put("count_videos", 0);
-                } else {
-                    result.put("count_videos", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
-                }
+                tmp = (Map<String, Object>) object;
+                result.put("count_videos", tmp.get("numVideos"));
             }
         } else {
             result.put("count_videos", 0);
@@ -1020,12 +1015,8 @@ public class MentorServiceImpl implements MentorService {
         readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_VIEW_VIDEO, queryParams);
         if (readObject != null && readObject.size() > 0) {
             for (Object object : readObject) {
-                value = jsonParser.parse(object.toString()).getAsJsonObject().get("numViews").toString();
-                if (value == null || value.isEmpty() || value.contains("null")) {
-                    result.put("count_views", 0);
-                } else {
-                    result.put("count_views", jsonParser.parse(object.toString()).getAsJsonObject().get("numViews").toString());
-                }
+                tmp = (Map<String, Object>) object;
+                result.put("count_views", tmp.get("numViews"));
             }
         } else {
             result.put("count_views", 0);
@@ -1035,14 +1026,8 @@ public class MentorServiceImpl implements MentorService {
         readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_COMMENT_VIDEO, queryParams);
         if (readObject != null && readObject.size() > 0) {
             for (Object object : readObject) {
-                value = jsonParser.parse(object.toString()).getAsJsonObject().get("numComments").toString();
-                if (value == null || value.isEmpty() || value.contains("null")) {
-                    result.put("count_comments", 0);
-                } else {
-                    result.put(
-                        "count_comments",
-                        jsonParser.parse(object.toString()).getAsJsonObject().get("numComments").toString());
-                }
+                tmp = (Map<String, Object>) object;
+                result.put("count_comments", tmp.get("numComments"));
             }
         } else {
             result.put("count_comments", 0);
@@ -1052,13 +1037,8 @@ public class MentorServiceImpl implements MentorService {
         readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_VIDEO_PLAYLIST, queryParams);
         if (readObject != null && readObject.size() > 0) {
             for (Object object : readObject) {
-                value = jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString();
-                if (value == null || value.isEmpty() || value.contains("null")) {
-                    result.put("count_playlist", 0);
-                } else {
-                    result
-                        .put("count_playlist", jsonParser.parse(object.toString()).getAsJsonObject().get("count(*)").toString());
-                }
+                tmp = (Map<String, Object>) object;
+                result.put("count_playlist", tmp.get("numPlaylist"));
             }
         } else {
             result.put("count_playlist", 0);
@@ -1067,14 +1047,8 @@ public class MentorServiceImpl implements MentorService {
         readObject = dao.readObjects(SibConstants.SqlMapperBROT126.SQL_GET_COUNT_AVG_RATING_VIDEO, queryParams);
         if (readObject != null && readObject.size() > 0) {
             for (Object object : readObject) {
-                value = jsonParser.parse(object.toString()).getAsJsonObject().get("averageRating").toString();
-                if (value == null || value.isEmpty() || value.contains("null")) {
-                    result.put("avg_rating", 0);
-                } else {
-                    result
-                        .put("avg_rating", jsonParser.parse(object.toString()).getAsJsonObject().get("averageRating").toString());
-                }
-
+                tmp = (Map<String, Object>) object;
+                result.put("avg_rating", tmp.get("averageRating"));
             }
         } else {
             result.put("avg_rating", 0);
