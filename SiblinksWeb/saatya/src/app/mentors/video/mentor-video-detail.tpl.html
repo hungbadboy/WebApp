@@ -49,11 +49,12 @@
                                     <div class="top-cm">
                                         <h3>{{ video.title | limitTo: 30 }}{{video.title.length > 30 ? '...' : ''}}</h3>
                                         <span class="time">{{video.timeStamp}} ago</span>
+                                        {{video.title}}
                                         <div class="btn-count clearfix">
                                             <div class="bx-btn pull-left">
-                                                <button id="btnDelete" class="btn-add active" data-toggle="modal" href='#modal-id'>Add to playlist</button>
-                                                <button class="btn-edit">Edit</button>
-                                                <button class="btn-remove">Delete</button>
+                                                <!-- <button id="btnDelete" class="btn-add active" data-toggle="modal" href='' ng-hide="plid">Add to playlist</button> -->
+                                                <button class="btn-edit" ng-click="editVideo(video.vid)">Edit</button>
+                                                <button class="btn-remove" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteVideo(video.vid)">Delete</button>
                                             </div>
                                             <p class="list-view pull-right">
                                                 <span><i class="fa fa-play-circle-o" aria-hidden="true"></i> {{video.numViews}}</span>&nbsp;&nbsp;
@@ -120,10 +121,11 @@
                                 <div ng-if="videosRelated" scroller="sc-related" data-on-total-scroll="loadMoreVideoRelated">
                                     <ul class="list-sub-video">
                                         <li class="clearfix" ng-repeat="v in videosRelated track by $index">
-                                            <span class="pull-left"><img style="width: 150px; height: 84px;" src="{{v.image}}" alt=""></span>
+                                            <span class="pull-left"><a href="" ng-click="loadVideo(v)"><img style="width: 150px; height: 84px;" src="{{v.image}}" alt="">
+                                            </a></span>
                                             <div class="sub-vd-right pull-left">
-                                                <h5>{{ v.title | limitTo: 20 }}{{v.title.length > 20 ? '...' : ''}}</h5>
-                                                <p>from <b>{{v.firstName + ' ' + v.lastName}}</b></p>
+                                                <h5><a href="" ng-click="loadVideo(v)">{{ v.title | limitTo: 20 }}{{v.title.length > 20 ? '...' : ''}}</a></h5>
+                                                <p>from <b><a href="" ng-click="goToProfile(v.userId)">{{v.firstName + ' ' + v.lastName}}</a></b></p>
                                                 <p>View: <span>{{v.numViews}}</span></p>
                                             </div> 
                                         </li>                                    

@@ -1,6 +1,6 @@
 brotControllers.controller('PlaylistController', 
-  ['$scope', '$modal', '$routeParams', '$http', '$location', 'PlaylistService', 'HomeService', 'myCache',
-                                       function ($scope, $modal, $routeParams, $http, $location, PlaylistService, HomeService, myCache) {
+  ['$rootScope','$scope', '$modal', '$routeParams', '$http', '$location', 'PlaylistService', 'HomeService', 'myCache',
+                                       function ($rootScope, $scope, $modal, $routeParams, $http, $location, PlaylistService, HomeService, myCache) {
 
 
     var userId = localStorage.getItem('userId'); 
@@ -318,6 +318,10 @@ brotControllers.controller('PlaylistController',
     });
 
     $scope.$on('addVideoFromPlaylist', function(){
+      loadPlaylist();
+    });
+
+    $scope.$on('addVideo', function(){
       loadPlaylist();
     });
 

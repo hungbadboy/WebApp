@@ -26,10 +26,8 @@
                             </form>
                         </div>
                         <div class="col-md-2 sl-sbj">
-                            <select style="width: 160px;" class="select-sbj" id="subject" ng-model="subject" ng-change="loadVideoBySubject()">
-                                <option value="0">Select Subjects</option>      
-                                <option ng-repeat="s in subjects track by $index" value="{{s.subjectId}}">{{s.subject}}</option>              
-                            </select>
+                            <select class="select-sbj" id="subject" ng-model="subject" ng-change="loadVideoBySubject(subject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in subjects'>
+                        </select>
                         </div>
                     </div>
                 </div>
