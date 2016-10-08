@@ -29,13 +29,11 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
     /**
      * Menu active when click
      */
-    $scope.isShowSubMenu = false;
     $scope.showSubMenu = function showSubMenu(subMenuId) {
-        $scope.isShowSubMenu = $scope.isShowSubMenu ? false : true;
-        if ($scope.isShowSubMenu) {
-            angular.element("#" + subMenuId).addClass('show');
+        if (!angular.element("#" + subMenuId ).hasClass('show')) {
+            angular.element("#" + subMenuId +", #menu-video").addClass('show');
         } else {
-            angular.element("#" + subMenuId).removeClass('show');
+            angular.element("#" + subMenuId +", #menu-video").removeClass('show');
         }
     }
 }]);

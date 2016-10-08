@@ -210,20 +210,35 @@ public class ObjectDaoImpl implements ObjectDao {
         boolean flag = true;
         logger.info("ssn " + dsConfigName, new Date());
         PreparedStatement stmt = null;
-        // CommonUtil util = CommonUtil.getInstance();
-        // String query = util.getQueryNotParams(dsConfigName, userId, itemId);
-
+        Connection conn = null;
         try {
-            Connection conn = jdbcTemplate.getDataSource().getConnection();
+            conn = jdbcTemplate.getDataSource().getConnection();
             logger.debug("con===" + conn);
             stmt = conn.prepareStatement(
                 env.getProperty(dsConfigName),
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
             stmt.executeUpdate();
+            conn.commit();
         } catch (Exception e) {
+            try {
+                conn.rollback();
+            } catch (SQLException sqle) {
+                // Nothing
+            }
             flag = false;
             e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.isClosed();
+                }
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                // Nothing
+            }
         }
         return flag;
     }
@@ -231,20 +246,36 @@ public class ObjectDaoImpl implements ObjectDao {
     @Override
     public List<Object> readObjectsNotResource(final String dsConfigName) {
 
-        CommonUtil util = CommonUtil.getInstance();
+
         logger.info("ssn " + dsConfigName, new Date());
-        List<Object> listUser = new ArrayList<Object>();
+        List<Object> listUser = null;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
         try {
-            Connection conn = jdbcTemplate.getDataSource().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(
+            conn = jdbcTemplate.getDataSource().getConnection();
+            stmt = conn.prepareStatement(
                 env.getProperty(dsConfigName),
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = stmt.executeQuery();
-
-            listUser = util.getObjects(rs);
+            rs = stmt.executeQuery();
+            if (rs != null) {
+                CommonUtil util = CommonUtil.getInstance();
+                listUser = util.getObjects(rs);
+            }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.isClosed();
+                }
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                // Nothing
+            }
         }
         return listUser;
     }
