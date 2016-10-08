@@ -403,20 +403,6 @@ ul.nav.nav-tabs li a {
   opacity: 0;
   transition: visibility 1s linear 1s, opacity 0.5s;
 }
-/*.navbar-default:before {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 1px;
-    z-index: 1;
-    background: #2b2b2b;
-    height: 450px;
-    overflow: hidden;
-    transition: width 1s;
-}
-.mentor-left-header.in .navbar-default:before {
-    width: 180px;
-}*/
 
 
 /*Dashboard page*/
@@ -855,7 +841,6 @@ span.icon-play-video {
     width: 100%;
     border-radius: 0;
     height: 42px;
-    /* border-right: none; */
 }
 .manager-video .top-mag .search .input-group .input-group-btn button:hover{
     background-color: #fff;
@@ -865,7 +850,6 @@ span.icon-play-video {
     width: 100%;
     border-radius: 0;
     height: 42px;
-    /* border-left: none; */
     outline: none;
 }
 .manager-video .top-mag .sl-newwest,
@@ -1313,17 +1297,20 @@ span.icon-play-video {
     padding: 20px;
     background-color: #fff;
 }
-.box-l-comment:before{
+.box-l-comment .item-cm:before{
     content: "";
     position: absolute;
-    top: 89px;
+    top: 43px;
     bottom: 0;
-    left: 60px;
+    left: 23px;
     width: 1px;
-    margin-left: -1.5px;
     background-color: #eef0f0;
-    height: 320px;
+    height: 90px;
     z-index: 1;
+    overflow: hidden;
+}
+.box-l-comment .item-cm:nth-last-child(2):before {
+    height: 0;
 }
 span.img-tb{
     position: relative;z-index: 2;
@@ -1364,6 +1351,9 @@ span.img-tb{
 }
 .box-l-comment .item-cm{
     padding-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
 }
 .box-l-comment .btn-load{
     text-align: center;
@@ -2013,6 +2003,7 @@ span.img-tb{
     padding-right: 0;
     text-align: left;
     padding-left: 0;
+    width: 100px;
 }
 .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bx-detail-rpl .top-rpl .bx-dt-qa{
     padding-left: 0;
@@ -2235,6 +2226,54 @@ span.img-tb{
 .mentor-manage-qa-content .left-qa .tab-answered .tab-content .mCSB_scrollTools {
     width: 5px;
 }
+.mentor-manage-qa-content .col-md-4.bt-item {
+    width: ~"calc(50% - 100px)";
+}
+.mentor-manage-qa-content .edit-details-question {
+    top: -20px;
+}
+.edit-answer:hover:before {
+    color: #505050;
+}
+.edit-answer:before {
+    color: #909090;
+    cursor: pointer;
+}
+.edit-answe {
+    position: relative;
+}
+.edit-answer-detail.inactive {
+    position: absolute;
+    left: 300px;
+    background: #fff;
+    border: 1px solid #ededec;
+    box-shadow: 5px 5px 12px #ccc;
+}
+.edit-answer-detail.inactive li:hover a,
+.edit-answer-detail.inactive li:hover span:before {
+    color: #505050;
+}
+.edit-answer-detail.inactive li {
+    margin-bottom: 0;
+    width: 100%;
+    padding-right: 0;
+}
+.edit-answer-detail.inactive li.delete {
+    border-top: 1px solid #ececed
+}
+
+.edit-answer-detail.inactive li a {
+    padding: 10px 20px;
+    width: 100%;
+    display: block;
+    font-size: 14px;
+    color: #909090;
+}
+
+.edit-answer-detail.inactive li a span:before {
+    margin-right: 5px;
+    color: #909090;
+}
 
 /*========//CSS MANAGER mentor-manageQ&A=============*/
 
@@ -2245,13 +2284,14 @@ span.img-tb{
     height: 100%;
     */
     overflow: hidden;
+    position: relative;
+    z-index: 2;
 }
 .manager-profile .box-avatar{
-    text-align: center; 
-    padding-top: 34px;
-    padding-bottom: 30px;
+    text-align: center;
     background-color: #ffcc00;
     position: relative;
+    padding: 30px 20px;
 }
 .manager-profile .box-avatar .img-avt{
     position: relative;
@@ -2287,6 +2327,7 @@ span.img-tb{
 .manager-profile .box-avatar span{
     color: #fff;
     font-size: 14px;
+    top: 20px;
 }
 .manager-profile .col-md-3{
     padding: 0;
@@ -3468,7 +3509,7 @@ section.ask-mentors h3{
 }
 .modal-add-video .left-question{
     background-color: #fff;
-    padding-top: 20px;
+    padding-top: 50px;
     padding-left: 20px;
     padding-bottom: 20px;
     border-top-left-radius: 6px;
@@ -3636,5 +3677,17 @@ section.ask-mentors h3{
     width: 96px;
     height: 96px;
     opacity: 0.5;
+}
+#mentor .notification-content {
+    right: 109px;
+}
+.article-detail-top a {
+    width: 100%;
+    float: left;
+}
+
+span.article-detail-img {
+    width: 55px;
+    float: left;
 }
 /*===============//MOdal Q&A==========*/

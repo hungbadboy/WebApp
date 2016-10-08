@@ -25,6 +25,8 @@
     .box-information {
         width: 50%;
         float: left;
+        position: relative;
+        z-index: 2;
     }
     .manager-profile .avt:before {
         content: "";
@@ -36,11 +38,21 @@
         background: #ffcc00;
         z-index: 0;
     }
+    .mentorProfile .manager-profile .avt:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50%;
+        height: 100%;
+        background: #fff;
+        z-index: 0;
+    }
     .manager-profile .box-avatar {
         background: none;
     }
     .manager-profile .box-avatar {
-        padding-bottom: 14%;
+        padding-bottom: 20px;
     }
     .manager-profile .manager-profile-image {
         width: 70%;
@@ -81,15 +93,16 @@
     .manager-profile .box-avatar {
         padding-top: 20px;
     }
+    .manager-profile .box-avatar {
+        padding: 20px
+    }
     .manager-profile-std .box-avatar{
         width: 100%;
         background: #ffcc00;
     }
-    .manager-profile-std .avt:before,
-    .manager-profile-std .avt .count-qt,
-    .manager-profile-std .box-information {
+    .manager-profile-std .avt .count-qt, .manager-profile-std .box-information {
         width: 100%;
-        height: auto;
+        /* height: auto; */
         position: relative;
         overflow: hidden;
     }
@@ -127,7 +140,7 @@
 
     /*======Mentor.ManageQ&A==========*/
     .col-md-4.left-qa {
-        width: 40%;
+        /* width: 40%; */
     }
 
     .col-md-8.box-main-replied {
@@ -240,6 +253,9 @@
     .manager-playlist.manager-video .main-list-video .group-item .item .box-ac, 
     .manager-playlist .main-manager-video.main-list-video .filters .text-ac{
         width: 32%;
+    }
+    .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bx-detail-rpl .top-rpl .col-md-2 {        
+        width: 80px;
     }
 
 
@@ -488,6 +504,13 @@
      .manager-playlist-detail .top-mag .search {
         width: 50%;
         float: left;
+    }
+    .modal-qa .modal-content {
+        height: 80vh;
+    }
+    .modal-add-video .left-question .dt-txt-question,
+    .modal-add-video .right-answer .dt-txt-question{
+        height: 55%;
     }
 
 }
