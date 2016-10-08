@@ -103,7 +103,7 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
         return promise;
     };
 
-    factory.deleteMultiplePlaylist = function(plids){
+    factory.deleteMultiplePlaylist = function(plids, uid){
       var promise = $http({
           method: 'POST',
           url: NEW_SERVICE_URL + 'playlist/deleteMultiplePlaylist',
@@ -111,7 +111,8 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
               "request_data_type": "playlist",
               "request_data_method": "deleteMultiplePlaylist",
               "request_playlist":{
-                  "plids": plids
+                  "plids": plids,
+                  'createBy': uid
               }
           }
           
