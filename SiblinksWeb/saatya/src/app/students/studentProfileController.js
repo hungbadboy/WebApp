@@ -1,9 +1,11 @@
 brotControllers.controller('StudentProfileController',
-    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService',
-        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService) {
+    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService', 'HomeService',
+        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService, HomeService ) {
             var userId = localStorage.getItem('userId');
             var userName = localStorage.getItem('userName');
             var userType = localStorage.getItem('userType');
+            var subjects = JSON.parse(localStorage.getItem('subjects'));
+            
             var limit = 10;
             var offset = 0;
             var isLoadMore = false;
@@ -19,6 +21,8 @@ brotControllers.controller('StudentProfileController',
             $scope.EMPTY_DATA = StatusError.MSG_UNKNOWN;
             $scope.isSubscribe = false;
             $scope.hasShowMessage = false;
+            // Subject
+            $scope.masterSubjects = [];
 
             var isInit = true;
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
@@ -32,6 +36,9 @@ brotControllers.controller('StudentProfileController',
             init();
             // var subjects = myCache.get("subjects");
             function init() {
+            	// Get subject
+            	
+
                 getMentorInfo();
                 if (mentorId != undefined) {
                     getVideosRecently();
@@ -42,6 +49,8 @@ brotControllers.controller('StudentProfileController',
                 getStudentProfile();
                 getEssayProfile();
                 getMyQuestions(userId, limit, offset, "newest", "-1", "-1");
+                
+                
             }
 
 
@@ -50,7 +59,6 @@ brotControllers.controller('StudentProfileController',
                     var data_result = data.data.request_data_result;
                     if (data_result) {
                         var listTopMentors = [];
-                        var subjects = myCache.get("subjects");
                         for (var i = 0; i < data_result.length; i++) {
                             var mentor = {};
                             if (data_result[i].isSubs == 1) {
@@ -606,7 +614,6 @@ brotControllers.controller('StudentProfileController',
             $scope.detailQuestion = function (id) {
                 window.location.href = '/#/question_detail/' + id + "";
             }
-
             /**
              * @author: Tavv
              */
@@ -630,29 +637,67 @@ brotControllers.controller('StudentProfileController',
                         $scope.birthDay = timeConverter(bioTimeStamp, FormatDateTimeType.DD_MM_YY);
                         $scope.sinceDay = timeConverter(registrationTime, FormatDateTimeType.MM_YY);
                         $scope.isLoginViaFBOrGoogle = $scope.studentInfo.idFacebook != null || $scope.studentInfo.idGoogle != null;
-                        var subjects = myCache.get("subjects");
+                        //var subjects = myCache.get("subjects");
                         if (subjects != undefined || subjects != null) {
                             var subsName = getSubjectNameById($scope.studentInfo.defaultSubjectId, subjects);
 
-                            if (subsName.length != 0 || subsName != undefined) {
-                                var listSubs = [];
+                            if (subsName != null && subsName != undefined) {
+                            	var listSubs = [];
                                 $scope.objSubs = subsName;
                                 subsName.forEach(function (sub) {
                                     if (subsName.length - 1) {
                                         listSubs.push(sub.name);
                                     }
                                 });
-                                $scope.subjects = listSubs.join(', ');
+                                
+                                $scope.subjectsName = listSubs.join(', ');
                             } else {
-                                $scope.subjects = "None";
+                                $scope.subjectsName = "None";
                             }
                         } else {
-                            $scope.subjects = "None";
+                            $scope.subjectsName = "None";
                         }
                     }
                     displayInformation();
+                    
+                    // This call method to return $scope.masterSubjects selected 
+                       putMasterSubjectSelected(subjects);
                 });
 
             }
-
+        /**
+         * Get master Subject
+         */    
+        function putMasterSubjectSelected(subjects) {
+        	var subjectsSelected = [];
+        	if(subjects != null && subjects !== undefined) {
+        		$scope.masterSubjects =[];
+        		subjectsSelected.push(subjects);
+        		for (var i = 0; i < subjects.length; i ++) {
+        			if (subjects[i].level == 0) {
+        				var subject = subjects[i];
+        				if(isCheckedSubject(subject.subjectId)) {
+				    		subject.selected = "1";
+				    	} else {
+				    		subject.selected = "0";
+				    	}
+				    	$scope.masterSubjects.push(subject);
+		            }
+        		}
+        	}
+        }
+        
+        /**
+         * checked is true or false
+         */
+        function isCheckedSubject(subid) {
+        	if(subid !=null && subid !== undefined && subid !== '' && $scope.subjects !== undefined) {
+            	for(var i=0; i< $scope.subjects; i++) {
+            		if($scope.subjects[i].subjectId == subid){
+            			return true;
+            		} 
+            	}
+        	}
+        	return false;
+        }
         }]);

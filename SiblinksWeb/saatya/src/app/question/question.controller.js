@@ -41,7 +41,7 @@ brotControllers
                 var oldQid = '-1';
                 $scope.curentOrderType = "newest";
                 var LIMIT_TOP_MENTORS = 5;
-                var LIMIT_TOP_VIDEOS = 5;
+                var LIMIT_TOP_VIDEOS = 4;
                 var idRemove;
                 var eventRemove;
                 var questionForAnswer;

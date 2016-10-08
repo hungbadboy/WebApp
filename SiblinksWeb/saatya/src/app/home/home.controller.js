@@ -34,6 +34,7 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
                          $log.info("Get service subject with category");
                          $scope.subjects = data.data.request_data_result;
                          myCache.put("subjects", data.data.request_data_result);
+                         setStorage('subjects',JSON.stringify(data.data.request_data_result), 30);
                      }
                  });
              }
