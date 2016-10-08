@@ -169,7 +169,7 @@ brotControllers.controller('MentorProfileController',
             $scope.updateProfile = function () {
                 var check = true;
                 var error = '';
-
+                $scope.isHideMessage = true;
                 var favorite = "";
                 if ($('input[name="music"][value="Music"]').is(':checked')) {
                     favorite += $('input[name="music"][value="Music"]').val();
@@ -197,10 +197,18 @@ brotControllers.controller('MentorProfileController',
                     gender = "O";
                 }
 
-                if (!isValidEmailAddress($('input[name="email"]').val())) {
-                    check = false;
-                    error += "Email is not valid";
+                var email = $('input[name="email"]').val();
+
+                if(!isEmpty(email)){
+                    if (!isValidEmailAddress($('input[name="email"]').val())) {
+                        check = false;
+                        error += "Email is not valid";
+                    }
+                }else{
+                    email = "";
                 }
+
+
 
                 var selected = [];
                 var objSelected = $('.subject-field input:checked');
@@ -214,7 +222,7 @@ brotControllers.controller('MentorProfileController',
                         'userid': userId,
                         'firstName': $('input[name="firstname"]').val(),
                         'lastName': $('input[name="lastname"]').val(),
-                        'email': $('input[name="email"]').val(),
+                        'email': email,
                         'gender': gender,
                         'school': $('input[name="school"]').val(),
                         'bod': $('input[id="bod"]').val(),
@@ -270,6 +278,7 @@ brotControllers.controller('MentorProfileController',
                 $('#confirm').val('');
 
             }
+
 
             $scope.changePassword = function () {
                 //get value input

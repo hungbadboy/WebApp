@@ -365,7 +365,7 @@ brotControllers.controller('StudentProfileController',
 
             $scope.updateProfile = function () {
                 var check = true;
-
+                $scope.hasShowMessage = false;
                 var favorite = "";
                 if ($('input[name="music"][value="Music"]').is(':checked')) {
                     favorite += $('input[name="music"][value="Music"]').val();

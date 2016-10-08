@@ -1596,10 +1596,12 @@ public class UserServiceImpl implements UserService {
         boolean hasException = false;
         try {
             dateUpdate = request.getRequest_user().getBod();
-            if (dateUpdate != null || !StringUtils.isEmpty(dateUpdate)) {
+            if (!StringUtils.isEmpty(dateUpdate) && !dateUpdate.equals("Unknown")) {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
                 Date date = formatter.parse(dateUpdate);
                 dateUpdate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+            } else {
+                dateUpdate = null;
             }
         } catch (Exception e) {
             hasException = true;
