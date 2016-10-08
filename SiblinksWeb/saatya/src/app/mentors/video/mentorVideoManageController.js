@@ -45,11 +45,15 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
         else
           data[i].imageUrl = data[i].imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + data[i].imageUrl: data[i].imageUrl;
         var firstname = '';
-        if (data[i].firstName && data[i].firstName.length > 0) {
+        if (data[i].firstName == null || data[i].firstName.length == 0) {
+          firstname = '';
+        } else
           firstname = data[i].firstName;
 
         var lastname = '';
-        if (data[i].lastName && data[i].lastName.length > 0) {
+        if (data[i].lastName == null || data[i].lastName.length == 0) {
+          lastname = '';
+        } else
           lastname = data[i].lastName;
 
         data[i].fullName = lastname + ' ' + firstname;
