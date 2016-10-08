@@ -187,6 +187,19 @@ brotControllers.controller('MentorVideoDetailController',
         }
     }
 
+    $scope.class = 'show-less';
+    $scope.textShow = "Show more";
+
+    $scope.showMore = function(){
+        if ($scope.class == 'show-more') {
+            $scope.class = 'show-less';
+            $scope.textShow = 'Show more';
+        } else{
+            $scope.class = 'show-more';
+            $scope.textShow = "Show less";
+        }
+    }
+
     $scope.$on('passing', function(e, a){
         $scope.video.title = a.title;
         $scope.description = a.description;

@@ -49,7 +49,6 @@
                                     <div class="top-cm">
                                         <h3>{{ video.title | limitTo: 30 }}{{video.title.length > 30 ? '...' : ''}}</h3>
                                         <span class="time">{{video.timeStamp}} ago</span>
-                                        {{video.title}}
                                         <div class="btn-count clearfix">
                                             <div class="bx-btn pull-left">
                                                 <!-- <button id="btnDelete" class="btn-add active" data-toggle="modal" href='' ng-hide="plid">Add to playlist</button> -->
@@ -74,8 +73,8 @@
                                         </div>
                                     </div>
                                     <div class="show-about">
-                                        <p>{{video.description}}</p>
-                                        <a href="#">Show more<span data-icon="&#x33;"></span></a>
+                                        <p ng-class="class">{{video.description}}</p>
+                                        <a href="" ng-click="showMore()">{{textShow}}<!-- <span data-icon="&#x33;"></span> --></a>
                                     </div>
                                     <div class="catego clearfix">
                                         <p class="pull-right"><span>Catalogue</span>&nbsp;&nbsp;<b>{{video.subject}}</b></p>
