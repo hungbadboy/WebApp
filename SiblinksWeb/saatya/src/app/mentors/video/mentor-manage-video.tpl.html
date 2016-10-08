@@ -13,19 +13,19 @@
                         <div class="row">
                             <div class="col-md-3 box-over">
                                 <div class="top-over clearfix">
-                                    <span class="pull-left">overview</span>
+                                    <span class="pull-left">Overview</span>
                                     <span class="pull-right" data-icon="&#xe037;"></span>
                                     <div class="bx-video-play">
                                         <span><img src="assets/images/icon-play-box.png" alt=""></span>
                                         <span><b>{{dashboard.count_videos}}</b>&nbsp;videos</span><br/>
-                                        <span><b>{{dashboard.count_playlist}}</b>&nbsp;playlist</span>
+                                        <span><b>{{dashboard.count_playlist}}</b>&nbsp;playlists</span>
                                     </div>
                                 </div>
                                 <ul class="list-review">
                                     <li><img src="assets/images/icon-l-review.png" alt="">&nbsp;&nbsp;<b>{{dashboard.count_views}}</b>&nbsp;&nbsp;views</li>
                                     <li><img src="assets/images/icon-l-comments.png" alt="">&nbsp;&nbsp;<b>{{dashboard.count_comments}}</b>&nbsp;&nbsp;comments</li>
                                     <li class="clearfix">
-                                        <span class="pull-left"><img src="assets/images/icon-l-star.png" alt="">&nbsp;&nbsp;<b>{{dashboard.avg_rating}}</b>&nbsp;&nbsp;rate
+                                        <span class="pull-left" ><img src="assets/images/icon-l-star.png" alt="">&nbsp;&nbsp;<b>{{dashboard.avg_rating}}</b>&nbsp;&nbsp;
                                         </span>    
                                         <div ng-if="dashboard" class="list-star pull-left" star-rating stars="5"
                                               outer-star-selection="stars"
@@ -34,7 +34,7 @@
                                               rating-define="star"
                                               rating-stars="{{dashboard.avg_rating}}"
                                               star-radius="9" sel-color="gold"
-                                              back-color="white" style="margin-top: 5px;"></div>                                        
+                                              back-color="white" style="margin-top: 0px;"></div>                                        
                                     </li>
                                 </ul>
                             </div>
@@ -145,7 +145,7 @@
                         <div class="row main-rate">
                             <div class="col-md-4">
                                 <div class="box-rate" >
-                                    <h4>Latest Rating</h4>
+                                    <h4>Recent Rates	</h4>
                                     <ul ng-show="ratings">
                                         <li class="clearfix" ng-repeat="r in ratings track by $index">
                                             <span class="img-tb pull-left"><a href="#/mentor/mentorProfile/{{r.userid}}"><img class="avatar-fix-size" src="{{r.imageUrl}}" alt=""></a></span>
