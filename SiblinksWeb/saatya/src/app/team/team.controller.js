@@ -33,7 +33,7 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
             }
             $("#subscribers_"+userid).attr("data-icon","M");
 
-            $("#span_"+userid).text("unsubscribe");
+            $("#span_"+userid).text("Unsubscribe");
 
         };
         $scope.unHoverSubcribe = function (isSubs,userid) {
@@ -42,7 +42,7 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
                 return ;
             }
             $("#subscribers_"+userid).attr("data-icon","N");
-            $("#span_"+userid).text("subscribe");
+            $("#span_"+userid).text("Subscribe");
 
         };
 
