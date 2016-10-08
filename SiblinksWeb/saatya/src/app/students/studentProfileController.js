@@ -91,20 +91,23 @@ brotControllers.controller('StudentProfileController',
                     if (data.data.status == "true") {
                         var subjects = myCache.get("subjects");
                         if (data.data.request_data_result) {
-                            $scope.studentMentorProfile = data.data.request_data_result;
+                            var result_data = data.data.request_data_result;
+                            $scope.studentMentorProfile = result_data;
                             var gender = $scope.studentMentorProfile.gender;
 
                             $scope.gender = validateGender(gender);
+                            console.log(result_data.birthDay);
+                            var birthDay = calculateBirthDay(result_data.birthDay);
+                            console.log(birthDay);
+                            $scope.bod = birthDay;
 
-                            $scope.birthDay = calculateBirthDay($scope.studentMentorProfile.birthDay);
-
-                            if ($scope.studentMentorProfile.defaultSubjectId && (subjects !== undefined || subjects != null)) {
-                                $scope.subjects = getSubjectNameById($scope.studentMentorProfile.defaultSubjectId, subjects);
+                            if (result_data.defaultSubjectId && (subjects !== undefined || subjects != null)) {
+                                var subs = getSubjectNameById(result_data.defaultSubjectId, subjects);
+                                $scope.mentorSubs = subs;
                             } else {
                                 var skillNull = [{id: -1, name: "None"}];
-                                $scope.subjects = skillNull;
+                                $scope.mentorSubs = skillNull;
                             }
-
                         } else {
                             $scope.studentMentorProfile = null;
                         }
