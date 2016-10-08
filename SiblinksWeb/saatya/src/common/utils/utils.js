@@ -379,13 +379,16 @@ function timeConverter(timeStamp, typeFormat) {
 
 function timeBackEnd() {
     if (!serverDateTime) {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", NEW_SERVICE_URL +"/timeDB", false);
-        xmlhttp.send();
-        var j = JSON.parse(xmlhttp.responseText);
-        console.log(j);
-        serverDateTime = new Date(j);
-        return;
+    	var xmlhttp = new XMLHttpRequest();
+    	try {
+            xmlhttp.open("GET", NEW_SERVICE_URL +"/timeDB", false);
+            xmlhttp.send();	
+            serverDateTime = new Date(JSON.parse(xmlhttp.responseText));
+            return;
+    	} catch(e) {
+    		console.log("can't connect to server");
+    		serverDateTime = new Date();
+    	}
     }
 
     // Increment time by 1 second
