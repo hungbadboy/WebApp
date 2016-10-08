@@ -45,13 +45,16 @@ brotApp.directive('brotdatepicker', function () {
     return {
         restrict: 'A',
         require: 'ngModel',
+        scope: {
+            dateFormat: "@dateformat"
+        },
          link: function (scope, element, attrs, ngModelCtrl) {
             element.datepicker({
                 changeYear:true,
                 changeMonth:true,
-                dateFormat: 'mm-dd,yy',
+                dateFormat: scope.dateFormat||'mm-dd,yy',
                 maxDate: new Date(),
-                // yearRange: '1920:2000',
+                yearRange: '1920:2050',
                 onSelect: function (date) {
                     scope.date = date;
                     scope.$apply();
@@ -210,6 +213,7 @@ brotControllers.directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '
         var unbindInitialValue;
         var displaySearching;
         var displayNoResults;
+        var placeHolder = scope.placeholder;
 
         elem.on('mousedown', function(event) {
             if (event.target.id) {
@@ -374,6 +378,7 @@ brotControllers.directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '
         }
 
         function keyupHandler(event) {
+            console.log("keyupHandler");
             var which = ie8EventNormalizer(event);
             if (which === KEY_LF || which === KEY_RT) {
                 // do nothing
@@ -478,9 +483,11 @@ brotControllers.directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '
         }
 
         function keydownHandler(event) {
+            console.log("keydownHandler");
             var which = ie8EventNormalizer(event);
             var row = null;
             var rowTop = null;
+
 
             if (which === KEY_EN && scope.results) {
                 if (scope.currentIndex >= 0 && scope.currentIndex < scope.results.length) {
@@ -968,6 +975,7 @@ brotControllers.directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '
             }
             return link;
         }
+
     };
 }]);
 brotControllers.directive('ngReallyClick', ['$modal',
