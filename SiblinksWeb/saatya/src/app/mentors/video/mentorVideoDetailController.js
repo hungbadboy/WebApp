@@ -1,6 +1,6 @@
 brotControllers.controller('MentorVideoDetailController', 
-  ['$rootScope','$scope', '$modal', '$routeParams', '$http', '$location', 'videoDetailService','PlaylistService',
-                                       function ($rootScope,$scope, $modal, $routeParams, $http, $location, videoDetailService, PlaylistService) {
+  ['$rootScope','$scope', '$modal', '$routeParams', '$http', '$location', 'videoDetailService','PlaylistService', 'VideoService',
+                                       function ($rootScope,$scope, $modal, $routeParams, $http, $location, videoDetailService, PlaylistService, VideoService) {
 
 
     var vid = $routeParams.vid;
@@ -15,7 +15,6 @@ brotControllers.controller('MentorVideoDetailController',
     init();
 
     function init(){
-        angular.element(document.querySelector('#btnDelete')).remove();
     	if (!isNaN(vid) && vid > 0) {
     		// get video detail
             $scope.vid = vid;
@@ -148,6 +147,7 @@ brotControllers.controller('MentorVideoDetailController',
     $scope.selectIndex = function(index){
         if (index > $scope.videos.length) 
             index = 0;
+        $scope.pos = index;
         loadVideoDetail($scope.videos[index]);
     }
 
@@ -160,6 +160,77 @@ brotControllers.controller('MentorVideoDetailController',
         else
             player.cueVideoById($scope.vid);
         }
+    }
+
+    $scope.loadVideo = function(v){
+        loadData(v);
+    }
+
+    function loadData(v){
+        if (v.plid && v.plid > 0) {
+            setStorage('vidInPlaylist', v.vid, 30);
+            window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
+            window.location.reload();
+        } else{
+            window.location.href = '#/mentor/video/detail/'+v.vid+'';
+            window.location.reload();
+        }
+    }
+
+    $scope.goToProfile = function(id){
+        if (id == userId) {
+            window.location.href = '#/mentor/mentorProfile';
+            window.location.reload();
+        } else{
+            window.location.href = '#/mentor/studentProfile/'+id+'';
+            window.location.reload();
+        }
+    }
+
+    $scope.$on('passing', function(e, a){
+        $scope.video.title = a.title;
+        $scope.description = a.description;
+    })
+
+    $scope.editVideo = function(vid){
+        var modalInstance = $modal.open({
+            templateUrl: 'src/app/mentors/video/upload_tutorial_popup.tpl.html',
+            controller: 'UploadTutorialController',
+            resolve:{
+              u_id: function () {
+                  return userId;
+              },
+              v_id: function(){
+                return vid;
+              }
+            }
+        });
+    }
+
+    $scope.deleteVideo = function(vid){
+        var selectedVideos = [];
+        selectedVideos.push(vid);
+        VideoService.deleteMultipleVideo(selectedVideos, userId).then(function(data){
+           if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+                if ($scope.videos) {
+                    $scope.videos.splice($scope.pos, 1);
+                    if ($scope.videos.length == 0) {
+                        window.location.href = '#/mentor/mentorVideo';
+                        window.location.reload();
+                    } else{
+                        $scope.currentId = $scope.videos[$scope.pos].vid;
+                        loadVideoDetail($scope.videos[$scope.pos]); 
+                    }                      
+                } else{
+                    if ($scope.videosRelated) {
+                        loadData($scope.videosRelated[0]);
+                    } else{
+                        window.location.href = '#/mentor/mentorVideo';
+                        window.location.reload();
+                    }
+                }
+           }
+        });
     }
 
     $scope.showButton = function(){

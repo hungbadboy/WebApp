@@ -1,6 +1,6 @@
 brotControllers.controller('ChooseVideoController', 
-  ['$rootScope','$scope', '$modalInstance', '$routeParams', '$http', '$location', 'PlaylistService', 'VideoService', 'myCache', 'pl_id',
-                                       function ($rootScope, $scope, $modalInstance, $routeParams, $http, $location, PlaylistService, VideoService, myCache, pl_id) {
+  ['$rootScope','$scope', '$modalInstance', '$routeParams', '$http', '$location', 'PlaylistService', 'VideoService','HomeService', 'myCache', 'pl_id',
+                                       function ($rootScope, $scope, $modalInstance, $routeParams, $http, $location, PlaylistService, VideoService, HomeService, myCache, pl_id) {
 
     var userId = localStorage.getItem('userId'); 
     $scope.subject = [0];
@@ -48,27 +48,36 @@ brotControllers.controller('ChooseVideoController',
         return data;
     }
 
+    var sub = myCache.get("subjects");
     function initSubject(){
-      if (myCache.get("subjects") !== undefined) {
-         $scope.subjects = myCache.get("subjects");
+      if (sub !== undefined) {
+        var arr = angular.copy(sub);
+         if (arr[0].subjectId != 0) {
+            arr.splice(0, 0, {
+              'subjectId': 0,
+              'subject' : 'All'
+            });
+         }
+         $scope.subjects = arr;
+         $scope.subject = $scope.subjects[0].subjectId;
       } else {
          HomeService.getAllCategory().then(function (data) {
              if (data.data.status) {
-                 $scope.subjects = data.data.request_data_result;
-                 myCache.put("subjects", data.data.request_data_result);
+                 localStorage.setItem("subjects", data.data.request_data_result);
+                 var arr = angular.copy(data.data.request_data_result);
+                 arr.splice(0, 0, {
+                  'subjectId': 0,
+                  'subject' : 'All'
+                 });
+                 $scope.subjects = arr;
+                 $scope.subject = $scope.subjects[0].subjectId;
              }
          });
-      }
-      var item = {
-        'subjectId': 0,
-        'subject' : 'Select Subject'
-      }
-      $scope.subjects.splice(0, 0, item);
-      $scope.insertSubject = $scope.subjects[0].subjectId;
+      }      
     }
 
-    $scope.loadVideoBySubject = function(){
-        var sid = $('#subject').val();
+    $scope.loadVideoBySubject = function(e){
+        var sid = e;
         if (sid == 0) {
             if(cacheVideos.length > 0)
                 $scope.videos = cacheVideos; 

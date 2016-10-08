@@ -86,6 +86,7 @@ brotControllers.controller('MentorPlaylistDetailController',
     }
 
     $scope.playAll = function(){
+        localStorage.removeItem('vidInPlaylist');
         window.location.href = '#/mentor/playlist/playall/'+plid+'';
         window.location.reload();
     }
