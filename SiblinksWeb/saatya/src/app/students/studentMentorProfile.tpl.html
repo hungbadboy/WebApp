@@ -111,16 +111,16 @@
                             <!-- top-mentor-header -->
                             <div class="top-videos-header">
                                 <div class="top-videos-header-title">
-                                    <h4>Recently uploaded videos</h4>
+                                    <h4>Recently Uploaded</h4>
                                 </div>
                                 <div class="see-more">
-                                    <a href="/#/videos"><p>See More</p></a>
+                                    <a href="/#/videos"><p>See more</p></a>
                                 </div>
                             </div><!-- /End top-mentor-header -->
                             <!-- List of top mentors -->
                             <div class="top-videos-list">
                                 <ul ng-show="!videosRecently || videosRecently.length == 1 ">
-                                    <li>No Have Video Recently....</li>
+                                    <li>No recent video....</li>
                                 </ul>
                                 <ul ng-show="videosRecently && videosRecently.length > 1">
                                     <li ng-repeat="video in videosRecently track by $index" ng-if="$index > 0">
@@ -170,10 +170,10 @@
                         <!-- top-mentor-header -->
                         <div class="mentors-newest-answer-header">
                             <div class="mentors-newest-answer-title">
-                                <span data-icon="&#x5c;"></span><h4>Newest Answers</h4>
+                                <span data-icon="&#x5c;"></span><h4>Recent Answers</h4>
                             </div>
                             <div class="see-more">
-                                <p>See More</p>
+                                <p>See more</p>
                             </div>
                         </div><!-- /End top-mentor-header -->
                         <!-- List of answered mentors -->

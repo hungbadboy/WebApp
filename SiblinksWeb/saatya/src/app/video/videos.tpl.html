@@ -2,7 +2,7 @@
     <!-- Breadcrum -->
     <div class="breadcrum">
         <div class="container">
-            <h5>SibLinks <span>/ Videos</span></h5>
+            <h5>SibLinks <span>/ Tutorials</span></h5>
             <!-- Search form -->
             <div class="search searchbrecrum">
                 <form class="navbar-form" role="search">
@@ -40,7 +40,7 @@
                     <ul class="nav nav-tabs">
                         <li class="all-video active">
                             <a data-toggle="tab" href="/videos/#all" ng-click="clearDataSearched()">
-                                <span data-icon="&#xe074;"></span><span>All Tutorial</span>
+                                <span data-icon="&#xe074;"></span><span>All Tutorials</span>
                             </a>
                         </li>
                         <li class="subsciption" ng-if="login == 1" ng-click="fillListVideoByDefault()">
@@ -58,14 +58,14 @@
                         </li>
                         <li class="like-video" ng-if="login == 1" ng-click="resetFlagShowMoreFavourite();">
                             <a data-toggle="tab" href="/videos/#favourite">
-                                <span data-icon="&#xe033;"></span><span>Favourite Tutorial</span><span
+                                <span data-icon="&#xe033;"></span><span>Favorites</span><span
                                     ng-if="login == 1"
                                     class="number-media number-like"
                                     ng-bind="listVideoFavourite.length"></span>
                             </a>
                         </li>
                     </ul><!-- /End Tab left menu -->
-                    <div class="link-mentor"><a href="#/team">Browser Mentor</a></div>
+                    <div class="link-mentor"><a href="#/team">Browse Mentors</a></div>
                 </div><!-- /End Left Side -->
 
                 <!-- Top subcrible -->
@@ -117,7 +117,7 @@
             <div class="video-list col-lg-9 col-md-8 tab-content">
                 <!-- Content of All -->
                 <div class="tab-pane active" id="all">
-                    <h4>All Tutorial</h4>
+                    <h4>All Tutorials</h4>
                     <div class="sort-video">
                         <span>Sort</span>
                         <ul>
@@ -291,7 +291,7 @@
                                     <div class="video-member-subcriber">
                                         <p>
                                             <button style="margin-top: 5px;" ng-click="setSubscribeMentor(recommendedForYou[$index].userId, $index)">
-                                                <span data-icon="&#x4c;">subscrible</span>
+                                                <span data-icon="&#x4c;">Subscribe</span>
                                                 <span class="number-subscribers">{{recommendedForYou[0].countSubscribe}}</span>
                                             </button>
                                         </p>
