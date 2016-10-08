@@ -271,5 +271,9 @@ brotControllers.controller('VideoManagerController',
 
     $scope.$on('addPlaylist', function(){
       loadVideos();
-    })
+    });
+
+    $scope.$on('uploadNew', function(){
+      loadVideos();
+    });
 }]);

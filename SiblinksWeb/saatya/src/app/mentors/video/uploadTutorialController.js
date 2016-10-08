@@ -186,6 +186,7 @@ brotControllers.controller('UploadTutorialController',
         VideoService.uploadTutorial(request).then(function(data){
           if (data.data.request_data_result === "Success") {
             $scope.success = "Upload Tutorial successful.";
+            $rootScope.$broadcast("uploadNew");
             loadVideoRecently();
             clearContent();
           } else{
