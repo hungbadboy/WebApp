@@ -26,6 +26,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         var currentPageAnswer = 0;
         $scope.isLoadMore = true;
         $scope.isLoadMoreAnswer =true;
+        $scope.currentIndexAnswer = 0;
         init();
 
 
@@ -35,11 +36,12 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 var allSubjects = myCache.get("subjects");
                 listDefaultSubjectId = getSubjectNameByIdQA(defaultSubjectId, allSubjects);
                 $scope.subjectsParent = [];
-                for (var i = 0; i < listDefaultSubjectId.length; i++) {
-                    if (listDefaultSubjectId[i].level == '0') {
-                        $scope.subjectsParent.push(listDefaultSubjectId[i]);
-                    }
-                }
+                $scope.subjectsParent = listDefaultSubjectId;
+                // for (var i = 0; i < listDefaultSubjectId.length; i++) {
+                //     if (listDefaultSubjectId[i].level == '0') {
+                //         $scope.subjectsParent.push(listDefaultSubjectId[i]);
+                //     }
+                // }
                 if (data.data.status) {
                     $scope.listQuestions = data.data.request_data_result;
                     $scope.listQuestions = data.data.request_data_result;
@@ -76,7 +78,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                     else{
                         $scope.isLoadMore = false;
                     }
-
                 }
             });
 
@@ -115,6 +116,11 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
                 }
             });
+
+        }
+        $scope.showAnswer = function (index) {
+            $scope.currentIndexAnswer = index;
+            angular.element(document.getElementById('answer-detail')).modal();
 
         }
         $scope.openFile= function () {
@@ -213,6 +219,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 $scope.listAnswer = answers;
             });
 
+        }
+        $scope.convertToArrayImage = function (str) {
+            return detectMultiImage(str);
         }
 
         $scope.focusSubject = function () {
