@@ -81,14 +81,14 @@
                                         <button class="btn-delete" ng-click="deleteMultiplePlaylist()">Delete Selected</button>
                                     </div>
                                     <div class="filters clearfix">
-                                        <div class="check-all"><input id="check-all" type="checkbox" name="checkall" /></div>
+                                        <div class="check-all"><input id="check-all" type="checkbox" name="checkall" ng-model="selectedAll" ng-click="checkAll()" /></div>
                                         <div class="text-trf">Playlist Informations</div>
                                         <div class="text-play">Subject</div>
                                         <div class="text-ac">Action</div>
                                     </div>
                                     <div class="group-item">
                                         <div class="item" ng-if="playlist" ng-repeat="p in playlist track by $index">
-                                            <div class="check-box"><input type="checkbox" ng-model="p.selected" class="check-input" name="checkall" /></div>
+                                            <div class="check-box"><input type="checkbox" ng-model="p.selected" class="check-input" name="checkall" ng-click="optionSelected()"/></div>
                                             <div class="box-detail-play clearfix">
                                                 <span class="item-thumbnail">
                                                     <a href="#/mentor/playlist/detail/{{p.plid}}"><img class="item-fix-size" src="{{p.image}}" alt=""></a>

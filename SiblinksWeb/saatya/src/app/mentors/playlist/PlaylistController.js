@@ -104,6 +104,7 @@ brotControllers.controller('PlaylistController',
             data[i].numLike = data[i].numLike == null ? 0 : data[i].numLike;
             data[i].numRate = data[i].numRate == null ? 0 : data[i].numRate;
             data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
+            data[i].selected = false;
         }
         return data;
     }
@@ -117,6 +118,20 @@ brotControllers.controller('PlaylistController',
               return plid;
             }
           }
+      });
+    }
+
+    $scope.checkAll = function(){
+      var status = !$scope.selectedAll;
+
+      angular.forEach($scope.playlist, function(v){
+        v.selected = status;
+      });
+    };
+
+    $scope.optionSelected = function(){
+      $scope.selectedAll = $scope.playlist.every(function(v){
+        return v.selected;
       });
     }
 
@@ -138,7 +153,7 @@ brotControllers.controller('PlaylistController',
       var selectedPlaylist = checkSelectedPlaylist();
       if (selectedPlaylist.length > 0) {
         if (confirm("Are you sure?")) {
-          PlaylistService.deleteMultiplePlaylist(selectedPlaylist).then(function(data){
+          PlaylistService.deleteMultiplePlaylist(selectedPlaylist, userId).then(function(data){
             loadPlaylist();
           });
         }        
@@ -147,21 +162,21 @@ brotControllers.controller('PlaylistController',
 
     function checkSelectedPlaylist(){
       var selectedPlaylist = [];
-      angular.forEach($scope.playlist, function(p){
-        
-          if (!!p.selected) {
-            if (p.count_videos > 0) {
-              alert('Please remove all videos in the playlist first.');
-              return [];
-            } else{}
-              selectedPlaylist.push(p.plid);
-          }else{
-            var i = selectedPlaylist.indexOf(p.plid);
-            if(i != -1){
-              selectedPlaylist.splice(i, 1);
+      for (var i = 0; i < $scope.playlist.length; i++) {
+        var data = $scope.playlist[i];
+        if (!!data.selected) {
+          if (data.count_videos > 0) {
+            alert('Please remove all videos in the playlist first.');
+             break;
+          } else
+            selectedPlaylist.push(data.plid);
+        } else{
+            var index = selectedPlaylist.indexOf(data.plid);
+            if(index != -1){
+              selectedPlaylist.splice(index, 1);
             }
-          }
-      });
+        }
+      }
       return selectedPlaylist;
     }
 
