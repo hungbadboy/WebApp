@@ -36,6 +36,8 @@ public class User {
     private String username;
     private String password;
     private String newpassword;
+    private String bod;
+    private String defaultSubjectId;
 
     public String getUsername() {
         return username;
@@ -132,4 +134,35 @@ public class User {
     public void setFavorite(final String favorite) {
         this.favorite = favorite;
     }
+
+    /**
+     * @return the bod
+     */
+    public String getBod() {
+        return bod;
+    }
+
+    /**
+     * @param bod
+     *            the bod to set
+     */
+    public void setBod(final String bod) {
+        this.bod = bod;
+    }
+
+    /**
+     * @return the defaultSubjectId
+     */
+    public String getDefaultSubjectId() {
+        return defaultSubjectId;
+    }
+
+    /**
+     * @param defaultSubjectId
+     *            the defaultSubjectId to set
+     */
+    public void setDefaultSubjectId(final String defaultSubjectId) {
+        this.defaultSubjectId = defaultSubjectId;
+    }
+
 }

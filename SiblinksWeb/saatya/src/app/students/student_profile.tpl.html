@@ -17,7 +17,7 @@
                             <h3 class="student-name" style="font-size: 20px; margin-top: 13px">{{studentInfo.firstname
                                 != null ? studentInfo.firstname : ''}} {{studentInfo.lastName != null ?
                                 studentInfo.lastName : ''}}</h3>
-                            <span class="changeImg">
+                            <span class="changeImg" ng-hide="isLoginViaFBOrGoogle">
                                  <input type="file" id="changeImg" name="changeImg[]"
                                         ng-file-select="onFileSelect($files)" accept='image/*'>
                                  <label for="changeImg"><span data-icon="&#xe075;"></span></label>
@@ -231,24 +231,26 @@
                         <div class="content-question col-md-12 tab-pane" id="setting">
                             <div class="user-profile-setting">
                                 <ul class="nav nav-tabs">
-                                    <li class="active">
-                                        <a data-toggle="tab" href="/studentProfile/#perInfor">
+                                    <li class="active" ng-click="changeTab()">
+                                        <a data-toggle="tab" href="/studentProfile/#perInfor" ng-click="changeTab()">
                                             Personal Information
                                         </a>
                                     </li>
-                                    <li ng-show="!isLoginViaFBOrGoogle">
-                                        <a data-toggle="tab" href="/studentProfile/#changPass">
+                                    <li ng-show="!isLoginViaFBOrGoogle" ng-click="changeTab()">
+                                        <a data-toggle="tab" href="/studentProfile/#changPass" ng-click="changeTab()">
                                             Change password
                                         </a>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="content-question tab-pane active" id="perInfor">
-                                        <div ng-if="success" class="succesful">
-                                            <span>{{msgSuccess}}</span>
-                                        </div>
-                                        <div ng-if="error" class="validate_error">
-                                            <span>{{msgError}}</span>
+                                        <div ng-show="hasShowMessage">
+                                            <div ng-if="msgSuccess" class="succesful">
+                                                <span>{{msgSuccess}}</span>
+                                            </div>
+                                            <div ng-if="msgError" class="validate_error">
+                                                <span>{{msgError}}</span>
+                                            </div>
                                         </div>
                                         <form action="" method="">
                                             <div class="personal-information">
@@ -261,13 +263,25 @@
                                                     </p>
                                                     <p><input type="text" id="school" placeholder="High School"
                                                               name="school"></p>
-                                                    <p class="favorite field">
-                                                    <p>Favourite field</p>
-                                                    <!--<div ng-repeat="subject in subjects">-->
-                                                        <!--<input type="checkbox" value="{subject.id}" name="subjects[]">-->
-                                                        <!--<label>{subject.name}</label>-->
-                                                    <!--</div>-->
-                                                    </p>
+                                                    <div class="favorite-field">
+                                                        <p>Favourites Field</p>
+                                                        <div class="check-favorite">
+                                                            <input type="checkbox" value="Music"
+                                                                   name="music"><label>Music</label>
+                                                            <input type="checkbox" value="Art"
+                                                                   name="art"><label>Art</label>
+                                                            <input type="checkbox" value="Sport"
+                                                                   name="sport"><label>Sport</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="subject-field">
+                                                        <p ng-if="objSubs">Subjects Registered</p>
+                                                        <ng-form name="check-subject" ng-repeat="sub in objSubs">
+                                                            <input type="checkbox" id="{{sub.id}}" value="{{sub.id}}"
+                                                                   name="{{sub.name}}" checked>
+                                                            <label>{{sub.name}}</label>
+                                                        </ng-form>
+                                                    </div>
                                                 </div>
                                                 <div class="right-form">
                                                     <p class="sex">
@@ -280,13 +294,14 @@
                                                     </p>
 
                                                     <p><input type="text" id="bod" ng-model="date" placeholder="BIO"
-                                                              brotdatepicker/></p>
+                                                              brotdatepicker dateFormat="dd M, yy"/></p>
                                                     <p><textarea placeholder="About me..." id="about"
                                                                  name="aboutme"></textarea></p>
                                                 </div>
 
                                                 <div class="submit col-md-12">
-                                                    <button type="button" id="reset" ng-click="reset()">Reset</button>
+                                                    <button type="button" id="reset" ng-click="resetProfile()">Reset
+                                                    </button>
                                                     <button type="button" id="update" ng-click="updateProfile()">Update
                                                     </button>
                                                 </div>
@@ -294,25 +309,30 @@
                                         </form>
                                     </div>
                                     <div class="content-question tab-pane" id="changPass">
-                                        <div ng-if="msgSuccess" class="succesful">
-                                            <span>{{msgSuccess}}</span>
-                                        </div>
-                                        <div ng-if="msgError" class="validate_error">
-                                            <span>{{msgError}}</span>
+                                        <div ng-show="hasShowMessage">
+                                            <div ng-if="msgSuccess" class="succesful">
+                                                <span>{{msgSuccess}}</span>
+                                            </div>
+                                            <div ng-if="msgError" class="validate_error">
+                                                <span>{{msgError}}</span>
+                                            </div>
                                         </div>
                                         <form acition="" method="">
                                             <div class="change-password">
-                                                <p><input id="currentPwd" type="password" ng-model="currentPwd"
-                                                          placeholder="Current password" name="currentPwd"></p>
-                                                <p><input id="newPwd" type="password" ng-model="newPwd"
-                                                          placeholder="New password" name="newPwd"></p>
-                                                <p><input id="confirmPwd" type="password" ng-model="confirmPwd"
-                                                          placeholder="Confirm password" name="confirmPwd"></p>
+                                                <p><input type="password" placeholder="Current password"
+                                                          name="currentpassword" id="password"></p>
+                                                <p><input type="password" id="pass" placeholder="New password"
+                                                          name="newpassword" data-toggle="popover"
+                                                          data-trigger="hover" data-placement="top"
+                                                          data-content="Change must be at least 8 characters"></p>
+                                                <p><input type="password" id="confirm"
+                                                          placeholder="Confirm password" name="confirmpassword"></p>
                                             </div>
                                             <div class="submit col-md-12">
-                                                 <button type="button" ng-click="reset()">Reset</button>
-                                                <button type="button"
-                                                        ng-click="changePassword(currentPwd,newPwd,confirmPwd)">Update
+                                                <button type="button" id="reset" ng-click="resetFormPwd()">Reset
+                                                </button>
+                                                <button type="button" id="update" ng-click="changePassword()">
+                                                    Update
                                                 </button>
                                             </div>
                                         </form>

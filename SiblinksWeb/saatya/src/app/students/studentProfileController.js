@@ -1,6 +1,6 @@
 brotControllers.controller('StudentProfileController',
-    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope','$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService',
-        function ($sce, $scope, $modal, $routeParams, $rootScope,$http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService) {
+    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService',
+        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService) {
             var userId = localStorage.getItem('userId');
             var userName = localStorage.getItem('userName');
             var userType = localStorage.getItem('userType');
@@ -18,6 +18,7 @@ brotControllers.controller('StudentProfileController',
             $scope.isLoadMore = false;
             $scope.EMPTY_DATA = StatusError.MSG_UNKNOWN;
             $scope.isSubscribe = false;
+            $scope.hasShowMessage = false;
 
             var isInit = true;
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
@@ -29,7 +30,7 @@ brotControllers.controller('StudentProfileController',
             // $scope.selected = $scope.sections[0];
 
             init();
-
+            // var subjects = myCache.get("subjects");
             function init() {
                 getMentorInfo();
                 if (mentorId != undefined) {
@@ -47,9 +48,9 @@ brotControllers.controller('StudentProfileController',
             function getMentorInfo() {
                 TeamMentorService.getTopMentorsByType(5, 0, 'subcribe', userId).then(function (data) {
                     var data_result = data.data.request_data_result;
-                    var subjects = myCache.get("subjects");
                     if (data_result) {
                         var listTopMentors = [];
+                        var subjects = myCache.get("subjects");
                         for (var i = 0; i < data_result.length; i++) {
                             var mentor = {};
                             if (data_result[i].isSubs == 1) {
@@ -60,8 +61,10 @@ brotControllers.controller('StudentProfileController',
                                 mentor.numvideos = data_result[i].numvideos;
                                 mentor.isOnline = data_result[i].isOnline;
                                 mentor.defaultSubjectId = data_result[i].defaultSubjectId;
-                                if (data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
-                                    mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
+                                if (subjects != null || subjects !== undefined) {
+                                    if (data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
+                                        mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
+                                    }
                                 }
                                 mentor.numAnswers = data_result[i].numAnswers;
                                 listTopMentors.push(mentor);
@@ -85,8 +88,8 @@ brotControllers.controller('StudentProfileController',
             $scope.isReadyLoadRatingRecently = false;
             function getInfoMentorProfile() {
                 MentorService.getStudentMentorProfile(mentorId).then(function (data) {
-                    var subjects = myCache.get("subjects");
                     if (data.data.status == "true") {
+                        var subjects = myCache.get("subjects");
                         if (data.data.request_data_result) {
                             $scope.studentMentorProfile = data.data.request_data_result;
                             var gender = $scope.studentMentorProfile.gender;
@@ -95,7 +98,7 @@ brotControllers.controller('StudentProfileController',
 
                             $scope.birthDay = calculateBirthDay($scope.studentMentorProfile.birthDay);
 
-                            if ($scope.studentMentorProfile.defaultSubjectId) {
+                            if ($scope.studentMentorProfile.defaultSubjectId && (subjects !== undefined || subjects != null)) {
                                 $scope.subjects = getSubjectNameById($scope.studentMentorProfile.defaultSubjectId, subjects);
                             } else {
                                 var skillNull = [{id: -1, name: "None"}];
@@ -212,26 +215,44 @@ brotControllers.controller('StudentProfileController',
             function displayInformation() {
                 $("#firstName").val($scope.studentInfo.firstname);
                 $("#lastName").val($scope.studentInfo.lastName);
-                $("#about").val($scope.studentInfo.description);
+                $("#about").val($scope.studentInfo.bio);
                 $("#email").val($scope.studentInfo.email);
-                $("#description").val($scope.studentInfo.description);
                 $("#bod").val($scope.birthDay);
                 $("#school").val($scope.studentInfo.school);
 
+                if ($scope.gender) {
+                    switch ($scope.gender) {
+                        case "Male":
+                            $('input[name="gender"][value="male"]').prop('checked', true);
+                            break;
+                        case "Female":
+                            $('input[name="gender"][value="female"]').prop('checked', true);
+                            break;
+                        case "Other":
+                            $('input[name="gender"][value="other"]').prop('checked', true);
+                            break;
+                    }
+                }
                 // Get favourite
                 if ($scope.studentInfo.favorite != null && $scope.studentInfo.favorite !== undefined) {
                     var favorite = $scope.studentInfo.favorite.split(',');
                     for (var i = 0; i < favorite.length; i++) {
                         if (favorite[i] == 'Music') {
-                            $('#music').prop('checked', true);
+                            $('input[name="music"][value="Music"]').prop('checked', true);
                         }
                         if (favorite[i] == 'Art') {
-                            $('#art').prop('checked', true);
+                            $('input[name="art"][value="Art"]').prop('checked', true);
                         }
                         if (favorite[i] == 'Sport') {
-                            $('#sport').prop('checked', true);
+                            $('input[name="sport"][value="Sport"]').prop('checked', true);
                         }
                     }
+                }
+
+                var objSelected = $(".subject-field input[type='checkbox']");
+                for (var i = 0; i < objSelected.length; i++) {
+                    var attrSub = objSelected[i];
+                    $(attrSub).prop('checked', true);
                 }
             }
 
@@ -244,7 +265,7 @@ brotControllers.controller('StudentProfileController',
                     return imagePath.split(";");
                 }
                 var listImage = [];
-                listImage.push(imagePath)
+                listImage.push(imagePath);
                 return listImage;
             }
 
@@ -292,11 +313,15 @@ brotControllers.controller('StudentProfileController',
                 }
             };
 
-            $scope.changePassword = function (oldPwd, newPwd, confirmPwd) {
+            $scope.changePassword = function () {
+                //get value input
+                var oldPwd = $('#password').val();
+                var newPwd = $('#pass').val();
+                var confirmPwd = $('#confirm').val();
                 // Valid
                 if (oldPwd == "" || oldPwd === undefined) {
                     $scope.msgError = "Password is required.";
-                    angular.element('#currentPwd').trigger('focus');
+                    angular.element('#password').trigger('focus');
                 } else if (newPwd == "" || newPwd === undefined) {
                     $scope.msgError = "New password is required.";
                     angular.element('#newPwd').trigger('focus');
@@ -317,34 +342,45 @@ brotControllers.controller('StudentProfileController',
                     };
 
                     StudentService.changePassword(user).then(function (data) {
-                        console.log(data.data.request_data_result);
-                        if (data.data == "true") {
+                        if (data.data.request_data_result == "Success") {
+                            resetFormPwd();
                             $scope.msgSuccess = "Change password successful.";
                         } else {
-                            $scope.msgError = data.data.request_data_result;
+                            $scope.msgError = "Change password failure. Please try again !";
                         }
+                        $scope.hasShowMessage = true;
                     });
                 }
+            };
+
+            function resetFormPwd() {
+                $('#password').val('');
+                $('#pass').val('');
+                $('#confirm').val('');
+            }
+
+            $scope.resetFormPwd = function () {
+                resetFormPwd();
             };
 
             $scope.updateProfile = function () {
                 var check = true;
 
                 var favorite = "";
-                if ($('#music').is(':checked')) {
-                    favorite += $('#music').val();
+                if ($('input[name="music"][value="Music"]').is(':checked')) {
+                    favorite += $('input[name="music"][value="Music"]').val();
                 }
-                if ($('#art').is(':checked')) {
+                if ($('input[name="art"][value="Art"]').is(':checked')) {
                     if (favorite.length > 0)
-                        favorite += ',' + $('#art').val();
+                        favorite += ',' + $('input[name="art"][value="Art"]').val();
                     else
-                        favorite += $('#art').val();
+                        favorite += $('input[name="art"][value="Art"]').val();
                 }
-                if ($('#sport').is(':checked')) {
+                if ($('input[name="sport"][value="Sport"]').is(':checked')) {
                     if (favorite.length > 0)
-                        favorite += ',' + $('#sport').val();
+                        favorite += ',' + $('input[name="sport"][value="Sport"]').val();
                     else
-                        favorite += $('#sport').val();
+                        favorite += $('input[name="sport"][value="Sport"]').val();
                 }
 
                 var gender = '';
@@ -363,6 +399,12 @@ brotControllers.controller('StudentProfileController',
                     $scope.msgError = "Email is not valid";
                     angular.element('#email').trigger('focus');
                 }
+                var selected = [];
+                var objSelected = $('.subject-field input:checked');
+                for (var i = 0; i < objSelected.length; i++) {
+                    selected.push(objSelected[i].defaultValue);
+                }
+                var strSubs = selected.join(',');
 
                 if (check) {
                     var student = {
@@ -372,30 +414,56 @@ brotControllers.controller('StudentProfileController',
                         'email': $('#email').val(),
                         'gender': gender,
                         'school': $('#school').val(),
-                        'bio': $('#bod').val(),
-                        'description': $('#about').val(),
-                        'favorite': favorite
+                        'bod': $('#bod').val(),
+                        'bio': $('#about').val(),
+                        'favorite': favorite,
+                        'defaultSubjectId': strSubs
                     };
-                    console.log(student);
                     StudentService.updateUserProfile(student).then(function (data) {
                         if (data.data.request_data_result == "Success") {
+                            var subjects = myCache.get("subjects");
                             if (student) {
                                 $scope.studentInfo.firstname = student.firstName;
                                 $scope.studentInfo.lastName = student.lastName;
                                 $scope.gender = validateGender(student.gender);
+                                $scope.birthDay = student.bod;
                                 $scope.studentInfo.favorite = student.favorite;
-                                $scope.studentInfo.description = student.description;
                                 $scope.studentInfo.school = student.school;
                                 $scope.studentInfo.email = student.email;
                                 $scope.studentInfo.bio = student.bio;
+                                if (student.gender) {
+                                    switch ($scope.gender) {
+                                        case "Male":
+                                            $('input[name="gender"][value="male"]').prop('checked', true);
+                                            break;
+                                        case "Female":
+                                            $('input[name="gender"][value="female"]').prop('checked', true);
+                                            break;
+                                        case "Other":
+                                            $('input[name="gender"][value="other"]').prop('checked', true);
+                                            break;
+                                    }
+                                }
+                                if (subjects != null || subjects !== undefined) {
+                                    $scope.objSubs = getSubjectNameById(strSubs, subjects);
+                                }
                             }
                             $scope.msgSuccess = "Update Profile Successful !";
                         }
                         else {
                             $scope.msgError = "Update Profile Failure !";
                         }
+                        $scope.hasShowMessage = true;
                     });
                 }
+            };
+
+            $scope.changeTab = function () {
+                $scope.hasShowMessage = false;
+            };
+
+            $scope.resetProfile = function () {
+                displayInformation();
             };
 
             /**
@@ -550,7 +618,6 @@ brotControllers.controller('StudentProfileController',
                             $scope.studentInfo = null;
                             return;
                         }
-                        var subjects = myCache.get("subjects");
                         $scope.studentInfo = dataResponse.data.request_data_result;
                         $scope.studentInfo.imageUrl = $scope.studentInfo.imageUrl != null ? $scope.studentInfo.imageUrl : "assets/images/noavartar.jpg";
                         var gender = $scope.studentInfo.gender;
@@ -560,10 +627,13 @@ brotControllers.controller('StudentProfileController',
                         $scope.birthDay = timeConverter(bioTimeStamp, FormatDateTimeType.DD_MM_YY);
                         $scope.sinceDay = timeConverter(registrationTime, FormatDateTimeType.MM_YY);
                         $scope.isLoginViaFBOrGoogle = $scope.studentInfo.idFacebook != null || $scope.studentInfo.idGoogle != null;
-                        if (subjects) {
+                        var subjects = myCache.get("subjects");
+                        if (subjects != undefined || subjects != null) {
                             var subsName = getSubjectNameById($scope.studentInfo.defaultSubjectId, subjects);
+
                             if (subsName.length != 0 || subsName != undefined) {
                                 var listSubs = [];
+                                $scope.objSubs = subsName;
                                 subsName.forEach(function (sub) {
                                     if (subsName.length - 1) {
                                         listSubs.push(sub.name);

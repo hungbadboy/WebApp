@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -77,8 +78,8 @@ import com.siblinks.ws.util.SibConstants;
 import com.siblinks.ws.util.StringUtil;
 
 /**
- * 
- * 
+ *
+ *
  * @author hungpd
  * @version 1.0
  */
@@ -877,7 +878,7 @@ public class UserServiceImpl implements UserService {
     /**
      * This method get information relate of user By user type: Student: Count
      * question, Subscribe, Essay Mentor: count Subscribes, Answer, Video
-     * 
+     *
      * @param userType
      *            Type of user
      * @param queryParams
@@ -1583,7 +1584,7 @@ public class UserServiceImpl implements UserService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.siblinks.ws.service.UserService#updateUserInfodmation(com.siblinks
      * .ws.model.RequestData)
@@ -1591,28 +1592,50 @@ public class UserServiceImpl implements UserService {
     @Override
     @RequestMapping(value = "/updateUserProfile", method = RequestMethod.POST)
     public ResponseEntity<Response> updateUserProfile(@RequestBody final RequestData request) {
-        Object[] queryParams = { request.getRequest_user().getFirstName(), request.getRequest_user().getLastName(), request
-            .getRequest_user()
-            .getEmail(), request.getRequest_user().getGender(), request.getRequest_user().getSchool(), request
-                .getRequest_user()
-                .getBio(), request.getRequest_user().getDescription(), request
-                    .getRequest_user()
-                    .getFavorite(), request.getRequest_user().getUserid() };
-
-        String msg;
-        boolean status = Boolean.TRUE;
-        status = dao.insertUpdateObject(SibConstants.SqlMapperBROT71.SQL_UPDATE_USER_PROFILE, queryParams);
-        if (status) {
-            msg = "Success";
-        } else {
-            msg = "Failed";
+        String dateUpdate = "";
+        boolean hasException = false;
+        try {
+            dateUpdate = request.getRequest_user().getBod();
+            if (dateUpdate != null || !StringUtils.isEmpty(dateUpdate)) {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
+                Date date = formatter.parse(dateUpdate);
+                dateUpdate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+            }
+        } catch (Exception e) {
+            hasException = true;
         }
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    msg);
+        SimpleResponse reponse;
+        if (!hasException) {
+            Object[] queryParams = { request.getRequest_user().getFirstName(), request.getRequest_user().getLastName(), request
+                .getRequest_user()
+                .getEmail(), request.getRequest_user().getGender(), request.getRequest_user().getSchool(), dateUpdate, request
+                    .getRequest_user()
+                    .getBio(), request
+                        .getRequest_user()
+                        .getFavorite(), request.getRequest_user().getDefaultSubjectId(), request.getRequest_user().getUserid() };
+
+            String msg;
+            boolean status = Boolean.TRUE;
+            status = dao.insertUpdateObject(SibConstants.SqlMapperBROT71.SQL_UPDATE_USER_PROFILE, queryParams);
+            if (status) {
+                msg = "Success";
+            } else {
+                msg = "Failed";
+            }
+            reponse = new SimpleResponse(
+                                         "" +
+                                         Boolean.TRUE,
+                                         request.getRequest_data_type(),
+                                         request.getRequest_data_method(),
+                                         msg);
+        } else {
+            reponse = new SimpleResponse(
+                                         "" +
+                                         Boolean.TRUE,
+                                         request.getRequest_data_type(),
+                                         request.getRequest_data_method(),
+                                         SibConstants.NO_DATA);
+        }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
