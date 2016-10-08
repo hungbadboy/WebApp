@@ -62,17 +62,20 @@ brotControllers.controller('MentorProfileController',
                         $scope.sinceDay = timeConverter(registrationTime, FormatDateTimeType.MM_YY);
                         $scope.isLoginViaFBOrGoogle = $scope.mentorInfo.idFacebook != null || $scope.mentorInfo.idGoogle != null;
                         if (subjects) {
-                            var subsName = getSubjectNameById($scope.mentorInfo.defaultSubjectId, subjects);
-                            if (subsName.length != 0 || subsName != undefined) {
-                                var listSubs = [];
-                                subsName.forEach(function (sub) {
-                                    if (subsName.length - 1) {
-                                        listSubs.push(sub.name);
-                                    }
-                                });
-                                $scope.subjects = listSubs.join(', ');
-                            } else {
-                                $scope.subjects = "None";
+                            if (!isEmpty($scope.mentorInfo.defaultSubjectId) && $scope.mentorInfo.defaultSubjectId != null) {
+                                var subsName = getSubjectNameById($scope.mentorInfo.defaultSubjectId, subjects);
+                                if (subsName != undefined) {
+                                    // $scope.objSubs = subsName;
+                                    var listSubs = [];
+                                    subsName.forEach(function (sub) {
+                                        if (subsName.length - 1) {
+                                            listSubs.push(sub.name);
+                                        }
+                                    });
+                                    $scope.subjects = listSubs.join(', ');
+                                } else {
+                                    $scope.subjects = "None";
+                                }
                             }
                         } else {
                             $scope.subjects = "None";
@@ -87,8 +90,8 @@ brotControllers.controller('MentorProfileController',
                 $('input[name="firstname"]').val($scope.mentorInfo.firstname);
                 $('input[name="lastname"]').val($scope.mentorInfo.lastName);
                 $('input[name="email"]').val($scope.mentorInfo.email);
-                $('input[name="bio"]').val($scope.mentorInfo.bio);
-                $('textarea[name="aboutme"]').val($scope.mentorInfo.description);
+                $('input[id="bod"]').val($scope.birthDay);
+                $('textarea[name="aboutme"]').val($scope.mentorInfo.bio);
                 $('input[name="school"]').val($scope.mentorInfo.accomplishments);
                 if ($scope.gender) {
                     switch ($scope.gender) {
@@ -102,7 +105,6 @@ brotControllers.controller('MentorProfileController',
                             $('input[name="gender"][value="other"]').prop('checked', true);
                             break;
                     }
-
                 }
 
                 if ($scope.mentorInfo.favorite != null && $scope.mentorInfo.favorite !== undefined) {
@@ -200,6 +202,13 @@ brotControllers.controller('MentorProfileController',
                     error += "Email is not valid";
                 }
 
+                var selected = [];
+                var objSelected = $('.subject-field input:checked');
+                for (var i = 0; i < objSelected.length; i++) {
+                    selected.push(objSelected[i].defaultValue);
+                }
+                var strSubs = selected.join(',');
+
                 if (check) {
                     var mentor = {
                         'userid': userId,
@@ -208,9 +217,10 @@ brotControllers.controller('MentorProfileController',
                         'email': $('input[name="email"]').val(),
                         'gender': gender,
                         'school': $('input[name="school"]').val(),
-                        'bio': $('input[name="bio"]').val(),
-                        'description': $('textarea[name="aboutme"]').val(),
-                        'favorite': favorite
+                        'bod': $('input[id="bod"]').val(),
+                        'bio': $('textarea[name="aboutme"]').val(),
+                        'favorite': favorite,
+                        'defaultSubjectId': strSubs
                     };
                     StudentService.updateUserProfile(mentor).then(function (data) {
                         if (data.data.request_data_result == "Success") {
@@ -219,17 +229,17 @@ brotControllers.controller('MentorProfileController',
                                 $scope.mentorInfo.lastName = mentor.lastName;
                                 $scope.gender = validateGender(mentor.gender);
                                 $scope.mentorInfo.favorite = mentor.favorite;
-                                $scope.mentorInfo.description = mentor.description;
                                 $scope.mentorInfo.accomplishments = mentor.school;
                                 $scope.mentorInfo.email = mentor.email;
                                 $scope.mentorInfo.bio = mentor.bio;
+                                $scope.birthDay = mentor.bod;
                             }
                             $scope.msgSuccess = "Update Profile Successful !";
                         }
                         else {
-                            if(error != ''){
+                            if (error != '') {
                                 $scope.msgError = error;
-                            }else{
+                            } else {
                                 $scope.msgError = "Update Profile Failure";
                             }
                         }
@@ -254,12 +264,13 @@ brotControllers.controller('MentorProfileController',
                 resetFormPwd();
             };
 
-            function resetFormPwd(){
+            function resetFormPwd() {
                 $('#password').val('');
                 $('#pass').val('');
                 $('#confirm').val('');
 
             }
+
             $scope.changePassword = function () {
                 //get value input
                 var oldPwd = $('#password').val();

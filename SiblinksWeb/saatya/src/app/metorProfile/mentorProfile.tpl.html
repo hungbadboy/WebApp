@@ -34,7 +34,7 @@
                                     <h5>About me</h5>
                                     <p>{{mentorInfo.bio != null ? mentorInfo.bio : EMPTY_DATA }}</p>
                                     <h5>Knowledge field: </h5>
-                                    <p>{{subjects}}</p>
+                                    <p>{{subjects != null ? subjects :'None'}}</p>
                                     <h5>Sex <span>{{gender}}</span></h5>
                                     <h5>BOD <span>{{birthDay}}</span></h5>
                                     <h5>Since <span>{{sinceDay}}</span></h5>
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 manager-profile-infor">
-                            <div class="col-md-12 tab-pane" id="setting-broswer">
+                            <div class="col-md-12 tab-pane" id="setting-broswer" style="z-index: 9">
                                 <div class="user-profile-setting">
                                     <ul class="nav nav-tabs">
                                         <li class="active" ng-click="changeTab()">
@@ -76,9 +76,9 @@
                                                         <p><input type="email" placeholder="Email" name="email"></p>
                                                         <p><input type="text" placeholder="Accomplishments"
                                                                   name="school"></p>
-                                                        <p class="favorite field">
-                                                            <p>Favourite field</p>
-                                                            <div class="">check-favorite
+                                                        <div class="favorite-field">
+                                                            <p>Favourite Field</p>
+                                                            <div class="check-favorite">
                                                                 <input type="checkbox" id="music" value="Music"
                                                                        name="music"><label>Music</label>
                                                                 <input type="checkbox" id="art" value="Art"
@@ -86,7 +86,16 @@
                                                                 <input type="checkbox" id="sport" value="Sport"
                                                                        name="sport"><label>Sport</label>
                                                             </div>
-                                                        </p>
+                                                        </div>
+
+                                                        <div class="subject-field">
+                                                            <p ng-if="objSubs">Subjects Registered</p>
+                                                            <ng-form name="check-subject" ng-repeat="sub in objSubs">
+                                                                <input type="checkbox" id="{{sub.id}}" value="{{sub.id}}"
+                                                                       name="{{sub.name}}" checked>
+                                                                <label>{{sub.name}}</label>
+                                                            </ng-form>
+                                                        </div>
                                                     </div>
                                                     <div class="right-form">
                                                         <p class="sex">
@@ -98,7 +107,8 @@
                                                             Other</label>
                                                         </p>
 
-                                                        <p><input type="text" placeholder="BIO" name="bio"></p>
+                                                        <p><input type="text" id="bod" ng-model="date" placeholder="BOD"
+                                                                  brotdatepicker dateFormat="dd M, yy"/></p>
                                                         <p><textarea placeholder="About me..."
                                                                      name="aboutme"></textarea></p>
                                                     </div>
