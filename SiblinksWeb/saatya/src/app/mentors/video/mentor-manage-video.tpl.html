@@ -174,13 +174,13 @@
                                 <div class="box-l-comment" >
                                     <h4>Latest Comments</h4>
                                     <div class="box-comment-fix" ng-if="comments" scroller="commentScrl" data-on-total-scroll="loadMoreComments">
-                                        <div class="item-cm clearfix" ng-repeat="c in comments track by $index">
+                                        <div class="clearfix" ng-repeat="c in comments track by $index">
                                             <span class="img-tb pull-left"><a href="#/mentor/mentorProfile/{{c.authorid}}"><img class="avatar-fix-size" src="{{c.imageUrl}}" alt=""></a></span>
                                             <div class="pull-left detail-cm">
                                                 <ul class="top-name">
                                                     <li><a href="/mentor/mentorProfile/{{c.authorid}}">{{c.fullName}}</a></li>
                                                     <li><span class="time">{{c.timestamp}} ago on</span></li>
-                                                    <li><span class="question">{{c.title}}</span></li>
+                                                    <li><span class="">{{c.title | limitTo : 25}} {{c.title.length > 25 ? '...' : ''}}</span></li>
                                                 </ul>
                                                 <p>{{c.content}}</p>
                                             </div>
