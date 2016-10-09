@@ -102,13 +102,9 @@ brotControllers.controller('StudentProfileController',
                             var result_data = data.data.request_data_result;
                             $scope.studentMentorProfile = result_data;
                             var gender = $scope.studentMentorProfile.gender;
-
-                            $scope.gender = validateGender(gender);
-                            console.log(result_data.birthDay);
+                            $scope.GenderMentor = validateGender(gender);
                             var birthDay = calculateBirthDay(result_data.birthDay);
-                            console.log(birthDay);
                             $scope.bod = birthDay;
-
                             if (result_data.defaultSubjectId && (subjects !== undefined || subjects != null)) {
                                 var subs = getSubjectNameById(result_data.defaultSubjectId, subjects);
                                 $scope.mentorSubs = subs;
@@ -376,6 +372,7 @@ brotControllers.controller('StudentProfileController',
 
             $scope.updateProfile = function () {
                 var check = true;
+                var error = '';
                 $scope.hasShowMessage = false;
                 var favorite = "";
                 if ($('input[name="music"][value="Music"]').is(':checked')) {
@@ -405,17 +402,29 @@ brotControllers.controller('StudentProfileController',
                     gender = "O";
                 }
 
-                if (!isValidEmailAddress($('#email').val())) {
-                    check = false;
-                    $scope.msgError = "Email is not valid";
-                    angular.element('#email').trigger('focus');
+
+                var email = $('input[name="email"]').val();
+
+                if(!isEmpty(email)){
+                    if (!isValidEmailAddress($('input[name="email"]').val())) {
+                        check = false;
+                        error += "Email is not valid";
+                    }
+                }else{
+                    email = "";
                 }
-                var selected = [];
-                var objSelected = $('.subject-field input:checked');
-                for (var i = 0; i < objSelected.length; i++) {
-                    selected.push(objSelected[i].defaultValue);
-                }
-                var strSubs = selected.join(',');
+
+                // if (!isValidEmailAddress($('#email').val())) {
+                //     check = false;
+                //     $scope.msgError = "Email is not valid";
+                //     angular.element('#email').trigger('focus');
+                // }
+                // var selected = [];
+                // var objSelected = $('.subject-field input:checked');
+                // for (var i = 0; i < objSelected.length; i++) {
+                //     selected.push(objSelected[i].defaultValue);
+                // }
+                // var strSubs = selected.join(',');
 
                 if (check) {
                     var student = {
@@ -427,8 +436,8 @@ brotControllers.controller('StudentProfileController',
                         'school': $('#school').val(),
                         'bod': $('#bod').val(),
                         'bio': $('#about').val(),
-                        'favorite': favorite,
-                        'defaultSubjectId': strSubs
+                        'favorite': favorite
+                        // 'defaultSubjectId': strSubs
                     };
                     StudentService.updateUserProfile(student).then(function (data) {
                         if (data.data.request_data_result == "Success") {
@@ -462,7 +471,11 @@ brotControllers.controller('StudentProfileController',
                             $scope.msgSuccess = "Update Profile Successful !";
                         }
                         else {
-                            $scope.msgError = "Update Profile Failure !";
+                            if (error != '') {
+                                $scope.msgError = error;
+                            } else {
+                                $scope.msgError = "Update Profile Failure";
+                            }
                         }
                         $scope.hasShowMessage = true;
                     });
