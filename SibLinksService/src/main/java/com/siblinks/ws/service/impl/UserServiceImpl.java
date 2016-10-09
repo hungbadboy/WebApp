@@ -939,7 +939,7 @@ public class UserServiceImpl implements UserService {
             if (!CollectionUtils.isEmpty(readObject)) {
                 for (Object object : readObject) {
                     Map<String, String> mapObject = (HashMap<String, String>) object;
-                    result.put("count_answers", mapObject.get("count(*)"));
+                    result.put("count_answers", mapObject.get("numAnswers"));
                 }
             } else {
                 result.put("count_answers", 0);
@@ -951,7 +951,7 @@ public class UserServiceImpl implements UserService {
             if (!CollectionUtils.isEmpty(readObject)) {
                 for (Object object : readObject) {
                     Map<String, String> mapObject = (HashMap<String, String>) object;
-                    result.put("count_videos", mapObject.get("count(*)"));
+                    result.put("count_videos", mapObject.get("numVideos"));
                 }
             } else {
                 result.put("count_videos", 0);

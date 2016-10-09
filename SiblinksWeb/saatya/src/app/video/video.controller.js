@@ -198,10 +198,12 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 if (data.data.status == "true") {
                     if (data.data.request_data_type == "subs") {
                         $scope.isSubscribe = 1;
-                        removeMentor(mentorId);
+                        // removeMentor(mentorId);
                     }
                     else {
-                        $scope.isSubscribe = -1;
+                        $scope.isSubscribe = 0;
+                        $("#subscribers_" + mentorId).attr("data-icon", "N");
+                        $('#subscribers_' + mentorId).removeClass('unsubcrib');
                     }
                 }
             });
@@ -251,7 +253,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         $scope.showProfile = function (event) {
             window.location.href = '#/student/mentorProfile/' + event.currentTarget.getAttribute("id");
-        }
+        };
         /* Video Subscription end */
 
 
@@ -549,7 +551,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         objVideo.numFavourite = video.numFavourite;
                         objVideo.numComments = video.numComments;
                         objVideo.timeAgo = convertUnixTimeToTime(video.timeStamp);
-                        objVideo.enable = video.videoEnable;
+                        objVideo.type = video.type;
+                        objVideo.href = video.type == "2" ? "#/videos/detailPlaylist/" + video.vid + "/0" : "#/videos/detailVideo/" + video.vid;
                         listVideosRecently.push(objVideo);
                     }
                     $scope.isReadyLoadRatedRecently = true;
@@ -916,7 +919,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             $("input#srch-term").val("");
         }
 
-        function detectLengthText(){
+        function detectLengthText() {
             console.log($('.video-description-history').width());
         }
 
@@ -940,6 +943,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         //MTDU
         var listVideos = '';
+
         function loadHistory() {
             if (myCache.get("listVideos") !== undefined) {
                 $log.info("My cache already exists");
@@ -1095,6 +1099,24 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 isInitRecently = true;
             }
         }
+
+        $scope.hoverSubcribe = function (isSubs, userid) {
+            if (isSubs != '1' || isEmpty(userid)) {
+                return;
+            }
+            $("#subscribers_" + userid).attr("data-icon", "M");
+
+            $("#span_" + userid).text("Unsubscribe");
+
+        };
+        $scope.unHoverSubcribe = function (isSubs, userid) {
+            if (isSubs != '1' || isEmpty(userid)) {
+                return;
+            }
+            $("#subscribers_" + userid).attr("data-icon", "N");
+            $("#span_" + userid).text("Subscribe");
+
+        };
 
 
     }]);

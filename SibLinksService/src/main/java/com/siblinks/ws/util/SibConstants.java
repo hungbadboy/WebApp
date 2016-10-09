@@ -441,6 +441,7 @@ public class SibConstants {
         public static final String SQL_GET_VIDEO_BY_VIEW = "GET_VIDEO_BY_VIEW";
         public static final String SQL_GET_VIDEO_VIEW_BY_SUBJECT = "GET_VIDEO_VIEW_BY_SUBJECT";
         public static final String VIDEO_PLAYLIST_NEWEST_BY_SUBJECT = "GET_VIDEO_PLAYLIST_NEWEST_BY_SUBJECT";
+        public static final String VIDEO_PLAYLIST_NEWEST_BY_USER_SUBS = "GET_VIDEO_PLAYLIST_NEWEST_BY_USER_SUBS";
         public static final String SQL_GET_VIDEO_BY_SUBJECT = "GET_VIDEO_BY_SUBJECT";
         public static final String SQL_GET_VIDEO_PLAYLIST_NEWEST = "GET_VIDEO_PLAYLIST_NEWEST";
         public static final String SQL_GET_VIDEO_WITH_SUBJECT_ID = "GET_VIDEO_WITH_SUBJECT_ID";
@@ -467,6 +468,7 @@ public class SibConstants {
         public static final String SQL_GET_ALL_MENTOR_SUBSCRIBED = "GET_ALL_MENTOR_SUBSCRIBED";
         public static final String SQL_MENTOR_STUDENT_SUBSCRIBED = "GET_MENTOR_STUDENT_SUBSCRIBED";
         public static final String SQL_NEW_VIDEO_MENTOR_SUBSCRIBE = "GET_NEW_VIDEO_MENTOR_SUBSCRIBED";
+        public static final String SQL_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB = "GET_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB";
         public static final String SQL_GET_ALL_QUESTION_MENTOR_BY_SUBJ = "GET_ALL_QUESTION_MENTOR_BY_SUBJ";
         public static final String SQL_GET_TOP_MENTORS_MOST_LIKE = "GET_TOP_MENTORS_MOST_LIKE";
         public static final String SQL_GET_STUDENT_SUBCRIBE = "GET_STUDENT_SUBCRIBE";
