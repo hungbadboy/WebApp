@@ -2864,7 +2864,6 @@ public class VideoServiceImpl implements VideoService {
         }
         if (userId == -1) {
             // Get All Video By View If Don't Login
-            System.out.println(subjectId.isEmpty() || subjectId.equals("-1"));
             if (subjectId.isEmpty() || subjectId.equals("-1")) {
                 params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
                 List<Object> resultDataRecommended = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_VIEW, params);
@@ -2977,6 +2976,32 @@ public class VideoServiceImpl implements VideoService {
             }
         }
         return map;
+    }
+
+    @RequestMapping(value = "getNewestVideoBySubject", method = RequestMethod.GET)
+    public ResponseEntity<Response> getNewestVideoBySubject(@RequestParam final String subjectId,
+            @RequestParam final String limit, @RequestParam final String offset) {
+        Map<String, String> pageLimit = CommonUtil.getInstance().getOffset(limit, offset);
+        Object[] params = null;
+        SimpleResponse response;
+        if (!StringUtils.isEmpty(subjectId)) {
+            params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("limit")) };
+            String entityName = SibConstants.SqlMapper.SQL_GET_NEWEST_VIDEO_SUBJECT;
+            String whereClause = "V.subjectId IN(" + subjectId + ") ORDER BY numViews DESC LIMIT ? OFFSET ?;";
+            List<Object> readObjects = dao.readObjectsWhereClause(entityName, whereClause, params);
+            String count = "0";
+            if (readObjects != null && readObjects.size() > 0) {
+                count = String.valueOf(readObjects.size());
+                response = new SimpleResponse("" + true, "video", "getNewestVideoBySubject", readObjects, count);
+            } else {
+                response = new SimpleResponse("" + true, "video", "getNewestVideoBySubject", SibConstants.NO_DATA, count);
+            }
+        } else {
+            response = new SimpleResponse("" + true, "video", "getNewestVideoBySubject", SibConstants.NO_DATA);
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+        return entity;
+
     }
 
     private boolean isValidatedForm(final long userId, final String subjectId) {
