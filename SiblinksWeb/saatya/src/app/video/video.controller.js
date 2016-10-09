@@ -397,7 +397,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                             $scope.listVideoRecommendedForU = parseDataFactory(ParseType.RECOMMENDED_FOR_YOU, data_recommend_4_u);
                         }
                         var data_recently = allData.recently;
-                        if (rs_recommended) {
+                        if (data_recently) {
                             var resultVideoRecently = parseDataFactory(ParseType.RECENTLY, data_recently);
                             if (resultVideoRecently != null) {
                                 $scope.listVideoRecently = !hasLoadMore ? resultVideoRecently : $scope.listVideoRecently.concat(resultVideoRecently);
