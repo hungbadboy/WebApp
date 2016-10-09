@@ -60,7 +60,7 @@ brotControllers.controller('VideoManagerController',
 
     function formatData(data){
       for (var i = 0; i < data.length; i++) {    
-        data[i].playlistname = data[i].playlistname == null ? 'none' : data[i].playlistname;
+        data[i].playlistname = data[i].playlistname == null ? 'None' : data[i].playlistname;
         data[i].averageRating = data[i].averageRating != null ? data[i].averageRating : 0;
         data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
         data[i].selected = false;
