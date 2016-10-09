@@ -319,14 +319,14 @@
     height: calc(100vh - 190px);
 }
 /* ==========VideoPage video subcription========== */
-#video-mentor .top-mentors-info .subjects { 
+#videos #video-mentor .top-mentors-info .subjects { 
     font-size: 11px;
     width: auto;
     float: left;
     margin-right: 7px;
     position: relative;
 }
-#video-mentor .top-mentors-info .subjects:before {
+#videos #video-mentor .top-mentors-info .subjects:before {
     content: ",";
     position: absolute;
     top: 0;
@@ -337,13 +337,16 @@
     text-align: right;
     top: 0px;
 }
-/*#video-mentor .top-mentors-info .subjects:last-child:before {
-  content: " ",
-  height: 0;
-}*/
-.videos-rate p.videos-start span .stars {
+#videos .videos-rate p.videos-start span .stars {
   margin-top: 0px;
 }
-.top-mentors-info .subjects {
+#videos .top-mentors-info .subjects {
   font-size: 12px;
+}
+#videos .top-mentors-list li {
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+#videos .video-member-subcriber {
+   right: 10px; 
 }
