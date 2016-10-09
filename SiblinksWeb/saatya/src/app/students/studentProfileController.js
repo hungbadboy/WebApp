@@ -1,6 +1,6 @@
 brotControllers.controller('StudentProfileController',
-    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService', 'HomeService',
-        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService, HomeService ) {
+    ['$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService', 'HomeService',
+        function ($scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService, HomeService ) {
             var userId = localStorage.getItem('userId');
             var userName = localStorage.getItem('userName');
             var userType = localStorage.getItem('userType');
@@ -23,22 +23,16 @@ brotControllers.controller('StudentProfileController',
             $scope.hasShowMessage = false;
             // Subject
             $scope.masterSubjects = [];
-
+            
+            // Student Profile
+            $scope.studentInfo = {};
+            
             var isInit = true;
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
-            // $scope.sections = [
-            //     {name: 'My Questions'},
-            //     {name: 'Essay'},
-            //     {name: 'Setting'}
-            // ];
-            // $scope.selected = $scope.sections[0];
-
+            
             init();
             // var subjects = myCache.get("subjects");
             function init() {
-            	// Get subject
-            	
-
                 getMentorInfo();
                 if (mentorId != undefined) {
                     getVideosRecently();
@@ -94,6 +88,7 @@ brotControllers.controller('StudentProfileController',
 
             $scope.isReadyLoadPoint = false;
             $scope.isReadyLoadRatingRecently = false;
+            
             function getInfoMentorProfile() {
                 MentorService.getStudentMentorProfile(mentorId).then(function (data) {
                     if (data.data.status == "true") {
@@ -171,20 +166,6 @@ brotControllers.controller('StudentProfileController',
             }
 
             function calculateBirthDay(timeStamp) {
-                // var currentTime = new Date()
-                // if (strBod) {
-                //     var year = 0;
-                //     if (strBod.lastIndexOf("-") != -1) {
-                //         year = strBod.substring(strBod.lastIndexOf("-") + 1, strBod.length)
-                //     } else if (strBod.lastIndexOf(",") != -1) {
-                //         year = strBod.substring(strBod.lastIndexOf(",") + 1, strBod.length)
-                //     }
-                //     if (year != 0) {
-                //         var currentYear = currentTime.getFullYear()
-                //         return currentYear - year;
-                //     }
-                //     return null;
-                // }
                 if (!timeStamp) {
                     return null;
                 }
@@ -194,75 +175,6 @@ brotControllers.controller('StudentProfileController',
                 var secondElapsed = parseInt(Math.floor((_now - timeStamp)));
                 return Math.floor(secondElapsed / (3600 * 24 * 12 * 30));
             }
-
-
-            // function getStudentProfile() {
-            //     StudentService.getUserProfile(userId).then(function (data) {
-            //         if (data.data.status) {
-            //             $scope.student = data.data.request_data_result;
-            //             $scope.student.fullName = (($scope.student.firstname == null) ? '' : $scope.student.firstname) + ' ' + (($scope.student.firstname == null) ? '' : $scope.student.lastName);
-            //             //$scope.student.imageUrl =  //$scope.student.imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + $scope.student.imageUrl : $scope.student.imageUrl;
-            //             $scope.student.registrationTime = moment($scope.student.registrationTime).format('MMM, YYYY ', 'en');
-            //             if ($scope.student.gender == "M") {
-            //                 $('#male').prop('checked', true);
-            //                 $scope.student.gender = "Male";
-            //             }
-            //             if ($scope.student.gender == "F") {
-            //                 $('#female').prop('checked', true);
-            //                 $scope.student.gender = "Female";
-            //             } else {
-            //                 $('#other').prop('checked', true);
-            //                 $scope.student.gender = "Other";
-            //             }
-            //             displaySetting();
-            //         }
-            //     });
-            // }
-
-            function displayInformation() {
-                $("#firstName").val($scope.studentInfo.firstname);
-                $("#lastName").val($scope.studentInfo.lastName);
-                $("#about").val($scope.studentInfo.bio);
-                $("#email").val($scope.studentInfo.email);
-                $("#bod").val($scope.birthDay);
-                $("#school").val($scope.studentInfo.school);
-
-                if ($scope.gender) {
-                    switch ($scope.gender) {
-                        case "Male":
-                            $('input[name="gender"][value="male"]').prop('checked', true);
-                            break;
-                        case "Female":
-                            $('input[name="gender"][value="female"]').prop('checked', true);
-                            break;
-                        case "Other":
-                            $('input[name="gender"][value="other"]').prop('checked', true);
-                            break;
-                    }
-                }
-                // Get favourite
-                if ($scope.studentInfo.favorite != null && $scope.studentInfo.favorite !== undefined) {
-                    var favorite = $scope.studentInfo.favorite.split(',');
-                    for (var i = 0; i < favorite.length; i++) {
-                        if (favorite[i] == 'Music') {
-                            $('input[name="music"][value="Music"]').prop('checked', true);
-                        }
-                        if (favorite[i] == 'Art') {
-                            $('input[name="art"][value="Art"]').prop('checked', true);
-                        }
-                        if (favorite[i] == 'Sport') {
-                            $('input[name="sport"][value="Sport"]').prop('checked', true);
-                        }
-                    }
-                }
-
-                var objSelected = $(".subject-field input[type='checkbox']");
-                for (var i = 0; i < objSelected.length; i++) {
-                    var attrSub = objSelected[i];
-                    $(attrSub).prop('checked', true);
-                }
-            }
-
 
             function detectMultiImage(imagePath) {
                 if (isEmpty(imagePath)) {
@@ -275,30 +187,6 @@ brotControllers.controller('StudentProfileController',
                 listImage.push(imagePath);
                 return listImage;
             }
-
-            // $scope.setMaster = function (section) {
-            //     $scope.selected = section;
-
-            //     if ($scope.selected.name == "Setting") {
-            //         $("#setting").addClass('active');
-            //         $("#essay").removeClass('active');
-            //         $("#my-questions").removeClass('active');
-            //     }
-            //     else if ($scope.selected.name == "Essay") {
-            //         $("#essay").addClass('active');
-            //         $("#setting").removeClass('active');
-            //         $("#my-questions").removeClass('active');
-            //     }
-            //     else {
-            //         $("#my-questions").addClass('active');
-            //         $("#essay").removeClass('active');
-            //         $("#setting").removeClass('active');
-            //     }
-            // }
-
-            // $scope.isSelected = function (section) {
-            //     return $scope.selected === section;
-            // }
 
             $scope.onFileSelect = function ($files) {
                 var fd = new FormData();
@@ -373,25 +261,15 @@ brotControllers.controller('StudentProfileController',
             $scope.updateProfile = function () {
                 var check = true;
                 var error = '';
+                // Reset message
+                $scope.msgError = "";
+                $scope.msgSuccess ="";
+                
                 $scope.hasShowMessage = false;
                 var favorite = "";
-                if ($('input[name="music"][value="Music"]').is(':checked')) {
-                    favorite += $('input[name="music"][value="Music"]').val();
-                }
-                if ($('input[name="art"][value="Art"]').is(':checked')) {
-                    if (favorite.length > 0)
-                        favorite += ',' + $('input[name="art"][value="Art"]').val();
-                    else
-                        favorite += $('input[name="art"][value="Art"]').val();
-                }
-                if ($('input[name="sport"][value="Sport"]').is(':checked')) {
-                    if (favorite.length > 0)
-                        favorite += ',' + $('input[name="sport"][value="Sport"]').val();
-                    else
-                        favorite += $('input[name="sport"][value="Sport"]').val();
-                }
-
+                var strSubs = "";
                 var gender = '';
+                
                 if ($('#male').is(':checked')) {
                     gender = "M";
                 }
@@ -401,7 +279,6 @@ brotControllers.controller('StudentProfileController',
                 else {
                     gender = "O";
                 }
-
 
                 var email = $('input[name="email"]').val();
 
@@ -414,17 +291,21 @@ brotControllers.controller('StudentProfileController',
                     email = "";
                 }
 
-                // if (!isValidEmailAddress($('#email').val())) {
-                //     check = false;
-                //     $scope.msgError = "Email is not valid";
-                //     angular.element('#email').trigger('focus');
-                // }
-                // var selected = [];
-                // var objSelected = $('.subject-field input:checked');
-                // for (var i = 0; i < objSelected.length; i++) {
-                //     selected.push(objSelected[i].defaultValue);
-                // }
-                // var strSubs = selected.join(',');
+                // Selected Subject
+                var arrSubjectSelected = [];
+                var subjectSelected = angular.element('.masterSubject:checked');
+                for (var i = 0; i < subjectSelected.length; i++) {
+                	arrSubjectSelected.push(subjectSelected[i].defaultValue);
+                }
+                strSubs = arrSubjectSelected.join(',');
+                // Selected Favourite
+                var arrFavouriteSelected = [];
+                var favSelected = angular.element('.masterFavourite:checked');
+                for (var i = 0; i < favSelected.length; i++) {
+                	arrFavouriteSelected.push(favSelected[i].defaultValue);
+                }
+                
+                favorite = arrFavouriteSelected.join(',');
 
                 if (check) {
                     var student = {
@@ -441,29 +322,15 @@ brotControllers.controller('StudentProfileController',
                     };
                     StudentService.updateUserProfile(student).then(function (data) {
                         if (data.data.request_data_result == "Success") {
-                            var subjects = myCache.get("subjects");
                             if (student) {
                                 $scope.studentInfo.firstname = student.firstName;
                                 $scope.studentInfo.lastName = student.lastName;
-                                $scope.gender = validateGender(student.gender);
+                                $scope.gender = student.gender;
                                 $scope.birthDay = student.bod;
                                 $scope.studentInfo.favorite = student.favorite;
                                 $scope.studentInfo.school = student.school;
                                 $scope.studentInfo.email = student.email;
                                 $scope.studentInfo.bio = student.bio;
-                                if (student.gender) {
-                                    switch ($scope.gender) {
-                                        case "Male":
-                                            $('input[name="gender"][value="male"]').prop('checked', true);
-                                            break;
-                                        case "Female":
-                                            $('input[name="gender"][value="female"]').prop('checked', true);
-                                            break;
-                                        case "Other":
-                                            $('input[name="gender"][value="other"]').prop('checked', true);
-                                            break;
-                                    }
-                                }
                                 if (subjects != null || subjects !== undefined) {
                                     $scope.objSubs = getSubjectNameById(strSubs, subjects);
                                 }
@@ -534,12 +401,17 @@ brotControllers.controller('StudentProfileController',
                                         objAnswer.content = answer_result[y].content;
                                         objAnswer.avatar = answer_result[y].imageUrl;
                                         objAnswer.countLike = answer_result[y].countLike;
-                                        if (answer_result[y].likeAnswer == null || answer_result[y].likeAnswer === "N") {
-                                            objAnswer.like = "No Like";
-                                        } else {
-                                            objAnswer.like = "Liked";
+                                        var imageAnswers = answer_result[y].imageAnswer;
+                                        if(imageAnswers !=null && imageAnswers!== undefined && imageAnswers != ''){
+                                        	var arrImage = imageAnswers.split(';');
+                                        	objAnswer.images=arrImage;
                                         }
-                                        objAnswer.time = convertUnixTimeToTime(answer_result[y].timeStamp);
+                                        if (answer_result[y].likeAnswer == null || answer_result[y].likeAnswer === "N") {
+                                            objAnswer.like = false;
+                                        } else {
+                                            objAnswer.like = true;
+                                        }
+                                        objAnswer.time = convertUnixTimeToTime(answer_result[y].TIMESTAMP);
                                         listAnswer.push(objAnswer);
                                         objPosted.answers = listAnswer;
                                     }
@@ -641,57 +513,55 @@ brotControllers.controller('StudentProfileController',
                         }
                         $scope.studentInfo = dataResponse.data.request_data_result;
                         $scope.studentInfo.imageUrl = $scope.studentInfo.imageUrl != null ? $scope.studentInfo.imageUrl : "assets/images/noavartar.jpg";
-                        var gender = $scope.studentInfo.gender;
-                        $scope.gender = validateGender(gender);
-                        var bioTimeStamp = $scope.studentInfo.birthDay;
-                        var registrationTime = $scope.studentInfo.registrationTime;
-                        $scope.birthDay = timeConverter(bioTimeStamp, FormatDateTimeType.DD_MM_YY);
-                        $scope.sinceDay = timeConverter(registrationTime, FormatDateTimeType.MM_YY);
+                        $scope.birthDay = timeConverter($scope.studentInfo.birthDay, FormatDateTimeType.DD_MM_YY);
+                        $scope.sinceDay = timeConverter($scope.studentInfo.registrationTime, FormatDateTimeType.MM_YY);
                         $scope.isLoginViaFBOrGoogle = $scope.studentInfo.idFacebook != null || $scope.studentInfo.idGoogle != null;
-                        //var subjects = myCache.get("subjects");
-                        if (subjects != undefined || subjects != null) {
-                            var subsName = getSubjectNameById($scope.studentInfo.defaultSubjectId, subjects);
-
-                            if (subsName != null && subsName != undefined) {
-                            	var listSubs = [];
-                                $scope.objSubs = subsName;
-                                subsName.forEach(function (sub) {
-                                    if (subsName.length - 1) {
-                                        listSubs.push(sub.name);
-                                    }
-                                });
-                                
-                                $scope.subjectsName = listSubs.join(', ');
-                            } else {
-                                $scope.subjectsName = "None";
-                            }
-                        } else {
-                            $scope.subjectsName = "None";
-                        }
+//                        //var subjects = myCache.get("subjects");
+//                        if (subjects != undefined || subjects != null) {
+//                            var subsName = getSubjectNameById($scope.studentInfo.defaultSubjectId, subjects);
+//                            if (subsName != null && subsName != undefined) {
+//                            	var listSubs = [];
+//                                $scope.objSubs = subsName;
+//                                subsName.forEach(function (sub) {
+//                                    if (subsName.length - 1) {
+//                                        listSubs.push(sub.name);
+//                                    }
+//                                });
+//                                
+//                                $scope.subjectsName = listSubs.join(', ');
+//                            } else {
+//                                $scope.subjectsName = "None";
+//                            }
+//                        } else {
+//                            $scope.subjectsName = "None";
+//                        }
                     }
-                    displayInformation();
+                    //displayInformation();
                     
                     // This call method to return $scope.masterSubjects selected 
-                       putMasterSubjectSelected(subjects, $scope.studentInfo.defaultSubjectId);
+                    $scope.masterSubjects = putMasterSubjectSelected(subjects, $scope.studentInfo.defaultSubjectId, false);
+                    $scope.masterFavourite = putMasterSubjectSelected(subjects, $scope.studentInfo.favorite, true);
                 });
 
             }
+            
         /**
-         * Get master Subject
+         * Get master Subject with level = 0
+         * If isForum = false it is subject else it is favourite
          */    
-        function putMasterSubjectSelected(subjects,defaultSubjectId) {
+        function putMasterSubjectSelected(subjects, subjectedId, isForum) {
         	var tempSelected = [];
-        	$scope.masterSubjects = [];
+        	var masterSubjects = [];
         	if(subjects != null && subjects !== undefined) {
         		// Master subject
     			for(var i=0; i< subjects.length; i++) {
-    				if(subjects[i].level =='0' && subjects[i].isForum == false) {
+    				if(subjects[i].level =='0' && subjects[i].isForum == isForum) {
     					tempSelected.push(subjects[i]);
     				}
     			}
         		// Subject was choosed
-        		if(defaultSubjectId !== null && defaultSubjectId !== undefined) {
-        			var arrSubjectSelected = defaultSubjectId.split(',');
+        		if(subjectedId !== null && subjectedId !== undefined) {
+        			var arrSubjectSelected = subjectedId.split(',');
         			for(var i=0; i< tempSelected.length; i++) {
         				var subject = tempSelected[i];
 	        			for(var j = 0; j< arrSubjectSelected.length; j ++) {
@@ -702,9 +572,26 @@ brotControllers.controller('StudentProfileController',
 					    		subject.selected = "0";
 					    	}
 	        			}
-	        			$scope.masterSubjects.push(subject);
+	        			masterSubjects.push(subject);
+        			}
+        		} else { // No selected subject
+        			for(var i=0; i< tempSelected.length; i++) {
+        				var subject = tempSelected[i];
+        				subject.selected = "0";
+        				masterSubjects.push(subject);
         			}
         		}
+        	}
+        	return masterSubjects;
+        }
+        /**
+         * Show hide question
+         */
+        $scope.showAnswerQuestion = function showAnswerQuestion(id) {
+        	if(angular.element("#"+id).hasClass('hidden')){
+        		angular.element("#"+id).removeClass('hidden');
+        	} else {
+        		angular.element("#"+id).addClass('hidden');
         	}
         }
     }]);

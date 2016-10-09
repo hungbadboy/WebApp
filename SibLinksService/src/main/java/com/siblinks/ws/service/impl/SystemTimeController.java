@@ -24,9 +24,10 @@ public class SystemTimeController {
     @RequestMapping("/timeDB")
     @ResponseBody
     public String getTimeDB() {
-        List<Object> readObjectsNotResource = dao.readObjectsNotResource(SibConstants.SqlMapper.SQL_GET_DATE_TIME);
-        Map<String, String> mapTime = (HashMap<String, String>) readObjectsNotResource.get(0);
-        return "" + (mapTime.get(Parameters.CURRENT_TIME));
+        List<Object> readObjectsNotResource = dao.readObjects(SibConstants.SqlMapper.SQL_GET_DATE_TIME, new Object[] {});
+        Map<String, Long> mapTime = (HashMap<String, Long>) readObjectsNotResource.get(0);
+        String time = "" + (mapTime.get(Parameters.CURRENT_TIME));
+        return time;
     }
 
     @RequestMapping("/timeAplication")
