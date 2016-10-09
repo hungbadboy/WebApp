@@ -298,7 +298,14 @@
                                                     <p><textarea placeholder="About me..." id="about"
                                                                  name="aboutme"></textarea></p>
                                                 </div>
-
+												<div class="favorite-field col-md-12 col-lg-12">
+                                                    <p>Subjects:</p>
+                                                    <div ng-repeat=" msub in masterSubjects" class="col-md-2 col-lg-2">
+                                                     	<input type="checkbox" ng-true-value="msub.selected"/>
+                                                    	<label>{{msub.subject}}</label>
+                                                    </div>
+                                                 </div>
+                                                	
                                                 <div class="submit col-md-12">
                                                     <button type="button" id="reset" ng-click="resetProfile()">Reset
                                                     </button>

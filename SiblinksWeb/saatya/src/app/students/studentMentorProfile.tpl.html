@@ -33,7 +33,7 @@
                 </div>
                 <div class="top-mentors-info-detail">
                     <div class="top-mentors-info-detail-wrapper">
-                        <p>{{gender}}, {{bod != null ? bod : EMPTY_DATA}} year old</p>
+                        <p>{{GenderMentor}}, {{bod != null ? bod : EMPTY_DATA}} year old</p>
                         <p class="skilled">
                             <strong>Skilled at</strong><br>
                             <span ng-if="mentorSubs" ng-repeat="skill in mentorSubs track by $index" id="{{skill.id}}">{{skill.name}}{{$last ? '' : ', '}}</span>
