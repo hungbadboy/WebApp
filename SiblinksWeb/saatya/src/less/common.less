@@ -300,7 +300,7 @@
 /**** HongTTT *****/
 /*======studentProfile======== */
 .subject-field {
-    width: calc(100% + 100% + 30px); 
+    width:~"calc(100% + 100% + 30px)"; 
     margin-top: 15px;
 }
 #videos-details .search { /*search on bredcrum*/
@@ -316,7 +316,7 @@
     margin-left: 60px;
 }
 .create-ask {
-    height: calc(100vh - 190px);
+    height:~"calc(100vh - 190px)";
 }
 /* ==========VideoPage video subcription========== */
 #videos #video-mentor .top-mentors-info .subjects { 
@@ -337,6 +337,9 @@
     text-align: right;
     top: 0px;
 }
+#videos #video-mentor .top-mentors-info .subjects:last-of-type:before {
+    content: "";
+}
 #videos .videos-rate p.videos-start span .stars {
   margin-top: 0px;
 }
@@ -349,4 +352,71 @@
 }
 #videos .video-member-subcriber {
    right: 10px; 
+}
+.comment-action {
+     margin-right: 0px; 
+}
+#videos #history .videos-thumnail {
+  overflow: hidden;
+  height: 150px;
+}
+#videos .top-mentors-list li {
+    border-bottom: 1px solid #ededec;
+    padding-bottom: 15px;
+}
+#videos .top-mentors-list li:last-of-type  {
+    border:none;
+}
+.top-mentor-header-title img,
+.top-videos-header-title img {
+    width: 24px;
+}
+.article-detail-right-content:before {
+     box-shadow: none; 
+     height: 0px; 
+}
+.top-mentor-header .see-more,
+.top-videos-header .see-more {
+    margin-top: 17px;
+}
+#ask-a-question .edit-details-question {
+    right: 0;
+}
+#divRate {
+    top: -5px;
+}
+.subscribers:before {
+    top: -3px;
+    position: relative;
+}
+#video-mentor-header .top-mentor-header-title > span {
+    margin-top: 7px;
+}
+.setting-profile {
+    margin-top: 7px;
+}
+#rate-studentMentorProfile {
+    float: none;
+    top: 2px;
+    position: relative;
+}
+.mentors-profile-headers .stars-selected {
+    width: 100%;
+}
+.college-admission-content .article .videos-rate {
+    width: auto;
+    position: relative;
+}
+.college-admission-content .article .video-description {
+    margin-top: 30px;
+}
+.college-admission-content .article .videos-time-add span {
+    width: 100%;
+    float: left;
+}
+.college-admission-content .article .videos-time-add span:nth-child(2) {
+    width: 60%;
+}
+#videos-details textarea#add-comment {
+    padding-left: 15px;
 }
