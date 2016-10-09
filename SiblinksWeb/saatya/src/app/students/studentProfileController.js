@@ -401,6 +401,11 @@ brotControllers.controller('StudentProfileController',
                                         objAnswer.content = answer_result[y].content;
                                         objAnswer.avatar = answer_result[y].imageUrl;
                                         objAnswer.countLike = answer_result[y].countLike;
+                                        var imageAnswers = answer_result[y].imageAnswer;
+                                        if(imageAnswers !=null && imageAnswers!== undefined && imageAnswers != ''){
+                                        	var arrImage = imageAnswers.split(';');
+                                        	objAnswer.images=arrImage;
+                                        }
                                         if (answer_result[y].likeAnswer == null || answer_result[y].likeAnswer === "N") {
                                             objAnswer.like = false;
                                         } else {
@@ -578,5 +583,15 @@ brotControllers.controller('StudentProfileController',
         		}
         	}
         	return masterSubjects;
+        }
+        /**
+         * Show hide question
+         */
+        $scope.showAnswerQuestion = function showAnswerQuestion(id) {
+        	if(angular.element("#"+id).hasClass('hidden')){
+        		angular.element("#"+id).removeClass('hidden');
+        	} else {
+        		angular.element("#"+id).addClass('hidden');
+        	}
         }
     }]);

@@ -140,31 +140,49 @@
                                             <!-- Answer of question -->
                                             <div class="answer-question col-xs-12">
                                                 <div class="number-answer">
-                                                    <div class="total-number-answer">
+                                                    <div class="total-number-answer" ng-click="showAnswerQuestion(q.id)">
                                                         <div ng-class="{'has-answer': q.count_answer != '0' , 'no-answer': q.count_answer == '0'}"
                                                              class="total-answer"><p>{{q.count_answer}} answers</p>
                                                         </div>
-                                                        <div class="total-view">&nbsp;&nbsp;&nbsp; {{q.numviews}} views</div>
+                                                        <div class="total-view" >&nbsp;&nbsp;&nbsp; {{q.numviews}} views</div>
                                                     </div>
                                                     <!-- Detail-answer-question -->
-                                                    <div class="detail-answer-question" ng-repeat="a in q.answers track by $index">
-                                                        <div class="mentor-answer">
-                                                            <div class="image-mentor">
-                                                                <img style="height: 100%" src="{{a.avatar}}">
-                                                            </div>
-                                                            <div class="detail-mentor-answer">
-                                                                <div class="mentor-name">
-                                                                <strong>{{a.name}}</strong>&nbsp;&nbsp;&nbsp;<span>answerd {{a.time}} ago</span>&nbsp;&nbsp;&nbsp;<span>{{a.countLike}} 
-                                                                    	<span data-icon="&#xe089;" ng-if="a.like" id="heart"></span>
-                                                                    	<span data-icon="&#xe089;" ng-if="!(a.like)"></span>
-                                                                    </span>
-                                                                </div>
-                                                                <div class="mentor-answer">
-                                                                    <p class="pre-wrap">{{a.content}}</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /End Detail-answer-question -->
+                                                    <div id="{{q.id}}" class="detail-answer-question hidden">
+                                                    	<div ng-repeat="a in q.answers track by $index">
+	                                                        <div class="mentor-answer" >
+	                                                            <div class="image-mentor">
+	                                                                <img style="height: 100%" src="{{a.avatar}}">
+	                                                            </div>
+	                                                            <div class="detail-mentor-answer">
+	                                                                <div class="mentor-name">
+	                                                                <strong>{{a.name}}</strong>&nbsp;&nbsp;&nbsp;<span>answerd {{a.time}} ago</span>&nbsp;&nbsp;&nbsp;<span>{{a.countLike}} 
+	                                                                    	<span data-icon="&#xe089;" ng-if="a.like" id="heart"></span>
+	                                                                    	<span data-icon="&#xe089;" ng-if="!(a.like)"></span>
+	                                                                    </span>
+	                                                                </div>
+	                                                                <div class="mentor-answer">
+	                                                                    <p class="pre-wrap">{{a.content}}</p>
+	                                                                </div>
+		                                                            <div class="images-question" style="margin-left:-4px;">
+						                                                <ul>
+						                                                    <li class="item" ng-repeat="image in a.images track by $index">
+						                                                        <div class="item-img"
+						                                                             ng-mouseover="imageHoverIn(q.id +''+$index)"
+						                                                             ng-mouseleave="imageHoverOut(q.id +''+$index)"
+						                                                             ng-click="zoomImage(image)">
+						                                                            <img ng-src="{{image}}">
+						                                                            <div class="item-hover" id="{{q.id}}{{$index}}">
+						                                                                <img src="assets/images/ask question/look-img.png"
+						                                                                     ng-click="zoomImage(image)">
+						                                                            </div>
+						                                                        </div>
+						                                                    </li>
+						                                                </ul>
+				                                            		</div>
+			                                            		</div>
+	                                                        </div>
+	                                            		</div>
+                                            		</div><!-- /End Detail-answer-question -->
                                                     <!-- <div class="load-more">
                                                         <p>Load more comments</p>
                                                     </div>-->
