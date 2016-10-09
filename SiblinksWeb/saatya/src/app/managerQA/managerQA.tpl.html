@@ -185,6 +185,22 @@
                                                                 <span class="like-h" data-icon="&#xe089;"></span>
                                                             </div>
                                                             <p class="pre-wrap" ng-click="showAnswer($index)">{{answer.content}}</p>
+                                                            <div class="images-question" style="margin-left:35px;">
+				                                                <ul>
+				                                                    <li class="item" ng-repeat="image in answer.imageAnswer track by $index">
+				                                                        <div class="item-img"
+				                                                             ng-mouseover="imageHoverIn(q.id +''+$index)"
+				                                                             ng-mouseleave="imageHoverOut(q.id +''+$index)"
+				                                                             ng-click="zoomImage(image)">
+				                                                            <img ng-src="{{image}}">
+				                                                            <div class="item-hover" id="{{q.id}}{{$index}}">
+				                                                                <img src="assets/images/ask question/look-img.png"
+				                                                                     ng-click="zoomImage(image)">
+				                                                            </div>
+				                                                        </div>
+				                                                    </li>
+				                                                </ul>
+		                                            		</div>
                                                         </div>
                                                         </li>
                                                     </ul>
