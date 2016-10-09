@@ -102,13 +102,9 @@ brotControllers.controller('StudentProfileController',
                             var result_data = data.data.request_data_result;
                             $scope.studentMentorProfile = result_data;
                             var gender = $scope.studentMentorProfile.gender;
-
-                            $scope.gender = validateGender(gender);
-                            console.log(result_data.birthDay);
+                            $scope.GenderMentor = validateGender(gender);
                             var birthDay = calculateBirthDay(result_data.birthDay);
-                            console.log(birthDay);
                             $scope.bod = birthDay;
-
                             if (result_data.defaultSubjectId && (subjects !== undefined || subjects != null)) {
                                 var subs = getSubjectNameById(result_data.defaultSubjectId, subjects);
                                 $scope.mentorSubs = subs;
@@ -376,6 +372,7 @@ brotControllers.controller('StudentProfileController',
 
             $scope.updateProfile = function () {
                 var check = true;
+                var error = '';
                 $scope.hasShowMessage = false;
                 var favorite = "";
                 if ($('input[name="music"][value="Music"]').is(':checked')) {
@@ -405,17 +402,29 @@ brotControllers.controller('StudentProfileController',
                     gender = "O";
                 }
 
-                if (!isValidEmailAddress($('#email').val())) {
-                    check = false;
-                    $scope.msgError = "Email is not valid";
-                    angular.element('#email').trigger('focus');
+
+                var email = $('input[name="email"]').val();
+
+                if(!isEmpty(email)){
+                    if (!isValidEmailAddress($('input[name="email"]').val())) {
+                        check = false;
+                        error += "Email is not valid";
+                    }
+                }else{
+                    email = "";
                 }
-                var selected = [];
-                var objSelected = $('.subject-field input:checked');
-                for (var i = 0; i < objSelected.length; i++) {
-                    selected.push(objSelected[i].defaultValue);
-                }
-                var strSubs = selected.join(',');
+
+                // if (!isValidEmailAddress($('#email').val())) {
+                //     check = false;
+                //     $scope.msgError = "Email is not valid";
+                //     angular.element('#email').trigger('focus');
+                // }
+                // var selected = [];
+                // var objSelected = $('.subject-field input:checked');
+                // for (var i = 0; i < objSelected.length; i++) {
+                //     selected.push(objSelected[i].defaultValue);
+                // }
+                // var strSubs = selected.join(',');
 
                 if (check) {
                     var student = {
@@ -427,8 +436,8 @@ brotControllers.controller('StudentProfileController',
                         'school': $('#school').val(),
                         'bod': $('#bod').val(),
                         'bio': $('#about').val(),
-                        'favorite': favorite,
-                        'defaultSubjectId': strSubs
+                        'favorite': favorite
+                        // 'defaultSubjectId': strSubs
                     };
                     StudentService.updateUserProfile(student).then(function (data) {
                         if (data.data.request_data_result == "Success") {
@@ -462,7 +471,11 @@ brotControllers.controller('StudentProfileController',
                             $scope.msgSuccess = "Update Profile Successful !";
                         }
                         else {
-                            $scope.msgError = "Update Profile Failure !";
+                            if (error != '') {
+                                $scope.msgError = error;
+                            } else {
+                                $scope.msgError = "Update Profile Failure";
+                            }
                         }
                         $scope.hasShowMessage = true;
                     });
@@ -659,43 +672,39 @@ brotControllers.controller('StudentProfileController',
                     displayInformation();
                     
                     // This call method to return $scope.masterSubjects selected 
-                       putMasterSubjectSelected(subjects);
+                       putMasterSubjectSelected(subjects, $scope.studentInfo.defaultSubjectId);
                 });
 
             }
         /**
          * Get master Subject
          */    
-        function putMasterSubjectSelected(subjects) {
-        	var subjectsSelected = [];
+        function putMasterSubjectSelected(subjects,defaultSubjectId) {
+        	var tempSelected = [];
+        	$scope.masterSubjects = [];
         	if(subjects != null && subjects !== undefined) {
-        		$scope.masterSubjects =[];
-        		subjectsSelected.push(subjects);
-        		for (var i = 0; i < subjects.length; i ++) {
-        			if (subjects[i].level == 0) {
-        				var subject = subjects[i];
-        				if(isCheckedSubject(subject.subjectId)) {
-				    		subject.selected = "1";
-				    	} else {
-				    		subject.selected = "0";
-				    	}
-				    	$scope.masterSubjects.push(subject);
-		            }
+        		// Master subject
+    			for(var i=0; i< subjects.length; i++) {
+    				if(subjects[i].level =='0' && subjects[i].isForum == false) {
+    					tempSelected.push(subjects[i]);
+    				}
+    			}
+        		// Subject was choosed
+        		if(defaultSubjectId !== null && defaultSubjectId !== undefined) {
+        			var arrSubjectSelected = defaultSubjectId.split(',');
+        			for(var i=0; i< tempSelected.length; i++) {
+        				var subject = tempSelected[i];
+	        			for(var j = 0; j< arrSubjectSelected.length; j ++) {
+	        				if(subject.subjectId == arrSubjectSelected[j]) {
+					    		subject.selected = "1";
+					    		break;
+					    	} else {
+					    		subject.selected = "0";
+					    	}
+	        			}
+	        			$scope.masterSubjects.push(subject);
+        			}
         		}
         	}
         }
-        
-        /**
-         * checked is true or false
-         */
-        function isCheckedSubject(subid) {
-        	if(subid !=null && subid !== undefined && subid !== '' && $scope.subjects !== undefined) {
-            	for(var i=0; i< $scope.subjects; i++) {
-            		if($scope.subjects[i].subjectId == subid){
-            			return true;
-            		} 
-            	}
-        	}
-        	return false;
-        }
-        }]);
+    }]);

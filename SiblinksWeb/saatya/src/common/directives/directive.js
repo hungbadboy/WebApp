@@ -378,7 +378,6 @@ brotControllers.directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '
         }
 
         function keyupHandler(event) {
-            console.log("keyupHandler");
             var which = ie8EventNormalizer(event);
             if (which === KEY_LF || which === KEY_RT) {
                 // do nothing
@@ -483,7 +482,6 @@ brotControllers.directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '
         }
 
         function keydownHandler(event) {
-            console.log("keydownHandler");
             var which = ie8EventNormalizer(event);
             var row = null;
             var rowTop = null;

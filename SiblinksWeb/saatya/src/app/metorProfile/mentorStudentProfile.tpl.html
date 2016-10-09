@@ -77,7 +77,7 @@
                                         <div class="col-md-4" ng-show="listMentorSubs"
                                              ng-repeat="mentor in listMentorSubs | filter:query track by $index">
                                             <div class="mentors-infor-img">
-                                                <div class="mentors-infor-img-wrapper" ng-mouseover="hoverProfileMentor()" ng-mouseleave="unHoverProfileMentor()">
+                                                <div class="mentors-infor-img-wrapper" id="{{mentor.userid}}" ng-mouseover="hoverProfileMentor(mentor.userid)" ng-mouseleave="unHoverProfileMentor(mentor.userid)">
                                                     <a href="#/student/mentorProfile/{{mentor.userid}}"><img
                                                             ng-src="{{mentor.imageUrl != null ? mentor.imageUrl : 'assets/images/noavartar.jpg'}}"></a>
                                                     <div class="mentors-img-hover">

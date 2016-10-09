@@ -183,7 +183,7 @@
                             </ul>
                         </div>
                         <div class="recommended"
-                             ng-show="listVideoRecommended && !searchItem && !isSearchAction">
+                             ng-show="listVideoRecommended.length > 0 && !searchItem && !isSearchAction">
                             <h5>Recommended</h5>
                             <ul>
                                 <li ng-repeat="recommend in listVideoRecommended | unique:'vid'">
@@ -231,12 +231,12 @@
                             <div class="see-more" ng-show="isShowRecommended" ng-click="loadMoreVideo(1)"><span>Show more</span>
                             </div>
                         </div>
-                        <div class="recently-uploaded" ng-show="listVideoRecently && !searchItem && !isSearchAction">
+                        <div class="recently-uploaded" ng-show="listVideoRecently.length > 0 && !searchItem && !isSearchAction">
                             <h5>Recently Uploaded</h5>
                             <ul>
 
                                 <li ng-repeat="videoRecently in listVideoRecently | unique:'vid'">
-                                    <div class="video-wrapper"><a href="#/videos/detailVideo/{{videoRecently.vid}}">
+                                    <div class="video-wrapper"><a ng-href="{{videoRecently.href}}">
                                         <div class="videos-thumnail">
                                             <img ng-src="{{videoRecently.image}}">
                                         </div>
@@ -254,7 +254,7 @@
                                             <a href="#/student/mentorProfile/{{videoRecently.authorID}}"><span
                                                     class="video-poster"> {{videoRecently.userName}}</span></a><span> added {{videoRecently.timeAgo}} ago</span>
                                         </div>
-                                        <div class="videos-rate">
+                                        <div class="videos-rate" ng-show="{{videoRecently.type == '1'}}">
                                             <p class="videos-start">
                                                  <span ng-if="isReadyLoadRatedRecently" star-rating stars="5"
                                                        outer-star-selection="stars"
@@ -267,9 +267,9 @@
                                                  </span>
                                             </p>
                                             <p class="videos-rate-infor">
-                                                <span data-icon="&#x49;">{{videoRecently.numViews}}</span>
+                                                <span data-icon="&#x49;">{{videoRecently.numViews != null ? videoRecently.numViews : 0}}</span>
                                                 <!--<span data-icon="&#xe089;" class="favourite">{{videoRecently.numFavourite}}</span>-->
-                                                <span data-icon="&#xe066;">{{videoRecently.numComments}}</span>
+                                                <span data-icon="&#xe066;">{{videoRecently.numComments != null ? videoRecently.numComments : 0}}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -368,7 +368,6 @@
                         <div class="recent" ng-show="showDivRecent">
                             <h5>Recent</h5>
                             <ul>
-
                                 <li class="videos-img" ng-repeat="lstRecentVideo in listRecentVideo track by $index"
                                     ng-if="$index < displayNumberOfVideoRecent">
                                     <div class="video-wrapper"><a href="#/videos/detailVideo/{{lstRecentVideo.vid}}">

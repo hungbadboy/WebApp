@@ -26,7 +26,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -260,9 +259,18 @@ public class CommentServiceImpl implements CommentsService {
 
         Object[] queryParams = { request.getRequest_data().getCid() };
 
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_REMOVE_COMMENT, queryParams);
-
-		SimpleResponse reponse = new SimpleResponse("" + status,request.getRequest_data_type(),request.getRequest_data_method(), status);
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus status = transactionManager.getTransaction(def);
+        SimpleResponse reponse = null;
+        try {
+            dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_DELETE_COMMENT_VIDEO, queryParams);
+            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_REMOVE_COMMENT, queryParams);
+            transactionManager.commit(status);
+            reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), "Success");
+        } catch (Exception e) {
+            transactionManager.rollback(status);
+            reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), "Failed");
+        }
 		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
 		return entity;
 	}
@@ -410,15 +418,20 @@ public class CommentServiceImpl implements CommentsService {
 
         Object[] queryParams = { request.getRequest_data().getCid() };
 
-        boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_COMMENT, queryParams);
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
-				request.getRequest_data_type(),
-				request.getRequest_data_method(), flag);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
-				HttpStatus.OK);
-		return entity;
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus status = transactionManager.getTransaction(def);
+        SimpleResponse reponse = null;
+        try {
+            dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_DELETE_COMMENT_VIDEO, queryParams);
+            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_COMMENT, queryParams);
+            transactionManager.commit(status);
+            reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), "Success");
+        } catch (Exception e) {
+            transactionManager.rollback(status);
+            reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), "Failed");
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
 	}
 
 	@Override
