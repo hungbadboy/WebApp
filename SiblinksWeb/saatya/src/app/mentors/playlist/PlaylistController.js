@@ -222,6 +222,8 @@ brotControllers.controller('PlaylistController',
           } else
             $scope.playlist = null;
         });
+      } else{
+        $scope.playlist = angular.copy(cachePlaylist);
       }
     }
 
