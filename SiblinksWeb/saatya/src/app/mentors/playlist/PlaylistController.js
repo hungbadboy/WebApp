@@ -12,6 +12,8 @@ brotControllers.controller('PlaylistController',
       loadPlaylist();
       initSubject();
       getAllPlaylist();
+
+      $('#txtDescription').val('');
     }
 
     function initSubject(){      

@@ -47,7 +47,8 @@
                             <div class="col-md-8">
                                 <div class="main-cm-detail">
                                     <div class="top-cm">
-                                        <h3>{{ video.title | limitTo: 30 }}{{video.title.length > 30 ? '...' : ''}}</h3>
+                                        <!-- <h3>{{ video.title | limitTo: 30 }}{{video.title.length > 30 ? '...' : ''}}</h3> -->
+                                        <h3>{{video.title}}</h3>
                                         <span class="time">{{video.timeStamp}} ago</span>
                                         <div class="btn-count clearfix">
                                             <div class="bx-btn pull-left">
