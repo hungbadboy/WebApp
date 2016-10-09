@@ -36,8 +36,9 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
         StudentService.loginUser(userName, password, function (data) {
             if (data.status == 'true') {
                 var dataUser = data;
-                var firstName = dataUser['firstName'];
-                var lastName = dataUser['lastName']
+                console.log(dataUser);
+                var firstName = dataUser['firstname'];
+                var lastName = dataUser['lastname']
                 setStorage('userName', dataUser['username'], 30);
                 setStorage('userId', dataUser['userid'], 30);
                 setStorage('userType', dataUser['userType'], 10);

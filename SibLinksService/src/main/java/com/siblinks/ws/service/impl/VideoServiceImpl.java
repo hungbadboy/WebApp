@@ -2311,6 +2311,8 @@ public class VideoServiceImpl implements VideoService {
             entityName = SibConstants.SqlMapperBROT43.SQL_INSERT_VIDEO;
             queryParams = new Object[] { request.getRequest_data().getTitle(), request.getRequest_data().getDescription(), request.getRequest_data().getUrl(), request
                 .getRequest_data()
+                .getRunningTime(), request
+                .getRequest_data()
                 .getImage(), request.getRequest_data().getSubjectId(), authorId };
             long vid = dao.insertObject(entityName, queryParams);
 

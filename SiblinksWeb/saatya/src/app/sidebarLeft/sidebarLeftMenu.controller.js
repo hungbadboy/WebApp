@@ -14,8 +14,8 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
     init();
 
     function init() {
-        var firstname = localStorage.getItem('firstname');
-        var lastname = localStorage.getItem('lastName');
+        var firstname = localStorage.getItem('firstName');
+        var lastname = localStorage.getItem('lastname');
         if (firstname == null || firstname === undefined || firstname.length == 0 || firstname == "null") {
             firstname = '';
         }

@@ -624,6 +624,14 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         });
     }
 
+    factory.getVideoInfoFromYoutube = function(vid){
+        var url = "https://www.googleapis.com/youtube/v3/videos?id=" + vid + "&key=AIzaSyDYwPzLevXauI-kTSVXTLroLyHEONuF9Rw&part=snippet,contentDetails";
+        return $http({
+            async: false,
+            type: 'GET',
+            url: url
+        });
+    }
     /* API Favourite Video end */
     
     return factory;
