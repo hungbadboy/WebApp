@@ -23,11 +23,10 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
             if (isEmpty(userId)) {
                 $scope.login = 1;
             }
-            $scope.subjects = myCache.get("subjects");
-
-             if (myCache.get("subjects") !== undefined) {
+            if (myCache.get("subjects") !== undefined) {
                  $log.info("My cache already exists");
                  $scope.subjects = myCache.get("subjects");
+                 setStorage('subjects',JSON.stringify($scope.subjects), 30);
              } else {
                  HomeService.getAllCategory().then(function (data) {
                      if (data.data.status) {

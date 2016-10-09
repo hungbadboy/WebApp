@@ -1,5 +1,5 @@
-brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService',
-                                       function ($scope, $modal, $routeParams, $http, $location, VideoService, MentorService) {
+brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService','$sce',
+                                       function ($scope, $modal, $routeParams, $http, $location, VideoService, MentorService, $sce) {
 
 
     var userId = localStorage.getItem('userId');
@@ -335,4 +335,10 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
       window.location.reload();
     }
   }
+	 /**
+	  * Convert content CKEditor to html
+	  */
+	$scope.comvertToDisplayComment  = function(str){
+		 return $sce.trustAsHtml(decodeURIComponent(str));
+	}
 }]);

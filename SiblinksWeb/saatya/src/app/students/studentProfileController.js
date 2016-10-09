@@ -518,9 +518,7 @@ brotControllers.controller('StudentProfileController',
                                         objAnswer.aid = answer_result[y].aid;
                                         objAnswer.pid = answer_result[y].pid;
                                         objAnswer.name = answer_result[y].firstName + " " + answer_result[y].lastName;
-                                        var answer_text = decodeURIComponent(answer_result[y].content);
-                                        answer_text = $sce.trustAsHtml(answer_text);
-                                        objAnswer.content = answer_text;
+                                        objAnswer.content = answer_result[y].content;
                                         objAnswer.avatar = answer_result[y].imageUrl;
                                         objAnswer.countLike = answer_result[y].countLike;
                                         if (answer_result[y].likeAnswer == null || answer_result[y].likeAnswer === "N") {
