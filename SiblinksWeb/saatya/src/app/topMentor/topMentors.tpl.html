@@ -31,7 +31,7 @@
                    	None
                    </p>
                    <p class="top-mentors-answed">
-                       {{mentor.numsub}} subcrible, {{mentor.numAnswers}} answed
+                       {{mentor.numsub>1 ? (mentor.numsub + " subscribers"): (mentor.numsub + " subscriber")}}, {{mentor.numAnswers>1 ? mentor.numAnswers + " answers" : mentor.numAnswers + " answer"}} 
                    </p>
                </div>
            </li>

@@ -228,7 +228,7 @@
                                 </li>
                             </ul>
                             <!--<a class="show-more" style="float : right" ng-click="loadMoreVideo(1)">Show More</a>-->
-                            <div class="see-more" ng-show="isShowRecommended" ng-click="loadMoreVideo(1)"><span>Show more</span>
+                            <div class="see-more" ng-show="isShowMoreRecommended" ng-click="loadMoreVideo(1)"><span>Show more</span>
                             </div>
                         </div>
                         <div class="recently-uploaded" ng-show="listVideoRecently.length > 0 && !searchItem && !isSearchAction">
@@ -275,7 +275,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <div class="see-more" ng-show="isShowRecently" ng-click="loadMoreVideo(2)">
+                            <div class="see-more" ng-show="isShowMoreRecently" ng-click="loadMoreVideo(2)">
                                 <span>Show more</span></div>
                         </div>
                         <div class="video-member" ng-if="!isSearchAction"
@@ -285,15 +285,24 @@
                                  ng-style="{'border-bottom': !$last ? '1px solid #ddd' : '' }"  class="clearfix">
                                 <div class="video-member-header">
                                     <div class="video-member-title">
-                                        <h5>{{recommendedForYou[0].name}}</h5>
+                                        <a href="#/student/mentorProfile/{{recommendedForYou[$index].userId}}"><h5>{{recommendedForYou[0].name}}</h5></a>
                                         <p><span>recommended videos for you</span></p>
                                     </div>
                                     <div class="video-member-subcriber">
                                         <p>
-                                            <button style="margin-top: 5px;" ng-click="setSubscribeMentor(recommendedForYou[$index].userId, $index)">
-                                                <span data-icon="&#x4c;">Subscribe</span>
-                                                <span class="number-subscribers">{{recommendedForYou[0].countSubscribe}}</span>
+
+                                            <button style="margin-top: 5px;" class="subscribers active" data-icon="&#x4c;" id="subscribers_{{recommendedForYou[$index].userId}}"
+                                                    ng-click="setSubscribeMentor(recommendedForYou[$index].userId)" ng-class="{'unsubcrib':recommendedForYou[0].isSubs =='1'}"
+                                                    ng-Mouseover="hoverSubcribe(recommendedForYou[0].isSubs,recommendedForYou[$index].userId)"
+                                                    ng-mouseleave="unHoverSubcribe(recommendedForYou[0].isSubs,recommendedForYou[$index].userId)">
+                                                <span id="span_{{recommendedForYou[$index].userId}}">Subscribe</span>
+                                                <span class="number-subscribers">{{recommendedForYou[$index].countSubscribe}}</span>
                                             </button>
+
+                                            <!--<button style="margin-top: 5px;" ng-click="setSubscribeMentor(recommendedForYou[$index].userId, $index)">-->
+                                                <!--<span data-icon="&#x4c;">Subscribe</span>-->
+                                                <!--<span class="number-subscribers">{{recommendedForYou[0].countSubscribe}}</span>-->
+                                            <!--</button>-->
                                         </p>
                                     </div>
                                 </div>
@@ -338,7 +347,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="see-more" ng-show="isShowRecommendedForU" ng-click="loadMoreVideo(3)">
+                            <div class="see-more" ng-show="isShowMoreRecommendedForU" ng-click="loadMoreVideo(3)">
                                 <span>Show more</span>
                             </div>
                         </div>
