@@ -1,6 +1,6 @@
 brotControllers.controller('MentorVideoDetailController', 
-  ['$rootScope','$scope', '$modal', '$routeParams', '$http', '$location', 'videoDetailService','PlaylistService', 'VideoService',
-                                       function ($rootScope,$scope, $modal, $routeParams, $http, $location, videoDetailService, PlaylistService, VideoService) {
+  ['$rootScope','$scope', '$modal', '$routeParams', '$http', '$location', 'videoDetailService','PlaylistService', 'VideoService', 'CommentService',
+                                       function ($rootScope,$scope, $modal, $routeParams, $http, $location, videoDetailService, PlaylistService, VideoService, CommentService) {
 
 
     var vid = $routeParams.vid;
@@ -19,7 +19,7 @@ brotControllers.controller('MentorVideoDetailController',
     		// get video detail
             $scope.vid = vid;
             getVideoDetail(vid, userId);
-            getCommentVideoDetail();            
+            getCommentVideoDetail(vid);            
     	} else if (!isNaN(plid) && plid > 0) {
             // get playlist detail
             $scope.plid = plid;
@@ -101,6 +101,7 @@ brotControllers.controller('MentorVideoDetailController',
         // $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
         initYoutubePlayer($scope.video.url);
         getVideoRelated();
+        getCommentVideoDetail(v.vid);
     }
 
     function getVideoDetail(id, userId){
@@ -108,6 +109,7 @@ brotControllers.controller('MentorVideoDetailController',
             var result = data.data.request_data_result;
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.video = result[0];
+                console.log($scope.video);
                 $scope.video.averageRating = $scope.video.averageRating != null ? $scope.video.averageRating : 0;
                 $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
                 $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
@@ -117,12 +119,13 @@ brotControllers.controller('MentorVideoDetailController',
         });
     }
 
-    function getCommentVideoDetail(){
+    function getCommentVideoDetail(vid){
         videoDetailService.getCommentVideoById(vid).then(function(data){
             var result = data.data.request_data_result;
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.comments = formatDat(result);
-            }
+            } else
+                $scope.comments = null;
         });
     }
 
@@ -243,6 +246,15 @@ brotControllers.controller('MentorVideoDetailController',
                     }
                 }
            }
+        });
+    }
+
+    $scope.deleteComment = function(cid, vid){
+        CommentService.deleteComment(cid).then(function(data){
+            if (data.data.status) {
+                $scope.video.numComments -= 1;
+                getCommentVideoDetail(vid);
+            }
         });
     }
 
