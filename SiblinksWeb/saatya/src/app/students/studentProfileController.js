@@ -659,43 +659,39 @@ brotControllers.controller('StudentProfileController',
                     displayInformation();
                     
                     // This call method to return $scope.masterSubjects selected 
-                       putMasterSubjectSelected(subjects);
+                       putMasterSubjectSelected(subjects, $scope.studentInfo.defaultSubjectId);
                 });
 
             }
         /**
          * Get master Subject
          */    
-        function putMasterSubjectSelected(subjects) {
-        	var subjectsSelected = [];
+        function putMasterSubjectSelected(subjects,defaultSubjectId) {
+        	var tempSelected = [];
+        	$scope.masterSubjects = [];
         	if(subjects != null && subjects !== undefined) {
-        		$scope.masterSubjects =[];
-        		subjectsSelected.push(subjects);
-        		for (var i = 0; i < subjects.length; i ++) {
-        			if (subjects[i].level == 0) {
-        				var subject = subjects[i];
-        				if(isCheckedSubject(subject.subjectId)) {
-				    		subject.selected = "1";
-				    	} else {
-				    		subject.selected = "0";
-				    	}
-				    	$scope.masterSubjects.push(subject);
-		            }
+        		// Master subject
+    			for(var i=0; i< subjects.length; i++) {
+    				if(subjects[i].level =='0' && subjects[i].isForum == false) {
+    					tempSelected.push(subjects[i]);
+    				}
+    			}
+        		// Subject was choosed
+        		if(defaultSubjectId !== null && defaultSubjectId !== undefined) {
+        			var arrSubjectSelected = defaultSubjectId.split(',');
+        			for(var i=0; i< tempSelected.length; i++) {
+        				var subject = tempSelected[i];
+	        			for(var j = 0; j< arrSubjectSelected.length; j ++) {
+	        				if(subject.subjectId == arrSubjectSelected[j]) {
+					    		subject.selected = "1";
+					    		break;
+					    	} else {
+					    		subject.selected = "0";
+					    	}
+	        			}
+	        			$scope.masterSubjects.push(subject);
+        			}
         		}
         	}
         }
-        
-        /**
-         * checked is true or false
-         */
-        function isCheckedSubject(subid) {
-        	if(subid !=null && subid !== undefined && subid !== '' && $scope.subjects !== undefined) {
-            	for(var i=0; i< $scope.subjects; i++) {
-            		if($scope.subjects[i].subjectId == subid){
-            			return true;
-            		} 
-            	}
-        	}
-        	return false;
-        }
-        }]);
+    }]);
