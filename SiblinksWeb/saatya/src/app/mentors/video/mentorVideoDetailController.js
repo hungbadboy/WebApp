@@ -335,8 +335,8 @@ brotControllers.controller('MentorVideoDetailController',
     var player;
     function onYouTubeIframeAPIReady(youtubeId) {
       player = new YT.Player('detailPlayer', {
-          height: '450',
-          width: '640',
+          height: '100%',
+          width: '100%',
           videoId: youtubeId,
           events: {
               'onReady': onPlayerReady,
