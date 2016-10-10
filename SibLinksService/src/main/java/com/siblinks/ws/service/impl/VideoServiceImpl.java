@@ -2570,12 +2570,23 @@ public class VideoServiceImpl implements VideoService {
         Map<String, String> pageLimit = CommonUtil.getInstance().getOffset(limit, offset);
         Object[] params = null;
         SimpleResponse response;
-        if (!StringUtils.isEmpty(subjectId)) {
-            params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("limit")) };
-            String entityName = SibConstants.SqlMapper.SQL_GET_NEWEST_VIDEO_SUBJECT;
+        String entityName = "";
+        params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("limit")) };
+        String count = "0";
+        if (subjectId.equals("-1")) {
+            entityName = SibConstants.SqlMapper.SQL_GET_VIDEO_BY_VIEW;
+            List<Object> readObjects = dao.readObjects(entityName, params);
+            if (!CollectionUtils.isEmpty(readObjects)) {
+                count = String.valueOf(readObjects.size());
+                response = new SimpleResponse("" + true, "video", "getNewestVideoBySubject", readObjects, count);
+            } else {
+                response = new SimpleResponse("" + true, "video", "getNewestVideoBySubject", SibConstants.NO_DATA, count);
+            }
+
+        } else if (!StringUtils.isEmpty(subjectId)) {
+            entityName = SibConstants.SqlMapper.SQL_GET_NEWEST_VIDEO_SUBJECT;
             String whereClause = "V.subjectId IN(" + subjectId + ") ORDER BY numViews DESC LIMIT ? OFFSET ?;";
             List<Object> readObjects = dao.readObjectsWhereClause(entityName, whereClause, params);
-            String count = "0";
             if (readObjects != null && readObjects.size() > 0) {
                 count = String.valueOf(readObjects.size());
                 response = new SimpleResponse("" + true, "video", "getNewestVideoBySubject", readObjects, count);

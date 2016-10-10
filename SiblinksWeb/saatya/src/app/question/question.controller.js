@@ -46,7 +46,7 @@ brotControllers
                 var eventRemove;
                 var questionForAnswer;
 
-                var limit = 20;
+                var limit = 50;
                 var offset = 0;
                 var currentPage = 0;
                 var isLoadMore = false;
@@ -60,12 +60,11 @@ brotControllers
                 var MAX_IMAGE = 4;
                 $scope.displayOrder = 'Newest';
                 var bodyRef = angular.element( $document[0].body );
-                
+                $scope.subjects = JSON.parse(localStorage.getItem('subjects'));
                 init();
                 function init() {
 
                     $scope.curentOrderType = "newest";
-                    //$scope.ordertype = "answered";
                     if (isEmpty(userId)) {
                         userId = -1;
                     }
@@ -77,7 +76,6 @@ brotControllers
 
                     QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
                         $scope.totalQuestion = data.data.request_data_result[0].numquestion;
-                        $scope.subjects = myCache.get("subjects");
                         if (userId == "-1") {
                             window.location.href = '/#/first-ask';
                             return;
@@ -90,6 +88,7 @@ brotControllers
                         }
                     });
 
+                    //get top mentors by subcribe
                     MentorService.getTopMentorsByLikeRateSubcrible(LIMIT_TOP_MENTORS, offset, 'subcribe', userId).then(function (data) {
                         var data_result = data.data.request_data_result;
                         if (data_result) {
@@ -117,6 +116,7 @@ brotControllers
                         $scope.listTopmentors = listTopMentors;
                     });
 
+                    //get videos by top rate
                     VideoService.getVideoByRate(LIMIT_TOP_VIDEOS, offset).then(function (data) {
                         if (data.data.status) {
                             var result_data = data.data.request_data_result;

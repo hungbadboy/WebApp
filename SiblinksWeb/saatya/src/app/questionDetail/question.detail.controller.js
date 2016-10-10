@@ -42,6 +42,7 @@ brotControllers
                 $scope.propertyName = 'TIMESTAMP';
                 $scope.reverse = true;
                 var bodyRef = angular.element( $document[0].body );
+                $scope.subjects = JSON.parse(localStorage.getItem('subjects'));
                 init();
 
                 function init() {
@@ -56,7 +57,6 @@ brotControllers
                             return ;
                         }
                         var viewNew = parseInt(obj[0].numViews, 10) + 1;
-                        $scope.subjects = myCache.get("subjects");
                         $scope.initCategory = {subject: obj[0].subject, subjectId: obj[0].subjectId};
                         //$('#autocompleteQuest_value').val(obj[0].content);
                         $scope.imagePathOld = detectMultiImage(obj[0].imagePath);
