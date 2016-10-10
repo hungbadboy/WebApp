@@ -30,11 +30,11 @@
                                     </form>
                                 </div>
                                 <div class="sl-newwest">
-                                    <div angucomplete-alt id="autocompleteSubs" placeholder="Search subjects.." pause="300"
+                                    <div angucomplete-alt id="autocompleteSubs" placeholder="Search subjects.." pause="200"
                                          selected-object="selectedSubject"
                                          local-data="subjectsParent" search-fields="name" title-field="name"
                                          minlength="0" input-class="form-control-search"
-                                         match-class="highlight"   />
+                                          />
                                     <span ng-click="focusSubject()" data-icon="&#x43;"></span>
                                 </div>
                                 <div class="btn-filter"><button ng-click="fillerSubject()">Filter</button></div>
@@ -250,7 +250,7 @@
                 <div class="dt-txt-question" style="height: 55%" scroller="questionContent">
                     <p class =" pre-wrap"  >{{questionDetail.question_text}}</p>
                     <a ng-repeat="image in questionDetail.imagePath" href="javascript:void(0)">
-                        <img ng-src="{{image}}">
+                        <img style="max-width: 430px;" ng-src="{{image}}">
                     </a>
                 </div>
                 <div class="bottom-ctg">
@@ -260,7 +260,7 @@
             </div>
             <div class="col-md-6 right-answer clearfix"  ng-repeat="answer in listAnswer track by $index" ng-if="currentIndexAnswer == $index">
                 <div class="top-title clearfix">
-                    <h5 class="pull-left"><span><img src="assets/images/icon-h5-r-qa.png" alt=""></span>Answer</h5>
+                    <h5 class="pull-left"><span><img  src="assets/images/icon-h5-r-qa.png" alt=""></span>Answer</h5>
                     <p class="pull-right">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true" data-icon="&#x51;"></span>
@@ -285,7 +285,7 @@
                 </div>
                 <div class="dt-txt-question"  style="height: 55%" scroller="answer" >
                     <p class="pre-wrap">{{answer.content}}</p>
-                    <a href="" ng-repeat="img in convertToArrayImage(answer.imageAnswer)"><img ng-src="{{img}}"></a>
+                    <a href="" ng-repeat="img in convertToArrayImage(answer.imageAnswer)"><img style="max-width: 430px;" ng-src="{{img}}"></a>
                 </div>
                 <div class="pgt-right-ans clearfix">
                     <p class="pull-right"><span data-icon="&#xe045;"></span><span class="num-pgt">{{$index+1}}{{'/'+questionDetail.numReplies}}</span><span data-icon="&#xe046;"></span></p>
