@@ -134,6 +134,18 @@ brotControllers.controller('MentorPlaylistDetailController',
       return selectedVideos;
     }
 
+    $scope.goToDetail = function(v){
+      if (v.plid && v.plid > 0) {
+        setStorage('vidInPlaylist', v.vid, 30);
+        window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
+        window.location.reload();
+      } else{
+        localStorage.removeItem('vidInPlaylist');
+        window.location.href = '#/mentor/video/detail/'+v.vid+'';
+        window.location.reload();
+      }
+    }
+
     $scope.$on('passing', function(e,a){
         var result = $.grep($scope.videos, function(v){
             return v.vid == a.vid;

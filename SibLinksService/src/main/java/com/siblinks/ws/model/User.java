@@ -35,9 +35,11 @@ public class User {
     private String favorite;
     private String username;
     private String password;
+    private String accomplishments;
     private String newpassword;
     private String bod;
     private String defaultSubjectId;
+    private String role;
 
     public String getUsername() {
         return username;
@@ -163,6 +165,36 @@ public class User {
      */
     public void setDefaultSubjectId(final String defaultSubjectId) {
         this.defaultSubjectId = defaultSubjectId;
+    }
+
+    /**
+     * @return the accomplishments
+     */
+    public String getAccomplishments() {
+        return accomplishments;
+    }
+
+    /**
+     * @param accomplishments
+     *            the accomplishments to set
+     */
+    public void setAccomplishments(final String accomplishments) {
+        this.accomplishments = accomplishments;
+    }
+
+    /**
+     * @return the role
+     */
+    public String getRole() {
+        return role;
+    }
+
+    /**
+     * @param role
+     *            the role to set
+     */
+    public void setRole(final String role) {
+        this.role = role;
     }
 
 }

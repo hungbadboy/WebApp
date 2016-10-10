@@ -422,7 +422,7 @@
 }
 #rate-studentMentorProfile {
     float: none;
-    top: 2px;
+    top: 3px;
     position: relative;
 }
 .mentors-profile-headers .stars-selected {
@@ -458,8 +458,18 @@
 #history .video-list-content li:before, #favourite .video-list-content li:before {
     margin-left: 46px;
 }
-
-
+/*.mentor-manage-video .sl-newwest>div {
+    position: absolute;
+    height: 45px;
+    width: ~"calc(100% - 45px)";
+}
+.mentor-manage-video .sl-newwest span {
+    margin-right: 0px;
+    top: 6px;
+}*/
+.manager-detail-video {
+    max-height: 460px;
+}
 /**** End HongTTT *****/
 
 .pad-left-0 {
@@ -469,3 +479,52 @@
   width: 21%;
 }
 
+/*HoaiNT star rating*/
+.pull-right-mod{
+    margin-top: 10px;
+}
+.rating {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.rating li {
+    padding: 1px;
+    color: #ddd;
+    font-size: 20px;
+    /*text-shadow: .05em .05em #aaa;*/
+    margin-top: 2px;
+    list-style-type: none;
+    display: inline-block;
+    cursor: pointer;
+}
+.average-rating-container .foreground li i {
+    color: gold;
+}
+.rating li i {
+    color: #ddd;
+}
+.rating li.filled {
+    color: #fd0;
+}
+
+.rating.readonly li.filled {
+    color: #666;
+}
+
+.average-rating-container {
+    position: relative;
+    height: 31px;
+    width: 103px;
+    overflow: hidden;
+}
+
+.average-rating-container .background,
+.average-rating-container .foreground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}

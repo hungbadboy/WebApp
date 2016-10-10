@@ -573,7 +573,7 @@ public class SibConstants {
     }
 
     public class SqlMapperBROT44 {
-        public static final String SQL_GET_PLAYLIST = "GET_PLAYPLIST";
+        public static final String SQL_GET_PLAYLIST = "GET_PLAYLIST";
         public static final String SQL_GET_PLAYLIST_BY_ID = "GET_PLAYLIST_BY_ID";
         public static final String SQL_INSERT_PLAYLIST = "INSERT_PLAYLIST";
         public static final String SQL_DELETE_PLAYLIST = "DELETE_PLAYLIST";

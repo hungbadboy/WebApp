@@ -130,7 +130,7 @@ function convertUnixTimeToTime(time) {
 		timeBackEnd();
 	}
 
-	var _now = Math.floor(serverDateTime.getTime());
+	var _now = Math.floor(serverDateTime);
     var _space = _now - time;
     var _secondDay = 3600 * 24;
     var _secondMonth = _secondDay * 30;
@@ -349,7 +349,7 @@ var FormatDateTimeType = {
  */
 function timeConverter(timeStamp, typeFormat) {
     if (!timeStamp) {
-        return StatusError.MSG_UNKNOWN;
+        return '';
     }
     var a = new Date(timeStamp * 1000);
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -382,15 +382,16 @@ function timeBackEnd() {
     	var xmlhttp = new XMLHttpRequest();
     	try {
             xmlhttp.open("GET", NEW_SERVICE_URL +"/timeDB", false);
-            xmlhttp.send();	
-            serverDateTime = new Date(JSON.parse(xmlhttp.responseText));
+            xmlhttp.send();
+            serverDateTime = JSON.parse(xmlhttp.responseText);
             return;
     	} catch(e) {
     		console.log("can't connect to server");
-    		serverDateTime = new Date();
+    		serverDateTime = (Date.now() / 1000);
     	}
     }
 
     // Increment time by 1 second
-    serverDateTime.setTime(serverDateTime.getTime() + 1000);
+    serverDateTime++;
+    //console.log(serverDateTime);
 }

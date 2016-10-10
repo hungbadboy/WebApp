@@ -57,8 +57,9 @@
                                                 <a href="" ng-click="goToDetail(v)"><h5>{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
                                                 <span class="add-time">{{v.timeStamp}} ago</span>
                                                 <ul class="list-star">
-                                                    <div  class="pull-left" star-rating stars="5"
+                                                    <div ng-if="v" class="pull-left" star-rating stars="5"
                                                       outer-star-selection="stars"
+                                                      readonly="true"
                                                       outer-percent="rating"
                                                       rating-define="star"
                                                       rating-stars="{{v.averageRating}}"

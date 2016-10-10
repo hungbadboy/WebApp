@@ -19,7 +19,6 @@
                                     <div class="col-md-1"></div>
                                     <div id="video_balance" class="col-md-2"></div>
                                     <div class="video-play col-md-6" id="detailPlayer">
-                                        <!-- <img src="assets/images/img-video-l.png" alt=""> -->
                                     </div>                                    
                                     <div class="video-wait col-md-3" ng-if="plid" style="margin-left: 45px;">
                                         <div class="top-w clearfix">
@@ -47,7 +46,6 @@
                             <div class="col-md-8">
                                 <div class="main-cm-detail">
                                     <div class="top-cm">
-                                        <!-- <h3>{{ video.title | limitTo: 30 }}{{video.title.length > 30 ? '...' : ''}}</h3> -->
                                         <h3>{{video.title}}</h3>
                                         <span class="time">{{video.timeStamp}} ago</span>
                                         <div class="btn-count clearfix">
@@ -62,20 +60,17 @@
                                             </p>
                                         </div>
                                         <div class="txt-dg clearfix">
-                                            <span><p class="pull-left" style="margin-top: 6px;">Rating
-                                                <div  class="pull-left" star-rating stars="5"
-                                                      outer-star-selection="stars"
-                                                      outer-percent="rating"
-                                                      rating-define="star"
-                                                      rating-stars="{{video.averageRating}}"
-                                                      star-radius="12" sel-color="gold"
-                                                      back-color="white"></div>
+                                            <span><p class="pull-left" style="margin-top: 4px;">Rating
+                                                <div class="average">
+                                                    <average-star-rating ng-model="averageRating" max="5"><average-star-rating>    
+                                                </div> 
                                             </p></span>
                                         </div>
                                     </div>
                                     <div class="show-about">
-                                        <p ng-class="class">{{video.description}}</p>
-                                        <a href="" ng-click="showMore()">{{textShow}}<!-- <span data-icon="&#x33;"></span> --></a>
+                                        <p ng-class="class" ng-show="video.description.length > 0">{{video.description}}</p>
+                                        <p ng-class="class" ng-hide="video.description.length > 0">No Description</p>
+                                        <a href="" ng-click="showMore()" ng-show="video.description && video.description.length > 100">{{textShow}}<!-- <span data-icon="&#x33;"></span> --></a>
                                     </div>
                                     <div class="catego clearfix">
                                         <p class="pull-right"><span>Catalogue</span>&nbsp;&nbsp;<b>{{video.subject}}</b></p>

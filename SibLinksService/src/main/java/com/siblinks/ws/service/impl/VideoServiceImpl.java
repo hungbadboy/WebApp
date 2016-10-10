@@ -103,12 +103,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> getSubCategoryData(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -122,12 +117,7 @@ public class VideoServiceImpl implements VideoService {
         List<Object> readObject = null;
         readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -137,12 +127,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> saveSubCategory(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -226,12 +211,7 @@ public class VideoServiceImpl implements VideoService {
             }
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    vid);
+        SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), vid);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -241,12 +221,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> updateSubCategory(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -280,12 +255,7 @@ public class VideoServiceImpl implements VideoService {
             status = dao.insertUpdateObject(entityName, queryParams);
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    status);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), status);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -295,12 +265,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> deleteSubCategory(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -311,12 +276,7 @@ public class VideoServiceImpl implements VideoService {
         queryParams.put("vid", request.getRequest_data().getStringJson());
         boolean flag = dao.insertUpdateObject(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    flag);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), flag);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -326,12 +286,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> getVideoDetails(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -343,12 +298,7 @@ public class VideoServiceImpl implements VideoService {
         List<Object> readObject = null;
         readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -358,12 +308,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> getMentorsOfVideo(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -375,12 +320,7 @@ public class VideoServiceImpl implements VideoService {
         List<Object> readObject = null;
         readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -390,12 +330,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> getMentorReviewsPN(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -414,13 +349,7 @@ public class VideoServiceImpl implements VideoService {
             count = dao.getCount(SibConstants.SqlMapper.SQL_SIB_MENTOR_REVIEWS_READ_COUNT, queryParams);
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -430,12 +359,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> getVideoDetailsPN(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -453,13 +377,7 @@ public class VideoServiceImpl implements VideoService {
             count = dao.getCount(SibConstants.SqlMapper.SQL_VIDEO_SUBJECT_MAPPING_DATA_READ_PN_COUNT, queryParams);
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -469,12 +387,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> updateVideoDetails(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -499,12 +412,7 @@ public class VideoServiceImpl implements VideoService {
         queryParams.put("active", manageVideoModel.getActive());
         boolean insertFlag = dao.insertUpdateObject(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    insertFlag);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), insertFlag);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -623,21 +531,15 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> createVideo(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
         List<ManageVideoModel> newVideoDetails = new ArrayList<ManageVideoModel>();
         ObjectMapper mapper = new ObjectMapper();
         try {
-            newVideoDetails = mapper
-                .readValue(request.getRequest_data().getStringJson(), new TypeReference<List<ManageVideoModel>>() {
-                });
+            newVideoDetails = mapper.readValue(request.getRequest_data().getStringJson(), new TypeReference<List<ManageVideoModel>>() {
+            });
         } catch (JsonParseException e) {
             logger.error(e);
         } catch (JsonMappingException e) {
@@ -673,12 +575,7 @@ public class VideoServiceImpl implements VideoService {
             }
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    flag);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), flag);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -689,12 +586,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -744,12 +636,7 @@ public class VideoServiceImpl implements VideoService {
             vid = 0;
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    vid);
+        SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), vid);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -795,12 +682,7 @@ public class VideoServiceImpl implements VideoService {
 
         readObject.add(mymap);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -812,12 +694,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -835,13 +712,7 @@ public class VideoServiceImpl implements VideoService {
             count = dao.getCount(SibConstants.SqlMapper.SQL_SIB_GET_COMMENTS_PN_COUNT, queryParams);
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -853,12 +724,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -870,12 +736,7 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -887,12 +748,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -920,12 +776,9 @@ public class VideoServiceImpl implements VideoService {
             }
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    request.getRequest_data().getVid());
+        SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request
+            .getRequest_data()
+            .getVid());
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -941,8 +794,8 @@ public class VideoServiceImpl implements VideoService {
 
         Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
 
-        Object[] queryParams = { request.getRequest_data().getSubjectId(), request.getRequest_data().getTopicId(), map
-            .get(Parameters.FROM), map.get(Parameters.TO) };
+        Object[] queryParams = { request.getRequest_data().getSubjectId(), request.getRequest_data().getTopicId(), map.get(Parameters.FROM), map
+            .get(Parameters.TO) };
 
         entityName = SibConstants.SqlMapper.SQL_GET_VIDEO_PN;
 
@@ -969,12 +822,7 @@ public class VideoServiceImpl implements VideoService {
                 logger.error(e);
             }
         } else {
-            SimpleResponse reponse = new SimpleResponse(
-                                                        "" +
-                                                        true,
-                                                        request.getRequest_data_type(),
-                                                        request.getRequest_data_method(),
-                                                        "No Data Found");
+            SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
             ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
             return entity;
         }
@@ -987,13 +835,7 @@ public class VideoServiceImpl implements VideoService {
             count = dao.getCount(SibConstants.SqlMapper.SQL_SIB_GET_VIDEO_WITH_TOPIC_PN_COUNT, queryParams);
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1034,12 +876,7 @@ public class VideoServiceImpl implements VideoService {
                 logger.error(e);
             }
         } else {
-            SimpleResponse reponse = new SimpleResponse(
-                                                        "" +
-                                                        true,
-                                                        request.getRequest_data_type(),
-                                                        request.getRequest_data_method(),
-                                                        "No Data Found");
+            SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
             ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
             return entity;
         }
@@ -1049,12 +886,7 @@ public class VideoServiceImpl implements VideoService {
 
         readObject.add(mymap);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1122,12 +954,7 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1151,8 +978,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     @RequestMapping(value = "/clearHistoryVideosList", method = RequestMethod.GET)
-    public ResponseEntity<Response> clearHistoryVideosList(@RequestParam("uid") final String uid,
-            @RequestParam("vid") final String vid) {
+    public ResponseEntity<Response> clearHistoryVideosList(@RequestParam("uid") final String uid, @RequestParam("vid") final String vid) {
 
         String entityName = null;
         Object[] queryParams = null;
@@ -1209,13 +1035,7 @@ public class VideoServiceImpl implements VideoService {
             }
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1259,24 +1079,14 @@ public class VideoServiceImpl implements VideoService {
                 logger.error(e);
             }
         } else {
-            SimpleResponse reponse = new SimpleResponse(
-                                                        "" +
-                                                        true,
-                                                        request.getRequest_data_type(),
-                                                        request.getRequest_data_method(),
-                                                        "No Data Found");
+            SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
             ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
             return entity;
         }
 
         Map<String, Object> mymap = new HashMap<String, Object>();
         mymap.put("tags", readObject1);
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1289,12 +1099,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -1330,12 +1135,7 @@ public class VideoServiceImpl implements VideoService {
                 logger.error(e);
             }
         } else {
-            SimpleResponse reponse = new SimpleResponse(
-                                                        "" +
-                                                        true,
-                                                        request.getRequest_data_type(),
-                                                        request.getRequest_data_method(),
-                                                        "No Data Found");
+            SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
             ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
             return entity;
         }
@@ -1344,11 +1144,7 @@ public class VideoServiceImpl implements VideoService {
         mymap.put("tags", readObject1);
         readObject.add(mymap);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "true",
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("true", request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1361,12 +1157,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -1408,12 +1199,7 @@ public class VideoServiceImpl implements VideoService {
                 logger.error(e);
             }
         } else {
-            SimpleResponse reponse = new SimpleResponse(
-                                                        "" +
-                                                        true,
-                                                        request.getRequest_data_type(),
-                                                        request.getRequest_data_method(),
-                                                        "No Data Found");
+            SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
             ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
             return entity;
         }
@@ -1422,22 +1208,17 @@ public class VideoServiceImpl implements VideoService {
         if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
             count = dao.getCount(
                 SibConstants.SqlMapper.SQL_SIB_GET_VIDEO_WITH_SUB_TOPIC_PN_COUNT,
-                new Object[] { request.getRequest_data().getSubject().trim(), request
+                new Object[] { request.getRequest_data().getSubject().trim(), request.getRequest_data().getSubtopic().trim(), request
                     .getRequest_data()
-                    .getSubtopic()
-                    .trim(), request.getRequest_data().getTopic().trim() });
+                    .getTopic()
+                    .trim() });
         }
 
         Map<String, Object> mymap = new HashMap<String, Object>();
         mymap.put("tags", readObject1);
         readObject.add(mymap);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "true",
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
+        SimpleResponse reponse = new SimpleResponse("true", request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1450,12 +1231,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -1494,11 +1270,7 @@ public class VideoServiceImpl implements VideoService {
                 logger.error(e);
             }
         } else {
-            SimpleResponse reponse = new SimpleResponse(
-                                                        "true",
-                                                        request.getRequest_data_type(),
-                                                        request.getRequest_data_method(),
-                                                        "No Data Found");
+            SimpleResponse reponse = new SimpleResponse("true", request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
             ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
             return entity;
         }
@@ -1514,13 +1286,7 @@ public class VideoServiceImpl implements VideoService {
                 new Object[] { request.getRequest_data().getSubjectId().trim() });
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1533,12 +1299,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -1571,11 +1332,7 @@ public class VideoServiceImpl implements VideoService {
                 logger.error(e);
             }
         } else {
-            SimpleResponse reponse = new SimpleResponse(
-                                                        "true",
-                                                        request.getRequest_data_type(),
-                                                        request.getRequest_data_method(),
-                                                        "No Data Found");
+            SimpleResponse reponse = new SimpleResponse("true", request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
             ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
             return entity;
         }
@@ -1584,12 +1341,7 @@ public class VideoServiceImpl implements VideoService {
         mymap.put("tags", readObject1);
         readObject.add(mymap);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1602,12 +1354,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -1643,12 +1390,7 @@ public class VideoServiceImpl implements VideoService {
         Map<String, Object> mymap = new HashMap<String, Object>();
         mymap.put("tags", readObject1);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1661,12 +1403,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -1715,13 +1452,7 @@ public class VideoServiceImpl implements VideoService {
                 new Object[] { "%" + request.getRequest_data().getTitle().trim() + "%" });
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1779,22 +1510,12 @@ public class VideoServiceImpl implements VideoService {
                 readObject3.add(readObject2);
             }
         } else {
-            SimpleResponse reponse = new SimpleResponse(
-                                                        "" +
-                                                        true,
-                                                        request.getRequest_data_type(),
-                                                        request.getRequest_data_method(),
-                                                        "No Data Found");
+            SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
             ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
             return entity;
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject3);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject3);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1858,30 +1579,20 @@ public class VideoServiceImpl implements VideoService {
                 readObject3.add(readObject2);
             }
         } else {
-            SimpleResponse reponse = new SimpleResponse(
-                                                        "" +
-                                                        true,
-                                                        request.getRequest_data_type(),
-                                                        request.getRequest_data_method(),
-                                                        "No Data Found");
+            SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
             ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
             return entity;
         }
 
         String count = null;
         if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
-            count = dao.getCount(
-                SibConstants.SqlMapper.SQL_SIB_SEARCH_VIDEO_TAG_PN_COUNT,
-                new Object[] { request.getRequest_data().getTag().trim(), request.getRequest_data().getTag().trim() });
+            count = dao.getCount(SibConstants.SqlMapper.SQL_SIB_SEARCH_VIDEO_TAG_PN_COUNT, new Object[] { request.getRequest_data().getTag().trim(), request
+                .getRequest_data()
+                .getTag()
+                .trim() });
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject3,
-                                                    count);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject3, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1893,12 +1604,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -1909,12 +1615,7 @@ public class VideoServiceImpl implements VideoService {
         entityName = SibConstants.SqlMapper.SQL_SIB_REMOVE_VIDEO;
         boolean status = dao.insertUpdateObject(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    status);
+        SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), status);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1925,11 +1626,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
         boolean status = false;
         if (!AuthenticationFilter.isAuthed(this.context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "false",
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("false", "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
         TransactionDefinition def = new DefaultTransactionDefinition();
@@ -1963,12 +1660,9 @@ public class VideoServiceImpl implements VideoService {
             transactionManager.rollback(statusDao);
             throw e;
         }
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    request.getRequest_data().getVid());
+        SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request
+            .getRequest_data()
+            .getVid());
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -1979,11 +1673,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
         boolean status = false;
         if (!AuthenticationFilter.isAuthed(this.context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "false",
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("false", "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
         TransactionDefinition def = new DefaultTransactionDefinition();
@@ -2017,12 +1707,9 @@ public class VideoServiceImpl implements VideoService {
             transactionManager.rollback(statusDao);
             throw e;
         }
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    request.getRequest_data().getVid());
+        SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request
+            .getRequest_data()
+            .getVid());
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -2047,18 +1734,10 @@ public class VideoServiceImpl implements VideoService {
 
         String count = null;
         if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
-            count = dao.getCount(
-                SibConstants.SqlMapper.SQL_GET_VIDEOS_LIST_BY_USER_PN_COUNT,
-                new Object[] { request.getRequest_data().getUid() });
+            count = dao.getCount(SibConstants.SqlMapper.SQL_GET_VIDEOS_LIST_BY_USER_PN_COUNT, new Object[] { request.getRequest_data().getUid() });
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -2068,12 +1747,7 @@ public class VideoServiceImpl implements VideoService {
     public @ResponseBody ResponseEntity<Response> updateVideo(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -2082,9 +1756,9 @@ public class VideoServiceImpl implements VideoService {
         // queryParams.put("title", request.getRequest_data().getTitle());
         // queryParams.put("description",
         // request.getRequest_data().getDescription());
-        Object[] queryParams = new Object[] { request.getRequest_data().getTitle(), request
+        Object[] queryParams = new Object[] { request.getRequest_data().getTitle(), request.getRequest_data().getDescription(), request
             .getRequest_data()
-            .getDescription(), request.getRequest_data().getVid(), };
+            .getVid(), };
         String entityName = SibConstants.SqlMapper.SQL_UPDATE_VIDEO;
         boolean status = true;
         status = dao.insertUpdateObject(entityName, queryParams);
@@ -2095,12 +1769,7 @@ public class VideoServiceImpl implements VideoService {
             message = "Fail";
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    message);
+        SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), message);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
 
         return entity;
@@ -2115,13 +1784,13 @@ public class VideoServiceImpl implements VideoService {
 
         Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
 
-        Object[] queryParams = { request.getRequest_data().getTitle().trim(), request
+        Object[] queryParams = { request.getRequest_data().getTitle().trim(), request.getRequest_data().getDescription().trim(), request
             .getRequest_data()
-            .getDescription()
-            .trim(), request.getRequest_data().getTitle().trim(), request.getRequest_data().getDescription().trim(), request
-                .getRequest_data()
-                .getTitle()
-                .trim(), request.getRequest_data().getTitle().trim(), map.get(Parameters.FROM), map.get(Parameters.TO) };
+            .getTitle()
+            .trim(), request.getRequest_data().getDescription().trim(), request.getRequest_data().getTitle().trim(), request
+            .getRequest_data()
+            .getTitle()
+            .trim(), map.get(Parameters.FROM), map.get(Parameters.TO) };
 
         entityName = SibConstants.SqlMapper.SQL_SEARCH_ALL_VIDEO;
 
@@ -2129,13 +1798,7 @@ public class VideoServiceImpl implements VideoService {
 
         String count = dao.getCount(SibConstants.SqlMapper.SQL_COUNT_SEARCH_ALL_VIDEO, new Object[] {});
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -2145,12 +1808,7 @@ public class VideoServiceImpl implements VideoService {
     public @ResponseBody ResponseEntity<Response> updateViewVideo(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -2167,12 +1825,7 @@ public class VideoServiceImpl implements VideoService {
             message = "Fail";
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    message);
+        SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), message);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
 
         return entity;
@@ -2183,12 +1836,7 @@ public class VideoServiceImpl implements VideoService {
     public @ResponseBody ResponseEntity<Response> updateVideoWatched(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -2209,12 +1857,7 @@ public class VideoServiceImpl implements VideoService {
             message = "Fail";
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    message);
+        SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), message);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
 
         return entity;
@@ -2225,12 +1868,7 @@ public class VideoServiceImpl implements VideoService {
     public @ResponseBody ResponseEntity<Response> getIdVideoWatched(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
@@ -2240,11 +1878,7 @@ public class VideoServiceImpl implements VideoService {
         String entityName = SibConstants.SqlMapper.SQL_GET_ID_VIDEO_USER_WATCHED;
         List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "",
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("", request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
 
         return entity;
@@ -2264,12 +1898,7 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -2285,12 +1914,7 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -2306,12 +1930,7 @@ public class VideoServiceImpl implements VideoService {
 
         List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -2325,8 +1944,8 @@ public class VideoServiceImpl implements VideoService {
 
         Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
 
-        Object[] queryParams = { request.getRequest_data().getAuthorID(), request.getRequest_data().getAuthorID(), map
-            .get(Parameters.FROM), map.get(Parameters.TO) };
+        Object[] queryParams = { request.getRequest_data().getAuthorID(), request.getRequest_data().getAuthorID(), map.get(Parameters.FROM), map
+            .get(Parameters.TO) };
 
         entityName = SibConstants.SqlMapper.SQL_SEARCH_ALL_VIDEO_BY_USER;
 
@@ -2334,27 +1953,20 @@ public class VideoServiceImpl implements VideoService {
 
         String count = dao.getCount(SibConstants.SqlMapper.SQL_COUNT_SEARCH_ALL_VIDEO_BY_USER, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
+        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see com.siblinks.ws.service.VideoService#getVideosWithSubject(long,
      * long)
      */
     @RequestMapping(value = "/getVideoByUserSubject", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Response> getVideoByUserSubject(@RequestParam final long uId, @RequestParam final String limit,
-            @RequestParam final String offset) {
+    public ResponseEntity<Response> getVideoByUserSubject(@RequestParam final long uId, @RequestParam final String limit, @RequestParam final String offset) {
 
         Object[] paramQueryGetSubjects = { uId };
         String subjectIdResult = dao.readObjects(SibConstants.SqlMapper.SQL_GET_SUBJECT_REG, paramQueryGetSubjects).toString();
@@ -2366,8 +1978,7 @@ public class VideoServiceImpl implements VideoService {
             Map<String, String> pageLimit = cmUtils.getOffset(limit, offset);
             Object[] paramsGetVideos = { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
             String whereClause = "IN(" + subjectIds + ") LIMIT ? OFFSET ?;";
-            List<Object> resultData = dao
-                .readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, paramsGetVideos);
+            List<Object> resultData = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, paramsGetVideos);
             String count = String.valueOf(resultData.size());
             response = new SimpleResponse("" + Boolean.TRUE, "GET", "getVideoByUserSubject", resultData, count);
         }
@@ -2417,8 +2028,7 @@ public class VideoServiceImpl implements VideoService {
 
     @RequestMapping(value = "/getVideoStudentSubcribe", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Response> getVideoStudentSubcribe(@RequestParam final long userId, @RequestParam final String limit,
-            @RequestParam final String offset) {
+    public ResponseEntity<Response> getVideoStudentSubcribe(@RequestParam final long userId, @RequestParam final String limit, @RequestParam final String offset) {
         CommonUtil cmUtil = CommonUtil.getInstance();
         Map<String, String> map = cmUtil.getOffset(limit, offset);
         Object[] params = { userId, Integer.parseInt(map.get("limit")), Integer.parseInt(map.get("offset")) };
@@ -2434,12 +2044,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> setSubscribeMentor(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
         Object[] queryParams = new Object[] { request.getRequest_data().getStudentId(), request.getRequest_data().getMentorId() };
@@ -2469,8 +2074,7 @@ public class VideoServiceImpl implements VideoService {
 
     }
 
-    public Map<String, String> getParamsSubcribe(final String sql, final String sql2, final Object[] queryParams,
-            final RequestData request) {
+    public Map<String, String> getParamsSubcribe(final String sql, final String sql2, final Object[] queryParams, final RequestData request) {
 
         List<Object> readObject = null;
         Map<String, String> queryParamsIns = new HashMap<String, String>();
@@ -2481,12 +2085,10 @@ public class VideoServiceImpl implements VideoService {
             queryParamsIns.put("authorId", queryParams[1].toString());
             queryParamsIns.put("type", "subcribe");
             queryParamsIns.put("title", "Following You!");
-            queryParamsIns.put(
-                "notification",
-                ((Map) readObject.get(0)).get("firstName").toString() +
-                                " " +
-                                ((Map) readObject.get(0)).get("lastName").toString() +
-                                " Watching you.");
+            queryParamsIns.put("notification", ((Map) readObject.get(0)).get("firstName").toString() +
+                                               " " +
+                                               ((Map) readObject.get(0)).get("lastName").toString() +
+                                               " Watching you.");
             // }
         }
         return queryParamsIns;
@@ -2564,25 +2166,24 @@ public class VideoServiceImpl implements VideoService {
         return entity;
     }
 
-    @RequestMapping(value = "/getNewVideoMentorSubscribe")
+    @RequestMapping(value = "/getMentorSubscribed")
     @ResponseBody
-    public ResponseEntity<Response> getNewVideoMentorSubscribe(@RequestParam final long userId, @RequestParam final String limit,
+    public ResponseEntity<Response> getMentorSubscribe(@RequestParam final long userId, @RequestParam final String limit,
             @RequestParam final String offset) {
         String entityName = SibConstants.SqlMapper.SQL_GET_ALL_MENTOR_SUBSCRIBED;
         CommonUtil cmUtil = CommonUtil.getInstance();
         Map<String, String> map = cmUtil.getOffset(limit, offset);
-        Object[] params = { userId, userId, Integer.parseInt(map.get("limit")), Integer.parseInt(map.get("offset")) };
+        Object[] params = { userId, Integer.parseInt(map.get("limit")), Integer.parseInt(map.get("offset")) };
         List<Object> dataResult = dao.readObjects(entityName, params);
         String count = String.valueOf(dataResult.size());
-        SimpleResponse response = new SimpleResponse("" + Boolean.TRUE, "video", "getNewVideoMentorSubscribe", dataResult, count);
+        SimpleResponse response = new SimpleResponse("" + Boolean.TRUE, "video", "getMentorSubscribe", dataResult, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
         return entity;
     }
 
     @Override
     @RequestMapping(value = "/getVideosBySubject", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideosBySubject(@RequestParam final long userid, @RequestParam final long subjectid,
-            @RequestParam final int offset) {
+    public ResponseEntity<Response> getVideosBySubject(@RequestParam final long userid, @RequestParam final long subjectid, @RequestParam final int offset) {
         SimpleResponse reponse = null;
         Object[] queryParams = new Object[] { userid, subjectid, offset };
 
@@ -2597,8 +2198,7 @@ public class VideoServiceImpl implements VideoService {
             Map<String, Object> tmp = new HashMap<String, Object>();
             for (Object object : readObject) {
                 map = (Map<String, Object>) object;
-                playlist = dao
-                    .readObjects(SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_INFO_OF_VIDEO, new Object[] { map.get("vid") });
+                playlist = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_INFO_OF_VIDEO, new Object[] { map.get("vid") });
                 if (playlist != null && playlist.size() > 0) {
                     for (Object item : playlist) {
                         tmp = (Map<String, Object>) item;
@@ -2621,7 +2221,7 @@ public class VideoServiceImpl implements VideoService {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see com.siblinks.ws.service.VideoService#getVideosTopRated(long)
      */
     @Override
@@ -2644,7 +2244,7 @@ public class VideoServiceImpl implements VideoService {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see com.siblinks.ws.service.VideoService#getVideosTopViewed(long)
      */
     @Override
@@ -2667,7 +2267,7 @@ public class VideoServiceImpl implements VideoService {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see com.siblinks.ws.service.VideoService#getVideosRecently(long)
      */
     @Override
@@ -2689,7 +2289,7 @@ public class VideoServiceImpl implements VideoService {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * com.siblinks.ws.service.VideoService#insertVideo(com.siblinks.ws.model
      * .RequestData)
@@ -2710,11 +2310,9 @@ public class VideoServiceImpl implements VideoService {
         try {
             // insert video
             entityName = SibConstants.SqlMapperBROT43.SQL_INSERT_VIDEO;
-            queryParams = new Object[] { request.getRequest_data().getTitle(), request.getRequest_data().getDescription(), request
+            queryParams = new Object[] { request.getRequest_data().getTitle(), request.getRequest_data().getDescription(), request.getRequest_data().getUrl(), request
                 .getRequest_data()
-                .getRunningTime(), request.getRequest_data().getUrl(), request
-                    .getRequest_data()
-                    .getImage(), request.getRequest_data().getSubjectId(), authorId };
+                .getRunningTime(), request.getRequest_data().getImage(), request.getRequest_data().getSubjectId(), authorId };
             long vid = dao.insertObject(entityName, queryParams);
 
             if (plid != null && plid.length() > 0) {
@@ -2749,7 +2347,7 @@ public class VideoServiceImpl implements VideoService {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see com.siblinks.ws.service.VideoService#getVideosPlaylist(long)
      */
     @Override
@@ -2783,8 +2381,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     @RequestMapping(value = "/getVideoById/{vid}/{type}", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideoById(@PathVariable(value = "vid") final long vid,
-            @PathVariable(value = "type") final String type) {
+    public ResponseEntity<Response> getVideoById(@PathVariable(value = "vid") final long vid, @PathVariable(value = "type") final String type) {
         String entityName = null;
 
         Object[] queryParams = { vid };
@@ -2829,15 +2426,15 @@ public class VideoServiceImpl implements VideoService {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * com.siblinks.ws.service.VideoService#getVideoBySubject(com.siblinks.ws.
      * model.RequestData)
      */
     @Override
     @RequestMapping(value = "/getVideoBySubject", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideoBySubject(@RequestParam final long userId, @RequestParam final String subjectId,
-            @RequestParam final String limit, @RequestParam final String offset) {
+    public ResponseEntity<Response> getVideoBySubject(@RequestParam final long userId, @RequestParam final String subjectId, @RequestParam final String limit,
+            @RequestParam final String offset) {
 
         Object result = getVideosFactory(subjectId, userId, limit, offset);
         SimpleResponse response = new SimpleResponse("" + Boolean.TRUE, "video", "getVideoBySubject", result);
@@ -2845,8 +2442,7 @@ public class VideoServiceImpl implements VideoService {
         return entity;
     }
 
-    private Map<String, Object> getVideosFactory(final String subjectId, final long userId, final String limit,
-            final String offset) {
+    private Map<String, Object> getVideosFactory(final String subjectId, final long userId, final String limit, final String offset) {
         Map<String, Object> map = new HashMap<>();
         Object[] params = null;
         params = new Object[] { userId };
@@ -2871,13 +2467,10 @@ public class VideoServiceImpl implements VideoService {
                 map.put("recommended", resultDataRecommended);
                 map.put("recently", resultRecently);
             } else {
-                params = new Object[] { subjectId, Integer.parseInt(pageLimit.get("limit")), Integer
-                    .parseInt(pageLimit.get("offset")) };
-                List<Object> resultDataRecommended = dao
-                    .readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_VIEW_BY_SUBJECT, params);
+                params = new Object[] { subjectId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
+                List<Object> resultDataRecommended = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_VIEW_BY_SUBJECT, params);
                 map.put("recommended", resultDataRecommended);
-                params = new Object[] { subjectId, subjectId, Integer.parseInt(pageLimit.get("limit")), Integer
-                    .parseInt(pageLimit.get("offset")) };
+                params = new Object[] { subjectId, subjectId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
                 List<Object> resultRecently = dao.readObjects(SibConstants.SqlMapper.VIDEO_PLAYLIST_NEWEST_BY_SUBJECT, params);
                 map.put("recently", resultRecently);
             }
@@ -2885,8 +2478,7 @@ public class VideoServiceImpl implements VideoService {
             if (subjectIds != null && !StringUtils.isEmpty(subjectIds)) {
                 params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
                 String whereClause = "WHERE V.subjectId IN(" + subjectIds + ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
-                List<Object> resultDataRecommended = dao
-                    .readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
+                List<Object> resultDataRecommended = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
                 map.put("recommended", resultDataRecommended);
             } else {
                 params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
@@ -2925,8 +2517,7 @@ public class VideoServiceImpl implements VideoService {
                 if (subjectIds != null && !StringUtils.isEmpty(subjectIds)) {
                     String[] subjects = subjectIds.split(",");
                     if (ArrayUtils.contains(subjects, subjectId)) {
-                        params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer
-                            .parseInt(pageLimit.get("offset")) };
+                        params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
                         StringBuilder sBuilder = new StringBuilder();
                         for (String subject : subjects) {
                             String childSubjectId = CommonUtil.getAllChildCategory("" + subject, getAllSubjectIdCategory());
@@ -2935,26 +2526,21 @@ public class VideoServiceImpl implements VideoService {
                         String whereClause = "WHERE V.subjectId IN (" +
                                              sBuilder.toString().substring(0, sBuilder.toString().lastIndexOf(",")) +
                                              ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
-                        List<Object> resultDataRecommended = dao
-                            .readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
+                        List<Object> resultDataRecommended = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
                         map.put("recommended", resultDataRecommended);
                     }
                 } else {
-                    params = new Object[] { subjectId, Integer.parseInt(pageLimit.get("limit")), Integer
-                        .parseInt(pageLimit.get("offset")) };
-                    List<Object> resultDataRecommended = dao
-                        .readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_VIEW_BY_SUBJECT, params);
+                    params = new Object[] { subjectId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
+                    List<Object> resultDataRecommended = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_VIEW_BY_SUBJECT, params);
                     map.put("recommended", resultDataRecommended);
                 }
-                params = new Object[] { userId, subId, userId, subId, Integer.parseInt(pageLimit.get("limit")), Integer
-                    .parseInt(pageLimit.get("offset")) };
+                params = new Object[] { userId, subId, userId, subId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
                 // String whereClause = "WHERE S.StudentId = ? AND S.Subcribe =
                 // 'Y' AND V.subjectId IN (" +
                 // subId +
                 // ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ? ";
 
-                List<Object> resultRecently = dao
-                    .readObjects(SibConstants.SqlMapper.SQL_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB, params);
+                List<Object> resultRecently = dao.readObjects(SibConstants.SqlMapper.SQL_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB, params);
                 map.put("recently", resultRecently != null ? resultRecently : null);
 
                 String entityName = SibConstants.SqlMapper.SQL_VIDEO_RECOMMENDED_FOR_YOU_WITH_SUB_ID;
@@ -2979,8 +2565,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @RequestMapping(value = "getNewestVideoBySubject", method = RequestMethod.GET)
-    public ResponseEntity<Response> getNewestVideoBySubject(@RequestParam final String subjectId,
-            @RequestParam final String limit, @RequestParam final String offset) {
+    public ResponseEntity<Response> getNewestVideoBySubject(@RequestParam final String subjectId, @RequestParam final String limit,
+            @RequestParam final String offset) {
         Map<String, String> pageLimit = CommonUtil.getInstance().getOffset(limit, offset);
         Object[] params = null;
         SimpleResponse response;
@@ -3050,19 +2636,9 @@ public class VideoServiceImpl implements VideoService {
             }
 
             String msg = String.format("Deleted success %d videos and fail %d videos", countSuccess, countFailed);
-            response = new SimpleResponse(
-                                          "" +
-                                          Boolean.TRUE,
-                                          request.getRequest_data_type(),
-                                          request.getRequest_data_method(),
-                                          msg);
+            response = new SimpleResponse("" + Boolean.TRUE, request.getRequest_data_type(), request.getRequest_data_method(), msg);
         } else {
-            response = new SimpleResponse(
-                                          "" +
-                                          Boolean.TRUE,
-                                          request.getRequest_data_type(),
-                                          request.getRequest_data_method(),
-                                          "Missing authorId.");
+            response = new SimpleResponse("" + Boolean.TRUE, request.getRequest_data_type(), request.getRequest_data_method(), "Missing authorId.");
         }
 
         ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
@@ -3071,8 +2647,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     @RequestMapping(value = "/searchVideos", method = RequestMethod.GET)
-    public ResponseEntity<Response> searchVideos(@RequestParam final long uid, @RequestParam final String keyword,
-            @RequestParam final int offset) {
+    public ResponseEntity<Response> searchVideos(@RequestParam final long uid, @RequestParam final String keyword, @RequestParam final int offset) {
         SimpleResponse reponse = null;
         Object[] queryParams = new Object[] { uid };
         String term = StringEscapeUtils.escapeJava(keyword);
@@ -3130,20 +2705,14 @@ public class VideoServiceImpl implements VideoService {
 
             response = new SimpleResponse(true + "", request.getRequest_data_type(), request.getRequest_data_method(), msg);
         } else {
-            response = new SimpleResponse(
-                                          true +
-                                          "",
-                                          request.getRequest_data_type(),
-                                          request.getRequest_data_method(),
-                                          "Missing authorId or plid.");
+            response = new SimpleResponse(true + "", request.getRequest_data_type(), request.getRequest_data_method(), "Missing authorId or plid.");
         }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
         return entity;
     }
 
     @RequestMapping(value = "/searchVideo", method = RequestMethod.GET)
-    public ResponseEntity<Response> searchVideo(@RequestParam final String keyword, @RequestParam final String limit,
-            @RequestParam final String offset) {
+    public ResponseEntity<Response> searchVideo(@RequestParam final String keyword, @RequestParam final String limit, @RequestParam final String offset) {
 
         Map<String, String> searchLimit = CommonUtil.getInstance().getOffset(limit, offset);
 
@@ -3228,8 +2797,7 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> searchVideosNonePlaylist(final long uid, final String keyword, final int offset) {
         String strEntity = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_NONE_PLAYLIST;
 
-        String whereClause = String
-            .format(" and v.title like '%%%s%%' order by v.timeStamp DESC limit 5 offset %d", keyword, offset);
+        String whereClause = String.format(" and v.title like '%%%s%%' order by v.timeStamp DESC limit 5 offset %d", keyword, offset);
         List<Object> readObjects = dao.readObjectsWhereClause(strEntity, whereClause, new Object[] { uid });
         SimpleResponse response;
         if (readObjects != null && !readObjects.isEmpty()) {

@@ -68,6 +68,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.RequestData;
+import com.siblinks.ws.model.User;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.UserService;
@@ -962,7 +963,7 @@ public class UserServiceImpl implements UserService {
             if (!CollectionUtils.isEmpty(readObject)) {
                 for (Object object : readObject) {
                     Map<String, String> mapObject = (HashMap<String, String>) object;
-                    result.put("count_likes", mapObject.get("count(*)"));
+                    result.put("count_likes", mapObject.get("numLikes"));
                 }
             } else {
                 result.put("count_likes", 0);
@@ -1608,14 +1609,26 @@ public class UserServiceImpl implements UserService {
         }
         SimpleResponse reponse;
         if (!hasException) {
-            Object[] queryParams = { request.getRequest_user().getFirstName(), request.getRequest_user().getLastName(), request
-                .getRequest_user()
-                .getEmail(), request.getRequest_user().getGender(), request.getRequest_user().getSchool(), dateUpdate, request
-                    .getRequest_user()
-                    .getBio(), request
+            Object[] queryParams = null;
+            User user = request.getRequest_user();
+            String role = user.getRole();
+            if (!StringUtils.isEmpty(role)) {
+                if (role.equals("M")) {
+                    queryParams = new Object[] { user.getFirstName(), user.getLastName(), request
                         .getRequest_user()
-                        .getFavorite(), request.getRequest_user().getDefaultSubjectId(), request.getRequest_user().getUserid() };
-
+                        .getEmail(), user.getGender(), null, user.getAccomplishments(), dateUpdate, request
+                            .getRequest_user()
+                            .getBio(), user.getFavorite(), user
+                                .getDefaultSubjectId(), request.getRequest_user().getUserid() };
+                } else if (role.equals("S")) {
+                    queryParams = new Object[] { user.getFirstName(), user.getLastName(), request
+                        .getRequest_user()
+                        .getEmail(), user.getGender(), user.getSchool(), null, dateUpdate, request
+                            .getRequest_user()
+                            .getBio(), user.getFavorite(), user
+                                .getDefaultSubjectId(), request.getRequest_user().getUserid() };
+                }
+            }
             String msg;
             boolean status = Boolean.TRUE;
             status = dao.insertUpdateObject(SibConstants.SqlMapperBROT71.SQL_UPDATE_USER_PROFILE, queryParams);
