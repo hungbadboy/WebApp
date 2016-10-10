@@ -119,6 +119,7 @@ brotControllers.controller('MentorVideoDetailController',
                 $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
                 initYoutubePlayer($scope.video.url);
                 getVideoRelated();
+                getCommentVideoDetail($scope.video.vid);
             }
         });
     }

@@ -68,8 +68,9 @@
                                         </div>
                                     </div>
                                     <div class="show-about">
-                                        <p ng-class="class">{{video.description}}</p>
-                                        <a href="" ng-click="showMore()">{{textShow}}<!-- <span data-icon="&#x33;"></span> --></a>
+                                        <p ng-class="class" ng-show="video.description.length > 0">{{video.description}}</p>
+                                        <p ng-class="class" ng-hide="video.description.length > 0">No Description</p>
+                                        <a href="" ng-click="showMore()" ng-show="video.description && video.description.length > 100">{{textShow}}<!-- <span data-icon="&#x33;"></span> --></a>
                                     </div>
                                     <div class="catego clearfix">
                                         <p class="pull-right"><span>Catalogue</span>&nbsp;&nbsp;<b>{{video.subject}}</b></p>
