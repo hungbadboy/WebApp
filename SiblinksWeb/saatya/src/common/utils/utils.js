@@ -349,7 +349,7 @@ var FormatDateTimeType = {
  */
 function timeConverter(timeStamp, typeFormat) {
     if (!timeStamp) {
-        return StatusError.MSG_UNKNOWN;
+        return '';
     }
     var a = new Date(timeStamp * 1000);
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
