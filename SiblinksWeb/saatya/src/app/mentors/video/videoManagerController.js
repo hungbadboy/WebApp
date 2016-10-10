@@ -251,6 +251,7 @@ brotControllers.controller('VideoManagerController',
         window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
         window.location.reload();
       } else{
+        localStorage.removeItem('vidInPlaylist');
         window.location.href = '#/mentor/video/detail/'+v.vid+'';
         window.location.reload();
       }

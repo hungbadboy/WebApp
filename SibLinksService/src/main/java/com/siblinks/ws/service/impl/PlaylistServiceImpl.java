@@ -63,7 +63,7 @@ import com.siblinks.ws.util.SibConstants;
  */
 @RestController
 @RequestMapping("/siblinks/services/playlist")
-public class PlayplistServiceImpl implements PlaylistService {
+public class PlaylistServiceImpl implements PlaylistService {
 
     @Autowired
     private HttpServletRequest context;
