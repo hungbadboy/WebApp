@@ -400,7 +400,11 @@ public class PlayplistServiceImpl implements PlaylistService {
             if (updateObject) {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("status", "success");
-                map.put("newImage", newImage);
+                if (newImage != null && newImage.length() > 0) {
+                    map.put("newImage", newImage);
+                } else {
+                    map.put("newImage", oldImage);
+                }
                 reponse = new SimpleResponse("" + true, "playlist", "updatePlaylist", map);
 
                 if (newImage != null && !"".equals(newImage) && oldImage != null && !"".equals(oldImage)) {
