@@ -27,7 +27,7 @@
                        ng-if="isReadyLoadPoint"
                        rating-stars="{{studentMentorProfile.avgrate != null ? studentMentorProfile.avgrate : 0}}"
                        star-radius="8" sel-color="gold" readonly="true"
-                       back-color="#cecfcf"
+                       back-color="#cecfcf" empty-back-color="white"
                     >
                     </p>
                 </div>
@@ -91,6 +91,7 @@
         <!-- Content -->
         <section class="content mentors-profile-content">
             <div class="mentors-video-recently col-md-6 col-md-offset-3">
+                <h4 ng-show="!videosRecently">Sorry, no data at time</h4>
                 <div ng-show="videosRecently" class="feature-video">
                     <div class="feature-thumnail" ng-mouseover="hoverNewestVideo()"
                          ng-mouseleave="unHoverNewestVideo()">
@@ -109,7 +110,7 @@
                     </div>
                 </div>
                 <!-- Recently videos -->
-                <div class="video-recently">
+                <div class="video-recently" ng-show="videosRecently">
                     <!-- Top videos -->
                     <div class="top-videos">
                         <div class="top-videos-wrapper col-xs-12">
@@ -124,9 +125,6 @@
                             </div><!-- /End top-mentor-header -->
                             <!-- List of top mentors -->
                             <div class="top-videos-list">
-                                <ul ng-show="!videosRecently || videosRecently.length == 1 ">
-                                    <li>No recent video....</li>
-                                </ul>
                                 <ul ng-show="videosRecently && videosRecently.length > 1">
                                     <li ng-repeat="video in videosRecently track by $index" ng-if="$index > 0">
                                         <div class="video-thumnail">
@@ -146,7 +144,8 @@
                                                 <span>{{convertUnixTimeToTime(video.timeStamp)}} ago</span>
                                             </p>
                                             <p class="video-rate">
-                                                <span>Rate: {{video.averageRating != null ? video.averageRating : 0}} ({{video.numRatings}} votes)</span>
+                                                <!--<span>Rate: {{video.averageRating != null ? video.averageRating : 0}} ({{video.numRatings}} votes)</span>-->
+                                                <span>Rate:</span>
                                                 <span id="rate-studentMentorProfile" ng-if="isReadyLoadRatingRecently"
                                                       star-rating stars="5"
                                                       outer-star-selection="stars"
@@ -159,7 +158,7 @@
                                                  </span>
                                             </p>
                                             <p class="video-view">
-                                                <span>view: {{video.numViews}}</span>
+                                                <span>View: {{video.numViews}}</span>
                                             </p>
                                         </div>
                                     </li>
@@ -184,7 +183,7 @@
                         <!-- List of answered mentors -->
                         <div class="mentor-profile-answered">
                             <ul ng-show="!listNewestAnswers">
-                                <li>No Answer</li>
+                                <li>Sorry, no data at time</li>
                             </ul>
                             <ul ng-show="listNewestAnswers">
                                 <li class="answered" ng-repeat="answer in listNewestAnswers">

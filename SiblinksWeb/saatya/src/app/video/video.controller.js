@@ -504,6 +504,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         videoOfMentor.numViews = obj.numViews;
                         videoOfMentor.numComments = obj.numComments;
                         videoOfMentor.countSubscribe = obj.countSubscribe;
+                        videoOfMentor.isOnline = obj.isOnline;
                         videoOfMentor.time = convertUnixTimeToTime(obj.timeStamp);
                         videoOfMentor.isSubs = 0;
                         videosByMentorName.push(videoOfMentor);
@@ -666,9 +667,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             return strSubjects != null ? strSubjects.split(',') : null;
         }
 
-        function getNewVideoMentorSubscribe(userId) {
+        function getMentorSubscribe(userId) {
             if (userId) {
-                VideoService.getNewVideoMentorSubscribe(userId, 5, 0).then(function (response) {
+                VideoService.getMentorSubscribe(userId, 5, 0).then(function (response) {
                     if (response.data.status) {
                         var subjects = myCache.get("subjects");
                         var result = response.data.request_data_result;
@@ -680,7 +681,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                                 subscribe.MentorName = element.mentorName;
                                 subscribe.MentorId = element.MentorId;
                                 subscribe.avatar = element.imageUrl;
-                                subscribe.videoNew = element.values_count;
                                 subscribe.isOnline = element.isOnline;
                                 subscribe.subjects = getSubjectNameById(element.defaultSubjectId, subjects);
                                 //console.log(subscribe.subjects);
@@ -748,6 +748,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                                         videoOfMentor.avgRating = obj.averageRating;
                                         videoOfMentor.numViews = obj.numViews;
                                         videoOfMentor.numComments = obj.numComments;
+                                        videoOfMentor.isOnline = obj.isOnline;
                                         videoOfMentor.countSubscribe = obj.countSubscribe;
                                         videoOfMentor.time = convertUnixTimeToTime(obj.timeStamp);
                                         videosByMentorName.push(videoOfMentor);
@@ -854,12 +855,12 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 itemConvert.MentorName = item.name;
                 itemConvert.MentorId = item.userId;
                 itemConvert.avatar = item.avatar;
+                itemConvert.isOnline = item.isOnline;
                 itemConvert.subjects = getSubjectNameById(item.defaultSubjectId, masterSubjects);
                 listNewTopMentor.unshift(itemConvert);
                 $scope.listMentorSubscribed = listNewTopMentor;
             }
         }
-
 
         $scope.isLoadMoreRecommended = false;
         $scope.isLoadMoreRecently = false;
