@@ -395,7 +395,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         $scope.rateFunction = function (rate) {
             var ratenumOld = $scope.rateNum;
             if (isEmpty($scope.userId) || $scope.userId == "-1") {
-                $scope.errorVideo = "Please login!";
+                $location.path('/student/signin?continue='+encodeURIComponent($location.absUrl()));
                 return;
             }
             VideoService.checkUserRatingVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
@@ -503,7 +503,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
 
         $scope.setSubscribeMentor = function (mentorId) {
             if (isEmpty($scope.userId)) {
-                return;
+                $location.path('/student/signin?continue='+encodeURIComponent($location.absUrl()));
             }
             VideoService.setSubscribeMentor($scope.userId, mentorId + "").then(function (data) {
                 if (data.data.status == "true") {
