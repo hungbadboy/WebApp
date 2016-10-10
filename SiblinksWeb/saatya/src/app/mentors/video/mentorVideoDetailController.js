@@ -215,7 +215,7 @@ brotControllers.controller('MentorVideoDetailController',
 
     $scope.$on('passing', function(e, a){
         $scope.video.title = a.title;
-        $scope.description = a.description;
+        $scope.video.description = a.description;
     })
 
     $scope.editVideo = function(vid){
@@ -335,8 +335,8 @@ brotControllers.controller('MentorVideoDetailController',
     var player;
     function onYouTubeIframeAPIReady(youtubeId) {
       player = new YT.Player('detailPlayer', {
-          height: '450',
-          width: '640',
+          height: '100%',
+          width: '100%',
           videoId: youtubeId,
           events: {
               'onReady': onPlayerReady,
