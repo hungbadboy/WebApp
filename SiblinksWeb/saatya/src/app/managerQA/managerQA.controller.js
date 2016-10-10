@@ -1,7 +1,8 @@
+
 brotControllers.controller('managerQAController', ['$scope', '$http', '$location', '$rootScope', '$timeout', '$log', 'HomeService', 'NotificationService',
-    'StudentService', 'myCache', 'managerQAService', 'QuestionsService','AnswerService',
+    'StudentService', 'myCache', 'managerQAService', 'QuestionsService','AnswerService','$document','$window',
     function ($scope, $http, $location, $rootScope, $timeout, $log, HomeService, NotificationService, StudentService,
-              myCache, managerQAService, QuestionsService,AnswerService) {
+              myCache, managerQAService, QuestionsService,AnswerService,$document,$window) {
 
 
         $scope.subjectId = "-1";
@@ -60,6 +61,23 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             });
 
         }
+
+        $document.on('scroll', function() {
+            // do your things like logging the Y-axis
+            if ($window.scrollY > 90) {
+                $(".mentor-manage-qa-content .left-qa").css({"top":"90px", "height":"90%"});
+                $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"80vh"});
+            }
+            else {
+                $(".mentor-manage-qa-content .left-qa").css("top","auto");
+                $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"70vh"});
+            }
+
+            // or pass this to the scope
+            $scope.$apply(function() {
+                $scope.pixelsScrolled = $window.scrollY;
+            })
+        });
 
         $scope.loadMorePost = function () {
             if (!$scope.isLoadMore) {
