@@ -38,7 +38,37 @@ brotServices.factory('managerQAService', ['$http', function ($http) {
         return promise;
     }
 
+    factory.removeAnswer = function(aid) {
+        var promise = $http({
+            method: 'POST',
+            url: NEW_SERVICE_URL + 'post/removeAnswer',
+            data: {
+                "request_data_type": "post",
+                "request_data_method": "removeAnswer",
+                "request_data": {
+                    "aid": aid
+                }
+            }
+        });
+        return promise;
+    };
 
+    factory.updateAnswer = function (fd) {
+        var url = NEW_SERVICE_URL + 'post/editAnswer';
+        var promise = $http({
+            method: 'POST',
+            url: url,
+            headers: {
+                'Content-Type': undefined
+            },
+            data: fd,
+            transformRequest: function (data, headersGetterFunction) {
+                return data;
+            }
+
+        });
+        return promise;
+    }
 
     return factory;
 }]);

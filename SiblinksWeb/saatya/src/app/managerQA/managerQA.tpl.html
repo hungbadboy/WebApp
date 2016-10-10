@@ -50,9 +50,9 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active tab-answered-tab" id="tab-1">
-                                    <div class="group-item-qa" ng-if="listQuestions" scroller="askQuestion" data-on-total-scroll="loadMorePost">
+                                    <div id="listQA" class="group-item-qa" ng-if="listQuestions" scroller="askQuestion" data-on-total-scroll="loadMorePost">
                                         <div ng-repeat="question in listQuestions | unique:'pid'" class="item-qa clearfix" ng-class="{'active':question.pid == currentPid}"
-                                            ng-click="selectQuestion(question.pid)">
+                                            ng-click="selectQuestion(question.pid)" id="qa{{question.pid}}">
                                             <div class="col-md-3">
                                                 <a><img class="avatar-fix-max-size60" ng-src="{{question.imageUrl}}" alt="avatar"></a>
                                             </div>
@@ -155,6 +155,11 @@
                                                             <img class="thumb" ng-src="{{step}}" />
                                                             <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
                                                         </div>
+                                                        <div ng-repeat="image in imagePathOld track by $index" ng-if="image">
+                                                            <img class="thumb" ng-src="{{image}}"/>
+                                                            <div class="remove-image"><img src="assets/images/remove-img.png"
+                                                                                           ng-click="removeImgOld($index)"></div>
+                                                        </div>
                                                     </output>
 
                                                         <span class="add-img">
@@ -164,7 +169,8 @@
                                                             <img src="assets/images/add-img.png"></label>
                                                                         </span>
 
-                                                    <button class="reply" ng-click="answerQuestion(questionDetail.question_id)">Reply</button>
+                                                    <button ng-if="!isEdit" class="reply" ng-click="answerQuestion(questionDetail.question_id)" >Reply</button>
+                                                    <button ng-if="isEdit" class="reply" ng-click="updateAnswer()" >Update</button>
                                                 </div>
 
                                                 <div class="detail-chat">
@@ -176,6 +182,9 @@
                                                         <div class="chat-body clearfix">
                                                             <div class="header" ng-if="userId == answer.authorID">
                                                                 <strong class="primary-font pull-right" ></strong>
+                                                                <span title="Edit" ng-click="editAnswer($index)" class="edit-answer" data-icon="&#x6c;"></span>
+                                                                <span title="Delete" ng-really-message="Are you sure you want to delete?"
+                                                                      ng-really-click ="removeAnswer(answer.aid)" class="edit-answer" data-icon="&#xe019;"></span>
                                                                 <span class="pull-right time" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
                                                                 <span class="like-h" data-icon="&#xe089;"></span>
                                                             </div>
@@ -187,7 +196,7 @@
                                                             <p class="pre-wrap" ng-click="showAnswer($index)">{{answer.content}}</p>
                                                             <div class="images-question" style="margin-left:35px;">
 				                                                <ul>
-				                                                    <li class="item" ng-repeat="image in answer.imageAnswer track by $index">
+				                                                    <li class="item" ng-repeat="image in convertToArrayImage(answer.imageAnswer) track by $index">
 				                                                        <div class="item-img"
 				                                                             ng-mouseover="imageHoverIn(q.id +''+$index)"
 				                                                             ng-mouseleave="imageHoverOut(q.id +''+$index)"
@@ -242,8 +251,8 @@
                         <h6>{{questionDetail.firstName +' '+questionDetail.lastName}}</h6>
                         <span class="time">asked {{questionDetail.timeStamp}} ago</span>
                         <p class="list-view">
-                            {{question.numReplies}} <span data-icon="w"></span>&nbsp;&nbsp;
-                            {{question.numViews}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
+                            {{questionDetail.numReplies}} <span data-icon="w"></span>&nbsp;&nbsp;
+                            {{questionDetail.numViews}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
                         </p>
                     </div>
                 </div>
@@ -254,11 +263,10 @@
                     </a>
                 </div>
                 <div class="bottom-ctg">
-
                     <span>Category </span><span><a href="javascript:void(0)">{{questionDetail.subject}}</a></span>
                 </div>
             </div>
-            <div class="col-md-6 right-answer clearfix"  ng-repeat="answer in listAnswer track by $index" ng-if="currentIndexAnswer == $index">
+            <div  class="col-md-6 right-answer clearfix"  ng-repeat="answer in listAnswer track by $index" ng-if="currentIndexAnswer == $index && listAnswer">
                 <div class="top-title clearfix">
                     <h5 class="pull-left"><span><img  src="assets/images/icon-h5-r-qa.png" alt=""></span>Answer</h5>
                     <p class="pull-right">
@@ -279,16 +287,18 @@
                         </p>
                     </div>
                     <div class="col-md-4 box-btn-qa">
-                        <span data-icon="&#x6c;"></span>
-                        <span data-icon="&#xe019;"></span>
+                        <span title="Edit" data-dismiss="modal" ng-click="editAnswer($index)" data-icon="&#x6c;"></span>
+                        <span title="Delete" ng-really-message="Are you sure you want to delete?"
+                              ng-really-click ="removeAnswer(answer.aid)"  data-icon="&#xe019;"></span>
                     </div>
                 </div>
-                <div class="dt-txt-question"  style="height: 55%" scroller="answer" >
+                <div class="dt-txt-question"  style="height: 55%" scroller="answer">
                     <p class="pre-wrap">{{answer.content}}</p>
                     <a href="" ng-repeat="img in convertToArrayImage(answer.imageAnswer)"><img style="max-width: 430px;" ng-src="{{img}}"></a>
                 </div>
                 <div class="pgt-right-ans clearfix">
-                    <p class="pull-right"><span data-icon="&#xe045;"></span><span class="num-pgt">{{$index+1}}{{'/'+questionDetail.numReplies}}</span><span data-icon="&#xe046;"></span></p>
+                    <p class="pull-right"><span data-icon="&#xe045;" ng-click="nextAnswer('prev')"></span>
+                        <span class="num-pgt">{{$index+1}}{{'/'+questionDetail.numReplies}}</span><span ng-click="nextAnswer('next')" data-icon="&#xe046;"></span></p>
                 </div>
             </div>
         </div>
