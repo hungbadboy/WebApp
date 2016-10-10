@@ -154,14 +154,14 @@ brotControllers.controller('UploadTutorialController',
 
       var check = true;
       $scope.error = '';
-      if (title == null || title.trim().length == 0) {
-        check = false;
-        $scope.error = "Please input Title. \n";
-        angular.element('#txtUploadTitle').trigger('focus');
-      } else if (link == null || link.trim().length == 0) {
+      if (link == null || link.trim().length == 0) {
         check = false;
         $scope.error = "Please input Link. \n";
         angular.element('#txtUploadLink').trigger('focus');
+      } else if (title == null || title.trim().length == 0) {
+        check = false;
+        $scope.error = "Please input Title. \n";
+        angular.element('#txtUploadTitle').trigger('focus');
       } else if (!$scope.vid) {
         check = false;
         $scope.error = "Please input valid link. \n";
@@ -248,7 +248,8 @@ brotControllers.controller('UploadTutorialController',
           var result = data.data.items;
           var contentDetails = result[0].contentDetails;
           $scope.duration = convertTime(contentDetails.duration);
-          // $('#txtUploadDuration').val(convertTime(contentDetails.duration));
+          $scope.title = result[0].snippet.title;
+          $scope.description = result[0].snippet.description;
        });
     }
 
