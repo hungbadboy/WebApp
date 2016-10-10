@@ -93,10 +93,10 @@
                                     <div class="bx-detail-rpl">
                                         <div class="top-rpl clearfix">
                                             <div class="col-md-2">
-                                                <img class="avatar-fix-max-size60" ng-src="{{questionDetail.avatar}}" alt="avatar">
+                                                <a href="#/mentor/studentProfile/{{questionDetail.authorId}}"><img class="avatar-fix-max-size60" ng-src="{{questionDetail.avatar}}" alt="avatar"></a>
                                             </div>
                                             <div class="col-md-6 bx-dt-qa">
-                                                <h5><a>{{questionDetail.firstName +" "+ questionDetail.lastName}}</a></h5>
+                                                <h5> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{questionDetail.firstName +" "+ questionDetail.lastName}}</a></h5>
                                                 <span class="time">asked {{questionDetail.timeStamp}} ago</span>
                                                 <p class="txt-category"><b><a>{{questionDetail.subject}}</a></b></p>
                                             </div>
@@ -177,7 +177,8 @@
                                                     <ul class="chat">
                                                         <li ng-repeat="answer in listAnswer | unique:'aid' track by $index" class="clearfix {{userId == answer.authorID ? 'right' : 'left'}}">
                                                         <span class="chat-img" ng-class="{'pull-right':userId == answer.authorID,'pull-left':userId != answer.authorID}">
-                                                                                <img class="avatar-fix-max-size60" ng-src="{{answer.imageUrl}}" alt="Avatar">
+                                                                                <a href="#/student/mentorProfile/{{answer.authorID}}">
+                                                                                    <img class="avatar-fix-max-size60" ng-src="{{answer.imageUrl}}" alt="Avatar"></a>
                                                                             </span>
                                                         <div class="chat-body clearfix">
                                                             <div class="header" ng-if="userId == answer.authorID">
@@ -189,7 +190,7 @@
                                                                 <span   class="like-h" data-icon="&#xe089;"></span>
                                                             </div>
                                                             <div class="header" ng-if="userId != answer.authorID">
-                                                                <strong class="primary-font pull-left"><a>{{answer.firstName +" " +answer.lastName}}</a></strong>
+                                                                <strong class="primary-font pull-left"><a href="#/student/mentorProfile/{{answer.authorID}}">{{answer.firstName +" " +answer.lastName}}</a></strong>
                                                                 <span class="time pull-left" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
                                                                 <span ng-click="likeAnswer(answer.aid)" id="heart{{answer.aid}}" class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                             </div>
@@ -245,10 +246,10 @@
                 <h5><span><img src="assets/images/icon-h5-l-qa.png" alt=""></span>Question</h5>
                 <div class="top-user clearfix">
                     <div class="col-md-2 img-avarta">
-                        <img src="assets/images/user.jpg" alt="">
+                        <a href="#/mentor/studentProfile/{{questionDetail.authorId}}"><img ng-src="{{questionDetail.avatar}}" alt=""></a>
                     </div>
                     <div class="col-md-10">
-                        <h6>{{questionDetail.firstName +' '+questionDetail.lastName}}</h6>
+                        <h6> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{questionDetail.firstName +' '+questionDetail.lastName}}</a></h6>
                         <span class="time">asked {{questionDetail.timeStamp}} ago</span>
                         <p class="list-view">
                             {{questionDetail.numReplies}} <span data-icon="w"></span>&nbsp;&nbsp;
@@ -277,10 +278,10 @@
                 </div>
                 <div class="top-user clearfix" >
                     <div class="col-md-2 img-avarta">
-                        <img ng-src="{{answer.imageUrl}}" alt="">
+                        <a  href="#/student/mentorProfile/{{answer.authorID}}"><img ng-src="{{answer.imageUrl}}" alt=""></a>
                     </div>
                     <div class="col-md-6">
-                        <h6>{{answer.firstName +" " +answer.lastName}}</h6>
+                        <h6><a  href="#/student/mentorProfile/{{answer.authorID}}">{{answer.firstName +" " +answer.lastName}}</a></h6></div>
                         <span class="time">Replied  {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>
                         <p class="list-view">
                             {{answer.numlike}} <span class="like-h" data-icon=""></span>

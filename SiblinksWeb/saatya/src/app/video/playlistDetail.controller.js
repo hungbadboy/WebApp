@@ -173,7 +173,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             else {
                                 player.loadVideoById(videoid[1]);
                             }
-                            $location.path('/videos/detailVideo/' + data.data.request_data_result[0].vid);
+                            $location.path('#/videos/detailVideo/' + data.data.request_data_result[0].vid);
                         }
 
                     }
@@ -250,7 +250,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             else {
                                 player.loadVideoById(videoid[1]);
                             }
-                            $location.path('/videos/detailPlaylist/' + pid + '/' + $scope.index);
+                            $location.path('#/videos/detailPlaylist/' + pid + '/' + $scope.index);
                         }
 
                     }
@@ -395,7 +395,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         $scope.rateFunction = function (rate) {
             var ratenumOld = $scope.rateNum;
             if (isEmpty($scope.userId) || $scope.userId == "-1") {
-                $location.path('/student/signin?continue='+encodeURIComponent($location.absUrl()));
+                $window.location.href = '#/student/signin?continue='+encodeURIComponent($location.absUrl());
                 return;
             }
             VideoService.checkUserRatingVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
@@ -503,7 +503,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
 
         $scope.setSubscribeMentor = function (mentorId) {
             if (isEmpty($scope.userId)) {
-                $location.path('/student/signin?continue='+encodeURIComponent($location.absUrl()));
+                $window.location.href = '#/student/signin?continue='+encodeURIComponent($location.absUrl());
             }
             VideoService.setSubscribeMentor($scope.userId, mentorId + "").then(function (data) {
                 if (data.data.status == "true") {

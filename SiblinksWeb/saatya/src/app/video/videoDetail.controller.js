@@ -136,7 +136,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
                             onYouTubeIframeAPIReady(videoid[1]);
-                            $location.path('/videos/detailVideo/' + data.data.request_data_result[0].vid);
+                            $location.path('#/videos/detailVideo/' + data.data.request_data_result[0].vid);
                         }
 
                     }
@@ -202,7 +202,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                             else {
                                 player.loadVideoById(videoid[1]);
                             }
-                            $location.path('/videos/detailVideo/' + data.data.request_data_result[0].vid);
+                            $location.path('#/videos/detailVideo/' + data.data.request_data_result[0].vid);
                         }
 
                     }
@@ -265,8 +265,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         $scope.rateFunction = function (rate) {
             var ratenumOld = $scope.rateNum;
             if (isEmpty($scope.userId) || $scope.userId == "-1") {
-                $location.path('/student/signin?continue='+encodeURIComponent($location.absUrl()));
-                return;
+                $window.location.href ='#/student/signin?continue='+encodeURIComponent($location.absUrl());
             }
             VideoService.checkUserRatingVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
 
@@ -394,7 +393,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 
         $scope.setSubscribeMentor = function (mentorId) {
             if (isEmpty($scope.userId)) {
-                $location.path('/student/signin?continue='+encodeURIComponent($location.absUrl()));
+                $window.location.href = '#/student/signin?continue='+encodeURIComponent($location.absUrl());
                 return;
             }
             VideoService.setSubscribeMentor($scope.userId, mentorId + "").then(function (data) {
