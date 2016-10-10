@@ -11,6 +11,8 @@ brotControllers.controller('MentorVideoDetailController',
     
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
 
+    $scope.averageRating = 0.1;
+
     $scope.currentId = 0;
     init();
 
@@ -96,9 +98,10 @@ brotControllers.controller('MentorVideoDetailController',
     function loadVideoDetail(v){
         $scope.currentId = v.vid;
         $scope.video = v;
-        $scope.video.averageRating = $scope.video.averageRating != null ? $scope.video.averageRating : 0;
+        $scope.video.averageRating = parseAvgRating($scope.video.averageRating);
+        $scope.averageRating = $scope.video.averageRating;
         $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
-        // $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
+        $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
         initYoutubePlayer($scope.video.url);
         getVideoRelated();
         getCommentVideoDetail(v.vid);
@@ -110,13 +113,20 @@ brotControllers.controller('MentorVideoDetailController',
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.video = result[0];
                 console.log($scope.video);
-                $scope.video.averageRating = $scope.video.averageRating != null ? $scope.video.averageRating : 0;
+                $scope.video.averageRating = parseAvgRating($scope.video.averageRating);
+                $scope.averageRating = $scope.video.averageRating;
                 $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
                 $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
                 initYoutubePlayer($scope.video.url);
                 getVideoRelated();
+                getCommentVideoDetail($scope.video.vid);
             }
         });
+    }
+
+    function parseAvgRating(data){
+        var avg = data != null ? data : 0;
+        return parseFloat(Math.round(avg * 100) / 100).toFixed(1);
     }
 
     function getCommentVideoDetail(vid){

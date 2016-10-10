@@ -10,13 +10,15 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
 
     $scope.video_subject = [0];
     $scope.video_playlist = [0];
-
+    $scope.averageRating = 0.1;
+    $scope.newestAverageRating = 0.1;
+    $scope.topViewedAverageRating = 0.1;
+    $scope.topRatedAverageRating = 0.1;
     init();
 
     function init(){
       getDashboardInfo();
       loadVideos();
-      // getStudentsSubscribe();
       getLatestRatings();
       getLatestComments();
     }
@@ -26,6 +28,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
         if (data.data.request_data_result != null) {
           $scope.dashboard = data.data.request_data_result;
           $scope.dashboard.avg_rating = parseFloat(Math.round($scope.dashboard.avg_rating * 100) / 100).toFixed(1);
+          $scope.averageRating = $scope.dashboard.avg_rating;
         }
       });
     }
@@ -54,7 +57,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
           lastname = data[i].lastName;
         }
 
-        data[i].fullName = lastname + ' ' + firstname;
+        data[i].fullName = firstname + ' ' + lastname;
         data[i].timestamp = convertUnixTimeToTime(data[i].timestamp);
       }
       return data;
@@ -92,19 +95,6 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
       return data;
     }
 
-    // function getStudentsSubscribe(){
-    //   MentorService.getStudentsSubscribe(userId, 5, 0).then(function(data){
-    //     $scope.students = data.data.request_data_result;
-    //   });
-    // }
-
-    // $scope.loadMoreStudents = function(){
-    //   MentorService.getStudentsSubscribe(userId, 5, $scope.students.length).then(function(data){
-    //     if (data.data.request_data_result != null && data.data.request_data_result.length > 0) 
-    //       $scope.students.concat(data.data.request_data_result);
-    //   });
-    // }
-
     $scope.loadMoreComments = function(){
       var offset = 0;
       if ($scope.comments && $scope.comments.length > 0)
@@ -127,6 +117,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
             $scope.videos = formatData(data.data.request_data_result);
             $scope.v = $scope.videos[0];
             $scope.newestPos = 0;
+            $scope.newestAverageRating = $scope.v.averageRating;
           } else
             $scope.videos = null;
         });
@@ -136,6 +127,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
             $scope.videosTopRated = formatData(data.data.request_data_result);
             $scope.vTopRated = $scope.videosTopRated[0];
             $scope.topRatedPos = 0;
+            $scope.topRatedAverageRating = $scope.videosTopRated.averageRating;
           } else
             $scope.videosTopRated = null;
         });
@@ -145,6 +137,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
             $scope.videosTopViewed = formatData(data.data.request_data_result);
             $scope.vTopViewed = $scope.videosTopViewed[0];
             $scope.topViewedPos = 0;
+            $scope.topViewedAverageRating = $scope.videosTopViewed.averageRating;
           } else
             $scope.videosTopViewed = null;
         });
@@ -157,34 +150,12 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
         if (playlist == null)
           data[i].playlist = 'None';
         data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
-        data[i].averageRating = data[i].averageRating != null ? data[i].averageRating : 0;
+        var avg = data[i].averageRating != null ? data[i].averageRating : 0;
+        data[i].averageRating = parseFloat(Math.round(avg * 100) / 100).toFixed(1);
       }
       return data;
     }
-
-    $scope.delete = function(vid){
-      if (confirm("Are you sure?")) {
-            $http({
-            method: 'POST',
-            url: NEW_SERVICE_URL + 'video/deleteVideo/',
-            data: {
-              "request_data_type": "video",
-              "request_data_method": "deleteVideo",
-              "request_data":{
-                "vid": vid,
-                "authorID": 6  
-              }            
-            }            
-            // headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).success(function(data) {
-          loadVideos();
-        }).error(function(data){
-          console.log(data);
-        });
-    }
     
-  }
-
   $scope.loadVideosBySubject = function(){
     clearContent();
     var subjectid = $scope.item;
@@ -241,6 +212,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
         $scope.newestPos = pos - 1;
         $scope.v = $scope.videos[pos - 1];
       }
+      $scope.newestAverageRating = $scope.v.averageRating;
     }
   }
 
@@ -254,6 +226,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
         $scope.newestPos = pos + 1;
         $scope.v = $scope.videos[pos + 1];
       }
+      $scope.newestAverageRating = $scope.v.averageRating;
     }
   }
 
@@ -267,6 +240,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
         $scope.topRatedPos = pos - 1;
         $scope.vTopRated = $scope.videosTopRated[pos - 1];
       }
+      $scope.topRatedAverageRating = $scope.vTopRated.averageRating;
     }
   }
 
@@ -281,6 +255,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
         $scope.vTopRated = $scope.videosTopRated[pos + 1];
       }
     }    
+    $scope.topRatedAverageRating = $scope.vTopRated.averageRating;
   }
 
   $scope.topViewedPre = function(pos){
@@ -293,6 +268,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
         $scope.topViewedPos = pos - 1;
         $scope.vTopViewed = $scope.videosTopViewed[pos - 1];
       }
+      $scope.topViewedAverageRating = $scope.vTopViewed.averageRating;
     }
   }
 
@@ -306,6 +282,7 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
         $scope.topViewedPos = pos + 1;
         $scope.vTopViewed = $scope.videosTopViewed[pos + 1];
       }
+      $scope.topViewedAverageRating = $scope.vTopViewed.averageRating;
     }
   }
 

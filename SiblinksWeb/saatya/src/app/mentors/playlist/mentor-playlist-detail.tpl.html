@@ -15,7 +15,7 @@
                                         <a href=""><img class="playlist-detail-fix-img" src="{{playlist.image}}" alt=""></a>
                                     </span>
                                     <div class="detail-pl-inner pull-left">
-                                        <a href="#"><h5>{{playlist.name}}</h5></a>
+                                        <a href=""><h5>{{playlist.name}}</h5></a>
                                         <span class="add-time">{{playlist.timeStamp}} ago</span>
                                         <p class="list-view">
                                             <span><img src="assets/images/icon-play.png" alt=""> {{playlist.numView}}</span>&nbsp;&nbsp;
@@ -52,14 +52,15 @@
                                             <div class="check-box"><input type="checkbox" ng-model="v.selected" class="check-input" name="checkall" ng-click="optionSelected()" /></div>
                                             <div class="box-detail-play clearfix">
                                                 <span class="item-thumbnail">
-                                                    <a href="#/mentor/video/detail/{{v.vid}}"><img class="item-fix-size" src="{{v.image}}" alt=""></a>
+                                                    <a href="" ng-click="goToDetail(v)"><img class="item-fix-size" src="{{v.image}}" alt=""></a>
                                                 </span>
                                                 <div class="detail-pl-inner">
-                                                    <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
+                                                    <a href="" ng-click="goToDetail(v)"><h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
                                                     <span class="add-time">added {{v.timeStamp}} ago</span>
                                                     <ul class="list-star">
                                                         <div  class="pull-left" star-rating stars="5"
                                                               outer-star-selection="stars"
+                                                              readonly="true"
                                                               outer-percent="rating"
                                                               rating-define="star"
                                                               rating-stars="{{v.averageRating}}"
