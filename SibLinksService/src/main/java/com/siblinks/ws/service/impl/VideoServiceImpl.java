@@ -2166,17 +2166,17 @@ public class VideoServiceImpl implements VideoService {
         return entity;
     }
 
-    @RequestMapping(value = "/getNewVideoMentorSubscribe")
+    @RequestMapping(value = "/getMentorSubscribed")
     @ResponseBody
-    public ResponseEntity<Response> getNewVideoMentorSubscribe(@RequestParam final long userId, @RequestParam final String limit,
+    public ResponseEntity<Response> getMentorSubscribe(@RequestParam final long userId, @RequestParam final String limit,
             @RequestParam final String offset) {
         String entityName = SibConstants.SqlMapper.SQL_GET_ALL_MENTOR_SUBSCRIBED;
         CommonUtil cmUtil = CommonUtil.getInstance();
         Map<String, String> map = cmUtil.getOffset(limit, offset);
-        Object[] params = { userId, userId, Integer.parseInt(map.get("limit")), Integer.parseInt(map.get("offset")) };
+        Object[] params = { userId, Integer.parseInt(map.get("limit")), Integer.parseInt(map.get("offset")) };
         List<Object> dataResult = dao.readObjects(entityName, params);
         String count = String.valueOf(dataResult.size());
-        SimpleResponse response = new SimpleResponse("" + Boolean.TRUE, "video", "getNewVideoMentorSubscribe", dataResult, count);
+        SimpleResponse response = new SimpleResponse("" + Boolean.TRUE, "video", "getMentorSubscribe", dataResult, count);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
         return entity;
     }

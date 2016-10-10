@@ -85,14 +85,13 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     ObjectDao dao;
-    
+
     @Autowired
     private PlatformTransactionManager transactionManager;
 
     @Autowired
     private Environment environment;
 
-    @SuppressWarnings("rawtypes")
     @Override
     @RequestMapping(value = "/createPost", method = RequestMethod.POST)
     public ResponseEntity<Response> createPost(
@@ -118,7 +117,7 @@ public class PostServiceImpl implements PostService {
 			return entity;
 		}
 		try {
-			
+
 
 			MultipartFile file;
 			String filePath = "";
@@ -132,7 +131,7 @@ public class PostServiceImpl implements PostService {
 					}
 				}
 			}
-			
+
 			id = dao.insertObject(
 					SibConstants.SqlMapper.SQL_CREATE_QUESTION,
 					new Object[] { userId, subjectId, content, filePath });
@@ -224,17 +223,11 @@ public class PostServiceImpl implements PostService {
             logger.info("Insert Menu success " + new Date());
         } catch (NullPointerException | NumberFormatException | DataAccessException | FileNotFoundException e) {
             transactionManager.rollback(statusBD);
+            logger.info("Create answer Error:" + e.getMessage());
         }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    "POST",
-                                                    "createAnswer",
-                                                    status);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                       reponse,
-                                                                       HttpStatus.OK);
+        SimpleResponse reponse = new SimpleResponse("" + status, "POST", "createAnswer", status);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
@@ -269,7 +262,7 @@ public class PostServiceImpl implements PostService {
         	String filePathEdited = mergeImage(oldImagePath, oldImagePathEdited);
         	//= getPathFile(oldImagePath, oldImagePathEdited,"directoryImageQuestion");
         	String maxLength = environment.getProperty("file.upload.image.length");
-			
+
 			if(files!=null&&files.length>0){
 				if((files.length + filePathEdited.split(";").length) > Integer.parseInt(maxLength)){
 					error = "You only upload " + maxLength +" image";
@@ -286,10 +279,10 @@ public class PostServiceImpl implements PostService {
 					}
 				}
 			}
-			
+
 			//remove file when edit question
 			removeFileEdit(oldImagePathEdited,"directoryImageQuestion");
-			
+
 			dao.insertUpdateObject(
 					SibConstants.SqlMapper.SQL_POST_EDIT,
 					new Object[] { fixFilePath(filePathEdited + filePath) ,content, subjectId, qid});
@@ -404,7 +397,7 @@ public class PostServiceImpl implements PostService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
-    
+
     @Override
     @RequestMapping(value = "/getAllQuestions", method = RequestMethod.POST)
     public ResponseEntity<Response> getAllQuestions(@RequestBody final RequestData request) {
@@ -420,7 +413,7 @@ public class PostServiceImpl implements PostService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
-    
+
 
     @Override
     @RequestMapping(value = "/getPostById", method = RequestMethod.POST)
@@ -592,7 +585,7 @@ public class PostServiceImpl implements PostService {
         return entity;
     }
 
-   
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @RequestMapping(value = "/getAnswerListPN", method = RequestMethod.POST)
@@ -602,7 +595,6 @@ public class PostServiceImpl implements PostService {
 
         Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
 
-        String sqlMapper = "";
         List<Object> readObject = null;
         if (request.getRequest_data().getPid().equals("0")) {
             readObject = dao.readObjects(
@@ -667,7 +659,6 @@ public class PostServiceImpl implements PostService {
         return entity;
     }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@RequestMapping(value = "/getPostListMobile", method = RequestMethod.GET)
 	public ResponseEntity<Response> getPostListMobile(@RequestParam(value = "uid") final long id,
@@ -706,147 +697,6 @@ public class PostServiceImpl implements PostService {
 		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
 		return entity;
 	}
-
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @RequestMapping(value = "/getPostInfoPN", method = RequestMethod.POST)
-    public ResponseEntity<Response> getPostInfoPN(@RequestBody final RequestData request) {
-
-        CommonUtil util = CommonUtil.getInstance();
-
-        Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("pid", request.getRequest_data().getPid());
-        queryParams.put("from", map.get("from"));
-        queryParams.put("to", map.get("to"));
-
-        List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_POST_INFO_PN, queryParams);
-
-        List<Object> readObject1 = dao.readObjects(SibConstants.SqlMapper.SQL_POST_GET_TAGS, queryParams);
-
-        Map<String, Object> tags = null;
-
-        try {
-            if (readObject1 != null) {
-                for (Object obj : readObject1) {
-                    tags = (Map) obj;
-                    Iterator<Entry<String, Object>> it = tags.entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry pairs = it.next();
-                        if (pairs.getKey().equals("pid")) {
-                            it.remove();
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            logger.error(e);
-        }
-
-        Map<String, Object> mymap = new HashMap<String, Object>();
-        mymap.put("tags", readObject1);
-
-        // TODO : Come back here when comments are needed
-        String count = null;
-        if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
-            count = dao
-                .getCount(SibConstants.SqlMapper.SQL_GET_POST_INFO_PN_COUNT, new Object[] { request.getRequest_data().getPid() });
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    @Override
-    @RequestMapping(value = "/addPostComment", method = RequestMethod.POST)
-    public ResponseEntity<Response> addPostComment(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("author", request.getRequest_data().getAuthor());
-        queryParams.put("authorId", request.getRequest_data().getAuthorID());
-        queryParams.put("content", request.getRequest_data().getContent());
-        queryParams.put("image", request.getRequest_data().getImage());
-
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
-        Map<String, String> queryParamsIns = null;
-        if (status) {
-            Map<String, String> queryParams1 = new HashMap<String, String>();
-            queryParams1.put("content", request.getRequest_data().getContent());
-            queryParams1.put("authorId", request.getRequest_data().getAuthorID());
-
-            List<Object> readObject = null;
-            readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams1);
-            if (readObject != null && readObject.size() > 0) {
-                queryParamsIns = new HashMap<String, String>();
-                queryParamsIns.put("cid", ((Map) readObject.get(0)).get("cid").toString());
-                queryParamsIns.put("pid", request.getRequest_data().getVid());
-                boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_POST_INSERT_FORUM_COMMENT, queryParamsIns);
-            }
-        }
-
-        int cid = Integer.valueOf(queryParamsIns.get("cid"));
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    cid);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    @Override
-    @RequestMapping(value = "/getPostComments", method = RequestMethod.POST)
-    public ResponseEntity<Response> getPostComments(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("pid", request.getRequest_data().getPid());
-
-        List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_POST_READ_FORUM_COMMENT, queryParams);
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
 
     @Override
     @RequestMapping(value = "/removePost", method = RequestMethod.POST)
@@ -940,11 +790,14 @@ public class PostServiceImpl implements PostService {
         return entity;
     }
 
-  
+
 
     @Override
     @RequestMapping(value = "/editAnswer", method = RequestMethod.POST)
-    public ResponseEntity<Response> editAnswer(@RequestBody final RequestData request) {
+    public ResponseEntity<Response> editAnswer(@RequestParam("content") final String content,
+            @RequestParam("aid") final String aid, @RequestParam("file") final MultipartFile[] files,
+            @RequestParam("oldImagePathEdited") final String oldImagePathEdited,
+            @RequestParam("oldImagePath") final String oldImagePath) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(
@@ -956,19 +809,56 @@ public class PostServiceImpl implements PostService {
             return entity;
         }
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+        String error = validateFileImage(files);
+        if (!StringUtil.isNull(error)) {
+            SimpleResponse reponse = new SimpleResponse("" + Boolean.FALSE, "post", "editAnswer", error);
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+            return entity;
+        }
+        Boolean status = true;
+        try {
+            MultipartFile file;
+            String filePath = "";
+            String filePathEdited = mergeImage(oldImagePath, oldImagePathEdited);
+            String maxLength = environment.getProperty("file.upload.image.length");
 
-        queryParams.put("aid", request.getRequest_data().getAid());
-        queryParams.put("content", request.getRequest_data().getContent());
+            if (files != null && files.length > 0) {
+                if ((files.length + filePathEdited.split(";").length) > Integer.parseInt(maxLength)) {
+                    error = "You only upload " + maxLength + " image";
+                    Response reponse = new SimpleResponse("" + Boolean.FALSE, "post", "editAnswer", error);
+                    ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+                    return entity;
+                }
+                String pathget = environment.getProperty("directoryGetImageAnswer");
+                for (int i = 0; i < files.length; i++) {
+                    file = files[i];
+                    filePath += pathget + uploadFile(file, "directoryImageAnswer") + ".png";
+                    if (i < files.length - 1) {
+                        filePath += ";";
+                    }
+                }
+            }
 
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_ANSWER_EDIT, queryParams);
+            // remove file when edit question
+            removeFileEdit(oldImagePathEdited, "directoryImageAnswer");
+
+            dao.insertUpdateObject(
+                SibConstants.SqlMapper.SQL_ANSWER_EDIT,
+                new Object[] { content, fixFilePath(filePathEdited + filePath), aid });
+
+        } catch (IOException e1) {
+            status = false;
+            e1.printStackTrace();
+        }
+
+
 
         SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    request.getRequest_data().getAid());
+                                                    "Post",
+                                                    "editAnswer",
+                                                    "");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -987,16 +877,21 @@ public class PostServiceImpl implements PostService {
             return entity;
         }
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+        Object[] queryParams = { request.getRequest_data().getAid() };
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus statusDB = transactionManager.getTransaction(def);
+        boolean status = true;
+        try {
+            status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_NUM_REPLIES_UPDATE_DELETE, queryParams);
 
-        queryParams.put("aid", request.getRequest_data().getAid());
+            status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_REMOVE_ANSWER, queryParams);
+            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_REMOVE_ANSWER_LIKE, queryParams);
 
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_REMOVE_ANSWER, queryParams);
-
-        if (status) {
-            status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_REMOVE_ANSWER_LIKE, queryParams);
+            transactionManager.commit(statusDB);
+        } catch (NullPointerException e) {
+            transactionManager.rollback(statusDB);
+            logger.info("Delete answer Error:" + e.getMessage());
         }
-
         SimpleResponse reponse = new SimpleResponse(
                                                     "" +
                                                     status,
@@ -1007,9 +902,8 @@ public class PostServiceImpl implements PostService {
         return entity;
     }
 
-   
 
- 
+
 
     @Override
     @RequestMapping(value = "/updateViewQuestion", method = RequestMethod.POST)
@@ -1065,9 +959,9 @@ public class PostServiceImpl implements PostService {
 
         Object[] queryParams = { };
         Map<String, Object> result_data = new HashMap<String, Object>();
-        
+
         String whereClause = "";
-        
+
         if(id != -1l) {
         	whereClause += " AND U.userid = " + id;
         }
@@ -1077,17 +971,17 @@ public class PostServiceImpl implements PostService {
 		if(Parameters.UNANSWERED.equalsIgnoreCase(orderType)){
 			whereClause += " AND P.NUMREPLIES = 0";
 		}
-		
+
 //		if (!"-1".equals(oldQid)) {
 //			whereClause += " AND P.PID > " + oldQid;
 //		}
-		
+
 		if (!"-1".equals(subjectid)) {
 			whereClause += " AND P.subjectId=  " + subjectid;
 		}
-		
+
 		whereClause += " ORDER BY P.TIMESTAMP DESC";
-		
+
 		if (!StringUtil.isNull(limit)) {
 			whereClause += " LIMIT " + limit;
 		}
@@ -1118,7 +1012,7 @@ public class PostServiceImpl implements PostService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
-    
+
     @RequestMapping(value = "/countQuestions", method = RequestMethod.GET)
     @ResponseBody
     @Override
@@ -1138,9 +1032,9 @@ public class PostServiceImpl implements PostService {
 		if(!"-1".equalsIgnoreCase(subjectid)){
 			whereClause += " AND P.subjectId = " + subjectid;
 		}
-		
+
         List<Object> readObject = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_STUDENT_POSTED_COUNT,whereClause,queryParams);
-       
+
         SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "get", "countQuestions", readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
@@ -1161,7 +1055,7 @@ public class PostServiceImpl implements PostService {
         return entity;
     }
 
-    public Object getAnswersList(long uid,final long id, final String limit, final String offset) {
+    public Object getAnswersList(final long uid,final long id, final String limit, final String offset) {
 
 
         String entityName = SibConstants.SqlMapper.SQL_GET_ANSWER_BY_QID;
@@ -1170,14 +1064,14 @@ public class PostServiceImpl implements PostService {
         String whereClause = "";
         Object[] queryParams = { uid,id };
         whereClause += " ORDER BY X.TIMESTAMP DESC";
-  
+
         if (!StringUtil.isNull(limit)) {
             whereClause += " LIMIT " + limit;
         }
         if (!StringUtil.isNull(offset)) {
             whereClause += " OFFSET " + offset;
         }
-        
+
         readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
 
         SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "get answer", "getAnswersList", readObject);
@@ -1222,16 +1116,16 @@ public class PostServiceImpl implements PostService {
         String filename = "";
         String filepath = "";
         String directory = environment.getProperty(path);
-       
+
         if (directory != null) {
             try {
                 RandomString randomName = new RandomString();
                 filename = randomName.random();
-                
+
                 filepath = Paths.get(directory, filename + "." + "png").toString();
                 // Save the file locally
                 File file = new File(filepath);
-                
+
                 File parentDir = file.getParentFile();
                 if (!parentDir.exists()) {
                     parentDir.mkdirs();
@@ -1248,7 +1142,7 @@ public class PostServiceImpl implements PostService {
         }
         return filename;
     }
-    
+
     @Override
     @RequestMapping(value = "/getAnswerByQid", method = RequestMethod.POST)
     public ResponseEntity<Response> getAnswerByQid(@RequestBody final RequestData request) {
@@ -1271,7 +1165,7 @@ public class PostServiceImpl implements PostService {
 			whereClause += " ORDER BY X.numlike DESC";
 		}
 		else {//oldest
-			
+
 			whereClause += " ORDER BY X.TIMESTAMP  ASC";
 		}
 		if (!StringUtil.isNull(limit)) {
@@ -1280,7 +1174,7 @@ public class PostServiceImpl implements PostService {
 		if (!StringUtil.isNull(offset)) {
 			whereClause += " OFFSET " + offset;
 		}
-		
+
 		readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
 
 		SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, request.getRequest_data_type(),
@@ -1288,7 +1182,7 @@ public class PostServiceImpl implements PostService {
 		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
 		return entity;
         }
-    
+
     //delele file
 	private void delefile(final String filename, final String path) {
 		String directory = environment.getProperty(path);
@@ -1296,9 +1190,9 @@ public class PostServiceImpl implements PostService {
 		File file = new File(Paths.get(directory, name).toString());
 		file.delete();
 	}
-    
+
     //clean file after edit image
-	private void removeFileEdit(final String oldImagePathEdited, String path) {
+	private void removeFileEdit(final String oldImagePathEdited, final String path) {
 		if (!StringUtil.isNull(oldImagePathEdited)) {
 			for (String str : oldImagePathEdited.split(";")) {
 				delefile(str, path);
@@ -1308,7 +1202,7 @@ public class PostServiceImpl implements PostService {
 
 	/**
 	 * merge Image whene edit question
-	 * 
+	 *
 	 * @param oldImagePath
 	 * @param oldImagePathEdited
 	 * @return
@@ -1333,9 +1227,13 @@ public class PostServiceImpl implements PostService {
 
 	private String fixFilePath(final String str) {
 		String result = "";
+
 		if (StringUtil.isNull(str)) {
 			return "";
 		}
+        if (";".equals(str.trim())) {
+            return "";
+        }
 		String path = "";
 		for (int i = 0; i < str.split(";").length; i++) {
 			path = str.split(";")[i];
@@ -1345,11 +1243,11 @@ public class PostServiceImpl implements PostService {
 					result += ";";
 				}
 			}
-			
+
 		}
 		return result;
 	}
-	
+
 	private String validateFileImage(final MultipartFile[] files) {
 		String error = "";
 		String name = "";

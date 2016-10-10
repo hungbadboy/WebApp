@@ -312,11 +312,11 @@ brotServices.factory('VideoService', ['$http', function ($http) {
     };
 
 
-    factory.getNewVideoMentorSubscribe = function (userId, limit, offset) {
+    factory.getMentorSubscribe = function (userId, limit, offset) {
         var rs = null;
         var promise = $http({
             method: 'GET',
-            url: NEW_SERVICE_URL + 'video/getNewVideoMentorSubscribe?userId=' + userId + '&limit=' + limit + '&offset=' + offset
+            url: NEW_SERVICE_URL + 'video/getMentorSubscribed?userId=' + userId + '&limit=' + limit + '&offset=' + offset
         }).success(function (response) {
             rs = response;
             return rs;
