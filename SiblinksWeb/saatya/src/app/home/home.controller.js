@@ -37,6 +37,21 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
              //         }
              //     });
              // }
+            if (myCache.get("subjects") !== undefined) {
+                $log.info("My cache already exists");
+                $scope.subjects = myCache.get("subjects");
+                setStorage('subjects',JSON.stringify($scope.subjects), 30);
+            } else {
+                HomeService.getAllCategory().then(function (data) {
+                    if (data.data.status) {
+                        $log.info("Get service subject with category");
+                        $scope.subjects = data.data.request_data_result;
+                        myCache.put("subjects", data.data.request_data_result);
+                        setStorage('subjects',JSON.stringify(data.data.request_data_result), 30);
+                    }
+                });
+            }
+
 
             $('#autocompleteQuest_value').focus(function () {
                 $(this).attr('placeholder', '');
