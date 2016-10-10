@@ -28,15 +28,15 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.isLoadMore = true;
         $scope.isLoadMoreAnswer =true;
         $scope.currentIndexAnswer = 0;
+        var allSubjects = JSON.parse(localStorage.getItem('subjects'));
+        $scope.subjectsParent = [];
         init();
 
 
         function init() {
             var offset = 0;
             managerQAService.getListQuestionQA(selectedSubsId, userId, offset, $scope.currentTab, LIMIT,$scope.textSearch).then(function (data) {
-                var allSubjects = myCache.get("subjects");
                 listDefaultSubjectId = getSubjectNameByIdQA(defaultSubjectId, allSubjects);
-                $scope.subjectsParent = [];
                 $scope.subjectsParent = listDefaultSubjectId;
                 // for (var i = 0; i < listDefaultSubjectId.length; i++) {
                 //     if (listDefaultSubjectId[i].level == '0') {
@@ -44,7 +44,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 //     }
                 // }
                 if (data.data.status) {
-                    $scope.listQuestions = data.data.request_data_result;
                     $scope.listQuestions = data.data.request_data_result;
                     if ($scope.listQuestions != null && $scope.listQuestions.length > 0) {
                         lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].pid;
@@ -72,11 +71,10 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 $(".mentor-manage-qa-content .left-qa").css("top","auto");
                 $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"70vh"});
             }
-
-            // or pass this to the scope
-            $scope.$apply(function() {
-                $scope.pixelsScrolled = $window.scrollY;
-            })
+            // // or pass this to the scope
+            // $scope.$apply(function() {
+            //     $scope.pixelsScrolled = $window.scrollY;
+            // })
         });
 
         $scope.loadMorePost = function () {
