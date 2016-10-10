@@ -34,7 +34,6 @@ brotControllers.controller('MentorPlaylistDetailController',
 
     function getVideosInPlaylist(){
     	videoDetailService.getVideoByPlaylistId(plid).then(function (data) {
-            console.log(data.data.request_data_result);
     		if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
     			$scope.videos = data.data.request_data_result;
                 for (var i = $scope.videos.length - 1; i >= 0; i--) {
@@ -105,7 +104,6 @@ brotControllers.controller('MentorPlaylistDetailController',
         if (selectedVideos.length > 0) {
             if (confirm("Are you sure?")) {
               PlaylistService.deleteVideoInPlaylist(selectedVideos).then(function(data){
-                console.log(data.data.request_data_result);
                 if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
                    $scope.selectedAll = false;
                    getVideosInPlaylist();

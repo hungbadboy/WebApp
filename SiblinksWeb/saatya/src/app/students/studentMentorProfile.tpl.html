@@ -10,29 +10,33 @@
     <div class="mentors-profile-headers">
         <div class="container">
             <div class="mentor-profile col-md-5">
-                <div class="top-mentors-img" >
-                    <img style="width: 100%;   border-radius: 50%;    height: 120px" ng-src="{{studentMentorProfile.imageUrl != null ? studentMentorProfile.imageUrl : 'assets/images/noavartar.jpg'}}">
+                <div class="top-mentors-img">
+                    <img style="width: 100%;   border-radius: 50%;    height: 120px"
+                         ng-src="{{studentMentorProfile.imageUrl != null ? studentMentorProfile.imageUrl : 'assets/images/noavartar.jpg'}}">
                 </div>
                 <div class="top-mentors-info">
                     <p class="top-mentors-name">
-                    <h4>{{studentMentorProfile.firstname != null ? studentMentorProfile.firstname : ''}} {{studentMentorProfile.lastName != null ? studentMentorProfile.lastName : ''}}</h4>
+                    <h4>{{studentMentorProfile.firstname != null ? studentMentorProfile.firstname : ''}}
+                        {{studentMentorProfile.lastName != null ? studentMentorProfile.lastName : ''}}</h4>
                     </p>
-                    <p><strong>Education:</strong> {{studentMentorProfile.accomplishments != null ? studentMentorProfile.accomplishments :
+                    <p><strong>Education:</strong> {{studentMentorProfile.accomplishments != null ?
+                        studentMentorProfile.accomplishments :
                         EMPTY_DATA}}</p>
                     <p id="starPoint" star-rating stars="5" outer-star-selection="stars" outer-percent="rating"
                        rating-define="star"
                        ng-if="isReadyLoadPoint"
                        rating-stars="{{studentMentorProfile.avgrate != null ? studentMentorProfile.avgrate : 0}}"
-                       star-radius="7" sel-color="gold" readonly="true"
+                       star-radius="8" sel-color="gold" readonly="true"
+                       back-color="#cecfcf"
                     >
                     </p>
                 </div>
                 <div class="top-mentors-info-detail">
                     <div class="top-mentors-info-detail-wrapper">
-                        <p>{{gender}}, {{birthDay != null ? birthDay : EMPTY_DATA}} year old</p>
+                        <p>{{GenderMentor}}, {{bod != null ? bod : EMPTY_DATA}} year old</p>
                         <p class="skilled">
                             <strong>Skilled at</strong><br>
-                            <span ng-if="subjects" ng-repeat="skill in subjects" id="skill.id">{{skill.name}}{{$last ? '' : ', '}}</span>
+                            <span ng-if="mentorSubs" ng-repeat="skill in mentorSubs track by $index" id="{{skill.id}}">{{skill.name}}{{$last ? '' : ', '}}</span>
                         </p>
                         <div class="about-mentor">
                             <strong>About me</strong><br>
@@ -41,7 +45,7 @@
                     </div>
                     <div class="subscribers-button">
                         <button>
-                            <p class="{{!isSubscribe ? 'subscribers active' : 'subscribers'}}" >
+                            <p class="{{!isSubscribe ? 'subscribers active' : 'subscribers'}}">
                                 <span>{{isSubscribe ? 'Subscribed' : 'Subscribe Me'}}</span>
                             </p>
                             <!-- <p class="subscribers unsubcrib" data-icon="&#x4e;"> -->
@@ -59,22 +63,22 @@
                 <ul>
                     <li class="subcribers">
                         <span data-icon="&#x50;"></span>
-                        <span class="number-rate">{{studentMentorProfile.count_subscribers}}</span>
+                        <span class="number-rate">{{studentMentorProfile.count_subscribers != null ? studentMentorProfile.count_subscribers :0 }}</span>
                         <h4>subcribers</h4>
                     </li>
                     <li class="answers">
                         <span data-icon="&#x77;"></span>
-                        <span class="number-rate">{{studentMentorProfile.count_answers}}</span>
+                        <span class="number-rate">{{studentMentorProfile.count_answers != null ? studentMentorProfile.count_answers :0}}</span>
                         <h4>answers</h4>
                     </li>
                     <li class="likes">
                         <span data-icon="&#xe030;"></span>
-                        <span class="number-rate">{{studentMentorProfile.count_likes}}</span>
+                        <span class="number-rate">{{studentMentorProfile.count_likes != null ? studentMentorProfile.count_likes :0}}</span>
                         <h4>likes</h4>
                     </li>
                     <li class="videos">
                         <span data-icon="&#x49;"></span>
-                        <span class="number-rate">{{studentMentorProfile.count_videos}}</span>
+                        <span class="number-rate">{{studentMentorProfile.count_videos != null ? studentMentorProfile.count_videos :0}}</span>
                         <h4>videos</h4>
                     </li>
 
@@ -88,7 +92,8 @@
         <section class="content mentors-profile-content">
             <div class="mentors-video-recently col-md-6 col-md-offset-3">
                 <div ng-show="videosRecently" class="feature-video">
-                    <div class="feature-thumnail" ng-mouseover="hoverNewestVideo()" ng-mouseleave="unHoverNewestVideo()">
+                    <div class="feature-thumnail" ng-mouseover="hoverNewestVideo()"
+                         ng-mouseleave="unHoverNewestVideo()">
                         <a href="#/videos/detailVideo/{{videosRecently[0].vid}}">
                             <img ng-src="{{videosRecently[0].image}}">
                         </a>

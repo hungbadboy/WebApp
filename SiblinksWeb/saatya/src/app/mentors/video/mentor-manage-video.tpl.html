@@ -34,13 +34,13 @@
                                               rating-define="star"
                                               rating-stars="{{dashboard.avg_rating}}"
                                               star-radius="9" sel-color="gold"
-                                              back-color="white" style="margin-top: 0px;"></div>                                        
+                                              back-color="white"></div>                                        
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-md-3 box-video-inner">
                                 <div class="video-detail active">
-                                    <img ng-show="videos" src="{{v.image}}" alt="">
+                                    <a href="" ng-click="goToDetail(v)"><img ng-show="videos" src="{{v.image}}" alt=""></a>
                                     <img ng-show="!videos" src="assets/images/img-video.png" alt="">
                                     <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt="" ng-click="goToDetail(v)"></span>
                                 </div>
@@ -75,7 +75,7 @@
                             </div>
                             <div class="col-md-3 box-video-inner">
                                 <div class="video-detail">
-                                    <img ng-show="videosTopRated" src="{{vTopRated.image}}" alt="">
+                                    <a href="" ng-click="goToDetail(vTopRated)"><img ng-show="videosTopRated" src="{{vTopRated.image}}" alt=""></a>
                                     <img ng-show="!videosTopRated" src="assets/images/img-video-2.png" alt="">
                                     <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt="" ng-click="goToDetail(vTopRated)"></span>
                                 </div>
@@ -109,7 +109,7 @@
                             </div>
                             <div class="col-md-3 box-video-inner">
                                 <div class="video-detail">
-                                    <img ng-show="videosTopViewed" src="{{vTopViewed.image}}" alt="">
+                                    <a href="" ng-click="goToDetail(vTopViewed)"><img ng-show="videosTopViewed" src="{{vTopViewed.image}}" alt="" ></a>
                                     <img ng-show="!videosTopViewed" src="assets/images/img-video-3.png" alt="">
                                     <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt="" ng-click="goToDetail(vTopViewed)"></span>
                                 </div>
@@ -145,7 +145,7 @@
                         <div class="row main-rate">
                             <div class="col-md-4">
                                 <div class="box-rate" >
-                                    <h4>Recent Rates	</h4>
+                                    <h4>Recent Rates</h4>
                                     <ul ng-show="ratings">
                                         <li class="clearfix" ng-repeat="r in ratings track by $index">
                                             <span class="img-tb pull-left"><a href="#/mentor/mentorProfile/{{r.userid}}"><img class="avatar-fix-size" src="{{r.imageUrl}}" alt=""></a></span>

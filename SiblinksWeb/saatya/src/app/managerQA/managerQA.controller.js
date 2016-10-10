@@ -111,7 +111,20 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 var result = data.data;
                 if (result && result.status) {
                     if (result.request_data_result != null && result.request_data_result.length > 0) {
-                        $scope.listAnswer.push(result.request_data_result);
+                    	// Push more answer and convert image string to array
+                    	var answers = result.request_data_result
+                    	if(answers != null && answers !== undefined) {
+                        	for(var i = 0; i < answers.length; i++) {
+                        		var answer = answers[i];
+                        		var images = answers[i].imageAnswer;
+                        		if(images != null && images !== undefined && images != '') {
+                        			var arrImageAnswer = images.split(';');
+                        			answer.imageAnswer = arrImageAnswer; 
+                        		}
+                        		$scope.listAnswer.push(answer);
+                        	}
+                        }
+                        //$scope.listAnswer.push(result.request_data_result);
                         $scope.isLoadMoreAnswer =true;
                     }
                     else{
@@ -233,10 +246,20 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             });
             QuestionsService.getAnswerByQid(qid, typeOrderAnswer, LIMIT, 0).then(function (data) {
                 var answers = data.data.request_data_result;
+                $scope.listAnswer = [];
                 $scope.isLoadMoreAnswer = true;
-                $scope.listAnswer = answers;
+                if(answers != null && answers !== undefined) {
+                	for(var i = 0; i < answers.length; i++) {
+                		var answer = answers[i];
+                		var images = answers[i].imageAnswer;
+                		if(images != null && images !== undefined && images != '') {
+                			var arrImageAnswer = images.split(';');
+                			answer.imageAnswer = arrImageAnswer; 
+                		}
+                		$scope.listAnswer.push(answer);
+                	}
+                }
             });
-
         }
         $scope.convertToArrayImage = function (str) {
             return detectMultiImage(str);

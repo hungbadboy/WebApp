@@ -47,7 +47,8 @@
                             <div class="col-md-8">
                                 <div class="main-cm-detail">
                                     <div class="top-cm">
-                                        <h3>{{ video.title | limitTo: 30 }}{{video.title.length > 30 ? '...' : ''}}</h3>
+                                        <!-- <h3>{{ video.title | limitTo: 30 }}{{video.title.length > 30 ? '...' : ''}}</h3> -->
+                                        <h3>{{video.title}}</h3>
                                         <span class="time">{{video.timeStamp}} ago</span>
                                         <div class="btn-count clearfix">
                                             <div class="bx-btn pull-left">
@@ -101,7 +102,7 @@
                                                         <div class="chat-body col-md-11">
                                                             <div class="header">
                                                                 <strong class="primary-font">{{c.fullName}}</strong><span class="time">{{c.timestamp}} ago</span>
-                                                                <a href="#" class="txt-dlt pull-right">Delete</a>
+                                                                <a href="" class="txt-dlt pull-right" ng-click="deleteComment(c.cid, video.vid)">Delete</a>
                                                             </div>
                                                             <p>
                                                                 {{c.content}}

@@ -178,6 +178,7 @@ brotControllers.controller('UploadTutorialController',
           "authorID": u_id,
           "title": title.trim(),
           "url": link,
+          "runningTime": $scope.duration,
           "image": thumbnail,
           "description": description,
           "subjectId": $scope.uploadTutSubject,
@@ -233,11 +234,58 @@ brotControllers.controller('UploadTutorialController',
       var videoid = link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
       if (videoid != null) {
         $scope.vid = videoid[1];
-        if (player === undefined)
+        if (player === undefined){          
           onYouTubeIframeAPIReady($scope.vid);             
+        }          
         else
           player.cueVideoById($scope.vid);
+        getVideoInfo($scope.vid);
       }
+    }
+
+    function getVideoInfo(vid){
+       VideoService.getVideoInfoFromYoutube(vid).then(function(data){
+          var result = data.data.items;
+          var contentDetails = result[0].contentDetails;
+          $scope.duration = convertTime(contentDetails.duration);
+          // $('#txtUploadDuration').val(convertTime(contentDetails.duration));
+       });
+    }
+
+    function convertTime(duration) {
+        var a = duration.match(/\d+/g);
+
+        if (duration.indexOf('M') >= 0 && duration.indexOf('H') == -1 && duration.indexOf('S') == -1) {
+            a = [0, a[0], 0];
+        }
+
+        if (duration.indexOf('H') >= 0 && duration.indexOf('M') == -1) {
+            a = [a[0], 0, a[1]];
+        }
+        if (duration.indexOf('H') >= 0 && duration.indexOf('M') == -1 && duration.indexOf('S') == -1) {
+            a = [a[0], 0, 0];
+        }
+
+        duration = 0;
+
+        if (a.length == 3) {
+            duration = duration + parseInt(a[0]) * 3600;
+            duration = duration + parseInt(a[1]) * 60;
+            duration = duration + parseInt(a[2]);
+        }
+
+        if (a.length == 2) {
+            duration = duration + parseInt(a[0]) * 60;
+            duration = duration + parseInt(a[1]);
+        }
+
+        if (a.length == 1) {
+            duration = duration + parseInt(a[0]);
+        }
+        var h = Math.floor(duration / 3600);
+        var m = Math.floor(duration % 3600 / 60);
+        var s = Math.floor(duration % 3600 % 60);
+        return ((h > 0 ? h + ":" + (m < 10 ? "0" : "") : "") + m + ":" + (s < 10 ? "0" : "") + s);
     }
 
     var player;

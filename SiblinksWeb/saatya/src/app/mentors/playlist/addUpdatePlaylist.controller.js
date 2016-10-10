@@ -116,7 +116,6 @@ brotControllers.controller('AddUpdatePlaylistController',
         fd.append('oldImage', $scope.playlist.image);
         PlaylistService.updatePlaylist(fd).then(function(data){
           var result = data.data.request_data_result;
-          console.log(result);
           if (result != null && result.status == "success") {
             $scope.success = "Update playlist successful.";
 
@@ -197,7 +196,6 @@ brotControllers.controller('AddUpdatePlaylistController',
 
     $scope.removeImg = function (index) {
         $scope.stepsModel.splice(index, 1);
-        console.log($scope.stepsModel);
         file = null;
     }
 }]);

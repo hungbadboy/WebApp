@@ -1353,7 +1353,9 @@ span.img-tb{
     padding-bottom: 25px;
     position: relative;
     overflow: hidden;
-    height: 100%;
+    /*hungpd bo height 100%; */
+    /* height: 100%; */
+    height: auto;
 }
 .box-l-comment .btn-load{
     text-align: center;
@@ -2468,6 +2470,7 @@ span.img-tb{
 .sub-right .list-std li span{
     position: relative;
     z-index: 2;
+    width: 48px;
 }
 .sub-right .list-std li span img{
     width: 50px;
@@ -2476,6 +2479,7 @@ span.img-tb{
 }
 .sub-right .txt-ifm{
     padding-left: 10px;
+    width: ~"calc(100% - 48px)";
 }
 .sub-right .txt-ifm h5{
     font-size: 12px;
@@ -3491,7 +3495,8 @@ section.ask-mentors h3{
 /*===========//MODAL EDIT================*/
 
 #divRateTopVideo {
-    width: 100%;
+	
+    /*hungpd width: 100%;*/
     float: right;
     position: relative;
     margin-left: 5px;

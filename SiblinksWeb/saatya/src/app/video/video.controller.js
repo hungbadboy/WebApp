@@ -11,7 +11,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.displayNumberOfVideoWeek = 6;
         $scope.displayNumberOfVideoOlder = 6;
         $scope.coutWeek = 0;
-        $scope.isSubscribe = 0;
+        // $scope.isSubscribe = 0;
 
         $scope.listRecentVideo = {};
         $scope.listWeekVideo = {};
@@ -32,6 +32,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         var checkExist = false;
 
         $scope.userId = localStorage.getItem('userId');
+
+        var masterSubjects = JSON.parse(localStorage.getItem('subjects'));
 
         $scope.fillListVideoByDefault = function () {
 
@@ -201,7 +203,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         removeMentor(mentorId);
                     }
                     else {
-                        $scope.isSubscribe = -1;
+                        $scope.isSubscribe = 0;
+                        $("#subscribers_" + mentorId).attr("data-icon", "N");
+                        $('#subscribers_' + mentorId).removeClass('unsubcrib');
                     }
                 }
             });
@@ -234,9 +238,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 itemConvert.MentorName = item.author;
                 itemConvert.MentorId = item.authorID;
                 itemConvert.avatar = item.imageUrl;
-                itemConvert.videoNew = 1;
 
                 itemConvert.subjects = [];
+
                 for (var i = 0; i < $scope.listCategorySubscription.length; i++) {
                     if ($scope.listCategorySubscription[i].subjectId == item.subjectId) {
                         itemConvert.subjects.push($scope.listCategorySubscription[i].subject);
@@ -251,7 +255,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         $scope.showProfile = function (event) {
             window.location.href = '#/student/mentorProfile/' + event.currentTarget.getAttribute("id");
-        }
+        };
         /* Video Subscription end */
 
 
@@ -288,6 +292,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         var limit = 8;
         var offset = 0;
         var limitOfLoadMore = 8;
+        var increamented = 2;
         var currentPageRecommended = 0, currentPageRecently = 0;
         var isInitRecommended = true;
         var isInitRecently = true;
@@ -296,9 +301,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.totalVideosRecently = 0;
         $scope.scrollWithBlock = undefined;
         $scope.limitOfRecommendedForU = 2;
-        $scope.isShowRecommendedForU = true;
-        $scope.isShowRecommended = true;
-        $scope.isShowRecently = true;
+        $scope.isShowMoreRecommendedForU = true;
+        $scope.isShowMoreRecommended = true;
+        $scope.isShowMoreRecently = true;
         $scope.subsWithIndex = -1;
         var hasLoadMore = false;
 
@@ -388,18 +393,33 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                             if (resultListRecommended != null) {
                                 $scope.listVideoRecommended = !hasLoadMore ? resultListRecommended : $scope.listVideoRecommended.concat(resultListRecommended);
                                 $scope.totalVideosRecommended = $scope.listVideoRecommended.length;
+                                if ($scope.listVideoRecommended.length < limitOfLoadMore) {
+                                    $scope.isShowMoreRecommended = false;
+                                } else {
+                                    $scope.isShowMoreRecommended = true;
+                                }
                             }
                         }
                         var data_recommend_4_u = allData.recommended_for_you;
                         if (data_recommend_4_u) {
                             $scope.listVideoRecommendedForU = parseDataFactory(ParseType.RECOMMENDED_FOR_YOU, data_recommend_4_u);
+                            if ($scope.listVideoRecommendedForU.length < increamented) {
+                                $scope.isShowRecommendedForU = false;
+                            } else {
+                                $scope.isShowRecommendedForU = true;
+                            }
                         }
                         var data_recently = allData.recently;
-                        if (rs_recommended) {
+                        if (data_recently) {
                             var resultVideoRecently = parseDataFactory(ParseType.RECENTLY, data_recently);
                             if (resultVideoRecently != null) {
                                 $scope.listVideoRecently = !hasLoadMore ? resultVideoRecently : $scope.listVideoRecently.concat(resultVideoRecently);
                                 $scope.totalVideosRecently = $scope.listVideoRecently.length;
+                                if ($scope.listVideoRecently.length < limitOfLoadMore) {
+                                    $scope.isShowMoreRecently = false;
+                                } else {
+                                    $scope.isShowMoreRecently = true;
+                                }
                             }
                         }
                     }
@@ -479,13 +499,13 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         videoOfMentor.avatar = obj.imageUrl;
                         videoOfMentor.defaultSubjectId = obj.defaultSubjectId;
                         videoOfMentor.runningTime = obj.runningTime;
-                        videoOfMentor.values_count = obj.values_count;
                         videoOfMentor.avgRating = obj.averageRating;
                         videoOfMentor.numFavourite = obj.numFavourite;
                         videoOfMentor.numViews = obj.numViews;
                         videoOfMentor.numComments = obj.numComments;
                         videoOfMentor.countSubscribe = obj.countSubscribe;
                         videoOfMentor.time = convertUnixTimeToTime(obj.timeStamp);
+                        videoOfMentor.isSubs = 0;
                         videosByMentorName.push(videoOfMentor);
                     }
                     $scope.isReadyLoadRatedR4U = true;
@@ -549,7 +569,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         objVideo.numFavourite = video.numFavourite;
                         objVideo.numComments = video.numComments;
                         objVideo.timeAgo = convertUnixTimeToTime(video.timeStamp);
-                        objVideo.enable = video.videoEnable;
+                        objVideo.type = video.type;
+                        objVideo.href = video.type == "2" ? "#/videos/detailPlaylist/" + video.vid + "/0" : "#/videos/detailVideo/" + video.vid;
                         listVideosRecently.push(objVideo);
                     }
                     $scope.isReadyLoadRatedRecently = true;
@@ -808,34 +829,32 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             }
         };
 
-        $scope.setSubscribeMentor = function (mentorId, index) {
-            if (isEmpty(userId)) {
-                return;
-            }
-            VideoService.setSubscribeMentor(userId, mentorId + "").then(function (response) {
-                if (response.data.status == "true") {
-                    if (response.data.request_data_type == "subs") {
-                        $scope.isSubscribe = 1;
-                        removeObject(index);
-                        console.log("Set Subscribe Mentor Successful");
-                    }
-                    else {
-                        $scope.isSubscribe = -1;
-                    }
-                }
-            });
-        };
+        // $scope.setSubscribeMentor = function (mentorId, index) {
+        //     if (isEmpty(userId)) {
+        //         return;
+        //     }
+        //     VideoService.setSubscribeMentor(userId, mentorId + "").then(function (response) {
+        //         if (response.data.status == "true") {
+        //             if (response.data.request_data_type == "subs") {
+        //                 $scope.isSubscribe = 1;
+        //                 // removeObject(index);
+        //                 console.log("Set Subscribe Mentor Successful");
+        //             }
+        //             else {
+        //                 $scope.isSubscribe = 0;
+        //             }
+        //         }
+        //     });
+        // };
 
         function updateTopMentorBlock(item) {
             if (item) {
                 var listNewTopMentor = $scope.listMentorSubscribed;
-                var subjects = myCache.get("subjects");
                 var itemConvert = {};
                 itemConvert.MentorName = item.name;
                 itemConvert.MentorId = item.userId;
                 itemConvert.avatar = item.avatar;
-                itemConvert.videoNew = item.values_count;
-                itemConvert.subjects = getSubjectNameById(item.defaultSubjectId, subjects);
+                itemConvert.subjects = getSubjectNameById(item.defaultSubjectId, masterSubjects);
                 listNewTopMentor.unshift(itemConvert);
                 $scope.listMentorSubscribed = listNewTopMentor;
             }
@@ -900,12 +919,11 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     }
                     break;
                 case 3 :
-                    var increamented = 2;
                     if ($scope.limitOfRecommendedForU < $scope.listVideoRecommendedForU.length) {
                         $scope.limitOfRecommendedForU += increamented;
-                        $scope.isShowRecommendedForU = true;
+                        $scope.isShowMoreRecommendedForU = true;
                     } else {
-                        $scope.isShowRecommendedForU = false;
+                        $scope.isShowMoreRecommendedForU = false;
                     }
                     break;
             }
@@ -916,7 +934,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             $("input#srch-term").val("");
         }
 
-        function detectLengthText(){
+        function detectLengthText() {
             console.log($('.video-description-history').width());
         }
 
@@ -940,6 +958,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         //MTDU
         var listVideos = '';
+
         function loadHistory() {
             if (myCache.get("listVideos") !== undefined) {
                 $log.info("My cache already exists");
@@ -1095,6 +1114,58 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 isInitRecently = true;
             }
         }
+
+
+        $scope.isSubscribe = 0;
+
+        $scope.hoverSubcribe = function (isSubs, userid) {
+            if (isSubs != '1' || isEmpty(userid)) {
+                return;
+            }
+            $("#subscribers_" + userid).attr("data-icon", "M");
+
+            $("#span_" + userid).text("Unsubscribe");
+
+        };
+        $scope.unHoverSubcribe = function (isSubs, userid) {
+            if (isSubs != '1' || isEmpty(userid)) {
+                return;
+            }
+            $("#subscribers_" + userid).attr("data-icon", "N");
+            $("#span_" + userid).text("Subscribed");
+        };
+
+        $scope.setSubscribeMentor = function (mentorId) {
+            if (isEmpty(userId) || userId == -1) {
+                return;
+            }
+            VideoService.setSubscribeMentor(userId, mentorId + "").then(function (data) {
+                if (data.data.status == "true") {
+                    if (data.data.request_data_type == "subs") {
+                        $scope.isSubscribe = 1;
+
+                        //$('#subscribers_'+mentorId).addClass('unsubcrib');
+                        for (var i = 0; i < $scope.listVideoRecommendedForU.length; i++) {
+                            if (mentorId == $scope.listVideoRecommendedForU[i][0].userId) {
+                                $scope.listVideoRecommendedForU[i][0].isSubs = $scope.isSubscribe;
+                                updateTopMentorBlock($scope.listVideoRecommendedForU[i][0]);
+                            }
+                        }
+                    }else {
+                        $scope.isSubscribe = 0;
+                        $("#subscribers_" + mentorId).attr("data-icon", "N");
+                        $('#subscribers_' + mentorId).removeClass('unsubcrib');
+                        var listMentor = $scope.listMentorSubscribed;
+                        for (var i = 0; i < listMentor.length; i++) {
+                            if(listMentor[i].MentorId == mentorId){
+                                listMentor.splice(i, 1);
+                            }
+                        }
+                        $scope.listMentorSubscribed = listMentor;
+                    }
+                }
+            });
+        };
 
 
     }]);

@@ -85,9 +85,9 @@
                                         <div class="answer-question col-xs-12">
                                             <div class="number-answer">
                                                 <div class="total-number-answer">
-                                                	<div ng-if="question.count_answer > 0 && question.count_answer" class="total-answer" ng-click="viewAnswer(question.id)">{{question.count_answer}} answer</div>
+                                                	<div ng-if="question.count_answer > 0 && question.count_answer" class="total-answer" ng-click="viewAnswer(question.id)">{{question.count_answer > 1 ? (question.count_answer + " answers") : (question.count_answer + " answer")}}</div>
                                                     <div ng-if="question.count_answer == 0 || !question.count_answer" class="total-answer">No answer</div>
-                                                    <div class="total-view">&nbsp;<span data-icon=""></span>&nbsp;&nbsp;&nbsp; {{question.numviews}} views</div>
+                                                    <div class="total-view">&nbsp;<span data-icon=""></span>&nbsp;&nbsp;&nbsp; {{question.numviews > 1 ? (question.numviews + " views") : (question.numviews + " view")}}</div>
                                                 </div>
                                                 <!-- Detail-answer-question -->
                                                 <div class="detail-answer-question hide detail-answer-question_{{question.id}}" ng-if="question.answers"
