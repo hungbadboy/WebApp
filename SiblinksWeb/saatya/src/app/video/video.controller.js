@@ -316,7 +316,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             if (userId !== null) {
                 $scope.login = 1;
                 //getMentorSubscribed(userId);
-                getNewVideoMentorSubscribe(userId);
+                getMentorSubscribe(userId);
                 getVideoBySubject(userId, -1, limit, 0);
                 getCountFactory(CountType.HOME);
 
@@ -678,8 +678,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                             for (var i = 0; i < result.length; i++) {
                                 var element = result[i];
                                 var subscribe = {};
-                                subscribe.MentorName = element.mentorName;
-                                subscribe.MentorId = element.MentorId;
+                                subscribe.MentorName = element.userName;
+                                subscribe.MentorId = element.userid;
                                 subscribe.avatar = element.imageUrl;
                                 subscribe.isOnline = element.isOnline;
                                 subscribe.subjects = getSubjectNameById(element.defaultSubjectId, subjects);

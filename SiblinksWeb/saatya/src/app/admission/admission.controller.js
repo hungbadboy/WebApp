@@ -39,8 +39,9 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
                     var mentor = {};
                     mentor.userid = data_result[i].userid;
                     mentor.userName = data_result[i].userName;
-                    mentor.lastName = data_result[i].lastName;
-                    mentor.firstName = data_result[i].firstName;
+                    mentor.lastName = data_result[i].lastName != null ? data_result[i].lastName : '';
+                    mentor.firstName = data_result[i].firstName != null ? data_result[i].firstName : '';
+					mentor.fullName = mentor.firstName + ' ' +mentor.lastName;
                     mentor.imageUrl = data_result[i].imageUrl;
                     mentor.numlike = data_result[i].numlike;
                     mentor.numsub = data_result[i].numsub;
