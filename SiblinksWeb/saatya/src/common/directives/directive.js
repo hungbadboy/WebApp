@@ -1260,7 +1260,7 @@ brotControllers.directive("averageStarRating", function() {
                "    </li>" +
                "  </ul>" +
                "</div>" +
-               "</div",
+               "</div>",
     scope : {
       averageRatingValue : "=ngModel",
       max : "=?", //optional: default is 5
@@ -1280,5 +1280,21 @@ brotControllers.directive("averageStarRating", function() {
       });
     }
   };
+});
+
+/**
+ * @author Tavv
+ * @description case image load failure
+ */
+brotControllers.directive('errSrc', function() {
+    return {
+        link: function(scope, element, attrs) {
+            element.bind('error', function() {
+                if (attrs.src != attrs.errSrc) {
+                    attrs.$set('src', attrs.errSrc);
+                }
+            });
+        }
+    }
 });
 

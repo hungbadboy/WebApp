@@ -13,7 +13,8 @@
                 <div class="student-profile">
                     <div class="student-header-detail">
                         <div class="student-img">
-                            <img ng-src="{{studentInfo.imageUrl != null ? studentInfo.imageUrl : 'assets/images/noavartar.jpg'}}">
+                            <img ng-src="{{studentInfo.imageUrl != null ? studentInfo.imageUrl : 'assets/images/noavartar.jpg'}}"
+                                 err-src="assets/images/noavartar.jpg">
                             <h3 class="student-name" style="font-size: 20px; margin-top: 13px">{{studentInfo.firstname
                                 != null ? studentInfo.firstname : ''}} {{studentInfo.lastName != null ?
                                 studentInfo.lastName : ''}}</h3>
