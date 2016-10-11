@@ -420,6 +420,10 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             getListQuestionAndDetail(selectedSubsId,"");
         };
 
+        $scope.changeWidth= function () {
+            $('#autocompleteSubsQA_dropdown').width($('#autocompleteSubsQA').width());
+        }
+
         $scope.fillerSubject = function () {
             currentPage = 0;
             $scope.isLoadMore = true;
