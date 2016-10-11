@@ -24,7 +24,7 @@
                         <input type="text" class="form-control box-duration" value="{{duration}}" placeholder="Tutorial Duration" readonly="true" tabindex="-1">
                     </div>
                     <div class="form-group">
-                        <textarea name="desciption" rows="4" cols="5" id="txtUploadDescription" class="form-control textarea-custom" placeholder="Description" maxlength="512">{{description}}</textarea>
+                        <textarea name="desciption" rows="4" cols="5" id="txtUploadDescription" class="form-control textarea-custom" placeholder="Description" maxlength="1024">{{description}}</textarea>
                     </div>
                     <div class="form-group" ng-hide="editVideo">
                         <select class="select-sbj form-control" id="uploadTutSubject" ng-model="uploadTutSubject" ng-change="changeSubject(uploadTutSubject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in uploadTutSubjects'>
