@@ -140,49 +140,57 @@
                                             <!-- Answer of question -->
                                             <div class="answer-question col-xs-12">
                                                 <div class="number-answer">
-                                                    <div class="total-number-answer" ng-click="showAnswerQuestion(q.id)">
+                                                    <div class="total-number-answer"
+                                                         ng-click="showAnswerQuestion(q.id)">
                                                         <div ng-class="{'has-answer': q.count_answer != '0' , 'no-answer': q.count_answer == '0'}"
                                                              class="total-answer"><p>{{q.count_answer}} answers</p>
                                                         </div>
-                                                        <div class="total-view" >&nbsp;&nbsp;&nbsp; {{q.numviews}} views</div>
+                                                        <div class="total-view">&nbsp;&nbsp;&nbsp; {{q.numviews}}
+                                                            views
+                                                        </div>
                                                     </div>
                                                     <!-- Detail-answer-question -->
                                                     <div id="{{q.id}}" class="detail-answer-question hidden">
-                                                    	<div ng-repeat="a in q.answers track by $index">
-	                                                        <div class="mentor-answer" >
-	                                                            <div class="image-mentor">
-	                                                                <img style="height: 100%" src="{{a.avatar}}">
-	                                                            </div>
-	                                                            <div class="detail-mentor-answer">
-	                                                                <div class="mentor-name">
-	                                                                <strong>{{a.name}}</strong>&nbsp;&nbsp;&nbsp;<span>answerd {{a.time}} ago</span>&nbsp;&nbsp;&nbsp;<span>{{a.countLike}} 
-	                                                                    	<span data-icon="&#xe089;" ng-if="a.like" id="heart"></span>
-	                                                                    	<span data-icon="&#xe089;" ng-if="!(a.like)"></span>
+                                                        <div ng-repeat="a in q.answers track by $index">
+                                                            <div class="mentor-answer">
+                                                                <div class="image-mentor">
+                                                                    <img style="height: 100%" src="{{a.avatar}}">
+                                                                </div>
+                                                                <div class="detail-mentor-answer">
+                                                                    <div class="mentor-name">
+                                                                        <strong>{{a.name}}</strong>&nbsp;&nbsp;&nbsp;<span>answerd {{a.time}} ago</span>&nbsp;&nbsp;&nbsp;<span>{{a.countLike}}
+	                                                                    	<span data-icon="&#xe089;" ng-if="a.like"
+                                                                                  id="heart"></span>
+	                                                                    	<span data-icon="&#xe089;"
+                                                                                  ng-if="!(a.like)"></span>
 	                                                                    </span>
-	                                                                </div>
-	                                                                <div class="mentor-answer">
-	                                                                    <p class="pre-wrap">{{a.content}}</p>
-	                                                                </div>
-		                                                            <div class="images-question" style="margin-left:-4px;">
-						                                                <ul>
-						                                                    <li class="item" ng-repeat="image in a.images track by $index">
-						                                                        <div class="item-img"
-						                                                             ng-mouseover="imageHoverIn(q.id +''+$index)"
-						                                                             ng-mouseleave="imageHoverOut(q.id +''+$index)"
-						                                                             ng-click="zoomImage(image)">
-						                                                            <img ng-src="{{image}}">
-						                                                            <div class="item-hover" id="{{q.id}}{{$index}}">
-						                                                                <img src="assets/images/ask question/look-img.png"
-						                                                                     ng-click="zoomImage(image)">
-						                                                            </div>
-						                                                        </div>
-						                                                    </li>
-						                                                </ul>
-				                                            		</div>
-			                                            		</div>
-	                                                        </div>
-	                                            		</div>
-                                            		</div><!-- /End Detail-answer-question -->
+                                                                    </div>
+                                                                    <div class="mentor-answer">
+                                                                        <p class="pre-wrap">{{a.content}}</p>
+                                                                    </div>
+                                                                    <div class="images-question"
+                                                                         style="margin-left:-4px;">
+                                                                        <ul>
+                                                                            <li class="item"
+                                                                                ng-repeat="image in a.images track by $index">
+                                                                                <div class="item-img"
+                                                                                     ng-mouseover="imageHoverIn(q.id +''+$index)"
+                                                                                     ng-mouseleave="imageHoverOut(q.id +''+$index)"
+                                                                                     ng-click="zoomImage(image)">
+                                                                                    <img ng-src="{{image}}">
+                                                                                    <div class="item-hover"
+                                                                                         id="{{q.id}}{{$index}}">
+                                                                                        <img src="assets/images/ask question/look-img.png"
+                                                                                             ng-click="zoomImage(image)">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- /End Detail-answer-question -->
                                                     <!-- <div class="load-more">
                                                         <p>Load more comments</p>
                                                     </div>-->
@@ -267,43 +275,58 @@
                                         <form action="" method="">
                                             <div class="personal-information">
                                                 <div class="left-form">
-                                                    <p><input type="text" id="firstName" placeholder="FirstName" name="firstname" value="{{studentInfo.firstname}}"></p>
-                                                    <p><input type="text" id="lastName" placeholder="LastName" name="lastname" value="{{studentInfo.lastName}}"></p>
-                                                    <p><input type="email" id="email" placeholder="Email" name="email" value="{{studentInfo.email}}"></p>
-                                                    <p><input type="text" id="school" placeholder="High School" name="school" value="{{studentInfo.school}}""></p>
+                                                    <p><input type="text" id="firstName" placeholder="FirstName"
+                                                              name="firstname" value="{{studentInfo.firstname}}"></p>
+                                                    <p><input type="text" id="lastName" placeholder="LastName"
+                                                              name="lastname" value="{{studentInfo.lastName}}"></p>
+                                                    <p><input type="email" id="email" placeholder="Email" name="email"
+                                                              value="{{studentInfo.email}}"></p>
+                                                    <p><input type="text" id="school" placeholder="High School"
+                                                              name="school" value="{{studentInfo.school}}""></p>
                                                     <div class="favorite-field">
                                                         <p>Favourites Field:</p>
                                                         <div class="check-favorite">
                                                         	<span ng-repeat=" mfav in masterFavourite">
-		                                                     	<input type="checkbox" class="masterFavourite" name="favourites" ng-checked="(mfav.selected==1)" value="{{mfav.subjectId}}"/>
+		                                                     	<input type="checkbox" class="masterFavourite"
+                                                                       name="favourites" ng-checked="(mfav.selected==1)"
+                                                                       value="{{mfav.subjectId}}"/>
 		                                                    	<label>{{mfav.subject}}</label>
 		                                                    </span>
                                                         </div>
                                                     </div>
-                                                    
+
                                                 </div>
                                                 <div class="right-form">
                                                     <p class="sex">
-                                                        <input type="radio" id="male" name="gender" value="M" ng-checked="studentInfo.gender=='M'" ><label>Male</label>
-                                                        <input type="radio" id="female" name="gender" value="F" ng-checked="studentInfo.gender=='F'"><label> Female</label>
-                                                        <input type="radio" id="other" name="gender" value="O" ng-checked="studentInfo.gender=='O'"><label> Other</label>
+                                                        <input type="radio" id="male" name="gender" value="M"
+                                                               ng-checked="studentInfo.gender=='M'"><label>Male</label>
+                                                        <input type="radio" id="female" name="gender" value="F"
+                                                               ng-checked="studentInfo.gender=='F'"><label>
+                                                        Female</label>
+                                                        <input type="radio" id="other" name="gender" value="O"
+                                                               ng-checked="studentInfo.gender=='O'"><label>
+                                                        Other</label>
                                                     </p>
 
-                                                    <p><input type="text" id="bod" ng-model="birthDay" placeholder="BIO" brotdatepicker dateFormat="dd M, yy"/></p>
-                                                    <p><textarea placeholder="About me..." id="about" name="aboutme" >{{studentInfo.bio}}</textarea></p>
+                                                    <p><input type="text" id="bod" ng-model="birthDay" placeholder="BIO"
+                                                              brotdatepicker dateFormat="dd M, yy"/></p>
+                                                    <p><textarea placeholder="About me..." id="about" name="aboutme">{{studentInfo.bio}}</textarea>
+                                                    </p>
                                                 </div>
                                                 <div class="col-md-12 pad-left-0">
-                                                	<div class="favorite-field">
+                                                    <div class="favorite-field">
                                                         <p>Subjects:</p>
                                                         <div class="check-favorite">
 		                                                    <span ng-repeat=" msub in masterSubjects">
-		                                                     	<input type="checkbox" class="masterSubject" name="subjects" ng-checked="(msub.selected==1)" value="{{msub.subjectId}}"/>
+		                                                     	<input type="checkbox" class="masterSubject"
+                                                                       name="subjects" ng-checked="(msub.selected==1)"
+                                                                       value="{{msub.subjectId}}"/>
 		                                                    	<label>{{msub.subject}}</label>
 		                                                    </span>
-		                                                </div>
-                                                 </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-												<div class="submit col-md-12">
+                                                <div class="submit col-md-12">
                                                     <button type="button" id="reset" ng-click="resetProfile()">Reset
                                                     </button>
                                                     <button type="button" id="update" ng-click="updateProfile()">Update

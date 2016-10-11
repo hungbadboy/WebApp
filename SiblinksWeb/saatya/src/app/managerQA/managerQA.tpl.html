@@ -30,12 +30,12 @@
                                     </form>
                                 </div>
                                 <div class="sl-newwest">
-                                    <div angucomplete-alt id="autocompleteSubs" placeholder="Search subjects.." pause="200"
+                                    <div angucomplete-alt id="autocompleteSubsQA" placeholder="Search subjects.." pause="200"
                                          selected-object="selectedSubject"
                                          local-data="subjectsParent" search-fields="name" title-field="name"
-                                         minlength="0" input-class="form-control-search"
+                                         minlength="0" input-class="form-control-search" ng-click="changeWidth()"
                                           />
-                                    <span ng-click="focusSubject()" data-icon="&#x43;"></span>
+                                    <span style="pointer-events: none;" data-icon="&#x43;"></span>
                                 </div>
                                 <div class="btn-filter"><button ng-click="fillerSubject()">Filter</button></div>
                             </div>
@@ -93,10 +93,10 @@
                                     <div class="bx-detail-rpl">
                                         <div class="top-rpl clearfix">
                                             <div class="col-md-2">
-                                                <img class="avatar-fix-max-size60" ng-src="{{questionDetail.avatar}}" alt="avatar">
+                                                <a href="#/mentor/studentProfile/{{questionDetail.authorId}}"><img class="avatar-fix-max-size60" ng-src="{{questionDetail.avatar}}" alt="avatar"></a>
                                             </div>
                                             <div class="col-md-6 bx-dt-qa">
-                                                <h5><a>{{questionDetail.firstName +" "+ questionDetail.lastName}}</a></h5>
+                                                <h5> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{questionDetail.firstName +" "+ questionDetail.lastName}}</a></h5>
                                                 <span class="time">asked {{questionDetail.timeStamp}} ago</span>
                                                 <p class="txt-category"><b><a>{{questionDetail.subject}}</a></b></p>
                                             </div>
@@ -150,7 +150,7 @@
 
                                                 </div>
                                                 <div class="add-image">
-                                                    <output class="upload-image" id="list"  style="width: auto;float: left;">
+                                                    <output class="upload-image" id="list" style=" margin-left: 10px; width: auto;float: left;">
                                                         <div ng-repeat="step in stepsModel track by $index">
                                                             <img class="thumb" ng-src="{{step}}" />
                                                             <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
@@ -160,7 +160,7 @@
                                                             <div class="remove-image"><img src="assets/images/remove-img.png"
                                                                                            ng-click="removeImgOld($index)"></div>
                                                         </div>
-                                                    </output>
+
 
                                                         <span class="add-img">
                                                                            <input class="input-file2 hide" type="file" multiple  id="files" ng-file-select="onFileSelect($files)"
@@ -168,7 +168,7 @@
                                                             <label for="files">
                                                             <img src="assets/images/add-img.png"></label>
                                                                         </span>
-
+                                                    </output>
                                                     <button ng-if="!isEdit" class="reply" ng-click="answerQuestion(questionDetail.question_id)" >Reply</button>
                                                     <button ng-if="isEdit" class="reply" ng-click="updateAnswer()" >Update</button>
                                                 </div>
@@ -177,7 +177,8 @@
                                                     <ul class="chat">
                                                         <li ng-repeat="answer in listAnswer | unique:'aid' track by $index" class="clearfix {{userId == answer.authorID ? 'right' : 'left'}}">
                                                         <span class="chat-img" ng-class="{'pull-right':userId == answer.authorID,'pull-left':userId != answer.authorID}">
-                                                                                <img class="avatar-fix-max-size60" ng-src="{{answer.imageUrl}}" alt="Avatar">
+                                                                                <a href="#/student/mentorProfile/{{answer.authorID}}">
+                                                                                    <img class="avatar-fix-max-size60" ng-src="{{answer.imageUrl}}" alt="Avatar"></a>
                                                                             </span>
                                                         <div class="chat-body clearfix">
                                                             <div class="header" ng-if="userId == answer.authorID">
@@ -186,12 +187,12 @@
                                                                 <span title="Delete" ng-really-message="Are you sure you want to delete?"
                                                                       ng-really-click ="removeAnswer(answer.aid)" class="edit-answer" data-icon="&#xe019;"></span>
                                                                 <span class="pull-right time" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
-                                                                <span class="like-h" data-icon="&#xe089;"></span>
+                                                                <span   class="like-h" data-icon="&#xe089;"></span>
                                                             </div>
                                                             <div class="header" ng-if="userId != answer.authorID">
-                                                                <strong class="primary-font pull-left"><a>{{answer.firstName +" " +answer.lastName}}</a></strong>
+                                                                <strong class="primary-font pull-left"><a href="#/student/mentorProfile/{{answer.authorID}}">{{answer.firstName +" " +answer.lastName}}</a></strong>
                                                                 <span class="time pull-left" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
-                                                                <span class="like-h" data-icon="&#xe089;"></span>
+                                                                <span ng-click="likeAnswer(answer.aid)" id="heart{{answer.aid}}" class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                             </div>
                                                             <p class="pre-wrap" ng-click="showAnswer($index)">{{answer.content}}</p>
                                                             <div class="images-question" style="margin-left:35px;">
@@ -245,10 +246,10 @@
                 <h5><span><img src="assets/images/icon-h5-l-qa.png" alt=""></span>Question</h5>
                 <div class="top-user clearfix">
                     <div class="col-md-2 img-avarta">
-                        <img src="assets/images/user.jpg" alt="">
+                        <a href="#/mentor/studentProfile/{{questionDetail.authorId}}"><img ng-src="{{questionDetail.avatar}}" alt=""></a>
                     </div>
                     <div class="col-md-10">
-                        <h6>{{questionDetail.firstName +' '+questionDetail.lastName}}</h6>
+                        <h6> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{questionDetail.firstName +' '+questionDetail.lastName}}</a></h6>
                         <span class="time">asked {{questionDetail.timeStamp}} ago</span>
                         <p class="list-view">
                             {{questionDetail.numReplies}} <span data-icon="w"></span>&nbsp;&nbsp;
@@ -277,10 +278,10 @@
                 </div>
                 <div class="top-user clearfix" >
                     <div class="col-md-2 img-avarta">
-                        <img ng-src="{{answer.imageUrl}}" alt="">
+                        <a  href="#/student/mentorProfile/{{answer.authorID}}"><img ng-src="{{answer.imageUrl}}" alt=""></a>
                     </div>
                     <div class="col-md-6">
-                        <h6>{{answer.firstName +" " +answer.lastName}}</h6>
+                        <h6><a  href="#/student/mentorProfile/{{answer.authorID}}">{{answer.firstName +" " +answer.lastName}}</a></h6></div>
                         <span class="time">Replied  {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>
                         <p class="list-view">
                             {{answer.numlike}} <span class="like-h" data-icon=""></span>

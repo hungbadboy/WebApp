@@ -46,8 +46,8 @@ brotControllers
                 var eventRemove;
                 var questionForAnswer;
 
-                var limit = 50;
-                var offset = 0;
+                var LIMIT = 50;
+                var OFFSET = 0;
                 var currentPage = 0;
                 var isLoadMore = false;
                 $scope.isDisplayMore = false;
@@ -72,7 +72,7 @@ brotControllers
                         subjectid = "-1";
                     }
 
-                    getQuestions(userId, limit, offset, $scope.curentOrderType, oldQid, subjectid);
+                    getQuestions(userId, LIMIT, OFFSET, $scope.curentOrderType, oldQid, subjectid);
 
                     QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
                         $scope.totalQuestion = data.data.request_data_result[0].numquestion;
@@ -89,7 +89,7 @@ brotControllers
                     });
 
                     //get top mentors by subcribe
-                    MentorService.getTopMentorsByLikeRateSubcrible(LIMIT_TOP_MENTORS, offset, 'subcribe', userId).then(function (data) {
+                    MentorService.getTopMentorsByLikeRateSubcrible(LIMIT_TOP_MENTORS, OFFSET, 'subcribe', userId).then(function (data) {
                         var data_result = data.data.request_data_result;
                         if (data_result) {
                             var listTopMentors = [];
@@ -117,7 +117,7 @@ brotControllers
                     });
 
                     //get videos by top rate
-                    VideoService.getVideoByRate(LIMIT_TOP_VIDEOS, offset).then(function (data) {
+                    VideoService.getVideoByRate(LIMIT_TOP_VIDEOS, OFFSET).then(function (data) {
                         if (data.data.status) {
                             var result_data = data.data.request_data_result;
                             if (result_data) {
@@ -272,8 +272,6 @@ brotControllers
                 $scope.isShowOrder = false;
 
                 $scope.orderQuestions = function (type) {
-                    var limitOder = 10;
-                    var offsetOder = 0;
 
                     if (type == $scope.curentOrderType) {
                         $scope.isShowOrder = false;
@@ -291,7 +289,7 @@ brotControllers
                     QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
                         $scope.totalQuestion = data.data.request_data_result[0].numquestion;
                         if ($scope.totalQuestion != '0') {
-                            getQuestions(userId, limitOder, offsetOder, $scope.curentOrderType, oldQid, subjectid);
+                            getQuestions(userId, LIMIT, OFFSET, $scope.curentOrderType, oldQid, subjectid);
                         }
                         else {
                             $scope.askQuestion = [];
@@ -345,9 +343,9 @@ brotControllers
                     currentPage++;
                     isLoadMore = true;
                     $scope.isDisplayMore = true;
-                    var newoffset = limit * currentPage;
+                    var newoffset = LIMIT * currentPage;
                     console.log(newoffset);
-                    getQuestions(userId, limit, newoffset, $scope.curentOrderType, oldQid, subjectid);
+                    getQuestions(userId, LIMIT, newoffset, $scope.curentOrderType, oldQid, subjectid);
 
                 };
 

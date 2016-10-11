@@ -16,7 +16,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         var listDefaultSubjectId;
         $scope.subjectsChild = [];
         var oldImagePath = "";
-        var imagePathOld_BK;
         var MAX_SIZE_IMG_UPLOAD = 10485760;
         var MAX_IMAGE = 4;
         $scope.currentTab = 'all';
@@ -66,7 +65,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
         $document.on('scroll', function() {
             // do your things like logging the Y-axis
-            if ($window.scrollY > 90) {
+            if ($window.scrollY > 60) {
                 $(".mentor-manage-qa-content .left-qa").css({"top":"90px", "height":"90%"});
                 $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"80vh"});
             }
@@ -122,7 +121,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
             currentPageAnswer++;
             var newOffset = currentPageAnswer * LIMIT;
-            QuestionsService.getAnswerByQid($scope.currentPid, typeOrderAnswer, LIMIT, newOffset).then(function (data) {
+            QuestionsService.getAnswerByQid($scope.currentPid, typeOrderAnswer, LIMIT, newOffset,userId).then(function (data) {
                 var result = data.data;
                 if (result && result.status) {
                     if (result.request_data_result != null && result.request_data_result.length > 0) {
@@ -223,34 +222,33 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
 
             });
-            QuestionsService.getAnswerByQid(qid, typeOrderAnswer, LIMIT, 0).then(function (data) {
+            QuestionsService.getAnswerByQid(qid, typeOrderAnswer, LIMIT, 0,userId).then(function (data) {
                 var answers = data.data.request_data_result;
                 $scope.listAnswer = [];
                 $scope.isLoadMoreAnswer = true;
-                if(answers != null && answers !== undefined) {
-                	for(var i = 0; i < answers.length; i++) {
-                		var answer = answers[i];
-                		var images = answers[i].imageAnswer;
-                		if(images != null && images !== undefined && images != '') {
-                			var arrImageAnswer = images.split(';');
-                			answer.imageAnswer = arrImageAnswer;
-                		}
-                		$scope.listAnswer.push(answer);
-                	}
-                }
+                // if(answers != null && answers !== undefined) {
+                // 	for(var i = 0; i < answers.length; i++) {
+                // 		var answer = answers[i];
+                // 		var images = answers[i].imageAnswer;
+                // 		if(images != null && images !== undefined && images != '') {
+                // 			var arrImageAnswer = images.split(';');
+                // 			answer.imageAnswer = arrImageAnswer;
+                // 		}
+                // 		$scope.listAnswer.push(answer);
+                // 	}
+                // }
+                $scope.listAnswer = answers;
             });
         }
         $scope.convertToArrayImage = function (str) {
             return detectMultiImage(str);
         }
 
-        $scope.focusSubject = function () {
-            $('#autocompleteSubs').focus();
-        }
+
         $scope.removeAnswer = function (aid) {
             managerQAService.removeAnswer(aid).then(function (data) {
                 if(data.data.status =='true'){
-                    QuestionsService.getAnswerByQid($scope.currentPid, typeOrderAnswer, "", "").then(function (data) {
+                    QuestionsService.getAnswerByQid($scope.currentPid, typeOrderAnswer, "", "",userId).then(function (data) {
                         var answers = data.data.request_data_result;
                         $scope.isLoadMoreAnswer = true;
                         $scope.listAnswer = answers;
@@ -276,6 +274,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 $scope.QAErrorMsg='Can not edit this answer';
             }
             var answeredit = $scope.listAnswer[index];
+
             aidEdit = answeredit.aid;
             $('#txtAnswer').val(answeredit.content);
             $('#txtAnswer').focus();
@@ -317,7 +316,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             fd.append('oldImagePath', oldImagePath);
             managerQAService.updateAnswer(fd).then(function (data) {
                 if (data.data.status == "true") {
-                    QuestionsService.getAnswerByQid($scope.currentPid, typeOrderAnswer, "", "").then(function (data) {
+                    QuestionsService.getAnswerByQid($scope.currentPid, typeOrderAnswer, "", "",userId).then(function (data) {
                         var answers = data.data.request_data_result;
                         $scope.isLoadMoreAnswer = true;
                         $scope.listAnswer = answers;
@@ -389,7 +388,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                     $('#txtAnswer').val("");
                     $scope.stepsModel = [];
                     $scope.filesArray = [];
-                    QuestionsService.getAnswerByQid(pid, typeOrderAnswer, "", "").then(function (data) {
+                    QuestionsService.getAnswerByQid(pid, typeOrderAnswer, "", "",userId).then(function (data) {
                         var answers = data.data.request_data_result;
                         $scope.isLoadMoreAnswer = true;
                         $scope.listAnswer = answers;
@@ -421,10 +420,14 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             getListQuestionAndDetail(selectedSubsId,"");
         };
 
+        $scope.changeWidth= function () {
+            $('#autocompleteSubsQA_dropdown').width($('#autocompleteSubsQA').width());
+        }
+
         $scope.fillerSubject = function () {
             currentPage = 0;
             $scope.isLoadMore = true;
-            if(isEmpty($('#autocompleteSubs').val())){
+            if(isEmpty($('#autocompleteSubsQA').val())){
                 selectedSubsId = "";
             }
             if(isEmpty(selectedSubsId)){
@@ -486,6 +489,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                     }
                     else {
                         $scope.notFound = "Not found question";
+                        $scope.listQuestions = null;
                         $scope.questionDetail = null;
                         return;
                     }
@@ -534,6 +538,21 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.closePopupAskQuestion = function () {
             $(".popup-images").css({"left": "100%"});
         }
+
+        $scope.likeAnswer = function (aid) {
+            if (!isEmpty(userId) && userId != -1) {
+                AnswerService.likeAnswer(userId, aid + "").then(function (data) {
+                    if (data.data.status == 'true') {
+                        if (data.data.request_data_type == "like") {
+                            $('#heart'+aid).addClass('like-h');
+                        }
+                        else {
+                            $('#heart'+aid).removeClass('like-h');
+                        }
+                    }
+                });
+            }
+        };
 
         function detectMultiImage(imagePath) {
             if (isEmpty(imagePath)) {

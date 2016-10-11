@@ -1,4 +1,4 @@
-brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope, $http, $timeout, StudentService) {
+brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope, $http, $timeout, $routeParams,$window, StudentService) {
     $scope.loginMess = "";
     $scope.bestDeals = [
                        {src: 'http://placehold.it/110x110&text=Best%20Deal%201', title: 'Best Deal 1' },
@@ -38,7 +38,7 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
                 var dataUser = data;
                 console.log(dataUser);
                 var firstName = dataUser['firstname'];
-                var lastName = dataUser['lastname']
+                var lastName = dataUser['lastname'];
                 setStorage('userName', dataUser['username'], 30);
                 setStorage('userId', dataUser['userid'], 30);
                 setStorage('userType', dataUser['userType'], 10);
@@ -53,6 +53,13 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
                     nameHome = capitaliseFirstLetter(firstName) + ' ' + capitaliseFirstLetter(lastName);
                 }
                 setStorage('nameHome', nameHome, 30);
+                
+                // Redirect to old link
+                if(redirectToOldLink()) {
+                	return;
+                }
+                
+                // Redirect to home page
                 if (dataUser['userType'] == 'S') { // login student
                 	window.location.href = '/';
                 } else if(dataUser['userType'] == 'M') { // login mentor
@@ -106,11 +113,18 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
 	                setStorage('userType', dataUser['userType'], 10);
 	                setStorage('imageUrl', dataUser['imageUrl'], 10);
 	                setStorage('firstName', dataUser['firstName'], 30);
-	                setStorage('lastname', dataUser['lastname'], 30);
+                    setStorage('lastname', dataUser['lastName'], 30);
 	                setStorage('defaultSubjectId', dataUser['defaultSubjectId'], 10);
 	                var nameHome = $scope.firstName + ' ' + $scope.lastName;
 	                setStorage('nameHome', nameHome, 30);
 	                $('#header .log_out .current').text(nameHome);
+	                
+	                // Redirect to old link
+	                if(redirectToOldLink()) {
+                    	return;
+                    }
+                    
+	                // Redirect to home page
 	                if (dataUser['userType'] == 'S') { // login student
 	                	window.location.href = '/';
 	                } else if(dataUser['userType'] == 'M') { // login mentor
@@ -152,12 +166,16 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
 	                        setStorage('imageUrl', dataUser['imageUrl'], 10);
 	                        setStorage('nameHome', nameHome, 30);
 	                        setStorage('firstName', dataUser['firstName'], 30);
-	                        setStorage('lastname', dataUser['lastname'], 30);
+                            setStorage('lastname', dataUser['lastName'], 30);
 	                        setStorage('defaultSubjectId', dataUser['defaultSubjectId'], 10);
 	                        //$('#header .login').addClass('hide');
 	                        //$('#header .log_out').removeClass('hide');
 	                        //$('#header .log_out .current').text(nameHome);
-	
+	                        // Redirect to old link
+	                        if(redirectToOldLink()) {
+	                        	return;
+	                        }
+	                        // Redirect to home page
 	                        if (dataUser['userType'] == 'S') { // login student
 	                        	window.location.href = '/';
 	                        } else if(dataUser['userType'] == 'M') { // login mentor
@@ -184,5 +202,19 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
         };
         gapi.auth.signIn(myParams);
     };
-
+    
+   /**
+    * Redirect to page previous by continue on parameter
+    */
+    function redirectToOldLink() {
+    	
+    	var linkRedirect = $routeParams.continue;
+    	if(linkRedirect != null && linkRedirect !== undefined && linkRedirect !== '') {
+    		$window.location.href = decodeURIComponent(linkRedirect);
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
 });

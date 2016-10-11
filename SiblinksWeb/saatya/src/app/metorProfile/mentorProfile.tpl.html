@@ -17,7 +17,7 @@
                                     </div>
                                     <h4>{{mentorInfo.firstname != null ? mentorInfo.firstname : ''}}
                                         {{mentorInfo.lastName != null ? mentorInfo.lastName : ''}}</h4>
-                                    <span class="changeImg broswer-img">
+                                    <span class="changeImg broswer-img" ng-show="!isLoginViaFBOrGoogle">
                                                     <input type="file" id="changeImg" name="changeImg[]"
                                                            ng-file-select="onFileSelect($files)" accept='image/*'>
                                                     <label for="changeImg">
@@ -34,8 +34,9 @@
                                     <h5>About me</h5>
                                     <p>{{mentorInfo.bio != null ? mentorInfo.bio : EMPTY_DATA }}</p>
                                     <h5>Knowledge field: </h5>
-                                    <p>{{subjects != null ? subjects :'None'}}</p>
-                                    <h5>Sex <span>{{gender}}</span></h5>
+                                    <p>{{mentorSubs}}</p>
+                                    <h5>Sex <span>{{(mentorInfo.gender =='M')?'Male':(mentorInfo.gender =='F')?'Female':'Other'}}</span>
+                                    </h5>
                                     <h5>BOD <span>{{birthDay}}</span></h5>
                                     <h5>Since <span>{{sinceDay}}</span></h5>
                                 </div>
@@ -77,24 +78,34 @@
                                                         <p><input type="text" placeholder="Accomplishments"
                                                                   name="school"></p>
                                                         <div class="favorite-field">
-                                                            <p>Favourite Field</p>
+                                                            <p>Favourites Field:</p>
                                                             <div class="check-favorite">
-                                                                <input type="checkbox" id="music" value="Music"
-                                                                       name="music"><label>Music</label>
-                                                                <input type="checkbox" id="art" value="Art"
-                                                                       name="art"><label>Art</label>
-                                                                <input type="checkbox" id="sport" value="Sport"
-                                                                       name="sport"><label>Sport</label>
+                                                        	<span ng-repeat=" mfav in masterFavourite">
+		                                                     	<input type="checkbox" class="masterFavourite"
+                                                                       name="favourites" ng-checked="(mfav.selected==1)"
+                                                                       value="{{mfav.subjectId}}"/>
+		                                                    	<label>{{mfav.subject}}</label>
+		                                                    </span>
                                                             </div>
                                                         </div>
 
                                                         <div class="subject-field">
-                                                            <p ng-if="objSubs">Subjects Registered</p>
-                                                            <ng-form name="check-subject" ng-repeat="sub in objSubs">
-                                                                <input type="checkbox" id="{{sub.id}}" value="{{sub.id}}"
-                                                                       name="{{sub.name}}" checked>
-                                                                <label>{{sub.name}}</label>
-                                                            </ng-form>
+                                                            <!--<p ng-if="objSubs">Subjects Registered</p>-->
+                                                            <!--<ng-form name="check-subject" ng-repeat="sub in objSubs">-->
+                                                            <!--<input type="checkbox" id="{{sub.id}}" value="{{sub.id}}"-->
+                                                            <!--name="{{sub.name}}" checked>-->
+                                                            <!--<label>{{sub.name}}</label>-->
+                                                            <!--</ng-form>-->
+                                                            <p>Subjects:</p>
+                                                            <div class="check-favorite">
+		                                                    <span ng-repeat=" msub in masterSubjects">
+		                                                     	<input type="checkbox" class="masterSubject"
+                                                                       name="{{msub.subject}}"
+                                                                       ng-checked="(msub.selected==1)"
+                                                                       value="{{msub.subjectId}}"/>
+		                                                    	<label>{{msub.subject}}</label>
+		                                                    </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="right-form">

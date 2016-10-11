@@ -671,7 +671,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             if (userId) {
                 VideoService.getMentorSubscribe(userId, 5, 0).then(function (response) {
                     if (response.data.status) {
-                        var subjects = myCache.get("subjects");
                         var result = response.data.request_data_result;
                         if (result) {
                             var listMentorSubscribe = [];
@@ -682,7 +681,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                                 subscribe.MentorId = element.userid;
                                 subscribe.avatar = element.imageUrl;
                                 subscribe.isOnline = element.isOnline;
-                                subscribe.subjects = getSubjectNameById(element.defaultSubjectId, subjects);
+                                subscribe.subjects = getSubjectNameById(element.defaultSubjectId, masterSubjects);
                                 //console.log(subscribe.subjects);
                                 listMentorSubscribe.push(subscribe);
                             }
