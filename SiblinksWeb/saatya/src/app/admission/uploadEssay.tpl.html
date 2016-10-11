@@ -1,0 +1,38 @@
+
+<form action="" method="" ng-controller="uploadEssayController">
+    <div ng-if="essayErrorMsg" class="validate_error">
+        <span>{{essayErrorMsg}}</span>
+    </div>
+    <div ng-if="essaySusscesMsg" class="validate_success">
+        <span>{{essaySusscesMsg}}</span>
+    </div>
+    <div class="college-form-header">
+        <h5>How It Works</h5>
+        <span>Upload your essays and get feedbacks from Siblinks Mentors</span>
+    </div>
+    <div class="college-form-body">
+        <p><input type="text" ng-model="txtTitle" id="txtTitle" placeholder="Essay title" name="essaytitle"></p>
+        <p>Apply to University</p>
+        <div class="form-group choose-university">
+            <select ng-model="selectSchool" name="listSchools" id="listSchools" class="form-control">
+                <option value="0">Choose university</option>
+                <option  ng-repeat="school in listSchools" value="{{school.id}}">{{school.name}}</option>
+            </select>
+        </div>
+        <div class="form-group choose-faculty">
+            <select ng-model="selectMajor" name=listMajors" id="listMajors"  class="form-control" >
+                <option value="0">Choose Major</option>
+                <option ng-repeat="major in listMajors" value="{{major.majorId}}">{{major.majorName}}</option>
+            </select>
+        </div>
+        <p><textarea type="textarea" ng-model="txtDesc"  id="txtDesc" name="essaydesscription" placeholder="Essay description"></textarea></p>
+        <p class="upload-file">
+            <!-- <output id="list"></output> -->
+            <input type="file" id="files"  ng-file-select="onFileSelect($files)" /><label for="files"><span>{{fileName}}<i class="fa fa-link" aria-hidden="true"></i></span></label>
+        </p>
+    </div>
+    <div>
+        <button type="button" ng-click="uploadEssay()" id="submit">Submit</button>
+    </div>
+
+</form>

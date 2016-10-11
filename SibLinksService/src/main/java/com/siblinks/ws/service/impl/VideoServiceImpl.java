@@ -2297,50 +2297,57 @@ public class VideoServiceImpl implements VideoService {
     @Override
     @RequestMapping(value = "/insertVideo", method = RequestMethod.POST)
     public ResponseEntity<Response> insertVideo(@RequestBody final RequestData request) {
-        TransactionDefinition def = new DefaultTransactionDefinition();
-        TransactionStatus status = transactionManager.getTransaction(def);
-        String authorId = request.getRequest_data().getAuthorID();
-        String plid = request.getRequest_data().getPlid();
-
-        Object[] queryParams;
+        String description = request.getRequest_data().getDescription();
         SimpleResponse reponse = null;
-        String entityName = null;
+        if (description != null && description.length() < 1024) {
+            TransactionDefinition def = new DefaultTransactionDefinition();
+            TransactionStatus status = transactionManager.getTransaction(def);
+            String authorId = request.getRequest_data().getAuthorID();
+            String plid = request.getRequest_data().getPlid();
 
-        List<Object> readObject = null;
-        try {
-            // insert video
-            entityName = SibConstants.SqlMapperBROT43.SQL_INSERT_VIDEO;
-            queryParams = new Object[] { request.getRequest_data().getTitle(), request.getRequest_data().getDescription(), request.getRequest_data().getUrl(), request
-                .getRequest_data()
-                .getRunningTime(), request.getRequest_data().getImage(), request.getRequest_data().getSubjectId(), authorId };
-            long vid = dao.insertObject(entityName, queryParams);
+            Object[] queryParams;
+            
+            String entityName = null;
 
-            if (plid != null && plid.length() > 0) {
-                queryParams = new Object[] { plid, vid };
-                dao.insertUpdateObject(SibConstants.SqlMapperBROT126.SQL_ADD_VIDEOS_PLAYLIST, queryParams);
-            }
+            List<Object> readObject = null;
+            try {
+                // insert video
+                entityName = SibConstants.SqlMapperBROT43.SQL_INSERT_VIDEO;
+                queryParams = new Object[] { request.getRequest_data().getTitle(), request.getRequest_data().getDescription(), request
+                    .getRequest_data()
+                    .getUrl(), request.getRequest_data().getRunningTime(), request.getRequest_data().getImage(), request.getRequest_data().getSubjectId(), authorId };
+                long vid = dao.insertObject(entityName, queryParams);
 
-            // get list users that subscribed mentor
-            entityName = SibConstants.SqlMapperBROT43.SQL_GET_STUDENT_SUBSCRIBE;
-            queryParams = new Object[] { authorId };
-            readObject = dao.readObjects(entityName, queryParams);
-
-            if (readObject != null && !readObject.isEmpty() && readObject.size() > 0) {
-                entityName = SibConstants.SqlMapperBROT43.SQL_INSERT_VIDEO_SUBCRIBE;
-                for (Object object : readObject) {
-                    JsonObject json = new JsonParser().parse(object.toString()).getAsJsonObject();
-                    long studentId = json.get("studentid").getAsLong();
-                    queryParams = new Object[] { vid + ",", authorId, studentId };
-                    dao.insertUpdateObject(entityName, queryParams);
+                if (plid != null && plid.length() > 0) {
+                    queryParams = new Object[] { plid, vid };
+                    dao.insertUpdateObject(SibConstants.SqlMapperBROT126.SQL_ADD_VIDEOS_PLAYLIST, queryParams);
                 }
+
+                // get list users that subscribed mentor
+                entityName = SibConstants.SqlMapperBROT43.SQL_GET_STUDENT_SUBSCRIBE;
+                queryParams = new Object[] { authorId };
+                readObject = dao.readObjects(entityName, queryParams);
+
+                if (readObject != null && !readObject.isEmpty() && readObject.size() > 0) {
+                    entityName = SibConstants.SqlMapperBROT43.SQL_INSERT_VIDEO_SUBCRIBE;
+                    for (Object object : readObject) {
+                        JsonObject json = new JsonParser().parse(object.toString()).getAsJsonObject();
+                        long studentId = json.get("studentid").getAsLong();
+                        queryParams = new Object[] { vid + ",", authorId, studentId };
+                        dao.insertUpdateObject(entityName, queryParams);
+                    }
+                }
+                transactionManager.commit(status);
+                reponse = new SimpleResponse("" + true, "videos", "insertVideo", "Success");
+            } catch (Exception e) {
+                reponse = new SimpleResponse("" + true, "videos", "insertVideo", "Failed");
+                transactionManager.rollback(status);
+                logger.debug(e.getMessage());
             }
-            transactionManager.commit(status);
-            reponse = new SimpleResponse("" + true, "videos", "insertVideo", "Success");
-        } catch (Exception e) {
-            reponse = new SimpleResponse("" + true, "videos", "insertVideo", "Failed");
-            transactionManager.rollback(status);
-            logger.debug(e.getMessage());
+        } else {
+            reponse = new SimpleResponse("" + true, "videos", "insertVideo", "Description cannot longer than 1024 characters");
         }
+
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }

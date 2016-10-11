@@ -529,6 +529,7 @@ public class SibConstants {
         public static final String SQL_GET_VIDEO_ADMISSION_BY_ADMISSION_ID = "GET_VIDEO_ADMISSION_BY_ADMISSION_ID";
         public static final String SQL_SIB_RATE_UPDATE_VIDEO_ADMISSION = "SIB_RATE_UPDATE_VIDEO_ADMISSION";
         public static final String SQL_SIB_NUM_REPLIES_UPDATE_DELETE = "SIB_NUM_REPLIES_UPDATE_DELETE";
+        public static final String SQL_STUDENT_UPLOAD_ESSAY = "STUDENT_UPLOAD_ESSAY";
 
 
     }
@@ -637,5 +638,9 @@ public class SibConstants {
         public static final String SQL_GET_ALL_STUDENT_SUBSCRIBED = "GET_ALL_STUDENT_SUBSCRIBED";
         public static final String SQL_GET_PLAYLIST_INFO_OF_VIDEO = "GET_PLAYLIST_INFO_OF_VIDEO";
         public static final String SQL_DELETE_COMMENT_VIDEO = "DELETE_COMMENT_VIDEO";
+        public static final String SQL_GET_NEWEST_ESSAY = "GET_NEWEST_ESSAY";
+        public static final String SQL_GET_PROCESSING_ESSAY = "GET_PROCESSING_ESSAY";
+        public static final String SQL_GET_IGNORED_ESSAY = "GET_IGNORED_ESSAY";
+        public static final String SQL_GET_REPLIED_ESSAY = "GET_REPLIED_ESSAY";
     }
 }

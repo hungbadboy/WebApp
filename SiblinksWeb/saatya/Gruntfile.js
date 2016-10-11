@@ -269,7 +269,12 @@ module.exports = function ( grunt ) {
                       // Leftside bar mentor
                       'src/app/sidebarLeft/sidebarLeftMenu.controller.js',
                       'src/app/admission/video.admission.service.js',
-                      'src/app/admission/video.admission.controller.js'
+                      'src/app/admission/video.admission.controller.js',
+
+                      // upload essay
+                      'src/app/admission/uploadEssay.controller.js',
+                      'src/app/admission/yourEssay.controller.js',
+                      'src/app/admission/uploadEssay.service.js'
                       ],
                 dest: '<%= build_dir %>/src/app/<%= pkg.name %>-<%= pkg.version %>.js'
             },
