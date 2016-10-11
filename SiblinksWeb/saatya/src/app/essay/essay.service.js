@@ -139,5 +139,30 @@ brotServices.factory('EssayService', ['$http', function($http) {
     return NEW_SERVICE_URL + 'essay/getImageUploadEssay/' + eid;
   };
 
+  factory.getNewestEssay = function(uid, offset){
+    return $http({
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'essay/getNewestEssay?userid='+uid+'&offset='+offset+''
+    });
+  };
+  factory.getProcessingEssay = function(uid, offset){
+    return $http({
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'essay/getProcessingEssay?userid='+uid+'&offset='+offset+''
+    });
+  };
+  factory.getIgnoredEssay = function(uid, offset){
+    return $http({
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'essay/getIgnoredEssay?userid='+uid+'&offset='+offset+''
+    });
+  };
+  factory.getRepliedEssay = function(uid, offset){
+    return $http({
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'essay/getRepliedEssay?userid='+uid+'&offset='+offset+''
+    });
+  };
+
   return factory;
 }]);

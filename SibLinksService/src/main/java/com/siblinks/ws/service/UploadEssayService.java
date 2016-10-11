@@ -39,4 +39,12 @@ public interface UploadEssayService {
 	public ResponseEntity<byte[]> getImageUploadEssay(String arId) throws IOException;
 
     public ResponseEntity<Response> getEssayProfile(long userid, long limit, long offset) throws FileNotFoundException;
+
+    public ResponseEntity<Response> getProcessingEssay(long userid, long offset);
+
+    public ResponseEntity<Response> getInoredEssay(long userid, long offset);
+
+    public ResponseEntity<Response> getRepliedEssay(long userid, long offset);
+
+    public ResponseEntity<Response> getNewestEssay(long userid, long offset);
 }

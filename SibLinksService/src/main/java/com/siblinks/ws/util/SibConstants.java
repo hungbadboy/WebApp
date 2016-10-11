@@ -637,5 +637,9 @@ public class SibConstants {
         public static final String SQL_GET_ALL_STUDENT_SUBSCRIBED = "GET_ALL_STUDENT_SUBSCRIBED";
         public static final String SQL_GET_PLAYLIST_INFO_OF_VIDEO = "GET_PLAYLIST_INFO_OF_VIDEO";
         public static final String SQL_DELETE_COMMENT_VIDEO = "DELETE_COMMENT_VIDEO";
+        public static final String SQL_GET_NEWEST_ESSAY = "GET_NEWEST_ESSAY";
+        public static final String SQL_GET_PROCESSING_ESSAY = "GET_PROCESSING_ESSAY";
+        public static final String SQL_GET_IGNORED_ESSAY = "GET_IGNORED_ESSAY";
+        public static final String SQL_GET_REPLIED_ESSAY = "GET_REPLIED_ESSAY";
     }
 }

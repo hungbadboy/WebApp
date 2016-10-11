@@ -60,7 +60,6 @@ import com.siblinks.ws.service.UploadEssayService;
 import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.RandomString;
-import com.siblinks.ws.util.ReadProperties;
 import com.siblinks.ws.util.SibConstants;
 
 /**
@@ -352,8 +351,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         String filename;
         String name;
         String filepath;
-        String directory = ReadProperties.getProperties("directoryUploadEssay");
-        String review = ReadProperties.getProperties("directoryReviewUploadEssay");
+        String directory = env.getProperty("directoryUploadEssay");
+        String review = env.getProperty("directoryReviewUploadEssay");
         String sample = ".doc .docx .pdf .xls .xlsx";
         String params[] = new String[4];
         name = uploadfile.getOriginalFilename();
@@ -577,5 +576,52 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/getNewestEssay", method = RequestMethod.GET)
+    public ResponseEntity<Response> getNewestEssay(final long userid, final long offset) {
+        Object[] queryParams = { userid, offset };
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY, queryParams, "getNewestEssay");
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/getProcessingEssay", method = RequestMethod.GET)
+    public ResponseEntity<Response> getProcessingEssay(final long userid, final long offset) {
+        Object[] queryParams = { userid, offset };
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_PROCESSING_ESSAY, queryParams, "getProcessingEssay");
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/getIgnoredEssay", method = RequestMethod.GET)
+    public ResponseEntity<Response> getInoredEssay(final long userid, final long offset) {
+        Object[] queryParams = { userid, offset };
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY, queryParams, "getIgnoredEssay");
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/getRepliedEssay", method = RequestMethod.GET)
+    public ResponseEntity<Response> getRepliedEssay(final long userid, final long offset) {
+        Object[] queryParams = { userid, offset };
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_REPLIED_ESSAY, queryParams, "getRepliedEssay");
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    private SimpleResponse getEssay(final String entityName, final Object[] param, final String from) {
+        SimpleResponse reponse = null;
+        List<Object> readObject = dao.readObjects(entityName, param);
+        if (readObject != null && readObject.size() > 0) {
+            reponse = new SimpleResponse("" + true, "essay", from, readObject);
+        } else {
+            reponse = new SimpleResponse("" + true, "essay", from, SibConstants.NO_DATA);
+        }
+        return reponse;
     }
 }
