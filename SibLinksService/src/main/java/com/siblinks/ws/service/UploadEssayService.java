@@ -55,4 +55,11 @@ public interface UploadEssayService {
 
     public ResponseEntity<byte[]> getFileReivewUploadEssay(String eid) throws IOException;
 
+    public ResponseEntity<Response> getProcessingEssay(long userid, long offset);
+
+    public ResponseEntity<Response> getInoredEssay(long userid, long offset);
+
+    public ResponseEntity<Response> getRepliedEssay(long userid, long offset);
+
+    public ResponseEntity<Response> getNewestEssay(long userid, long offset);
 }

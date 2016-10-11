@@ -84,10 +84,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     private ObjectDao dao;
 
     @Autowired
-    private Environment environment;
-
-    @Autowired
-    Environment env;
+    private Environment env;
 
     @Override
     @RequestMapping(value = "/download", method = RequestMethod.GET)
@@ -415,8 +412,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         String filename;
         String name;
         String filepath;
-        String directory = environment.getProperty("directoryUploadEssay");
-        String review = environment.getProperty("directoryReviewUploadEssay");
+        String directory = env.getProperty("directoryUploadEssay");
+        String review = env.getProperty("directoryReviewUploadEssay");
         String sample = ".doc .docx .pdf .xls .xlsx";
         String params[] = new String[4];
         name = uploadfile.getOriginalFilename();
@@ -644,8 +641,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     private String validateEssay(final MultipartFile file) {
         String error = "";
         String name = "";
-        String sample = environment.getProperty("file.upload.essay.type");
-        String limitSize = environment.getProperty("file.upload.essay.size");
+        String sample = env.getProperty("file.upload.essay.type");
+        String limitSize = env.getProperty("file.upload.essay.size");
         if (file != null) {
             name = file.getOriginalFilename();
             if (!StringUtil.isNull(name)) {
@@ -660,5 +657,52 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             }
         }
         return error;
+    }
+
+    @Override
+    @RequestMapping(value = "/getNewestEssay", method = RequestMethod.GET)
+    public ResponseEntity<Response> getNewestEssay(final long userid, final long offset) {
+        Object[] queryParams = { userid, offset };
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY, queryParams, "getNewestEssay");
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/getProcessingEssay", method = RequestMethod.GET)
+    public ResponseEntity<Response> getProcessingEssay(final long userid, final long offset) {
+        Object[] queryParams = { userid, offset };
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_PROCESSING_ESSAY, queryParams, "getProcessingEssay");
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/getIgnoredEssay", method = RequestMethod.GET)
+    public ResponseEntity<Response> getInoredEssay(final long userid, final long offset) {
+        Object[] queryParams = { userid, offset };
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY, queryParams, "getIgnoredEssay");
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/getRepliedEssay", method = RequestMethod.GET)
+    public ResponseEntity<Response> getRepliedEssay(final long userid, final long offset) {
+        Object[] queryParams = { userid, offset };
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_REPLIED_ESSAY, queryParams, "getRepliedEssay");
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    private SimpleResponse getEssay(final String entityName, final Object[] param, final String from) {
+        SimpleResponse reponse = null;
+        List<Object> readObject = dao.readObjects(entityName, param);
+        if (readObject != null && readObject.size() > 0) {
+            reponse = new SimpleResponse("" + true, "essay", from, readObject);
+        } else {
+            reponse = new SimpleResponse("" + true, "essay", from, SibConstants.NO_DATA);
+        }
+        return reponse;
     }
 }
