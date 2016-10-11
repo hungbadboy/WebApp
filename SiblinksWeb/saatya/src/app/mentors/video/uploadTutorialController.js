@@ -166,6 +166,10 @@ brotControllers.controller('UploadTutorialController',
         check = false;
         $scope.error = "Please input valid link. \n";
         angular.element('#txtUploadLink').trigger('focus');
+      } else if (description && description.length > 1020) {
+        check = false;
+        $scope.error = "Description cannot longer than 1024 characters. \n";
+        angular.element('#txtUploadDescription').trigger('focus');        
       } else if ($scope.uploadTutSubject == 0) {
         check = false;
         $scope.error = "Please select subject. \n";
