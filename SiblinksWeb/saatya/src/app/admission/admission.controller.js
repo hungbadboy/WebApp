@@ -23,6 +23,7 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 	$scope.stepAdmission = 0;
 	$scope.countNext = 0;
 	$scope.indexAdmission = 0;
+	$scope.isShowUploadEssay = false;
 	
 	init();
 	function init() {
@@ -111,9 +112,17 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 		 resetAtributes();
 		 $scope.stepAdmission = step;
 		 $scope.indexAdmission = step-1;
-		 fillAdmissionContent();
+		 if($scope.listAdmission.length != step){
+			 fillAdmissionContent();
+			 $scope.isShowUploadEssay = false;
+		 }
+		 else {
+			 $scope.isShowUploadEssay = true;
+		 }
+
 		 angular.element('.step li').removeClass('active');
 		 angular.element('#admission' + step).addClass('active');
+
 	 }
 	 
 	 /**

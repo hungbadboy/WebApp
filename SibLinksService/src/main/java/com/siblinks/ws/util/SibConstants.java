@@ -529,6 +529,7 @@ public class SibConstants {
         public static final String SQL_GET_VIDEO_ADMISSION_BY_ADMISSION_ID = "GET_VIDEO_ADMISSION_BY_ADMISSION_ID";
         public static final String SQL_SIB_RATE_UPDATE_VIDEO_ADMISSION = "SIB_RATE_UPDATE_VIDEO_ADMISSION";
         public static final String SQL_SIB_NUM_REPLIES_UPDATE_DELETE = "SIB_NUM_REPLIES_UPDATE_DELETE";
+        public static final String SQL_STUDENT_UPLOAD_ESSAY = "STUDENT_UPLOAD_ESSAY";
 
 
     }

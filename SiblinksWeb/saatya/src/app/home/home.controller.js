@@ -197,7 +197,7 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
                     window.location.reload();
                 }
                 else {
-                    $scope.askErrorMsg =data.data.request_data_result;
+                    $scope.askErrorMsg = data.data.request_data_result;
                 }
             });
 

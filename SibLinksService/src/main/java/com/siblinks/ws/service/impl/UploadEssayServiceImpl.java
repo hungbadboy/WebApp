@@ -34,6 +34,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,12 +61,12 @@ import com.siblinks.ws.service.UploadEssayService;
 import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.RandomString;
-import com.siblinks.ws.util.ReadProperties;
 import com.siblinks.ws.util.SibConstants;
+import com.siblinks.ws.util.StringUtil;
 
 /**
- * 
- * 
+ *
+ *
  * @author hungpd
  * @version 1.0
  */
@@ -81,6 +82,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
     @Autowired
     private ObjectDao dao;
+
+    @Autowired
+    private Environment environment;
 
     @Autowired
     Environment env;
@@ -216,9 +220,6 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
             String urlFile = (String) msg.getBody().getRequest_data_result();
             String review = env.getProperty("directoryReviewDefaultUploadEssay");
-            // int index = url.indexOf(" ");
-            // String urlFile = url.substring(0, index);
-            // String review = url.substring(index + 1, url.length());
 
             if (msg.getBody().getStatus() == "true") {
                 try {
@@ -251,6 +252,64 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             status = false;
             statusMessage = "You failed to upload " + name + " because the file was empty.";
         }
+
+        SimpleResponse reponse = new SimpleResponse("" + status, "essay", "upload", statusMessage);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/uploadEssayStudent", method = RequestMethod.POST)
+    public ResponseEntity<Response> uploadEssayStudent(@RequestParam("desc") final String desc,
+            @RequestParam("userId") final String userId, @RequestParam("fileName") final String fileName,
+            @RequestParam("title") final String title, @RequestParam("schoolId") final String schoolId,
+            @RequestParam("majorId") final String majorId, @RequestParam("file") final MultipartFile file)
+            throws FileNotFoundException {
+
+        if (!AuthenticationFilter.isAuthed(context)) {
+            ResponseEntity<Response> entity = new ResponseEntity<Response>(
+                                                                           new SimpleResponse(
+                                                                                              "" +
+                                                                                              Boolean.FALSE,
+                                                                                              "Authentication required."),
+                                                                           HttpStatus.FORBIDDEN);
+            return entity;
+        }
+
+        String statusMessage = "";
+        boolean status = true;
+        statusMessage = validateEssay(file);
+        if (!file.isEmpty() && StringUtil.isNull(statusMessage)) {
+
+            /// ResponseEntity<Response> msg = uploadFile(file);
+
+            // String urlFile = (String) msg.getBody().getRequest_data_result();
+            // if (msg.getBody().getStatus() == "true") {
+                try {
+                    boolean msgs = true;
+                Object[] queryParams = { userId, file.getInputStream(), desc, file.getContentType(), fileName, title, file
+                    .getSize(), schoolId, majorId };
+                    msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_STUDENT_UPLOAD_ESSAY, queryParams);
+                    if (msgs) {
+                        statusMessage = "Done";
+                    } else {
+                        status = false;
+                        statusMessage = "You failed to upload ";
+                    }
+
+                } catch (Exception e) {
+                    status = false;
+                    statusMessage = "You failed to upload " + file.getOriginalFilename() + " => " + e.getMessage();
+                }
+            } else {
+                status = false;
+            // statusMessage = (String) msg.getBody().getRequest_data_result();
+            }
+        // } else {
+        // status = false;
+        // statusMessage = "You failed to upload " + file.getOriginalFilename()
+        // + " because the file was empty.";
+        // }
 
         SimpleResponse reponse = new SimpleResponse("" + status, "essay", "upload", statusMessage);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -352,15 +411,14 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         String filename;
         String name;
         String filepath;
-        String directory = ReadProperties.getProperties("directoryUploadEssay");
-        String review = ReadProperties.getProperties("directoryReviewUploadEssay");
+        String directory = environment.getProperty("directoryUploadEssay");
+        String review = environment.getProperty("directoryReviewUploadEssay");
         String sample = ".doc .docx .pdf .xls .xlsx";
         String params[] = new String[4];
         name = uploadfile.getOriginalFilename();
         int index = name.indexOf(".");
         name = name.substring(index, name.length());
-        name.toLowerCase();
-        boolean status = sample.contains(name);
+        boolean status = sample.contains(name.toLowerCase());
         if (directory != null && status) {
             try {
                 RandomString randomName = new RandomString();
@@ -368,7 +426,13 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 filename = rdn + name;
                 filepath = Paths.get(directory, filename).toString();
                 // Save the file locally
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+                File file = new File(filepath);
+
+                File parentDir = file.getParentFile();
+                if (!parentDir.exists()) {
+                    parentDir.mkdirs();
+                }
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
                 stream.write(uploadfile.getBytes());
                 stream.close();
 
@@ -493,7 +557,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     @RequestMapping(value = "/getEssayCommentsPN", method = RequestMethod.POST)
     public ResponseEntity<Response> getEssayCommentsPN(@RequestBody final RequestData request) {
 
-        
+
 
         // DaoFactory factory = DaoFactory.getDaoFactory();
         //
@@ -553,7 +617,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.siblinks.ws.service.UploadEssayService#getEssayProfile(long,
      * long, long)
      */
@@ -577,5 +641,27 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
+    }
+
+    // validate essay type
+    private String validateEssay(final MultipartFile file) {
+        String error = "";
+        String name = "";
+        String sample = environment.getProperty("file.upload.essay.type");
+        String limitSize = environment.getProperty("file.upload.essay.size");
+        if (file != null) {
+            name = file.getOriginalFilename();
+            if (!StringUtil.isNull(name)) {
+                String nameExt = FilenameUtils.getExtension(name.toLowerCase());
+                boolean status = sample.contains(nameExt);
+                if (!status) {
+                    return "Error Format";
+                }
+            }
+            if (file.getSize() > Long.parseLong(limitSize)) {
+                error = "File over 10M";
+            }
+        }
+        return error;
     }
 }
