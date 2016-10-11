@@ -96,9 +96,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
         try {
             String entityName = SibConstants.SqlMapper.SQL_STUDENT_UPLOAD;
-            if ("PENDING".equalsIgnoreCase(status)) {
+            if ("W".equalsIgnoreCase(status)) {
                 entityName = SibConstants.SqlMapper.SQL_STUDENT_DOWNLOAD;
-            } else if ("REVIEWED".equalsIgnoreCase(status)) {
+            } else if ("A".equalsIgnoreCase(status)) {
                 entityName = SibConstants.SqlMapper.SQL_MENTOR_DOWNLOAD;
             }
             Object[] queryParams = { userId, essayId };
@@ -175,10 +175,14 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 String status = dataMap.get("status").toString();
                 String uploadEssayId = dataMap.get("uploadEssayId").toString();
                 String uid = request.getRequest_data().getUid();
-                if ("PENDING".equalsIgnoreCase(status)) {
-                    dataMap.put("downloadLink", directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=" + status);
+                dataMap
+                    .put("downloadYourEssay", directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=" + status);
+                if (!"W".equalsIgnoreCase(status)) {
+                    dataMap.put(
+                        "downloadYourReview",
+                        directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=" + status);
                 } else {
-                    dataMap.put("downloadLink", "");
+                    dataMap.put("downloadYourReview", "");
                 }
             }
         }
@@ -462,26 +466,21 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     }
 
     @Override
-    @RequestMapping(value = "/getEssay", method = RequestMethod.POST)
-    public ResponseEntity<Response> getEssay(@RequestBody final RequestData request) throws FileNotFoundException {
+    @RequestMapping(value = "/getEssaybByStudentId", method = RequestMethod.POST)
+    public ResponseEntity<Response> getEssaybByStudentId(@RequestBody final RequestData request) throws FileNotFoundException {
 
-        String entityName = null;
-
-        CommonUtil util = CommonUtil.getInstance();
-
-        Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
-
-        Object[] queryParams = null;
-        if ("M".equalsIgnoreCase(request.getRequest_data().getUsertype())) {
-            entityName = SibConstants.SqlMapper.SQL_GET_ALL_ESAY;
-            queryParams = new Object[] { Integer.parseInt(map.get(Parameters.FROM)), Integer.parseInt(map.get(Parameters.TO)) };
-        } else {
-            entityName = SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT;
-            queryParams = new Object[] { request.getRequest_data().getUid(), map.get(Parameters.FROM), map.get(Parameters.TO) };
+        String limit = request.getRequest_data().getLimit();
+        String offset = request.getRequest_data().getOffset();
+        Object[] queryParams = { request.getRequest_data().getUid() };
+        String whereClause = "";
+        if (!StringUtil.isNull(limit)) {
+            whereClause += " LIMIT " + limit;
         }
-
+        if (!StringUtil.isNull(offset)) {
+            whereClause += " OFFSET " + offset;
+        }
         List<Object> readObject = null;
-        readObject = dao.readObjects(entityName, queryParams);
+        readObject = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT, whereClause, queryParams);
         if (readObject != null) {
             Map dataMap = null;
             String directory = env.getProperty("directoryDowloadEssay");
@@ -491,22 +490,19 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 String status = dataMap.get("status").toString();
                 String uploadEssayId = dataMap.get("uploadEssayId").toString();
                 String uid = request.getRequest_data().getUid();
-                if ("PENDING".equalsIgnoreCase(status)) {
-                    dataMap.put("downloadLink", directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=" + status);
-                } else {
-                    dataMap.put("downloadLink", "");
+                dataMap
+                    .put("downloadYourEssay", directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=W");
+                if (!"W".equalsIgnoreCase(status)) {
+                    dataMap.put(
+                        "downloadYourReview",
+                        directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=A");
                 }
             }
         }
 
         String count = null;
         if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
-            if ("M".equalsIgnoreCase(request.getRequest_data().getUsertype())) {
-                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_ESAY_COUNT, new Object[]{});
-            } else {
-                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT_COUNT, queryParams);
-            }
-
+            count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT_COUNT, queryParams);
         }
 
         SimpleResponse reponse = new SimpleResponse(
@@ -536,10 +532,11 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 String status = dataMap.get("status").toString();
                 String uploadEssayId = dataMap.get("uploadEssayId").toString();
                 String uid = request.getRequest_data().getUid();
-                if ("PENDING".equalsIgnoreCase(status)) {
-                    dataMap.put("downloadLink", directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=" + status);
-                } else {
-                    dataMap.put("downloadLink", "");
+                dataMap.put("downloadLink", directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=W");
+                if ("A".equalsIgnoreCase(status)) {
+                    dataMap.put(
+                        "downloadReviewdLink",
+                        directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=A");
                 }
             }
         }
@@ -585,8 +582,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     }
 
     @Override
-    @RequestMapping(value = "/getImageUploadEssay/{eid}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getImageUploadEssay(@PathVariable(value = "eid") final String eid) throws IOException {
+    @RequestMapping(value = "/getFileReivewUploadEssay/{eid}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getFileReivewUploadEssay(@PathVariable(value = "eid") final String eid) throws IOException {
 
         Object[] queryParams = { eid };
         List<Object> readObject = null;
