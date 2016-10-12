@@ -139,37 +139,55 @@ brotControllers.controller('PlaylistController',
 
     $scope.delete = function(p){
       if (p.count_videos > 0) {
-        alert('Please remove all videos in the playlist first.');
+        var message = 'Please remove all videos in the playlist first.';
+        showModal(message);
       } else{
-        if (confirm("Are you sure?")) {
-          PlaylistService.deletePlaylist(p.plid, userId).then(function(data){
-            if (data.data.status) {
-               loadPlaylist();         
-            }
-          });
-        }
+        PlaylistService.deletePlaylist(p.plid, userId).then(function(data){
+          if (data.data.status) {
+             loadPlaylist();         
+          }
+        });
       }      
     }
 
     $scope.deleteMultiplePlaylist = function(){
       var selectedPlaylist = checkSelectedPlaylist();
       if (selectedPlaylist.length > 0) {
-        if (confirm("Are you sure?")) {
-          PlaylistService.deleteMultiplePlaylist(selectedPlaylist, userId).then(function(data){
-            loadPlaylist();
-          });
-        }        
+        PlaylistService.deleteMultiplePlaylist(selectedPlaylist, userId).then(function(data){
+          loadPlaylist();
+        });
       }
+    }
+
+    function showModal(message){
+      var ModalInstanceCtrl = function($scope, $modalInstance) {
+            $scope.ok = function() {
+                $modalInstance.close();
+            };
+        };
+        
+        var modalHtml = ' <div class="modal-body">' + message + '</div>';
+        modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
+            'OK</button></div>';
+
+        var modalInstance = $modal.open({
+            template: modalHtml,
+            size: 'sm',
+            controller: ModalInstanceCtrl
+        });
     }
 
     function checkSelectedPlaylist(){
       var selectedPlaylist = [];
+      var status = true;
       for (var i = 0; i < $scope.playlist.length; i++) {
         var data = $scope.playlist[i];
         if (!!data.selected) {
           if (data.count_videos > 0) {
-            alert('Please remove all videos in the playlist first.');
-             break;
+            status = false;
+            var message = 'Please remove all videos in the playlist first.';
+            showModal(message);
+            break;
           } else
             selectedPlaylist.push(data.plid);
         } else{
@@ -179,7 +197,10 @@ brotControllers.controller('PlaylistController',
             }
         }
       }
-      return selectedPlaylist;
+      if (!status) 
+        return [];
+      else
+        return selectedPlaylist;
     }
 
     $scope.loadPlaylistBySubject = function(e){
@@ -349,5 +370,7 @@ brotControllers.controller('PlaylistController',
       $('#changeImg').val('');
       $('#txtDescription').val('')
       $scope.playlistSubject = [0];
+      $scope.stepsModel.splice(0, 1);
+      file = null;
     }
 }]);

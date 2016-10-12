@@ -1,6 +1,4 @@
-<!-- Sidebar left menu -->
 <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
-<!-- /End Sidebar left menu -->    
 <div class="content">
     <div class="center-content">
         <div class="center-content-wrapper">
@@ -15,7 +13,6 @@
                                 <div class="col-md-5 search">
                                     <form class="navbar-form" role="search">
                                         <div class="input-group">                                                        
-                                            <!-- <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" ng-enter="search()"> -->
                                             <div id="srch-term" angucomplete-alt id="srch-term" ng-enter="search()" placeholder="Search" pause="50" selected-object="onSelect"
                                                 local-data="listAllVideos" search-fields="title" title-field="title"
                                                 minlength="1" input-class="form-control input-search"
@@ -34,7 +31,7 @@
                             </div>
                         </div>
                         <div class="btn-mg">
-                            <button class="btn-delete" ng-click="deleteMultiple()">Delete</button>
+                            <button class="btn-delete" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteMultiple()">Delete</button>
                             <!-- <button class="add-play" ng-click="addMultipleToPlaylist()">Add to playlist</button> -->
                         </div>
                         <div class="main-manager-video">
@@ -81,8 +78,8 @@
                                         <div class="box-ac">
                                             <ul class="list-ac">
                                                 <li><a href="" ng-click="edit(v.vid)">Edit</a></li>
-                                                <li><a href="" ng-click="addToPlaylist(v)">Add playlist</a></li>
-                                                <li><a href="" ng-click="deleteVideo(v.vid)">Delete</a></li>
+                                                <li><a href="" ng-click="addToPlaylist(v)">Add to playlist</a></li>
+                                                <li><a href="" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteVideo(v.vid)">Delete</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -100,7 +97,7 @@
                                 <div class="text-ac">Action</div>
                             </div>
                             <div class="btn-mg">
-                                <button class="btn-delete" ng-click="deleteMultiple()">Delete</button>
+                                <button class="btn-delete" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteMultiple()">Delete</button>
                                 <!-- <button class="add-play" ng-click="addMultipleToPlaylist()">Add to playlist</button> -->
                             </div>
                         </div>
@@ -110,6 +107,4 @@
         </div>
     </div>                
 </div>
-<!-- Sidebar right -->
 <div id="sidebar-right" ng-include="sidebarRight"></div>
-<!-- End Sidebar right -->

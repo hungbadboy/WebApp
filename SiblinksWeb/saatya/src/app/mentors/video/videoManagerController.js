@@ -131,13 +131,11 @@ brotControllers.controller('VideoManagerController',
       var selectedVideos = checkSelectedVideos();
 
       if (selectedVideos.length > 0) {
-        if (confirm("Are you sure?")) {
-          VideoService.deleteMultipleVideo(selectedVideos, userId).then(function(data){
-            if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
-              loadVideos();
-            }
-          });
-        }
+        VideoService.deleteMultipleVideo(selectedVideos, userId).then(function(data){
+          if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+            loadVideos();
+          }
+        });
       }
     }
 
@@ -157,13 +155,11 @@ brotControllers.controller('VideoManagerController',
     }
 
     $scope.deleteVideo = function(vid){
-      if (confirm("Are you sure?")) {
-        VideoService.deleteVideo(vid, userId).then(function(data){
-          if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
-            loadVideos();
-          }
-        });
-      }
+      VideoService.deleteVideo(vid, userId).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+          loadVideos();
+        }
+      });
     }
 
     $scope.search = function(){
@@ -182,8 +178,23 @@ brotControllers.controller('VideoManagerController',
     }
 
     $scope.addToPlaylist = function(v){
-      if (v.playlistname != 'none') 
-        alert("This video already in another playlist.");
+      if (v.playlistname != 'None'){
+        var ModalInstanceCtrl = function($scope, $modalInstance) {
+            $scope.ok = function() {
+                $modalInstance.close();
+            };
+        };
+        var message = 'This video already in another playlist.';
+        var modalHtml = ' <div class="modal-body">' + message + '</div>';
+        modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
+            'OK</button></div>';
+
+        var modalInstance = $modal.open({
+            template: modalHtml,
+            size: 'sm',
+            controller: ModalInstanceCtrl
+        });
+      }
       else{
         var selectedVideos = [v.vid];
         openAddPlaylistPopup(selectedVideos);
