@@ -16,8 +16,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         var listDefaultSubjectId;
         $scope.subjectsChild = [];
         var oldImagePath = "";
-        var MAX_SIZE_IMG_UPLOAD = 10485760;
-        var MAX_IMAGE = 4;
         $scope.currentTab = 'all';
         $scope.textSearch = "";
         $scope.notFound = "";
@@ -364,7 +362,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
 
             if(totalSize > MAX_SIZE_IMG_UPLOAD){
-                $scope.QAErrorMsg='Image over 10M';
+                $scope.QAErrorMsg='Image over 5M';
                 $rootScope.myVarU = !$scope.myVarU;
                 $timeout(function () {
                     $rootScope.myVarU = false;

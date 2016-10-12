@@ -14,10 +14,6 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
         $scope.questionIndex = "What do you want to ask...?";
         $scope.subjects = JSON.parse(localStorage.getItem('subjects'));
 
-        //10M
-        var MAX_SIZE_IMG_UPLOAD = 10485760;
-        var MAX_IMAGE = 4;
-
         init();
 
         function init() {
@@ -178,7 +174,7 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
             }
 
             if(totalSize > MAX_SIZE_IMG_UPLOAD){
-                $scope.askErrorMsg='Image over 10M';
+                $scope.askErrorMsg='Image over 5Mb';
                 $rootScope.myVarU = !$scope.myVarU;
                 $timeout(function () {
                     $rootScope.myVarU = false;
