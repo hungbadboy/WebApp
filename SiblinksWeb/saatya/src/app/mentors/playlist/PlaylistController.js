@@ -101,10 +101,6 @@ brotControllers.controller('PlaylistController',
     
     function parseData(data){
         for (var i = 0; i < data.length; i++) {
-            data[i].numView = data[i].numView == null ? 0 : data[i].numView;
-            data[i].numComment = data[i].numComment == null ? 0 : data[i].numComment;
-            data[i].numLike = data[i].numLike == null ? 0 : data[i].numLike;
-            data[i].numRate = data[i].numRate == null ? 0 : data[i].numRate;
             data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
             data[i].selected = false;
         }

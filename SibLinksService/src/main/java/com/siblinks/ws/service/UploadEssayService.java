@@ -62,4 +62,6 @@ public interface UploadEssayService {
     public ResponseEntity<Response> getRepliedEssay(long userid, int offset);
 
     public ResponseEntity<Response> getNewestEssay(long userid, int offset);
+
+    public ResponseEntity<Response> updateStatusEssay(RequestData request);
 }

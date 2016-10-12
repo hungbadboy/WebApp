@@ -642,5 +642,6 @@ public class SibConstants {
         public static final String SQL_GET_PROCESSING_ESSAY = "GET_PROCESSING_ESSAY";
         public static final String SQL_GET_IGNORED_ESSAY = "GET_IGNORED_ESSAY";
         public static final String SQL_GET_REPLIED_ESSAY = "GET_REPLIED_ESSAY";
+        public static final String SQL_UPDATE_STATUS_ESSAY = "UPDATE_STATUS_ESSAY";
     }
 }

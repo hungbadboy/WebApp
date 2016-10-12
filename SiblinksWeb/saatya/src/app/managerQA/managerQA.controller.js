@@ -34,6 +34,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
 
         function init() {
+            $('#autocompleteSubsQA_dropdown').width($('#autocompleteSubsQA').width());
             var offset = 0;
             managerQAService.getListQuestionQA(selectedSubsId, userId, offset, $scope.currentTab, LIMIT,$scope.textSearch).then(function (data) {
                 listDefaultSubjectId = getSubjectNameByIdQA(defaultSubjectId, allSubjects);
