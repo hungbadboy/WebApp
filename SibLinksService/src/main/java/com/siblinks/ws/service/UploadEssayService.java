@@ -55,11 +55,11 @@ public interface UploadEssayService {
     public ResponseEntity<Response> uploadEssayStudent(String desc, String userId, String fileName, String title, String schoolId,
             String majorId, MultipartFile file) throws FileNotFoundException;
 
-    public ResponseEntity<Response> getProcessingEssay(long userid, long offset);
+    public ResponseEntity<Response> getProcessingEssay(long userid, int offset);
 
-    public ResponseEntity<Response> getInoredEssay(long userid, long offset);
+    public ResponseEntity<Response> getInoredEssay(long userid, int offset);
 
-    public ResponseEntity<Response> getRepliedEssay(long userid, long offset);
+    public ResponseEntity<Response> getRepliedEssay(long userid, int offset);
 
-    public ResponseEntity<Response> getNewestEssay(long userid, long offset);
+    public ResponseEntity<Response> getNewestEssay(long userid, int offset);
 }
