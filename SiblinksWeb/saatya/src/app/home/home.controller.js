@@ -130,7 +130,7 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
         }
         $scope.redirectForum = function () {
             // get question of student
-
+            $rootScope.$broadcast('open');
         	if (selectCategory == null || selectCategory === undefined || selectCategory.originalObject == null) {
         		$scope.askErrorMsg='Please choose category';
         		$("#autocompleteCate_value").focus();
@@ -199,6 +199,7 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
                 else {
                     $scope.askErrorMsg = data.data.request_data_result;
                 }
+                $rootScope.$broadcast('close');
             });
 
           

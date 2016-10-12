@@ -86,8 +86,7 @@ brotControllers
 
 
                     });
-                    QuestionsService.updateViewQuestion(question_id, "view").then(function (data) {
-                    });
+
                     var listAnswer = [];
                     QuestionsService.getAnswerByQid(question_id, type, "", "",userId).then(function (data) {
 
@@ -179,6 +178,7 @@ brotControllers
 
                 }
                 $scope.deleteQuestion = function (qid) {
+                    $rootScope.$broadcast('open');
                         QuestionsService.removePost(qid).then(function (data) {
                             if (data.data.status == "true") {
                                 window.location.href = '#/ask_a_question/-1';
@@ -186,6 +186,7 @@ brotControllers
                             else {
                                $scope.errorMessage = "Can't delete question";
                             }
+                            $rootScope.$broadcast('close');
                         });
 
                 }
@@ -201,6 +202,7 @@ brotControllers
 
                 $scope.updateQuestion = function () {
                     // detail question
+                    $rootScope.$broadcast('open');
                     if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
                         $scope.askErrorMsg='Please choose category';
                         $("#autocompleteCate_value").focus();
@@ -278,6 +280,7 @@ brotControllers
                         else {
                             $scope.askErrorMsg =data.data.request_data_result;
                         }
+                        $rootScope.$broadcast('close');
                     });
 
 
@@ -304,7 +307,8 @@ brotControllers
                 }
 
                 $scope.redirectForum = function () {
-                    // detail question
+                    // add question detail
+                    $rootScope.$broadcast('open');
                     if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
                         $scope.askErrorMsg='Please choose category';
                         $("#autocompleteCate_value").focus();
@@ -374,6 +378,7 @@ brotControllers
                         else {
                             $scope.askErrorMsg =data.data.request_data_result;
                         }
+                        $rootScope.$broadcast('close');
                     });
 
 

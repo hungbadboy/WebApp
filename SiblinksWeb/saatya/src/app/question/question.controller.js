@@ -602,6 +602,7 @@ brotControllers
                     }
                 };
                 $scope.deleteQuestion = function (qid) {
+                    $rootScope.$broadcast('open');
 	                QuestionsService.removePost(qid).then(function (data) {
 	                    if (data.data.status == "true") {
 	                        window.location.href = '#/ask_a_question/-1';
@@ -609,6 +610,7 @@ brotControllers
 	                    } else {
 	                       $scope.errorMessage = "Can't delete question";
 	                    }
+                        $rootScope.$broadcast('close');
 	                });
                 }
  }]);
