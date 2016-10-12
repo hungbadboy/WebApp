@@ -30,9 +30,7 @@ import com.siblinks.ws.security.SibSecurityConfig;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = { "com.siblinks.ws" })
-@PropertySources({ @PropertySource("classpath:application.properties"),
-	@PropertySource("classpath:appconfig_${sib.env}.properties"), @PropertySource("classpath:configuration_${sib.env}.properties"),
-    @PropertySource("classpath:DataServiceSQLMap.properties"), @PropertySource("classpath:DataServiceSQLMapExt.properties"), @PropertySource("classpath:SQL_DAM.properties"), @PropertySource("classpath:SQL_TA.properties") })
+@PropertySources({ @PropertySource("classpath:application.properties"), @PropertySource("classpath:appconfig_${sib.env}.properties"), @PropertySource("classpath:configuration_${sib.env}.properties"), @PropertySource("classpath:DataServiceSQLMap.properties"), @PropertySource("classpath:DataServiceSQLMapExt.properties"), @PropertySource("classpath:SQL_DAM.properties"), @PropertySource("classpath:SQL_TA.properties") })
 @SpringBootApplication
 @EnableCaching
 public class Application {
@@ -70,19 +68,17 @@ public class Application {
         dataSource.setJdbcUrl(environment.getRequiredProperty("disp.db.url"));
         dataSource.setUsername(environment.getRequiredProperty("disp.db.user"));
         dataSource.setPassword(environment.getRequiredProperty("disp.db.password"));
-        dataSource.setIdleConnectionTestPeriod(Integer.valueOf(environment.getProperty("disp.db.idleMaxAgeInMinutes")));
-        dataSource.setIdleMaxAge(Long.valueOf(environment
-            .getRequiredProperty("disp.db.idleConnectionTestPeriodInMinutes")));
+        dataSource.setIdleConnectionTestPeriod(Integer.valueOf(environment
+            .getProperty("disp.db.idleConnectionTestPeriodInMinutes")));
+        dataSource.setIdleMaxAge(Long.valueOf(environment.getRequiredProperty("disp.db.idleMaxAgeInMinutes")));
         dataSource.setMaxConnectionsPerPartition(Integer.valueOf(environment
             .getRequiredProperty("disp.db.maxConnectionsPerPartition")));
         dataSource.setMinConnectionsPerPartition(Integer.valueOf(environment
             .getRequiredProperty("disp.db.minConnectionsPerPartition")));
         dataSource.setPartitionCount(Integer.valueOf(environment.getRequiredProperty("disp.db.partitionCount")));
         dataSource.setAcquireIncrement(Integer.valueOf(environment.getRequiredProperty("disp.db.acquireIncrement")));
-        dataSource
-            .setStatementCacheSize(Integer.valueOf(environment.getRequiredProperty("disp.db.statementsCacheSize")));
-        dataSource.setReleaseHelperThreads(Integer.valueOf(environment
-            .getRequiredProperty("disp.db.releaseHelperThreads")));
+        dataSource.setStatementCacheSize(Integer.valueOf(environment.getRequiredProperty("disp.db.statementsCacheSize")));
+        dataSource.setReleaseHelperThreads(Integer.valueOf(environment.getRequiredProperty("disp.db.releaseHelperThreads")));
         return dataSource;
     }
 
