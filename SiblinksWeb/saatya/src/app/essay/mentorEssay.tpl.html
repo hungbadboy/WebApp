@@ -33,14 +33,14 @@
                                 <div class="tab-content">
                                     <div class="tab-pane" ng-class="{'active': tabpane == 1}">
                                         <div class="group-item-qa" ng-if="newestEssays">
-                                            <div class="item-qa clearfix">
+                                            <div class="item-qa clearfix" ng-repeat="e in newestEssays">
                                                 <div class="col-md-3">
-                                                    <a href=""><a href=""><img src="assets/images/user.jpg" alt=""></a></a>
+                                                    <a href=""><img src="{{e.imageUrl}}" alt=""></a>
                                                 </div>
                                                 <div class="col-md-9 bx-dt-qa">
-                                                    <h5>Student name <span class="time">Asked 5 mins ago</span></h5>
-                                                    <b>Essay title</b>
-                                                    <p>Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac</p>
+                                                    <h5><a href="">{{e.fullName}} </a><span class="time">{{e.timeStamp}} ago</span></h5>
+                                                    <b>{{e.nameOfEssay}}</b>
+                                                    <p>{{e.descriptionOfEssay}}</p>
                                                     <div class="clearfix bt-item">
                                                         <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Process</div>
                                                         <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>

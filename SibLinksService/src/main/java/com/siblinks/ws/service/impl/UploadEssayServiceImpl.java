@@ -661,43 +661,50 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
     @Override
     @RequestMapping(value = "/getNewestEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> getNewestEssay(final long userid, final long offset) {
-        Object[] queryParams = { userid, offset };
-        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY, queryParams, "getNewestEssay");
+    public ResponseEntity<Response> getNewestEssay(final long userid, final int offset) {
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY, userid, offset, "getNewestEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
     @Override
     @RequestMapping(value = "/getProcessingEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> getProcessingEssay(final long userid, final long offset) {
-        Object[] queryParams = { userid, offset };
-        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_PROCESSING_ESSAY, queryParams, "getProcessingEssay");
+    public ResponseEntity<Response> getProcessingEssay(final long userid, final int offset) {
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_PROCESSING_ESSAY, userid, offset, "getProcessingEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
     @Override
     @RequestMapping(value = "/getIgnoredEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> getInoredEssay(final long userid, final long offset) {
-        Object[] queryParams = { userid, offset };
-        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY, queryParams, "getIgnoredEssay");
+    public ResponseEntity<Response> getInoredEssay(final long userid, final int offset) {
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY, userid, offset, "getIgnoredEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
     @Override
     @RequestMapping(value = "/getRepliedEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> getRepliedEssay(final long userid, final long offset) {
-        Object[] queryParams = { userid, offset };
-        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_REPLIED_ESSAY, queryParams, "getRepliedEssay");
+    public ResponseEntity<Response> getRepliedEssay(final long userid, final int offset) {
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_REPLIED_ESSAY, userid, offset, "getRepliedEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
-    private SimpleResponse getEssay(final String entityName, final Object[] param, final String from) {
+    private SimpleResponse getEssay(final String entityName, final long userid, final int offset, final String from) {
         SimpleResponse reponse = null;
-        List<Object> readObject = dao.readObjects(entityName, param);
+        Object[] params = new Object[] { userid };
+        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_PROFILE, params);
+        long schoolId = -1;
+        for (Object object : readObject) {
+            Map<String, Object> map = (Map<String, Object>) object;
+            try {
+                schoolId = Long.parseLong(map.get("school").toString());
+            } catch (NumberFormatException e) {
+            }
+        }
+        params = new Object[] { schoolId, offset };
+        readObject = dao.readObjects(entityName, params);
         if (readObject != null && readObject.size() > 0) {
             reponse = new SimpleResponse("" + true, "essay", from, readObject);
         } else {

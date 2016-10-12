@@ -58,13 +58,14 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
         $scope.newestEssays = formatEssay(result);
       } else
         $scope.newestEssays = null;
+      console.log($scope.newestEssays);
     });
   }
 
   function formatEssay(data){
     for (var i = data.length - 1; i >= 0; i--) {
-      data[i].docSubmittedDate = convertUnixTimeToTime(data[i].docSubmittedDate);
-      data[i].fullName = data[i].fistName + ' ' + data[i].lastName;
+      data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
+      data[i].fullName = data[i].firstName + ' ' + data[i].lastName;
     }
     return data;
   }
