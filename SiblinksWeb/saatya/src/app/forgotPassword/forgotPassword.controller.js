@@ -1,5 +1,5 @@
 //=========================================== FOGETPASSWORD.CONTROLLER.JS==============
-brotApp.controller('ForgotPassword', function($scope, $http) {
+brotApp.controller('ForgotPassword', function($scope, $rootScope, $http) {
   $scope.showItem = true;
   $scope.errormsg = "";
   $scope.sucessmsg= "";
@@ -12,7 +12,7 @@ brotApp.controller('ForgotPassword', function($scope, $http) {
       $scope.errormsg = 'Email address not valid';
       return;
     }
-    
+    $rootScope.$broadcast('open');
     $http({
       method: 'POST',
       url: NEW_SERVICE_URL + 'contact/forgotPassword',
@@ -31,6 +31,10 @@ brotApp.controller('ForgotPassword', function($scope, $http) {
         } else {
         	$scope.errormsg = 'Sorry, SibLinks doesn\'t recognize that account';
         }
+        
+    }).finally(function() {
+    	$rootScope.$broadcast('close');
+    	return;
     });
   };
 });

@@ -14,7 +14,7 @@ brotControllers.run(function ($templateCache) {
 var brotServices = angular.module('brotServices', ['ngResource']);
 //var suggestSearch = angular.module('suggestSearch', ['autocomplete']);
 
-brotApp.controller('MainController', function($scope, $http, $location) {
+brotApp.controller('MainController', function($scope, $http, $location, HomeService) {
 	   //your code here
 	  $scope.title = "Main";
 	  $scope.idbody ="";
@@ -24,7 +24,8 @@ brotApp.controller('MainController', function($scope, $http, $location) {
 	
 	  var userId = "";
       var userType = "";
-      
+      // Initial get Category
+      init();
       
       if (localStorage.getItem('userId') !== undefined || localStorage.getItem('userId') != 'undefined') {
           userId = localStorage.getItem('userId');
@@ -75,6 +76,18 @@ brotApp.controller('MainController', function($scope, $http, $location) {
 	  $scope.topMentor="src/app/topMentor/topMentors.tpl.html";
 	  $scope.topVideo="src/app/topVideo/topVideos.tpl.html";
 	  $scope.subscribed="src/app/subscribed/subscribed.tpl.html";
+	  
+	  function init() {
+          if (localStorage.getItem('subjects') == null || localStorage.getItem('subjects') === undefined ) {
+              HomeService.getAllCategory().then(function (data) {
+                  if (data.data.status) {
+                      //console.log("Get service subject with category");
+                      setStorage('subjects',JSON.stringify(data.data.request_data_result), 30);
+                  }
+              });
+          }
+
+	  }
 });
 
 brotServices.factory('myCache', function($cacheFactory) {

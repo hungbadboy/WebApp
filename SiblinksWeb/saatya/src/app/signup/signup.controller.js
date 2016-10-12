@@ -42,6 +42,7 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
     $http.post(url, dataReg).success(function(data) {
       if(data.status == 'true') {
         //active student
+    	$rootScope.$broadcast('open');
         StudentService.loginUser(user.email, user.password, function(data) {
             if(data.status == 'true') {
               var dataUser = data;
@@ -64,6 +65,7 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
             	$scope.loginMess = 'Your email is already exists';
             }
           });
+        $rootScope.$broadcast('close');
       } else {
         $scope.error = data.request_data_result[0];
       }
@@ -83,7 +85,9 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
 	      $scope.lastName = data.last_name;
 	      $scope.facebookId = data.id;
 	      $scope.image = data.picture.data.url;
+	      $rootScope.$broadcast('open');
 	      StudentService.loginFacebook($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.facebookId).then(function(data) {
+	    	  $rootScope.$broadcast('close');
 	    	  if(data.status == 'true') {
 	    		  var dataUser = data.data.request_data_result[0];
 	    		  setStorage('userName', dataUser['userName'], 30);
@@ -122,7 +126,9 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
 	          $scope.googleid = resp.id;
 	          $scope.image = resp.image.url;
 	          var nameHome = resp.displayName;
+	          $rootScope.$broadcast('open');
 	          StudentService.loginGoogle($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.googleid).then(function(data) {
+	        	$rootScope.$broadcast('close');
 	            var dataUser = data.data.request_data_result[0];
 	            setStorage('userName', dataUser['userName'], 30);
 	            setStorage('userId', dataUser['userid'], 30);
