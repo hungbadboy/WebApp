@@ -65,7 +65,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
         $document.on('scroll', function() {
             // do your things like logging the Y-axis
-            if ($window.scrollY > 60) {
+            if ($window.scrollY > 70) {
                 $(".mentor-manage-qa-content .left-qa").css({"top":"90px", "height":"90%"});
                 $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"80vh"});
             }
@@ -79,6 +79,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             if(str=='next'){
                 if($scope.currentIndexAnswer == $scope.listAnswer.length - 1){
                     $scope.currentIndexAnswer = 0;
+
                     return;
                 }
                 $scope.currentIndexAnswer = $scope.currentIndexAnswer + 1;
@@ -90,6 +91,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 }
                 $scope.currentIndexAnswer = $scope.currentIndexAnswer - 1;
             }
+            $scope.currentAnswer = $scope.listAnswer[ $scope.currentIndexAnswer];
 
         }
         
@@ -153,6 +155,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         }
         $scope.showAnswer = function (index) {
             $scope.currentIndexAnswer = index;
+            $scope.currentAnswer = $scope.listAnswer[index];
             angular.element(document.getElementById('answer-detail')).modal();
 
         }
@@ -185,8 +188,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
             cleanContentEdit();
             getQuestionById(qid);
-            QuestionsService.updateViewQuestion(qid, "view").then(function (data) {
-            });
         }
 
         function getQuestionById(qid) {
@@ -226,17 +227,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 var answers = data.data.request_data_result;
                 $scope.listAnswer = [];
                 $scope.isLoadMoreAnswer = true;
-                // if(answers != null && answers !== undefined) {
-                // 	for(var i = 0; i < answers.length; i++) {
-                // 		var answer = answers[i];
-                // 		var images = answers[i].imageAnswer;
-                // 		if(images != null && images !== undefined && images != '') {
-                // 			var arrImageAnswer = images.split(';');
-                // 			answer.imageAnswer = arrImageAnswer;
-                // 		}
-                // 		$scope.listAnswer.push(answer);
-                // 	}
-                // }
                 $scope.listAnswer = answers;
             });
         }
@@ -246,6 +236,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
 
         $scope.removeAnswer = function (aid) {
+            $rootScope.$broadcast('open');
             managerQAService.removeAnswer(aid).then(function (data) {
                 if(data.data.status =='true'){
                     QuestionsService.getAnswerByQid($scope.currentPid, typeOrderAnswer, "", "",userId).then(function (data) {
@@ -266,6 +257,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
                     });
                 }
+                $rootScope.$broadcast('close');
             });
         }
 
@@ -279,11 +271,13 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $('#txtAnswer').val(answeredit.content);
             $('#txtAnswer').focus();
             $scope.isEdit = true;
+            oldImagePath = answeredit.imageAnswer;
             $scope.imagePathOld = detectMultiImage(answeredit.imageAnswer);
 
         }
 
         $scope.updateAnswer = function () {
+            $rootScope.$broadcast('open');
             var fd = new FormData();
             var totalSize = 0;
             if ($scope.filesArray != null) {
@@ -326,10 +320,12 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 else {
                     $scope.QAErrorMsg =data.data.request_data_result;
                 }
+                $rootScope.$broadcast('close');
             });
         }
 
         $scope.answerQuestion = function (pid) {
+            $rootScope.$broadcast('open');
             $scope.QAErrorMsg="";
             var content = $('#txtAnswer').val();
             if (!content) {
@@ -398,6 +394,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 else {
                     $scope.QAErrorMsg = "Can't answer";
                 }
+                $rootScope.$broadcast('close');
             });
 
         };
