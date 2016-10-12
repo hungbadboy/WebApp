@@ -43,8 +43,8 @@
                                                         <b>{{e.nameOfEssay}}</b>
                                                         <p>{{e.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
-                                                            <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Process</div>
-                                                            <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                            <button class="processing pull-left" ng-click="changeStatus('P')"><span data-icon="&#xe02d;"></span>Process</button>
+                                                            <button class="ignore pull-left" ng-click="changeStatus('I')"><span data-icon="&#xe02d;"></span>Ignore</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -64,8 +64,8 @@
                                                         <b>{{pe.nameOfEssay}}</b>
                                                         <p>{{pe.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
-                                                            <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Processing</div>
-                                                            <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                            <button class="processing pull-left"><span data-icon="&#xe02d;"></span>Processing</button>
+                                                            <!-- <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div> -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -85,8 +85,7 @@
                                                         <b>{{ie.nameOfEssay}}</b>
                                                         <p>{{ie.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
-                                                            <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Ignored</div>
-                                                            <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                            <button class="processing pull-left"><span data-icon="&#xe02d;"></span>Ignored</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -106,8 +105,7 @@
                                                         <b>{{re.nameOfEssay}}</b>
                                                         <p>{{re.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
-                                                            <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Replied</div>
-                                                            <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                            <button class="processing pull-left"><span data-icon="&#xe02d;"></span>Replied</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -139,7 +137,7 @@
                                                 </div>
                                                 <div class="bt-item col-md-3">
                                                     <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Process</div>
-                                                    <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                   <!--  <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div> -->
                                                 </div>
                                             </div>
                                             <p class="text-rpl-2">

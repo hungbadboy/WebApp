@@ -712,4 +712,24 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         }
         return reponse;
     }
+
+    @Override
+    @RequestMapping(value = "/updateStatusEssay", method = RequestMethod.POST)
+    public ResponseEntity<Response> updateStatusEssay(@RequestBody final RequestData request) {
+        
+        SimpleResponse reponse = null;
+        try{
+            Object[] params = new Object[]{request.getRequest_data().getEssayId(), request.getRequest_data().getMentorId(), request.getRequest_data().getStatus()};
+            boolean status = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
+            if (status) {
+                reponse = new SimpleResponse("" + true, "essay", "updateStatusEssay", "Success");
+            } else {
+                reponse = new SimpleResponse("" + true, "essay", "updateStatusEssay", "Failed");
+            }
+        }catch(Exception e){
+            reponse = new SimpleResponse("" + true, "essay", "updateStatusEssay", e.getMessage());
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
 }
