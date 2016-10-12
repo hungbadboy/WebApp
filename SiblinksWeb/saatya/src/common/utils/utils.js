@@ -377,6 +377,9 @@ function timeConverter(timeStamp, typeFormat) {
     // return time;
 }
 
+/**
+ * GetTimes DB from backEnd
+ */
 function timeBackEnd() {
     if (!serverDateTime) {
     	var xmlhttp = new XMLHttpRequest();
@@ -395,3 +398,4 @@ function timeBackEnd() {
     serverDateTime++;
     //console.log(serverDateTime);
 }
+
