@@ -55,9 +55,6 @@ brotControllers
                 var oldImagePathEdited="";
                 var qidEdit;
                 var imagePathOld_BK;
-                //10M
-                var MAX_SIZE_IMG_UPLOAD = 10485760;
-                var MAX_IMAGE = 4;
                 $scope.displayOrder = 'Newest';
                 var bodyRef = angular.element( $document[0].body );
                 $scope.subjects = JSON.parse(localStorage.getItem('subjects'));
@@ -272,7 +269,7 @@ brotControllers
                 $scope.isShowOrder = false;
 
                 $scope.orderQuestions = function (type) {
-
+                    $rootScope.$broadcast('open');
                     if (type == $scope.curentOrderType) {
                         $scope.isShowOrder = false;
                         return;
@@ -289,13 +286,78 @@ brotControllers
                     QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
                         $scope.totalQuestion = data.data.request_data_result[0].numquestion;
                         if ($scope.totalQuestion != '0') {
-                            getQuestions(userId, LIMIT, OFFSET, $scope.curentOrderType, oldQid, subjectid);
+                            QuestionsService.getQuestionByUserId(userId, LIMIT, OFFSET, $scope.curentOrderType, oldQid, subjectid).then(function (data) {
+                                if (data.data.status) {
+                                    var result = data.data.request_data_result;
+                                    listPosted = [];
+                                    if (result == null || result.question === undefined) {
+                                        return;
+                                    }
+                                    for (var i = 0; i < result.question.length; i++) {
+                                        $scope.isDisplayMore = false;
+                                        var objPosted = {};
+                                        var questionData = result.question[i];
+                                        objPosted.id = questionData.PID;
+                                        oldQid = questionData.PID;
+                                        objPosted.title = questionData.TITLE;
+                                        objPosted.subject = questionData.SUBJECT;
+                                        objPosted.subjectid = questionData.SUBJECTID;
+                                        objPosted.name = questionData.FIRSTNAME;
+                                        objPosted.firstName = questionData.FIRSTNAME;
+                                        objPosted.lastName = questionData.LASTNAME;
+                                        objPosted.content = questionData.CONTENT;
+                                        objPosted.count_answer = questionData.NUMREPLIES;
+
+                                        objPosted.numviews = questionData.NUMVIEWS == null ? 0 : questionData.NUMVIEWS;
+                                        objPosted.time = convertUnixTimeToTime(questionData.TIMESTAMP);
+                                        objPosted.image = detectMultiImage(questionData.IMAGEPATH);
+                                        objPosted.imagepath = questionData.IMAGEPATH;
+                                        objPosted.authorId = questionData.AUTHORID;
+                                        //objPosted.count = questionData.length;
+                                        if (result.answers !== undefined) {
+                                            if (result.answers[i] != null) {
+                                                var answer = result.answers[i];
+                                                var answer_result = answer.body.request_data_result;
+                                                var listAnswer = [];
+                                                for (var y = 0; y < answer_result.length; y++) {
+
+                                                    var objAnswer = {};
+                                                    objAnswer.authorID = answer_result[y].authorID;
+                                                    objAnswer.aid = answer_result[y].aid;
+                                                    objAnswer.pid = answer_result[y].pid;
+                                                    objAnswer.name = answer_result[y].firstName + " " + answer_result[y].lastName;
+                                                    objAnswer.content = answer_result[y].content;
+                                                    objAnswer.avatar = answer_result[y].imageUrl;
+                                                    objAnswer.countLike = answer_result[y].numlike;
+                                                    objAnswer.imageAnswer = detectMultiImage(answer_result[y].imageAnswer);
+                                                    objAnswer.like = answer_result[y].like;
+                                                    objAnswer.time = convertUnixTimeToTime(answer_result[y].TIMESTAMP);
+                                                    listAnswer.push(objAnswer);
+                                                }
+                                                objPosted.answers = listAnswer;
+                                            }
+                                        } else {
+                                            objPosted.answers = null;
+                                            objPosted.count_answer = "0";
+                                        }
+                                        listPosted.push(objPosted);
+                                    }
+                                    if (result.question.length == 0) {
+                                        listPosted = [];
+                                        if (isLoadMore) {
+                                            $rootScope.$broadcast('close');
+                                            return;
+                                        }
+                                    }
+                                    $scope.askQuestion = listPosted;
+                                }
+                            });
                         }
                         else {
                             $scope.askQuestion = [];
                         }
                     });
-
+                    $rootScope.$broadcast('close');
                     $scope.isShowOrder = false;
                 }
 
@@ -477,7 +539,7 @@ brotControllers
                     }
 
                     if(totalSize > MAX_SIZE_IMG_UPLOAD){
-                        $scope.askErrorMsg='Image over 10M';
+                        $scope.askErrorMsg='Image over 5Mb';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;
@@ -560,7 +622,7 @@ brotControllers
                     }
 
                     if(totalSize > MAX_SIZE_IMG_UPLOAD){
-                        $scope.askErrorMsg='Image over 10M';
+                        $scope.askErrorMsg='Image over 5Mb';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;
@@ -602,6 +664,7 @@ brotControllers
                     }
                 };
                 $scope.deleteQuestion = function (qid) {
+                    $rootScope.$broadcast('open');
 	                QuestionsService.removePost(qid).then(function (data) {
 	                    if (data.data.status == "true") {
 	                        window.location.href = '#/ask_a_question/-1';
@@ -609,6 +672,7 @@ brotControllers
 	                    } else {
 	                       $scope.errorMessage = "Can't delete question";
 	                    }
+                        $rootScope.$broadcast('close');
 	                });
                 }
  }]);

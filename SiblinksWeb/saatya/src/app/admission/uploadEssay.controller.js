@@ -10,7 +10,7 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
         $scope.txtDesc = "";
         $scope.txtTitle = "";
         $scope.essaySusscesMsg = "";
-        var MAX_SIZE_ESSAY_UPLOAD = 10485760;
+        var MAX_SIZE_ESSAY_UPLOAD = 5242880;
         init();
 
         function init() {

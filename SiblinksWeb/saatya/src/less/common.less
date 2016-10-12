@@ -575,8 +575,12 @@ a.right.carousel-control {
 .pull-right-mod {
     margin-right: -7px;
 }
-.manager-playlist .btn-mg {
+.manager-playlist .main-list-video .btn-mg {
     padding: 15px;
+}
+.manager-video.manager-playlist .top-mag .search {
+    padding: 0;
+    margin-left: 15%;
 }
 .manager-playlist-detail .bx-btn {
     position: absolute;
@@ -585,7 +589,18 @@ a.right.carousel-control {
 .modal-add-video .group-item .item .check-box {
     top: 35px;
 }
-
+.mentor-infor-img {
+    width: 90px;
+    float: left;
+}
+#sidebar-menu .mentor-infor-name {
+    width: ~"calc(100% - 90px)";
+    float: left;
+    margin-top: 10px;
+}
+.manager-video .group-item .item .box-detail-play .detail-pl-inner h5 {
+    margin-top: 5px;
+}
 /*======== Student Essay modal =========*/
 #essay-detail .modal-add-video .left-question {
     background-color: #fff;
@@ -612,6 +627,49 @@ a.right.carousel-control {
 #essay-detail .action-essay button:hover {
   background: #ffcc00;
 }
+.manager-video .group-item .item .box-description {
+    padding-right: 10px;
+}
+.box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bx-detail-rpl .right .images-question {
+    width: 100%;
+}
+.box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bx-detail-rpl .right .images-question li {
+    margin-right: 0;
+}
+#answer-detail .modal-add-video .left-question {
+    padding-top: 20px;
+}
+#answer-detail .modal-add-video .right-answer,
+#answer-detail .modal-add-video .left-question {
+    padding-bottom: 50px;
+}
+.modal-add-video .bottom-ctg {
+    padding-top: 20px;
+    position: absolute;
+    bottom: 30px;
+    width: 70%;
+}
+.modal-add-video .right-answer .pgt-right-ans {
+    position: absolute;
+    padding-top: 20px;
+    bottom: 20px;
+    width: ~"calc(100% - 40px)";
+}
+.manager-playlist-detail .main-manager-video .filters .text-des {
+    width: 26%;
+}
+.manager-playlist-detail .main-manager-video .filters .text-play {
+    width: 9%;
+}
+.manager-playlist-detail.manager-video .group-item .item .box-description {
+    width: 25.5%;
+    padding-right: 20px;
+}
+.manager-playlist-detail.manager-video .group-item .item .box-playlist {
+    width: 9%;
+    padding-right: 10px;
+}
+
 /**** End HongTTT *****/
 
 .pad-left-0 {
@@ -692,4 +750,12 @@ a.right.carousel-control {
 .ignore span:before {
     margin-right: 5px;
     color: #fff;
+}
+#loadingScreen {
+    background: url(images/bx_loader.gif) no-repeat 5px 0px;
+    padding-left: 25px;
+}
+
+.loading-disable-header {
+    z-index:10;
 }

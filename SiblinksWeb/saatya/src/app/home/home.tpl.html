@@ -28,11 +28,12 @@
 	                                <img class="thumb" ng-src="{{step}}" />
 	                                <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
 	                        </div>
-	                        </output>
-	                        <span class="add-img">
+								<span class="add-img">
 	                                <input type="file" multiple id="files"  ng-file-select="onFileSelect($files)" accept='image/*'/>
 	                                <label for="files"><img src="assets/images/add-img.png"></label></span>
-	                        <p style="width: 100%;float: left;"><button type="button" class="home-ask-now" ng-click="redirectForum()">Ask Now</button></p>
+								<p ><button type="button" class="home-ask-now" ng-click="redirectForum()">Ask Now</button></p>
+	                        </output>
+
 	                    </form>
 	                </div>
 	            </div>

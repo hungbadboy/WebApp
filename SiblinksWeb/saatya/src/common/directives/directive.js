@@ -1298,3 +1298,71 @@ brotControllers.directive('errSrc', function() {
     }
 });
 
+/**
+ * Loading process call ajax
+ */
+brotControllers.directive('loadingDialog', ['$timeout', function($timeout) {
+    return {
+        restrict   : 'EA',
+        transclude : true,
+        scope: true,
+        link : function(scope, iElement, iAttrs, controller, iTransclude) {
+        	 iElement.dialog({
+  	           autoOpen: false,
+  	           dialogClass: "loadingScreenWindow",
+  	           closeOnEscape: false,
+  	           draggable: false,
+  	           modal: true,
+  	           width:'auto',
+  	           buttons: {},
+  	           resizable: false,
+  	           zIndex: 999999,
+  	           open: function() {
+  	               // scrollbar fix for IE
+  	               $('body').css('overflow','hidden');
+  	           },
+  	           close: function() {
+  	               // reset overflow
+  	               $('body').css('overflow','auto');
+  	           }
+  	       }); // end of dialog
+        	 
+        	 scope.open= function (waiting){
+        		 console.log('waitingDialog');
+        		 angular.element('.ui-widget-header').hide();
+        		 angular.element('#header').addClass('loading-disable-header');
+        		 iElement.dialog('open');
+        	 }
+        	 
+        	 scope.close= function (){
+        		 angular.element('.ui-widget-header').show();
+        		 angular.element('#header').removeClass('loading-disable-header');
+        		 iElement.dialog('close');
+        	 }
+        	 
+        	 scope.destroy = function () {
+        		 iElement.dialog('destroy');
+        	 }
+        	 
+        	 scope.$on('$destroy', function () {
+					scope.stop();
+					scope.spinner = null;
+				});
+        	 /**
+        	  * Open dialog before call ajax
+        	  * @returns
+        	  */
+        	 scope.$on('open', function(waiting) {
+        		 scope.open(waiting);
+             });
+
+        	 /**
+        	  * After call ajax return successfull
+        	  * @returns
+        	  */
+        	 scope.$on('close', function() {
+        		 scope.close();
+        	 });
+        }
+    }
+}]);

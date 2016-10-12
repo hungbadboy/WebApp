@@ -69,7 +69,7 @@ module.exports = {
     vendor_files: {
         js: [
 			'vendor/jquery.min.js',
-			'vendor/jquery-ui.js',
+			'vendor/jquery-ui.min.js',
 			//'vendor/main.js',
 			'vendor/bootstrap.js',
 			'vendor/jquery.bxslider.min.js',
