@@ -34,6 +34,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
 
         function init() {
+            $('#autocompleteSubsQA_dropdown').width($('#autocompleteSubsQA').width());
             var offset = 0;
             managerQAService.getListQuestionQA(selectedSubsId, userId, offset, $scope.currentTab, LIMIT,$scope.textSearch).then(function (data) {
                 listDefaultSubjectId = getSubjectNameByIdQA(defaultSubjectId, allSubjects);
@@ -422,8 +423,14 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.fillerSubject = function () {
             currentPage = 0;
             $scope.isLoadMore = true;
-            if(isEmpty($('#autocompleteSubsQA').val())){
+            if(isEmpty($('input#autocompleteSubsQA').val())){
                 selectedSubsId = "";
+            }
+            if(!isEmpty($('input#autocompleteSubsQA').val())&& isEmpty(selectedSubsId)){
+                $scope.notFound = "Not found question";
+                $scope.listQuestions = null;
+                $scope.questionDetail = null;
+                return;
             }
             if(isEmpty(selectedSubsId)){
                 init();
