@@ -420,8 +420,18 @@ public class PostServiceImpl implements PostService {
     public ResponseEntity<Response> getPostById(@RequestBody final RequestData request) {
 
         List<Object> readObject = null;
+        Object[] queryParams =  { request.getRequest_data().getPid() };
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus statusBD = transactionManager.getTransaction(def);
+        try {
+        dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_VIEW_POST, queryParams );
         readObject = dao
-            .readObjects(SibConstants.SqlMapper.SQL_GET_POST_BY_ID, new Object[] { request.getRequest_data().getPid() });
+            .readObjects(SibConstants.SqlMapper.SQL_GET_POST_BY_ID, queryParams);
+            transactionManager.commit(statusBD);
+        } catch (NullPointerException e) {
+            transactionManager.rollback(statusBD);
+            logger.info("Delete answer Error:" + e.getMessage());
+        }
 
         SimpleResponse reponse = new SimpleResponse(
                                                     "" +
