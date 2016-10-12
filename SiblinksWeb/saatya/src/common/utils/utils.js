@@ -55,6 +55,9 @@ var StatusError = {
     MSG_UNKNOWN: "Unknown"
 };
 
+// Limit when upload image 5M
+var MAX_SIZE_IMG_UPLOAD = 5242880;
+var MAX_IMAGE = 4;
 
 function IsEmail(email) {
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
