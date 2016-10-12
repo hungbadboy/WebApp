@@ -423,8 +423,14 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.fillerSubject = function () {
             currentPage = 0;
             $scope.isLoadMore = true;
-            if(isEmpty($('#autocompleteSubsQA').val())){
+            if(isEmpty($('input#autocompleteSubsQA').val())){
                 selectedSubsId = "";
+            }
+            if(!isEmpty($('input#autocompleteSubsQA').val())&& isEmpty(selectedSubsId)){
+                $scope.notFound = "Not found question";
+                $scope.listQuestions = null;
+                $scope.questionDetail = null;
+                return;
             }
             if(isEmpty(selectedSubsId)){
                 init();
