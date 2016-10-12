@@ -163,6 +163,19 @@ brotServices.factory('EssayService', ['$http', function($http) {
       url: NEW_SERVICE_URL + 'essay/getRepliedEssay?userid='+uid+'&offset='+offset+''
     });
   };
+  factory.updateStatusEssay = function (eid, mentorid, status) {
+    return $http({
+      method: 'POST',
+      url: NEW_SERVICE_URL + 'essay/updateStatusEssay',
+      data:{
+        'request_data': {
+          'mentorId': mentorid,
+          'essayId': eid,
+          'status':status
+        }        
+      }
+    });
+  }
 
   return factory;
 }]);

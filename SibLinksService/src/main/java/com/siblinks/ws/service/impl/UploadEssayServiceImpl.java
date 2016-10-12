@@ -703,8 +703,13 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             } catch (NumberFormatException e) {
             }
         }
-        params = new Object[] { schoolId, offset };
-        readObject = dao.readObjects(entityName, params);
+        if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY) || entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY)) {
+            params = new Object[] { userid, schoolId, offset };
+            readObject = dao.readObjects(entityName, params);
+        } else {
+            params = new Object[] { schoolId, offset };
+            readObject = dao.readObjects(entityName, params);
+        }
         if (readObject != null && readObject.size() > 0) {
             reponse = new SimpleResponse("" + true, "essay", from, readObject);
         } else {
@@ -719,9 +724,18 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         
         SimpleResponse reponse = null;
         try{
-            Object[] params = new Object[]{request.getRequest_data().getEssayId(), request.getRequest_data().getMentorId(), request.getRequest_data().getStatus()};
-            boolean status = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
-            if (status) {
+            String mentorId = request.getRequest_data().getMentorId();
+            String status = request.getRequest_data().getStatus();
+            Object[] params = null;
+            boolean flag = false;
+            if (status != null && status.equals("I")) {
+                params = new Object[] { request.getRequest_data().getEssayId(), mentorId };
+                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_IGNORE_ESSAY, params);
+            } else {
+                params = new Object[] { request.getRequest_data().getEssayId(), mentorId, status };
+                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
+            }
+            if (flag) {
                 reponse = new SimpleResponse("" + true, "essay", "updateStatusEssay", "Success");
             } else {
                 reponse = new SimpleResponse("" + true, "essay", "updateStatusEssay", "Failed");
