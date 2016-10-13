@@ -33,7 +33,9 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
             angular.element('#passWord').trigger('focus');
             return;
         }
+        $rootScope.$broadcast('open');
         StudentService.loginUser(userName, password, function (data) {
+        	$rootScope.$broadcast('close');
             if (data.status == 'true') {
                 var dataUser = data;
                 console.log(dataUser);
@@ -53,7 +55,6 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
                     nameHome = capitaliseFirstLetter(firstName) + ' ' + capitaliseFirstLetter(lastName);
                 }
                 setStorage('nameHome', nameHome, 30);
-                
                 // Redirect to old link
                 if(redirectToOldLink()) {
                 	return;
@@ -67,12 +68,14 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
                 	window.location.reload();
                 }
             } else {
+            	$rootScope.$broadcast('close');
                 $scope.loginMess = "Incorrect email or password";
                 $scope.$apply();
                 angular.element('#userName').trigger('focus');
                 return;
             }
         });
+        
     };
 
     init();
@@ -105,7 +108,9 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
             $scope.lastName = data.last_name;
             $scope.facebookId = data.id;
             $scope.image = data.picture.data.url;
+            $rootScope.$broadcast('open');
             StudentService.loginFacebook($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.facebookId).then(function (data) {
+            	$rootScope.$broadcast('close');    
             	if(data.data.status=='true') {
             		var dataUser = data.data.request_data_result[0];
 	                setStorage('userName', dataUser['userName'], 30);
@@ -118,7 +123,6 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
 	                var nameHome = $scope.firstName + ' ' + $scope.lastName;
 	                setStorage('nameHome', nameHome, 30);
 	                $('#header .log_out .current').text(nameHome);
-	                
 	                // Redirect to old link
 	                if(redirectToOldLink()) {
                     	return;
@@ -131,6 +135,7 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
 	                	window.location.href = '/';
 	                }
             	} else {
+            		$rootScope.$broadcast('close');
             		$scope.loginMess = 'Your email is already registered and not account Facebook';
             		return;
             	}
@@ -157,7 +162,9 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
                     $scope.googleid = resp.id;
                     $scope.image = resp.image.url;
                     var nameHome = resp.displayName;
+                    //$rootScope.$broadcast('open');
                     StudentService.loginGoogle($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.googleid).then(function (data) {
+                    	//$rootScope.$broadcast('close');
                     	if(data.data.status=='true') {
 	                        var dataUser = data.data.request_data_result[0];
 	                        setStorage('userName', dataUser['userName'], 30);
@@ -182,6 +189,7 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
 	                        	window.location.href = '/';
 	                        }
                     	} else {
+                    		$rootScope.$broadcast('close');
                     		$scope.loginMess = 'Your email is already registered and not account Google';
                     		return;
                     	}
@@ -207,14 +215,12 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
     * Redirect to page previous by continue on parameter
     */
     function redirectToOldLink() {
-    	
     	var linkRedirect = $routeParams.continue;
     	if(linkRedirect != null && linkRedirect !== undefined && linkRedirect !== '') {
-    		$window.location.href = decodeURIComponent(linkRedirect);
+    		window.location.href = decodeURIComponent(linkRedirect);
     		return true;
     	} else {
     		return false;
     	}
     }
-    
 });

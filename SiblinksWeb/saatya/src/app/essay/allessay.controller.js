@@ -70,7 +70,6 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
         $scope.newestEssays = formatEssay(result);
       } else
         $scope.newestEssays = null;
-      console.log($scope.newestEssays);
     });
   }
 
@@ -86,7 +85,15 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     $scope.tabpane = val;
   }
 
-  
+  $scope.changeStatus = function (eid,status) {
+    EssayService.updateStatusEssay(eid, userId, status).then(function (data) {
+      if (data.data.request_data_result == "Success") {
+        getNewestEssay();
+      } else {
+        console.log(data.data.request_data_result);
+      }
+    });
+  }
   // function getAllEssay(page, userType, userId) {
   //   EssayService.getAllEssay(page, userType, userId).then(function(data) {
   //     $scope.showItem = true;

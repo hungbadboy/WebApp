@@ -62,15 +62,6 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		controller: 'VideoCtrl',
 		reloadOnSearch: false
 	}).
-//	when('/videos/history', {
-//		templateUrl: 'src/app/video/video_tutorial.tpl.html',
-//		controller: 'VideoTutorialController',
-//		reloadOnSearch: false
-//	}).
-//	when('/videos/:subjectId', {
-//		templateUrl: 'src/app/video/video_tutorial.tpl.html',
-//		controller: 'VideoTutorialController'
-//	}).
 	when('/listVideo/:subjectId/:categoryId/:page', {
 		templateUrl: 'src/app/video/subCategory.tpl.html',
 		controller: 'ListVideoCtrl'
@@ -122,10 +113,6 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/faqs.tpl.html',
 		controller: 'FaqsCtrl'
 	}).
-	// when('/searchVideo/:keyWord/:page', {
-	// templateUrl: 'src/app/search_video.tpl.html',
-	// controller: 'searchVideoCtrl'
-	// }).
 	when('/searchVideo/:keyWord/:page', {
 		templateUrl: 'src/app/search_video.tpl.html',
 		controller: 'searchAllVideoCtrl'
@@ -189,10 +176,6 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/managerQA/managerQA.tpl.html',
 		controller: 'managerQAController'
 	}).
-	// when('/video/home', {
-	// 	templateUrl: 'src/app/video/videos.tpl.html',
-	// 	controller: 'VideoCtrl'
-	// }).
 	when('/forgotPwd', {
 		templateUrl: 'src/app/forgotPassword/forgotpassword.tpl.html',
 		controller: 'ForgotPassword'

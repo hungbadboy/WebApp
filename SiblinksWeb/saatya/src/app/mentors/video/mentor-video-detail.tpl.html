@@ -76,7 +76,8 @@
                                         <p class="pull-right"><span>Catalogue</span>&nbsp;&nbsp;<b>{{video.subject}}</b></p>
                                     </div>
                                     <div class="form-commnent">
-                                        <h3 ng-if="comments">{{comments.length}} Comments</h3>                                        
+                                        <h4 ng-if="comments">{{comments.length}} Comments</h4>
+                                        <h4 ng-if="!comments">No comment here</h4>
                                         <form action="">
                                             <div class="box-chat-onl clearfix">
                                                 <a href="#" class="col-md-1"><img src="{{avatar}}" alt=""></a>
@@ -107,7 +108,6 @@
                                                 </ul>
                                             </div>
                                         </form>
-                                        <h3 ng-if="!comments">No comment here</h3>
                                     </div>                                    
                                 </div>
                             </div>

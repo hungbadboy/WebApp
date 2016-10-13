@@ -43,8 +43,8 @@
                                                         <b>{{e.nameOfEssay}}</b>
                                                         <p>{{e.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
-                                                            <button class="processing pull-left" ng-click="changeStatus('P')"><span data-icon="&#xe02d;"></span>Process</button>
-                                                            <button class="ignore pull-left" ng-click="changeStatus('I')"><span data-icon="&#xe02d;"></span>Ignore</button>
+                                                            <button class="processing pull-left" ng-click="changeStatus(e.uploadEssayId,'P')"><span data-icon="&#xe02d;"></span>Process</button>
+                                                            <button class="ignore pull-left" ng-click="changeStatus(e.uploadEssayId,'I')"><span data-icon="&#xe02d;"></span>Ignore</button>
                                                         </div>
                                                     </div>
                                                 </div>

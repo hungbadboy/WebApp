@@ -1328,7 +1328,8 @@ brotControllers.directive('loadingDialog', ['$timeout', function($timeout) {
   	       }); // end of dialog
         	 
         	 scope.open= function (waiting){
-        		 console.log('waitingDialog');
+        		 //console.log('waitingDialog');
+        		 angular.element('#loadingScreen').show();
         		 angular.element('.ui-widget-header').hide();
         		 angular.element('#header').addClass('loading-disable-header');
         		 iElement.dialog('open');
@@ -1336,6 +1337,7 @@ brotControllers.directive('loadingDialog', ['$timeout', function($timeout) {
         	 
         	 scope.close= function (){
         		 angular.element('.ui-widget-header').show();
+        		 angular.element('#loadingScreen').hide();
         		 angular.element('#header').removeClass('loading-disable-header');
         		 iElement.dialog('close');
         	 }

@@ -30,8 +30,8 @@
 <script type="text/javascript" src="js/handlebars/handlebars.js"></script>
 <script type="text/javascript" src="js/plugins/DataTables-1.9.4/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="js/plugins/DataTables-1.9.4/dataTables.bootstrap.js"></script>
-<script type="text/javascript" src="js/plugins/appendGrid/jquery.appendGrid-1.3.1.js"></script>
-<script type="text/javascript" src="js/jquery/jquery-ui-1.10.3.custom.min.js"></script> --%>
+<script type="text/javascript" src="js/plugins/appendGrid/jquery.appendGrid-1.3.1.js"></script>--%>
+<script type="text/javascript" src="js/jquery/jquery-ui-1.10.3.custom.min.js"></script> 
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="js/menu.js"></script>
 

@@ -126,7 +126,6 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
         }
         $scope.redirectForum = function () {
             // get question of student
-            $rootScope.$broadcast('open');
         	if (selectCategory == null || selectCategory === undefined || selectCategory.originalObject == null) {
         		$scope.askErrorMsg='Please choose category';
         		$("#autocompleteCate_value").focus();
@@ -142,7 +141,7 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
                 $timeout(function () {
                     $rootScope.myVarQ = false;
                 }, 2500);
-                $scope.askErrorMsg='You enter text or upload for your question';
+                $scope.askErrorMsg='Please input your question';
                 $("#autocompleteQuest_value").focus();
                 return;
             }
@@ -184,8 +183,8 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
 
             fd.append('userId', userId);
             fd.append('content', questions);
-
             fd.append('subjectId', selectCategory.originalObject.subjectId);
+            $rootScope.$broadcast('open');
             HomeService.addQuestion(fd).then(function (data) {
                 if (data.data.status == "true") {
                     $(".popup-images, .form-ask-question").css({"left": "100%"});

@@ -49,7 +49,7 @@ public class SibConstants {
     public static final String ROOT = "/siblinks/services";
     public static final String NO_DATA = "Found no data";
     public static final String USER_NOT_EXISTS = "User is not exists";
-
+    public static final String DEFAULT_PWD = "@123Abc";
     public class MessageKey {
         public static final String REQUEST_DATA_RESUTL = "request_data_result";
     }
@@ -531,7 +531,9 @@ public class SibConstants {
         public static final String SQL_SIB_NUM_REPLIES_UPDATE_DELETE = "SIB_NUM_REPLIES_UPDATE_DELETE";
         public static final String SQL_STUDENT_UPLOAD_ESSAY = "STUDENT_UPLOAD_ESSAY";
 
-
+        // Admin Another Admin, Mentor
+        public static final String SQL_ADMIN_ADD_ANOTHER_ADMIN = "SIB_ADMIN_ADD_ANOTHER_ADMIN";
+        public static final String SQL_ADMIN_ADD_ANOTHER_MENTOR = "SIB_ADMIN_ADD_ANOTHER_MENTOR";
     }
 
     public class SqlMapperBROT4 {
@@ -643,5 +645,6 @@ public class SibConstants {
         public static final String SQL_GET_IGNORED_ESSAY = "GET_IGNORED_ESSAY";
         public static final String SQL_GET_REPLIED_ESSAY = "GET_REPLIED_ESSAY";
         public static final String SQL_UPDATE_STATUS_ESSAY = "UPDATE_STATUS_ESSAY";
+        public static final String SQL_IGNORE_ESSAY = "IGNORE_ESSAY";
     }
 }
