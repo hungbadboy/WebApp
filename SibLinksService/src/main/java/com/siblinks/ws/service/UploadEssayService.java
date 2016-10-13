@@ -22,7 +22,10 @@ public interface UploadEssayService {
 
 	public ResponseEntity<Response> getEssayByUserId(RequestData video) throws FileNotFoundException;
 
-	public void download(String userId, String essayId, String status,HttpServletRequest request, HttpServletResponse response);
+    // public void download(String userId, String essayId, String
+    // status,HttpServletRequest request, HttpServletResponse response);
+
+    public void download(String essayId, HttpServletRequest request, HttpServletResponse response);
 
 	public ResponseEntity<Response> removeEssay(RequestData video);
 
@@ -64,4 +67,8 @@ public interface UploadEssayService {
     public ResponseEntity<Response> getNewestEssay(long userid, int offset);
 
     public ResponseEntity<Response> updateStatusEssay(RequestData request);
+
+    public ResponseEntity<Response> insertCommentEssay(MultipartFile file, long essayId, long mentorId, String comment);
+
+    public ResponseEntity<Response> getCommentEssay(long essayId, long mentorId);
 }

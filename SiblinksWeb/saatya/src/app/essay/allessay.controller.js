@@ -2,22 +2,15 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   var userType = localStorage.getItem('userType');
   var userId = localStorage.getItem('userId');
   $scope.userId = userId;
-  var clickE = 1;
-  var listEssay = [];
+  $scope.avatar = localStorage.getItem('imageUrl');
+  $scope.mentorName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastname');
   var NO_DATA = "Found no data";
   $scope.tabpane = 1;
   init();
 
   function init(){
-    // getAllEssay(clickE, userType, userId);
-    getAllEssay();
-    
-  }
-  
-  function getAllEssay(){
     $(window).scroll(function(){    
       var qa_scroll = $(window).scrollTop();
-      console.log(qa_scroll);
       if (qa_scroll > 70) {
         $(".mentor-manage-qa-content .left-qa").css({"top":"90px", "height":"90%"});
         $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"75vh"});
@@ -27,6 +20,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
         $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"70vh"});
       }
     })
+    getAllEssay();    
+  }
+  
+  function getAllEssay(){
     getNewestEssay();
     getProcessingEssay();
     getIgnoredEssay();
@@ -68,21 +65,64 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
         $scope.newestEssays = formatEssay(result);
+        $scope.eid = $scope.newestEssays[0].uploadEssayId;
+        getEssayById($scope.eid, userId);
       } else
         $scope.newestEssays = null;
     });
+  }
+
+  function getRepliedByEssay(eid, userId) {
+    EssayService.getCommentEssay(eid, userId).then(function(data){
+      var result = data.data.request_data_result;
+      if (result && result != NO_DATA) {
+        for (var i = result.length - 1; i >= 0; i--) {
+          result[i].timestamp = convertUnixTimeToTime(result[i].timestamp);
+        }
+        $scope.comments = result;
+      } else {
+        $scope.comments = null;
+      }
+    });
+  }
+
+  function getEssayById(eid, userId){
+    EssayService.getEssayById(eid, userId).then(function(data){
+      var result = formatEssay(data.data.request_data_result);
+      $scope.essay = result[0];
+      getRepliedByEssay($scope.essay.uploadEssayId, userId);
+    });
+  }
+
+  function formatBytes(bytes) {
+     if(bytes == 0) return '0 Byte';
+     var k = 1000;
+     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+     var i = Math.floor(Math.log(bytes) / Math.log(k));
+     return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
   }
 
   function formatEssay(data){
     for (var i = data.length - 1; i >= 0; i--) {
       data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
       data[i].fullName = data[i].firstName + ' ' + data[i].lastName;
+      data[i].odFilesize = formatBytes(data[i].odFilesize);
     }
     return data;
   }
 
   $scope.changeTab = function(val){
     $scope.tabpane = val;
+    if (val == 1) {
+      $scope.eid = $scope.newestEssays[0].uploadEssayId;
+    } else if (val == 2) {
+      $scope.eid = $scope.processingEssays[0].uploadEssayId;
+    } else if (val == 3) {
+      $scope.eid = $scope.ignoredEssays[0].uploadEssayId;
+    } else {
+      $scope.eid = $scope.repliedEssays[0].uploadEssayId;
+    }
+    getEssayById($scope.eid, userId);
   }
 
   $scope.changeStatus = function (eid,status) {
@@ -94,68 +134,40 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       }
     });
   }
-  // function getAllEssay(page, userType, userId) {
-  //   EssayService.getAllEssay(page, userType, userId).then(function(data) {
-  //     $scope.showItem = true;
-  //     var objs = data.data.request_data_result;
 
-  //     if(objs.length !== 0) {
-  //       $scope.countEssay = data.data.count;
-  //       totalUpdateEssay = Math.ceil(data.data.count / 5);
+  $scope.detailEssay = function(eid){
+    $scope.eid = eid;
+    getEssayById(eid, userId);
+  }
 
-  //       showPage(totalUpdateEssay, page, function(response) {
-  //         $scope.listPage = response;
-  //       });
+  var file;
+  $scope.onFileSelect = function($files){
+    file = $files[0];
+    console.log(file);
+  }
 
-  //       if(objs == null) {
-  //         objs = [];
-  //       }
-  //       for(var i = 0; i < objs.length; i++) {
-  //         var obj = objs[i];
-  //         obj.reviewImage = EssayService.getImageReviewEssay(obj.uploadEssayId);
-  //         var d = moment(obj.docSubmittedDate, 'YYYY-MM-DD hh:mm:ss').format('MM/DD/YYYY');
-  //         obj.docSubmittedDate = d;
-  //         listEssay.push(obj);
-  //       }
-  //       $scope.essays = listEssay;
-  //     } else {
-  //       $scope.showError = true;
-  //       $scope.errorData = DATA_ERROR.noDataFound;
-  //     }
+  $scope.reply = function(){
+    var comment = $('#comment').val();
+    if (comment == undefined || comment.trim().length == 0) {
+      $scope.error = "Please input your comment.";
+      return;
+    } else{
+      $scope.error = null;
+      var fd = new FormData();
 
-  //     EssayService.getAllEssay(page++, userType, userId).then(function(data) {
-  //       if(data.data.request_data_result.length < 5) {
-  //         $scope.nextMore = 1;
-  //       }
-  //     });
-  //   });
-  // }
+      fd.append('file', file);
+      fd.append('comment', comment);
+      fd.append('essayId', $scope.essay.uploadEssayId);
+      fd.append('mentorId', userId);
 
-  // $scope.loadMoreEssay = function() {
-  //   clickE++;
-  //   getAllEssay(clickE, userType, userId);
-  // };
-
-  // $scope.essayDetail = function(essayId) {
-  //   $location.url('/essay_detail/' + essayId);
-  // };
-
-  // $scope.deleteEssay = function(event, essayId, essayName) {
-  //   $scope.essayDelete = essayName;
-  //   $('#delete').modal('show');
-  //   essayRemoveId = essayId;
-  //   eventRemove = event;
-  // };
-
-  // $scope.deleteEssayWithDialog = function() {
-  //   EssayService.removeEssay(essayRemoveId).then(function(data) {
-  //     if(data.data.request_data_result == 'Done') {
-  //       listEssay = [];
-  //       for(var i = 1; i <= clickE; i++) {
-  //         getAllEssay(i, userType, userId);  
-  //       }
-  //     }
-  //   });
-  // };
-
+      EssayService.insertCommentEssay(fd).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result == "Success") {
+          $scope.success = "Reply successful.";
+          getAllEssay();
+        } else{
+          $scope.error = data.data.request_data_result;
+        }
+      });
+    }
+  }
 }]);

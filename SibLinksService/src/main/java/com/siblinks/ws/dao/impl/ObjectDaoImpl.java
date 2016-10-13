@@ -25,7 +25,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -185,23 +184,23 @@ public class ObjectDaoImpl implements ObjectDao {
             logger.info("ssn " + dsConfigName, new Date());
             files = jdbcTemplate.query(env.getProperty(dsConfigName), params, new RowMapper() {
                 @Override
-                public List<Download> mapRow(final ResultSet rs, final int rowNum) throws SQLException {
+                public Object mapRow(final ResultSet rs, final int rowNum) throws SQLException {
                     Download file = new Download();
                     InputStream is = rs.getAsciiStream(1);
                     file.setInputStream(is);
                     file.setFileName(rs.getString(2));
                     file.setFilesize(rs.getString(3));
                     file.setMimeType(rs.getString(4));
-                    List<Download> files = new ArrayList<Download>();
-                    files.add(file);
-                    return files;
+                    // List<Download> files = new ArrayList<Download>();
+                    // files.add(file);
+                    return file;
                 }
             });
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
         return (files != null) ? files.get(0) : null;
     }
 

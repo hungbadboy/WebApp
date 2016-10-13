@@ -43,7 +43,7 @@
                                                         <b>{{e.nameOfEssay}}</b>
                                                         <p>{{e.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
-                                                            <button class="processing pull-left" ng-click="changeStatus(e.uploadEssayId,'P')"><span data-icon="&#xe02d;"></span>Process</button>
+                                                            <button class="processing pull-left" ng-click="changeStatus(e.uploadEssayId,'P')"><span data-icon="&#xe02d;"></span>Waiting</button>
                                                             <button class="ignore pull-left" ng-click="changeStatus(e.uploadEssayId,'I')"><span data-icon="&#xe02d;"></span>Ignore</button>
                                                         </div>
                                                     </div>
@@ -64,7 +64,7 @@
                                                         <b>{{pe.nameOfEssay}}</b>
                                                         <p>{{pe.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
-                                                            <button class="processing pull-left"><span data-icon="&#xe02d;"></span>Processing</button>
+                                                            <div class="essay-reviewing pull-left">Reviewing</div>
                                                             <!-- <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div> -->
                                                         </div>
                                                     </div>
@@ -85,7 +85,7 @@
                                                         <b>{{ie.nameOfEssay}}</b>
                                                         <p>{{ie.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
-                                                            <button class="processing pull-left"><span data-icon="&#xe02d;"></span>Ignored</button>
+                                                            <div class="ignore pull-left">Ignored</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -96,7 +96,7 @@
                                     <div class="tab-pane" ng-class="{'active': tabpane == 4}">
                                         <div ng-if="repliedEssays" scroller="repliedEssaysScrl" data-on-total-scroll="">
                                             <div class="group-item-qa">
-                                                <div class="item-qa clearfix" ng-repeat="re in repliedEssays track by $index">
+                                                <div class="item-qa clearfix" ng-repeat="re in repliedEssays track by $index" ng-click="detailEssay(re.uploadEssayId)">
                                                     <div class="col-md-3">
                                                         <a href=""><img src="{{re.imageUrl}}" alt=""></a>
                                                     </div>
@@ -105,7 +105,7 @@
                                                         <b>{{re.nameOfEssay}}</b>
                                                         <p>{{re.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
-                                                            <button class="processing pull-left"><span data-icon="&#xe02d;"></span>Replied</button>
+                                                            <div class="essay-answers pull-left">Replied</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -124,48 +124,38 @@
                                 </div>
                                 <div class="group-item-sl">
                                     <div class="item-sl-rpl">
-                                        <p class="text-rpl">1 Replied</p>
+                                        <p class="text-rpl">{{comments ? comments.length : 0}} Replied</p>
                                         <div class="bx-detail-rpl">
                                             <div class="top-rpl clearfix">
                                                 <div class="col-md-2">
-                                                    <a href=""><img src="assets/images/user.jpg" alt=""></a>
+                                                    <a href=""><img src="{{essay.imageUrl}}" alt=""></a>
                                                 </div>
                                                 <div class="col-md-7 bx-dt-qa">
-                                                    <h5>Student name</h5>
-                                                    <span class="time">asked 5 mins ago</span>
-                                                    <p class="txt-essay"><b>Essay title - Etiam venenatis ac elit in mattis</b></p>
+                                                    <h5>{{essay.fullName}}</h5>
+                                                    <span class="time">{{essay.timeStamp}} ago</span>
+                                                    <p class="txt-essay"><b>{{essay.nameOfEssay}}</b></p>
                                                 </div>
-                                                <div class="bt-item col-md-3">
+                                                <!-- <div class="bt-item col-md-3">
                                                     <div class="processing pull-left"><span data-icon="&#xe02d;"></span>Process</div>
-                                                   <!--  <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div> -->
-                                                </div>
+                                                    <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div>
+                                                </div> -->
                                             </div>
                                             <p class="text-rpl-2">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla molestie justo eu ante vehicula fermentum. Fusce id odio enim. Ut sit amet velit urna. Etiam vehicula ante vel risus malesuada, sit amet vulputate purus pulvinar. Duis ex nunc, viverra eu fringilla eleifend, vulputate a neque. Ut venenatis felis ac fringilla dignissim. Pellentesque efficitur eget diam a aliquet. Donec efficitur, odio eu auctor porta, ligula dolor hendrerit ex, quis pharetra turpis felis ac mauris. Phasellus finibus ultrices nulla, ac semper erat pharetra in.
-                                            </p>
-                                            <p>
-                                                Fusce vulputate bibendum rhoncus. Sed posuere odio sem, fermentum aliquet metus vulputate ut. Mauris tempor metus at pretium sodales. Etiam tristique ipsum eu dui varius, ac hendrerit arcu pharetra. Etiam lacus diam, ultrices eu feugiat quis, bibendum sit amet nibh. Mauris venenatis blandit neque, at dapibus purus facilisis vel. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
+                                               {{essay.descriptionOfEssay}}
                                             </p>
                                             <div class="bx-dowfile clearfix">
-                                                <p class="pull-left"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
-                                                <ul class="list-star pull-right">
-                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
-                                                </ul>
+                                                <p class="pull-left"><a href="{{essay.downloadLink}}"><img src="assets/images/img-attacfile.png" alt=""></a><span>{{essay.urlFile}} - {{essay.odFilesize}}</span></p>
                                             </div>
                                             <div class="form-chat form-chat-essay">
                                                 <form action="">
                                                     <div class="box-chat-onl clearfix">
-                                                        <a href="#" class="col-md-1"><img src="assets/images/user.jpg" alt=""></a>
+                                                        <a href="" class="col-md-1"><img src="{{avatar}}" alt=""></a>
                                                         <div class="texta">
-                                                            <textarea name="" class="col-md-11" placeholder="add your reply here" ></textarea>
+                                                            <textarea id="comment" name="" class="col-md-11" placeholder="Add your reply here" ></textarea>
                                                             <div class="left-border"></div>
                                                         </div>
                                                         <div class="icon-upload">
-                                                            <input class="input-file" name="file1" id="file1" type="file">
+                                                            <input class="input-file" name="file1" id="file1" type="file" ng-file-select="onFileSelect($files)">
                                                             <label for="file1" class="label-1">
                                                                 <span data-icon="&#xe016;"></span>
                                                             </label>
@@ -173,68 +163,27 @@
                                                     </div>
                                                     <div class="clearfix">
                                                         <div class="btnreply pull-right">
-                                                            <input type="submit" name="reply" value="Reply">
+                                                            <input type="button" name="reply" value="Reply" ng-click="reply()">
                                                         </div>
                                                     </div>
                                                     <div class="detail-chat">
-                                                        <ul class="chat">
-                                                            <li class="left clearfix">
+                                                        <ul class="chat" ng-if="comments">
+                                                            <li class="left clearfix" ng-repeat="c in comments track by $index">
                                                                 <span class="chat-img pull-left">
-                                                                    <img src="assets/images/user.jpg" alt="User Avatar">
+                                                                    <img src="{{avatar}}" alt="User Avatar">
                                                                 </span>
                                                                 <div class="chat-body clearfix">
                                                                     <div class="header">
-                                                                        <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
+                                                                        <strong class="primary-font">{{mentorName}}</strong><span class="time">{{c.timestamp}} ago</span>
                                                                     </div>
                                                                     <p>
-                                                                        Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
+                                                                        {{c.content}}
                                                                     </p>
-                                                                    <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
-                                                                </div>
-                                                            </li>
-                                                            <li class="left clearfix">
-                                                                <span class="chat-img pull-left">
-                                                                    <img src="assets/images/user.jpg" alt="User Avatar">
-                                                                </span>
-                                                                <div class="chat-body clearfix">
-                                                                    <div class="header">
-                                                                        <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                    </div>
-                                                                    <p>
-                                                                        Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
-                                                                    </p>
-                                                                    <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
-                                                                </div>
-                                                            </li>
-                                                            <li class="left clearfix">
-                                                                <span class="chat-img pull-left">
-                                                                    <img src="assets/images/user.jpg" alt="User Avatar">
-                                                                </span>
-                                                                <div class="chat-body clearfix">
-                                                                    <div class="header">
-                                                                        <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                    </div>
-                                                                    <p>
-                                                                        Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
-                                                                    </p>
-                                                                    <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
-                                                                </div>
-                                                            </li>
-                                                            <li class="left clearfix">
-                                                                <span class="chat-img pull-left">
-                                                                    <img src="assets/images/user.jpg" alt="User Avatar">
-                                                                </span>
-                                                                <div class="chat-body clearfix">
-                                                                    <div class="header">
-                                                                        <strong class="primary-font">Mentor name</strong><span class="time">asked 2 mins ago</span><a href="#">6<span class="like-h" data-icon="&#xe089;"></span></a>
-                                                                    </div>
-                                                                    <p>
-                                                                        Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum non accumsan metus. Nullam efficitur neque leo. Suspendisse semper, felis sed iaculis sagittis, mauris est tempus ex, sed gravida purus erat sed turpis. Integer elementum lobortis augue quis suscipit. Proin fermentum nunc et porta suscipit. In felis nisi, egestas vel ante a, iaculis auctor ex.
-                                                                    </p>
-                                                                    <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p>
+                                                                    <!-- <p class="attaced-file"><img src="assets/images/img-attacfile.png" alt=""><span>filename.pdf - 12 MB</span></p> -->
                                                                 </div>
                                                             </li>
                                                         </ul>
+                                                        <h5 ng-show="!comments">No Comment here</h5>
                                                     </div>
                                                 </form>
                                             </div>
