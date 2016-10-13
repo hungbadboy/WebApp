@@ -524,6 +524,13 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 }
             }
         };
+        // show confirm when click other page
+        // $scope.$on('$locationChangeStart', function( event ) {
+        //     var answer = confirm("Are you sure you want to leave this page?")
+        //     if (!answer) {
+        //         event.preventDefault();
+        //     }
+        // });
         $scope.removeImg = function (index) {
             $scope.filesArray.splice(index, 1);
             $scope.stepsModel.splice(index, 1);
