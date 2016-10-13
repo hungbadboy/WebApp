@@ -298,7 +298,7 @@ brotControllers.controller('UploadTutorialController',
     var player;
     function onYouTubeIframeAPIReady(youtubeId) {
       player = new YT.Player('uplad_player', {
-          height: '310',
+          height: '333',
           width: '550',
           videoId: youtubeId,
           events: {

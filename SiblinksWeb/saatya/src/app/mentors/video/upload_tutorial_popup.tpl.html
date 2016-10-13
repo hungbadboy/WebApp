@@ -12,7 +12,7 @@
                <span>{{error}}</span>
             </div>
             <div class="form-modal">
-                <form action="" method="" role="form">
+                <form action="" method="" role="form" id="uploadTutorial">
                     <div class="form-group">
                         <input type="text" class="form-control input-custom-link" id="txtUploadLink" placeholder="Youtube Link or ID" required ng-enter="validateLink()" ng-blur="validateLink()" ng-hide="link" maxlength="99">
                         <input type="text" class="form-control input-custom-link" readonly="readonly" value="{{link}}" ng-show="link" tabindex="-1">
@@ -34,17 +34,15 @@
                         <select name="" id="uploadPlaylist" data-ng-model="uploadPlaylist" class="form-control">
                             <option value="0">Choose playlist</option>
                             <option ng-repeat="p in playlists track by $index" value="{{p.plid}}">{{p.name}}</option>
-                        </select>                        
+                        </select>
                     </div>
                 </form>
             </div>
         </div>
         <div class="col-md-6 right-modal">
-            <h4>Get information from youtube</h4>
             <div ng-show="vid" style="margin-bottom: 15px;">
-                <div class="box-video-lag" id="uplad_player">
-                </div>
-            </div>                
+                <div class="box-video-lag" id="uplad_player"></div>
+            </div>
         </div>
     </div>
     <div class="clearfix">
