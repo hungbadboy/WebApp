@@ -529,6 +529,13 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $scope.stepsModel.splice(index, 1);
 
         }
+        $scope.removeImgOld = function (index) {
+            if(!isEmpty($scope.imagePathOld)){
+                oldImagePathEdited += $scope.imagePathOld[index];
+            }
+            $scope.imagePathOld.splice(index, 1);
+
+        }
 
         $scope.imageIsLoaded = function (e) {
             $scope.$apply(function () {
