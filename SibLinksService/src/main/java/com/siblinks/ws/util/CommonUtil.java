@@ -2,6 +2,7 @@ package com.siblinks.ws.util;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.security.SecureRandom;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -280,11 +282,11 @@ public class CommonUtil {
 
     /**
      * This method use to get sub category
-     * 
+     *
      * @param id
      *            This parameter is parent id
      * @param strCategory
-     * 
+     *
      * @param listCategory
      * @return
      */
@@ -311,6 +313,15 @@ public class CommonUtil {
             }
         }
         return StringUtils.join(subjects, ",");
+    }
+
+    /**
+     * @return random password when admin add new mentor
+     */
+    public String getAutoGeneratePwd() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~!@#$%^&";
+        String pwd = RandomStringUtils.random(8, 0, 0, false, false, characters.toCharArray(), new SecureRandom());
+        return pwd;
     }
 
 }

@@ -89,7 +89,7 @@ brotControllers.controller('MentorProfileController',
                             }
                         }
                         if (subName.length > 0) {
-                            $scope.mentorSubs = subName.join(',');
+                            $scope.mentorSubs = subName.join(', ');
                         } else {
                             $scope.mentorSubs = "None";
                         }
@@ -233,7 +233,7 @@ brotControllers.controller('MentorProfileController',
                 var subjectSelected = angular.element('.masterSubject:checked');
                 for (var i = 0; i < subjectSelected.length; i++) {
                     arrSubjectSelected.push(subjectSelected[i].defaultValue);
-                    strSubsName += subjectSelected[i].name + ',';
+                    strSubsName += subjectSelected[i].name + ', ';
                 }
                 var strSubs = arrSubjectSelected.join(',');
                 // Selected Favourite

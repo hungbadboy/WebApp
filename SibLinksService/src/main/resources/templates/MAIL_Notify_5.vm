@@ -1,0 +1,47 @@
+<html>
+	<body >
+		<table cellspacing=5>
+			<tr>
+				<td colspan=2 style="font-size: 20px;">Saatya User Registration</td>
+			</tr>
+			
+		</table>
+		<br/>		
+	---------------------------------------------------------------------------------------------------------------------------------
+	<br>
+	Hi
+	<br>
+	<B>
+		It appears that you would like to register for Saatya, 
+	</B>
+	
+	<br>
+					ACCOUNT INFORMATION
+	<br>
+	 UserName : ${userName}
+	<br>
+	 Password : ${password}
+	<br>
+	Please click this link below to login !
+	<br>
+	<A HREF="${URL_LOGIN}">Click Here</A>
+	<br>
+	Thanks. You're registered.
+	<br>
+	<br>
+	Hope to see you soon!
+	<br>
+	Love,
+	<br>
+	Team SibLinks
+	<br>
+	<br>
+	<br><br>
+	<br>
+	<br>
+	---------------------------------------------------------------------------------------------------------------------------------
+	
+	<br>
+	</body>
+</html>
+
