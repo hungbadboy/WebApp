@@ -741,6 +741,8 @@ img.loadingImgCentered {
 /* Tavv CSS Dialog Add New Mentor, ADmin */
 .ui-dialog {
 	z-index: 99999 !important;
+	top : 10px !important;
+	height : 620px;
 }
 
 .ui-button .ui-button-text {
@@ -970,6 +972,8 @@ ul, li {
 	height : 129px;
 	margin-left : 30px;
 	border: 1px solid #000;
+	position : relative;
+	z-index: 1;
 }
 
 .thumnail img {
@@ -987,7 +991,7 @@ ul, li {
 /*CSS Dialog Loading*/
 #loading-div-background{
     display: none;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     background: #fff;
@@ -999,7 +1003,7 @@ ul, li {
     width: 300px;
     height: 150px;
     background-color: #fff;
-    border: 5px solid #1468b3;
+    border: 5px solid #4ba6cc;
     text-align: center;
     color: #202020;
     position: absolute;
@@ -1011,4 +1015,30 @@ ul, li {
     -moz-border-radius: 5px;
     border-radius: 5px;
     behavior: url("/css/pie/PIE.htc"); /* HANDLES IE */
+    z-index : 9999;
+}
+
+#loading-div-background-admin{
+    display: none;
+    background: #fff;
+}
+
+#loading-div-admin{
+	width: 300px;
+    height: 150px;
+    background-color: #fff;
+    border: 5px solid #4ba6cc;
+    text-align: center;
+    color: #202020;
+    position: absolute;
+    left: 28%;
+    top: 60%;
+    margin-left: 1;
+    margin-top: -100px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    behavior: url("/css/pie/PIE.htc"); /* HANDLES IE */
+    z-index : 9999;
+    margin-top : -15%;
 }
