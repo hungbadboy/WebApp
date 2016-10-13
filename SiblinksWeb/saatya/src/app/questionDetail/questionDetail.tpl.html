@@ -42,8 +42,9 @@
                                              ng-click="isShowEdit = isShowEdit ? false : true" ng-if="question.authorId == userId">
                                             <div class="edit-question" ng-show="isShowEdit">
                                                 <ul>
-                                                    <li class="edit" ng-click="editQuestion(question.question_id)"><span data-icon="&#xe08a;">&nbsp;&nbsp;</span>Edit</li>
-                                                    <li class="delete" ng-if="countAnswer == 0" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteQuestion(question.question_id)"><span data-icon="&#x51;">&nbsp;&nbsp;</span>Delete</li>
+                                                    <li class="edit" ng-click="editQuestion(question.question_id)">  <a href="javascript:void(0)"><span data-icon="&#xe08a;"></span>Edit</a></li>
+                                                    <li class="delete" ng-if="countAnswer == 0" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteQuestion(question.question_id)">
+                                                    <a href="javascript:void(0)"><span data-icon="&#x51;">&nbsp;&nbsp;</span>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </div>
