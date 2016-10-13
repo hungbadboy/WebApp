@@ -111,6 +111,7 @@ $(document).ready(function() {
 	
 	$('#btnAddMentor').click(function() {
 		$('#box-add-mentor').dialog({
+			dialogClass: 'no-close',
 			display : 'block',
 			width : 1200,
 			modal : true,
@@ -120,14 +121,17 @@ $(document).ready(function() {
 				"Ok" : function() {
 					var json = validateFormRegisterMentor();
 					if (json.hasOwnProperty("message")) {
-						$("#msgRegister").text("Plz, Enter the correct form !!!").css('color', 'red');
+						$("#msgRegisterMentor").text("Plz, Enter the correct form !!!").css('color', 'red');
 					} else {
-//						showHideDialog(true);
+						showDialog("M",true);
+						disableButton(true);
 						addNewAdminMentor(json);
 					}
 				},
 				"Cancel" : function() {
+					$("#msgRegisterMentor").text("");
 					$(this).dialog("close");
+					
 				}
 
 			},
@@ -136,6 +140,7 @@ $(document).ready(function() {
 
 	$('#btnAddAdmin').click(function() {
 		$('#box-add-admin').dialog({
+			dialogClass: 'no-close',
 			display : 'block',
 			width : 700,
 			modal : true,
@@ -147,10 +152,13 @@ $(document).ready(function() {
 					if (json.hasOwnProperty("message")) {
 						$("#msgRegister").text("Plz, Enter the correct form !!!").css('color', 'red');
 					} else {
+						showDialog("A",true);
+						disableButton(true);
 						addNewAdminMentor(json);
 					}
 				},
 				"Cancel" : function() {
+					$("#msgRegister").text("");
 					$(this).dialog("close");
 				}
 
@@ -286,6 +294,7 @@ function addNewAdminMentor(jsonRegister) {
 	var RequestAdmin = new Object();
 	RequestAdmin.request_data_type = 'user';
 	RequestAdmin.request_data_method = 'registerAdmin';
+	var role = jsonRegister.role;
 	$.ajax({
 		url : endPointUrl + 'user/registerAdminMentor',
 		type : "POST",
@@ -293,13 +302,23 @@ function addNewAdminMentor(jsonRegister) {
 		contentType : "application/json; charset=utf-8",
 		data : JSON.stringify(jsonRegister),
 		success : function(data) {
-			$("#msgRegisterMentor").text(data.request_data_result).css('color', 'yellowgreen');
-//			clearFormRegMentor();
-//			showHideDialog(false);
+			if(role="M"){
+				$("#msgRegisterMentor").text(data.request_data_result).css('color', 'yellowgreen');
+			}else{
+				$("#msgRegister").text(data.request_data_result).css('color', 'yellowgreen');
+			}
+			clearFormRegMentor();
+			showDialog(false);
+			disableButton(false);
 		},
 		error : function(data) {
-			$("#msgRegisterMentor").text(data.request_data_result).css('color', 'red');
-//			showHideDialog(false);
+			if(role="M"){
+				$("#msgRegisterMentor").text(data.request_data_result).css('color', 'red');
+			}else{
+				$("#msgRegister").text(data.request_data_result).css('color', 'red');
+			}
+			showDialog(false);
+			disableButton(false);
 		}
 	});
 }
@@ -327,7 +346,9 @@ function clearFormRegMentor(){
     var arrSubjectSelected = [];
     var subjectSelected = $('.subjects');
     for (var i = 0; i < subjectSelected.length; i++) {
-        subjectSelected[i].prop("checked") == false;
+    	if(subjectSelected[i].checked == true){
+    		subjectSelected[i].checked = false;
+    	}
     }
 }
 
@@ -347,18 +368,47 @@ function getSubjects(callback){
 }
 
 function init(){
-	$("#datepicker").datepicker();
-	$("#datepickerMentor").datepicker();
+	$("#datepicker").datepicker({
+		changeMonth: true,
+	    changeYear: true,
+	    yearRange: '1900:' + new Date().getFullYear()
+	});
+	$("#datepickerMentor").datepicker({
+		changeMonth: true,
+	    changeYear: true,
+	    yearRange: '1900:' + new Date().getFullYear()
+	});
 	$('#box-add-mentor').hide();
 	$('#box-add-admin').hide();
-	$('#loading-div-background').hide();
+	$('#loading-div-background').css('display', 'none');
+	$('#loading-div-background-admin').hide();
 }
 
-function showHideDialog(enable){
-	if(enable){
-		$("#loading-div-background").show();
+function showDialog(type,enable){
+	if(type=="M"){
+		if(enable){
+			$("#loading-div-background").css('display', 'block');
+		}else{
+			$("#loading-div-background").css('display', 'none');
+		}
 	}else{
-		$("#loading-div-background").hide();
+		if(enable){
+			$("#loading-div-background-admin").show();
+		}else{
+			$("#loading-div-background-admin").hide();
+		}
+	}
+}
+
+
+
+function disableButton(isDisable){
+	if(isDisable){
+		$(":button:contains('Ok')").prop("disabled", true).addClass("ui-state-disabled");
+		$(":button:contains('Cancel')").prop("disabled", true).addClass("ui-state-disabled");
+	}else{
+		$(":button:contains('Ok')").prop("disabled", false).removeClass("ui-state-disabled");
+		$(":button:contains('Cancel')").prop("disabled", false).removeClass("ui-state-disabled");
 	}
 }
 

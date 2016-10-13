@@ -74,23 +74,24 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
         });
 
-        $scope.nextAnswer= function (str) {
-            if(str=='next'){
-                if($scope.currentIndexAnswer == $scope.listAnswer.length - 1){
+        $scope.nextAnswer = function (str) {
+            if (str == 'next') {
+                if ($scope.currentIndexAnswer == $scope.listAnswer.length - 1) {
                     $scope.currentIndexAnswer = 0;
 
-                    return;
+                } else {
+                    $scope.currentIndexAnswer = $scope.currentIndexAnswer + 1;
                 }
-                $scope.currentIndexAnswer = $scope.currentIndexAnswer + 1;
+
             }
-            if(str=='prev'){
-                if($scope.currentIndexAnswer == 0){
+            if (str == 'prev') {
+                if ($scope.currentIndexAnswer == 0) {
                     $scope.currentIndexAnswer = $scope.listAnswer.length - 1;
-                    return;
+                } else {
+                    $scope.currentIndexAnswer = $scope.currentIndexAnswer - 1;
                 }
-                $scope.currentIndexAnswer = $scope.currentIndexAnswer - 1;
             }
-            $scope.currentAnswer = $scope.listAnswer[ $scope.currentIndexAnswer];
+            $scope.currentAnswer = $scope.listAnswer[$scope.currentIndexAnswer];
 
         }
         
@@ -227,6 +228,14 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 $scope.listAnswer = [];
                 $scope.isLoadMoreAnswer = true;
                 $scope.listAnswer = answers;
+
+                if($scope.listAnswer.length > 0){
+                    $scope.currentIndexAnswer = 0;
+                    $scope.currentAnswer = $scope.listAnswer[ $scope.currentIndexAnswer];
+                }
+                else {
+                    $scope.currentAnswer = null;
+                }
             });
         }
         $scope.convertToArrayImage = function (str) {
@@ -324,7 +333,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         }
 
         $scope.answerQuestion = function (pid) {
-            $rootScope.$broadcast('open');
             $scope.QAErrorMsg="";
             var content = $('#txtAnswer').val();
             if (!content) {
@@ -376,6 +384,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             fd.append('content', content);
             fd.append('subjectId', $scope.questionDetail.subjectId);
             fd.append('pid', pid);
+            $rootScope.$broadcast('open');
             managerQAService.postAnswer(fd).then(function (data) {
                 var rs = data.data.status;
                 if(rs){
@@ -518,6 +527,13 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.removeImg = function (index) {
             $scope.filesArray.splice(index, 1);
             $scope.stepsModel.splice(index, 1);
+
+        }
+        $scope.removeImgOld = function (index) {
+            if(!isEmpty($scope.imagePathOld)){
+                oldImagePathEdited += $scope.imagePathOld[index];
+            }
+            $scope.imagePathOld.splice(index, 1);
 
         }
 

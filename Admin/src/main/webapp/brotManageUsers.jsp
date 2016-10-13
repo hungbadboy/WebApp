@@ -20,6 +20,13 @@
 			<div class="message">
 				<span id="msgRegister"></span>
 			</div>
+			<div id="loading-div-background-admin">
+				<div id="loading-div-admin" class="ui-corner-all">
+					<img style="height: 32px; width: 32px; margin: 30px;"
+						src="css/images/waiting.gif" alt="Loading.." /><br>PROCESSING.
+					PLEASE WAIT...
+				</div>
+			</div>
 			<form>
 				<div class="clearfix">
 					<div class="left-site">
