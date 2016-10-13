@@ -324,7 +324,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         }
 
         $scope.answerQuestion = function (pid) {
-            $rootScope.$broadcast('open');
             $scope.QAErrorMsg="";
             var content = $('#txtAnswer').val();
             if (!content) {
@@ -376,6 +375,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             fd.append('content', content);
             fd.append('subjectId', $scope.questionDetail.subjectId);
             fd.append('pid', pid);
+            $rootScope.$broadcast('open');
             managerQAService.postAnswer(fd).then(function (data) {
                 var rs = data.data.status;
                 if(rs){
