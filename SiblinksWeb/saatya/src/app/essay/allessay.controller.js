@@ -11,8 +11,8 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   function init(){
     $(window).scroll(function(){    
       var qa_scroll = $(window).scrollTop();
-      if (qa_scroll > 70) {
-        $(".mentor-manage-qa-content .left-qa").css({"top":"90px", "height":"90%"});
+      if (qa_scroll > 75) {
+        $(".mentor-manage-qa-content .left-qa").css({"top":"95px", "height":"90%"});
         $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"75vh"});
       }
       else {
@@ -138,6 +138,16 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   $scope.detailEssay = function(eid){
     $scope.eid = eid;
     getEssayById(eid, userId);
+  }
+
+  $scope.goToProfile = function(id){
+      if (id == userId) {
+          window.location.href = '#/mentor/mentorProfile';
+          window.location.reload();
+      } else{
+          window.location.href = '#/mentor/studentProfile/'+id+'';
+          window.location.reload();
+      }
   }
 
   var file;
