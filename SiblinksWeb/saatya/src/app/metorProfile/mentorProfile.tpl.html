@@ -12,19 +12,15 @@
                             <div class="avt">
                                 <div class="box-avatar">
                                     <div class="img-avt">
-                                        <img ng-src="{{mentorInfo.imageUrl != null ? mentorInfo.imageUrl  : 'assets/images/noavartar.jpg'}}"
-                                             err-src="assets/images/noavartar.jpg">
+                                        <img ng-src="{{mentorInfo.imageUrl != null ? mentorInfo.imageUrl  : 'assets/images/noavartar.jpg'}}" err-src="assets/images/noavartar.jpg">
                                     </div>
                                     <h4>{{mentorInfo.firstname != null ? mentorInfo.firstname : ''}}
                                         {{mentorInfo.lastName != null ? mentorInfo.lastName : ''}}</h4>
                                     <span class="changeImg broswer-img" ng-show="!isLoginViaFBOrGoogle">
-                                                    <input type="file" id="changeImg" name="changeImg[]"
-                                                           ng-file-select="onFileSelect($files)" accept='image/*'>
-                                                    <label for="changeImg">
-                                                        <span data-icon="">
-
-                                                        </span>
-                                                    </label>
+                                        <input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)" accept='image/*'>
+                                        <label for="changeImg">
+                                        	<span data-icon=""></span>
+                                        </label>
                                     </span>
                                 </div>
                                 <div class="box-information" style="padding: 36px 13px 36px 20px">
@@ -32,7 +28,7 @@
                                     <p>{{mentorInfo.accomplishments != null ? mentorInfo.accomplishments :
                                         EMPTY_DATA}}</p>
                                     <h5>About me</h5>
-                                    <p>{{mentorInfo.bio != null ? mentorInfo.bio : EMPTY_DATA }}</p>
+                                    <p class="pre-wrap">{{mentorInfo.bio != null ? mentorInfo.bio : EMPTY_DATA }}</p>
                                     <h5>Knowledge field: </h5>
                                     <p>{{mentorSubs}}</p>
                                     <h5>Sex <span>{{(mentorInfo.gender =='M')?'Male':(mentorInfo.gender =='F')?'Female':'Other'}}</span>
@@ -47,19 +43,15 @@
                                 <div class="user-profile-setting">
                                     <ul class="nav nav-tabs">
                                         <li class="active" ng-click="changeTab()">
-                                            <a data-toggle="tab" href="/mentor/mentorProfile#perInfor">
-                                                Personal Information
-                                            </a>
+                                            <a data-toggle="tab" href="/mentor/mentorProfile#perInfor">Personal Information</a>
                                         </li>
                                         <li ng-show="!isLoginViaFBOrGoogle" ng-click="changeTab()">
-                                            <a data-toggle="tab" href="/mentor/mentorProfile#changPass">
-                                                Change password
-                                            </a>
+                                            <a data-toggle="tab" href="/mentor/mentorProfile#changPass">Change password</a>
                                         </li>
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="perInfor">
-                                            <div ng-show="!isHideMessage">
+                                            <div>
                                                 <div ng-if="msgSuccess" class="succesful">
                                                     <span>{{msgSuccess}}</span>
                                                 </div>
@@ -70,13 +62,16 @@
                                             <form action="" method="">
                                                 <div class="personal-information">
                                                     <div class="left-form">
-                                                        <p><input type="text" placeholder="FirstName" name="firstname">
+                                                        <p>
+                                                        	<input type="text" placeholder="FirstName" name="firstname">
                                                         </p>
-                                                        <p><input type="text" placeholder="LastName" name="lastname">
+                                                        <p>
+                                                        	<input type="text" placeholder="LastName" name="lastname">
                                                         </p>
-                                                        <p><input type="email" placeholder="Email" name="email"></p>
-                                                        <p><input type="text" placeholder="Accomplishments"
-                                                                  name="school"></p>
+                                                        <p>
+                                                        	<input type="email" placeholder="Email" name="email"></p>
+                                                        <p>
+                                                        	<input type="text" placeholder="Accomplishments" name="school"></p>
                                                         <div class="favorite-field">
                                                             <p>Favourites Field:</p>
                                                             <div class="check-favorite">
@@ -110,20 +105,13 @@
                                                     </div>
                                                     <div class="right-form">
                                                         <p class="sex">
-                                                            <input type="radio" name="gender" value="male"
-                                                                   checked><label>Male</label>
-                                                            <input type="radio" name="gender" value="female"><label>
-                                                            Female</label>
-                                                            <input type="radio" name="gender" value="other"><label>
-                                                            Other</label>
+                                                            <input type="radio" name="gender" value="male" checked><label>Male</label>
+                                                            <input type="radio" name="gender" value="female"><label>Female</label>
+                                                            <input type="radio" name="gender" value="other"><label>Other</label>
                                                         </p>
-
-                                                        <p><input type="text" id="bod" ng-model="date" placeholder="BOD"
-                                                                  brotdatepicker dateFormat="dd M, yy"/></p>
-                                                        <p><textarea placeholder="About me..."
-                                                                     name="aboutme"></textarea></p>
+                                                        <p><input type="text" id="bod" ng-model="date" placeholder="BOD" brotdatepicker dateFormat="dd M, yy"/></p>
+                                                        <p><textarea placeholder="About me..." name="aboutme"></textarea></p>
                                                     </div>
-
                                                     <div class="submit col-md-12">
                                                         <button type="button" id="reset" ng-click="reset()">Reset
                                                         </button>
@@ -134,9 +122,8 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="content-question tab-pane" id="changPass"
-                                             ng-show="!isLoginViaFBOrGoogle">
-                                            <div ng-show="!isHideMessage">
+                                        <div class="content-question tab-pane" id="changPass" ng-show="!isLoginViaFBOrGoogle">
+                                            <div>
                                                 <div ng-if="msgSuccess" class="succesful">
                                                     <span>{{msgSuccess}}</span>
                                                 </div>
@@ -146,14 +133,9 @@
                                             </div>
                                             <form acition="" method="">
                                                 <div class="change-password">
-                                                    <p><input type="password" placeholder="Current password"
-                                                              name="currentpassword" id="password"></p>
-                                                    <p><input type="password" id="pass" placeholder="New password"
-                                                              name="newpassword" data-toggle="popover"
-                                                              data-trigger="hover" data-placement="top"
-                                                              data-content="Change must be at least 8 characters"></p>
-                                                    <p><input type="password" id="confirm"
-                                                              placeholder="Confirm password" name="confirmpassword"></p>
+                                                    <p><input type="password" placeholder="Current password" name="currentpassword" id="password"></p>
+                                                    <p><input type="password" id="pass" placeholder="New password" name="newpassword" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Change must be at least 8 characters"></p>
+                                                    <p><input type="password" id="confirm" placeholder="Confirm password" name="confirmpassword"></p>
                                                 </div>
                                                 <div class="submit col-md-12">
                                                     <button type="button" id="reset" ng-click="resetFormPwd()">Reset

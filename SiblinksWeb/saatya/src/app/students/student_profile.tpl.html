@@ -48,14 +48,14 @@
                         </div>
                         <div class="student-info">
                             <strong>About me</strong><br>
-                            <span>{{studentInfo.bio}}</span>
+                            <span class="pre-wrap">{{studentInfo.bio}}</span>
                         </div>
                         <div class="student-sex">
                             <strong>Sex:</strong>
                             <span>{{(studentInfo.gender =='M')?'Male':(studentInfo.gender =='F')?'Female':'Other'}}</span>
                         </div>
                         <div class="student-bio">
-                            <strong>BOD:</strong>
+                            <strong>BOD: </strong>
                             <span>{{birthDay}}</span>
                         </div>
                         <div class="student-sex">
@@ -199,7 +199,9 @@
                                             </div><!-- /End answer of question -->
                                         </div>
                                     </div><!-- End question 01 -->
-
+									<div ng-if="!askQuestion">
+                                    	<h5 class="essay-title">No data found</h5>
+                                	</div>
                                 </div>
                             </div>
                             <!-- POPUP of images's question -->
@@ -253,19 +255,15 @@
                             <div class="user-profile-setting">
                                 <ul class="nav nav-tabs">
                                     <li class="active" ng-click="changeTab()">
-                                        <a data-toggle="tab" href="/studentProfile/#perInfor" ng-click="changeTab()">
-                                            Personal Information
-                                        </a>
+                                        <a data-toggle="tab" href="/student/studentProfile/#perInfor">Personal Information</a>
                                     </li>
                                     <li ng-show="!isLoginViaFBOrGoogle" ng-click="changeTab()">
-                                        <a data-toggle="tab" href="/studentProfile/#changPass" ng-click="changeTab()">
-                                            Change password
-                                        </a>
+                                        <a data-toggle="tab" href="/student/studentProfile/#changePass">Change password</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="content-question tab-pane active" id="perInfor">
-                                        <div ng-show="hasShowMessage">
+                                        <div>
                                             <div ng-if="msgSuccess" class="succesful">
                                                 <span>{{msgSuccess}}</span>
                                             </div>
@@ -336,8 +334,8 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="content-question tab-pane" id="changPass" ng-if="isLoginViaFBOrGoogle">
-                                        <div ng-show="hasShowMessage">
+                                    <div class="content-question tab-pane" id="changePass" ng-hide="isLoginViaFBOrGoogle">
+                                        <div>
                                             <div ng-if="msgSuccess" class="succesful">
                                                 <span>{{msgSuccess}}</span>
                                             </div>
@@ -347,14 +345,9 @@
                                         </div>
                                         <form acition="" method="">
                                             <div class="change-password">
-                                                <p><input type="password" placeholder="Current password"
-                                                          name="currentpassword" id="password"></p>
-                                                <p><input type="password" id="pass" placeholder="New password"
-                                                          name="newpassword" data-toggle="popover"
-                                                          data-trigger="hover" data-placement="top"
-                                                          data-content="Change must be at least 8 characters"></p>
-                                                <p><input type="password" id="confirm"
-                                                          placeholder="Confirm password" name="confirmpassword"></p>
+                                                <p><input type="password" placeholder="Current password" name="currentpassword" id="password"></p>
+                                                <p><input type="password" id="pass" placeholder="New password" name="newpassword" data-toggle="popover" data-trigger="hover" data-placement="top"></p>
+                                                <p><input type="password" id="confirm" placeholder="Confirm password" name="confirmpassword"></p>
                                             </div>
                                             <div class="submit col-md-12">
                                                 <button type="button" id="reset" ng-click="resetFormPwd()">Reset

@@ -1,4 +1,4 @@
-brotControllers.controller('SignUpController', ['$scope', '$http', '$log','StudentService', function($scope, $http, $log, StudentService) {
+brotControllers.controller('SignUpController', ['$scope','$rootScope', '$location', '$window', '$http', '$log','StudentService', function($scope, $rootScope, $location, $window, $http, $log, StudentService) {
   $scope.title = 'Please complete the information below in order to login';
   $scope.user = {};
 
@@ -10,6 +10,7 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
   }
   
   $scope.SignUp = function(user) {
+	$scope.error ="";
     if(user.email == null || user.email === '') {
       $scope.error = 'Email is required';
       $("#email").focus();
@@ -44,6 +45,7 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
         //active student
     	$rootScope.$broadcast('open');
         StudentService.loginUser(user.email, user.password, function(data) {
+        	$rootScope.$broadcast('close');
             if(data.status == 'true') {
               var dataUser = data;
               setStorage('userName', dataUser['username'], 30);
@@ -60,12 +62,12 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
                 nameHome = capitaliseFirstLetter(dataUser['firstname']) + ' ' + capitaliseFirstLetter(dataUser['lastname']);
               }
               setStorage('nameHome', nameHome, 30);
-              window.location.href = '/';
+              $window.location.href='#/student/studentProfile';
+              $window.location.reload();
             } else {
-            	$scope.loginMess = 'Your email is already exists';
+            	$scope.error = 'Your email is already exists';
             }
           });
-        $rootScope.$broadcast('close');
       } else {
         $scope.error = data.request_data_result[0];
       }
@@ -98,7 +100,9 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
 	    		  setStorage('lastname', dataUser['lastname'], 30);
 	    		  var nameHome = $scope.firstName + ' ' + $scope.lastName;
 	    		  setStorage('nameHome', nameHome, 30);
-	    		  window.location.href="/";
+	              $window.location.href='#/student/studentProfile';
+	              $window.location.reload();
+
 	    		  
 	    	  } else {
 	    		  $scope.loginMess = 'Your email is already exists';
@@ -137,7 +141,9 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
 	            setStorage('fullName', dataUser['firstName'], 30);
 	            setStorage('lastname', dataUser['lastname'], 30);
 	            setStorage('nameHome', nameHome, 30);
-	            window.location.href = '/';  
+	            $window.location.href='#/student/studentProfile';
+	            $window.location.reload();
+  
 	          });
 	        });
 	      });

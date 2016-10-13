@@ -18,7 +18,6 @@ brotControllers.controller('MentorProfileController',
             $scope.isSubscribe = 0;
 
             $scope.isLoginViaFBOrGoogle = false;
-            $scope.isHideMessage = true;
             var subjects = JSON.parse(localStorage.getItem('subjects'));
 
             init();
@@ -183,22 +182,9 @@ brotControllers.controller('MentorProfileController',
             $scope.updateProfile = function () {
                 var check = true;
                 var error = '';
-                $scope.isHideMessage = true;
-                // if ($('input[name="music"][value="Music"]').is(':checked')) {
-                //     favorite += $('input[name="music"][value="Music"]').val();
-                // }
-                // if ($('input[name="art"][value="Art"]').is(':checked')) {
-                //     if (favorite.length > 0)
-                //         favorite += ',' + $('input[name="art"][value="Art"]').val();
-                //     else
-                //         favorite += $('input[name="art"][value="Art"]').val();
-                // }
-                // if ($('input[name="sport"][value="Sport"]').is(':checked')) {
-                //     if (favorite.length > 0)
-                //         favorite += ',' + $('input[name="sport"][value="Sport"]').val();
-                //     else
-                //         favorite += $('input[name="sport"][value="Sport"]').val();
-                // }
+                $scope.msgError = "";
+                $scope.msgSuccess = "";
+                
                 var gender = '';
                 if ($('input[name="gender"][value="male"]').is(':checked')) {
                     gender = "M";
@@ -221,13 +207,6 @@ brotControllers.controller('MentorProfileController',
                     email = "";
                 }
                 var strSubsName = "";
-                // var selected = [];
-                // var objSelected = $('.subject-field input:checked');
-                // for (var i = 0; i < objSelected.length; i++) {
-                //     selected.push(objSelected[i].defaultValue);
-                // }
-                // var strSubs = selected.join(',');
-
                 // Selected Subject
                 var arrSubjectSelected = [];
                 var subjectSelected = angular.element('.masterSubject:checked');
@@ -260,7 +239,9 @@ brotControllers.controller('MentorProfileController',
                         'favorite': favorite,
                         'defaultSubjectId': strSubs
                     };
+                    $rootScope.$broadcast('open');
                     StudentService.updateUserProfile(mentor).then(function (data) {
+                    	$rootScope.$broadcast('close');
                         if (data.data.request_data_result == "Success") {
                             if (mentor) {
                                 $scope.mentorInfo.firstname = mentor.firstName;
@@ -273,32 +254,40 @@ brotControllers.controller('MentorProfileController',
                                 $scope.birthDay = mentor.bod;
                                 $scope.mentorSubs = strSubsName.substr(0, strSubsName.lastIndexOf(','));
                             }
-                            $scope.msgSuccess = "Update Profile Successful !";
+                            $scope.msgSuccess = "Updating profile successful !";
                         }
                         else {
                             if (error != '') {
                                 $scope.msgError = error;
                             } else {
-                                $scope.msgError = "Update Profile Failure";
+                                $scope.msgError = "Updating profile failure";
                             }
                         }
-                        $scope.isHideMessage = false;
                     });
                 }
                 else {
                     console.log(error);
                 }
             };
-
+            
+            /**
+             * 
+             */
             $scope.changeTab = function () {
-                $scope.isHideMessage = true;
+            	$scope.msgError = "";
+                $scope.msgSuccess = "";
             };
 
-
+            /**
+             * 
+             */
             $scope.reset = function () {
 
             };
-
+            
+            /**
+             * 
+             */
             $scope.resetFormPwd = function () {
                 resetFormPwd();
             };
@@ -310,8 +299,12 @@ brotControllers.controller('MentorProfileController',
 
             }
 
-
+            /**
+             * 
+             */
             $scope.changePassword = function () {
+            	$scope.msgError = "";
+                $scope.msgSuccess = "";
                 //get value input
                 var oldPwd = $('#password').val();
                 var newPwd = $('#pass').val();
@@ -322,15 +315,15 @@ brotControllers.controller('MentorProfileController',
                     angular.element('#password').trigger('focus');
                 } else if (newPwd == "" || newPwd === undefined) {
                     $scope.msgError = "New password is required.";
-                    angular.element('#newPwd').trigger('focus');
+                    angular.element('#pass').trigger('focus');
                 } else if (confirmPwd == "" || confirmPwd === undefined) {
                     $scope.msgError = "Confirm password is required.";
-                    angular.element('#confirmPwd').trigger('focus');
+                    angular.element('#confirm').trigger('focus');
                 } else if (oldPwd == newPwd) {
-                    angular.element('#newPwd').trigger('focus');
-                    $scope.msgError = "New Password must difference New Password.";
+                    angular.element('#pass').trigger('focus');
+                    $scope.msgError = "New Password must difference old Password.";
                 } else if (newPwd !== confirmPwd) {
-                    angular.element('#newPwd').trigger('focus');
+                    angular.element('#confirm').trigger('focus');
                     $scope.msgError = "Password is not matched.";
                 } else {// Request change pwd
                     var user = {
@@ -338,15 +331,15 @@ brotControllers.controller('MentorProfileController',
                         'password': oldPwd,
                         'newpassword': newPwd
                     };
-
+                    $rootScope.$broadcast('open');
                     StudentService.changePassword(user).then(function (data) {
+                    	$rootScope.$broadcast('close');
                         if (data.data.request_data_result == "Success") {
                             resetFormPwd();
                             $scope.msgSuccess = "Change password successful.";
                         } else {
                             $scope.msgError = "Change password failure. Please try again !";
                         }
-                        $scope.isHideMessage = false;
                     });
                 }
             };
