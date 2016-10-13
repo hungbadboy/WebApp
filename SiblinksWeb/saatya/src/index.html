@@ -51,12 +51,11 @@
             </div>
         </div>
     </div>
-	<loading-dialog id="loadingScreen" style="display:none"/>
 	<!-- footer area -->
 	<footer id="footer">
 		<div ng-include="footerUser"></div>
 	</footer>
-
+	<loading-dialog id="loadingScreen" style="display:none"/>
    <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
    <script type="text/javascript" src="<%= file %>"></script><% }); %>
 

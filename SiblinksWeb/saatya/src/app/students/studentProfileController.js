@@ -20,7 +20,6 @@ brotControllers.controller('StudentProfileController',
             $scope.isLoadMore = false;
             $scope.EMPTY_DATA = StatusError.MSG_UNKNOWN;
             $scope.isSubscribe = false;
-            $scope.hasShowMessage = false;
             // Subject
             $scope.masterSubjects = [];
 
@@ -162,7 +161,10 @@ brotControllers.controller('StudentProfileController',
                     }
                 });
             }
-
+            
+            /**
+             * Calculator old from birth day.
+             */
             function calculateBirthDay(timeStamp) {
                 if (!timeStamp) {
                     return null;
@@ -208,6 +210,9 @@ brotControllers.controller('StudentProfileController',
 
             $scope.changePassword = function () {
                 //get value input
+            	$scope.msgError = "";
+            	$scope.msgSuccess = "";
+            	
                 var oldPwd = $('#password').val();
                 var newPwd = $('#pass').val();
                 var confirmPwd = $('#confirm').val();
@@ -217,15 +222,15 @@ brotControllers.controller('StudentProfileController',
                     angular.element('#password').trigger('focus');
                 } else if (newPwd == "" || newPwd === undefined) {
                     $scope.msgError = "New password is required.";
-                    angular.element('#newPwd').trigger('focus');
+                    angular.element('#pass').trigger('focus');
                 } else if (confirmPwd == "" || confirmPwd === undefined) {
                     $scope.msgError = "Confirm password is required.";
-                    angular.element('#confirmPwd').trigger('focus');
+                    angular.element('#confirm').trigger('focus');
                 } else if (oldPwd == newPwd) {
-                    angular.element('#newPwd').trigger('focus');
+                    angular.element('#pass').trigger('focus');
                     $scope.msgError = "New Password must difference New Password.";
                 } else if (newPwd !== confirmPwd) {
-                    angular.element('#newPwd').trigger('focus');
+                    angular.element('#pass').trigger('focus');
                     $scope.msgError = "Password is not matched.";
                 } else {// Request change pwd
                     var user = {
@@ -233,15 +238,15 @@ brotControllers.controller('StudentProfileController',
                         'password': oldPwd,
                         'newpassword': newPwd
                     };
-
+                    $rootScope.$broadcast('open');
                     StudentService.changePassword(user).then(function (data) {
+                    	$rootScope.$broadcast('close');
                         if (data.data.request_data_result == "Success") {
                             resetFormPwd();
                             $scope.msgSuccess = "Change password successful.";
                         } else {
                             $scope.msgError = "Change password failure. Please try again !";
                         }
-                        $scope.hasShowMessage = true;
                     });
                 }
             };
@@ -251,11 +256,17 @@ brotControllers.controller('StudentProfileController',
                 $('#pass').val('');
                 $('#confirm').val('');
             }
-
+            
+            /**
+             * Click button reset in the change password form
+             */
             $scope.resetFormPwd = function () {
                 resetFormPwd();
             };
-
+            
+            /**
+             * Update profile information of user
+             */
             $scope.updateProfile = function () {
                 var check = true;
                 var error = '';
@@ -263,7 +274,6 @@ brotControllers.controller('StudentProfileController',
                 $scope.msgError = "";
                 $scope.msgSuccess = "";
 
-                $scope.hasShowMessage = false;
                 var favorite = "";
                 var strSubs = "";
                 var gender = '';
@@ -319,7 +329,9 @@ brotControllers.controller('StudentProfileController',
                         'favorite': favorite,
                         'defaultSubjectId': strSubs
                     };
+                    $rootScope.$broadcast('open');
                     StudentService.updateUserProfile(student).then(function (data) {
+                    	$rootScope.$broadcast('close');
                         if (data.data.request_data_result == "Success") {
                             if (student) {
                                 $scope.studentInfo.firstname = student.firstName;
@@ -343,15 +355,22 @@ brotControllers.controller('StudentProfileController',
                                 $scope.msgError = "Update Profile Failure";
                             }
                         }
-                        $scope.hasShowMessage = true;
                     });
                 }
             };
-
+            
+            /**
+             * function Change Tab setting profile 
+             */
             $scope.changeTab = function () {
-                $scope.hasShowMessage = false;
+            	// Clear message
+            	$scope.msgError = "";
+            	$scope.msgSuccess = "";
             };
-
+            
+            /**
+             * function click button reset in the setting profile form 
+             */
             $scope.resetProfile = function () {
                 var subs = oldDefaultSubjectId.split(',');
                 console.log($scope.masterSubjects);
@@ -520,25 +539,6 @@ brotControllers.controller('StudentProfileController',
                         $scope.birthDay = timeConverter($scope.studentInfo.birthDay, FormatDateTimeType.DD_MM_YY);
                         $scope.sinceDay = timeConverter($scope.studentInfo.registrationTime, FormatDateTimeType.MM_YY);
                         $scope.isLoginViaFBOrGoogle = $scope.studentInfo.idFacebook != null || $scope.studentInfo.idGoogle != null;
-//                        //var subjects = myCache.get("subjects");
-//                        if (subjects != undefined || subjects != null) {
-//                            var subsName = getSubjectNameById($scope.studentInfo.defaultSubjectId, subjects);
-//                            if (subsName != null && subsName != undefined) {
-//                            	var listSubs = [];
-//                                $scope.objSubs = subsName;
-//                                subsName.forEach(function (sub) {
-//                                    if (subsName.length - 1) {
-//                                        listSubs.push(sub.name);
-//                                    }
-//                                });
-//                                
-//                                $scope.subjectsName = listSubs.join(', ');
-//                            } else {
-//                                $scope.subjectsName = "None";
-//                            }
-//                        } else {
-//                            $scope.subjectsName = "None";
-//                        }
                     }
                     //displayInformation();
 

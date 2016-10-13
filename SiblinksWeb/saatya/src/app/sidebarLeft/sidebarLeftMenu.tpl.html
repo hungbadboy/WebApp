@@ -68,7 +68,7 @@
                          <span data-icon="&#x34;" class="sub-menu"></span>
                      </a>
                  </li> -->
-                <li ng-class="{active: currentPath=='/mentor/mentorProfile'}">
+                <li ng-class="{active: currentPath=='/mentor/mentorProfile' || currentPath.indexOf('/mentor/studentProfile/')>=0}">
                     <a href="#/mentor/mentorProfile">
                         <span data-icon="&#xe08a;"></span>
                         <span class="menu-title">Profile</span>
