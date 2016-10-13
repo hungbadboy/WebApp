@@ -269,7 +269,6 @@ brotControllers
                 $scope.isShowOrder = false;
 
                 $scope.orderQuestions = function (type) {
-                    $rootScope.$broadcast('open');
                     if (type == $scope.curentOrderType) {
                         $scope.isShowOrder = false;
                         return;
@@ -283,10 +282,12 @@ brotControllers
                         userId = -1;
                     }
                     isLoadMore = false;
+                    $rootScope.$broadcast('open');
                     QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
                         $scope.totalQuestion = data.data.request_data_result[0].numquestion;
                         if ($scope.totalQuestion != '0') {
                             QuestionsService.getQuestionByUserId(userId, LIMIT, OFFSET, $scope.curentOrderType, oldQid, subjectid).then(function (data) {
+                                $rootScope.$broadcast('close');
                                 if (data.data.status) {
                                     var result = data.data.request_data_result;
                                     listPosted = [];
@@ -354,10 +355,11 @@ brotControllers
                             });
                         }
                         else {
+                            $rootScope.$broadcast('close');
                             $scope.askQuestion = [];
                         }
                     });
-                    $rootScope.$broadcast('close');
+
                     $scope.isShowOrder = false;
                 }
 
