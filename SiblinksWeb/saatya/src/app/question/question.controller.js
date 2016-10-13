@@ -269,7 +269,6 @@ brotControllers
                 $scope.isShowOrder = false;
 
                 $scope.orderQuestions = function (type) {
-                    $rootScope.$broadcast('open');
                     if (type == $scope.curentOrderType) {
                         $scope.isShowOrder = false;
                         return;
@@ -283,10 +282,12 @@ brotControllers
                         userId = -1;
                     }
                     isLoadMore = false;
+                    $rootScope.$broadcast('open');
                     QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
                         $scope.totalQuestion = data.data.request_data_result[0].numquestion;
                         if ($scope.totalQuestion != '0') {
                             QuestionsService.getQuestionByUserId(userId, LIMIT, OFFSET, $scope.curentOrderType, oldQid, subjectid).then(function (data) {
+                                $rootScope.$broadcast('close');
                                 if (data.data.status) {
                                     var result = data.data.request_data_result;
                                     listPosted = [];
@@ -354,10 +355,11 @@ brotControllers
                             });
                         }
                         else {
+                            $rootScope.$broadcast('close');
                             $scope.askQuestion = [];
                         }
                     });
-                    $rootScope.$broadcast('close');
+
                     $scope.isShowOrder = false;
                 }
 
@@ -490,8 +492,8 @@ brotControllers
 
                 }
                 $scope.redirectForum = function () {
-                    // get question of student
 
+                    // get question of student of ask question
                     if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
                         $scope.askErrorMsg='Please choose category';
                         $("#autocompleteCate_value").focus();
@@ -507,7 +509,7 @@ brotControllers
                         $timeout(function () {
                             $rootScope.myVarQ = false;
                         }, 2500);
-                        $scope.askErrorMsg='You enter text or upload for your question';
+                        $scope.askErrorMsg='Please your enter your question';
                         $("#autocompleteQuest_value").focus();
                         return;
                     }
@@ -551,6 +553,7 @@ brotControllers
                     fd.append('content', questions);
 
                     fd.append('subjectId', $scope.selectedSubject.originalObject.subjectId);
+                    $rootScope.$broadcast('open');
                     HomeService.addQuestion(fd).then(function (data) {
                         if (data.data.status == "true") {
                             $(".popup-images, .form-ask-question").css({"left": "100%"});
@@ -560,6 +563,7 @@ brotControllers
                         else {
                             $scope.askErrorMsg =data.data.request_data_result;
                         }
+                        $rootScope.$broadcast('close');
                     });
 
 
@@ -567,7 +571,6 @@ brotControllers
 
                 $scope.updateQuestion = function () {
                     // get question of student
-
                     if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
                         $scope.askErrorMsg='Please choose category';
                         $("#autocompleteCate_value").focus();
@@ -636,6 +639,7 @@ brotControllers
                     fd.append('oldImagePath', oldImagePath);
 
                     fd.append('subjectId', $scope.selectedSubject.originalObject.subjectId);
+                    $rootScope.$broadcast('open');
                     QuestionsService.updateQuestion(fd).then(function (data) {
                         if (data.data.status == "true") {
                             $(".popup-images, .form-ask-question").css({"left": "100%"});
@@ -645,6 +649,7 @@ brotControllers
                         else {
                             $scope.askErrorMsg =data.data.request_data_result;
                         }
+                        $rootScope.$broadcast('close');
                     });
 
 

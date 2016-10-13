@@ -37,12 +37,12 @@
                                     <h5>University</h5>
                                     <p>{{studentInfo.school != null ? studentInfo.school : EMPTY_DATA}}</p>
                                     <h5>About me</h5>
-                                    <p>{{studentInfo.bio != null ? studentInfo.bio : EMPTY_DATA}}.</p>
+                                    <p class="pre-wrap">{{studentInfo.bio != null ? studentInfo.bio : EMPTY_DATA}}.</p>
                                     <h5>Knowledge field: </h5>
                                     <p ng-bind="subjects">
                                     </p>
                                     <h5>Sex <span>{{gender}}</span></h5>
-                                    <h5>BIO <span>{{birthDay}}</span></h5>
+                                    <h5>BOD <span>{{birthDay}}</span></h5>
                                     <h5>Since <span>{{sinceDay}}</span></h5>
                                 </div>
                             </div>

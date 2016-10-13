@@ -1,4 +1,4 @@
-brotControllers.controller('SignUpController', ['$scope', '$http', '$log','StudentService', function($scope, $http, $log, StudentService) {
+brotControllers.controller('SignUpController', ['$scope','$rootScope', '$location', '$window', '$http', '$log','StudentService', function($scope, $rootScope, $location, $window, $http, $log, StudentService) {
   $scope.title = 'Please complete the information below in order to login';
   $scope.user = {};
 
@@ -10,6 +10,7 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
   }
   
   $scope.SignUp = function(user) {
+	$scope.error ="";
     if(user.email == null || user.email === '') {
       $scope.error = 'Email is required';
       $("#email").focus();
@@ -42,7 +43,9 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
     $http.post(url, dataReg).success(function(data) {
       if(data.status == 'true') {
         //active student
+    	$rootScope.$broadcast('open');
         StudentService.loginUser(user.email, user.password, function(data) {
+        	$rootScope.$broadcast('close');
             if(data.status == 'true') {
               var dataUser = data;
               setStorage('userName', dataUser['username'], 30);
@@ -59,9 +62,10 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
                 nameHome = capitaliseFirstLetter(dataUser['firstname']) + ' ' + capitaliseFirstLetter(dataUser['lastname']);
               }
               setStorage('nameHome', nameHome, 30);
-              window.location.href = '/';
+              $window.location.href='#/student/studentProfile';
+              $window.location.reload();
             } else {
-            	$scope.loginMess = 'Your email is already exists';
+            	$scope.error = 'Your email is already exists';
             }
           });
       } else {
@@ -83,7 +87,9 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
 	      $scope.lastName = data.last_name;
 	      $scope.facebookId = data.id;
 	      $scope.image = data.picture.data.url;
+	      $rootScope.$broadcast('open');
 	      StudentService.loginFacebook($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.facebookId).then(function(data) {
+	    	  $rootScope.$broadcast('close');
 	    	  if(data.status == 'true') {
 	    		  var dataUser = data.data.request_data_result[0];
 	    		  setStorage('userName', dataUser['userName'], 30);
@@ -94,7 +100,9 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
 	    		  setStorage('lastname', dataUser['lastname'], 30);
 	    		  var nameHome = $scope.firstName + ' ' + $scope.lastName;
 	    		  setStorage('nameHome', nameHome, 30);
-	    		  window.location.href="/";
+	              $window.location.href='#/student/studentProfile';
+	              $window.location.reload();
+
 	    		  
 	    	  } else {
 	    		  $scope.loginMess = 'Your email is already exists';
@@ -122,7 +130,9 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
 	          $scope.googleid = resp.id;
 	          $scope.image = resp.image.url;
 	          var nameHome = resp.displayName;
+	          $rootScope.$broadcast('open');
 	          StudentService.loginGoogle($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.googleid).then(function(data) {
+	        	$rootScope.$broadcast('close');
 	            var dataUser = data.data.request_data_result[0];
 	            setStorage('userName', dataUser['userName'], 30);
 	            setStorage('userId', dataUser['userid'], 30);
@@ -131,7 +141,9 @@ brotControllers.controller('SignUpController', ['$scope', '$http', '$log','Stude
 	            setStorage('fullName', dataUser['firstName'], 30);
 	            setStorage('lastname', dataUser['lastname'], 30);
 	            setStorage('nameHome', nameHome, 30);
-	            window.location.href = '/';  
+	            $window.location.href='#/student/studentProfile';
+	            $window.location.reload();
+  
 	          });
 	        });
 	      });

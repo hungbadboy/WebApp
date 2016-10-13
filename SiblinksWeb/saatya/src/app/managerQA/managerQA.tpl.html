@@ -201,11 +201,11 @@
 				                                                <ul>
 				                                                    <li class="item" ng-repeat="image in convertToArrayImage(answer.imageAnswer) track by $index">
 				                                                        <div class="item-img"
-				                                                             ng-mouseover="imageHoverIn(q.id +''+$index)"
-				                                                             ng-mouseleave="imageHoverOut(q.id +''+$index)"
+				                                                             ng-mouseover="imageHoverIn(answer.aid +''+$index)"
+				                                                             ng-mouseleave="imageHoverOut(answer.aid +''+$index)"
 				                                                             ng-click="zoomImage(image)">
 				                                                            <img ng-src="{{image}}">
-				                                                            <div class="item-hover" id="{{q.id}}{{$index}}">
+				                                                            <div class="item-hover" id="{{answer.aid}}{{$index}}">
 				                                                                <img src="assets/images/ask question/look-img.png"
 				                                                                     ng-click="zoomImage(image)">
 				                                                            </div>
@@ -260,7 +260,7 @@
                     </p>
                 </div>
             </div>
-            <div class="dt-txt-question"  style="height: 55%" scroller="questionContent">
+            <div class="dt-txt-question"  style="height: 70%" scroller="questionContent">
                 <p class =" pre-wrap"  >{{questionDetail.question_text}}</p>
                 <a ng-repeat="image in questionDetail.imagePath" href="javascript:void(0)">
                     <img style="max-width: 430px;" ng-src="{{image}}">
@@ -302,7 +302,7 @@
                     <img style="max-width: 430px;" ng-src="{{img}}"></a>
             </div>
             <div class="pgt-right-ans clearfix">
-                <p class="pull-right"><span  ng-click="nextAnswer('prev')" data-icon="&#xe045;"></span><span class="num-pgt">{{$index+1}}{{'/'+questionDetail.numReplies}}</span>
+                <p class="pull-right"><span  ng-click="nextAnswer('prev')" data-icon="&#xe045;"></span><span class="num-pgt">{{currentIndexAnswer+1}}{{'/'+questionDetail.numReplies}}</span>
                     <span  ng-click="nextAnswer('next')" data-icon="&#xe046;"></span></p>
             </div>
         </div>

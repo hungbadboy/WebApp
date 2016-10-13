@@ -776,11 +776,11 @@ brotControllers.directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '
             if (scope.focusIn) {
                 scope.focusIn();
             }
-            if (minlength === 0 && (!scope.searchStr || scope.searchStr.length === 0)) {
+           // if (minlength === 0 && (!scope.searchStr || scope.searchStr.length === 0)) {
                 scope.currentIndex = scope.focusFirst ? 0 : scope.currentIndex;
                 scope.showDropdown = true;
                 showAll();
-            }
+            //}
         };
 
         scope.hideResults = function() {
@@ -1328,7 +1328,8 @@ brotControllers.directive('loadingDialog', ['$timeout', function($timeout) {
   	       }); // end of dialog
         	 
         	 scope.open= function (waiting){
-        		 console.log('waitingDialog');
+        		 //console.log('waitingDialog');
+        		 angular.element('#loadingScreen').show();
         		 angular.element('.ui-widget-header').hide();
         		 angular.element('#header').addClass('loading-disable-header');
         		 iElement.dialog('open');
@@ -1336,6 +1337,7 @@ brotControllers.directive('loadingDialog', ['$timeout', function($timeout) {
         	 
         	 scope.close= function (){
         		 angular.element('.ui-widget-header').show();
+        		 angular.element('#loadingScreen').hide();
         		 angular.element('#header').removeClass('loading-disable-header');
         		 iElement.dialog('close');
         	 }

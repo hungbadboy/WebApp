@@ -371,10 +371,10 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             }
         }
 
-        $scope.subjectId = -1;
-        $scope.sortBySubject = function (subjectId) {
+        $rootScope.subjectId = $rootScope.subjectId||-1;
+        $rootScope.sortBySubject = function (subjectId) {
             resetAllData();
-            $scope.subjectId = subjectId;
+            $rootScope.subjectId = subjectId;
             if (userId) {
                 getVideoBySubject(userId, subjectId, limit, 0);
             } else {
