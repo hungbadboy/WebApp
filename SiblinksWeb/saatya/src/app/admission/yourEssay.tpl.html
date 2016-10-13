@@ -37,31 +37,31 @@
                 </div>
                 <div class="essay-thumb">
                     <div class="essay-thumb-left">
-                        <!--<p>Mentor:</p>
+                        <p>Mentor:</p>
                         <p class="name-mentor"><a href="#/mentorProfile/{{currentEssay.mentorID}}">
-                            {{currentEssay.firstName+' '+currentEssay.lastName}}</a></p>-->
+                            {{currentEssay.firstName+' '+currentEssay.lastName}}</a></p>
                         <p ng-if="currentEssay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
                         <p ng-if="currentEssay.STATUS !='W'"><span class="essay-{{currentEssay.STATUS=='R'?'reviewing':'answers'}}">{{currentEssay.STATUS=='R'?'Reviewing':'Answered'}}</span></p>
                         <!--<p><span class="essay-reviewing">Reviewing</span></p>-->
                         <br>
                     </div>
-                    <!-- <div class="essay-thumb-right">
+                     <div class="essay-thumb-right">
                         <a href="#"><img ng-src="{{currentEssay.avatar}}"></a>
-                    </div>-->
+                    </div>
                     
                 </div>
-                <!--<div class="essay-infor">
+                <div class="essay-infor">
                     <p class="rate-video">
                         <span>Rate this reply</span>
                         <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
                          <button class="share">Share</button> 
                     </p>
-                </div>-->
-                <!--<button class="share">Share</button>-->
+                </div>
+                <!--<button class="share">Share</button>
                 <div class="action-essay">
                   <button class="edit">Edit</button>
                   <button class="delete">Delete</button> 
-                </div>
+                </div>-->
             </div>
             <div class="col-md-9 right-answer clearfix">
                 <h4>Desciption</h4>
@@ -71,10 +71,13 @@
                 <div class="essay-detail-right-content-wrapper">
 
                     <div class="essay-detail-right-content">
-                        <p class="pre-wrap" scroller="descriptionOfEssay">{{currentEssay.descriptionOfEssay}}</p>
+                        <p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>
                         <div class="attrach-file">
                             <label><span data-icon="&#xe092;"> Attached file</span></label>
                         </div>
+                    </div>
+                    <div class="essay-detail-right-header">
+                    	<p>Answered by mentor</p>
                     </div>
                     <div class="essay-detail-right-content">
                         <h5>Desciption</h5>
