@@ -751,7 +751,7 @@ a.right.carousel-control {
     margin-right: 5px;
 }
 .manager-playlist .form-add-newplay {
-    padding-top: 20px;
+    padding-top: 25px;
 }
 .modal-preview .remove-image {
     position: absolute;
@@ -787,13 +787,37 @@ a.right.carousel-control {
 .box-comment-fix {
     height: 413px;
 }
+.box-l-comment {
+    min-height: 180px;
+}
+.box-rate:before {
+    height: 0;
+}
+.box-rate ul li {
+    position: relative;
+}
+.box-rate ul li:before {
+    content: "";
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    left: 24px;
+    width: 1px;
+    margin-left: -1.5px;
+    background-color: #eef0f0;
+    height: 65px;
+    z-index: 1;
+}
+.box-rate ul li:nth-last-child(1):before {
+    height: 0;
+}
 /**** End HongTTT *****/
 
 .pad-left-0 {
 	padding-left:0px;
 }
 .box-duration{
-  width: 21%;
+    width: 21%;
 }
 
 /*HoaiNT star rating*/
