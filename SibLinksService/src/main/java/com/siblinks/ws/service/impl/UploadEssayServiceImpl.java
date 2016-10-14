@@ -713,7 +713,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             Map<String, Object> map = (Map<String, Object>) object;
             try {
                 schoolId = Long.parseLong(map.get("school").toString());
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
+                logger.debug(e.getMessage());
             }
         }
         if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY) || entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY)) {
