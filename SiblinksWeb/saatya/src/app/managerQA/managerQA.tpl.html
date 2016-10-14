@@ -179,7 +179,7 @@
                                                     <ul class="chat">
                                                         <li ng-repeat="answer in listAnswer | unique:'aid' track by $index" class="clearfix {{userId == answer.authorID ? 'right' : 'left'}}">
                                                         <span class="chat-img" ng-class="{'pull-right':userId == answer.authorID,'pull-left':userId != answer.authorID}">
-                                                                                <a href="#/student/mentorProfile/{{answer.authorID}}">
+                                                                                <a href="{{userId != answer.authorID?'#/student/mentorProfile/'+answer.authorID :'#mentor/mentorProfile'}}">
                                                                                     <img class="avatar-fix-max-size60" ng-src="{{answer.imageUrl}}" alt="Avatar"></a>
                                                                             </span>
                                                         <div class="chat-body clearfix">
