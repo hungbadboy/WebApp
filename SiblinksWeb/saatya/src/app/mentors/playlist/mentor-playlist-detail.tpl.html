@@ -47,7 +47,7 @@
                                         <div class="text-play">Subject</div>
                                         <div class="text-ac">Action</div>
                                     </div>
-                                    <div class="group-item" ng-show="videos" scroller="videoScrl" data-on-total-scroll="loadMoreVideoInPLaylist">
+                                    <div class="group-item" ng-show="videos" scroller="datasScrl" data-on-total-scroll="loadMoreVideoInPLaylist">
                                         <div class="item" ng-repeat="v in videos track by $index">
                                             <div class="check-box"><input type="checkbox" ng-model="v.selected" class="check-input" name="checkall" ng-click="optionSelected()" /></div>
                                             <div class="box-detail-play clearfix">
@@ -83,7 +83,7 @@
                                             <div class="box-ac">
                                                 <ul class="list-ac">
                                                     <li><a href="" ng-click="openEdit(v.vid)">Edit</a></li>
-                                                    <li><a href="" ng-really-message="Are you sure you want to delete?" ng-really-click ="delete(v.vid)">Remove</a></li>
+                                                    <li><a href="" ng-really-message="Are you sure you want to remove video from playlist?" ng-really-click ="delete(v.vid)">Remove</a></li>
                                                 </ul>
                                             </div>
                                         </div>

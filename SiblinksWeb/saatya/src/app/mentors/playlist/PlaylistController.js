@@ -83,17 +83,30 @@ brotControllers.controller('PlaylistController',
         });
     }
 
-    function loadMorePlaylist(){
-      PlaylistService.loadPlaylist(userId, $scope.playlist.length).then(function(data){
+    $scope.loadMorePlaylist = function(){
+      var offset = 0;
+      if ($scope.playlist)
+        offset = $scope.playlist.length;
+
+      var oldArr = $scope.playlist;
+      var newArr = [];
+      if ($scope.subject == 0) {
+        PlaylistService.loadPlaylist(userId, offset).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-            var oldArr = $scope.playlist;
-            var newArr = parseData(data.data.request_data_result);
-            var totalArr = oldArr.concat(newArr);
-            $scope.playlist = totalArr;
+            newArr = parseData(data.data.request_data_result);
+            $scope.playlist = oldArr.concat(newArr);
             cachePlaylist.length = 0;
             cachePlaylist = $scope.playlist.slice(0);
           }
-      });
+        });
+      } else {
+        PlaylistService.getPlaylistBySubject(userId, $scope.subject, offset).then(function(data){
+          if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+             newArr = parseData(data.data.request_data_result);   
+             $scope.playlist = oldArr.concat(newArr);
+          }
+        });
+      }      
     }
     
     function parseData(data){

@@ -39,7 +39,7 @@ brotControllers.controller('MentorPlaylistDetailController',
     	});
     }
 
-    function loadMoreVideoInPLaylist(){
+    $scope.loadMoreVideoInPLaylist = function(){
         var offset = 0;
         if ($scope.videos)
             offset = $scope.videos.length;
@@ -48,8 +48,7 @@ brotControllers.controller('MentorPlaylistDetailController',
             if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
                 var oldArr = $scope.videos;
                 var newArr = formatTime(data.data.request_data_result);
-                var totalArr = oldArr.concat(newArr);
-                $scope.videos = totalArr;
+                $scope.videos = oldArr.concat(newArr);
             }
         });
     }
@@ -177,6 +176,7 @@ brotControllers.controller('MentorPlaylistDetailController',
     });
 
     $scope.$on('addVideo', function(e,a){
+        loadPlaylistDetail();
         getVideosInPlaylist();
     });
 }]);
