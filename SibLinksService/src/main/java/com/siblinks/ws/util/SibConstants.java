@@ -50,6 +50,7 @@ public class SibConstants {
     public static final String NO_DATA = "Found no data";
     public static final String USER_NOT_EXISTS = "User is not exists";
     public static final String DEFAULT_PWD = "@123Abc";
+    public static final String DOMAIN_NAME_ADMIN = "domainAdmin";
     public class MessageKey {
         public static final String REQUEST_DATA_RESUTL = "request_data_result";
     }
@@ -534,6 +535,8 @@ public class SibConstants {
         // Admin Another Admin, Mentor
         public static final String SQL_ADMIN_ADD_ANOTHER_ADMIN = "SIB_ADMIN_ADD_ANOTHER_ADMIN";
         public static final String SQL_ADMIN_ADD_ANOTHER_MENTOR = "SIB_ADMIN_ADD_ANOTHER_MENTOR";
+        public static final String SQL_CHECK_USER_EXISTS_BY_ID = "SQL_CHECK_USER_EXISTS_BY_ID";
+        public static final String SQL_ADMIN_UPDATE_PROFILE_MENTOR = "ADMIN_UPDATE_PROFILE_MENTOR";
     }
 
     public class SqlMapperBROT4 {
