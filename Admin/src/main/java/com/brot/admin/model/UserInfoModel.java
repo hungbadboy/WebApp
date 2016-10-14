@@ -27,91 +27,184 @@ import java.io.Serializable;
  *         This class save info of user logged to session
  */
 public class UserInfoModel implements Serializable {
-
+    // {"userid":"55","username":"admin","firstname":"krishna","lastname":"karnati","status":"true","password":null,
+    // "userType":"A","imageUrl":"assets/images/noavartar.jpg","defaultSubjectId":null}
     /**
      *
      */
     private static final long serialVersionUID = 1L;
+    private String userid;
     private String username;
-    private String imageurl;
-    private String password;
     private String firstname;
     private String lastname;
-    private String userid;
-    private String usertype;
     private String status;
-    private String defaultsubjectid;
+    private String password;
+    private String userType;
+    private String imageUrl;
+    private String defaultSubjectId;
 
-    public String getImageurl() {
-        return imageurl;
-    }
-
-    public void setImageurl(String imageurl) {
-        this.imageurl = imageurl;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getUsertype() {
-        return usertype;
-    }
-
-    public void setUsertype(final String usertype) {
-        this.usertype = usertype;
-    }
-
-    public void setUsername(final String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(final String password) {
-        this.password = password;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(final String status) {
-        this.status = status;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(final String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(final String lastname) {
-        this.lastname = lastname;
-    }
-
+    /**
+     * @return the userid
+     */
     public String getUserid() {
         return userid;
     }
 
+    /**
+     * @param userid
+     *            the userid to set
+     */
     public void setUserid(final String userid) {
         this.userid = userid;
     }
 
-    public String getDefaultsubjectid() {
-        return defaultsubjectid;
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
     }
 
-    public void setDefaultsubjectid(String defaultsubjectid) {
-        this.defaultsubjectid = defaultsubjectid;
+    /**
+     * @param username
+     *            the username to set
+     */
+    public void setUsername(final String username) {
+        this.username = username;
     }
+
+    /**
+     * @return the firstname
+     */
+    public String getFirstname() {
+        return firstname;
+    }
+
+    /**
+     * @param firstname
+     *            the firstname to set
+     */
+    public void setFirstname(final String firstname) {
+        this.firstname = firstname;
+    }
+
+    /**
+     * @return the lastname
+     */
+    public String getLastname() {
+        return lastname;
+    }
+
+    /**
+     * @param lastname
+     *            the lastname to set
+     */
+    public void setLastname(final String lastname) {
+        this.lastname = lastname;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status
+     *            the status to set
+     */
+    public void setStatus(final String status) {
+        this.status = status;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password
+     *            the password to set
+     */
+    public void setPassword(final String password) {
+        this.password = password;
+    }
+
+    /**
+     * @return the userType
+     */
+    public String getUserType() {
+        return userType;
+    }
+
+    /**
+     * @param userType
+     *            the userType to set
+     */
+    public void setUserType(final String userType) {
+        this.userType = userType;
+    }
+
+    /**
+     * @return the imageUrl
+     */
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    /**
+     * @param imageUrl
+     *            the imageUrl to set
+     */
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    /**
+     * @return the defaultSubjectId
+     */
+    public String getDefaultSubjectId() {
+        return defaultSubjectId;
+    }
+
+    /**
+     * @param defaultSubjectId
+     *            the defaultSubjectId to set
+     */
+    public void setDefaultSubjectId(final String defaultSubjectId) {
+        this.defaultSubjectId = defaultSubjectId;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "UserInfoModel [userid=" +
+               userid +
+               ", username=" +
+               username +
+               ", firstname=" +
+               firstname +
+               ", lastname=" +
+               lastname +
+               ", status=" +
+               status +
+               ", password=" +
+               password +
+               ", userType=" +
+               userType +
+               ", imageUrl=" +
+               imageUrl +
+               ", defaultSubjectId=" +
+               defaultSubjectId +
+               "]";
+    }
+
 
 }

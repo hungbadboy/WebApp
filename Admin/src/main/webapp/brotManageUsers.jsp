@@ -2,6 +2,9 @@
 <%@ page import="com.opensymphony.xwork2.ActionContext"%>
 <head>
 <script type="text/javascript" src="js/brotManagerUsers.js"></script>
+<script type="text/javascript">
+	var type = '<s:property value="#session.user_info.getUserType()"/>';
+</script>
 </head>
 <body>
 	<div>
@@ -31,7 +34,7 @@
 				<div class="clearfix">
 					<div class="left-site">
 						<div class="form-group clearfix">
-							<label>Email:</label> <input type="email" placeholder="Email"
+							<label id="emailAdmin">Email:</label> <input type="email" placeholder="Email"
 								name="email" tabindex="1">
 						</div>
 
@@ -61,7 +64,63 @@
 					</div>
 				</div>
 				<div class="active">
-					<input type="checkbox" value="active" id="chk" name="active"><label
+					<input type="checkbox" value="active" id="chk" name="active" tabindex="7"><label
+						for="chk">Active</label>
+				</div>
+			</form>
+		</div>
+		
+		<div id="box-edit-admin" title="Edit Admin">
+			<div class="message">
+				<span id="msgRegister"></span>
+			</div>
+			<div id="loading-div-background-admin">
+				<div id="loading-div-admin" class="ui-corner-all">
+					<img style="height: 32px; width: 32px; margin: 30px;"
+						src="css/images/waiting.gif" alt="Loading.." /><br>PROCESSING.
+					PLEASE WAIT...
+				</div>
+			</div>
+			<form>
+				<div class="clearfix">
+					<div class="left-site">
+						<div class="form-group clearfix">
+							<label id="emailAdmin">Email:</label> <input type="email" placeholder="Email"
+								name="email" tabindex="1">
+						</div>
+
+						<div class="form-group clearfix">
+							<label>First Name:</label> <input type="text"
+								placeholder="Firstname" name="firstname" tabindex="3">
+						</div>
+						
+						<div class="form-group clearfix">
+							<label>Old Password:</label> <input type="password"
+								placeholder="Old Password" name="oldPwd" tabindex="5">
+						</div>
+					</div>
+					<div class="right-site">
+						<div class="form-group clearfix">
+							<label>Birthday:</label> <input type="text"
+								placeholder="Birthday" id="datepicker" name="birthday"
+								tabindex="2">
+						</div>
+						<div class="form-group clearfix">
+							<label>Last Name:</label> <input type="text"
+								placeholder="Lastname" name="lastname" tabindex="4">
+						</div>
+						<div class="form-group clearfix">
+							<label>New Password:</label> <input type="password"
+								placeholder="Password" name="newPwd" tabindex="6">
+						</div>
+						<div class="form-group clearfix">
+							<label>Confirm Password:</label> <input type="password"
+								placeholder="Confirm Password" name="confirmPwd" tabindex="7">
+						</div>
+					</div>
+				</div>
+				<div class="active">
+					<input type="checkbox" value="active" id="chk" name="active" tabindex="8"><label
 						for="chk">Active</label>
 				</div>
 			</form>
@@ -88,7 +147,7 @@
 							<span class="label-form">Basic Information</span>
 							<div class="left-site">
 								<div class="form-group clearfix">
-									<label>Email:</label> <input type="email" placeholder="Email"
+									<label id="emailMentor">Email:</label> <input type="email" placeholder="Email"
 										name="emailMentor" tabindex="1">
 								</div>
 

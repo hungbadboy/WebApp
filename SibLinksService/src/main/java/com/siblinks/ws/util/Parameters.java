@@ -42,11 +42,13 @@ public class Parameters {
     public static final String SUBCRIBE = "Subcribe";
     public static final String LIKEANSWER =  "likeAnswer";
     public static final String VALUE_OF = "valueof";
+    public static final String DOMAIN_NAME = "name";
     public static final String PARENT_ID = "parentId";
     public static final String CURRENT_TIME = "currentTime";
     public static final String ROLE = "role";
     public static final String SCHOOL = "school";
     public static final String ACTIVE_PLAG = "active";
+    public static final String BIO = "bio";
     public static final String ACCOMPLISHMENT = "accomplishment";
     public static final String LOGIN_MENTOR_URL = "mentor/signin";
 }

@@ -425,6 +425,7 @@ public class UserServiceImpl implements UserService {
             .readObjects(SibConstants.SqlMapper.SQL_SIB_REGISTER_USER_EXIST, new Object[] { userName });
         String message = "";
         boolean status = false;
+        boolean isRegisterAdmin = role.equals("A");
         SimpleResponse response;
         if (CollectionUtils.isEmpty(userResponse) || userResponse == null) {
             String bod = objRequest.getString(Parameters.BOD);
@@ -439,41 +440,46 @@ public class UserServiceImpl implements UserService {
             } catch (Exception e) {
                 bod = null;
             }
-            String pwdGenerate = CommonUtil.getInstance().getAutoGeneratePwd();
+            String rawPwd = isRegisterAdmin ? objRequest.getString(Parameters.PASSWORD) : CommonUtil
+                .getInstance()
+                .getAutoGeneratePwd();
             String pwdEncrypt;
-            if (!StringUtils.isEmpty(pwdGenerate)) {
-                pwdEncrypt = ecy.encode(pwdGenerate);
+            Object[] queryParams = null;
+            if (!StringUtils.isEmpty(rawPwd)) {
+                pwdEncrypt = ecy.encode(rawPwd);
             } else {
                 pwdEncrypt = ecy.encode(SibConstants.DEFAULT_PWD);
-                pwdGenerate = SibConstants.DEFAULT_PWD;
+                rawPwd = SibConstants.DEFAULT_PWD;
             }
-            Object[] queryParams = null;
-            if (role.equals("A")) {
+            if (isRegisterAdmin) {
                 queryParams = new Object[] { userName, role, objRequest.getString(Parameters.FIRST_NAME), objRequest
                     .getString(Parameters.LAST_NAME), pwdEncrypt, bod, objRequest.getString(Parameters.ACTIVE_PLAG) };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_ADMIN_ADD_ANOTHER_ADMIN, queryParams);
-            } else if (role.equals("M")) {
+            } else {
                 queryParams = new Object[] { userName, role, objRequest.getString(Parameters.FIRST_NAME), objRequest
-                    .getString(Parameters.LAST_NAME), pwdEncrypt, bod, objRequest
-                        .getString(Parameters.SCHOOL), objRequest.getString(Parameters.DEFAULT_SUBJECT_ID), objRequest
+                    .getString(Parameters.LAST_NAME), pwdEncrypt, bod, objRequest.getString(Parameters.BIO), objRequest
+                        .getString(Parameters.SCHOOL), objRequest
+                        .getString(Parameters.DEFAULT_SUBJECT_ID), objRequest
                             .getString(Parameters.ACCOMPLISHMENT), objRequest.getString(Parameters.ACTIVE_PLAG) };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_ADMIN_ADD_ANOTHER_MENTOR, queryParams);
             }
             if (status) {
                 String urlLogin = "";
+                String paramGetUrlDomain = isRegisterAdmin ? SibConstants.DOMAIN_NAME_ADMIN : SibConstants.DOMAIN;
                 List<Object> readObjects = dao
-                    .readObjects(SibConstants.SqlMapper.SQL_GET_ADDRESS_WEB, new Object[] { SibConstants.DOMAIN });
+                    .readObjects(SibConstants.SqlMapper.SQL_GET_ADDRESS_WEB, new Object[] { paramGetUrlDomain });
                 for (Object object : readObjects) {
                     Map<String, String> mapObject = (HashMap<String, String>) object;
                     urlLogin = mapObject.get(Parameters.VALUE_OF);
                     break;
                 }
-                urlLogin = urlLogin.concat(Parameters.LOGIN_MENTOR_URL);
+
+                urlLogin = isRegisterAdmin ? urlLogin : urlLogin.concat(Parameters.LOGIN_MENTOR_URL);
                 // Send email
                 try {
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("userName", userName);
-                    map.put("password", pwdGenerate);
+                    map.put("password", rawPwd);
                     map.put("URL_LOGIN", urlLogin);
                     NotifyByEmail notify = new NotifyByEmail();
                     notify.setMailSender(mailSender);
@@ -499,6 +505,80 @@ public class UserServiceImpl implements UserService {
         response = new SimpleResponse("" + status, "user", "registerAdminMentor", message);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
         return entity;
+    }
+
+    @RequestMapping(value = "/adminUpdateProfileMentor", method = RequestMethod.POST)
+    public ResponseEntity<Response> adminUpdateProfileMentor(@RequestBody final String jsonUpdate) {
+        JSONObject jsonRequest = new JSONObject(jsonUpdate);
+        String userId = jsonRequest.getString(Parameters.USER_ID);
+        String message = "";
+        boolean status = false;
+        SimpleResponse response;
+        if (userId != null && !StringUtils.isEmpty(userId)) {
+            List<Object> readObjects = dao
+                .readObjects(SibConstants.SqlMapper.SQL_CHECK_USER_EXISTS_BY_ID, new Object[] { userId });
+            if (!CollectionUtils.isEmpty(readObjects)) {
+                // user is exists
+                String bod = jsonRequest.getString(Parameters.BOD);
+                try {
+                    if (!StringUtils.isEmpty(bod)) {
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
+                        Date date = formatter.parse(bod);
+                        bod = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                    } else {
+                        bod = null;
+                    }
+                } catch (Exception e) {
+                    bod = null;
+                }
+                Object[] params = { jsonRequest.getString(Parameters.EMAIL), bod, jsonRequest
+                    .getString(Parameters.FIRST_NAME), jsonRequest.getString(Parameters.LAST_NAME), jsonRequest
+                        .getString(Parameters.SCHOOL), jsonRequest.getString(Parameters.DEFAULT_SUBJECT_ID), jsonRequest
+                            .getString(Parameters.ACCOMPLISHMENT), jsonRequest
+                                .getString(Parameters.BIO), jsonRequest.getString(Parameters.ACTIVE_PLAG), userId };
+                status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_ADMIN_UPDATE_PROFILE_MENTOR, params);
+                if (status) {
+                    message = "Updated Profile Successfully";
+                } else {
+                    message = "Updated Profile Failure";
+                }
+            }
+        } else {
+            message = "Updated Profile Failure";
+        }
+        response = new SimpleResponse("" + status, "user", "adminUpdateProfileMentor", message);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+        return entity;
+    }
+
+    @RequestMapping(value = "/updateInfoAdmin", method = RequestMethod.POST)
+    public ResponseEntity<Response> updateInfoAdmin(@RequestBody final String jsonUpdate) {
+        JSONObject jsonRequest = new JSONObject(jsonUpdate);
+        String userId = jsonRequest.getString(Parameters.USER_ID);
+        String message = "";
+        boolean status = false;
+        SimpleResponse response;
+        if (userId != null && !StringUtils.isEmpty(userId)) {
+            List<Object> readObjects = dao
+                .readObjects(SibConstants.SqlMapper.SQL_CHECK_USER_EXISTS_BY_ID, new Object[] { userId });
+            if (!CollectionUtils.isEmpty(readObjects)) {
+                String pwdEncrypted = "";
+                for (Object object : readObjects) {
+                    Map<String, String> mapObject = (HashMap<String, String>) object;
+                    pwdEncrypted = mapObject.get(Parameters.PASSWORD);
+                    break;
+                }
+                BCryptPasswordEncoder ecy = new BCryptPasswordEncoder(SibConstants.LENGHT_AUTHENTICATION);
+                String pwdRequest = jsonRequest.getString(Parameters.PASSWORD);
+                if (CommonUtil.verifyPassword(pwdRequest, pwdEncrypted)) {
+                    // password correctly
+
+                } else {
+                    // password not correct
+                }
+            }
+        }
+        return null;
     }
 
     @Override
@@ -668,7 +748,6 @@ public class UserServiceImpl implements UserService {
             // ecy.encode(request.getRequest_user().getPassword());
             Map<String, String> user = (HashMap<String, String>) readObject.get(SibConstants.NUMBER.ZERO);
             String encryptPwd = user.get(Parameters.PASSWORD);
-            System.out.println(encryptPwd != null && !StringUtils.isEmpty(encryptPwd));
             if (encryptPwd != null && !StringUtils.isEmpty(encryptPwd)) {
                 // Verify old password
                 if (CommonUtil.verifyPassword(request.getRequest_user().getPassword(), encryptPwd)) {
