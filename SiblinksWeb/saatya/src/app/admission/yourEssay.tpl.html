@@ -33,7 +33,7 @@
                 <h3>Essay detail</h3>
                 <div class="essay-detail-top">
                     <h5>{{currentEssay.nameOfEssay}}</h5>
-                    <span class="post-time"> add {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago</span>
+                    <span class="post-time"> submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago</span>
                 </div>
                 <div class="essay-thumb">
                     <div class="essay-thumb-left">
@@ -42,7 +42,6 @@
                             {{currentEssay.mfirstName+' '+currentEssay.mlastName}}</a></p>
                         <p ng-if="currentEssay.status =='W'"><span class="essay-wait-review">Waiting for review</span></p>
                         <p ng-if="currentEssay.status !='W'"><span class="essay-{{currentEssay.status=='P'?'reviewing':'answers'}}">{{currentEssay.status=='P'?'Reviewing':'Answered'}}</span></p>
-                        <!--<p><span class="essay-reviewing">Reviewing</span></p>-->
                         <br>
                     </div>
                      <div ng-if="currentEssay.mentorId" class="essay-thumb-right">
@@ -54,7 +53,7 @@
                     <p class="rate-video">
                         <span>Rate this reply</span>
                         <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
-                         <button class="share">Share</button> 
+                         <!--<button class="share">Share</button> -->
                     </p>
                 </div>
                 <!--<button class="share">Share</button>
@@ -84,7 +83,7 @@
                         <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
                         <p class="pre-wrap" ng-if="!currentEssay.mentorComment" >No content</p>
                         <div ng-if="currentEssay.downloadLinkM" class="attrach-file">
-                            <a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Attached file</span></label></a>
+                            <a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Download file</span></label></a>
                         </div>
                     </div>
 

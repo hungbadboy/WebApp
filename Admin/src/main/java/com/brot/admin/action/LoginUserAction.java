@@ -10,7 +10,6 @@ import org.apache.struts2.ServletActionContext;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.json.JSONObject;
 
 import com.brot.admin.client.MobileServiceManagerClient;
@@ -67,20 +66,17 @@ public class LoginUserAction extends BrotCommonAction {
         try {
             String response = _instance.write(queryParams, endPointUrl);
             JSONObject jsonObject = new JSONObject(response);
-
             boolean isStatus = jsonObject.getBoolean(Parameters.STATUS);
             if (isStatus) {
-                ObjectMapper mapper = new ObjectMapper();
-                UserInfoModel userInfo = mapper.readValue(response.toString().toLowerCase(), new TypeReference<UserInfoModel>() {
-                });
 
+                ObjectMapper mapper = new ObjectMapper();
+                UserInfoModel userInfo = mapper.readValue(response, UserInfoModel.class);
                 status = ActionSupport.SUCCESS;
                 // Save info to model
                 (ServletActionContext.getRequest().getSession()).setAttribute(
                     Parameters.ROOT_URL_API,
                     AppConfigManager.getConfigVal(Parameters.ROOT_URL_API));
                 (ServletActionContext.getRequest().getSession()).setAttribute(Parameters.USER_INFO, userInfo);
-
             } else {
                 status = ActionSupport.ERROR;
                 HttpServletRequest request = ServletActionContext.getRequest();

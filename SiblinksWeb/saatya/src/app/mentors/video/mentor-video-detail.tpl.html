@@ -18,9 +18,9 @@
                                 <div class="item-pl-video clearfix">
                                     <div class="col-md-1"></div>
                                     <div id="video_balance" class="col-md-2"></div>
-                                    <div class="video-play col-md-6" id="detailPlayer">
+                                    <div class="video-play col-md-7" id="detailPlayer">
                                     </div>                                    
-                                    <div class="video-wait col-md-3" ng-if="plid" style="margin-left: 45px;">
+                                    <div class="video-wait col-md-3" ng-if="plid">
                                         <div class="top-w clearfix">
                                             <h5 class="pull-left">{{ playlist.name | limitTo: 20 }}{{playlist.name.length > 20 ? '...' : ''}}</h5>
                                             <span class="pull-right" data-icon="&#xe037;"></span>
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="ctn-main col-md-12">
-                            <div class="col-md-8">
+                            <div class="col-md-7 col-md-offset-1 info-video">
                                 <div class="main-cm-detail">
                                     <div class="top-cm">
                                         <h3>{{video.title}}</h3>
