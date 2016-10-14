@@ -442,4 +442,21 @@ public class PlaylistServiceImpl implements PlaylistService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
+
+    @Override
+    @RequestMapping(value = "/getVideoInPlaylist", method = RequestMethod.GET)
+    public ResponseEntity<Response> getVideoInPlaylist(final long plid, final int offset) throws Exception {
+        Object[] queryParams = { plid, offset };
+        SimpleResponse reponse = null;
+
+        List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_VIDEOS_IN_PLAYLIST, queryParams);
+        if (readObject != null && readObject.size() > 0) {
+            reponse = new SimpleResponse("" + true, "Video", "getVideoInPlaylist", readObject);
+        } else {
+            reponse = new SimpleResponse("" + true, "Video", "getVideoInPlaylist", SibConstants.NO_DATA);
+        }
+
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
 }

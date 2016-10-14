@@ -1,6 +1,6 @@
 brotControllers.controller('MentorPlaylistDetailController', 
-  ['$rootScope', '$scope', '$modal', '$routeParams', '$http', '$location', 'PlaylistService', 'videoDetailService', 'VideoService',
-                                       function ($rootScope, $scope, $modal, $routeParams, $http, $location, PlaylistService, videoDetailService, VideoService) {
+  ['$rootScope', '$scope', '$modal', '$routeParams', '$http', '$location', 'PlaylistService', 'VideoService',
+                                       function ($rootScope, $scope, $modal, $routeParams, $http, $location, PlaylistService, VideoService) {
 
     var plid = $routeParams.plid;
     var userId = localStorage.getItem('userId'); 
@@ -24,8 +24,6 @@ brotControllers.controller('MentorPlaylistDetailController',
     	PlaylistService.loadPlaylistById(plid).then(function(data){
     		if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
     			var data = data.data.request_data_result;
-    			data.numView = data.numView != null ? data.numView : 0;
-    			data.numComment = data.numComment != null ? data.numComment : 0;
     			data.timeStamp = convertUnixTimeToTime(data.timeStamp); 
     			$scope.playlist = data;
     		}
@@ -33,16 +31,35 @@ brotControllers.controller('MentorPlaylistDetailController',
     }
 
     function getVideosInPlaylist(){
-    	videoDetailService.getVideoByPlaylistId(plid).then(function (data) {
+    	PlaylistService.getVideoInPlaylist(plid, 0).then(function (data) {
     		if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-    			$scope.videos = data.data.request_data_result;
-                for (var i = $scope.videos.length - 1; i >= 0; i--) {
-                    $scope.videos[i].timeStamp = convertUnixTimeToTime($scope.videos[i].timeStamp);
-                    $scope.videos[i].selected = false;
-                }
+    			$scope.videos = formatTime(data.data.request_data_result);
     		} else
                 $scope.videos = null;
     	});
+    }
+
+    function loadMoreVideoInPLaylist(){
+        var offset = 0;
+        if ($scope.videos)
+            offset = $scope.videos.length;
+
+        PlaylistService.getVideoInPlaylist(plid, offset).then(function (data) {
+            if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+                var oldArr = $scope.videos;
+                var newArr = formatTime(data.data.request_data_result);
+                var totalArr = oldArr.concat(newArr);
+                $scope.videos = totalArr;
+            }
+        });
+    }
+
+    function formatTime(data) {
+        for (var i = data.length - 1; i >= 0; i--) {
+            data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp.timeStamp);
+            data[i].selected = false;
+        }
+        return data;
     }
 
     $scope.delete = function(vid){
