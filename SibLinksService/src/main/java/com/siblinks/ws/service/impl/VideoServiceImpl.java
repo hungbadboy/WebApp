@@ -1751,23 +1751,45 @@ public class VideoServiceImpl implements VideoService {
             return entity;
         }
 
-        // Map<String, String> queryParams = new HashMap<String, String>();
-        // queryParams.put("vid", request.getRequest_data().getVid());
-        // queryParams.put("title", request.getRequest_data().getTitle());
-        // queryParams.put("description",
-        // request.getRequest_data().getDescription());
-        Object[] queryParams = new Object[] { request.getRequest_data().getTitle(), request.getRequest_data().getDescription(), request
-            .getRequest_data()
-            .getVid(), };
-        String entityName = SibConstants.SqlMapper.SQL_UPDATE_VIDEO;
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus statusDao = transactionManager.getTransaction(def);
         boolean status = true;
-        status = dao.insertUpdateObject(entityName, queryParams);
         String message = "";
-        if (status) {
-            message = "Success";
-        } else {
+        try {
+            String vid = request.getRequest_data().getVid();
+            Object[] queryParams = new Object[] { request.getRequest_data().getTitle(), request.getRequest_data().getDescription(), request
+                .getRequest_data()
+                .getSubjectId(), vid };
+            status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_VIDEO, queryParams);
+            if (status) {
+                String plid = request.getRequest_data().getPlid();
+                if (plid != null && plid.length() > 0) {
+                    // remove old playlist
+                    queryParams = new Object[] { vid };
+                    status = dao.insertUpdateObject(SibConstants.SqlMapperBROT43.SQL_DELETE_VIDEO_PLAYLIST, queryParams);
+
+                    // insert new playlist
+                    queryParams = new Object[] { plid, vid };
+                    status = dao.insertUpdateObject(SibConstants.SqlMapperBROT126.SQL_ADD_VIDEOS_PLAYLIST, queryParams);
+                } else {
+                    // remove playlist if exists
+                    queryParams = new Object[] { vid };
+                    status = dao.insertUpdateObject(SibConstants.SqlMapperBROT43.SQL_DELETE_VIDEO_PLAYLIST, queryParams);
+                }
+            }
+            if (status) {
+                transactionManager.commit(statusDao);
+                message = "Success";
+            } else {
+                transactionManager.rollback(statusDao);
+                message = "Fail";
+            }
+        } catch (Exception e) {
+            logger.debug(e.getMessage());
+            transactionManager.rollback(statusDao);
             message = "Fail";
         }
+
 
         SimpleResponse reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), message);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -2375,13 +2397,19 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    @RequestMapping(value = "/getVideoById/{vid}", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideoById(@PathVariable(value = "vid") final long vid) {
+    @RequestMapping(value = "/getVideoById", method = RequestMethod.GET)
+    public ResponseEntity<Response> getVideoById(final long vid, final long userid) {
         String entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEOS_BY_ID;
-        Object[] queryParams = { vid };
+        Object[] queryParams = { vid, userid };
 
         List<Object> readObject = dao.readObjects(entityName, queryParams);
-        SimpleResponse reponse = new SimpleResponse("" + true, "Video", "getVideoById", readObject);
+        SimpleResponse reponse = null;
+        if (readObject != null && readObject.size() > 0) {
+            reponse = new SimpleResponse("" + true, "video", "getVideoById", readObject);
+        } else {
+            reponse = new SimpleResponse("" + true, "video", "getVideoById", SibConstants.NO_DATA);
+        }
+
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }

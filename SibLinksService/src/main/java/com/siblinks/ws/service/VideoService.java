@@ -101,7 +101,7 @@ public interface VideoService {
 
      public ResponseEntity<Response> getVideos(long uid, int offset);
 
-     public ResponseEntity<Response> getVideoById(long vid);
+    public ResponseEntity<Response> getVideoById(long vid, long userid);
 
      public ResponseEntity<Response> getVideosPlaylist(long uid);
 

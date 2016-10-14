@@ -12,17 +12,17 @@ brotControllers.controller('UploadTutorialController',
     init();
 
     function init(){
+      initSubject();
+      initPlaylist();
       if (!isNaN(v_id) && v_id > 0) {
         getVideoDetail();
-      } else{
-        initSubject();
-        initPlaylist();
+      } else{        
         loadVideoRecently();
       }      
     }
 
     function getVideoDetail(){
-      videoDetailService.getVideoDetailById(v_id).then(function(data){
+      VideoService.getVideoById(v_id, u_id).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
           displayEdit(data.data.request_data_result);
         }
@@ -46,9 +46,9 @@ brotControllers.controller('UploadTutorialController',
               'subjectId': 0,
               'subject' : 'Select a Subject'
             }); 
-            $scope.uploadTutSubjects = arr;
+            $scope.uploadSubjects = arr;
          }
-         $scope.uploadTutSubject = $scope.uploadTutSubjects[0].subjectId;
+         $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
       } else{
         HomeService.getAllCategory().then(function (data) {
            if (data.data.status) {
@@ -57,8 +57,8 @@ brotControllers.controller('UploadTutorialController',
                 'subjectId': 0,
                 'subject' : 'Select a Subject'
               }); 
-              $scope.uploadTutSubject = arr;
-              $scope.uploadTutSubject = $scope.uploadTutSubjects[0].subjectId;
+              $scope.uploadSubjects = arr;
+              $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
            }
        });
       }      
@@ -70,8 +70,13 @@ brotControllers.controller('UploadTutorialController',
       } else{
         VideoService.getPlaylist(u_id).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-            $scope.playlists = data.data.request_data_result;
             myCache.put("playlists", data.data.request_data_result);
+            $scope.playlists = data.data.request_data_result;
+            $scope.playlists.splice(0,0,{
+              'plid':0,
+              'name': "Select a Playlist"
+            })
+            $scope.uploadPlaylist = $scope.playlists[0].plid;
           }
         });
       }      
@@ -86,10 +91,13 @@ brotControllers.controller('UploadTutorialController',
       $scope.error = null;
       $scope.success = null;
       
+      $('#txtUploadLink').val($scope.editVideo.url);
+      checkLink($scope.editVideo.url);
       $('#txtUploadTitle').val($scope.editVideo.title);
-      $scope.link = $scope.editVideo.url;
-      checkLink($scope.link);
+      $('#txtUploadDuration').val($scope.editVideo.runningTime);
       $('#txtUploadDescription').val($scope.editVideo.description);
+      $scope.uploadSubject = $scope.editVideo.subjectId;
+      $scope.uploadPlaylist = $scope.editVideo.plid != null ? $scope.editVideo.plid : 0;
     }
 
     $scope.openEdit = function (v){
@@ -107,28 +115,35 @@ brotControllers.controller('UploadTutorialController',
       var title = $('#txtUploadTitle').val();
       var description = $('#txtUploadDescription').val();
 
-      var check = true;
-
       if (title == null || title.length == 0) {
-        check = false;
         $scope.error = "Please input Title. \n";
         angular.element('#txtUploadTitle').trigger('focus');
+        return;
+      } else if ($scope.uploadSubject == 0) {
+        $scope.error = "Please select a Subject. \n";
+        angular.element('#uploadSubject').trigger('focus');
         return;
       }
 
       var request = {
         "vid": $scope.editVideo.vid,
         "title": title,
-        "description": description
+        "description": description,
+        "subjectId": $scope.uploadSubject,
+        "plid": $scope.uploadPlaylist > 0 ? $scope.uploadPlaylist : null
       }
       $rootScope.$broadcast('open');
       VideoService.updateTutorial(request).then(function(data){
         if (data.data.request_data_result === "Success") {
           if (!isNaN(v_id) && v_id > 0) {
+            
              var video = {
                'vid': v_id,
                'title': title,
-               'description': description
+               'description': description,
+               'plid': $scope.uploadPlaylist > 0 ? $scope.uploadPlaylist : null,
+               'playlistname': $scope.uploadPlaylist > 0 ? getPlaylistName() : null,
+               'subjectId': $scope.uploadSubject
              } 
              $rootScope.$broadcast('passing', video);
 
@@ -144,6 +159,19 @@ brotControllers.controller('UploadTutorialController',
         }
         $rootScope.$broadcast('close');
       });
+    }
+
+    function getPlaylistName(){
+      var name = null;
+      var result = $.grep($scope.playlists, function(v){
+        return v.plid == $scope.uploadPlaylist;
+      });
+
+      var index = $scope.playlists.indexOf(result[0]);
+      if (index != -1) {
+        name = $scope.playlists[index].name;
+      }
+      return name;
     }
 
     $scope.upload = function(){
@@ -173,7 +201,7 @@ brotControllers.controller('UploadTutorialController',
         $scope.error = "Description cannot longer than 1024 characters. \n";
         angular.element('#txtUploadDescription').trigger('focus');        
         return;
-      } else if ($scope.uploadTutSubject == 0) {
+      } else if ($scope.uploadSubject == 0) {
         check = false;
         $scope.error = "Please select subject. \n";
         angular.element('#uploadSubject').trigger('focus');        
@@ -188,8 +216,8 @@ brotControllers.controller('UploadTutorialController',
         "runningTime": $scope.duration,
         "image": thumbnail,
         "description": description,
-        "subjectId": $scope.uploadTutSubject,
-        "plid": $('#uploadPlaylist').val() == 0 ? null : $('#uploadPlaylist').val()
+        "subjectId": $scope.uploadSubject,
+        "plid": $scope.uploadPlaylist > 0 ? $scope.uploadPlaylist : null
       }
       $rootScope.$broadcast('open');
       VideoService.uploadTutorial(request).then(function(data){
@@ -206,7 +234,11 @@ brotControllers.controller('UploadTutorialController',
     }
 
     $scope.changeSubject = function(e){
-      $scope.uploadTutSubject = e;
+      $scope.uploadSubject = e;
+    }
+
+    $scope.changPlaylist = function(e){
+      $scope.uploadPlaylist = e;
     }
 
     $scope.delete = function(vid){
@@ -223,6 +255,7 @@ brotControllers.controller('UploadTutorialController',
       $('#txtUploadTitle').val('');
       $('#txtUploadLink').val('');
       $('#txtUploadDescription').val('');
+      $('#txtUploadDuration').val('');
 
       $scope.uploadSubject = [0];
       $scope.uploadPlaylist = [0];
@@ -235,6 +268,8 @@ brotControllers.controller('UploadTutorialController',
     }
 
     $scope.validateLink = function(){
+      if ($('#txtUploadLink').val() == '')
+        clearContent();
       checkLink($('#txtUploadLink').val());
     }
 
@@ -300,7 +335,7 @@ brotControllers.controller('UploadTutorialController',
     var player;
     function onYouTubeIframeAPIReady(youtubeId) {
       player = new YT.Player('uplad_player', {
-          height: '310',
+          height: '330',
           width: '100%',
           videoId: youtubeId,
           events: {

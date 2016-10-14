@@ -22,19 +22,21 @@
                         <input type="text" class="form-control" id="txtUploadTitle" value="{{title}}" placeholder="Tutorial Title" maxlength="100">
                     </div>                    
                     <div class="form-group">
-                        <input type="text" class="form-control box-duration" value="{{duration}}" placeholder="Tutorial Duration" readonly="true" tabindex="-1">
+                        <input type="text" id="txtUploadDuration" class="form-control box-duration" value="{{duration}}" placeholder="Tutorial Duration" readonly="true" tabindex="-1">
                     </div>
                     <div class="form-group">
                         <textarea name="desciption" rows="4" cols="5" id="txtUploadDescription" class="form-control textarea-custom" placeholder="Description" maxlength="1024">{{description}}</textarea>
                     </div>
-                    <div class="form-group" ng-hide="editVideo">
-                        <select class="select-sbj form-control" id="uploadTutSubject" ng-model="uploadTutSubject" ng-change="changeSubject(uploadTutSubject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in uploadTutSubjects'>
+                    <div class="form-group">
+                        <select class="select-sbj form-control" id="uploadSubject" ng-model="uploadSubject" ng-change="changeSubject(uploadSubject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in uploadSubjects'>
                         </select>
                     </div>
-                    <div class="form-group" ng-hide="editVideo">
-                        <select name="" id="uploadPlaylist" data-ng-model="uploadPlaylist" class="form-control">
+                    <div class="form-group">
+                        <!-- <select name="" id="uploadPlaylist" data-ng-model="uploadPlaylist" class="form-control">
                             <option value="0">Choose playlist</option>
                             <option ng-repeat="p in playlists track by $index" value="{{p.plid}}">{{p.name}}</option>
+                        </select> -->
+                        <select class="select-sbj form-control" id="uploadPlaylist" ng-model="uploadPlaylist" ng-change="changPlaylist(uploadPlaylist)" class="form-control" ng-options='p.plid as p.name for p in playlists'>
                         </select>
                     </div>
                 </form>
