@@ -18,8 +18,8 @@
                                         <a href=""><h5>{{playlist.name}}</h5></a>
                                         <span class="add-time">{{playlist.timeStamp}} ago</span>
                                         <p class="list-view">
-                                            <span><img src="assets/images/icon-play.png" alt=""> {{playlist.numView}}</span>&nbsp;&nbsp;
-                                            <span><img src="assets/images/icon-comment.png" alt=""> {{playlist.numComment}}</span>&nbsp;&nbsp;
+                                            <span><img src="assets/images/icon-play.png" alt=""> {{playlist.numViews}}</span>&nbsp;&nbsp;
+                                            <span><img src="assets/images/icon-comment.png" alt=""> {{playlist.numComments}}</span>&nbsp;&nbsp;
                                         </p>
                                         <div class="bx-btn">
                                             <button class="btn-play active" ng-click="playAll()">Playall</button>
@@ -47,7 +47,7 @@
                                         <div class="text-play">Subject</div>
                                         <div class="text-ac">Action</div>
                                     </div>
-                                    <div class="group-item" ng-show="videos">
+                                    <div class="group-item" ng-show="videos" scroller="videoScrl" data-on-total-scroll="loadMoreVideoInPLaylist">
                                         <div class="item" ng-repeat="v in videos track by $index">
                                             <div class="check-box"><input type="checkbox" ng-model="v.selected" class="check-input" name="checkall" ng-click="optionSelected()" /></div>
                                             <div class="box-detail-play clearfix">

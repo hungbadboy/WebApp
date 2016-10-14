@@ -97,7 +97,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
         // clearContent();
         getNewestVideos();
 
-        VideoService.getVideosTopRated(0, 0).then(function(data){
+        VideoService.getVideosTopRated(userId, 0).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.videosTopRated = formatData(data.data.request_data_result);
             $scope.vTopRated = $scope.videosTopRated[0];
@@ -107,7 +107,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
             $scope.videosTopRated = null;
         });
 
-        VideoService.getVideosTopViewed(0, 0).then(function(data){
+        VideoService.getVideosTopViewed(userId, 0).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.videosTopViewed = formatData(data.data.request_data_result);
             $scope.vTopViewed = $scope.videosTopViewed[0];
@@ -119,7 +119,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
     }    
 
     function getNewestVideos(){
-      VideoService.getVideos(0, 0).then(function(data){
+      VideoService.getVideos(userId, 0).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
           $scope.videos = formatData(data.data.request_data_result);
           $scope.v = $scope.videos[0];
