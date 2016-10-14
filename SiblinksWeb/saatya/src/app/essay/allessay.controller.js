@@ -90,6 +90,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     EssayService.getEssayById(eid, userId).then(function(data){
       var result = formatEssay(data.data.request_data_result);
       $scope.essay = result[0];
+      console.log($scope.essay);
       getRepliedByEssay($scope.essay.uploadEssayId, userId);
     });
   }

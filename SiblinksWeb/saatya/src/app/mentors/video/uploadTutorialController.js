@@ -110,7 +110,7 @@ brotControllers.controller('UploadTutorialController',
 
       var check = true;
 
-      if (title == null || title.trim().length == 0) {
+      if (title == null || title.length == 0) {
         check = false;
         $scope.error = "Please input Title. \n";
         angular.element('#txtUploadTitle').trigger('focus');
@@ -119,7 +119,7 @@ brotControllers.controller('UploadTutorialController',
 
       var request = {
         "vid": $scope.editVideo.vid,
-        "title": title.trim(),
+        "title": title,
         "description": description
       }
 
@@ -128,7 +128,7 @@ brotControllers.controller('UploadTutorialController',
           if (!isNaN(v_id) && v_id > 0) {
              var video = {
                'vid': v_id,
-               'title': title.trim(),
+               'title': title,
                'description': description
              } 
              $rootScope.$broadcast('passing', video);

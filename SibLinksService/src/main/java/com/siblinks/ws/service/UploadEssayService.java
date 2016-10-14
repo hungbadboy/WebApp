@@ -25,7 +25,7 @@ public interface UploadEssayService {
     // public void download(String userId, String essayId, String
     // status,HttpServletRequest request, HttpServletResponse response);
 
-    public void download(String essayId, HttpServletRequest request, HttpServletResponse response);
+    public void download(String essayId, String type, HttpServletRequest request, HttpServletResponse response);
 
 	public ResponseEntity<Response> removeEssay(RequestData video);
 
