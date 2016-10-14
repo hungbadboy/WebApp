@@ -33,11 +33,11 @@
                                     <div angucomplete-alt id="autocompleteSubsQA" placeholder="Search subjects.." pause="200"
                                          selected-object="selectedSubject"
                                          local-data="subjectsParent" search-fields="name" title-field="name"
-                                         minlength="0" input-class="form-control-search" ng-click="changeWidth()"
+                                         minlength="0" input-class="form-control-search" ng-click="changeWidth()" initial-value="initSubject"
                                           />
                                     <span style="pointer-events: none;" data-icon="&#x43;"></span>
                                 </div>
-                                <div class="btn-filter"><button ng-click="fillerSubject()">Filter</button></div>
+                                <div class="btn-filter hide"><button ng-click="fillerSubject()">Filter</button></div>
                             </div>
                         </div>
                         <div role="tabpanel tab-all" class="tab-answered">
