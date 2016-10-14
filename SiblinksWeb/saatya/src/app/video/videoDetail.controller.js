@@ -22,7 +22,6 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         var OFFSET = 0;
 
         var currentvid = 0;
-
         var player;
         var idRemove, editCommentId, listDiscuss = [];
 
@@ -135,7 +134,12 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
-                            onYouTubeIframeAPIReady(videoid[1]);
+                            if (player === undefined) {
+                                onYouTubeIframeAPIReady(videoid[1]);
+                            }
+                            else {
+                                player.loadVideoById(videoid[1]);
+                            }
                             $location.path('#/videos/detailVideo/' + data.data.request_data_result[0].vid);
                         }
 
@@ -196,13 +200,13 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
-                            // if (player === undefined) {
+                            if (player === undefined) {
                                 onYouTubeIframeAPIReady(videoid[1]);
-                            // }
-                            // else {
-                            //     player.loadVideoById(videoid[1]);
-                            // }
-                            $location.path('/videos/detailVideo/' + data.data.request_data_result[0].vid);
+                            }
+                            else {
+                                player.loadVideoById(videoid[1]);
+                            }
+                            $location.path('/videos/detailVideo/' + data.data.request_data_result[0].vid,false);
                         }
 
                     }

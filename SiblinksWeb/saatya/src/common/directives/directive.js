@@ -1087,25 +1087,29 @@ brotControllers.directive('readMore', function() {
 
         controller: ['$scope', '$attrs', '$element',
             function($scope, $attrs) {
-                $scope.textLength = $attrs.length;
-                if($scope.text===undefined||$scope.text==null){
-                    $scope.text = "No content";
-                }
-                $scope.isExpanded = false; // initialise extended status
-                $scope.countingWords = $attrs.words !== undefined ? ($attrs.words === 'true') : true; //if this attr is not defined the we are counting words not characters
+                $scope.$watch("text",function(newValue,oldValue) {
+                    $scope.isExpanded = false;
+                    $scope.textLength = $attrs.length;
+                    if($scope.text===undefined||$scope.text==null){
+                        $scope.text = "No content";
+                    }
+                    $scope.isExpanded = false; // initialise extended status
+                    $scope.countingWords = $attrs.words !== undefined ? ($attrs.words === 'true') : true; //if this attr is not defined the we are counting words not characters
 
-                if (!$scope.countingWords && $scope.text.length > $attrs.length) {
-                    $scope.showLinks = true;
-                } else if ($scope.countingWords && $scope.text.split(" ").length > $attrs.length) {
-                    $scope.showLinks = true;
-                } else {
-                    $scope.showLinks = false;
-                }
+                    if (!$scope.countingWords && $scope.text.length > $attrs.length) {
+                        $scope.showLinks = true;
+                    } else if ($scope.countingWords && $scope.text.split(" ").length > $attrs.length) {
+                        $scope.showLinks = true;
+                    } else {
+                        $scope.showLinks = false;
+                    }
 
-                $scope.changeLength = function (card) {
-                    $scope.isExpanded = !$scope.isExpanded;
-                    $scope.textLength = $scope.textLength !== $attrs.length ?  $attrs.length : $scope.text.length;
-                };
+                    //This gets called when data changes.
+                    $scope.changeLength = function (card) {
+                        $scope.isExpanded = !$scope.isExpanded;
+                        $scope.textLength = $scope.textLength !== $attrs.length ?  $attrs.length : $scope.text.length;
+                    };
+                });
             }]
     };
 });
