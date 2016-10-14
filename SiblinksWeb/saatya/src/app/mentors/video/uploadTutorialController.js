@@ -153,7 +153,7 @@ brotControllers.controller('UploadTutorialController',
 
       var check = true;
       $scope.error = '';
-      if (link == null || link.trim().length == 0) {
+      if (link == null || link.length == 0) {
         check = false;
         $scope.error = "Please input Link. \n";
         angular.element('#txtUploadLink').trigger('focus');
@@ -183,7 +183,7 @@ brotControllers.controller('UploadTutorialController',
       var thumbnail = 'http://img.youtube.com/vi/'+$scope.vid+'/hqdefault.jpg'
       var request = {
         "authorID": u_id,
-        "title": title.trim(),
+        "title": title,
         "url": link,
         "runningTime": $scope.duration,
         "image": thumbnail,
