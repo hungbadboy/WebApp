@@ -18,8 +18,16 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
         }
 
         $scope.showModal = function (index) {
-            $scope.currentEssay = $scope.listEssays[index];
-            angular.element(document.getElementById('essay-detail')).modal();
+            var uploadEssayId = $scope.listEssays[index].uploadEssayId;
+            if(isEmpty(uploadEssayId)){
+                $scope.currentEssay = null;
+            }
+            uploadEssayService.getEssayById(uploadEssayId).then(function (data) {
+                if (data.data.status) {
+                    $scope.currentEssay  = data.data.request_data_result[0];
+                    angular.element(document.getElementById('essay-detail')).modal();
+                }
+            });
         }
 
     }]);

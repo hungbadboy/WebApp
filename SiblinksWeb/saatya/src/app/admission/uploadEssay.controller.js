@@ -47,7 +47,7 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             }
             if(isEmpty($scope.txtTitle)){
                 $scope.essayErrorMsg = "Please input title essay";
-                $('#txtTilte').focus();
+                $('#txtTitle').focus();
                 return;
             }
             if(isEmpty($scope.txtDesc)){
