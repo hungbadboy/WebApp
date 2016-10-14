@@ -73,7 +73,7 @@
                     <div class="essay-detail-right-content">
                         <p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>
                         <div class="attrach-file">
-                            <label><span data-icon="&#xe092;"> Attached file</span></label>
+                            <a href="{{currentEssay.downloadLinkS}}"><label><span data-icon="&#xe092;"> Attached file</span></label></a>
                         </div>
                     </div>
                     <div class="essay-detail-right-header">
@@ -83,8 +83,8 @@
                         <h5>Desciption</h5>
                         <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
                         <p class="pre-wrap" ng-if="!currentEssay.mentorComment" >No content</p>
-                        <div class="attrach-file">
-                            <label><span data-icon="&#xe092;"> Attached file</span></label>
+                        <div ng-if="currentEssay.downloadLinkM" class="attrach-file">
+                            <a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Attached file</span></label></a>
                         </div>
                     </div>
 
