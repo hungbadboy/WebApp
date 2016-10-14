@@ -56,4 +56,8 @@ brotControllers.controller('ChoosePlaylistController',
 
       $modalInstance.dismiss('cancel');
     }
+
+    $scope.cancel = function(){
+      $modalInstance.dismiss('cancel')
+    }
 }]);

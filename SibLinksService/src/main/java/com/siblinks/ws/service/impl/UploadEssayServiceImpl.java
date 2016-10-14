@@ -95,10 +95,15 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
     @Override
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public void download(@RequestParam("essayId") final String essayId, final HttpServletRequest request, final HttpServletResponse response) {
+    public void download(@RequestParam("essayId") final String essayId, final String type, final HttpServletRequest request, final HttpServletResponse response) {
 
         try {
-            String entityName = SibConstants.SqlMapper.SQL_ESSAY_DOWNLOAD;
+            String entityName = "";
+            if (type.equals("S")) {
+                entityName = SibConstants.SqlMapper.SQL_STUDENT_DOWNLOAD;
+            } else if (type.equals("M")) {
+                entityName = SibConstants.SqlMapper.SQL_MENTOR_DOWNLOAD;
+            }
             Object[] queryParams = { essayId };
 
             Download file = dao.download(entityName, queryParams);
@@ -537,7 +542,10 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 // directory + "?userId=" + uid + "&essayId=" + uploadEssayId +
                 // "&status=A");
                 // }
-                dataMap.put("downloadLink", directory + "?essayId=" + uploadEssayId);
+                dataMap.put("downloadLinkS", directory + "?essayId=" + uploadEssayId + "&type=S");
+                if (dataMap.get("reviewedDocument") != null) {
+                    dataMap.put("downloadLinkM", directory + "?essayId=" + uploadEssayId + "&type=M");
+                }
             }
         }
 

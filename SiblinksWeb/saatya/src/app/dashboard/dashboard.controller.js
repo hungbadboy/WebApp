@@ -1,5 +1,5 @@
-brotControllers.controller('DashboardController',['$scope','$http', 'MentorService', 'VideoService',
-  function($scope, $http, MentorService, VideoService) {
+brotControllers.controller('DashboardController',['$rootScope','$scope','$http', 'MentorService', 'VideoService',
+  function($rootScope, $scope, $http, MentorService, VideoService) {
 
 	$scope.data =[
 	               { imageUrl:"assets/images/mentor-04.png", name:"Student1", caption:""},
@@ -123,4 +123,7 @@ brotControllers.controller('DashboardController',['$scope','$http', 'MentorServi
   function onPlayerStateChange(event) {
   }
 
+  $scope.$on('uploadNew', function(){
+    getMainDashboardInfo();
+  })
 }]);

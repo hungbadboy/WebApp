@@ -88,9 +88,16 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
 
   function getEssayById(eid, userId){
     EssayService.getEssayById(eid, userId).then(function(data){
-      var result = formatEssay(data.data.request_data_result);
-      $scope.essay = result[0];
-      getRepliedByEssay($scope.essay.uploadEssayId, userId);
+      var result = data.data.request_data_result;
+      if (result && result != NO_DATA) {
+        for (var i = result.length - 1; i >= 0; i--) {
+          result[i].docSubmittedDate = convertUnixTimeToTime(result[i].docSubmittedDate);
+        }
+        $scope.essay = result[0];
+        getRepliedByEssay($scope.essay.uploadEssayId, userId);
+      } else {
+        $scope.essay = null;
+      }     
     });
   }
 
