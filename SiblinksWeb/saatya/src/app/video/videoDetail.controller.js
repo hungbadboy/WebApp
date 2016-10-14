@@ -297,6 +297,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             if ($scope.isFavorite == 1) {
                 return;
             }
+            $rootScope.$broadcast('open');
             VideoService.addfavourite($scope.userId, vid).then(function (data) {
                 if (data.data.request_data_result == 'Favourite add successful') {
                     $('#btnFavorite').addClass('btn-warning');
@@ -306,6 +307,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                     $scope.isFavorite = 0;
                     $('#btnFavorite').removeClass('btn-warning');
                 }
+                $rootScope.$broadcast('close');
             });
 
 
@@ -357,7 +359,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                 $scope.errorVideo = "Please login";
                 return;
             }
-
+            $rootScope.$broadcast('open');
             videoDetailService.addCommentVideo($scope.userId, content, videoid).success(function (data) {
                 if (data.status == 'true') {
                     $("#add-comment").val('');
@@ -375,6 +377,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 
                     });
                 }
+                $rootScope.$broadcast('close');
             });
 
         }
@@ -396,6 +399,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                 $window.location.href = '#/student/signin?continue='+encodeURIComponent($location.absUrl());
                 return;
             }
+            $rootScope.$broadcast('open');
             VideoService.setSubscribeMentor($scope.userId, mentorId + "").then(function (data) {
                 if (data.data.status == "true") {
                     if (data.data.request_data_type == "subs") {
@@ -405,6 +409,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                         $scope.isSubscribe = 0;
                     }
                 }
+                $rootScope.$broadcast('close');
             });
         };
 

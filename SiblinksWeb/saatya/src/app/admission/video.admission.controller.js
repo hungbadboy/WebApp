@@ -149,6 +149,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
                 $scope.errorVideo = "Please login!";
                 return;
             }
+            $rootScope.$broadcast('open');
             videoAdmissionService.checkUserRatingVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
 
                 if (data.data.status) {
@@ -164,6 +165,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
                         });
                     }
                 }
+                $rootScope.$broadcast('close');
             });
 
         }
@@ -214,7 +216,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
                 $scope.errorVideo = "Please login";
                 return;
             }
-
+            $rootScope.$broadcast('open');
             videoAdmissionService.addCommentVideo($scope.userId, content, videoid).success(function (data) {
                 if (data.status == 'true') {
                     $("#add-comment").val('');
@@ -232,6 +234,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
 
                     });
                 }
+                $rootScope.$broadcast('close');
             });
 
         }
