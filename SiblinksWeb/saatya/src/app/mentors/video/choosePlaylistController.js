@@ -33,10 +33,11 @@ brotControllers.controller('ChoosePlaylistController',
         'plid': plid,
         'vids': v_ids
       }
-
+      $rootScope.$broadcast('open');
       VideoService.addVideosToPlaylist(request).then(function(data){
         $rootScope.$broadcast('addPlaylist');
         $modalInstance.dismiss('cancel');
+        $rootScope.$broadcast('close');
       });
     }
 

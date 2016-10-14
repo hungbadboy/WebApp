@@ -112,15 +112,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
 
     function loadVideos(){
         // clearContent();
-        VideoService.getVideos(userId, 0).then(function(data){
-          if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-            $scope.videos = formatData(data.data.request_data_result);
-            $scope.v = $scope.videos[0];
-            $scope.newestPos = 0;
-            $scope.newestAverageRating = $scope.v.averageRating;
-          } else
-            $scope.videos = null;
-        });
+        getNewestVideos();
 
         VideoService.getVideosTopRated(userId, 0).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
@@ -142,6 +134,18 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
             $scope.videosTopViewed = null;
         });
     }    
+
+    function getNewestVideos(){
+      VideoService.getVideos(userId, 0).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+          $scope.videos = formatData(data.data.request_data_result);
+          $scope.v = $scope.videos[0];
+          $scope.newestPos = 0;
+          $scope.newestAverageRating = $scope.v.averageRating;
+        } else
+          $scope.videos = null;
+      });
+    }
 
     function formatData(data){
       for (var i = 0; i < data.length; i++) {           
@@ -305,5 +309,6 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
 
   $scope.$on('uploadNew', function(){
     getDashboardInfo();
+    getNewestVideos();
   })
 }]);

@@ -122,7 +122,7 @@ brotControllers.controller('UploadTutorialController',
         "title": title,
         "description": description
       }
-
+      $rootScope.$broadcast('open');
       VideoService.updateTutorial(request).then(function(data){
         if (data.data.request_data_result === "Success") {
           if (!isNaN(v_id) && v_id > 0) {
@@ -143,6 +143,7 @@ brotControllers.controller('UploadTutorialController',
         } else{
           $scope.error = data.data.request_data_result;
         }
+        $rootScope.$broadcast('close');
       });
     }
 
@@ -191,6 +192,7 @@ brotControllers.controller('UploadTutorialController',
         "subjectId": $scope.uploadTutSubject,
         "plid": $('#uploadPlaylist').val() == 0 ? null : $('#uploadPlaylist').val()
       }
+      $rootScope.$broadcast('open');
       VideoService.uploadTutorial(request).then(function(data){
         if (data.data.request_data_result === "Success") {
           $scope.success = "Upload Tutorial successful.";
@@ -200,6 +202,7 @@ brotControllers.controller('UploadTutorialController',
         } else{
           $scope.error = data.data.request_data_result;
         }
+        $rootScope.$broadcast('close');
       });
     }
 
@@ -298,8 +301,8 @@ brotControllers.controller('UploadTutorialController',
     var player;
     function onYouTubeIframeAPIReady(youtubeId) {
       player = new YT.Player('uplad_player', {
-          height: '333',
-          width: '550',
+          height: '310',
+          width: '100%',
           videoId: youtubeId,
           events: {
               'onReady': onPlayerReady,

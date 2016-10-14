@@ -138,10 +138,12 @@ brotControllers.controller('PlaylistController',
         var message = 'Please remove all videos in the playlist first.';
         showModal(message);
       } else{
+        $rootScope.$broadcast('open');
         PlaylistService.deletePlaylist(p.plid, userId).then(function(data){
           if (data.data.status) {
              loadPlaylist();         
           }
+          $rootScope.$broadcast('close');
         });
       }      
     }
@@ -149,8 +151,10 @@ brotControllers.controller('PlaylistController',
     $scope.deleteMultiplePlaylist = function(){
       var selectedPlaylist = checkSelectedPlaylist();
       if (selectedPlaylist.length > 0) {
+        $rootScope.$broadcast('open');
         PlaylistService.deleteMultiplePlaylist(selectedPlaylist, userId).then(function(data){
           loadPlaylist();
+          $rootScope.$broadcast('close');
         });
       }
     }
@@ -296,6 +300,7 @@ brotControllers.controller('PlaylistController',
       fd.append('subjectId', $scope.addSubject);
       fd.append('createBy', userId);
 
+      $rootScope.$broadcast('open');
       PlaylistService.insertPlaylist(fd).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result == "success") {
           //reload page
@@ -305,6 +310,7 @@ brotControllers.controller('PlaylistController',
         } else{
           $scope.error = data.data.request_data_result;
         }
+        $rootScope.$broadcast('close');
       });
     }
 

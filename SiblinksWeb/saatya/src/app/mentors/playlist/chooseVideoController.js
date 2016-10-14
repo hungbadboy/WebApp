@@ -148,6 +148,7 @@ brotControllers.controller('ChooseVideoController',
             'plid': pl_id,
             'vids': selectedVideos
           }
+          $rootScope.$broadcast('open');
           VideoService.addVideosToPlaylist(request).then(function(data){
             var result = data.data.request_data_result;
             if (result != null && result == "Success") {
@@ -155,6 +156,7 @@ brotControllers.controller('ChooseVideoController',
                 $modalInstance.dismiss('cancel');
             } else
                 alert(result);
+            $rootScope.$broadcast('close');
           });
         }
     }
@@ -217,6 +219,7 @@ brotControllers.controller('ChooseVideoController',
         "subjectId": $scope.insertSubject,
         "plid": pl_id
       }
+      $rootScope.$broadcast('open');
       VideoService.uploadTutorial(request).then(function(data){
         if (data.data.request_data_result === "Success") {
           $scope.success = "Upload Tutorial successful.";
@@ -225,6 +228,7 @@ brotControllers.controller('ChooseVideoController',
         } else{
           $scope.error = data.data.request_data_result;
         }
+        $rootScope.$broadcast('close');
       });
     }
 
@@ -298,7 +302,7 @@ brotControllers.controller('ChooseVideoController',
     function onYouTubeIframeAPIReady(youtubeId) {
       player = new YT.Player('validate', {
           height: '310',
-          width: '550',
+          width: '100%',
           videoId: youtubeId,
           events: {
               'onReady': onPlayerReady,

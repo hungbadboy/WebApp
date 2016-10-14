@@ -48,13 +48,13 @@ brotControllers.controller('MentorPlaylistDetailController',
     $scope.delete = function(vid){
         var selectedVideos = [];
         selectedVideos.push(vid);
-        if (confirm('Are you sure?')) {
-            PlaylistService.deleteVideoInPlaylist(selectedVideos).then(function(data){
-              if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
-                getVideosInPlaylist();
-              }
-            });
-        }
+        $rootScope.$broadcast('open');
+        PlaylistService.deleteVideoInPlaylist(selectedVideos).then(function(data){
+          if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+            getVideosInPlaylist();
+          }
+          $rootScope.$broadcast('close');
+        });
     }
 
     $scope.openEdit = function(vid){        
@@ -102,14 +102,14 @@ brotControllers.controller('MentorPlaylistDetailController',
         var selectedVideos = checkSelectedVideos();
 
         if (selectedVideos.length > 0) {
-            if (confirm("Are you sure?")) {
-              PlaylistService.deleteVideoInPlaylist(selectedVideos).then(function(data){
-                if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
-                   $scope.selectedAll = false;
-                   getVideosInPlaylist();
-                }
-              });
-            }
+            $rootScope.$broadcast('open');
+            PlaylistService.deleteVideoInPlaylist(selectedVideos).then(function(data){
+              if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+                $scope.selectedAll = false;
+                getVideosInPlaylist();
+              }
+              $rootScope.$broadcast('close');
+            });
         }
     }
 
