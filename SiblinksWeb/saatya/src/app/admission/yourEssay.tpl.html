@@ -16,10 +16,10 @@
             </div>
             <div class="detail-essay col-xs-offset-1">
                 <div class="infor-of-essay">
-                    <p><span class="essay-time">Upload {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago </span></p>
-                    <p class="essay-title">{{ currentEssay.nameOfEssay | limitTo: 100 }}{{currentEssay.nameOfEssay.length > 185 ? '...' : ''}}</p>
+                    <p><span class="essay-time">Upload {{convertUnixTimeToTime(essay.docSubmittedDate)}} ago </span></p>
+                    <p class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 185 ? '...' : ''}}</p>
                     <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
-                    <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='R'?'reviewing':'answers'}}">{{essay.STATUS=='R'?'Reviewing':'Answered'}}</span><span>by mentor: </span><span class="mentor-review">{{essay.firstName+' '+essay.lastName}}</span></p>
+                    <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span><span>by mentor: </span><span class="mentor-review">{{essay.firstName+' '+essay.lastName}}</span></p>
                 </div>
             </div>
         </li>
@@ -37,16 +37,16 @@
                 </div>
                 <div class="essay-thumb">
                     <div class="essay-thumb-left">
-                        <p>Mentor:</p>
-                        <p class="name-mentor"><a href="#/mentorProfile/{{currentEssay.mentorID}}">
-                            {{currentEssay.firstName+' '+currentEssay.lastName}}</a></p>
-                        <p ng-if="currentEssay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
-                        <p ng-if="currentEssay.STATUS !='W'"><span class="essay-{{currentEssay.STATUS=='R'?'reviewing':'answers'}}">{{currentEssay.STATUS=='R'?'Reviewing':'Answered'}}</span></p>
+                        <p ng-if="currentEssay.mentorId">Mentor:</p>
+                        <p ng-if="currentEssay.mentorId" class="name-mentor"><a href="#/mentorProfile/{{currentEssay.mentorId}}">
+                            {{currentEssay.mfirstName+' '+currentEssay.mlastName}}</a></p>
+                        <p ng-if="currentEssay.status =='W'"><span class="essay-wait-review">Waiting for review</span></p>
+                        <p ng-if="currentEssay.status !='W'"><span class="essay-{{currentEssay.status=='P'?'reviewing':'answers'}}">{{currentEssay.status=='P'?'Reviewing':'Answered'}}</span></p>
                         <!--<p><span class="essay-reviewing">Reviewing</span></p>-->
                         <br>
                     </div>
-                     <div class="essay-thumb-right">
-                        <a href="#"><img ng-src="{{currentEssay.avatar}}"></a>
+                     <div ng-if="currentEssay.mentorId" class="essay-thumb-right">
+                        <a href="#/mentorProfile/{{currentEssay.mentorId}}"><img ng-src="{{currentEssay.mavatar}}"></a>
                     </div>
                     
                 </div>
@@ -81,7 +81,8 @@
                     </div>
                     <div class="essay-detail-right-content">
                         <h5>Desciption</h5>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                        <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
+                        <p class="pre-wrap" ng-if="!currentEssay.mentorComment" >No content</p>
                         <div class="attrach-file">
                             <label><span data-icon="&#xe092;"> Attached file</span></label>
                         </div>
