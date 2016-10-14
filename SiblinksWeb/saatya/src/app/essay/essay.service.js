@@ -176,6 +176,26 @@ brotServices.factory('EssayService', ['$http', function($http) {
       }
     });
   }
+  factory.insertCommentEssay = function(fd){
+    return $http({
+      method: 'POST',
+      url: NEW_SERVICE_URL +'essay/insertCommentEssay',
+      headers:{
+        'Content-Type': undefined
+      },
+      data: fd,
+      transformRequest: function (data, headersGetterFunction) {
+        return data;
+      }
+    });
+  }
+
+  factory.getCommentEssay = function(essayId, mentorId){
+    return $http({
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'essay/getCommentEssay?essayId='+essayId+'&mentorId='+mentorId+''
+    });
+  }
 
   return factory;
 }]);

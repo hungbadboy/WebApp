@@ -43,6 +43,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,19 +90,21 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     @Autowired
     private Environment env;
 
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+
     @Override
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public void download(@RequestParam("userId") final String userId, @RequestParam("essayId") final String essayId,
-            @RequestParam("status") final String status, final HttpServletRequest request, final HttpServletResponse response) {
+    public void download(@RequestParam("essayId") final String essayId, final String type, final HttpServletRequest request, final HttpServletResponse response) {
 
         try {
-            String entityName = SibConstants.SqlMapper.SQL_STUDENT_UPLOAD;
-            if ("W".equalsIgnoreCase(status)) {
+            String entityName = "";
+            if (type.equals("S")) {
                 entityName = SibConstants.SqlMapper.SQL_STUDENT_DOWNLOAD;
-            } else if ("A".equalsIgnoreCase(status)) {
+            } else if (type.equals("M")) {
                 entityName = SibConstants.SqlMapper.SQL_MENTOR_DOWNLOAD;
             }
-            Object[] queryParams = { userId, essayId };
+            Object[] queryParams = { essayId };
 
             Download file = dao.download(entityName, queryParams);
 
@@ -344,7 +350,6 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         return entity;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @RequestMapping(value = "/getDiscussion", method = RequestMethod.POST)
     public ResponseEntity<Response> getDiscussion(@RequestBody final RequestData request) {
@@ -479,7 +484,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         List<Object> readObject = null;
         readObject = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT, whereClause, queryParams);
         if (readObject != null) {
-            Map dataMap = null;
+            Map<String, Object> dataMap = null;
             String directory = env.getProperty("directoryDowloadEssay");
             for (Object obj : readObject) {
                 dataMap = (Map) obj;
@@ -521,19 +526,25 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         List<Object> readObject = null;
         readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ESSAY_BY_ID, queryParams);
         if (readObject != null) {
-            Map dataMap = null;
+            Map<String, Object> dataMap = null;
             String directory = env.getProperty("directoryDowloadEssay");
             for (Object obj : readObject) {
                 dataMap = (Map) obj;
 
-                String status = dataMap.get("status").toString();
+                // String status = dataMap.get("status").toString();
                 String uploadEssayId = dataMap.get("uploadEssayId").toString();
-                String uid = request.getRequest_data().getUid();
-                dataMap.put("downloadLink", directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=W");
-                if ("A".equalsIgnoreCase(status)) {
-                    dataMap.put(
-                        "downloadReviewdLink",
-                        directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=A");
+                // String uid = request.getRequest_data().getUid();
+                // dataMap.put("downloadLink", directory + "&essayId=" +
+                // uploadEssayId + "&status=W");
+                // if ("A".equalsIgnoreCase(status)) {
+                // dataMap.put(
+                // "downloadReviewdLink",
+                // directory + "?userId=" + uid + "&essayId=" + uploadEssayId +
+                // "&status=A");
+                // }
+                dataMap.put("downloadLinkS", directory + "?essayId=" + uploadEssayId + "&type=S");
+                if (dataMap.get("reviewedDocument") != null) {
+                    dataMap.put("downloadLinkM", directory + "?essayId=" + uploadEssayId + "&type=M");
                 }
             }
         }
@@ -655,6 +666,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             if (file.getSize() > Long.parseLong(limitSize)) {
                 error = "File over 10M";
             }
+        } else {
+            error = "File is empty";
         }
         return error;
     }
@@ -700,7 +713,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             Map<String, Object> map = (Map<String, Object>) object;
             try {
                 schoolId = Long.parseLong(map.get("school").toString());
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
+                logger.debug(e.getMessage());
             }
         }
         if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY) || entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY)) {
@@ -732,7 +746,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 params = new Object[] { request.getRequest_data().getEssayId(), mentorId };
                 flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_IGNORE_ESSAY, params);
             } else {
-                params = new Object[] { request.getRequest_data().getEssayId(), mentorId, status };
+                params = new Object[] { status, mentorId, request.getRequest_data().getEssayId() };
                 flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
             }
             if (flag) {
@@ -742,6 +756,61 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             }
         }catch(Exception e){
             reponse = new SimpleResponse("" + true, "essay", "updateStatusEssay", e.getMessage());
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/insertCommentEssay", method = RequestMethod.POST)
+    public ResponseEntity<Response> insertCommentEssay(@RequestParam(required = false) final MultipartFile file, @RequestParam final long essayId,
+            @RequestParam final long mentorId, @RequestParam final String comment) {
+        SimpleResponse reponse = null;
+        boolean flag = false;
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus status = transactionManager.getTransaction(def);
+        try {
+            Object[] params = null;
+            params = new Object[] { "", mentorId, comment };
+            long cid = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, params);
+            params = new Object[] { essayId, cid };
+            flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_FK, params);
+
+            String statusMsg = validateEssay(file);
+            if (StringUtil.isNull(statusMsg)) {
+                params = new Object[] { mentorId, file.getInputStream(), file.getSize(), file.getOriginalFilename(), essayId };
+                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITH_FILE, params);
+            } else {
+                params = new Object[] { mentorId, essayId };
+                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITHOUT_FILE, params);
+            }
+            
+            if (flag) {
+                transactionManager.commit(status);
+                reponse = new SimpleResponse("" + true, "essay", "insertCommentEssay", "Success");
+            } else {
+                transactionManager.rollback(status);
+                reponse = new SimpleResponse("" + false, "essay", "insertCommentEssay", "Failed");
+            }
+        } catch (Exception e) {
+            transactionManager.rollback(status);
+            reponse = new SimpleResponse("" + true, "essay", "insertCommentEssay", e.getMessage());
+        }
+
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/getCommentEssay", method = RequestMethod.GET)
+    public ResponseEntity<Response> getCommentEssay(final long essayId, final long mentorId) {
+        SimpleResponse reponse = null;
+        Object[] params = new Object[] { mentorId, essayId };
+        List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COMMENT_ESSAY, params);
+        if (readObject != null && readObject.size() > 0) {
+            reponse = new SimpleResponse("" + true, "essay", "getRepliedEssay", readObject);
+        } else {
+            reponse = new SimpleResponse("" + true, "essay", "getRepliedEssay", SibConstants.NO_DATA);
         }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;

@@ -282,6 +282,7 @@ public class SibConstants {
         public static final String SQL_MENTOR_UPLOAD = "MENTOR_UPLOAD";
         public static final String SQL_STUDENT_DOWNLOAD = "STUDENT_DOWNLOAD";
         public static final String SQL_MENTOR_DOWNLOAD = "MENTOR_DOWNLOAD";
+        // public static final String SQL_ESSAY_DOWNLOAD = "ESSAY_DOWNLOAD";
         public static final String SQL_GET_URL_FILE_ESSAY = "GET_URL_FILE_ESSAY";
         public static final String SQL_GET_ESAY = "GET_ESAY";
         public static final String SQL_GET_ESAY_COUNT = "GET_ESAY_COUNT";
@@ -646,5 +647,9 @@ public class SibConstants {
         public static final String SQL_GET_REPLIED_ESSAY = "GET_REPLIED_ESSAY";
         public static final String SQL_UPDATE_STATUS_ESSAY = "UPDATE_STATUS_ESSAY";
         public static final String SQL_IGNORE_ESSAY = "IGNORE_ESSAY";
+        public static final String SQL_INSERT_COMMENT_ESSAY_WITH_FILE = "INSERT_COMMENT_ESSAY_WITH_FILE";
+        public static final String SQL_INSERT_COMMENT_ESSAY_WITHOUT_FILE = "INSERT_COMMENT_ESSAY_WITHOUT_FILE";
+        public static final String SQL_INSERT_COMMENT_ESSAY_FK = "INSERT_COMMENT_ESSAY_FK";
+        public static final String SQL_GET_COMMENT_ESSAY = "GET_COMMENT_ESSAY";
     }
 }

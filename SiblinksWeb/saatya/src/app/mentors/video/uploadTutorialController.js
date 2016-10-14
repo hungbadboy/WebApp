@@ -110,7 +110,7 @@ brotControllers.controller('UploadTutorialController',
 
       var check = true;
 
-      if (title == null || title.trim().length == 0) {
+      if (title == null || title.length == 0) {
         check = false;
         $scope.error = "Please input Title. \n";
         angular.element('#txtUploadTitle').trigger('focus');
@@ -119,7 +119,7 @@ brotControllers.controller('UploadTutorialController',
 
       var request = {
         "vid": $scope.editVideo.vid,
-        "title": title.trim(),
+        "title": title,
         "description": description
       }
 
@@ -128,7 +128,7 @@ brotControllers.controller('UploadTutorialController',
           if (!isNaN(v_id) && v_id > 0) {
              var video = {
                'vid': v_id,
-               'title': title.trim(),
+               'title': title,
                'description': description
              } 
              $rootScope.$broadcast('passing', video);
@@ -153,7 +153,7 @@ brotControllers.controller('UploadTutorialController',
 
       var check = true;
       $scope.error = '';
-      if (link == null || link.trim().length == 0) {
+      if (link == null || link.length == 0) {
         check = false;
         $scope.error = "Please input Link. \n";
         angular.element('#txtUploadLink').trigger('focus');
@@ -183,7 +183,7 @@ brotControllers.controller('UploadTutorialController',
       var thumbnail = 'http://img.youtube.com/vi/'+$scope.vid+'/hqdefault.jpg'
       var request = {
         "authorID": u_id,
-        "title": title.trim(),
+        "title": title,
         "url": link,
         "runningTime": $scope.duration,
         "image": thumbnail,
@@ -298,7 +298,7 @@ brotControllers.controller('UploadTutorialController',
     var player;
     function onYouTubeIframeAPIReady(youtubeId) {
       player = new YT.Player('uplad_player', {
-          height: '310',
+          height: '333',
           width: '550',
           videoId: youtubeId,
           events: {

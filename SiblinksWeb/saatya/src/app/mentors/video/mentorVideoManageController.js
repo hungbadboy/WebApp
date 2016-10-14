@@ -1,5 +1,5 @@
-brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService','$sce',
-                                       function ($scope, $modal, $routeParams, $http, $location, VideoService, MentorService, $sce) {
+brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService','$sce',
+                                       function ($rootScope, $scope, $modal, $routeParams, $http, $location, VideoService, MentorService, $sce) {
 
 
     var userId = localStorage.getItem('userId');
@@ -156,51 +156,51 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
       return data;
     }
     
-  $scope.loadVideosBySubject = function(){
-    clearContent();
-    var subjectid = $scope.item;
-    if (subjectid == 0){
-      loadVideos();
-    }
-    else{
-        id = 6;
-        $http({
-          method: 'GET',
-          url: NEW_SERVICE_URL + 'video/getVideosBySubject?userid='+id + '&subjectid='+$scope.item,
-            data: {
-              "request_data_type": "video",
-              "request_data_method": "getVideosBySubject"           
-          }
+  // $scope.loadVideosBySubject = function(){
+  //   clearContent();
+  //   var subjectid = $scope.item;
+  //   if (subjectid == 0){
+  //     loadVideos();
+  //   }
+  //   else{
+  //       id = 6;
+  //       $http({
+  //         method: 'GET',
+  //         url: NEW_SERVICE_URL + 'video/getVideosBySubject?userid='+id + '&subjectid='+$scope.item,
+  //           data: {
+  //             "request_data_type": "video",
+  //             "request_data_method": "getVideosBySubject"           
+  //         }
         
-        // headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).success(function(data) {        
-          $scope.videos = data.request_data_result;
-          for (var i = 0; i < $scope.videos.length; i++) {
-            var numViews = $scope.videos[i].numViews;
-            var numComments = $scope.videos[i].numComments;
-            var playlist = $scope.videos[i].playlistname;
+  //       // headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+  //       }).success(function(data) {        
+  //         $scope.videos = data.request_data_result;
+  //         for (var i = 0; i < $scope.videos.length; i++) {
+  //           var numViews = $scope.videos[i].numViews;
+  //           var numComments = $scope.videos[i].numComments;
+  //           var playlist = $scope.videos[i].playlistname;
 
-            if (numViews == null) 
-              $scope.videos[i].numViews = 0;
-            if (numComments == null) 
-              $scope.videos[i].numComments = 0;
-            if (playlist == null)
-              $scope.videos[i].playlist = 'none';
+  //           if (numViews == null) 
+  //             $scope.videos[i].numViews = 0;
+  //           if (numComments == null) 
+  //             $scope.videos[i].numComments = 0;
+  //           if (playlist == null)
+  //             $scope.videos[i].playlist = 'none';
 
-            $scope.videos[i].timeStamp = moment($scope.videos[i].timeStamp).format('MMMM Do YYYY, h:mm:ss a');
-          }
-          $scope.videoTopViewed = $scope.videos.sort(function(a, b){
-            return parseInt(b.numViews) - parseInt(a.numViews);
-          });
-          $scope.videoTopRated = $scope.videos.sort(function(a, b){
-            return parseInt(b.numRatings) - parseInt(a.numRatings);
-          });
+  //           $scope.videos[i].timeStamp = moment($scope.videos[i].timeStamp).format('MMMM Do YYYY, h:mm:ss a');
+  //         }
+  //         $scope.videoTopViewed = $scope.videos.sort(function(a, b){
+  //           return parseInt(b.numViews) - parseInt(a.numViews);
+  //         });
+  //         $scope.videoTopRated = $scope.videos.sort(function(a, b){
+  //           return parseInt(b.numRatings) - parseInt(a.numRatings);
+  //         });
           
-        }).error(function(data){
-          console.log(data);
-        });
-      }     
-    };
+  //       }).error(function(data){
+  //         console.log(data);
+  //       });
+  //     }     
+  //   };
 
   $scope.newestPrev = function(pos){
     if ($scope.videos && $scope.videos.length > 0) {
@@ -302,4 +302,8 @@ brotControllers.controller('MentorVideoManageController', ['$scope', '$modal', '
 	$scope.comvertToDisplayComment  = function(str){
 		 return $sce.trustAsHtml(decodeURIComponent(str));
 	}
+
+  $scope.$on('uploadNew', function(){
+    getDashboardInfo();
+  })
 }]);
