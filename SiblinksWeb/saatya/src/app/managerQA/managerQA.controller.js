@@ -529,12 +529,27 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
         };
         // show confirm when click other page
-        // $scope.$on('$locationChangeStart', function( event ) {
-        //     var answer = confirm("Are you sure you want to leave this page?")
-        //     if (!answer) {
-        //         event.preventDefault();
-        //     }
-        // });
+        $scope.$on('$locationChangeStart', function( event ) {
+            // var answer = confirm("Are you sure you want to leave this page?")
+            // if (!answer) {
+            //     event.preventDefault();
+            // }
+            event.preventDefault();
+             angular.element(document.getElementById('dialog-confirm')).dialog({
+                height: "auto",
+                width: 400,
+                modal: true,
+                buttons: {
+                    "Stay on this page": function() {
+                        e.target.submit();
+                        angular.element(document.getElementById('dialog-confirm')).dialog( "close" );
+                    },
+                    Cancel: function() {
+                        angular.element(document.getElementById('dialog-confirm')).dialog( "close" );
+                    }
+                }
+            });
+        });
         $scope.removeImg = function (index) {
             $scope.filesArray.splice(index, 1);
             $scope.stepsModel.splice(index, 1);
