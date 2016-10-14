@@ -32,6 +32,7 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             $scope.fileName = fileUpload.name;
         };
 
+
         $scope.uploadEssay = function () {
             var fd = new FormData();
             if(isEmpty(userId)){
@@ -74,7 +75,7 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             fd.append('majorId',$scope.selectMajor );
             fd.append('schoolId',$scope.selectSchool);
             fd.append('fileName',fileUpload.name);
-
+            $rootScope.$broadcast('open');
             uploadEssayService.uploadEssayStudent(fd).then(function (data) {
                  if (data.data.status) {
                      $scope.essayErrorMsg = "";
@@ -85,11 +86,13 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
                      fileUpload = null;
                      $scope.txtDesc = "";
                      $scope.txtTitle = "";
+                     $scope.$emit('reloadYourEssay', 'load')
                 }
                 else {
                      $scope.essayErrorMsg = data.data.request_data_result;
                      $scope.essaySusscesMsg = "";
                  }
+                $rootScope.$broadcast('close');
             });
         }
 
