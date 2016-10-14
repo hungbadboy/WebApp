@@ -173,7 +173,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             else {
                                 player.loadVideoById(videoid[1]);
                             }
-                            $location.path('#/videos/detailVideo/' + data.data.request_data_result[0].vid);
+                            $location.path('/videos/detailVideo/' + data.data.request_data_result[0].vid);
                         }
 
                     }
@@ -250,7 +250,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             else {
                                 player.loadVideoById(videoid[1]);
                             }
-                            $location.path('#/videos/detailPlaylist/' + pid + '/' + $scope.index);
+                            $location.path('/videos/detailPlaylist/' + pid + '/' + $scope.index);
                         }
 
                     }
