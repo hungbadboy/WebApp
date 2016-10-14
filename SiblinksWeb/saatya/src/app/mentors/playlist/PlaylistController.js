@@ -42,11 +42,8 @@ brotControllers.controller('PlaylistController',
       } else{
         HomeService.getAllCategory().then(function (data) {
            if (data.data.status) {
-              localStorage.setItem("subjects", data.data.request_data_result);
               var objArr = angular.copy(data.data.request_data_result);
-              // objArr.push(data.data.request_data_result.splice(0));
               var objArr2 = angular.copy(data.data.request_data_result);
-              // objArr2.push(data.data.request_data_result.splice(0));
 
              objArr.splice(0, 0, {
               'subjectId': 0,

@@ -63,7 +63,6 @@ brotControllers.controller('ChooseVideoController',
       } else {
          HomeService.getAllCategory().then(function (data) {
              if (data.data.status) {
-                 localStorage.setItem("subjects", data.data.request_data_result);
                  var arr = angular.copy(data.data.request_data_result);
                  arr.splice(0, 0, {
                   'subjectId': 0,

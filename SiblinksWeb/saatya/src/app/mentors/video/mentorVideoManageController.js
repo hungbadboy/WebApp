@@ -47,18 +47,11 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
           data[i].imageUrl = 'http://www.capheseo.com/Content/T000/Images/no-avatar.png';
         else
           data[i].imageUrl = data[i].imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + data[i].imageUrl: data[i].imageUrl;
-        var firstname = '';
-        if (data[i].firstName && data[i].firstName.length > 0) {
-          firstname = data[i].firstName;
-        }
-
-        var lastname = '';
-        if (data[i].lastName && data[i].lastName.length > 0) {
-          lastname = data[i].lastName;
-        }
-
+        var firstname = data[i].firstName != null ? data[i].firstName : '';
+        var lastname = data[i].lastName != null ? data[i].lastName : '';
         data[i].fullName = firstname + ' ' + lastname;
         data[i].timestamp = convertUnixTimeToTime(data[i].timestamp);
+        data[i].content = decodeURIComponent(data[i].content);
       }
       return data;
     }
@@ -78,18 +71,8 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
         else
           data[i].imageUrl = data[i].imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + data[i].imageUrl: data[i].imageUrl;
 
-        var firstname = '';
-        if (data[i].firstName == null || data[i].firstName.length == 0) {
-          firstname = '';
-        } else
-          firstname = data[i].firstName;
-
-        var lastname = '';
-        if (data[i].lastName == null || data[i].lastName.length == 0) {
-          lastname = '';
-        } else
-          lastname = data[i].lastName;
-
+        var firstname = data[i].firstName != null ? data[i].firstName : '';
+        var lastname = data[i].lastName != null ? data[i].lastName : '';
         data[i].fullName = firstname + ' ' + lastname;
       }
       return data;
@@ -114,7 +97,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
         // clearContent();
         getNewestVideos();
 
-        VideoService.getVideosTopRated(userId, 0).then(function(data){
+        VideoService.getVideosTopRated(0, 0).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.videosTopRated = formatData(data.data.request_data_result);
             $scope.vTopRated = $scope.videosTopRated[0];
@@ -124,7 +107,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
             $scope.videosTopRated = null;
         });
 
-        VideoService.getVideosTopViewed(userId, 0).then(function(data){
+        VideoService.getVideosTopViewed(0, 0).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.videosTopViewed = formatData(data.data.request_data_result);
             $scope.vTopViewed = $scope.videosTopViewed[0];
@@ -136,7 +119,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
     }    
 
     function getNewestVideos(){
-      VideoService.getVideos(userId, 0).then(function(data){
+      VideoService.getVideos(0, 0).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
           $scope.videos = formatData(data.data.request_data_result);
           $scope.v = $scope.videos[0];
@@ -160,52 +143,6 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
       return data;
     }
     
-  // $scope.loadVideosBySubject = function(){
-  //   clearContent();
-  //   var subjectid = $scope.item;
-  //   if (subjectid == 0){
-  //     loadVideos();
-  //   }
-  //   else{
-  //       id = 6;
-  //       $http({
-  //         method: 'GET',
-  //         url: NEW_SERVICE_URL + 'video/getVideosBySubject?userid='+id + '&subjectid='+$scope.item,
-  //           data: {
-  //             "request_data_type": "video",
-  //             "request_data_method": "getVideosBySubject"           
-  //         }
-        
-  //       // headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-  //       }).success(function(data) {        
-  //         $scope.videos = data.request_data_result;
-  //         for (var i = 0; i < $scope.videos.length; i++) {
-  //           var numViews = $scope.videos[i].numViews;
-  //           var numComments = $scope.videos[i].numComments;
-  //           var playlist = $scope.videos[i].playlistname;
-
-  //           if (numViews == null) 
-  //             $scope.videos[i].numViews = 0;
-  //           if (numComments == null) 
-  //             $scope.videos[i].numComments = 0;
-  //           if (playlist == null)
-  //             $scope.videos[i].playlist = 'none';
-
-  //           $scope.videos[i].timeStamp = moment($scope.videos[i].timeStamp).format('MMMM Do YYYY, h:mm:ss a');
-  //         }
-  //         $scope.videoTopViewed = $scope.videos.sort(function(a, b){
-  //           return parseInt(b.numViews) - parseInt(a.numViews);
-  //         });
-  //         $scope.videoTopRated = $scope.videos.sort(function(a, b){
-  //           return parseInt(b.numRatings) - parseInt(a.numRatings);
-  //         });
-          
-  //       }).error(function(data){
-  //         console.log(data);
-  //       });
-  //     }     
-  //   };
-
   $scope.newestPrev = function(pos){
     if ($scope.videos && $scope.videos.length > 0) {
       if (pos == 0) {
