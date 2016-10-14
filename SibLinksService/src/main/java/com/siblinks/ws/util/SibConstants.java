@@ -651,5 +651,6 @@ public class SibConstants {
         public static final String SQL_INSERT_COMMENT_ESSAY_WITHOUT_FILE = "INSERT_COMMENT_ESSAY_WITHOUT_FILE";
         public static final String SQL_INSERT_COMMENT_ESSAY_FK = "INSERT_COMMENT_ESSAY_FK";
         public static final String SQL_GET_COMMENT_ESSAY = "GET_COMMENT_ESSAY";
+        public static final String SQL_GET_VIDEOS_IN_PLAYLIST = "GET_VIDEOS_IN_PLAYLIST";
     }
 }

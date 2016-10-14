@@ -27,16 +27,25 @@ brotControllers.controller('ChooseVideoController',
         if ($scope.videos && $scope.videos.length > 0)
             offset = $scope.videos.length;
 
-        VideoService.getVideosNonePlaylist(userId, offset + 10).then(function(data){
+        var oldArr = $scope.videos;
+        var newArr = [];
+        if ($scope.subject == 0) {
+          VideoService.getVideosNonePlaylist(userId, offset).then(function(data){
             if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-                var oldArr = $scope.videos;
-                var newArr = formatVideos(data.data.request_data_result);
-                var totalArr = oldArr.concat(newArr);
-                $scope.videos = totalArr;
+                newArr = formatVideos(data.data.request_data_result);
+                $scope.videos = oldArr.concat(newArr);
                 cacheVideos.length = 0;
                 cacheVideos = $scope.videos.slice(0);
             }
-        });
+          });
+        } else {
+          VideoService.getVideosNonePlaylistBySubject(userId, $scope.subject, offset).then(function(data){
+            if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+                newArr = formatVideos(data.data.request_data_result);
+                $scope.videos = oldArr.concat(newArr);
+            }
+          });
+        }
     }
 
     function formatVideos(data){
@@ -50,60 +59,70 @@ brotControllers.controller('ChooseVideoController',
 
     var sub = myCache.get("subjects");
     function initSubject(){
-      if (sub !== undefined) {
-        var arr = angular.copy(sub);
-         if (arr[0].subjectId != 0) {
-            arr.splice(0, 0, {
+      if (sub){    
+        var objArr = angular.copy(sub);
+        var objArr2 = angular.copy(sub);
+
+         if (objArr[0].subjectId != 0) {
+            objArr.splice(0, 0, {
               'subjectId': 0,
               'subject' : 'Select a Subject'
             });
+            $scope.subjects = objArr;
          }
-         $scope.subjects = arr;
-         $scope.insertSubject = $scope.subjects[0].subjectId;
-      } else {
-         HomeService.getAllCategory().then(function (data) {
-             if (data.data.status) {
-                 localStorage.setItem("subjects", data.data.request_data_result);
-                 var arr = angular.copy(data.data.request_data_result);
-                 arr.splice(0, 0, {
-                  'subjectId': 0,
-                  'subject' : 'Select a Subject'
-                 });
-                 $scope.subjects = arr;
-                 $scope.insertSubject = $scope.subjects[0].subjectId;
-             }
+         $scope.addSubject = $scope.subjects[0].subjectId;    
+
+         if (objArr2[0].subjectId != 0) {
+            objArr2.splice(0, 0, {
+              'subjectId': 0,
+              'subject' : 'All'
+            });
+            $scope.filterSubjects = objArr2;
+         }           
+         $scope.subject = $scope.filterSubjects[0].subjectId;
+      } else{
+        HomeService.getAllCategory().then(function (data) {
+           if (data.data.status) {
+              var objArr = angular.copy(data.data.request_data_result);
+              var objArr2 = angular.copy(data.data.request_data_result);
+
+             objArr.splice(0, 0, {
+              'subjectId': 0,
+               'subject' : 'Select a Subject'
+             });
+             $scope.subjects = objArr;             
+             $scope.addSubject = $scope.subjects[0].subjectId;  
+
+             objArr2.splice(0, 0, {
+              'subjectId': 0,
+              'subject' : 'All'
+             });
+             $scope.filterSubjects = objArr2;
+             $scope.subject = $scope.filterSubjects[0].subjectId;               
+           }
          });
-      }      
+      }  
     }
 
     $scope.loadVideoBySubject = function(e){
-        var sid = e;
-        if (sid == 0) {
-            if(cacheVideos.length > 0)
-                $scope.videos = cacheVideos; 
+        $scope.subject = e;
+        if (e == 0) {
+          if(cacheVideos.length > 0)
+              $scope.videos = cacheVideos;
         } else{            
-            VideoService.getVideosNonePlaylistBySubject(userId, sid, 10).then(function(data){
-                console.log(data.data.request_data_result);
-                if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-                    $scope.videos = formatVideos(data.data.request_data_result);
-                } else
-                    $scope.videos = null;
-            });
-        }
-    }
-
-    $scope.loadMoreVideoBySubject = function(){
-        VideoService.getVideosNonePlaylistBySubject(userId, sid, $scope.videos.length + 10).then(function(data){
+          VideoService.getVideosNonePlaylistBySubject(userId, e, 0).then(function(data){
             if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-                $scope.videos.concat(formatVideos(data.data.request_data_result));
-            }
-        });
+                $scope.videos = formatVideos(data.data.request_data_result);
+            } else
+                $scope.videos = null;
+          });
+        }
     }
 
     $scope.search = function(){
         var key = $('#keyword').val();
         if (key.length > 0) {
-            VideoService.searchVideosNonePlaylist(userId, key, 10).then(function(data){
+            VideoService.searchVideosNonePlaylist(userId, key, 0).then(function(data){
                 if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
                     $scope.videos = formatVideos(data.data.request_data_result);
                 } else
@@ -148,6 +167,7 @@ brotControllers.controller('ChooseVideoController',
             'plid': pl_id,
             'vids': selectedVideos
           }
+          $rootScope.$broadcast('open');
           VideoService.addVideosToPlaylist(request).then(function(data){
             var result = data.data.request_data_result;
             if (result != null && result == "Success") {
@@ -155,6 +175,7 @@ brotControllers.controller('ChooseVideoController',
                 $modalInstance.dismiss('cancel');
             } else
                 alert(result);
+            $rootScope.$broadcast('close');
           });
         }
     }
@@ -217,6 +238,7 @@ brotControllers.controller('ChooseVideoController',
         "subjectId": $scope.insertSubject,
         "plid": pl_id
       }
+      $rootScope.$broadcast('open');
       VideoService.uploadTutorial(request).then(function(data){
         if (data.data.request_data_result === "Success") {
           $scope.success = "Upload Tutorial successful.";
@@ -225,6 +247,7 @@ brotControllers.controller('ChooseVideoController',
         } else{
           $scope.error = data.data.request_data_result;
         }
+        $rootScope.$broadcast('close');
       });
     }
 
@@ -298,7 +321,7 @@ brotControllers.controller('ChooseVideoController',
     function onYouTubeIframeAPIReady(youtubeId) {
       player = new YT.Player('validate', {
           height: '310',
-          width: '550',
+          width: '100%',
           videoId: youtubeId,
           events: {
               'onReady': onPlayerReady,

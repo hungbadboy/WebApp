@@ -42,11 +42,8 @@ brotControllers.controller('PlaylistController',
       } else{
         HomeService.getAllCategory().then(function (data) {
            if (data.data.status) {
-              localStorage.setItem("subjects", data.data.request_data_result);
               var objArr = angular.copy(data.data.request_data_result);
-              // objArr.push(data.data.request_data_result.splice(0));
               var objArr2 = angular.copy(data.data.request_data_result);
-              // objArr2.push(data.data.request_data_result.splice(0));
 
              objArr.splice(0, 0, {
               'subjectId': 0,
@@ -86,17 +83,30 @@ brotControllers.controller('PlaylistController',
         });
     }
 
-    function loadMorePlaylist(){
-      PlaylistService.loadPlaylist(userId, $scope.playlist.length).then(function(data){
+    $scope.loadMorePlaylist = function(){
+      var offset = 0;
+      if ($scope.playlist)
+        offset = $scope.playlist.length;
+
+      var oldArr = $scope.playlist;
+      var newArr = [];
+      if ($scope.subject == 0) {
+        PlaylistService.loadPlaylist(userId, offset).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-            var oldArr = $scope.playlist;
-            var newArr = parseData(data.data.request_data_result);
-            var totalArr = oldArr.concat(newArr);
-            $scope.playlist = totalArr;
+            newArr = parseData(data.data.request_data_result);
+            $scope.playlist = oldArr.concat(newArr);
             cachePlaylist.length = 0;
             cachePlaylist = $scope.playlist.slice(0);
           }
-      });
+        });
+      } else {
+        PlaylistService.getPlaylistBySubject(userId, $scope.subject, offset).then(function(data){
+          if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+             newArr = parseData(data.data.request_data_result);   
+             $scope.playlist = oldArr.concat(newArr);
+          }
+        });
+      }      
     }
     
     function parseData(data){
@@ -138,10 +148,12 @@ brotControllers.controller('PlaylistController',
         var message = 'Please remove all videos in the playlist first.';
         showModal(message);
       } else{
+        $rootScope.$broadcast('open');
         PlaylistService.deletePlaylist(p.plid, userId).then(function(data){
           if (data.data.status) {
              loadPlaylist();         
           }
+          $rootScope.$broadcast('close');
         });
       }      
     }
@@ -149,8 +161,10 @@ brotControllers.controller('PlaylistController',
     $scope.deleteMultiplePlaylist = function(){
       var selectedPlaylist = checkSelectedPlaylist();
       if (selectedPlaylist.length > 0) {
+        $rootScope.$broadcast('open');
         PlaylistService.deleteMultiplePlaylist(selectedPlaylist, userId).then(function(data){
           loadPlaylist();
+          $rootScope.$broadcast('close');
         });
       }
     }
@@ -296,6 +310,7 @@ brotControllers.controller('PlaylistController',
       fd.append('subjectId', $scope.addSubject);
       fd.append('createBy', userId);
 
+      $rootScope.$broadcast('open');
       PlaylistService.insertPlaylist(fd).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result == "success") {
           //reload page
@@ -305,6 +320,7 @@ brotControllers.controller('PlaylistController',
         } else{
           $scope.error = data.data.request_data_result;
         }
+        $rootScope.$broadcast('close');
       });
     }
 

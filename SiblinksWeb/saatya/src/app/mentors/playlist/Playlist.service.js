@@ -152,5 +152,13 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
       return promise;
     }
 
+    factory.getVideoInPlaylist = function(plid, offset){
+      var promise = $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'playlist/getVideoInPlaylist?plid='+plid+'&offset='+offset+''
+      });
+      return promise;
+    }
+
     return factory;
 } ]);

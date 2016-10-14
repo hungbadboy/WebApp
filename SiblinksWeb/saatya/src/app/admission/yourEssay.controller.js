@@ -2,11 +2,11 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
     function ($scope, $rootScope, $log, $location, $http, $timeout, AdmissionService, myCache, $sce, uploadEssayService, $window) {
 
         var userId = localStorage.getItem('userId');
-        innit();
         var LIMIT = 10;
         var OFFSET = 0;
+        init();
 
-        function innit() {
+        function init() {
             uploadEssayService.getEssaybByStudentId(userId,LIMIT,OFFSET).then(function (data) {
                 if (data.data.status) {
                     $scope.listEssays = data.data.request_data_result;
@@ -16,6 +16,11 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
         $scope.convertUnixTimeToTime = function (datetime) {
             return convertUnixTimeToTime(datetime);
         }
+        $rootScope.$on('reloadYourEssay', function(event, message) {
+            if(message == 'load'){
+                init();
+            }
+        });
 
         $scope.showModal = function (index) {
             var uploadEssayId = $scope.listEssays[index].uploadEssayId;

@@ -34,10 +34,14 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
 
         function init() {
+
             $('#autocompleteSubsQA_dropdown').width($('#autocompleteSubsQA').width());
             var offset = 0;
             managerQAService.getListQuestionQA(selectedSubsId, userId, offset, $scope.currentTab, LIMIT,$scope.textSearch).then(function (data) {
                 listDefaultSubjectId = getSubjectNameByIdQA(defaultSubjectId, allSubjects);
+                // add element All to list
+                $scope.initSubject = {name:'All',id:''};
+                listDefaultSubjectId.unshift($scope.initSubject);
                 $scope.subjectsParent = listDefaultSubjectId;
                 // for (var i = 0; i < listDefaultSubjectId.length; i++) {
                 //     if (listDefaultSubjectId[i].level == '0') {
@@ -178,7 +182,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             return convertUnixTimeToTime(datetime);
         }
         $scope.searchQuestion = function () {
-            getListQuestionAndDetail("",$scope.textSearch);
+            getListQuestionAndDetail(selectedSubsId,$scope.textSearch);
         }
 
 

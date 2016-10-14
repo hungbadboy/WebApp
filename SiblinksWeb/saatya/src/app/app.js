@@ -11,6 +11,21 @@ brotControllers.run(function ($templateCache) {
     $templateCache.put('testimonials', jQuery('#testimonials').html());
 });
 
+//$location.path('/sampleurl', false); to prevent reloading
+brotControllers.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
+	var original = $location.path;
+	$location.path = function (path, reload) {
+		if (reload === false) {
+			var lastRoute = $route.current;
+			var un = $rootScope.$on('$locationChangeSuccess', function () {
+				$route.current = lastRoute;
+				un();
+			});
+		}
+		return original.apply($location, [path]);
+	};
+}])
+
 var brotServices = angular.module('brotServices', ['ngResource']);
 //var suggestSearch = angular.module('suggestSearch', ['autocomplete']);
 

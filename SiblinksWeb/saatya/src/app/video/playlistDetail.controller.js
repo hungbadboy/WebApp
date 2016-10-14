@@ -27,9 +27,8 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         var OFFSET = 0;
 
         $scope.currentvid = 0;
-        var player;
         var idRemove, editCommentId;
-
+        var player;
         init();
 
         function init() {
@@ -63,7 +62,6 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                             if (videoid != null) {
                                 onYouTubeIframeAPIReady(videoid[1]);
-                                var divID = 'div[id^=listPlaylist' + $scope.currentvid +']';
                                 angular.element(document.getElementById('series-video-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentvid);
                                 getCommentVideo($scope.currentvid);
                                 videoDetailService.getVideoByCategoryId($scope.videoInfo.subjectId, LIMIT_VIDEO, OFFSET).then(function (data) {
@@ -169,11 +167,11 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                         if (videoid != null) {
                             if (player === undefined) {
                                 onYouTubeIframeAPIReady(videoid[1]);
-                            }
+                           }
                             else {
-                                player.loadVideoById(videoid[1]);
+                                 player.loadVideoById(videoid[1]);
                             }
-                            $location.path('/videos/detailVideo/' + data.data.request_data_result[0].vid);
+                            $location.path('/videos/detailVideo/' + data.data.request_data_result[0].vid,false);
                         }
 
                     }
@@ -250,7 +248,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             else {
                                 player.loadVideoById(videoid[1]);
                             }
-                            $location.path('/videos/detailPlaylist/' + pid + '/' + $scope.index);
+                            $location.path('/videos/detailPlaylist/' + pid + '/' + $scope.index,false);
                         }
 
                     }
@@ -290,9 +288,9 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 newvid = checkVideoInListToNext($scope.videosList, $scope.currentvid);
             }
             $scope.currentvid = newvid;
-          //  angular.element(document.getElementById('series-video-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentvid);
-           // $("#mCSB_5_container").mCustomScrollbar("scrollTo",'#listPlaylist'+$scope.currentvid);
-
+          // angular.element(document.getElementById('series-video-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentvid);
+           //$("#mCSB_5_container").mCustomScrollbar("scrollTo",'#listPlaylist'+$scope.currentvid);
+            angular.element(document.getElementById('series-video-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentvid);
             videoDetailService.getVideoDetailById(newvid).then(function (data) {
                 if (data.data.status == 'true') {
                     if (data.data.request_data_result.length == 0) {
@@ -325,13 +323,13 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
-                           // if (player === undefined) {
+                           if (player === undefined) {
                             onYouTubeIframeAPIReady(videoid[1]);
-                            // }
-                            // else {
-                            //     player.loadVideoById(videoid[1]);
-                            // }
-                            $location.path('/videos/detailPlaylist/' + pid +'/'+ $scope.index);
+                            }
+                            else {
+                                player.loadVideoById(videoid[1]);
+                            }
+                            $location.path('/videos/detailPlaylist/' + pid +'/'+ $scope.index,false);
                         }
 
                     }
@@ -425,7 +423,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 videoId: youtubeId,
                 events: {
                     'onReady': onPlayerReady,
-                   // 'onStateChange': onPlayerStateChange
+                    'onStateChange': onPlayerStateChange
                 },
                 playerVars: {
                     showinfo: 0,
@@ -439,11 +437,15 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
             event.target.playVideo();
         }
 
-        // function onPlayerStateChange(event) {
-        //     if (event.data === 0) {
-        //         $location.path( '#/videos/detailVideo/' + $scope.currentvid);
-        //     }
-        // }
+        function onPlayerStateChange(event) {
+            // if (event.data === 0) {
+            //     $location.path( '#/videos/detailVideo/' + $scope.currentvid,false);
+            // }
+            if (event.data == YT.PlayerState.ENDED) {
+               $scope.nextVideo('next');
+
+            }
+        }
 
 
         $scope.deleteComment = function (cid) {

@@ -65,9 +65,9 @@ public class RESTAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
             final Authentication authentication) throws ServletException, IOException {
 
-
 	    response.setStatus(HttpServletResponse.SC_OK);
-
+        response.setContentType(request.getContentType());
+	    
         SibUserDetails userDetails = (SibUserDetails) authentication.getPrincipal();
         SibUser user = userDetails.getUser();
         user.setStatus(SibConstants.SUCCESS);

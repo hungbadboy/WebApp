@@ -68,7 +68,7 @@ brotControllers.controller('AddUpdatePlaylistController',
     $scope.add = function(){      
       var title = $('#txtTitle').val();
 
-      if (title == null || title.trim().length == 0) {
+      if (title == null || title.length == 0) {
         $scope.error = 'Please input playlist Title. \n'; 
         angular.element('#txtTitle').trigger('focus');
         return;
@@ -96,6 +96,7 @@ brotControllers.controller('AddUpdatePlaylistController',
 
       return fd;
       if (fd !== undefined) {
+        $rootScope.$broadcast('open');
         PlaylistService.insertPlaylist(fd).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result == "success") {
             //reload page
@@ -105,6 +106,7 @@ brotControllers.controller('AddUpdatePlaylistController',
           } else{
             $scope.error = data.data.request_data_result;
           }
+          $rootScope.$broadcast('close');
         });
       }      
     }
@@ -114,6 +116,7 @@ brotControllers.controller('AddUpdatePlaylistController',
       if (fd !== undefined){
         fd.append('plid', pl_id);
         fd.append('oldImage', $scope.playlist.image);
+        $rootScope.$broadcast('open');
         PlaylistService.updatePlaylist(fd).then(function(data){
           var result = data.data.request_data_result;
           if (result != null && result.status == "success") {
@@ -141,13 +144,14 @@ brotControllers.controller('AddUpdatePlaylistController',
             $scope.success = null;
             $scope.error = data.data.request_data_result;
           }
+          $rootScope.$broadcast('close');
         });
       }      
     }
 
     function validateUpdate(){
       var title = $('#txtUpdateTitle').val();
-      if (title == null || title.trim().length == 0) {
+      if (title == null || title.length == 0) {
         $scope.error = 'Please input playlist Title. \n'; 
         angular.element('#txtUpdateTitle').trigger('focus');
         return;
