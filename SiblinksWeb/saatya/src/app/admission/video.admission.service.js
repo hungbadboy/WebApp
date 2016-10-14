@@ -37,7 +37,7 @@ brotServices.factory('videoAdmissionService', ['$http', function ($http) {
                 "request_data_method":"add_comment",
                 "request_data": {
                     "authorID": userId,
-                    "content": encodeURIComponent(content),
+                    "content": content,
                     "vid": videoId
                 }
             }
