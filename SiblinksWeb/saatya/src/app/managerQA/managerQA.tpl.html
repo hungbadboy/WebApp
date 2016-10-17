@@ -262,7 +262,7 @@
                     </p>
                 </div>
             </div>
-            <div class="dt-txt-question"  style="height: 70%" scroller="questionContent">
+            <div class="dt-txt-question"  style="height: 60%" scroller="questionContent">
                 <p class =" pre-wrap"  >{{questionDetail.question_text}}</p>
                 <a ng-repeat="image in questionDetail.imagePath" href="javascript:void(0)">
                     <img style="max-width: 430px;" ng-src="{{image}}">
@@ -301,7 +301,7 @@
             <div  class="top-user clearfix"  ng-if="!currentAnswer">
                 No answer
             </div>
-            <div class="dt-txt-question" style="height: 55%" scroller="answerc">
+            <div class="dt-txt-question" style="height: 60%" scroller="answerc">
                 <p class="pre-wrap">{{currentAnswer.content}}</p>
                 <a href="" ng-repeat="img in convertToArrayImage(currentAnswer.imageAnswer)">
                     <img style="max-width: 430px;" ng-src="{{img}}"></a>
