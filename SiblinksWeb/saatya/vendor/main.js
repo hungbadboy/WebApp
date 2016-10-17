@@ -383,5 +383,7 @@ jQuery(document).ready(function($) {
         }
 
       }
-  //document.getElementById('files').addEventListener('change', FileSelectAddVideo, false); 
+  //document.getElementById('files').addEventListener('change', FileSelectAddVideo, false);
+
+   
 })
