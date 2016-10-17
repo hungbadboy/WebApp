@@ -130,10 +130,28 @@ brotControllers.controller('VideoManagerController',
       var selectedVideos = checkSelectedVideos();
 
       if (selectedVideos.length > 0) {
-        VideoService.deleteMultipleVideo(selectedVideos, userId).then(function(data){
-          if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
-            loadVideos();
-          }
+        var ModalInstanceCtrl = function($scope, $modalInstance) {
+            $scope.ok = function() {
+              $modalInstance.close();
+              $scope.$broadcast('open');
+              VideoService.deleteMultipleVideo(selectedVideos, userId).then(function(data){
+                loadVideos();
+                $scope.$broadcast('close');        
+              });
+            };
+            $scope.cancel = function() {
+              $modalInstance.dismiss('cancel');
+            };
+        };
+        var message = 'Are you sure you want to delete?';
+        var modalHtml = ' <div class="modal-body">' + message + '</div>';
+            modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
+                'OK</button><button class="btn btn-warning" ng-click="cancel()">Cancel</button></div>';
+
+        var modalInstance = $modal.open({
+            template: modalHtml,
+            size: 'sm',
+            controller: ModalInstanceCtrl
         });
       }
     }

@@ -160,11 +160,29 @@ brotControllers.controller('PlaylistController',
     $scope.deleteMultiplePlaylist = function(){
       var selectedPlaylist = checkSelectedPlaylist();
       if (selectedPlaylist.length > 0) {
-        $rootScope.$broadcast('open');
-        PlaylistService.deleteMultiplePlaylist(selectedPlaylist, userId).then(function(data){
-          loadPlaylist();
-          $rootScope.$broadcast('close');
-        });
+        var ModalInstanceCtrl = function($scope, $modalInstance) {
+            $scope.ok = function() {
+              $modalInstance.close();
+              $rootScope.$broadcast('open');
+              PlaylistService.deleteMultiplePlaylist(selectedPlaylist, userId).then(function(data){
+                loadPlaylist();
+                $rootScope.$broadcast('close');
+              });
+            };
+            $scope.cancel = function() {
+              $modalInstance.dismiss('cancel');
+            };
+        };
+        var message = 'Are you sure you want to delete?';
+        var modalHtml = ' <div class="modal-body">' + message + '</div>';
+            modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
+                'OK</button><button class="btn btn-warning" ng-click="cancel()">Cancel</button></div>';
+
+        var modalInstance = $modal.open({
+            template: modalHtml,
+            size: 'sm',
+            controller: ModalInstanceCtrl
+        });        
       }
     }
 
