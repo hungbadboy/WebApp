@@ -164,12 +164,16 @@
                                                         </div>
 
 
-                                                        <span class="add-img">
-                                                                           <input class="input-file2 hide" type="file" multiple  id="files" ng-file-select="onFileSelect($files)"
-                                                                                  accept='image/*'/>
-                                                            <label for="files">
-                                                            <img src="assets/images/add-img.png"></label>
-                                                                        </span>
+                                                        <!--<span class="add-img">-->
+                                                                           <!--<input class="input-file2 hide" type="file" multiple  id="files" ng-file-select="onFileSelect($files)"-->
+                                                                                  <!--accept='image/*'/>-->
+                                                            <!--<label for="files">-->
+                                                            <!--<img src="assets/images/add-img.png"></label>-->
+                                                                        <!--</span>-->
+                                                        <button ngf-select="onFileSelect($files)" multiple
+                                                                accept="image/*" ngf-max-size="5MB">
+                                                            <img src="assets/images/add-img.png"></button>
+                                                        <br><br>
                                                     </output>
                                                     <button ng-if="!isEdit" class="reply" ng-click="answerQuestion(questionDetail.question_id)" >Reply</button>
                                                     <button ng-if="isEdit" class="reply" ng-click="updateAnswer()" >Update</button>
