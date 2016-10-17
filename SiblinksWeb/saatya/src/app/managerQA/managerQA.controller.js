@@ -284,6 +284,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $('#txtAnswer').focus();
             $scope.isEdit = true;
             oldImagePath = answeredit.imageAnswer;
+            $scope.imagePathOld = [];
             $scope.imagePathOld = detectMultiImage(answeredit.imageAnswer);
 
         }
@@ -529,40 +530,41 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
         };
         // show confirm when click other page
-        $scope.$on('$locationChangeStart', function (event) {
-            // var answer = confirm("Are you sure you want to leave this page?")
-            // if (!answer) {
-            //     event.preventDefault();
-            // }
-            if (isEmpty($('#txtAnswer').val()) && $scope.filesArray.length == 0) {
-                return;
-            }
-            event.preventDefault();
-            angular.element(document.getElementById('dialog-confirm')).dialog({
-                height: "auto",
-                width: 400,
-                modal: true,
-
-                buttons: {
-                    "Leave this page": {
-                        'class':'btn btn-primary',
-                        text:'Leave this page',
-                        click:function () {
-                        event.target.submit();
-                        angular.element(document.getElementById('dialog-confirm')).dialog("close");
-                    }},
-                    Cancel: function() {
-                        angular.element(document.getElementById('dialog-confirm')).dialog("close");
-                    },
-
-                },
-                create:function () {
-                    $(this).closest(".ui-dialog")
-                        .find(".ui-button:first") // the first button
-                        .addClass("btn btn-primary");
-                }
-            });
-        });
+        // $scope.$on('$locationChangeStart', function (event) {
+        //     // var answer = confirm("Are you sure you want to leave this page?")
+        //     // if (!answer) {
+        //     //     event.preventDefault();
+        //     // }
+        //     if (isEmpty($('#txtAnswer').val()) && $scope.filesArray.length == 0) {
+        //         return;
+        //     }
+        //     event.preventDefault();
+        //     angular.element(document.getElementById('dialog-confirm')).dialog({
+        //         height: "auto",
+        //         width: 400,
+        //         modal: true,
+        //
+        //         buttons: {
+        //             "Leave this page": {
+        //                 'class':'btn btn-primary',
+        //                 text:'Leave this page',
+        //                 click:function () {
+        //                     angular.element(document.getElementById('dialog-confirm')).dialog("close");
+        //                     event.target.submit();
+        //
+        //             }},
+        //             Cancel: function() {
+        //                 angular.element(document.getElementById('dialog-confirm')).dialog("close");
+        //             },
+        //
+        //         },
+        //         create:function () {
+        //             $(this).closest(".ui-dialog")
+        //                 .find(".ui-button:first") // the first button
+        //                 .addClass("btn btn-primary");
+        //         }
+        //     });
+        // });
        
         $scope.removeImg = function (index) {
             $scope.filesArray.splice(index, 1);
