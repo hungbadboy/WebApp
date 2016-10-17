@@ -144,12 +144,12 @@ brotControllers.controller('MentorVideoDetailController',
         for (var i = data.length - 1; i >= 0; i--) {
             data[i].timestamp = convertUnixTimeToTime(data[i].timestamp);
             var firstname = data[i].firstName != null ? data[i].firstName : '';
-            
             var lastname = data[i].lastName != null ? data[i].lastName : '';
+            var fullname = firstname + ' ' + lastname;
             if (data[i].userid == userId)
                 data[i].fullName = 'You';
             else
-                data[i].fullName = firstname + ' ' + lastname;
+                data[i].fullName = fullname != ' ' ? fullname : data[i].userName;
             data[i].content = decodeURIComponent(data[i].content);
         }
         return data;
