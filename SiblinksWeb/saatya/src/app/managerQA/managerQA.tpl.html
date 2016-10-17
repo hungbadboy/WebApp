@@ -258,7 +258,7 @@
                     <span class="time">asked {{questionDetail.timeStamp}} ago</span>
                     <p class="list-view">
                         {{questionDetail.numReplies}} <span data-icon="w"></span>&nbsp;&nbsp;
-                        {{questionDetail.numViews}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
+                        {{questionDetail.numview}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
                     </p>
                 </div>
             </div>
@@ -281,7 +281,7 @@
                     </button>
                 </p>
             </div>
-            <div class="top-user clearfix">
+            <div ng-if="currentAnswer" class="top-user clearfix">
                 <div class="col-md-2 img-avarta">
                     <img ng-src="{{currentAnswer.imageUrl}}" alt="avatar">
                 </div>
@@ -289,7 +289,7 @@
                     <h6><a  href="#/student/mentorProfile/{{currentAnswer.authorID}}">{{currentAnswer.firstName +" " +currentAnswer.lastName}}</a></h6>
                     <span class="time">asked {{convertUnixTimeToTime(currentAnswer.TIMESTAMP)}} mins ago</span>
                     <p class="list-view">
-                        {{answer.numlike}} <span class="like-h" data-icon=""></span>
+                        {{currentAnswer.numlike}} <span class="like-h" data-icon=""></span>
                     </p>
                 </div>
                 <div class="col-md-4 box-btn-qa">
@@ -297,6 +297,9 @@
                     <span title="Delete" ng-really-message="Are you sure you want to delete?"
                           ng-really-click ="removeAnswer(currentAnswer.aid)"  data-icon="&#xe019;"></span>
                 </div>
+            </div>
+            <div  class="top-user clearfix"  ng-if="!currentAnswer">
+                No answer
             </div>
             <div class="dt-txt-question" style="height: 55%" scroller="answerc">
                 <p class="pre-wrap">{{currentAnswer.content}}</p>

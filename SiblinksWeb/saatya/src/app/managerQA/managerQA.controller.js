@@ -305,7 +305,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         }
 
         $scope.updateAnswer = function () {
-            $rootScope.$broadcast('open');
             var fd = new FormData();
             var totalSize = 0;
             if ($scope.filesArray != null) {
@@ -332,10 +331,15 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 $scope.QAErrorMsg='Image over 10M';
                 return;
             }
+            if(isEmpty(contentAnswer)){
+                $scope.QAErrorMsg='Please enter your answer';
+                return;
+            }
             fd.append('aid', aidEdit);
             fd.append('content', contentAnswer);
             fd.append('oldImagePathEdited', oldImagePathEdited);
             fd.append('oldImagePath', oldImagePath);
+            $rootScope.$broadcast('open');
             managerQAService.updateAnswer(fd).then(function (data) {
                 if (data.data.status == "true") {
                     QuestionsService.getAnswerByQid($scope.currentPid, typeOrderAnswer, "", "",userId).then(function (data) {
@@ -355,7 +359,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.answerQuestion = function (pid) {
             $scope.QAErrorMsg="";
             var content = $('#txtAnswer').val();
-            if (!content) {
+            if (isEmpty(content)) {
                 $timeout(function () {
                     $rootScope.myVarQ = false;
                 }, 2500);
@@ -406,21 +410,16 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             fd.append('pid', pid);
             $rootScope.$broadcast('open');
             managerQAService.postAnswer(fd).then(function (data) {
-                var rs = data.data.status;
-                if(rs){
-                    //clear content when answer suscces
-                    $('#txtAnswer').val("");
-                    $scope.stepsModel = [];
-                    $scope.filesArray = [];
-                    QuestionsService.getAnswerByQid(pid, typeOrderAnswer, "", "",userId).then(function (data) {
+                if (data.data.status == "true") {
+                    QuestionsService.getAnswerByQid($scope.currentPid, typeOrderAnswer, "", "",userId).then(function (data) {
                         var answers = data.data.request_data_result;
                         $scope.isLoadMoreAnswer = true;
                         $scope.listAnswer = answers;
-
+                        cleanContentEdit();
                     });
                 }
                 else {
-                    $scope.QAErrorMsg = "Can't answer";
+                    $scope.QAErrorMsg =data.data.request_data_result;
                 }
                 $rootScope.$broadcast('close');
             });
