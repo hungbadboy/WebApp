@@ -150,6 +150,7 @@ brotControllers.controller('MentorVideoDetailController',
                 data[i].fullName = 'You';
             else
                 data[i].fullName = fullname != ' ' ? fullname : data[i].userName;
+            data[i].imageUrl = data[i].imageUrl != null ? data[i].imageUrl : 'assets/images/noavartar.jpg';
             data[i].content = decodeURIComponent(data[i].content);
         }
         return data;

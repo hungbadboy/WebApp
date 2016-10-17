@@ -43,10 +43,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
 
     function formatCommentProfile(data){      
       for (var i = 0; i < data.length; i++) {
-        if (data[i].imageUrl == null || data[i].imageUrl.length == 0)
-          data[i].imageUrl = 'http://www.capheseo.com/Content/T000/Images/no-avatar.png';
-        else
-          data[i].imageUrl = data[i].imageUrl.indexOf('http') == -1 ? $scope.baseIMAGEQ + data[i].imageUrl: data[i].imageUrl;
+        data[i].imageUrl = data[i].imageUrl != null ? data[i].imageUrl : 'assets/images/noavartar.jpg';
         var firstname = data[i].firstName != null ? data[i].firstName : '';
         var lastname = data[i].lastName != null ? data[i].lastName : '';
         var fullname = firstname + ' ' + lastname;

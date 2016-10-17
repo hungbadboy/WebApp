@@ -38,6 +38,7 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
         for (var i = result.length - 1; i >= 0; i--) {
           result[i].timeStamp = convertUnixTimeToTime(data.data.request_data_result[i].timeStamp);
           result[i].fullName = result[i].fullName != null ? result[i].fullName : result[i].userName;
+          result[i].imageUrl = result[i].imageUrl != null ? result[i].imageUrl : 'assets/images/noavartar.jpg'
         }
         $scope.questions = result;
       } else

@@ -539,10 +539,26 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         });
     }
 
+    // factory.searchVideosMentor = function(uid, keyword, offset){
+    //     return $http({
+    //       method: 'GET',
+    //       url: NEW_SERVICE_URL + 'video/searchVideos?uid='+uid+'&keyword='+keyword+'&offset='+offset+''
+    //     });
+    // }
+
     factory.searchVideosMentor = function(uid, keyword, offset){
         return $http({
-          method: 'GET',
-          url: NEW_SERVICE_URL + 'video/searchVideos?uid='+uid+'&keyword='+keyword+'&offset='+offset+''
+          method: 'POST',
+          url: NEW_SERVICE_URL + 'video/searchVideos',
+          data: {
+              "request_data_type": "video",
+              "request_data_method": "deleteVideo",
+              "request_data":{
+                "uid": uid,
+                "keySearch": keyword,
+                "offset": offset  
+              }            
+            }
         });
     }
 

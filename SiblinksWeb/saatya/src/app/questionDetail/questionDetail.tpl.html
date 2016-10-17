@@ -194,7 +194,7 @@
                     <div class="remove-image"><img src="assets/images/remove-img.png"
                                                    ng-click="removeImg($index)"></div>
                 </div>
-                <button ngf-select="onFileSelect($files)" multiple
+                <button ngf-select="onFileSelect($files)" multiple style="margin-top: 8px" ngf-pattern="'image/*'"
                         accept="image/*" ngf-max-size="5MB">
                     <img style="pointer-events: none;" src="assets/images/add-img.png"/></button>
             </output>
