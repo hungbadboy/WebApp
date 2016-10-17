@@ -18,7 +18,7 @@
                                         <a href=""><h5>{{playlist.name}}</h5></a>
                                         <span class="add-time">{{playlist.timeStamp}} ago</span>
                                         <p class="list-view">
-                                            <span><img src="assets/images/icon-play.png" alt=""> {{playlist.numViews}}</span>&nbsp;&nbsp;
+                                            <span><img src="assets/images/icon-play.png" alt=""> {{playlist.numViews ? playlist.numViews : 0}}</span>&nbsp;&nbsp;
                                             <span><img src="assets/images/icon-comment.png" alt=""> {{playlist.numComments}}</span>&nbsp;&nbsp;
                                         </p>
                                         <div class="bx-btn">
