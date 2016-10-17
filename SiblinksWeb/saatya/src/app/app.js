@@ -1,6 +1,6 @@
 var brotApp = angular.module('brotApp', [ 'ngRoute', 'brotControllers',
 		'paginationListVideo', 'ngResource', 'brotServices',
-		'angularFileUpload','ui.bootstrap'
+		'ngFileUpload','ui.bootstrap'
 //		, 'suggestSearch'
 		]
 );
