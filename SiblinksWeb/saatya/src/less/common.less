@@ -274,25 +274,6 @@
   height: auto;
 }
 
-.main-manager-video .filters .text-trf {
-  width: 41.3%;
-}
-
-.manager-video .group-item .item .box-detail-play {
-  width: 41.3%;
-  display: inline-block;
-  margin-right: 7px;
-}
-
-.main-manager-video .filters .text-des {
-  width: 29%;
-}
-
-.main-list-video .filters .text-play {
-  width: 17.7%;
-  margin-left: 5px;
-}
-
 .box-duration {
   width: 21%;
 }
@@ -389,6 +370,8 @@
 #videos .top-mentors-list li:last-of-type  {
     border:none;
 }
+
+
 .top-mentor-header-title img,
 .top-videos-header-title img {
     width: 24px;
@@ -480,12 +463,7 @@
     background: url(images/icon-play.png) right center no-repeat;
     background-origin: content-box;
 }
-.manager-video .group-item .item .box-ac {
-    margin-top: 8px;
-}
-.main-list-video .group-item .item .box-ac {
-    margin-top: 0;
-}
+
 .manager-video .top-mag .search .input-group .input-search {
     border-color: #ccc;
 }
@@ -597,9 +575,7 @@ a.right.carousel-control {
     float: left;
     margin-top: 10px;
 }
-.manager-video .group-item .item .box-detail-play .detail-pl-inner h5 {
-    margin-top: 8px;
-}
+
 /*======== Student Essay modal =========*/
 #essay-detail .modal-add-video .left-question {
     background-color: #fff;
@@ -671,10 +647,7 @@ a.right.carousel-control {
 #essay-detail .action-essay button:hover {
   background: #ffcc00;
 }
-.manager-video .group-item .item .box-description {
-    padding-right: 30px;
-    word-break: break-all;
-}
+
 .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bx-detail-rpl .right .images-question {
     width: 100%;
 }
@@ -701,26 +674,8 @@ a.right.carousel-control {
     bottom: 20px;
     width: ~"calc(100% - 40px)";
 }
-/*.modal-add-video .filters .text-play {
-    padding: 0;
-}*/
-.manager-playlist-detail .main-manager-video .filters .text-des {
-    width: 25.4%;
-}
-.manager-playlist-detail .main-manager-video .filters .text-trf {
-  width: 42%;
-}
-.main-manager-video .filters .text-play {
-    width: 9%;
-}
-.manager-playlist-detail.manager-video .group-item .item .box-description {
-    width: 25.5%;
-    padding-right: 20px;
-}
-.manager-playlist-detail.manager-video .group-item .item .box-playlist {
-    width: 9%;
-    padding-right: 10px;
-}
+
+
 .manager-detail-video .ctn-main .top-cm {
     padding-left: 0px;
 }
@@ -821,9 +776,7 @@ a.right.carousel-control {
 .modal-add-video #lib .filters .text-trf {
     width: 52%;
 }
-.modal-add-video .group-item .item .box-detail-play .detail-pl-inner h5 {
-    margin-top: 12px;
-}
+
 iframe#detailPlayer {
     padding-right: 25px; 
 }
@@ -855,12 +808,71 @@ iframe#detailPlayer {
     font-size: 16px;
     color: #909090;
 }
-.modal-add-video .group-item .item .box-playlist {
-    padding-left: 28px;
-}
+
 .row.top-mag>.col-md-12 {
     padding-left: 0;
 }
+
+/*======== Table manage video ==========*/
+.manage-tutorial .main-manager-video .filters .text-trf,
+.manage-tutorial .group-item .item .box-detail-play {
+ width: 41%;
+}
+.manage-tutorial .main-manager-video .filters .text-play,
+.manage-tutorial .group-item .item .box-playlist {
+    width: 7%;
+}
+.manage-tutorial .main-manager-video .filters .text-des,
+.manage-tutorial .group-item .item .box-description {
+    width: 25%;
+    padding-right: 20px;
+    word-break: break-all;    
+}
+.manage-tutorial .main-manager-video .filters .text-ac,
+.manage-tutorial .group-item .item .box-ac {
+    display: inline-block;
+    width: 20%;
+}
+.manage-tutorial .group-item .item .box-ac {
+    margin-top: 8px;
+}
+.manage-tutorial .group-item .item .box-detail-play {
+    margin-left: 5px;
+}
+.manage-tutorial .group-item .item .box-description {
+    margin-right: 3px;
+}
+.manage-tutorial .group-item .item .box-detail-play .detail-pl-inner h5 {
+    margin-top: 8px;
+}
+
+/*======== Table manage videoplaylist ==========*/
+.manager-playlist .main-manager-video .filters .text-trf,
+.manager-playlist .group-item .item .box-detail-play {
+  width: 42%;
+}
+.manager-playlist .group-item .item .box-detail-play {
+    margin-right: 7px;
+}
+.manager-playlist  .main-list-video .filters .text-play,
+.manager-playlist .group-item .item .box-playlist {
+    width: 17.4%;
+}
+.manager-playlist  .main-list-video .filters .text-ac,
+.manager-playlist .group-item .item .box-ac {
+    width: 23%;
+}
+.manager-playlist .group-item .item .box-detail-play .detail-pl-inner h5 {
+    margin-top: 12px;
+}
+/*======== Table modal ==========*/
+.modal-add-video .group-item .item .box-detail-play .detail-pl-inner h5 {
+    margin-top: 12px;
+}
+.modal-add-video .group-item .item .box-playlist {
+    padding-left: 28px;
+}
+
 /**** End HongTTT *****/
 
 .pad-left-0 {
