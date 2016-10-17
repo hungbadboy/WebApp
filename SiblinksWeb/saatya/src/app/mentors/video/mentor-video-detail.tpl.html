@@ -94,11 +94,11 @@
                                                 <ul>
                                                     <li class="clearfix" ng-repeat="c in comments track by $index">
                                                         <span class="chat-img col-md-1">
-                                                            <img class="avatar-fix-size" src="{{c.imageUrl}}" alt="User Avatar">
+                                                            <a href="" ng-click="goToProfile(c.userid)"><img class="avatar-fix-size" src="{{c.imageUrl}}" alt="User Avatar"></a>
                                                         </span>
                                                         <div class="chat-body col-md-11">
                                                             <div class="header">
-                                                                <strong class="primary-font">{{c.fullName}}</strong><span class="time">{{c.timestamp}} ago</span>
+                                                                <a href="" ng-click="goToProfile(c.userid)"><strong class="primary-font">{{c.fullName}}</strong></a><span class="time">{{c.timestamp}} ago</span>
                                                                 <a href="" class="txt-dlt pull-right" ng-click="deleteComment(c.cid, video.vid)">Delete</a>
                                                             </div>
                                                             <p>

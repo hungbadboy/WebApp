@@ -74,11 +74,11 @@
                                     <ul ng-repeat="q in questions track by $index">
                                         <li>
                                             <div class="newest-qa-student-img online">
-                                                <img src="{{q.imageUrl}}">
+                                                <a href="#/mentor/studentProfile/{{q.userId}}"><img src="{{q.imageUrl}}"></a>
                                             </div>
                                             <div class="newest-qa-student-info">
                                                 <p class="newest-qa-student-name">
-                                                    <strong>{{q.userName}}</strong>
+                                                    <a href="#/mentor/studentProfile/{{q.userId}}"><strong>{{q.userName}}</strong></a>
                                                     <span class="time-post">{{q.timeStamp}} ago</span>
                                                 </p>
                                                 <p class="newest-qa-in">
@@ -112,9 +112,9 @@
                                             <span data-icon="&#x42;">{{dashboard.count_subcribers_today}}</span>
                                         </div>
                                     </div>
-                                     <div class="col-xs-10 col-xs-offset-1">
-                                       <btfcarousel links="data"></btfcarousel>
-									</div>
+                                    <div class="col-xs-10 col-xs-offset-1">
+                                      <btfcarousel links="data"></btfcarousel>
+									                  </div>
                                 </div>                                            
                                 <div class="newest-sub-esay">
                                    <div class="newest-sub-esay-wrapper">
@@ -126,11 +126,11 @@
                                            <ul>
                                                <li>
                                                    <div class="newest-sub-esay-img">
-                                                       <a href="#"><img src="assets/images/mentor-01.jpg"></a>
+                                                       <a href=""><img src="assets/images/mentor-01.jpg"></a>
                                                    </div>
                                                    <div class="newest-sub-esay-info">
                                                        <p class="newest-sub-esay-name">
-                                                           <a href="#"><strong>Brian M.Scott</strong><br></a>
+                                                           <a href=""><strong>Brian M.Scott</strong><br></a>
                                                            <span>How to save children from violencek?</span>
                                                            <span class="essay-answers">Answered</span>
                                                        </p>
@@ -143,7 +143,7 @@
                                                </li>
                                                <li>
                                                    <div class="newest-sub-esay-img">
-                                                       <a href="#"><img src="assets/images/mentor-01.jpg"></a>
+                                                       <a href=""><img src="assets/images/mentor-01.jpg"></a>
                                                    </div>
                                                    <div class="newest-sub-esay-info">
                                                        <p class="newest-sub-esay-name">
@@ -159,11 +159,11 @@
                                                </li>
                                                <li>
                                                    <div class="newest-sub-esay-img">
-                                                       <a href="#"><img src="assets/images/mentor-01.jpg"></a>
+                                                       <a href=""><img src="assets/images/mentor-01.jpg"></a>
                                                    </div>
                                                    <div class="newest-sub-esay-info">
                                                        <p class="newest-sub-esay-name">
-                                                           <a href="#"><strong>Brian M.Scott</strong><br></a>
+                                                           <a href=""><strong>Brian M.Scott</strong><br></a>
                                                            <span>How to save children from violencek?</span>
                                                            <span class="essay-reviewing">Reviewing</span>
                                                        </p>
@@ -175,7 +175,7 @@
                                                </li>
                                                <li>
                                                    <div class="newest-sub-esay-img">
-                                                       <a href="#"><img src="assets/images/mentor-01.jpg"></a>
+                                                       <a href=""><img src="assets/images/mentor-01.jpg"></a>
                                                    </div>
                                                    <div class="newest-sub-esay-info">
                                                        <p class="newest-sub-esay-name">
