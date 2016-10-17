@@ -62,7 +62,6 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                             if (videoid != null) {
                                 onYouTubeIframeAPIReady(videoid[1]);
-                                angular.element(document.getElementById('series-video-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentvid);
                                 getCommentVideo($scope.currentvid);
                                 videoDetailService.getVideoByCategoryId($scope.videoInfo.subjectId, LIMIT_VIDEO, OFFSET).then(function (data) {
                                     if (data.data.status == 'true') {
@@ -274,6 +273,11 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         $scope.decodeContent= function (str) {
             return decodeURIComponent(str);
         };
+
+        //scroll to #id
+        $scope.loadTo = function () {
+            angular.element(document.getElementById('series-video-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentvid);
+        }
 
         $scope.nextVideo = function (str) {
             if (!isEmpty($scope.videosRelatedError)) {

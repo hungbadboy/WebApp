@@ -39,7 +39,7 @@
                                 <a href="#/student/mentorProfile/{{videoPlaylistInfo.userid}}"><span class="owner-video">{{videoPlaylistInfo.firstName + "" +videoPlaylistInfo.lastName}}</span></a>
                                 <span class="video-count">{{index+1}} of {{videosList.length}} videos</span>
                             </p>
-                                <ul scroller="videosPlayList"  class="series-video-list" id="series-video-list">
+                                <ul scroller="videosPlayList" on-init="loadTo"  class="series-video-list" id="series-video-list">
                                     <li id ="listPlaylist" ng-click="selectVideo($index)" ng-repeat="video in videosList track by $index"
                                         ng-class="{'active':currentvid==video.vid}"  class="video-list-item ">
                                         <div id="listPlaylist{{video.vid}}" class="content-warpper">

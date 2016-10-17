@@ -17,10 +17,12 @@
                                     <h4>{{mentorInfo.firstname != null ? mentorInfo.firstname : ''}}
                                         {{mentorInfo.lastName != null ? mentorInfo.lastName : ''}}</h4>
                                     <span class="changeImg broswer-img" ng-show="!isLoginViaFBOrGoogle">
-                                        <input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)" accept='image/*'>
-                                        <label for="changeImg">
-                                        	<span data-icon=""></span>
-                                        </label>
+                                        <!--<input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)" accept='image/*'>-->
+                                        <!--<label for="changeImg">-->
+                                        	<!--<span data-icon=""></span>-->
+                                        <!--</label>-->
+                                        <button id="changeImg" name="changeImg[]" ngf-select="onFileSelect($files)" multiple accept="image/*" ngf-max-size="5MB">
+                                     <span style="pointer-events: none;" data-icon=""></span></button>
                                     </span>
                                 </div>
                                 <div class="box-information" style="padding: 36px 13px 36px 20px">

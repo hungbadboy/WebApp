@@ -21,7 +21,7 @@
 	                                local-data="subjects" search-fields="subject" title-field="subject"
 	                                image-field="image" minlength="0" input-class="form-control form-control-small"
 	                                match-class="highlight" />
-	                                <input type="file" multiple id="files"  ng-file-select="onFileSelect($files)" accept='image/*'/>
+	                                <!--<input type="file" multiple id="files"  ng-file-select="onFileSelect($files)" accept='image/*'/>-->
 	                        </p>
 	                        <p><textarea id="autocompleteQuest_value" placeholder="{{questionIndex}}"></textarea></p>
 	                        <output style="width: auto;float: left;" class="upload-image " id="list">
@@ -29,9 +29,13 @@
 	                                <img class="thumb" ng-src="{{step}}" />
 	                                <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
 	                        </div>
-								<span class="add-img">
-	                                <label for="files"><img src="assets/images/add-img.png"></label></span>
-								<p ><button type="button" class="home-ask-now" ng-click="redirectForum()">Ask Now</button></p>
+								<button ngf-select="onFileSelect($files)" multiple
+										accept="image/*" ngf-max-size="5MB" style="margin-top: 8px">
+									<img src="assets/images/add-img.png"></button>
+								<!--<span class="add-img">-->
+	                                <!--<label for="files"><img src="assets/images/add-img.png"></label></span>-->
+								<p >
+									<button type="button" class="home-ask-now" ng-click="redirectForum()">Ask Now</button></p>
 	                        </output>
 
 	                    </form>

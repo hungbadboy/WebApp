@@ -50,7 +50,7 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active tab-answered-tab" id="tab-1">
-                                    <div id="listQA" class="group-item-qa" ng-if="listQuestions" scroller="askQuestion" data-on-total-scroll="loadMorePost">
+                                    <div id="listQA" class="group-item-qa" ng-if="listQuestions" scroller="askQuestion" data-on-total-scroll="loadMorePost" on-init="loadTo">
                                         <div ng-repeat="question in listQuestions | unique:'pid'" class="item-qa clearfix" ng-class="{'active':question.pid == currentPid}"
                                             ng-click="selectQuestion(question.pid)" id="qa{{question.pid}}">
                                             <div class="col-md-3">
@@ -123,7 +123,7 @@
 
                                         <div class="popup-images">
                                             <div class="popup-images-wrapper">
-                                                <img ng-src="{{currentImage}}" max-width="800px" max-height="600px">
+                                                <img ng-src="{{currentImage}}" width="800px" height="600px">
                                             </div>
                                             <div class="close-popup-images" ng-click="closePopupAskQuestion()">
                                             </div>
@@ -164,12 +164,16 @@
                                                         </div>
 
 
-                                                        <span class="add-img">
-                                                                           <input class="input-file2 hide" type="file" multiple  id="files" ng-file-select="onFileSelect($files)"
-                                                                                  accept='image/*'/>
-                                                            <label style="margin-top: 0px" for="files">
-                                                            <img src="assets/images/add-img.png"></label>
-                                                                        </span>
+                                                        <!--<span class="add-img">-->
+                                                                           <!--<input class="input-file2 hide" type="file" multiple  id="files" ng-file-select="onFileSelect($files)"-->
+                                                                                  <!--accept='image/*'/>-->
+                                                            <!--<label for="files">-->
+                                                            <!--<img src="assets/images/add-img.png"></label>-->
+                                                                        <!--</span>-->
+                                                        <button ngf-select="onFileSelect($files)" multiple style="margin-top: 8px"
+                                                                accept="image/*" ngf-max-size="5MB">
+                                                            <img style="pointer-events: none;" src="assets/images/add-img.png"/></button>
+                                                        <br><br>
                                                     </output>
                                                     <button ng-if="!isEdit" class="reply" ng-click="answerQuestion(questionDetail.question_id)" >Reply</button>
                                                     <button ng-if="isEdit" class="reply" ng-click="updateAnswer()" >Update</button>
@@ -185,7 +189,7 @@
                                                         <div class="chat-body clearfix">
                                                             <div class="header" ng-if="userId == answer.authorID">
                                                                 <strong class="primary-font pull-right" ></strong>
-                                                                <span title="Edit" ng-click="editAnswer($index)" class="edit-answer" data-icon="&#x6c;"></span>
+                                                                <span title="Edit" ng-click="editAnswer(answer.aid)" class="edit-answer" data-icon="&#x6c;"></span>
                                                                 <span title="Delete" ng-really-message="Are you sure you want to delete?"
                                                                       ng-really-click ="removeAnswer(answer.aid)" class="edit-answer" data-icon="&#xe019;"></span>
                                                                 <span class="pull-right time" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
@@ -258,11 +262,11 @@
                     <span class="time">asked {{questionDetail.timeStamp}} ago</span>
                     <p class="list-view">
                         {{questionDetail.numReplies}} <span data-icon="w"></span>&nbsp;&nbsp;
-                        {{questionDetail.numViews}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
+                        {{questionDetail.numview}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
                     </p>
                 </div>
             </div>
-            <div class="dt-txt-question"  style="height: 70%" scroller="questionContent">
+            <div class="dt-txt-question"  style="height: 60%" scroller="questionContent">
                 <p class =" pre-wrap"  >{{questionDetail.question_text}}</p>
                 <a ng-repeat="image in questionDetail.imagePath" href="javascript:void(0)">
                     <img style="max-width: 430px;" ng-src="{{image}}">
@@ -281,7 +285,7 @@
                     </button>
                 </p>
             </div>
-            <div class="top-user clearfix">
+            <div ng-if="currentAnswer" class="top-user clearfix">
                 <div class="col-md-2 img-avarta">
                     <img ng-src="{{currentAnswer.imageUrl}}" alt="avatar">
                 </div>
@@ -289,18 +293,21 @@
                     <h6><a  href="#/student/mentorProfile/{{currentAnswer.authorID}}">{{currentAnswer.firstName +" " +currentAnswer.lastName}}</a></h6>
                     <span class="time">asked {{convertUnixTimeToTime(currentAnswer.TIMESTAMP)}} mins ago</span>
                     <p class="list-view">
-                        {{answer.numlike}} <span class="like-h" data-icon=""></span>
+                        {{currentAnswer.numlike}} <span class="like-h" data-icon=""></span>
                     </p>
                 </div>
                 <div class="col-md-4 box-btn-qa">
-                    <span title="Edit" data-dismiss="modal" ng-click="editAnswer($index)" data-icon="&#x6c;"></span>
+                    <span title="Edit" data-dismiss="modal" ng-click="editAnswer(currentAnswer.aid)" data-icon="&#x6c;"></span>
                     <span title="Delete" ng-really-message="Are you sure you want to delete?"
                           ng-really-click ="removeAnswer(currentAnswer.aid)"  data-icon="&#xe019;"></span>
                 </div>
             </div>
-            <div class="dt-txt-question" style="height: 55%" scroller="answerc">
+            <div  class="top-user clearfix"  ng-if="!currentAnswer">
+                No answer
+            </div>
+            <div class="dt-txt-question" style="height: 60%" scroller="answerc">
                 <p class="pre-wrap">{{currentAnswer.content}}</p>
-                <a href="" ng-repeat="img in convertToArrayImage(answer.imageAnswer)">
+                <a href="" ng-repeat="img in convertToArrayImage(currentAnswer.imageAnswer)">
                     <img style="max-width: 430px;" ng-src="{{img}}"></a>
             </div>
             <div class="pgt-right-ans clearfix">

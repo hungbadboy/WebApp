@@ -174,7 +174,8 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	}).
 	when('/mentor/managerQA', {
 		templateUrl: 'src/app/managerQA/managerQA.tpl.html',
-		controller: 'managerQAController'
+		controller: 'managerQAController',
+		reloadOnSearch: false
 	}).
 	when('/forgotPwd', {
 		templateUrl: 'src/app/forgotPassword/forgotpassword.tpl.html',
