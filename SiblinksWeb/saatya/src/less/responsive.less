@@ -105,7 +105,6 @@
     }
     .manager-profile-std .avt .count-qt, .manager-profile-std .box-information {
         width: 100%;
-        /* height: auto; */
         position: relative;
         overflow: hidden;
     }
@@ -125,19 +124,28 @@
     /*======Mentor.ManageVideo==========*/
     .mentor-manage-qa-content .left-essay .t-panel span {
         padding: 10px 10px 7px;
-    }
-    .manager-video .group-item .item .box-description,
-    .main-manager-video .filters .text-des {
-        width: 28%;
-    }
-    .manager-video .group-item .item .box-ac .list-ac li a {
-        padding-right: 5px;
-    }
+    }    
 
 
     /*======Mentor.Q&A==========*/
     .mentor-manage-qa-content .left-essay .t-panel p {
         padding: 10px 5px 7px;
+    }
+
+    /*======Mentor.Manage Tutorial======*/
+    .manager-video .group-item .item .box-detail-play .item-thumbnail, 
+    .manager-video .group-item .item .box-detail-play .detail-pl-inner {
+        width: 100%;
+        float: left;
+        padding-left: 0;
+    }
+    .manage-tutorial .main-manager-video .filters .text-trf, 
+    .manage-tutorial .group-item .item .box-detail-play {
+        width: 25%;
+    }
+    .manage-tutorial .main-manager-video .filters .text-des, 
+    .manage-tutorial .group-item .item .box-description {
+        width: 35%;
     }
 
 
@@ -150,9 +158,6 @@
     }
 
     /*======Mentor.ManageQ&A==========*/
-    .col-md-4.left-qa {
-        /* width: 40%; */
-    }
 
     .col-md-8.box-main-replied {
         width: 60%;
@@ -215,30 +220,13 @@
     .right-sub-video .list-sub-video li .sub-vd-right{
         padding-left: 10px;
     }
-    .manager-playlist.manager-video .group-item .item .box-detail-play, 
-    .manager-playlist .main-manager-video .filters .text-trf{
-        width: 28%;
-    }
-    .manager-playlist.manager-video .group-item .item .box-ac, 
-    .manager-playlist .main-manager-video .filters .text-ac{
-        width: 13%;
-    }
-    .manager-video .group-item .item .box-ac .list-ac li a{
-        padding-right: 5px;
-    }
-    .manager-playlist.manager-video .main-list-video .group-item .item .box-ac, 
-    .manager-playlist .main-manager-video.main-list-video .filters .text-ac{
-        width: 32%;
-    }
+    
     .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bx-detail-rpl .top-rpl .col-md-2 {        
         width: 80px;
     }
 
     /*======== Manage video =============*/
-    .manager-video .group-item .item .box-detail-play .detail-pl-inner {
-        padding-left: 0px;
-        width: 100%;
-    }
+    
     .col-md-4.left-qa .col-md-8,
     .row.top-mag .col-md-8  {
         padding: 0;
@@ -246,58 +234,30 @@
     .manager-video .group-item .item .check-box input {
         top: 22%;
     }
-    .manager-video .group-item .item .box-ac li {
-        width: 100%;
-        margin-bottom: 5px;
-    }
+    
     .manager-video .top-mag .sl-sbj {
         padding-right: 0;
         width: 140px;
-    }
-    .manager-video .group-item .item .box-detail-play {
-        margin-right: 5px;
-    }
-    .manager-video .group-item .item .check-box,
-    .main-manager-video .filters .check-all{
-        width: 4%;
-    }
-    .manager-video .group-item .item .box-detail-play, 
-    .main-manager-video .filters .text-trf {
-        width: 24.3%;
-    }
-    .manager-video .group-item .item .box-detail-play .item-thumbnail, 
-    .manager-video .group-item .item .box-detail-play .detail-pl-inner {
-        width: 100%;
-    }
-    .main-manager-video .filters .text-des, 
-    .manager-video .group-item .item .box-description {
-        width: 42%;
-        padding-right: 20px;
-    }
-    .main-manager-video .filters .text-play,
-    .manager-video .group-item .item .box-playlist {
-        width: 10%;
-    }
-    .manager-video .group-item .item .box-ac, 
-    .main-manager-video .filters .text-ac{
-        width: 16%;
-    }
-    .manager-video .group-item .item .box-ac{
-        padding-top: 9px;
-    }
+    }   
 
     /*====== Manage Playlist =========*/
-    .manager-playlist-detail .top-vd-dt .box-detail-play .item-thumbnail,
-    .manager-playlist-detail .top-vd-dt .box-detail-play .detail-pl-inner {
-        padding-left: 0;
+    .manager-playlist .main-manager-video .filters .text-trf, 
+    .manager-playlist .group-item .item .box-detail-play {
+        width: 200px;
+        margin-right: 30px;
+    }
+    .manager-playlist .main-list-video .filters .text-play, 
+    .manager-playlist .group-item .item .box-playlist {
+        width: 20%;
+    }
+    .manager-playlist .main-list-video .filters .text-ac, 
+    .manager-playlist .group-item .item .box-ac {
+        width: 110px;
+    }
+    .manager-playlist .group-item .item .box-ac li {
         width: 100%;
-    }
-    .manager-playlist-detail.manager-video .group-item .item .box-description,
-    .manager-playlist-detail .main-manager-video .filters .text-des {
-        width: 38%;
-    }
-    .manager-playlist-detail.manager-video .top-vd-dt {
-        width: 350px;
+        float: left;
+        margin: 3px;
     }
 }
 
@@ -336,10 +296,39 @@
         width: 100%;
     }
 
-    /*======Mentor.Studentprofile==========*/
+    /*========Mentor.Studentprofile==========*/
     .manager-profile-std .browser-mentors-infor-wrapper>div {
         width: 100%;
         float: left;
+    }
+
+    /*========Mentor. Manage Tutorial========*/
+    .manage-tutorial .main-manager-video .filters .text-ac, 
+    .manage-tutorial .group-item .item .box-ac {
+        width: 15%;
+    }
+    .manage-tutorial .group-item .item .box-ac li {
+        width: 100%;
+        float: left;
+    }
+    .manage-tutorial .main-manager-video .filters .text-play, 
+    .manage-tutorial .group-item .item .box-playlist {
+        width: 10%;
+    }
+    .manage-tutorial .main-manager-video .filters .text-trf, 
+    .manage-tutorial .group-item .item .box-detail-play {
+        width: 30%;
+    }
+
+    /*========Mentor.Manage Videoplaylist========*/
+    .manager-video .group-item .item .box-detail-play .detail-pl-inner {
+        width: 100%;
+        float: left;
+        padding-left: 0;
+    }
+    .main-manager-video .filters .check-all,
+    .manager-video .group-item .item .check-box {
+        width: 20px;
     }
 }
 /***For max screen 2400***/
@@ -389,9 +378,6 @@
     .sub-right .list-std li {
         width: 50%;
     }
-    /*.mentorProfile .sub-right .list-std li {
-        width: 50%;
-    }*/
     .manager-profile .manager-profile-image,
     .manager-profile .manager-profile-infor,
     .manager-profile .manager-profile-student {
@@ -468,70 +454,7 @@
         width: 100%;
     }
 
-    .manager-video .main-list-video .group-item .item .check-box,
-    .main-manager-video.main-list-video .filters .check-all{
-        width: 5%;
-    }
-    .manager-playlist.manager-video .main-list-video .group-item .item .box-detail-play, 
-    .manager-playlist .main-manager-video.main-list-video .filters .text-trf{
-        width: 46.2%;
-    }
-    .main-manager-video.main-list-video .filters .text-play, 
-    .manager-video .main-list-video .group-item .item .box-playlist{
-        width: 16%;
-    }
-    .manager-playlist.manager-video .main-list-video .group-item .item .box-ac, 
-    .manager-playlist .main-manager-video.main-list-video .filters .text-ac{
-        width: 29%;
-    }
-    .manager-video .group-item .item .box-detail-play, 
-    .main-manager-video .filters .text-trf{
-        width: 31.3%;
-    }
-    /*  .manager-video .group-item .item .box-detail-play .item-thumbnail, 
-        .manager-video .group-item .item .box-detail-play .detail-pl-inner{
-       width: auto;
-        }  */
-    .main-manager-video .filters .text-des, 
-    .manager-video .group-item .item .box-description {
-        width: 26%;
-        overflow: hidden;
-        padding-right: 15px;
-        word-break: break-all;
-    }
-    .main-manager-video .filters .text-play, 
-    .manager-video .group-item .item .box-playlist {
-        width: 11%;
-    }
-    .manager-video .group-item .item .box-ac, 
-    .main-manager-video .filters .text-ac {
-        width: 24%;
-    }
-    .manager-video .group-item .item .box-ac{
-        padding-top: 5px;
-    }
-    .manager-video .group-item .item .box-detail-play .detail-pl-inner{
-        padding-left: 0;
-    }
-
-    .manager-playlist.manager-video .group-item .item .box-detail-play, 
-    .manager-playlist .main-manager-video .filters .text-trf{
-        width: 32.2%;
-    }
-    .manager-playlist.manager-video .group-item .item .box-ac, 
-    .manager-playlist .main-manager-video .filters .text-ac{
-        width: 16%;
-    }
-    .manager-playlist .main-manager-video .filters .text-des, 
-    .manager-playlist.manager-video .group-item .item .box-description{
-        width: 34%;
-    }
-    .manager-video .group-item .item .box-detail-play .detail-pl-inner h5{
-        text-align: left;
-    }
-    .manager-playlist-detail .top-vd-dt .box-detail-play .detail-pl-inner{
-        padding-left: 0;
-    }
+   
     .manager-playlist .top-mag .col-md-6 {
         width: 100%;
         margin: auto;
@@ -547,6 +470,9 @@
     .modal-add-video .left-question .dt-txt-question,
     .modal-add-video .right-answer .dt-txt-question{
         height: 55%;
+    }
+    #lib .row.top-mag>.col-md-12 {
+        padding-left: 0;
     }
 
     /*======modal.Video======*/
@@ -752,12 +678,6 @@
         width: 50%;
         float: left;
     }
-/*     .browser-mentors-infor-wrapper>div:nth-last-child(-n+3) {
-        border-bottom: 1px solid #ececed;
-    }
-    .browser-mentors-infor-wrapper>div:nth-last-child(-n+2) {
-        border: none;
-    } */
     .browser-mentors .searchbrecrum {
         width: 40%;
     }
@@ -897,9 +817,6 @@
     .sub-right .list-std li {
         width: 100%;
     }
-    /*.mentorProfile .sub-right .list-std li {
-        width: 100%;
-    }*/
 
     /*======Mentor Landing page======*/
     .information-home .left-if{
@@ -1424,12 +1341,6 @@
         width: 100%;
         float: left;
     }
-/*     .browser-mentors-infor-wrapper>div:nth-last-child(-n+2) {
-        border-bottom: 1px solid #ececed;
-    }
-    .browser-mentors-infor-wrapper>div:last-child{
-        border: none;
-    } */
     .browser-mentors .searchbrecrum {
         width: 100%;
         margin-bottom: 20px;

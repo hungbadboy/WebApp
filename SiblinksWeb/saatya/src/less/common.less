@@ -433,6 +433,28 @@
 #college-admission .video-list-content li.article-detail-popup {
     display: none;
 }
+#college-admission .video-list-content li img {
+    width: 100%;
+}
+#college-admission .video-list-content .see-more span {
+    margin-right: 15px;
+}
+#college-admission .video-list-content li {
+    height: auto;
+}
+#college-admission .video-list-content .article li {
+    height: 400px;
+    padding-bottom: 20px;
+    position: relative;
+    margin-bottom: 30px;
+}
+.college-video .video-description {
+    position: absolute;
+    bottom: 0;
+    padding-right: 15px;
+}
+
+/*==========Student video==========*/
 #videos #favourite .videos-title.ng-binding {
     height: auto;
 }
@@ -451,13 +473,14 @@
 
 #autocompleteSubsQA_dropdown {
     position: fixed;
-    //width: ~"calc(100% - 90px)";
+    width: ~"calc(100% - 90px)";
 }
 .sl-newwest {
     overflow: hidden;
     height: 40px;
     margin-bottom: 20px;
 }
+
 /*======= mentor-videoplaylist ==========*/
 .modal-add-video form input.input-custom-link {
     background: url(images/icon-play.png) right center no-repeat;
@@ -476,14 +499,17 @@
 }
 .manager-playlist .form-add-newplay form .form-group .input-custom {
     border-radius: 0;
-    height: 40px;
+    height: 46px;
     font-size: inherit;
 }
-.form-add-newplay h4 {
+.manager-playlist .form-add-newplay {
+    padding-top: 19px;
+}
+.manager-playlist .form-add-newplay h4 {
     margin-bottom: 27px;
 }
 .manager-playlist .form-add-newplay form .form-group  select#addSubject {
-    height: 40px;
+    height: 46px;
 }
 .manager-playlist .form-add-newplay form .btn-custom {
     color: #fff;
@@ -497,20 +523,7 @@
     width: ~"calc(100% - 50px)";
 }
 
-#college-admission .video-list-content li {
-    height: auto;
-}
-#college-admission .video-list-content .article li {
-    height: 400px;
-    padding-bottom: 20px;
-    position: relative;
-    margin-bottom: 30px;
-}
-.college-video .video-description {
-    position: absolute;
-    bottom: 0;
-    padding-right: 15px;
-}
+
 .newest-qa .student-rate {
     margin-top: 12px;
 }
@@ -637,12 +650,8 @@ a.right.carousel-control {
 }
 
 /*======== Student College =========*/
-#college-admission .video-list-content li img {
-    width: 100%;
-}
-#college-admission .video-list-content .see-more span {
-    margin-right: 15px;
-}
+
+
 
 #essay-detail .action-essay button:hover {
   background: #ffcc00;
@@ -706,9 +715,7 @@ a.right.carousel-control {
 .edit-details-question.edit-question li:nth-child(1) > a > span:before {
     margin-right: 5px;
 }
-.manager-playlist .form-add-newplay {
-    padding-top: 25px;
-}
+
 .modal-preview .remove-image {
     position: absolute;
     right: 10px;
@@ -809,10 +816,6 @@ iframe#detailPlayer {
     color: #909090;
 }
 
-.row.top-mag>.col-md-12 {
-    padding-left: 0;
-}
-
 /*======== Table manage video ==========*/
 .manage-tutorial .main-manager-video .filters .text-trf,
 .manage-tutorial .group-item .item .box-detail-play {
@@ -852,7 +855,7 @@ iframe#detailPlayer {
   width: 42%;
 }
 .manager-playlist .group-item .item .box-detail-play {
-    margin-right: 7px;
+    margin-right: 3px;
 }
 .manager-playlist  .main-list-video .filters .text-play,
 .manager-playlist .group-item .item .box-playlist {
