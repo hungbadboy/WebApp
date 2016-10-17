@@ -119,7 +119,8 @@ public interface VideoService {
 
      public ResponseEntity<Response> deleteMultipleVideo(RequestData request);
 
-     public ResponseEntity<Response> searchVideos(long uid, String keyword, int offset);
+    // public ResponseEntity<Response> searchVideos(long uid, String keyword,
+    // int offset);
 
      public ResponseEntity<Response> addVideosToPlaylist(RequestData request);
 

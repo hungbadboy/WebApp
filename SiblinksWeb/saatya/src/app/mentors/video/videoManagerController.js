@@ -250,7 +250,7 @@ brotControllers.controller('VideoManagerController',
 
     $scope.onSelect = function (selected) {
       if (selected !== undefined) {
-        VideoService.searchVideosMentor(userId, selected.title, 10).then(function(data){
+        VideoService.searchVideosMentor(userId, selected.title, 0).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.videos = formatData(data.data.request_data_result);
           }

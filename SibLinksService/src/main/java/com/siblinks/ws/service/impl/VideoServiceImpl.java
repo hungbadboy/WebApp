@@ -1351,46 +1351,65 @@ public class VideoServiceImpl implements VideoService {
     @RequestMapping(value = "/searchVideos", method = RequestMethod.POST)
     public ResponseEntity<Response> searchVideos(@RequestBody final RequestData request) {
 
-        String entityName = null;
+        // String entityName = null;
 
         if (!AuthenticationFilter.isAuthed(context)) {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(new SimpleResponse("" + false, "Authentication required."), HttpStatus.FORBIDDEN);
             return entity;
         }
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+//        Map<String, String> queryParams = new HashMap<String, String>();
+//
+//        queryParams.put("title", request.getRequest_data().getTitle().trim());
+//        queryParams.put("description", request.getRequest_data().getTitle().trim());
+//
+//        entityName = SibConstants.SqlMapper.SQL_SIB_SEARCH_VIDEOS;
+//
+//        List<Object> readObject = dao.readObjects(entityName, queryParams);
+//
+//        entityName = SibConstants.SqlMapper.SQL_SIB_GET_TAGS;
+//        List<Object> readObject1 = dao.readObjects(entityName, queryParams);
+//
+//        Map<String, Object> tags = null;
+//
+//        try {
+//            for (Object obj : readObject1) {
+//                tags = (Map) obj;
+//                Iterator<Entry<String, Object>> it = tags.entrySet().iterator();
+//                while (it.hasNext()) {
+//                    Map.Entry pairs = it.next();
+//                    if (pairs.getKey().equals("vid")) {
+//                        it.remove();
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            logger.error(e);
+//        }
+//
+//        Map<String, Object> mymap = new HashMap<String, Object>();
+//        mymap.put("tags", readObject1);
+//
+//        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+//        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+//        return entity;
+        SimpleResponse reponse = null;
+        Object[] queryParams = new Object[] { request.getRequest_data().getUid() };
+        String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch());
+        int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
+        String whereClause = String.format(
+            " and (a.title like '%%%s%%' OR a.description like '%%%s%%') order by a.timeStamp DESC limit 10 offset %d",
+            term,
+            term,
+            offset);
+        String entityName = SibConstants.SqlMapperBROT126.SQL_SEARCH_VIDEOS;
 
-        queryParams.put("title", request.getRequest_data().getTitle().trim());
-        queryParams.put("description", request.getRequest_data().getTitle().trim());
-
-        entityName = SibConstants.SqlMapper.SQL_SIB_SEARCH_VIDEOS;
-
-        List<Object> readObject = dao.readObjects(entityName, queryParams);
-
-        entityName = SibConstants.SqlMapper.SQL_SIB_GET_TAGS;
-        List<Object> readObject1 = dao.readObjects(entityName, queryParams);
-
-        Map<String, Object> tags = null;
-
-        try {
-            for (Object obj : readObject1) {
-                tags = (Map) obj;
-                Iterator<Entry<String, Object>> it = tags.entrySet().iterator();
-                while (it.hasNext()) {
-                    Map.Entry pairs = it.next();
-                    if (pairs.getKey().equals("vid")) {
-                        it.remove();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            logger.error(e);
+        List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
+        if (readObject != null && readObject.size() > 0) {
+            reponse = new SimpleResponse("" + true, "videos", "searchVideos", readObject);
+        } else {
+            reponse = new SimpleResponse("" + true, "videos", "searchVideos", SibConstants.NO_DATA);
         }
-
-        Map<String, Object> mymap = new HashMap<String, Object>();
-        mymap.put("tags", readObject1);
-
-        SimpleResponse reponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -2680,28 +2699,34 @@ public class VideoServiceImpl implements VideoService {
         return entity;
     }
 
-    @Override
-    @RequestMapping(value = "/searchVideos", method = RequestMethod.GET)
-    public ResponseEntity<Response> searchVideos(@RequestParam final long uid, @RequestParam final String keyword, @RequestParam final int offset) {
-        SimpleResponse reponse = null;
-        Object[] queryParams = new Object[] { uid };
-        String term = StringEscapeUtils.escapeJava(keyword);
-        String whereClause = String.format(
-            " and (a.title like '%%%s%%' OR a.description like '%%%s%%') order by a.timeStamp DESC limit 10 offset %d",
-            term,
-            term,
-            offset);
-        String entityName = SibConstants.SqlMapperBROT126.SQL_SEARCH_VIDEOS;
-
-        List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
-        if (readObject != null && readObject.size() > 0) {
-            reponse = new SimpleResponse("" + true, "videos", "searchVideos", readObject);
-        } else {
-            reponse = new SimpleResponse("" + true, "videos", "searchVideos", SibConstants.NO_DATA);
-        }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
+    // @Override
+    // @RequestMapping(value = "/searchVideos", method = RequestMethod.GET)
+    // public ResponseEntity<Response> searchVideos(@RequestParam final long
+    // uid, @RequestParam final String keyword, @RequestParam final int offset)
+    // {
+    // SimpleResponse reponse = null;
+    // Object[] queryParams = new Object[] { uid };
+    // String term = StringEscapeUtils.escapeJava(keyword);
+    // String whereClause = String.format(
+    // " and (a.title like '%%%s%%' OR a.description like '%%%s%%') order by a.timeStamp DESC limit 10 offset %d",
+    // term,
+    // term,
+    // offset);
+    // String entityName = SibConstants.SqlMapperBROT126.SQL_SEARCH_VIDEOS;
+    //
+    // List<Object> readObject = dao.readObjectsWhereClause(entityName,
+    // whereClause, queryParams);
+    // if (readObject != null && readObject.size() > 0) {
+    // reponse = new SimpleResponse("" + true, "videos", "searchVideos",
+    // readObject);
+    // } else {
+    // reponse = new SimpleResponse("" + true, "videos", "searchVideos",
+    // SibConstants.NO_DATA);
+    // }
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
+    // HttpStatus.OK);
+    // return entity;
+    // }
 
     @Override
     @RequestMapping(value = "/addVideosToPlaylist", method = RequestMethod.POST)
