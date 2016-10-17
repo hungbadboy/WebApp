@@ -43,7 +43,8 @@ brotControllers.controller('MentorVideoDetailController',
                 data.numView = data.numView != null ? data.numView : 0;
                 data.numComment = data.numComment != null ? data.numComment : 0;
                 data.timeStamp = convertUnixTimeToTime(data.timeStamp); 
-                $scope.playlist = data;                
+                data.fullName = data.firstName + ' ' + data.lastName;
+                $scope.playlist = data;    
             }
         });
     }
