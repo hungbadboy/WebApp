@@ -192,12 +192,14 @@
                         <div class="remove-image"><img src="assets/images/remove-img.png"
                                                        ng-click="removeImg($index)"></div>
                     </div>
+                    <button ngf-select="onFileSelect($files)" multiple
+                            accept="image/*" ngf-max-size="5MB">
+                        <img src="assets/images/add-img.png"></button>
                 </output>
-
-                <span class="add-img">
-                                <input type="file" multiple id="files" ng-file-select="onFileSelect($files)"
-                                       accept='image/*'/>
-                                <label style="margin-top: 11px;" for="files"><img src="assets/images/add-img.png"></label></span>
+                <!--<span class="add-img">-->
+                                <!--<input type="file" multiple id="files" ng-file-select="onFileSelect($files)"-->
+                                       <!--accept='image/*'/>-->
+                                <!--<label style="margin-top: 11px;" for="files"><img src="assets/images/add-img.png"></label></span>-->
                 <p style="width: 100%;float: left;">
                     <button ng-if="!isEdit" type="button" ng-click="redirectForum()" class="ask-question-now">Ask Now</button>
                     <button ng-if="isEdit" type="button" ng-click="updateQuestion()" class="ask-question-now">Update</button>
