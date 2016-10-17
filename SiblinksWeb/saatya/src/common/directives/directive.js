@@ -999,14 +999,6 @@ brotControllers.directive('ngReallyClick', ['$modal',
                 element.bind('click', function() {
                     var message = attrs.ngReallyMessage || "Are you sure ?";
 
-                    /*
-                     //This works
-                     if (message && confirm(message)) {
-                     scope.$apply(attrs.ngReallyClick);
-                     }
-                     //*/
-
-                    //*This doesn't works
                     var modalHtml = ' <div class="modal-body">' + message + '</div>';
                     modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
                         'OK</button><button class="btn btn-warning" ng-click="cancel()">Cancel</button></div>';
