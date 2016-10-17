@@ -30,6 +30,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +62,8 @@ import com.siblinks.ws.util.SibConstants;
 import com.siblinks.ws.util.StringUtil;
 
 /**
- * 
- * 
+ *
+ *
  * @author hungpd
  * @version 1.0
  */
@@ -221,8 +222,7 @@ public class MentorServiceImpl implements MentorService {
         name = uploadfile.getOriginalFilename();
         int index = name.indexOf(".");
         name = name.substring(index, name.length());
-        name.toLowerCase();
-        boolean status = sample.contains(name);
+        boolean status = sample.contains(name.toLowerCase());
 
         if (directory != null && status) {
             try {
@@ -445,7 +445,7 @@ public class MentorServiceImpl implements MentorService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.siblinks.ws.service.MentorService#getNewestAnswer(com.siblinks.ws
      * .model.RequestData)
@@ -603,6 +603,7 @@ public class MentorServiceImpl implements MentorService {
         String offset = request.getRequest_data().getOffset();
         String type = request.getRequest_data().getType();
         String userId = request.getRequest_data().getUid();
+        String content = request.getRequest_data().getContent();
         Object[] queryParams = {};
 
         String entityName = SibConstants.SqlMapper.SQL_GET_TOP_MENTORS_BY_LIKE_RATE_SUBS;
@@ -621,6 +622,10 @@ public class MentorServiceImpl implements MentorService {
         }
         whereClause += " FROM Sib_Users U LEFT JOIN Sib_Videos V ON U.userid = V.authorID " +
                        "WHERE U.userType = 'M' GROUP BY U.userid, U.lastName, U.imageUrl, U.firstName)X ";
+        if(!StringUtil.isNull(content)){
+            content = StringEscapeUtils.escapeJava(content);
+            whereClause += " WHERE X.userName like '%" + content + "%' ";
+        }
         if (Parameters.LIKE.equalsIgnoreCase(type)) {
             whereClause += " ORDER BY X.numlike DESC";
         } else if (Parameters.RATE.equalsIgnoreCase(type)) {
@@ -654,7 +659,7 @@ public class MentorServiceImpl implements MentorService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.siblinks.ws.service.MentorService#checkStudentSubcribe(long,
      * long)
      */
@@ -885,7 +890,7 @@ public class MentorServiceImpl implements MentorService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.siblinks.ws.service.MentorService#getLatestRatings(long)
      */
     @Override
@@ -910,7 +915,7 @@ public class MentorServiceImpl implements MentorService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.siblinks.ws.service.MentorService#getLatestComments(long, int,
      * int)
      */
@@ -936,7 +941,7 @@ public class MentorServiceImpl implements MentorService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.siblinks.ws.service.MentorService#getDashboardInfo(long)
      */
     @Override
