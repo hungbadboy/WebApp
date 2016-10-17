@@ -237,6 +237,16 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
       window.location.reload();
     }
   }
+
+  $scope.goToProfile = function(id){
+    if (id == userId) {
+      window.location.href = '#/mentor/mentorProfile';
+      window.location.reload();
+    } else{
+      window.location.href = '#/mentor/studentProfile/'+id+'';
+      window.location.reload();
+    }
+  }
 	 /**
 	  * Convert content CKEditor to html
 	  */

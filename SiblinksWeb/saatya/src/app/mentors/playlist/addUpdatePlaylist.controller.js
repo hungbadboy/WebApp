@@ -9,6 +9,7 @@ brotControllers.controller('AddUpdatePlaylistController',
     init();
 
     function init(){
+      $('#txtUpdateDescription').val('');
       initSubject();
       if (!isNaN(pl_id) && pl_id > 0) {
         $scope.plid = pl_id;
@@ -66,17 +67,17 @@ brotControllers.controller('AddUpdatePlaylistController',
     }
 
     $scope.add = function(){      
-      var title = $('#txtTitle').val();
+      var title = $('#txtUpdateTitle').val();
 
       if (title == null || title.length == 0) {
         $scope.error = 'Please input playlist Title. \n'; 
-        angular.element('#txtTitle').trigger('focus');
+        angular.element('#txtUpdateTitle').trigger('focus');
         return;
       } else if ($scope.updateSubject == 0) {
         $scope.error = 'Please select playlist subject. \n';  
         angular.element('#updateSubject').trigger('focus');       
         return;
-      } else if (files == undefined) {
+      } else if (file == undefined) {
         $scope.error = 'Please select playlist thumbnail. \n';
         angular.element('#file1').trigger('focus');
         return;
@@ -84,31 +85,39 @@ brotControllers.controller('AddUpdatePlaylistController',
       
       $scope.error = null;
       var fd = new FormData();
-      if (files !== undefined)
-        fd.append('image', files);
+      if (file !== undefined)
+        fd.append('image', file);
       else
         fd.append('image', null);      
       fd.append('title', title);
-      fd.append('description', $('#txtDescription').val());
+      fd.append('description', $('#txtUpdateDescription').val());
       fd.append('url', null);
       fd.append('subjectId', $scope.updateSubject);
       fd.append('createBy', userId);
+      fd.append('vids', $scope.vids);
 
-      return fd;
       if (fd !== undefined) {
         $rootScope.$broadcast('open');
         PlaylistService.insertPlaylist(fd).then(function(data){
-          if (data.data.request_data_result != null && data.data.request_data_result == "success") {
+          var result = data.data.request_data_result;
+          if (result && result.message == "success") {
             //reload page
-            $scope.success = "Insert playlist successful.";
-            loadPlaylist();
-            clearContent();
+            // $scope.success = "Insert playlist successful.";
+            // loadPlaylist();
+            // clearContent();
+            var playlist = {
+              'plid': result.plid,
+              'name': title,
+              'vid': $scope.vids[0]
+            }
+            $rootScope.$broadcast('addPlaylistVideo', playlist);
+            $modalInstance.dismiss('cancel');
           } else{
             $scope.error = data.data.request_data_result;
           }
           $rootScope.$broadcast('close');
         });
-      }      
+      } 
     }
     
     $scope.update = function(){

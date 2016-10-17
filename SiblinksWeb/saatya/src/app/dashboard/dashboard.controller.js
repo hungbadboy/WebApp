@@ -40,6 +40,7 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
         $scope.questions = data.data.request_data_result;
       } else
         $scope.questions = null;   
+      console.log($scope.questions);
     });
   }
 

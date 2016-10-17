@@ -43,7 +43,8 @@ brotControllers.controller('MentorVideoDetailController',
                 data.numView = data.numView != null ? data.numView : 0;
                 data.numComment = data.numComment != null ? data.numComment : 0;
                 data.timeStamp = convertUnixTimeToTime(data.timeStamp); 
-                $scope.playlist = data;                
+                data.fullName = data.firstName + ' ' + data.lastName;
+                $scope.playlist = data;    
             }
         });
     }
@@ -133,26 +134,23 @@ brotControllers.controller('MentorVideoDetailController',
         videoDetailService.getCommentVideoById(vid).then(function(data){
             var result = data.data.request_data_result;
             if (result && result.length > 0 && result != "Found no data") {
-                $scope.comments = formatDat(result);
+                $scope.comments = formatData(result);
             } else
                 $scope.comments = null;
         });
     }
 
-    function formatDat(data){
+    function formatData(data){
         for (var i = data.length - 1; i >= 0; i--) {
             data[i].timestamp = convertUnixTimeToTime(data[i].timestamp);
-            var firstname = data[i].firstName;
-            if (firstname == null || firstname.length == 0)
-                firstname = '';
+            var firstname = data[i].firstName != null ? data[i].firstName : '';
             
-            var lastname = data[i].lastName;
-            if (lastname == null || lastname.length == 0)
-                lastname = '';
+            var lastname = data[i].lastName != null ? data[i].lastName : '';
             if (data[i].userid == userId)
                 data[i].fullName = 'You';
             else
                 data[i].fullName = firstname + ' ' + lastname;
+            data[i].content = decodeURIComponent(data[i].content);
         }
         return data;
     }
@@ -294,7 +292,7 @@ brotControllers.controller('MentorVideoDetailController',
                 videoDetailService.getCommentVideoById(vid).then(function (data) {
                     if (data.data.status == 'true') {
                         if (data.data.request_data_result.length > 0) {
-                            $scope.comments = formatDat(data.data.request_data_result);
+                            $scope.comments = formatData(data.data.request_data_result);
                         }
                     }
 

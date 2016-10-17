@@ -119,9 +119,9 @@
                                     <h4>Recent Rates</h4>
                                     <ul ng-show="ratings">
                                         <li class="clearfix" ng-repeat="r in ratings track by $index">
-                                            <span class="img-tb pull-left"><a href="#/mentor/mentorProfile/{{r.userid}}"><img class="avatar-fix-size" src="{{r.imageUrl}}" alt=""></a></span>
+                                            <span class="img-tb pull-left"><a href="#/mentor/studentProfile/{{r.userid}}"><img class="avatar-fix-size" src="{{r.imageUrl}}" alt=""></a></span>
                                             <div class="text-rate pull-left">
-                                                <h5><a href="#/mentor/mentorProfile/{{r.userid}}">{{r.fullName}}</a></h5>
+                                                <h5><a href="#/mentor/studentProfile/{{r.userid}}"">{{r.fullName}}</a></h5>
                                                 <div class="rate-star clearfix">
                                                     <span class="pull-left">
                                                         <div ng-if="comments" star-rating stars="5"
@@ -146,10 +146,10 @@
                                     <h4>Latest Comments</h4>
                                     <div class="box-comment-fix" ng-if="comments" scroller="commentScrl" data-on-total-scroll="loadMoreComments">
                                         <div class="clearfix" ng-repeat="c in comments track by $index">
-                                            <span class="img-tb pull-left"><a href="#/mentor/mentorProfile/{{c.authorid}}"><img class="avatar-fix-size" src="{{c.imageUrl}}" alt=""></a></span>
+                                            <span class="img-tb pull-left"><a href="" ng-click="goToProfile(c.authorid)"><img class="avatar-fix-size" src="{{c.imageUrl}}" alt=""></a></span>
                                             <div class="pull-left detail-cm">
                                                 <ul class="top-name">
-                                                    <li><a href="/mentor/mentorProfile/{{c.authorid}}">{{c.fullName}}</a></li>
+                                                    <li><a href="" ng-click="goToProfile(c.authorid)">{{c.fullName}}</a></li>
                                                     <li><span class="time">{{c.timestamp}} ago on</span></li>
                                                     <li><span class="">{{c.title | limitTo : 25}} {{c.title.length > 25 ? '...' : ''}}</span></li>
                                                 </ul>

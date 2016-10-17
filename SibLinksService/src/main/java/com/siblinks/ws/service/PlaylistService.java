@@ -19,6 +19,8 @@
  */
 package com.siblinks.ws.service;
 
+import java.util.ArrayList;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,7 +61,8 @@ public interface PlaylistService {
      * @return ResponseEntity<Response>
      * @throws Exception
      */
-    public ResponseEntity<Response> insertPlaylist(MultipartFile image, String title, String description, String url, long subjectId, long createBy)
+    public ResponseEntity<Response> insertPlaylist(MultipartFile image, String title, String description, String url, long subjectId, long createBy,
+            ArrayList<String> vids)
             throws Exception;
 
     /**
