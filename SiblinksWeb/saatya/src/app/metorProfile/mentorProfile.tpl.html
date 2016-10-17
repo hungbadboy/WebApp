@@ -21,7 +21,7 @@
                                         <!--<label for="changeImg">-->
                                         	<!--<span data-icon=""></span>-->
                                         <!--</label>-->
-                                        <button id="changeImg" name="changeImg[]" ngf-select="onFileSelect($files)" multiple accept="image/*" ngf-max-size="5MB">
+                                        <button ngf-pattern="'image/*'" id="changeImg" name="changeImg[]" ngf-select="onFileSelect($files)" multiple accept="image/*" ngf-max-size="5MB">
                                      <span style="pointer-events: none;" data-icon=""></span></button>
                                     </span>
                                 </div>

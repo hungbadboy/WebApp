@@ -170,8 +170,8 @@
                                                             <!--<label for="files">-->
                                                             <!--<img src="assets/images/add-img.png"></label>-->
                                                                         <!--</span>-->
-                                                        <button ngf-select="onFileSelect($files)" multiple style="margin-top: 8px"
-                                                                accept="image/*" ngf-max-size="5MB">
+                                                        <button ngf-select="onFileSelect($files)" multiple style="margin-top: 8px" ngf-pattern="'image/*'"
+                                                                ngf-max-size="5MB">
                                                             <img style="pointer-events: none;" src="assets/images/add-img.png"/></button>
                                                         <br><br>
                                                     </output>
