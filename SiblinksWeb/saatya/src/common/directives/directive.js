@@ -1050,6 +1050,7 @@ brotControllers.directive('scroller', function($timeout, $parse) {
             });
 
             $timeout(function() {
+                options.callbacks.onInit = $parse(attrs.onInit)(scope);
                 options.callbacks.onTotalScroll = $parse(attrs.onTotalScroll)(scope);
                 options.callbacks.onTotalScrollBack = $parse(attrs.onTotalScrollBack)(scope);
             });

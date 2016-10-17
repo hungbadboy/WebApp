@@ -6,8 +6,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
 
         $scope.subjectId = "-1";
-        var LIMIT = 30;
+        var LIMIT = 200;
         var lastQId = "";
+        var question_id = $location.search().pid;
         var userId = localStorage.getItem('userId');
         var defaultSubjectId = localStorage.getItem('defaultSubjectId');
         $scope.mentorAvatar  = localStorage.getItem('imageUrl');
@@ -30,6 +31,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         var oldImagePathEdited="";
         var aidEdit;
         $scope.isEdit = false;
+        var isInit = true;
         init();
 
 
@@ -53,6 +55,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                     if ($scope.listQuestions != null && $scope.listQuestions.length > 0) {
                         lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].pid;
                         $scope.currentPid = $scope.listQuestions[0].pid;
+                        if(!isEmpty(question_id)) {
+                            $scope.currentPid = question_id;
+                        }
                         getQuestionById($scope.currentPid);
                         $scope.notFound = "";
                     }
@@ -109,7 +114,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 var result = data.data;
                 if (result && result.status) {
                     if (result.request_data_result != null && result.request_data_result.length > 0) {
-                        $scope.listQuestions.push(result.request_data_result);
+                        $scope.listQuestions.push.apply($scope.listQuestions, result.request_data_result);
                         lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].pid;
                         $scope.isLoadMore =true;
                     }
@@ -194,6 +199,10 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             getQuestionById(qid);
         }
 
+        $scope.loadTo = function () {
+            angular.element(document.getElementById('listQA')).mCustomScrollbar('scrollTo','#qa'+$scope.currentPid);
+        }
+       
         function getQuestionById(qid) {
             $scope.QAErrorMsg = "";
             QuestionsService.getQuestionById(qid).then(function (data) {
@@ -223,9 +232,8 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                     "numReplies" :obj[0].numReplies
 
                 };
+                $location.search('pid', $scope.currentPid);
                 $scope.questionDetail = question;
-
-
             });
             QuestionsService.getAnswerByQid(qid, typeOrderAnswer, LIMIT, 0,userId).then(function (data) {
                 var answers = data.data.request_data_result;
@@ -273,11 +281,18 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             });
         }
 
-        $scope.editAnswer = function (index) {
-            if(index >= $scope.listAnswer.length){
-                $scope.QAErrorMsg='Can not edit this answer';
+        $scope.editAnswer = function (aid) {
+            var answeredit;
+            for(var i = 0; i < $scope.listAnswer.length; i++){
+                if($scope.listAnswer[i].aid == aid){
+                    answeredit = $scope.listAnswer[i];
+                    break;
+                }
             }
-            var answeredit = $scope.listAnswer[index];
+            if(isEmpty(answeredit)){
+                $scope.QAErrorMsg='Can not edit this answer';
+                return;
+            }
 
             aidEdit = answeredit.aid;
             $('#txtAnswer').val(answeredit.content);
@@ -421,7 +436,8 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         }
 
         $scope.selectedSubject = function (selected) {
-            if(isEmpty(selected)){
+            if(isEmpty(selected) || isInit){
+                isInit = false;
                 return;
             }
             currentPage = 0;
@@ -430,7 +446,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             getListQuestionAndDetail(selectedSubsId,"");
         };
 
-        $scope.changeWidth= function () {
+        $scope.changeWidth = function () {
             $('#autocompleteSubsQA_dropdown').width($('#autocompleteSubsQA').width());
         }
 
