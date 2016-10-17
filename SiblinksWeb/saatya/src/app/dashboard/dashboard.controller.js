@@ -33,11 +33,13 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
 
   function getNewestQuestions(){
     MentorService.getNewestQuestions(userId).then(function(data){
-      if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-        for (var i = data.data.request_data_result.length - 1; i >= 0; i--) {
-          data.data.request_data_result[i].timeStamp = convertUnixTimeToTime(data.data.request_data_result[i].timeStamp);
+      var result = data.data.request_data_result;
+      if (result && result != "Found no data") {
+        for (var i = result.length - 1; i >= 0; i--) {
+          result[i].timeStamp = convertUnixTimeToTime(data.data.request_data_result[i].timeStamp);
+          result[i].fullName = result[i].fullName != null ? result[i].fullName : result[i].userName;
         }
-        $scope.questions = data.data.request_data_result;
+        $scope.questions = result;
       } else
         $scope.questions = null;   
       console.log($scope.questions);

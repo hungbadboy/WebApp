@@ -17,7 +17,6 @@ brotControllers.controller('PlaylistController',
     }
 
     function initSubject(){      
-
       if (sub){    
         var objArr = angular.copy(sub);
         var objArr2 = angular.copy(sub);
@@ -28,8 +27,8 @@ brotControllers.controller('PlaylistController',
               'subject' : 'Select a Subject'
             });
             $scope.subjects = objArr;
-         }
-         $scope.addSubject = $scope.subjects[0].subjectId;    
+            $scope.addSubject = $scope.subjects[0].subjectId;  
+         }           
 
          if (objArr2[0].subjectId != 0) {
             objArr2.splice(0, 0, {
@@ -37,8 +36,8 @@ brotControllers.controller('PlaylistController',
               'subject' : 'All'
             });
             $scope.filterSubjects = objArr2;
-         }           
-         $scope.subject = $scope.filterSubjects[0].subjectId;
+            $scope.subject = $scope.filterSubjects[0].subjectId;
+         }         
       } else{
         HomeService.getAllCategory().then(function (data) {
            if (data.data.status) {
