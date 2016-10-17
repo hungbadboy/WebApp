@@ -267,21 +267,32 @@ brotControllers.controller('VideoManagerController',
       }
     }
 
-    $scope.$on('passing', function(e,a){
+    function getIndex(vid){
       var result = $.grep($scope.videos, function(v){
-            return v.vid == a.vid;
-        });
+        return v.vid == vid;
+      });
 
-        var index = $scope.videos.indexOf(result[0]);
-        if (index != -1) {
-            $scope.videos[index].title = a.title;
-            $scope.videos[index].description = a.description;
-            $scope.videos[index].plid = a.plid;
-            $scope.videos[index].playlistname = a.playlistname;
-            $scope.videos[index].subjectId = a.subjectId;
-        }
+      return $scope.videos.indexOf(result[0]);
+    }
+
+    $scope.$on('passing', function(e,a){
+      var index = getIndex(a.vid);
+      if (index != -1) {
+          $scope.videos[index].title = a.title;
+          $scope.videos[index].description = a.description;
+          $scope.videos[index].plid = a.plid;
+          $scope.videos[index].playlistname = a.playlistname;
+          $scope.videos[index].subjectId = a.subjectId;
+      }
     });
 
+    $scope.$on('addPlaylistVideo', function(e,a){
+      var index = getIndex(a.vid);
+      if (index != -1) {
+        $scope.videos[index].plid = a.plid;
+        $scope.videos[index].playlistname = a.name;
+      }
+    });
     $scope.$on('addPlaylist', function(){
       loadVideos();
     });

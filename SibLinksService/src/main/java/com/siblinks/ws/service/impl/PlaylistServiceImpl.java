@@ -131,10 +131,10 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Override
     @RequestMapping(value = "/insertPlaylist", method = RequestMethod.POST)
     public ResponseEntity<Response> insertPlaylist(@RequestParam final MultipartFile image, @RequestParam final String title,
-            @RequestParam final String description, @RequestParam final String url, @RequestParam final long subjectId, @RequestParam final long createBy)
+            @RequestParam final String description, @RequestParam final String url, @RequestParam final long subjectId, @RequestParam final long createBy,
+            @RequestParam(required = false) final ArrayList<String> vids)
             throws Exception {
         String entityName = null;
-        boolean insertObject;
         SimpleResponse reponse = null;
         try {
             String fullPath = uploadPlaylistThumbnail(image);
@@ -142,10 +142,19 @@ public class PlaylistServiceImpl implements PlaylistService {
                 // insert playlist
                 Object[] queryParams = { title, description, fullPath, url, subjectId, createBy };
                 entityName = SibConstants.SqlMapperBROT44.SQL_INSERT_PLAYLIST;
-                insertObject = dao.insertUpdateObject(entityName, queryParams);
+                long plid = dao.insertObject(entityName, queryParams);
 
-                if (insertObject) {
-                    reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", "success");
+                if (plid > 0) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("plid", plid);
+                    if (vids != null && vids.size() > 0) {
+                        for (String vid : vids) {
+                            queryParams = new Object[] { plid, vid };
+                            dao.insertUpdateObject(SibConstants.SqlMapperBROT126.SQL_ADD_VIDEOS_PLAYLIST, queryParams);
+                        }
+                    }
+                    map.put("message", "success");
+                    reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", map);
                 } else {
                     reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", "failed");
                 }
