@@ -632,6 +632,13 @@ brotServices.factory('VideoService', ['$http', function ($http) {
             url: url
         });
     }
+
+    factory.getVideoById = function(vid, uid){
+        return $http({
+          method: 'GET',
+          url: NEW_SERVICE_URL + 'video/getVideoById?vid='+vid+'&userid='+uid+''
+        });
+    }
     /* API Favourite Video end */
     
     return factory;

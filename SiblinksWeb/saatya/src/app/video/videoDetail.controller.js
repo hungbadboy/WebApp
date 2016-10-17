@@ -21,7 +21,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         var LIMIT_VIDEO = 5;
         var OFFSET = 0;
 
-        var currentvid = 0;
+        var currentVid = 0;
         var player;
         var idRemove, editCommentId, listDiscuss = [];
 
@@ -45,7 +45,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                             $scope.videoInfo.description = "No description";
                         }
                         $scope.loadRate = true;
-                        currentvid = data.data.request_data_result[0].vid;
+                        currentVid = data.data.request_data_result[0].vid;
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
@@ -179,10 +179,10 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             }
             var newvid;
             if ((str + '') == 'back') {
-                newvid = checkVideoInListToBack($scope.videosRelated, currentvid);
+                newvid = checkVideoInListToBack($scope.videosRelated, currentVid);
             }
             else {
-                newvid = checkVideoInListToNext($scope.videosRelated, currentvid);
+                newvid = checkVideoInListToNext($scope.videosRelated, currentVid);
             }
             currentVid = newvid;
 
@@ -232,10 +232,10 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 
         }
 
-        function checkVideoInListToNext(videosRelated, currentVid) {
+        function checkVideoInListToNext(videosRelated, _currentVid) {
             var leng = videosRelated.length;
             for (var i = 0; i < videosRelated.length; i++) {
-                if (currentVid == videosRelated[i].vid) {
+                if (_currentVid == videosRelated[i].vid) {
                     if (i == leng - 1) {
                         return videosRelated[0].vid;
                     }
@@ -244,15 +244,15 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                     }
                 }
             }
-            return $scope.videosRelated[0].vid;
+            return videosRelated[0].vid;
         }
 
-        function checkVideoInListToBack(videosRelated, currentVid) {
+        function checkVideoInListToBack(videosRelated, _currentVid) {
             var leng = videosRelated.length;
             for (var i = 0; i < videosRelated.length; i++) {
-                if (currentVid == videosRelated[i].vid) {
+                if (_currentVid == videosRelated[i].vid) {
                     if (i == 0) {
-                        return currentVid;
+                        return videosRelated[leng - 1].vid;;
                     }
                     else {
                         return videosRelated[i - 1].vid;

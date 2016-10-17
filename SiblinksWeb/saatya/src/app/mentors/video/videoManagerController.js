@@ -112,16 +112,6 @@ brotControllers.controller('VideoManagerController',
       }
     };
 
-    // $scope.loadMoreVideosBySubject = function(){
-    //   VideoService.getVideosBySubject(userId, $scope.subject, $scope.videos.length).then(function(data){
-    //     if(data.data.request_data_result != null && data.data.request_data_result != "Found no data")
-    //       var oldArr = $scope.videos;
-    //       var newArr = formatData(data.data.request_data_result);
-    //       var totalArr = oldArr.concat(newArr);
-    //       $scope.videos = totalArr;
-    //   });
-    // }
-
     $scope.checkAll = function(){
       var status = !$scope.selectedAll;
 
@@ -286,7 +276,9 @@ brotControllers.controller('VideoManagerController',
         if (index != -1) {
             $scope.videos[index].title = a.title;
             $scope.videos[index].description = a.description;
-
+            $scope.videos[index].plid = a.plid;
+            $scope.videos[index].playlistname = a.playlistname;
+            $scope.videos[index].subjectId = a.subjectId;
         }
     });
 

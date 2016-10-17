@@ -256,6 +256,11 @@ brotControllers.controller('ChooseVideoController',
     }
 
     $scope.validateLink = function(){
+      if ($('#txtTutLink').val() == '') {
+        $('#txtTutTitle').val('');
+        $('#txtTutDescription').val('');
+        $('#txtTutDuration').val('');        
+      }
       checkLink($('#txtTutLink').val());
     }
 
