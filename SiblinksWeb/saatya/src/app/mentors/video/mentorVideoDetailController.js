@@ -104,8 +104,8 @@ brotControllers.controller('MentorVideoDetailController',
         $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
         $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
         initYoutubePlayer($scope.video.url);
-        getVideoRelated();
         getCommentVideoDetail(v.vid);
+        getVideoRelated();
     }
 
     function getVideoDetail(id, userId){
@@ -119,8 +119,8 @@ brotControllers.controller('MentorVideoDetailController',
                 $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
                 $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
                 initYoutubePlayer($scope.video.url);
-                getVideoRelated();
                 getCommentVideoDetail($scope.video.vid);
+                getVideoRelated();
             }
         });
     }
@@ -198,18 +198,35 @@ brotControllers.controller('MentorVideoDetailController',
         }
     }
 
-    $scope.class = 'show-less';
-    $scope.textShow = "Show more";
-
-    $scope.showMore = function(){
-        if ($scope.class == 'show-more') {
-            $scope.class = 'show-less';
-            $scope.textShow = 'Show more';
-        } else{
-            $scope.class = 'show-more';
-            $scope.textShow = "Show less";
-        }
+    $scope.openAddPlaylist = function(vid){
+        var selectedVideos = [];
+        selectedVideos.push(vid);
+        var modalInstance = $modal.open({
+            templateUrl: 'src/app/mentors/video/choose_playlist_popup.tpl.html',
+            controller: 'ChoosePlaylistController',
+            resolve: {
+                u_id: function () {
+                    return userId;
+                },
+                v_ids: function(){
+                  return selectedVideos;
+                }
+            }
+        });
     }
+
+    // $scope.class = 'show-less';
+    // $scope.textShow = "Show more";
+
+    // $scope.showMore = function(){
+    //     if ($scope.class == 'show-more') {
+    //         $scope.class = 'show-less';
+    //         $scope.textShow = 'Show more';
+    //     } else{
+    //         $scope.class = 'show-more';
+    //         $scope.textShow = "Show less";
+    //     }
+    // }
 
     $scope.$on('passing', function(e, a){
         $scope.video.title = a.title;
@@ -353,4 +370,10 @@ brotControllers.controller('MentorVideoDetailController',
 
     function onPlayerStateChange(event) {
     }
+
+    $scope.$on('addPlaylist', function(e, value){
+        setStorage('vidInPlaylist', $scope.vid, 30);
+        window.location.href = '#/mentor/playlist/playall/'+value+'';
+        window.location.reload();
+    });
 }]);
