@@ -284,6 +284,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $('#txtAnswer').focus();
             $scope.isEdit = true;
             oldImagePath = answeredit.imageAnswer;
+            $scope.imagePathOld = [];
             $scope.imagePathOld = detectMultiImage(answeredit.imageAnswer);
 
         }

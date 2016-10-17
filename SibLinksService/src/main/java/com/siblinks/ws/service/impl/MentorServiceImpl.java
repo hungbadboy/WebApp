@@ -604,6 +604,7 @@ public class MentorServiceImpl implements MentorService {
         String type = request.getRequest_data().getType();
         String userId = request.getRequest_data().getUid();
         String content = request.getRequest_data().getContent();
+        String subjectId = request.getRequest_data().getSubjectId();
         Object[] queryParams = {};
 
         String entityName = SibConstants.SqlMapper.SQL_GET_TOP_MENTORS_BY_LIKE_RATE_SUBS;
@@ -626,6 +627,10 @@ public class MentorServiceImpl implements MentorService {
             content = StringEscapeUtils.escapeJava(content);
             whereClause += " WHERE X.userName like '%" + content + "%' ";
         }
+        if(!StringUtil.isNull(subjectId)){
+            whereClause += " WHERE FIND_IN_SET(" + subjectId + ",X.defaultSubjectId)";
+        }
+
         if (Parameters.LIKE.equalsIgnoreCase(type)) {
             whereClause += " ORDER BY X.numlike DESC";
         } else if (Parameters.RATE.equalsIgnoreCase(type)) {
