@@ -9,6 +9,7 @@ brotControllers.controller('AddUpdatePlaylistController',
     init();
 
     function init(){
+      $('#txtUpdateDescription').val('');
       initSubject();
       if (!isNaN(pl_id) && pl_id > 0) {
         $scope.plid = pl_id;

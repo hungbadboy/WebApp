@@ -61,6 +61,21 @@ brotControllers.controller('MentorPlaylistDetailController',
         return data;
     }
 
+    $scope.editPlaylist = function(plid){
+        var modalInstance = $modal.open({
+        templateUrl: 'src/app/mentors/playlist/addUpdatePlaylist.tpl.html',
+        controller: 'AddUpdatePlaylistController',
+        resolve:{
+          pl_id: function(){
+            return plid;
+          },
+          v_ids: function(){
+            return null;
+          }
+        }
+      });
+    }
+
     $scope.delete = function(vid){
         var selectedVideos = [];
         selectedVideos.push(vid);
@@ -179,4 +194,11 @@ brotControllers.controller('MentorPlaylistDetailController',
         loadPlaylistDetail();
         getVideosInPlaylist();
     });
+
+    $scope.$on('updatePlaylist', function(e,a){
+        $scope.playlist.name = a.name;        
+        $scope.playlist.description = a.description;
+        if (a.newImage && a.newImage.length > 0) {}
+          $scope.playlist.image = a.newImage;
+    })
 }]);
