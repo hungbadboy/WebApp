@@ -2,8 +2,8 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
     function ($scope, $rootScope, $log, $location, $http, $timeout, AdmissionService, myCache, $sce, uploadEssayService, $window) {
 
         var userId = localStorage.getItem('userId');
-        var LIMIT = 10;
-        var OFFSET = 0;
+        var LIMIT = "";
+        var OFFSET = "";
         init();
 
         function init() {
