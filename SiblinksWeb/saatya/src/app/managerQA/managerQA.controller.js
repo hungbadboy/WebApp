@@ -524,9 +524,10 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         }
         $scope.stepsModel = [];
         $scope.filesArray = [];
-        $scope.onFileSelect = function ($files) {
+        $scope.onFileSelect = function ($files,errFiles) {
             $scope.QAErrorMsg = "";
-            if($files.length == 0){
+            var errFile = errFiles && errFiles[0];
+            if(!isEmpty(errFile)){
                 $scope.QAErrorMsg = 'File wrong format. Please select file image!';
             }
             if ($files != null) {

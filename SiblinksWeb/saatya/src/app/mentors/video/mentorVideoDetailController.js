@@ -51,11 +51,9 @@ brotControllers.controller('MentorVideoDetailController',
 
     function getVideosInPlaylist(){
         videoDetailService.getVideoByPlaylistId(plid).then(function (data) {
-            if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-                $scope.videos = data.data.request_data_result;
-                for (var i = $scope.videos.length - 1; i >= 0; i--) {
-                    $scope.videos[i].timeStamp = convertUnixTimeToTime($scope.videos[i].timeStamp);
-                }
+            var result = data.data.request_data_result;
+            if (result && result != "Found no data") {
+                $scope.videos = result;
                 if (vidInPlaylist && vidInPlaylist > 0) {
                     var result = $.grep($scope.videos, function(v){
                         return v.vid == vidInPlaylist;
@@ -75,6 +73,7 @@ brotControllers.controller('MentorVideoDetailController',
                 $scope.videos = null;
         });
     }
+
     function getVideoRelated(){
         videoDetailService.getVideoRelatedMentor($scope.video.subjectId, userId, 0).then(function(data){
             var result = data.data.request_data_result;
@@ -113,7 +112,6 @@ brotControllers.controller('MentorVideoDetailController',
             var result = data.data.request_data_result;
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.video = result[0];
-                console.log($scope.video);
                 $scope.video.averageRating = parseAvgRating($scope.video.averageRating);
                 $scope.averageRating = $scope.video.averageRating;
                 $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;

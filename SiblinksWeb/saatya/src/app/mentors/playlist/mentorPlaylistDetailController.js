@@ -55,7 +55,7 @@ brotControllers.controller('MentorPlaylistDetailController',
 
     function formatTime(data) {
         for (var i = data.length - 1; i >= 0; i--) {
-            data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp.timeStamp);
+            data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
             data[i].selected = false;
         }
         return data;
@@ -133,14 +133,33 @@ brotControllers.controller('MentorPlaylistDetailController',
         var selectedVideos = checkSelectedVideos();
 
         if (selectedVideos.length > 0) {
-            $rootScope.$broadcast('open');
-            PlaylistService.deleteVideoInPlaylist(selectedVideos).then(function(data){
-              if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
-                $scope.selectedAll = false;
-                getVideosInPlaylist();
-              }
-              $rootScope.$broadcast('close');
-            });
+            var ModalInstanceCtrl = function($scope, $modalInstance) {
+                $scope.ok = function() {
+                    $modalInstance.close();
+                    $rootScope.$broadcast('open');
+                    PlaylistService.deleteVideoInPlaylist(selectedVideos).then(function(data){
+                      if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+                        $scope.selectedAll = false;
+                        getVideosInPlaylist();
+                      }
+                      $rootScope.$broadcast('close');
+                    });
+                };
+                $scope.cancel = function() {
+                  $modalInstance.dismiss('cancel');
+                };
+            };
+            var message = 'Are you sure you want to delete?';
+            var modalHtml = ' <div class="modal-body">' + message + '</div>';
+                modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
+                    'OK</button><button class="btn btn-warning" ng-click="cancel()">Cancel</button></div>';
+
+            var modalInstance = $modal.open({
+                template: modalHtml,
+                size: 'sm',
+                controller: ModalInstanceCtrl
+            }); 
+            
         }
     }
 

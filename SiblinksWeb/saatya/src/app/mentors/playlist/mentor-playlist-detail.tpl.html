@@ -37,7 +37,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="btn-mg">
-                                    <button class="btn-delete" ng-really-message="Are you sure you want to delete?" ng-really-click ="removeAll()">Remove</button>
+                                    <button class="btn-delete" ng-click ="removeAll()">Remove</button>
                                 </div>
                                 <div class="main-manager-video main-playlist-detail">
                                     <div class="filters filters-bottom clearfix">
@@ -49,7 +49,7 @@
                                     </div>
                                     <div class="group-item" ng-show="videos" scroller="datasScrl" data-on-total-scroll="loadMoreVideoInPLaylist">
                                         <div class="item" ng-repeat="v in videos track by $index">
-                                            <div class="check-box"><input type="checkbox" ng-model="v.selected" class="check-input" name="checkall" ng-click="optionSelected()" /></div>
+                                            <div class="check-box"><input type="checkbox" ng-model="v.selected" class="check-input" name="checkall"/></div>
                                             <div class="box-detail-play clearfix">
                                                 <span class="item-thumbnail">
                                                     <a href="" ng-click="goToDetail(v)"><img class="item-fix-size" src="{{v.image}}" alt=""></a>
@@ -97,7 +97,7 @@
                                         <div class="text-ac">Action</div>
                                     </div>
                                     <div class="btn-mg">
-                                        <button class="btn-delete" ng-really-message="Are you sure you want to delete?" ng-really-click ="removeAll()">Remove</button>
+                                        <button class="btn-delete" ng-click ="removeAll()">Remove</button>
                                     </div>
                                 </div>
                             </div>
