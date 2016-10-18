@@ -1130,7 +1130,8 @@ public class PostServiceImpl implements PostService {
         if (directory != null) {
             try {
                 RandomString randomName = new RandomString();
-                filename = randomName.random();
+                Date date = new Date();
+                filename = randomName.random() + date.getTime();
 
                 filepath = Paths.get(directory, filename + "." + "png").toString();
                 // Save the file locally
