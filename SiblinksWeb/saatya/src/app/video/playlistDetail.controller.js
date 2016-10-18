@@ -273,7 +273,10 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         $scope.decodeContent= function (str) {
             return decodeURIComponent(str);
         };
-
+        $scope.searchEnter = function () {
+            var txtSearch = $('#srch-term').val();
+            $window.location.href = '#/videos?search='+encodeURIComponent(txtSearch);
+        }
         //scroll to #id
         $scope.loadTo = function () {
             angular.element(document.getElementById('series-video-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentvid);

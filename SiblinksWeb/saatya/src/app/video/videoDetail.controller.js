@@ -265,6 +265,11 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         $scope.convertTime = function (str) {
             return convertUnixTimeToTime(str);
         }
+        $scope.searchEnter = function () {
+            var txtSearch = $('#srch-term').val();
+            $window.location.href = '#/videos?search='+encodeURIComponent(txtSearch);
+        }
+
 
         $scope.rateFunction = function (rate) {
             var ratenumOld = $scope.rateNum;

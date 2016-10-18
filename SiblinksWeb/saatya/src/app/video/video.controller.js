@@ -35,6 +35,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         var masterSubjects = JSON.parse(localStorage.getItem('subjects'));
 
+        var search = $location.search().search;
+
         $scope.fillListVideoByDefault = function () {
 
             VideoService.getListCategorySubscription().then(function (data) {
@@ -433,6 +435,17 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             VideoService.getAllVideos().then(function (response) {
                 if (response.data.status) {
                     $scope.listAllVideos = response.data.request_data_result;
+                    if(!isEmpty(search)) {
+                        var searchValue = encodeURIComponent(search);
+                        var result = $scope.listAllVideos.filter(function (obj) {
+                            if (obj.title.toLowerCase().indexOf(searchValue.toLowerCase()) != -1) {
+                                return obj;
+                            }
+                            return null;
+                        });
+                        $scope.isSearchAction = true;
+                        $scope.searchItem = result;
+                    }
                 }
             });
         }
@@ -462,6 +475,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 }
                 return null;
             });
+            $location.search('search',encodeURIComponent(searchValue));
             $scope.isSearchAction = true;
             $scope.searchItem = result;
         };
