@@ -263,12 +263,8 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                         var answers = data.data.request_data_result;
                         $scope.isLoadMoreAnswer = true;
                         $scope.listAnswer = answers;
-                        // next answer
-                        if($scope.currentIndexAnswer == $scope.listAnswer.length - 1){
-                            $scope.currentIndexAnswer = 0;
-                            return;
-                        }
-                        $scope.currentIndexAnswer = $scope.currentIndexAnswer + 1;
+                        angular.element(document.getElementById('answer-detail')).modal('hide');
+
                         if($scope.isEdit){
                             if(aid == aidEdit){
                                 cleanContentEdit();
@@ -544,6 +540,24 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 }
             }
         };
+
+        $scope.transferPage = function (path, id) {
+            if(id+'' == userId){
+                $window.location.href ='#/mentor/mentorProfile';
+                $window.location.reload();
+                return;
+            }
+            $window.location.href ='#'+path+id;
+            $window.location.reload();
+        }
+
+        // hide popup when tranfer page
+        // $scope.$on('$locationChangeStart', function (event) {
+        //     if ($location.$$path.indexOf('managerQA') < 0) {
+        //         angular.element(document.getElementById('answer-detail')).modal('hide');
+        //     }
+        //
+        // });
         // show confirm when click other page
         // $scope.$on('$locationChangeStart', function (event) {
         //     // var answer = confirm("Are you sure you want to leave this page?")

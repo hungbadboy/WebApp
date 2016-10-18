@@ -255,10 +255,10 @@
             <h5><span><img src="assets/images/icon-h5-l-qa.png" alt=""></span>Question</h5>
             <div class="top-user clearfix">
                 <div class="col-md-2 img-avarta">
-                    <a href="#/mentor/studentProfile/{{questionDetail.authorId}}"><img ng-src="{{questionDetail.avatar}}" alt=""></a>
+                    <a ng-click="transferPage('/mentor/studentProfile/',questionDetail.authorId)"><img ng-src="{{questionDetail.avatar}}" alt=""></a>
                 </div>
                 <div class="col-md-10">
-                    <h6> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{questionDetail.firstName +' '+questionDetail.lastName}}</a></h6>
+                    <h6> <a ng-click="transferPage('/mentor/studentProfile/',questionDetail.authorId)">{{questionDetail.firstName +' '+questionDetail.lastName}}</a></h6>
                     <span class="time">asked {{questionDetail.timeStamp}} ago</span>
                     <p class="list-view">
                         {{questionDetail.numReplies}} <span data-icon="w"></span>&nbsp;&nbsp;
@@ -287,18 +287,18 @@
             </div>
             <div ng-if="currentAnswer" class="top-user clearfix">
                 <div class="col-md-2 img-avarta">
-                    <img ng-src="{{currentAnswer.imageUrl}}" alt="avatar">
+                    <img  ng-click="transferPage('/student/mentorProfile/',currentAnswer.authorID)" ng-src="{{currentAnswer.imageUrl}}" alt="avatar">
                 </div>
                 <div class="col-md-6">
-                    <h6><a  href="#/student/mentorProfile/{{currentAnswer.authorID}}">{{currentAnswer.firstName +" " +currentAnswer.lastName}}</a></h6>
+                    <h6><a  ng-click="transferPage('/student/mentorProfile/',currentAnswer.authorID)" >{{currentAnswer.firstName +" " +currentAnswer.lastName}}</a></h6>
                     <span class="time">Replied {{convertUnixTimeToTime(currentAnswer.TIMESTAMP)}} mins ago</span>
                     <p class="list-view">
                         {{currentAnswer.numlike}} <span class="like-h" data-icon=""></span>
                     </p>
                 </div>
-                <div class="col-md-4" style="text-align: right">
-                    <span title="Edit" data-dismiss="modal" ng-click="editAnswer(currentAnswer.aid)" data-icon="&#x6c;"></span>
-                    <span title="Delete" ng-really-message="Are you sure you want to delete?"
+                <div class="col-md-4" ng-if="currentAnswer.authorID == userId" style="text-align: right">
+                    <span title="Edit" data-dismiss="modal"  ng-click="editAnswer(currentAnswer.aid)" data-icon="&#x6c;"></span>
+                    <span title="Delete"  ng-really-message="Are you sure you want to delete?"
                           ng-really-click ="removeAnswer(currentAnswer.aid)"  data-icon="&#xe019;"></span>
                 </div>
             </div>

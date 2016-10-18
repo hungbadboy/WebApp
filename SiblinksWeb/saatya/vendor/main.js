@@ -107,7 +107,7 @@ jQuery(document).ready(function($) {
     //   });
     // })
     $(window).on("load",function(){
-      $(".essay-detail-right-content-wrapper, .article-detail-right-content-wrapper, .tab-answered-tab, .dt-txt-question").mCustomScrollbar({
+      $(".essay-detail-right-content-wrapper, .article-detail-right-content-wrapper, .tab-answered-tab").mCustomScrollbar({
           theme:"dark",
           autoHideScrollbar: "boolean",
       });
