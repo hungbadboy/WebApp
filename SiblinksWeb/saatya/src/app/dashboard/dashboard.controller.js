@@ -43,14 +43,13 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
         $scope.questions = result;
       } else
         $scope.questions = null;   
-      console.log($scope.questions);
     });
   }
 
   function getMainDashboardInfo(){
     MentorService.getMainDashboardInfo(userId).then(function(data){
       if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-        $scope.dashboard = data.data.request_data_result;;
+        $scope.dashboard = data.data.request_data_result;
       }
     });
   }
