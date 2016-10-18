@@ -55,7 +55,7 @@ brotControllers.controller('MentorPlaylistDetailController',
 
     function formatTime(data) {
         for (var i = data.length - 1; i >= 0; i--) {
-            data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp.timeStamp);
+            data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
             data[i].selected = false;
         }
         return data;
