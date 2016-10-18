@@ -159,8 +159,11 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
 
   var file;
   $scope.onFileSelect = function($files){
-    file = $files[0];
-    console.log(file);
+    if ($files && $files.length > 0) {
+      file = $files[0];
+      if (file == undefined) 
+        alert('Only accept document file..');
+    }
   }
 
   $scope.reply = function(){

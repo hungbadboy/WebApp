@@ -62,10 +62,17 @@
                                                         <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
                                                     </div>
                                                 </output>
-                                                <input type="file" class="inputfile" name="file1" id="file1" value="" ng-file-select="onFileSelect($files)" accept='image/*'>
+                                                <!-- <input type="file" class="inputfile" name="file1" id="file1" value="" ng-file-select="onFileSelect($files)" accept='image/*'>
                                                 <label for="file1" class="label-1">
-                                                    <!-- <input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)" accept='image/*'> -->
+                                                    <input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)" accept='image/*'>
                                                     <img src="assets/images/icon-upload.png" alt="">
+                                                    <span>to upload<br/> playlist thumbnail</span>
+                                                </label> -->
+                                                <label for="file1" class="label-1" ngf-select="onFileSelect($files)" multiple
+                                                        accept="image/*" ngf-max-size="5MB">
+                                                    <!-- <button > -->
+                                                    <img style="pointer-events: none;" src="assets/images/icon-upload.png"/>
+                                                    <!-- </button> -->
                                                     <span>to upload<br/> playlist thumbnail</span>
                                                 </label>
                                             </span>

@@ -155,7 +155,8 @@
                                                             <div class="left-border"></div>
                                                         </div>
                                                         <div class="icon-upload">
-                                                            <input class="input-file" name="file1" id="file1" type="file" ng-file-select="onFileSelect($files)">
+                                                            <!-- <input class="input-file" name="file1" id="file1" type="file" ng-file-select="onFileSelect($files)"> -->
+                                                            <label for="file1" class="label-1" ngf-select="onFileSelect($files)" accept="'application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'" ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xlsx'" ngf-max-size="5MB">
                                                             <label for="file1" class="label-1">
                                                                 <span data-icon="&#xe016;"></span>
                                                             </label>

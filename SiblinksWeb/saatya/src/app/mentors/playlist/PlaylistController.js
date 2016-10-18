@@ -280,7 +280,7 @@ brotControllers.controller('PlaylistController',
     var file;
     $scope.stepsModel = [];
     $scope.onFileSelect = function($files){
-      if ($files != null) {
+      if ($files != null && $files.length > 0) {
         file = $files[0];
         var reader = new FileReader();
         reader.onload = $scope.imageIsLoaded;
