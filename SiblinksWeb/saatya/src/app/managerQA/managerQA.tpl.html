@@ -170,7 +170,7 @@
                                                             <!--<label for="files">-->
                                                             <!--<img src="assets/images/add-img.png"></label>-->
                                                                         <!--</span>-->
-                                                        <button ngf-select="onFileSelect($files)" multiple style="margin-top: 8px" ngf-pattern="'image/*'"
+                                                        <button ngf-select="onFileSelect($files)" multiple style="margin-top: 8px" accept='image/*' ngf-pattern="'image/*'"
                                                                 ngf-max-size="5MB">
                                                             <img style="pointer-events: none;" src="assets/images/add-img.png"/></button>
                                                         <br><br>
@@ -291,12 +291,12 @@
                 </div>
                 <div class="col-md-6">
                     <h6><a  href="#/student/mentorProfile/{{currentAnswer.authorID}}">{{currentAnswer.firstName +" " +currentAnswer.lastName}}</a></h6>
-                    <span class="time">asked {{convertUnixTimeToTime(currentAnswer.TIMESTAMP)}} mins ago</span>
+                    <span class="time">Replied {{convertUnixTimeToTime(currentAnswer.TIMESTAMP)}} mins ago</span>
                     <p class="list-view">
                         {{currentAnswer.numlike}} <span class="like-h" data-icon=""></span>
                     </p>
                 </div>
-                <div class="col-md-4 box-btn-qa">
+                <div class="col-md-4" style="text-align: right">
                     <span title="Edit" data-dismiss="modal" ng-click="editAnswer(currentAnswer.aid)" data-icon="&#x6c;"></span>
                     <span title="Delete" ng-really-message="Are you sure you want to delete?"
                           ng-really-click ="removeAnswer(currentAnswer.aid)"  data-icon="&#xe019;"></span>
