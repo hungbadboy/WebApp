@@ -74,7 +74,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $document.on('scroll', function() {
             // do your things like logging the Y-axis
             if ($window.scrollY > 70) {
-                $(".mentor-manage-qa-content .left-qa").css({"top":"105px", "height":"90%"});
+                $(".mentor-manage-qa-content .left-qa").css({"top":"105px", "height":"75%"});
                 $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"80vh"});
             }
             else {
