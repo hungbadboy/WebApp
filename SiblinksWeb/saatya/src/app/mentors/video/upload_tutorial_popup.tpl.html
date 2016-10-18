@@ -15,27 +15,23 @@
             <div class="form-modal">
                 <form action="" method="" role="form" id="uploadTutorial">
                     <div class="form-group">
-                        <input type="text" class="form-control input-custom-link" id="txtUploadLink" placeholder="Youtube Link or ID" required ng-enter="validateLink()" ng-blur="validateLink()" ng-hide="link" maxlength="99">
+                        <input type="text" id="txtTutorialUrl" class="form-control input-custom-link" data-ng-model="uploadLink" placeholder="Youtube Link or ID" ng-enter="validateLink(uploadLink)" ng-blur="validateLink(uploadLink)" ng-hide="link" maxlength="99">
                         <input type="text" class="form-control input-custom-link" readonly="readonly" value="{{link}}" ng-show="link" tabindex="-1">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="txtUploadTitle" value="{{title}}" placeholder="Tutorial Title" maxlength="100">
+                        <input type="text" class="form-control" ng-model="title" placeholder="Tutorial Title" maxlength="100">
                     </div>                    
                     <div class="form-group">
-                        <input type="text" id="txtUploadDuration" class="form-control box-duration" value="{{duration}}" placeholder="Tutorial Duration" readonly="true" tabindex="-1">
+                        <input type="text" class="form-control box-duration" ng-model="duration" placeholder="Tutorial Duration" readonly="true" tabindex="-1">
                     </div>
                     <div class="form-group">
-                        <textarea name="desciption" rows="4" cols="5" id="txtUploadDescription" class="form-control textarea-custom" placeholder="Description" maxlength="1024">{{description}}</textarea>
+                        <textarea name="desciption" rows="4" cols="5" ng-model="description" class="form-control textarea-custom" placeholder="Description" maxlength="1024"></textarea>
                     </div>
                     <div class="form-group">
-                        <select class="select-sbj form-control" id="uploadSubject" ng-model="uploadSubject" ng-change="changeSubject(uploadSubject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in uploadSubjects'>
+                        <select class="select-sbj form-control" id="uploadSubject" ng-init="uploadSubject = uploadSubjects[0].subjectId" ng-model="uploadSubject" ng-change="changeSubject(uploadSubject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in uploadSubjects'>
                         </select>
                     </div>
                     <div class="form-group">
-                        <!-- <select name="" id="uploadPlaylist" data-ng-model="uploadPlaylist" class="form-control">
-                            <option value="0">Choose playlist</option>
-                            <option ng-repeat="p in playlists track by $index" value="{{p.plid}}">{{p.name}}</option>
-                        </select> -->
                         <select class="select-sbj form-control" id="uploadPlaylist" ng-model="uploadPlaylist" ng-change="changPlaylist(uploadPlaylist)" class="form-control" ng-options='p.plid as p.name for p in playlists'>
                         </select>
                     </div>
@@ -50,8 +46,8 @@
     </div>
     <div class="clearfix">
         <div class="bx-btn pull-right">
-            <button class="btn-play active" ng-click="upload()" ng-if="!editVideo"><b>Upload</b></button>
-            <button class="btn-play active" ng-click="update()" ng-show="editVideo"><b>Update</b></button>
+            <button class="btn-play active" ng-click="upload(uploadLink, title, description)" ng-if="!editVideo"><b>Upload</b></button>
+            <button class="btn-play active" ng-click="update(title, description)" ng-show="editVideo"><b>Update</b></button>
             <button class="btn-edit" ng-click="cancel()"><b>Cancel</b></button>
         </div>
     </div>

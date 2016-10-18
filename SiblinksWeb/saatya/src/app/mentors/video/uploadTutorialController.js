@@ -6,7 +6,6 @@ brotControllers.controller('UploadTutorialController',
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
     $scope.uploadPlaylist = [0];
     $scope.editVideo = null;
-
     var sub = myCache.get("subjects");
 
     init();
@@ -48,7 +47,7 @@ brotControllers.controller('UploadTutorialController',
             }); 
             $scope.uploadSubjects = arr;
          }
-         $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
+         // $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
       } else{
         HomeService.getAllCategory().then(function (data) {
            if (data.data.status) {
@@ -58,7 +57,7 @@ brotControllers.controller('UploadTutorialController',
                 'subject' : 'Select a Subject'
               }); 
               $scope.uploadSubjects = arr;
-              $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
+              // $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
            }
        });
       }      
@@ -91,11 +90,16 @@ brotControllers.controller('UploadTutorialController',
       $scope.error = null;
       $scope.success = null;
       
-      $('#txtUploadLink').val($scope.editVideo.url);
+      // $('#txtUploadLink').val($scope.editVideo.url);
+      // $scope.uploadLink = $scope.editVideo.url;
+      $scope.title = $scope.editVideo.title;
+      $scope.duration = $scope.editVideo.runningTime;
+      $scope.description = $scope.editVideo.description;
       checkLink($scope.editVideo.url);
-      $('#txtUploadTitle').val($scope.editVideo.title);
-      $('#txtUploadDuration').val($scope.editVideo.runningTime);
-      $('#txtUploadDescription').val($scope.editVideo.description);
+
+      // $('#txtUploadTitle').val($scope.editVideo.title);
+      // $('#txtUploadDuration').val($scope.editVideo.runningTime);
+      // $('#txtUploadDescription').val($scope.editVideo.description);
       $scope.uploadSubject = $scope.editVideo.subjectId;
       $scope.uploadPlaylist = $scope.editVideo.plid != null ? $scope.editVideo.plid : 0;
     }
@@ -111,9 +115,9 @@ brotControllers.controller('UploadTutorialController',
       }
     }
 
-    $scope.update = function(){
-      var title = $('#txtUploadTitle').val();
-      var description = $('#txtUploadDescription').val();
+    $scope.update = function(title, description){
+      // var title = $('#txtUploadTitle').val();
+      // var description = $('#txtUploadDescription').val();
 
       if (title == null || title.length == 0) {
         $scope.error = "Please input Title. \n";
@@ -174,35 +178,25 @@ brotControllers.controller('UploadTutorialController',
       return name;
     }
 
-    $scope.upload = function(){
-      var title = $('#txtUploadTitle').val();
-      var link = $('#txtUploadLink').val();
-      var description = $('#txtUploadDescription').val();
-
-      var check = true;
+    $scope.upload = function(link, title, description){
       $scope.error = '';
       if (link == null || link.length == 0) {
-        check = false;
         $scope.error = "Please input Link. \n";
         angular.element('#txtUploadLink').trigger('focus');
         return;
-      } else if (title == null || title.trim().length == 0) {
-        check = false;
+      } else if (title == null || title.length == 0) {
         $scope.error = "Please input Title. \n";
         angular.element('#txtUploadTitle').trigger('focus');
         return;
       } else if (!$scope.vid) {
-        check = false;
         $scope.error = "Please input valid link. \n";
         angular.element('#txtUploadLink').trigger('focus');
         return;
       } else if (description && description.length > 1024) {
-        check = false;
         $scope.error = "Description cannot longer than 1024 characters. \n";
         angular.element('#txtUploadDescription').trigger('focus');        
         return;
       } else if ($scope.uploadSubject == 0) {
-        check = false;
         $scope.error = "Please select subject. \n";
         angular.element('#uploadSubject').trigger('focus');        
         return;
@@ -235,10 +229,12 @@ brotControllers.controller('UploadTutorialController',
 
     $scope.changeSubject = function(e){
       $scope.uploadSubject = e;
+      console.log($scope.uploadSubject);
     }
 
     $scope.changPlaylist = function(e){
       $scope.uploadPlaylist = e;
+      console.log($scope.uploadPlaylist);
     }
 
     $scope.delete = function(vid){
@@ -252,13 +248,19 @@ brotControllers.controller('UploadTutorialController',
     }
 
     function clearContent(){
-      $('#txtUploadTitle').val('');
-      $('#txtUploadLink').val('');
-      $('#txtUploadDescription').val('');
-      $('#txtUploadDuration').val('');
+      // $('#txtUploadTitle').val('');
+      $('#txtTutorialUrl').val('');
+      // $('#txtUploadDescription').val('');
+      // $('#txtUploadDuration').val('');
+      $scope.uploadLink = null;
+      $scope.title = '';
+      $scope.duration = '';
+      $scope.description = '';
 
-      $scope.uploadSubject = [0];
-      $scope.uploadPlaylist = [0];
+      $scope.uploadSubject = 0;
+      $('#uploadSubject').val(0);
+      $scope.uploadPlaylist = 0;
+      $('#uploadPlaylist').val(0);      
       $scope.vid = null;
       $scope.link = null;
     }
@@ -267,22 +269,24 @@ brotControllers.controller('UploadTutorialController',
       $modalInstance.dismiss('cancel');
     }
 
-    $scope.validateLink = function(){
-      if ($('#txtUploadLink').val() == '')
+    $scope.validateLink = function(link){
+      // if ($('#txtUploadLink').val() == '')
+      if (link.length == 0)
         clearContent();
-      checkLink($('#txtUploadLink').val());
+      checkLink(link);
+      $scope.uploadLink = link;
     }
 
     function checkLink(link){
       var videoid = link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
       if (videoid != null) {
         $scope.vid = videoid[1];
+        getVideoInfo($scope.vid);
         if (player === undefined){          
           onYouTubeIframeAPIReady($scope.vid);             
         }          
         else
           player.cueVideoById($scope.vid);
-        getVideoInfo($scope.vid);
       }
     }
 
