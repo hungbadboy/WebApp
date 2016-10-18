@@ -7,6 +7,7 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
         var offset = "0";
         $scope.type = "subs";
         brot.signin.statusStorageHtml();
+        var LIMIT_SUBJECT = 4;
         $scope.login = 0;
 
         var userId = localStorage.getItem('userId');
@@ -91,9 +92,9 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
 
                             var mentor = {};
                             mentor.userid = data_result[i].userid;
-                            mentor.lastName = (data_result[i].lastName == null || data_result[i].lastName === undefined)? "" : data_result[i].lastName;
-                            mentor.firstName= (data_result[i].firstName == null || data_result[i].firstName === undefined)? "" : data_result[i].firstName;
-                            mentor.accomplishments= (data_result[i].accomplishments == null || data_result[i].accomplishments === undefined)? "" : data_result[i].accomplishments;
+                            mentor.lastName = data_result[i].lastName;
+                            mentor.firstName= data_result[i].firstName;
+                            mentor.accomplishments = (isEmpty(data_result[i].accomplishments) ? "" : data_result[i].accomplishments);
                             mentor.bio= data_result[i].bio;
                             mentor.numsub= data_result[i].numsub;
                             mentor.imageUrl = data_result[i].imageUrl;
@@ -103,14 +104,26 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
                             mentor.isSubs= data_result[i].isSubs;
                             mentor.defaultSubjectId = data_result[i].defaultSubjectId;
                             mentor.avgrate = data_result[i].avgrate;
+                            if(isEmpty(mentor.lastName+mentor.firstName)){
+                                mentor.firstName = data_result[i].loginName;
+                            }
                             var listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
                             var strSubject="";
                             if (listSubject != null && listSubject !== undefined) {
                             	var listSubjectName =[];
-                            	for (var j = 0; j < listSubject.length; j++) {
+                                var len =listSubject.length;
+                                var isMax = false;
+                                if(len > LIMIT_SUBJECT){
+                                    len = LIMIT_SUBJECT;
+                                    isMax = true;
+                                }
+                            	for (var j = 0; j < len; j++) {
                             		listSubjectName.push(listSubject[j].name);
                             	}
                             	strSubject = listSubjectName.join(", ");
+                                if(isMax){
+                                    strSubject = strSubject + '...';
+                                }
                             }
                             mentor.listSubject =strSubject;
                             listTopMentors.push(mentor);

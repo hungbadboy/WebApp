@@ -476,8 +476,8 @@ public class VideoServiceImpl implements VideoService {
             dao.insertUpdateObject(entityName, queryParams);
 
             // delete video from Video_Like
-            entityName = SibConstants.SqlMapperBROT43.SQL_DELETE_VIDEO_LIKE;
-            dao.insertUpdateObject(entityName, queryParams);
+            // entityName = SibConstants.SqlMapperBROT43.SQL_DELETE_VIDEO_LIKE;
+            // dao.insertUpdateObject(entityName, queryParams);
 
             // delete video from Video_Notes
             entityName = SibConstants.SqlMapperBROT43.SQL_DELETE_VIDEO_NOTE;
@@ -1793,7 +1793,7 @@ public class VideoServiceImpl implements VideoService {
                 } else {
                     // remove playlist if exists
                     queryParams = new Object[] { vid };
-                    status = dao.insertUpdateObject(SibConstants.SqlMapperBROT43.SQL_DELETE_VIDEO_PLAYLIST, queryParams);
+                    dao.insertUpdateObject(SibConstants.SqlMapperBROT43.SQL_DELETE_VIDEO_PLAYLIST, queryParams);
                 }
             }
             if (status) {

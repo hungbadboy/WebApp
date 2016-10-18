@@ -65,9 +65,9 @@ import com.siblinks.ws.util.SibConstants;
 import com.siblinks.ws.util.StringUtil;
 
 /**
- * 
+ *
  * {@link CommentsService}
- * 
+ *
  * @author hungpd
  * @version 1.0
  */
@@ -82,10 +82,10 @@ public class CommentServiceImpl implements CommentsService {
 
     @Autowired
     ObjectDao dao;
-    
+
     @Autowired
     private PlatformTransactionManager transactionManager;
-    
+
     @Autowired
 	private Environment environment;
 
@@ -157,6 +157,7 @@ public class CommentServiceImpl implements CommentsService {
         content = content.replace(")", "\\\\)");
         String userName = request.getRequest_data().getAuthor();
         Object[] queryParams = { userName, request.getRequest_data().getAuthorID(), content };
+        String vid = request.getRequest_data().getVid();
         boolean status = true;
         int cid = 0;
         long idComent = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
@@ -164,19 +165,10 @@ public class CommentServiceImpl implements CommentsService {
     		if(idComent > 0) {
                 Object[] queryParamsIns2 = {idComent, request.getRequest_data().getVid() };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_COMMENT, queryParamsIns2);
-                List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_POST_VIDEO, new Object[] { request.getRequest_data().getVid() });
-                Map userPostVideoMap = (Map) readObject.get(0);
-    
-                Object[] queryParamsIns3 = { userPostVideoMap.get("authorID"), request
+                Object[] queryParamsIns3 = { vid, request
                     .getRequest_data()
-                    .getAuthorID(), "commentVideo", "New comment of video", "commented video : " +
-                                                                            userPostVideoMap.get("title").toString(), userPostVideoMap
-                                                                                .get("subjectId"),  request.getRequest_data().getVid() };
-                System.out.println(queryParamsIns3);
-                if (!userPostVideoMap.get("authorID").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
+                    .getAuthorID(), "commentVideo", "New comment of video", vid, vid, request.getRequest_data().getVid() };
                     dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
-        		}
-        		
     		}
     		  transactionManager.commit(statusDB);
         } catch (
@@ -336,7 +328,7 @@ public class CommentServiceImpl implements CommentsService {
             ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             return entity;
         }
-        
+
         String content = request.getRequest_data().getContent();
         if (!StringUtil.isNull(content)) {
             content = content.replace("'", "\\\\'");
@@ -356,7 +348,7 @@ public class CommentServiceImpl implements CommentsService {
                                                                            HttpStatus.OK);
             return entity;
         }
-        
+
         Object[] queryParams = { "",request.getRequest_data().getAuthorID(), content };
         boolean flag = true;
         long id = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
@@ -368,7 +360,7 @@ public class CommentServiceImpl implements CommentsService {
                 flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_ADMISSION_COMMENT, queryParamsIns);
                 List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_DETAIL_BY_ID, new Object[] { request.getRequest_data().getVid() });
                 Map userPostVideoMap = (Map) readObject.get(0);
-    
+
                 Object[] queryParamsIns3 = { userPostVideoMap.get("userid"), request
                     .getRequest_data()
                     .getAuthorID(), "commentVideoAdmssion", "New comment of video", "commented video : " +
@@ -377,7 +369,7 @@ public class CommentServiceImpl implements CommentsService {
                 if (!userPostVideoMap.get("userid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
                     dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
                 }
-    
+
     		}
         } catch (NullPointerException | NumberFormatException | DataAccessException e) {
             transactionManager.rollback(statusDB);
@@ -477,17 +469,17 @@ public class CommentServiceImpl implements CommentsService {
 			return new ResponseEntity<Response>(reponse, HttpStatus.OK);
 		}
 	}
-	
+
 	@Override
 	@RequestMapping(value = "/uploadMultiFile", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Response> uploadMultiFile(@RequestParam("file") final MultipartFile[] uploadfiles)
 			throws IOException {
-	
+
 		String directoryGetImage = environment.getProperty("directoryGetImageComment");
 		MultipartFile uploadfile;
 		String filePath = "";
-		
+
 		try {
 			if (uploadfiles != null & uploadfiles.length > 0) {
 				for (int i = 0; i < uploadfiles.length; i++) {
@@ -507,7 +499,7 @@ public class CommentServiceImpl implements CommentsService {
 		return new ResponseEntity<Response>(reponse, HttpStatus.OK);
 
 	}
-	
+
 	 public  String uploadFile(final MultipartFile uploadfile, final String path) throws FileNotFoundException {
 
 			String filename="";
@@ -543,7 +535,7 @@ public class CommentServiceImpl implements CommentsService {
 			return filename;
 		}
 
-	
+
 	@Override
 	@RequestMapping(value = "/getImageComment/{name}", method = RequestMethod.GET)
 	public ResponseEntity<byte[]> getImageComment(@PathVariable (value = "name") final String name) throws IOException {
@@ -571,10 +563,10 @@ public class CommentServiceImpl implements CommentsService {
 			return new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
     /**
      * This method to get image from path directory Image question
-     * 
+     *
      * @param image
      *            name
      *

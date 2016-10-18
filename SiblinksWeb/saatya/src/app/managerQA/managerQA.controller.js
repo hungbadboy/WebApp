@@ -74,7 +74,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $document.on('scroll', function() {
             // do your things like logging the Y-axis
             if ($window.scrollY > 70) {
-                $(".mentor-manage-qa-content .left-qa").css({"top":"105px", "height":"90%"});
+                $(".mentor-manage-qa-content .left-qa").css({"top":"105px", "height":"75%"});
                 $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"80vh"});
             }
             else {
@@ -167,9 +167,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $scope.currentAnswer = $scope.listAnswer[index];
             angular.element(document.getElementById('answer-detail')).modal();
 
-        }
-        $scope.openFile= function () {
-            $('#file1').click();
         }
 
         $scope.selectTab= function (tab) {
@@ -529,6 +526,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.filesArray = [];
         $scope.onFileSelect = function ($files) {
             $scope.QAErrorMsg = "";
+            if($files.length == 0){
+                $scope.QAErrorMsg = 'File wrong format. Please select file image!';
+            }
             if ($files != null) {
                 for (var i = 0; i < $files.length; i++) {
                     var file = $files[i];
