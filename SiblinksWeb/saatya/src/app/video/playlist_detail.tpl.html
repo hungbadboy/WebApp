@@ -2,14 +2,14 @@
     <!-- Breadcrum -->
     <div class="breadcrum">
         <div class="container">
-            <h5>Siblinks / Tutorials <span>/ {{videoInfo.firstName +" " + videoInfo.lastName}}</span></h5>
+            <h5><a href="#/"> Siblinks</a> / <a href="#/videos">Tutorials<a> <span>/ {{videoInfo.firstName +" " + videoInfo.lastName}}</span></h5>
             <!-- Search form -->
             <div class="search">
                 <form class="navbar-form" role="search">
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-search" placeholder="Search" name="srch-term" id="srch-term" >
+                        <input type="text" ng-enter="searchEnter()" class="form-control form-control-search" placeholder="Search" name="srch-term" id="srch-term" >
                         <div class="input-group-btn">
-                            <button class="btn btn-default btn-search-video" ><span data-icon="&#x55;"></span></button>
+                            <button ng-click="searchEnter()" class="btn btn-default btn-search-video" ><span data-icon="&#x55;"></span></button>
                         </div>
 
                     </div>
