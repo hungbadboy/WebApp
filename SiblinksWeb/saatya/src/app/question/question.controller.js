@@ -509,7 +509,7 @@ brotControllers
                         $timeout(function () {
                             $rootScope.myVarQ = false;
                         }, 2500);
-                        $scope.askErrorMsg='Please your enter your question';
+                        $scope.askErrorMsg='Please enter your question';
                         $("#autocompleteQuest_value").focus();
                         return;
                     }
@@ -586,7 +586,7 @@ brotControllers
                         $timeout(function () {
                             $rootScope.myVarQ = false;
                         }, 2500);
-                        $scope.askErrorMsg='You enter text to your question';
+                        $scope.askErrorMsg='You enter your question';
                         $("#autocompleteQuest_value").focus();
                         return;
                     }
