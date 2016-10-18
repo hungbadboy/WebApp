@@ -9,8 +9,13 @@ brotControllers.controller('ChooseVideoController',
     init();
 
     function init(){
+      if (userId && userId > 0) {
         initSubject();
         getVideos();
+      } else {
+        window.localStorage.clear();
+        window.location.href = '/';
+      }
     }
 
     function getVideos(){

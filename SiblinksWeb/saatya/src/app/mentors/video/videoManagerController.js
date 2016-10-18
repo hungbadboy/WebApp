@@ -6,9 +6,6 @@ brotControllers.controller('VideoManagerController',
     var userId = localStorage.getItem('userId');
     
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
-
-    // $scope.loadMore = new LoadMore();
-
     $scope.subject = [0];
 
     var cacheVideos = [];
@@ -16,9 +13,14 @@ brotControllers.controller('VideoManagerController',
     init();
 
     function init(){
-      initSubject();
-      loadVideos();
-      getAllVideos();
+      if (userId && userId > 0) {
+        initSubject();
+        loadVideos();
+        getAllVideos();
+      } else {
+        window.localStorage.clear();
+        window.location.href = '/';
+      }      
     }
 
     function initSubject(){

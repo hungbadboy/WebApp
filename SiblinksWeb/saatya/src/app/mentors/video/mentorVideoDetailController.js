@@ -17,22 +17,27 @@ brotControllers.controller('MentorVideoDetailController',
     init();
 
     function init(){
-    	if (!isNaN(vid) && vid > 0) {
-    		// get video detail
-            $scope.vid = vid;
-            getVideoDetail(vid, userId);
-            getCommentVideoDetail(vid);            
-    	} else if (!isNaN(plid) && plid > 0) {
-            // get playlist detail
-            $scope.plid = plid;
-            angular.element(document.querySelector('#video_balance')).remove();            
-            loadPlaylistDetail();
-            getVideosInPlaylist();
-        } 
-        else{
-    		window.location.href = '#/mentor/dashboard';
-        	window.location.reload();
-    	}
+        if (userId && userId > 0) {
+            if (!isNaN(vid) && vid > 0) {
+                // get video detail
+                $scope.vid = vid;
+                getVideoDetail(vid, userId);
+                getCommentVideoDetail(vid);            
+            } else if (!isNaN(plid) && plid > 0) {
+                // get playlist detail
+                $scope.plid = plid;
+                angular.element(document.querySelector('#video_balance')).remove();            
+                loadPlaylistDetail();
+                getVideosInPlaylist();
+            } 
+            else{
+                window.location.href = '#/mentor/dashboard';
+                window.location.reload();
+            }
+        } else {
+            window.localStorage.clear();
+            window.location.href = '/';
+        }
     }
     
     function loadPlaylistDetail(){

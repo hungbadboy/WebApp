@@ -9,11 +9,16 @@ brotControllers.controller('PlaylistController',
     init();
 
     function init(){
-      loadPlaylist();
-      initSubject();
-      getAllPlaylist();
+      if (userId && userId > 0) {
+        loadPlaylist();
+        initSubject();
+        getAllPlaylist();
 
-      $('#txtDescription').val('');
+        $('#txtDescription').val('');
+      } else {
+        window.localStorage.clear();
+        window.location.href = '/';
+      }      
     }
 
     function initSubject(){      

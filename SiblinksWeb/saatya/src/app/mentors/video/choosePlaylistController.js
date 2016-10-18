@@ -2,7 +2,7 @@ brotControllers.controller('ChoosePlaylistController',
   ['$rootScope','$scope', '$modal', '$modalInstance', '$routeParams', '$http', '$location', 'VideoService', 'MentorService', 'myCache', 'u_id', 'v_ids',
                                        function ($rootScope,$scope, $modal, $modalInstance, $routeParams, $http, $location, VideoService, MentorService, myCache, u_id, v_ids) {
 
-
+    var userId = localStorage.getItem('userId');
     $scope.playlist = [0];
     init();
 
@@ -11,16 +11,21 @@ brotControllers.controller('ChoosePlaylistController',
     }
 
     function initPlaylist(){
-      if (myCache.get("playlist") !== undefined) {
-        $scope.playlists = myCache.get("playlist");
-      } else{
-        VideoService.getPlaylist(u_id).then(function(data){
-          if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-            $scope.playlists = data.data.request_data_result;
-            myCache.put("playlist", data.data.request_data_result);
-          }
-        });
-      }      
+      if (userId && userId > 0) {
+        if (myCache.get("playlist") !== undefined) {
+          $scope.playlists = myCache.get("playlist");
+        } else{
+          VideoService.getPlaylist(u_id).then(function(data){
+            if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+              $scope.playlists = data.data.request_data_result;
+              myCache.put("playlist", data.data.request_data_result);
+            }
+          });
+        }  
+      } else {
+        window.localStorage.clear();
+        window.location.href = '/';
+      }          
     }
 
     $scope.apply = function(){

@@ -2,7 +2,7 @@ brotControllers.controller('UploadTutorialController',
   ['$rootScope','$scope', '$modalInstance', '$routeParams', '$http', '$location', 'VideoService', 'videoDetailService', 'HomeService', 'myCache', 'u_id' , 'v_id',
                                        function ($rootScope, $scope, $modalInstance, $routeParams, $http, $location, VideoService, videoDetailService, HomeService, myCache, u_id, v_id) {
 
-
+    var userId = localStorage.getItem('userId');
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
     $scope.uploadPlaylist = [0];
     $scope.editVideo = null;
@@ -11,13 +11,18 @@ brotControllers.controller('UploadTutorialController',
     init();
 
     function init(){
-      initSubject();
-      initPlaylist();
-      if (!isNaN(v_id) && v_id > 0) {
-        getVideoDetail();
-      } else{        
-        loadVideoRecently();
-      }      
+      if (userId && userId > 0) {
+        initSubject();
+        initPlaylist();
+        if (!isNaN(v_id) && v_id > 0) {
+          getVideoDetail();
+        } else{        
+          loadVideoRecently();
+        } 
+      } else {
+        window.localStorage.clear();
+        window.location.href = '/';
+      }           
     }
 
     function getVideoDetail(){

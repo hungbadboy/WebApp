@@ -8,16 +8,21 @@ brotControllers.controller('MentorPlaylistDetailController',
     init();
 
     function init(){
-    	// check plid is interger or not
-    	if (!isNaN(plid) && plid > 0) {
-    		// load playlist information
-    		loadPlaylistDetail();
-    		getVideosInPlaylist();
-    	} else{
-    		// reload to home
-    		window.location.href = '#/mentor/dashboard';
-        	window.location.reload();
-    	}
+        if (userId && userId > 0) {
+            // check plid is interger or not
+            if (!isNaN(plid) && plid > 0) {
+                // load playlist information
+                loadPlaylistDetail();
+                getVideosInPlaylist();
+            } else{
+                // reload to home
+                window.location.href = '#/mentor/dashboard';
+                window.location.reload();
+            }
+        } else {
+            window.localStorage.clear();
+            window.location.href = '/';
+        }
     }
     
     function loadPlaylistDetail(){

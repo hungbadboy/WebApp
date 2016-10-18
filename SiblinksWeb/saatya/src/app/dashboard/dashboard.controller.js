@@ -15,10 +15,15 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
   init();
 
   function init(){
-    getMainDashboardInfo();
-    getVideosTopViewed();
-    getNewestQuestions();
-    getStudentsSubcribed();
+    if (userId && userId > 0) {
+      getMainDashboardInfo();
+      getVideosTopViewed();
+      getNewestQuestions();
+      getStudentsSubcribed();
+    } else {
+      window.localStorage.clear();
+      window.location.href = '/';
+    }    
   }
 
   function getStudentsSubcribed(){

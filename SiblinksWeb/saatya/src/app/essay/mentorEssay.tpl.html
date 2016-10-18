@@ -116,8 +116,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8 box-main-replied">
-                            <div class="slider-rpl">
+                        <div class="col-md-8 box-main-replied" >
+                            <div class="slider-rpl" ng-if="essay">
                                 <div class="box-btn-sl clearfix">
                                     <a href="" class="btn-prev"><span data-icon="&#x34;"></span></a>
                                     <a href="" class="btn-next"><span data-icon="&#x35;"></span></a>
@@ -189,9 +189,10 @@
                                                 </form>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>                                    
                                 </div>
                             </div>
+                            <div ng-show="!essay"><h5>No Essay</h5></div>
                         </div>
                     </div>
                 </div>
