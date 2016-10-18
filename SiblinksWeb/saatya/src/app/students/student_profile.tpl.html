@@ -19,9 +19,13 @@
                                 != null ? studentInfo.firstname : ''}} {{studentInfo.lastName != null ?
                                 studentInfo.lastName : ''}}</h3>
                             <span class="changeImg" ng-hide="isLoginViaFBOrGoogle">
-                                 <input type="file" id="changeImg" name="changeImg[]"
-                                        ng-file-select="onFileSelect($files)" accept='image/*'>
-                                 <label for="changeImg"><span data-icon="&#xe075;"></span></label>
+                                <button ngf-select="onFileSelect($files)" multiple ngf-pattern="'image/*'"
+                                        accept="image/*" ngf-max-size="5MB">
+									<span style="pointer-events: none;" data-icon="&#xe075;"></span></button>
+                                 <!--<input type="file" id="changeImg" name="changeImg[]"-->
+                                        <!--ng-file-select="onFileSelect($files)" accept='image/*'>-->
+                                 <!--<label for="changeImg"><span data-icon="&#xe075;"></span></label>-->
+
                              </span>
                         </div>
                         <div class="student-joined">
