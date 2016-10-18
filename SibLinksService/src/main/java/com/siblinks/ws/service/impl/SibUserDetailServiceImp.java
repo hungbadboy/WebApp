@@ -78,6 +78,9 @@ public class SibUserDetailServiceImp implements UserDetailsService {
 		user.setUserType((String) userMap.get(Parameters.USER_TYPE));
         user.setImageUrl((String) userMap.get(Parameters.IMAGE_URL));
         user.setDefaultSubjectId((String) userMap.get(Parameters.DEFAULT_SUBJECT_ID));
+        user.setEmail((String) userMap.get(Parameters.EMAIL));
+        user.setActiveFlag((String) userMap.get(Parameters.ENABLE_FLAG));
+        user.setBirthDay((Long) userMap.get(Parameters.BOD));
 		return new SibUserDetails(user, authorities);
 	}
 

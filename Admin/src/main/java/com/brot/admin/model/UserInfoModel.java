@@ -27,8 +27,6 @@ import java.io.Serializable;
  *         This class save info of user logged to session
  */
 public class UserInfoModel implements Serializable {
-    // {"userid":"55","username":"admin","firstname":"krishna","lastname":"karnati","status":"true","password":null,
-    // "userType":"A","imageUrl":"assets/images/noavartar.jpg","defaultSubjectId":null}
     /**
      *
      */
@@ -42,6 +40,9 @@ public class UserInfoModel implements Serializable {
     private String userType;
     private String imageUrl;
     private String defaultSubjectId;
+    private String email;
+    private String activeFlag;
+    private String birthDay;
 
     /**
      * @return the userid
@@ -178,6 +179,51 @@ public class UserInfoModel implements Serializable {
         this.defaultSubjectId = defaultSubjectId;
     }
 
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email
+     *            the email to set
+     */
+    public void setEmail(final String email) {
+        this.email = email;
+    }
+
+    /**
+     * @return the enableFlag
+     */
+    public String getActiveFlag() {
+        return activeFlag;
+    }
+
+    /**
+     * @param enableFlag
+     *            the enableFlag to set
+     */
+    public void setActiveFlag(final String activeFlag) {
+        this.activeFlag = activeFlag;
+    }
+
+    /**
+     * @return the birthDay
+     */
+    public String getBirthDay() {
+        return birthDay;
+    }
+
+    /**
+     * @param birthDay
+     *            the birthDay to set
+     */
+    public void setBirthDay(final String birthDay) {
+        this.birthDay = birthDay;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -203,8 +249,13 @@ public class UserInfoModel implements Serializable {
                imageUrl +
                ", defaultSubjectId=" +
                defaultSubjectId +
+               ", email=" +
+               email +
+               ", activeFlag=" +
+               activeFlag +
+               ", birthDay=" +
+               birthDay +
                "]";
     }
-
 
 }

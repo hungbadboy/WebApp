@@ -7,7 +7,7 @@
 	   	<s:property value="#session.user_info.firstname"/>
 		<s:property value="#session.user_info.lastname"/>
 	</span>
-	    <ul class="user-setting hide">
+	    <ul class="user-setting hide" style="z-index : 99999;">
 	      <li>
 	        <a class="logout" href="logout">Logout</a>
 	      </li>
