@@ -2,6 +2,7 @@
 <form action="" method="" ng-controller="uploadEssayController">
     <div ng-if="essayErrorMsg" class="validate_error">
         <span>{{essayErrorMsg}}</span>
+        <span ng-if="files.$errorParam">{{files.$errorParam}}</span>
     </div>
     <div ng-if="essaySusscesMsg" class="succesful">
         <span>{{essaySusscesMsg}}</span>
@@ -27,8 +28,9 @@
         </div>
         <p><textarea type="textarea" ng-model="txtDesc"  id="txtDesc" name="essaydesscription" placeholder="Essay description"></textarea></p>
         <p class="upload-file">
-            <!-- <output id="list"></output> -->
-            <input type="file" id="files"  ng-file-select="onFileSelect($files)" /><label for="files"><span>{{fileName}}<i class="fa fa-link" aria-hidden="true"></i></span></label>
+        <div ngf-select ngf-drop ng-model="files" ngf-max-size="5MB" ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xlsx'" class="drop-box">
+            <span>{{fileName}}</span>
+        </div>
         </p>
     </div>
     <div>

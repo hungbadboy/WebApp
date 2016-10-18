@@ -4,7 +4,7 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
 
         var userId = localStorage.getItem('userId');
         var fileUpload;
-        $scope.fileName = "Upload your file (word, excel, pdf....)";
+        $scope.fileName = "Drop file (word, excel, pdf....) here or click to upload";
         $scope.selectMajor = 0;
         $scope.selectSchool = 0;
         $scope.txtDesc = "";
@@ -26,12 +26,19 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             });
         }
 
-        $scope.onFileSelect = function ($files) {
+        // $scope.onFileSelect = function ($files) {
+        //     $scope.essayErrorMsg = "";
+        //     fileUpload = $files[0];
+        //     $scope.fileName = fileUpload.name;
+        // };
+        $scope.$watch('files', function () {
             $scope.essayErrorMsg = "";
-            fileUpload = $files[0];
+            if(isEmpty($scope.files)){
+                return ;
+            }
+            fileUpload = $scope.files;
             $scope.fileName = fileUpload.name;
-        };
-
+        });
 
         $scope.uploadEssay = function () {
             var fd = new FormData();
