@@ -168,9 +168,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             angular.element(document.getElementById('answer-detail')).modal();
 
         }
-        $scope.openFile= function () {
-            $('#file1').click();
-        }
 
         $scope.selectTab= function (tab) {
             if($scope.currentTab == tab){
@@ -529,6 +526,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.filesArray = [];
         $scope.onFileSelect = function ($files) {
             $scope.QAErrorMsg = "";
+            if($files.length == 0){
+                $scope.QAErrorMsg = 'File wrong format. Please select file image!';
+            }
             if ($files != null) {
                 for (var i = 0; i < $files.length; i++) {
                     var file = $files[i];
