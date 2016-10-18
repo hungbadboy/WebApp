@@ -35,6 +35,9 @@ public class SibUser {
     private String userType;
     private String imageUrl;
     private String defaultSubjectId;
+    private String email;
+    private String activeFlag;
+    private long birthDay;
 
     public String getDefaultSubjectId() {
         return defaultSubjectId;
@@ -107,4 +110,50 @@ public class SibUser {
     public void setUsername(final String username) {
         this.username = username;
     }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email
+     *            the email to set
+     */
+    public void setEmail(final String email) {
+        this.email = email;
+    }
+
+    /**
+     * @return the activeFlag
+     */
+    public String getActiveFlag() {
+        return activeFlag;
+    }
+
+    /**
+     * @param activeFlag
+     *            the activeFlag to set
+     */
+    public void setActiveFlag(final String activeFlag) {
+        this.activeFlag = activeFlag;
+    }
+
+    /**
+     * @return the birthDay
+     */
+    public long getBirthDay() {
+        return birthDay;
+    }
+
+    /**
+     * @param birthDay
+     *            the birthDay to set
+     */
+    public void setBirthDay(final long birthDay) {
+        this.birthDay = birthDay;
+    }
+
 }

@@ -415,8 +415,9 @@ public class UserServiceImpl implements UserService {
         return entity;
     }
 
+    @Override
     @RequestMapping(value = "/registerAdminMentor", method = RequestMethod.POST)
-    public ResponseEntity<Response> registerAdmin(@RequestBody final String jsonRegister) {
+    public ResponseEntity<Response> registerAdminMentor(@RequestBody final String jsonRegister) {
         JSONObject objRequest = new JSONObject(jsonRegister);
         String userName = objRequest.getString(Parameters.USER_NAME);
         String role = objRequest.getString(Parameters.ROLE);
@@ -507,8 +508,9 @@ public class UserServiceImpl implements UserService {
         return entity;
     }
 
-    @RequestMapping(value = "/adminUpdateProfileMentor", method = RequestMethod.POST)
-    public ResponseEntity<Response> adminUpdateProfileMentor(@RequestBody final String jsonUpdate) {
+    @Override
+    @RequestMapping(value = "/adminUpdateProfileUser", method = RequestMethod.POST)
+    public ResponseEntity<Response> adminUpdateProfileUser(@RequestBody final String jsonUpdate) {
         JSONObject jsonRequest = new JSONObject(jsonUpdate);
         String userId = jsonRequest.getString(Parameters.USER_ID);
         String message = "";
@@ -546,7 +548,36 @@ public class UserServiceImpl implements UserService {
         } else {
             message = "Updated Profile Failure";
         }
-        response = new SimpleResponse("" + status, "user", "adminUpdateProfileMentor", message);
+        response = new SimpleResponse("" + status, "user", "adminUpdateProfileUser", message);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+        return entity;
+    }
+
+    @Override
+    @RequestMapping(value = "/setStatusUser", method = RequestMethod.POST)
+    public ResponseEntity<Response> setStatusUser(@RequestBody final String json) {
+        boolean status = false;
+        String message = "Set Disable/Enable User Failure";
+        JSONObject jsonObj = new JSONObject(json);
+        long userId = jsonObj.getLong(Parameters.USER_ID);
+        String enableFlag = jsonObj.getString(Parameters.ACTIVE_PLAG);
+        if (userId > 0 && !StringUtils.isEmpty(enableFlag)) {
+            List<Object> readObjects = dao
+                .readObjects(SibConstants.SqlMapper.SQL_CHECK_USER_EXISTS_BY_ID, new Object[] { userId });
+            if (!CollectionUtils.isEmpty(readObjects)) {
+                // user is exists
+                Object[] params = { enableFlag, userId };
+                String entityName = SibConstants.SqlMapper.SQL_SET_ENABLE_FLAG_USER;
+                status = dao.insertUpdateObject(entityName, params);
+
+                if (status) {
+                    message = enableFlag;
+                } else {
+                    message = "Set Disable/Enable User Failure";
+                }
+            }
+        }
+        SimpleResponse response = new SimpleResponse("" + status, "user", "setDisableUser", message);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
         return entity;
     }
@@ -557,28 +588,38 @@ public class UserServiceImpl implements UserService {
         String userId = jsonRequest.getString(Parameters.USER_ID);
         String message = "";
         boolean status = false;
-        SimpleResponse response;
         if (userId != null && !StringUtils.isEmpty(userId)) {
             List<Object> readObjects = dao
                 .readObjects(SibConstants.SqlMapper.SQL_CHECK_USER_EXISTS_BY_ID, new Object[] { userId });
             if (!CollectionUtils.isEmpty(readObjects)) {
-                String pwdEncrypted = "";
-                for (Object object : readObjects) {
-                    Map<String, String> mapObject = (HashMap<String, String>) object;
-                    pwdEncrypted = mapObject.get(Parameters.PASSWORD);
-                    break;
+                // user is exists
+                String entityName = SibConstants.SqlMapper.SQL_UPDATE_ADMIN_INFO;
+                String bod = jsonRequest.getString(Parameters.BOD);
+                try {
+                    if (!StringUtils.isEmpty(bod)) {
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
+                        Date date = formatter.parse(bod);
+                        bod = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                    } else {
+                        bod = null;
+                    }
+                } catch (Exception e) {
+                    bod = null;
                 }
-                BCryptPasswordEncoder ecy = new BCryptPasswordEncoder(SibConstants.LENGHT_AUTHENTICATION);
-                String pwdRequest = jsonRequest.getString(Parameters.PASSWORD);
-                if (CommonUtil.verifyPassword(pwdRequest, pwdEncrypted)) {
-                    // password correctly
-
+                Object[] params = { jsonRequest.getString(Parameters.USER_NAME), bod, jsonRequest
+                    .getString(Parameters.FIRST_NAME), jsonRequest
+                        .getString(Parameters.LAST_NAME), jsonRequest.getString(Parameters.ACTIVE_PLAG), userId };
+                status = dao.insertUpdateObject(entityName, params);
+                if (status) {
+                    message = "Updated Successfully";
                 } else {
-                    // password not correct
+                    message = "Updated Failure";
                 }
             }
         }
-        return null;
+        SimpleResponse response = new SimpleResponse(""+status, "user", "updateInfoAdmin", message);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
+        return entity;
     }
 
     @Override
@@ -743,7 +784,6 @@ public class UserServiceImpl implements UserService {
         SimpleResponse reponse = null;
         if (!CollectionUtils.isEmpty(readObject)) {
             // Verify password
-            System.out.println(request.getRequest_user().getPassword());
             // String rawPwd =
             // ecy.encode(request.getRequest_user().getPassword());
             Map<String, String> user = (HashMap<String, String>) readObject.get(SibConstants.NUMBER.ZERO);
@@ -771,7 +811,7 @@ public class UserServiceImpl implements UserService {
                                                      Boolean.FALSE,
                                                      request.getRequest_data_type(),
                                                      request.getRequest_data_method(),
-                                                     "Change password is failed. Please contace with administrator");
+                                                     "Change password is failed. Please contact with administrator");
                     }
                 } else {
                     // Don't match old password
@@ -780,7 +820,7 @@ public class UserServiceImpl implements UserService {
                                                  Boolean.FALSE,
                                                  request.getRequest_data_type(),
                                                  request.getRequest_data_method(),
-                                                 "old password is not correct");
+                                                 "Old password is not correctly");
                 }
             } else {
                 // User register Google or FaceBook
