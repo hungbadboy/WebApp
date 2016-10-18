@@ -153,10 +153,15 @@
     a.right.carousel-control {
         right: -56px;
     }
+    .manage-tutorial .main-manager-video .filters .text-ac, 
+    .manage-tutorial .group-item .item .box-ac {
+        display: inline-block;
+        width: 25%;
+    }
 
 
 }
-@media screen and (max-width: 1600px) { 
+@media screen and (max-width: 1599px) { 
     .information-content>div,
     .about-content>div {
         margin-top: 5vh;
@@ -256,6 +261,10 @@
     .manager-playlist .group-item .item .box-playlist {
         width: 20%;
     }
+    .manager-playlist-detail .main-manager-video .filters .text-play, 
+    .manager-playlist-detail .group-item .item .box-playlist {
+        width: 20%;
+    }
     .manager-playlist .main-list-video .filters .text-ac, 
     .manager-playlist .group-item .item .box-ac {
         width: 110px;
@@ -265,6 +274,16 @@
         float: left;
         margin: 3px;
     }
+    .manager-playlist .top-mag .col-md-6 {
+        width: 100%;
+        margin: auto;
+        padding-left: 0;
+    }
+    .manager-video.manager-playlist .top-mag .search {
+        margin-left: 15px;
+        width:~"calc(100% - 170px)";
+    }
+
 }
 
 /***For max screen 1540***/
@@ -370,6 +389,9 @@
     .manager-playlist-detail .group-item .item .box-playlist {
         width: 10%;
         margin-right: 10px;
+    }
+    .manager-video.manager-playlist .top-mag .search {
+        padding: 0;
     }
 
 
@@ -500,12 +522,7 @@
         width: 100%;
     }
 
-   
-    .manager-playlist .top-mag .col-md-6 {
-        width: 100%;
-        margin: auto;
-        padding-left: 0;
-    }
+      
      .manager-playlist-detail .top-mag .search {
         width: 50%;
         float: left;
