@@ -215,40 +215,35 @@
                         </div><!-- /End content of My Question -->
 
                         <!-- Content Of Essay -->
-                        <div class="content-question col-md-12 tab-pane" id="essay">
+                        <div ng-controller="yourEssayController" class="content-question col-md-12 tab-pane" id="essay">
+                        <div class="content-essay-block" scroller="yourEssay">
                             <div class="content-question-wrapper">
                                 <!-- Essay 01 -->
-                                <div class="question essay_01" ng-if="essays"
-                                     ng-repeat="essay in essays track by $index">
+                                <div  ng-repeat="essay in listEssays track by $index" class="question essay_0{{$index}}">
                                     <div class="number-question col-xs-1">
-                                        <h4>{{index+1}}</h4>
+                                        <h4>{{$index+1}}</h4>
                                     </div>
                                     <div class="detail-question col-xs-offset-1">
                                         <div class="infor-of-question col-xs-12">
-                                            <h5 class="essay-title">{{essay.nameOfEssay}}</h5>
-                                            <p><span>{{convertUnixTimeToTime(essay.docSubmittedDate)}} </span></p>
-                                            <p ng-if="essay.status == 'R'">
-                                                <span class="essay-reviewing">Reviewing</span><span>by mentor: </span><span
-                                                    class="mentor-review">{{essay.firstName +' '+ essay.lastName}}
-                                                 </span>
-                                            </p>
-                                            <p ng-if="essay.status == 'P'">
-                                                <span class="essay-wait-review">Waiting for review</span><span>by mentor: </span><span
-                                                    class="mentor-review">{{essay.firstName +' '+ essay.lastName}}</span>
-                                            </p>
-                                            <p ng-if="essay.status == 'S'">
-                                                <span class="essay-answers">Answered</span><span>by mentor: </span><span
-                                                    class="mentor-review">{{essay.firstName +' '+ essay.lastName}}
-                                                 </span>
-                                            </p>
+                                            <a href=""><h5 class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 185 ? '...' : ''}}</h5></a>
+                                            <p><span>uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}} ago </span></p>
+                                            <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
+                                            <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span><span>by mentor: </span>
+                                                <span class="mentor-review">{{essay.firstName+' '+essay.lastName}}</span></p>
                                         </div>
                                     </div>
                                 </div><!-- End Essay 01 -->
-                                <div ng-if="!essays">
+
+                                <div ng-if="!listEssays">
                                     <h5 class="essay-title">No data found</h5>
                                 </div>
                             </div>
-                        </div><!-- /End content of Essay -->
+                            <!-- <div class="scroll-load-more col-md-12">
+                                <p>Scroll to load more</p>
+                            </div> -->
+                        </div>
+
+                    </div><!-- /End content of Essay -->
 
                         <!-- Content Of Setting -->
                         <div class="content-question col-md-12 tab-pane" id="setting">
@@ -281,7 +276,7 @@
                                                     <p><input type="email" id="email" placeholder="Email" name="email"
                                                               value="{{studentInfo.email}}"></p>
                                                     <p><input type="text" id="school" placeholder="High School"
-                                                              name="school" value="{{studentInfo.school}}""></p>
+                                                              name="school" value="{{studentInfo.school}}"></p>
                                                     <div class="favorite-field">
                                                         <p>Favourites Field:</p>
                                                         <div class="check-favorite">
