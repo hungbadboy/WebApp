@@ -19,7 +19,6 @@
  */
 package com.siblinks.ws.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.RequestData;
@@ -48,7 +48,8 @@ import com.siblinks.ws.util.SibConstants;
 
 /**
  *
- *
+ * {@link NotificationUserService}
+ * 
  * @author hungpd
  * @version 1.0
  */
@@ -73,28 +74,22 @@ public class NotificationUserServiceImpl implements NotificationUserService {
     @RequestMapping(value = "/getNotificationNotReaded", method = RequestMethod.GET)
     public ResponseEntity<Response> getNotificationNotReaded(@RequestParam final String uid, @RequestParam final String status) {
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + false, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+
+            String count = dao.getCount(
+                SibConstants.SqlMapper.SQL_GET_NOTIFICATION_NOT_READED_COUNT,
+                new Object[] { status, uid });
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "notification", "getNotificationNotReaded", "", count);
+        } catch (DAOException e) {
+            logger.error(e);
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getNotificationNotReaded", e.getMessage());
         }
-
-        Object[] queryParams = { status, uid };
-
-        // List<Object> readObject =
-        // dao.readObjects(SibConstants.SqlMapper.SQL_GET_NOTIFICATION_NOT_READED,
-        // queryParams);
-
-        String count = null;
-        // if (!CollectionUtils.isEmpty(readObject)) {
-        count = dao.getCount(SibConstants.SqlMapper.SQL_GET_NOTIFICATION_NOT_READED_COUNT, queryParams);
-        // }
-
-        SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "notification", "getNotificationNotReaded", "",
-        // readObject,
-                                                    count);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
     /**
@@ -104,28 +99,20 @@ public class NotificationUserServiceImpl implements NotificationUserService {
     @RequestMapping(value = "/getNotificationReaded", method = RequestMethod.GET)
     public ResponseEntity<Response> getNotificationReaded(@RequestParam final String uid) {
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + false, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+
+            String count = dao.getCount(SibConstants.SqlMapper.SQL_GET_NOTIFICATION_READED_COUNT, new Object[] { uid });
+            simpleResponse = new SimpleResponse("" + Boolean.TRUE, "notification", "getNotificationReaded", "", count);
+        } catch (DAOException e) {
+            logger.error(e);
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getNotificationReaded", e.getMessage());
         }
-
-        Object[] queryParams = { uid };
-
-        // List<Object> readObject =
-        // dao.readObjects(SibConstants.SqlMapper.SQL_GET_NOTIFICATION_READED,
-        // queryParams);
-
-        String count = null;
-        // if (readObject.size() > 0) {
-        count = dao.getCount(SibConstants.SqlMapper.SQL_GET_NOTIFICATION_READED_COUNT, queryParams);
-        // }
-
-        SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "notification", "getNotificationReaded", "",
-        // readObject,
-                                                    count);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
     /**
@@ -135,27 +122,27 @@ public class NotificationUserServiceImpl implements NotificationUserService {
     @RequestMapping(value = "/updateStatusNotification", method = RequestMethod.POST)
     public ResponseEntity<Response> updateStatusNotification(@RequestBody final RequestData request) {
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + false, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+
+            boolean readObject = dao.insertUpdateObject(
+                SibConstants.SqlMapper.SQL_UPDATE_STATUS_NOTIFICATION,
+                new Object[] { request.getRequest_data().getNid(), request.getRequest_data().getStatus() });
+            
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.SUCCESS,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject);
+        } catch (DAOException e) {
+            logger.error(e);
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "updateStatusNotification", e.getMessage());
         }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("nid", request.getRequest_data().getNid());
-        queryParams.put("status", request.getRequest_data().getStatus());
-
-        boolean readObject;
-        readObject = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_STATUS_NOTIFICATION, queryParams);
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
     /**
@@ -166,28 +153,32 @@ public class NotificationUserServiceImpl implements NotificationUserService {
     public ResponseEntity<Response> getAllNotification(@RequestParam final String uid, @RequestParam final String pageno,
             @RequestParam final String limit) {
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + false, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+
+            CommonUtil util = CommonUtil.getInstance();
+
+            Map<String, String> map = util.getLimit(pageno, limit);
+
+            Object[] queryParams = { uid, Integer.parseInt(map.get(Parameters.FROM)), Integer.parseInt(map.get(Parameters.TO)) };
+
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_NOTIFICATION, queryParams);
+
+            String count = null;
+            if (readObject.size() > 0) {
+                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_NOTIFICATION_COUNT, new Object[] { uid });
+            }
+
+            new SimpleResponse("" + Boolean.TRUE, "notification", "getAllNotification", readObject, count);
+        } catch (Exception e) {
+            logger.error(e);
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getNotificationNotReaded", e.getMessage());
         }
-
-        CommonUtil util = CommonUtil.getInstance();
-
-        Map<String, String> map = util.getLimit(pageno, limit);
-
-        Object[] queryParams = { uid, Integer.parseInt(map.get(Parameters.FROM)), Integer.parseInt(map.get(Parameters.TO)) };
-
-        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_NOTIFICATION, queryParams);
-
-        String count = null;
-        if (readObject.size() > 0) {
-            count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_NOTIFICATION_COUNT, new Object[] { uid });
-        }
-
-        SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "notification", "getAllNotification", readObject, count);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
     /**
@@ -197,23 +188,22 @@ public class NotificationUserServiceImpl implements NotificationUserService {
     @RequestMapping(value = "/updateStatusAllNotification", method = RequestMethod.POST)
     public ResponseEntity<Response> updateStatusAllNotification(@RequestBody final RequestData request) {
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + false, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+
+            Object[] queryParams = { request.getRequest_data().getUid() };
+
+            boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_STATUS_ALL_NOTIFICATION, queryParams);
+
+            new SimpleResponse("" + Boolean.TRUE, request.getRequest_data_type(), request.getRequest_data_method(), status);
+        } catch (Exception e) {
+            logger.error(e);
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getNotificationNotReaded", e.getMessage());
         }
-
-        Object[] queryParams = { request.getRequest_data().getUid() };
-
-        boolean status = false;
-        status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_STATUS_ALL_NOTIFICATION, queryParams);
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    status);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 }

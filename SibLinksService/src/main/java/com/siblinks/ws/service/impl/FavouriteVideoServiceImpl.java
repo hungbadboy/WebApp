@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -41,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.common.LoggedInChecker;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.model.FavouriteData;
@@ -81,11 +81,12 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
     @RequestMapping(value = "/addfavourite", method = RequestMethod.POST)
     public ResponseEntity<Response> addFavouriteVideo(@RequestBody final FavouriteData favourite) {
         logger.info("addFavouriteVideo " + new Date());
-        TransactionDefinition def = new DefaultTransactionDefinition();
-        TransactionStatus status = transactionManager.getTransaction(def);
+        TransactionStatus status = null;
         boolean isAdd = false;
         String message = "";
         try {
+            TransactionDefinition def = new DefaultTransactionDefinition();
+            status = transactionManager.getTransaction(def);
             // Insert in the video_favourite
             isAdd = dao.insertUpdateObject(
                 SibConstants.SqlMapper.SQL_VIDEO_FAVOURITE_INSERT,
@@ -97,7 +98,7 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
             transactionManager.commit(status);
             message = "Favourite add successful";
             logger.info("addfavourite success " + new Date());
-        } catch (DataAccessException e) {
+        } catch (DAOException e) {
             message = e.getMessage();
             logger.error("addfavourite error " + new Date());
             transactionManager.rollback(status);

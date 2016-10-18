@@ -52,8 +52,8 @@ import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.SibConstants;
 
 /**
- *
- *
+ * {@link NotificationEmailService}
+ * 
  * @author hungpd
  * @version 1.0
  */
@@ -61,10 +61,10 @@ import com.siblinks.ws.util.SibConstants;
 @RequestMapping("/siblinks/services/contact")
 public class NotificationEmailServiceImpl implements NotificationEmailService {
 
-	private final Log logger = LogFactory.getLog(getClass());
+    private final Log logger = LogFactory.getLog(getClass());
 
-	@Autowired
-	private HttpServletRequest context;
+    @Autowired
+    private HttpServletRequest context;
 
     @Autowired
     ObjectDao dao;
@@ -78,55 +78,60 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
     @Autowired
     private Environment env;
 
-	@Override
-	@RequestMapping(value = "/contact", method = RequestMethod.POST)
-	public ResponseEntity<Response> contact(@RequestBody final RequestData request) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/contact", method = RequestMethod.POST)
+    public ResponseEntity<Response> contact(@RequestBody final RequestData request) {
 
-		if(!AuthenticationFilter.isAuthed(context)) {
+        SimpleResponse simpleResponse = null;
+        try {
             if (!AuthenticationFilter.isAuthed(context)) {
-                SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-                ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-                return entity;
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
-		}
 
-		NotificationInfo info = new NotificationInfo();
-		HashMap<String, String> map = new HashMap<String, String>();
-        map.put("###Name###", request.getRequest_data().getName());
-        map.put("###BODY###", request.getRequest_data().getMessage());
-		map.put("subject", request.getRequest_data().getSubject());
-		map.put("Host", "");
-		map.put("From", request.getRequest_data().getEmail());
-		map.put("To", "siblinks.brot@gmail.com");
-		map.put("DomainName", "gmail.com");
-		map.put("Cc", "");
-		map.put("Bcc", "");
-		map.put("templateName", "MAIL_Notify_3.template");
-		logger.debug(map);
-		info.setTemplateMap(map);
-        // NotifyByEmail notify = new NotifyByEmail(info);
-		String status = "SUCCESS";
-		boolean statusCheck=true;
-		try {
+            NotificationInfo info = new NotificationInfo();
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("###Name###", request.getRequest_data().getName());
+            map.put("###BODY###", request.getRequest_data().getMessage());
+            map.put("subject", request.getRequest_data().getSubject());
+            map.put("Host", "");
+            map.put("From", request.getRequest_data().getEmail());
+            map.put("To", "siblinks.brot@gmail.com");
+            map.put("DomainName", "gmail.com");
+            map.put("Cc", "");
+            map.put("Bcc", "");
+            map.put("templateName", "MAIL_Notify_3.template");
+            logger.debug(map);
+            info.setTemplateMap(map);
+            // NotifyByEmail notify = new NotifyByEmail(info);
+            String status = "SUCCESS";
+            boolean statusCheck = true;
             // status = notify.sendMail();
-		} catch (Exception e) {
-			logger.error(e);
-			status = "FAIL";
-		}
-		String msg = null;
-		if("SUCCESS".equalsIgnoreCase(status)) {
-			msg = "Thank you for contacting us. We will get back to you soon";
-		} else {
-			msg = "FAIL";
-			statusCheck = false;
-		}
-		SimpleResponse reponse = new SimpleResponse(""+statusCheck,
-				request.getRequest_data_type(),
-				request.getRequest_data_method(), msg);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
-				HttpStatus.OK);
-		return entity;
-	}
+            String msg = null;
+            if ("SUCCESS".equalsIgnoreCase(status)) {
+                msg = "Thank you for contacting us. We will get back to you soon";
+            } else {
+                msg = "FAIL";
+                statusCheck = false;
+            }
+            simpleResponse = new SimpleResponse(
+                                                "" + statusCheck,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                msg);
+        } catch (Exception e) {
+            logger.error(e);
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
+        }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
 
     /**
      * {@inheritDoc}
@@ -134,38 +139,41 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
     @Override
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
     public ResponseEntity<Response> forgotPassword(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
-        }
-        SimpleResponse reponse = null;
-        String email = request.getRequest_data().getEmail();
-        // check email is exist
-        List<Object> readObjects = dao.readObjects(
-            SibConstants.SqlMapper.SQL_CHECK_USER_FORGOT_PASSWORD,
-            new Object[] { email, email });
-        if (!CollectionUtils.isEmpty(readObjects)) {
-            String generateToken = CommonUtil.generateToken();
-            // Update DB
-            String add = "";
-            boolean statusIn = dao.insertUpdateObject(
-                SibConstants.SqlMapper.SQL_UPDATE_USER_CODE,
-                new Object[] { generateToken, email });
-            if (statusIn) {
-                // Get address web configuration DB
-                readObjects = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ADDRESS_WEB, new Object[] { SibConstants.DOMAIN });
-                for (Object object : readObjects) {
-                    Map<String, String> mapObject = (HashMap<String, String>) object;
-                    add = mapObject.get(Parameters.VALUE_OF);
-                    break;
-                }
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
+            String email = request.getRequest_data().getEmail();
 
-            // Send email
-            boolean isSendSuccess = true;
-            try {
+            // check email is exist
+            List<Object> readObjects = dao.readObjects(
+                SibConstants.SqlMapper.SQL_CHECK_USER_FORGOT_PASSWORD,
+                new Object[] { email, email });
+            if (!CollectionUtils.isEmpty(readObjects)) {
+                String generateToken = CommonUtil.generateToken();
+
+                // Update DB
+                String add = "";
+                boolean statusIn = dao.insertUpdateObject(
+                    SibConstants.SqlMapper.SQL_UPDATE_USER_CODE,
+                    new Object[] { generateToken, email });
+                if (statusIn) {
+
+                    // Get address web configuration DB
+                    readObjects = dao.readObjects(
+                        SibConstants.SqlMapper.SQL_GET_ADDRESS_WEB,
+                        new Object[] { SibConstants.DOMAIN });
+                    for (Object object : readObjects) {
+                        Map<String, String> mapObject = (HashMap<String, String>) object;
+                        add = mapObject.get(Parameters.VALUE_OF);
+                        break;
+                    }
+                }
+
+                // Send email
+                boolean isSendSuccess = true;
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("FORGOT", add + "forgotPassword?token=" + generateToken);
 
@@ -174,26 +182,30 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
                 notify.setVelocityEngine(velocityEngine);
                 notify
                     .sendHmtlTemplateEmail(email, env.getProperty("app.subject-email.forgot-password"), "MAIL_Notify_4.vm", map);
-            } catch (Exception e) {
-                logger.error(e);
-                isSendSuccess = false;
+
+                //
+                String msg = (isSendSuccess) ? "You password was successfully changed" : "System cannot send email";
+                simpleResponse = new SimpleResponse(
+                                                    "" + isSendSuccess,
+                                                    request.getRequest_data_type(),
+                                                    request.getRequest_data_method(),
+                                                    msg);
+            } else {
+                // Error email is not exist
+                simpleResponse = new SimpleResponse(
+                                                    SibConstants.FAILURE,
+                                                    request.getRequest_data_type(),
+                                                    request.getRequest_data_method(),
+                                                    email + " is not exits");
             }
-            //
-            String msg = (isSendSuccess) ? "You password was successfully changed" : "System cannot send email";
-            reponse = new SimpleResponse(
-                                         "" + isSendSuccess,
-                                         request.getRequest_data_type(),
-                                         request.getRequest_data_method(),
-                                         msg);
-        } else {
-            // Error email is not exist
-            reponse = new SimpleResponse(
-                                         "" + Boolean.FALSE,
-                                         request.getRequest_data_type(),
-                                         request.getRequest_data_method(),
-                                         email + " is not exits");
+        } catch (Exception e) {
+            logger.error(e);
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 }

@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.RequestData;
@@ -46,7 +47,7 @@ import com.siblinks.ws.util.SibConstants;
 import com.siblinks.ws.util.StringUtil;
 
 /**
- *
+ * {@link managerQAService}
  *
  * @author hungpd
  * @version 1.0
@@ -66,82 +67,74 @@ public class ManagerQAServiceImpl implements managerQAService {
     @Autowired
     private Environment environment;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.siblinks.ws.service.managerQAService#getListQuestionQA(com.siblinks.
-     * ws.model.RequestData)
+    /**
+     * {@inheritDoc}
      */
     @Override
     @RequestMapping(value = "/getListQuestionQA", method = RequestMethod.POST)
-    public ResponseEntity<Response> getListQuestionQA(
-            @RequestBody final RequestData request) {
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-        String subjectId = request.getRequest_data().getSubjectId();
-        String userId = request.getRequest_data().getUid();
-        String limit = request.getRequest_data().getLimit();
-        String offset = request.getRequest_data().getOffset();
-        String type = request.getRequest_data().getType();
-        String search = request.getRequest_data().getContent();
-        String whereCause = "";
-       
-        if(!StringUtil.isNull(search)){
-            search = StringEscapeUtils.escapeJava(search);
-            whereCause += " AND X.content like '%"+search+"%' ";
-        }
-        if (Parameters.UNANSWERED.equals(type)) {
-            whereCause += " AND X.numReplies = 0 ";
-        }
-        if (Parameters.ANSWERED.equals(type)) {
-            whereCause += " AND X.numReplies > 0 ";
-        }
+    public ResponseEntity<Response> getListQuestionQA(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+            String subjectId = request.getRequest_data().getSubjectId();
+            String userId = request.getRequest_data().getUid();
+            String limit = request.getRequest_data().getLimit();
+            String offset = request.getRequest_data().getOffset();
+            String type = request.getRequest_data().getType();
+            String search = request.getRequest_data().getContent();
+            String whereCause = "";
 
-        if (!StringUtil.isNull(subjectId) && !"-1".equals(subjectId)) {
-            whereCause += " AND X.subjectId = " + subjectId;
-        }
-        else {
-            whereCause += " AND FIND_IN_SET(X.subjectId , (SELECT defaultSubjectId FROM Sib_Users where userid = " +
-                          userId +
-                          " ))";
-        }
+            if (!StringUtil.isNull(search)) {
+                search = StringEscapeUtils.escapeJava(search);
+                whereCause += " AND X.content like '%" + search + "%' ";
+            }
+            if (Parameters.UNANSWERED.equals(type)) {
+                whereCause += " AND X.numReplies = 0 ";
+            }
+            if (Parameters.ANSWERED.equals(type)) {
+                whereCause += " AND X.numReplies > 0 ";
+            }
 
-        Object[] queryParams = { userId };
-        List<Object> readObject = null;
-        boolean status = true;
+            if (!StringUtil.isNull(subjectId) && !"-1".equals(subjectId)) {
+                whereCause += " AND X.subjectId = " + subjectId;
+            } else {
+                whereCause += " AND FIND_IN_SET(X.subjectId , (SELECT defaultSubjectId FROM Sib_Users where userid = " +
+                              userId +
+                              " ))";
+            }
 
-        whereCause += " ORDER BY X.datetime DESC ";
-        if (!StringUtil.isNull(limit)) {
-            whereCause += " LIMIT " + limit;
-        }
-        
-        if (!StringUtil.isNull(offset)) {
-            whereCause += " OFFSET " + offset;
-        }
+            Object[] queryParams = { userId };
+            boolean status = true;
 
-        readObject = dao.readObjectsWhereClause(
-            SibConstants.SqlMapper.SQL_GET_ALL_QUESTION_MENTOR_BY_SUBJ,
-            whereCause,
-            queryParams);
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request
-                                                        .getRequest_data_type(),
-                                                    request
-                                                        .getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                       reponse,
-                                                                       HttpStatus.OK);
+            whereCause += " ORDER BY X.datetime DESC ";
+            if (!StringUtil.isNull(limit)) {
+                whereCause += " LIMIT " + limit;
+            }
+
+            if (!StringUtil.isNull(offset)) {
+                whereCause += " OFFSET " + offset;
+            }
+
+            List<Object> readObject = dao.readObjectsWhereClause(
+                SibConstants.SqlMapper.SQL_GET_ALL_QUESTION_MENTOR_BY_SUBJ,
+                whereCause,
+                queryParams);
+            simpleResponse = new SimpleResponse(
+                                                "" + status,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject);
+        } catch (DAOException e) {
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
         return entity;
     }
 

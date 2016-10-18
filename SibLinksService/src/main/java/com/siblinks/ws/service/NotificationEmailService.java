@@ -22,6 +22,7 @@ package com.siblinks.ws.service;
 
 import org.springframework.http.ResponseEntity;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 
@@ -41,7 +42,7 @@ public interface NotificationEmailService {
      *            Parameter is user name that is email
      * @return Message alert for user sent to email
      */
-	public ResponseEntity<Response> contact(RequestData video);
+    public ResponseEntity<Response> contact(RequestData video) throws DAOException;
 
     /**
      * This method is update token in DB then send email for verify to new
@@ -51,5 +52,5 @@ public interface NotificationEmailService {
      *            Parameter is user name that is email
      * @return Message alert for user sent to email
      */
-    public ResponseEntity<Response> forgotPassword(RequestData request);
+    public ResponseEntity<Response> forgotPassword(RequestData request) throws DAOException;
 }

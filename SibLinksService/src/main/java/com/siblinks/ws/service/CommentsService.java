@@ -1,7 +1,5 @@
 package com.siblinks.ws.service;
 
-import java.io.IOException;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,13 +28,13 @@ public interface CommentsService {
 
 	public ResponseEntity<Response> deleteComment(RequestData request);
 
-	public ResponseEntity<Response> uploadFile(MultipartFile uploadfile) throws IOException;
+    public ResponseEntity<Response> uploadFile(MultipartFile uploadfile);
 	
-	public ResponseEntity<Response> uploadMultiFile(MultipartFile[] uploadfile) throws IOException;
+    public ResponseEntity<Response> uploadMultiFile(MultipartFile[] uploadfile);
 	
-	public ResponseEntity<byte[]> getImageComment(String name) throws IOException;
+    public ResponseEntity<byte[]> getImageComment(String name);
 	
-	public ResponseEntity<byte[]> getImageQuestion(String name) throws IOException;
+    public ResponseEntity<byte[]> getImageQuestion(String name);
 	
 	public ResponseEntity<Response> addCommentEssay(RequestData request);
 
