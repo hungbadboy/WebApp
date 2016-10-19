@@ -955,15 +955,15 @@ public class MentorServiceImpl implements MentorService {
                         whereClause,
                         null);
                     if (readObject != null && readObject.size() > 0) {
-                        new SimpleResponse("" + true, "mentor", "getNewestQuestions", readObject);
+                        simpleResponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", readObject);
                     } else {
-                        new SimpleResponse("" + true, "mentor", "getNewestQuestions", SibConstants.NO_DATA);
+                        simpleResponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", SibConstants.NO_DATA);
                     }
                 } else {
-                    new SimpleResponse("" + true, "mentor", "getNewestQuestions", SibConstants.NO_DATA);
+                    simpleResponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", SibConstants.NO_DATA);
                 }
             } else {
-                new SimpleResponse("" + true, "mentor", "getNewestQuestions", SibConstants.NO_DATA);
+                simpleResponse = new SimpleResponse("" + true, "mentor", "getNewestQuestions", SibConstants.NO_DATA);
             }
 
         } catch (DAOException e) {

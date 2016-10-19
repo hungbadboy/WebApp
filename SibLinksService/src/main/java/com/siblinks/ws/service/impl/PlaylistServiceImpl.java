@@ -103,9 +103,9 @@ public class PlaylistServiceImpl implements PlaylistService {
                     playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
                     dataReturn.add(playlistItem);
                 }
-                new SimpleResponse("" + true, "playlist", "getPlaylist", dataReturn);
+                simpleResponse = new SimpleResponse("" + true, "playlist", "getPlaylist", dataReturn);
             } else {
-                new SimpleResponse("" + true, "playlist", "getPlaylist", SibConstants.NO_DATA);
+                simpleResponse = new SimpleResponse("" + true, "playlist", "getPlaylist", SibConstants.NO_DATA);
             }
 
         } catch (DAOException e) {
