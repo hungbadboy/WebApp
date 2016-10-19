@@ -106,14 +106,18 @@ brotControllers.controller('VideoManagerController',
           loadVideos();
         }
       } else{
-        VideoService.getVideosBySubject(userId, $scope.subject, 0).then(function(data){
-          if(data.data.request_data_result != null && data.data.request_data_result != "Found no data"){
-            $scope.videos = formatData(data.data.request_data_result);
-          } else
-            $scope.videos = null;
-        });
+        getVideoBySubject();
       }
     };
+
+    function getVideoBySubject(){
+      VideoService.getVideosBySubject(userId, $scope.subject, 0).then(function(data){
+        if(data.data.request_data_result != null && data.data.request_data_result != "Found no data"){
+          $scope.videos = formatData(data.data.request_data_result);
+        } else
+          $scope.videos = null;
+      });
+    }
 
     $scope.checkAll = function(){
       var status = !$scope.selectedAll;
@@ -185,13 +189,15 @@ brotControllers.controller('VideoManagerController',
     $scope.search = function(){
       var keyword = $('input#srch-term').val();
       if (keyword != null && keyword.trim().length > 0) {
-        VideoService.searchVideosMentor(userId, keyword, 0).then(function(data){
+        VideoService.searchVideosMentor(userId, keyword, $scope.subject, 0).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.videos = formatData(data.data.request_data_result);
           } else{
             $scope.videos = null;
           }
         });
+      } else if(!keyword && $scope.subject > 0){
+        getVideoBySubject();
       } else{
         $scope.videos = cacheVideos;
       }
@@ -253,7 +259,7 @@ brotControllers.controller('VideoManagerController',
 
     $scope.onSelect = function (selected) {
       if (selected !== undefined) {
-        VideoService.searchVideosMentor(userId, selected.title, 0).then(function(data){
+        VideoService.searchVideosMentor(userId, selected.title, $scope.subject, 0).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.videos = formatData(data.data.request_data_result);
           }

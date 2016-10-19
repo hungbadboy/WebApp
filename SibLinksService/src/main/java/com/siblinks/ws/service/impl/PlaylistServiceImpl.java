@@ -288,12 +288,21 @@ public class PlaylistServiceImpl implements PlaylistService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/searchPlaylist", method = RequestMethod.GET)
-    public ResponseEntity<Response> searchPlaylist(@RequestParam final long uid, @RequestParam final String keyword,
-            @RequestParam final int offset) throws Exception {
-        Object[] queryParams = { uid };
-        String entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST;
-        String term = StringEscapeUtils.escapeJava(keyword);
+    @RequestMapping(value = "/searchPlaylist", method = RequestMethod.POST)
+    public ResponseEntity<Response> searchPlaylist(@RequestBody final RequestData request) throws Exception {
+        Object[] queryParams = null;
+        String entityName = "";
+        String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch());
+        int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request.getRequest_data().getSubjectId()) : 0;
+        int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
+
+        if (subjectId == 0) {
+            queryParams = new Object[] { request.getRequest_data().getUid() };
+            entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST;
+        } else {
+            queryParams = new Object[] { request.getRequest_data().getUid(), subjectId };
+            entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST_WITH_SUBJECT;
+        }
         String whereClause = String.format(
             "and (p.name like '%%%s%%' or p.description like '%%%s%%') order by p.CreateDate DESC limit 10 offset %d",
             term,
@@ -453,10 +462,10 @@ public class PlaylistServiceImpl implements PlaylistService {
      */
     @Override
     @RequestMapping(value = "/getAllPlaylist", method = RequestMethod.GET)
-    public ResponseEntity<Response> getAllPlaylist() {
+    public ResponseEntity<Response> getAllPlaylist(final long uid) {
         SimpleResponse reponse = null;
         try {
-            List<Object> readObjects = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_ALL_PLAYLIST, new Object[] {});
+            List<Object> readObjects = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_ALL_PLAYLIST, new Object[] { uid });
             if (readObjects != null && readObjects.size() > 0) {
                 reponse = new SimpleResponse(true + "", "playlist", "getAllPlaylist", readObjects);
             } else {

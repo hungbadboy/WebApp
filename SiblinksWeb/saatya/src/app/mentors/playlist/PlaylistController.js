@@ -68,7 +68,7 @@ brotControllers.controller('PlaylistController',
     }
 
     function getAllPlaylist(){
-      PlaylistService.getAllPlaylist().then(function(data){
+      PlaylistService.getAllPlaylist(userId).then(function(data){
         var result = data.data.request_data_result;
         if (result && result != "Found no data") {
           $scope.listAllPlaylist = result;
@@ -246,18 +246,22 @@ brotControllers.controller('PlaylistController',
           loadPlaylist();
         }
       }else{
-        PlaylistService.getPlaylistBySubject(userId, $scope.subject, 0).then(function(data){
-          if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-             $scope.playlist = parseData(data.data.request_data_result);   
-          } else
-            $scope.playlist = null;
-        });
+        getPlaylistBySubject();
       }      
+    }
+
+    function getPlaylistBySubject(){
+      PlaylistService.getPlaylistBySubject(userId, $scope.subject, 0).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+           $scope.playlist = parseData(data.data.request_data_result);   
+        } else
+          $scope.playlist = null;
+      });
     }
 
     $scope.onSelect = function(selected){
       if (selected !== undefined) {
-        PlaylistService.searchPlaylist(userId, selected.title, 0).then(function(data){
+        PlaylistService.searchPlaylist(userId, selected.title, $scope.subject, 0).then(function(data){
           var result = data.data.request_data_result;
           if (result && result != "Found no data") {
             $scope.playlist = parseData(result);
@@ -270,13 +274,15 @@ brotControllers.controller('PlaylistController',
     $scope.search = function(){
       var keyword = $('input#srch-term').val();
       if (keyword && keyword.trim().length > 0) {
-        PlaylistService.searchPlaylist(userId, keyword, 0).then(function(data){
+        PlaylistService.searchPlaylist(userId, keyword, $scope.subject, 0).then(function(data){
           var result = data.data.request_data_result;
           if (result && result != "Found no data") {
             $scope.playlist = parseData(result);
           } else
             $scope.playlist = null;
         });
+      } else if(!keyword && $scope.subject > 0){
+        getPlaylistBySubject();
       } else{
         $scope.playlist = angular.copy(cachePlaylist);
       }

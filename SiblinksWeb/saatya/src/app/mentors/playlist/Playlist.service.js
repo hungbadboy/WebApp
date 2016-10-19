@@ -136,18 +136,28 @@ brotServices.factory('PlaylistService', [ '$http', function($http) {
       return promise;
     }
 
-    factory.getAllPlaylist = function(){
+    factory.getAllPlaylist = function(uid){
       var promise = $http({
           method: 'GET',
-          url: NEW_SERVICE_URL + 'playlist/getAllPlaylist'
+          url: NEW_SERVICE_URL + 'playlist/getAllPlaylist?uid='+uid+''
       });
       return promise;
     }
 
-    factory.searchPlaylist = function(uid, keyword, offset){
+    factory.searchPlaylist = function(uid, keyword, subjectId, offset){
       var promise = $http({
-          method: 'GET',
-          url: NEW_SERVICE_URL + 'playlist/searchPlaylist?uid='+uid+'&keyword='+keyword+'&offset='+offset+''
+          method: 'POST',
+          url: NEW_SERVICE_URL + 'playlist/searchPlaylist',
+          data:{
+              "request_data_type": "playlist",
+              "request_data_method": "searchPlaylist",
+              "request_data":{
+                  "uid": uid,
+                  "keySearch": keyword,
+                  "subjectId": subjectId,
+                  "offset": offset
+              }
+          }
       });
       return promise;
     }

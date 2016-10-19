@@ -546,7 +546,7 @@ brotServices.factory('VideoService', ['$http', function ($http) {
     //     });
     // }
 
-    factory.searchVideosMentor = function(uid, keyword, offset){
+    factory.searchVideosMentor = function(uid, keyword, subjectId, offset){
         return $http({
           method: 'POST',
           url: NEW_SERVICE_URL + 'video/searchVideos',
@@ -556,7 +556,8 @@ brotServices.factory('VideoService', ['$http', function ($http) {
               "request_data":{
                 "uid": uid,
                 "keySearch": keyword,
-                "offset": offset  
+                "offset": offset,
+                "subjectId": subjectId
               }            
             }
         });
