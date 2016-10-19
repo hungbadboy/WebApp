@@ -78,7 +78,7 @@ brotControllers.controller('VideoManagerController',
       var oldArr = $scope.videos;
       var newArr = [];
       if ($scope.subject == 0) {
-        VideoService.getVideos(userId, offset + 10).then(function(data){        
+        VideoService.getVideos(userId, offset).then(function(data){        
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             newArr = formatData(data.data.request_data_result);
             $scope.videos = oldArr.concat(newArr);
@@ -301,8 +301,10 @@ brotControllers.controller('VideoManagerController',
       if (index != -1) {
           $scope.videos[index].title = a.title;
           $scope.videos[index].description = a.description;
-          $scope.videos[index].plid = a.plid;
-          $scope.videos[index].playlistname = a.playlistname;
+          if (a.plid && plid > 0){
+            $scope.videos[index].plid = a.plid;
+            $scope.videos[index].playlistname = a.name;
+          }
           $scope.videos[index].subjectId = a.subjectId;
       }
     });
@@ -310,8 +312,10 @@ brotControllers.controller('VideoManagerController',
     $scope.$on('addPlaylistVideo', function(e,a){
       var index = getIndex(a.vid);
       if (index != -1) {
-        $scope.videos[index].plid = a.plid;
-        $scope.videos[index].playlistname = a.name;
+        if (a.plid && plid > 0){
+          $scope.videos[index].plid = a.plid;
+          $scope.videos[index].playlistname = a.name;
+        }
       }
     });
     $scope.$on('addPlaylist', function(){

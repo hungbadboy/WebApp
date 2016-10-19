@@ -26,10 +26,13 @@ brotControllers.controller('UploadTutorialController',
     }
 
     function getVideoDetail(){
+      $rootScope.$broadcast('open');
       VideoService.getVideoById(v_id, u_id).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-          displayEdit(data.data.request_data_result);
+        var result = data.data.request_data_result;
+        if (result  && result != "Found no data") {
+          displayEdit(result);
         }
+        $rootScope.$broadcast('close');
       });
     }
 

@@ -48,45 +48,89 @@
                                         <div class="text-play">Subject</div>
                                         <div class="text-ac">Action</div>
                                     </div>
-                                    <div class="group-item" ng-show="videos" scroller="datasScrl" data-on-total-scroll="loadMoreVideoInPLaylist">
-                                        <div class="item" ng-repeat="v in videos track by $index">
-                                            <div class="check-box"><input type="checkbox" ng-model="v.selected" class="check-input" name="checkall"/></div>
-                                            <div class="box-detail-play clearfix">
-                                            <a href="" ng-click="goToDetail(v)">
-                                                <span class="item-thumbnail">
-                                                    <img class="item-fix-size" src="{{v.image}}" alt="">
-                                                </span></a>
-                                                <div class="detail-pl-inner">
-                                                    <a href="" ng-click="goToDetail(v)"><h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
-                                                    <span class="add-time">added {{v.timeStamp}} ago</span>
-                                                    <ul class="list-star">
-                                                        <div  class="pull-left" star-rating stars="5"
-                                                              outer-star-selection="stars"
-                                                              readonly="true"
-                                                              outer-percent="rating"
-                                                              rating-define="star"
-                                                              rating-stars="{{v.averageRating}}"
-                                                              star-radius="7" sel-color="gold"
-                                                              back-color="white"></div>
-                                                    </ul></br>
-                                                    <p class="list-view">
-                                                        <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
-                                                        <!-- <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp; -->
-                                                        <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
-                                                    </p>
+                                    <div class="group-item" >
+                                        <div ng-show="videos.length <= 3">
+                                            <div class="item" ng-repeat="v in videos track by $index">
+                                                <div class="check-box"><input type="checkbox" ng-model="v.selected" class="check-input" name="checkall"/></div>
+                                                <div class="box-detail-play clearfix">
+                                                <a href="" ng-click="goToDetail(v)">
+                                                    <span class="item-thumbnail">
+                                                        <img class="item-fix-size" src="{{v.image}}" alt="">
+                                                    </span></a>
+                                                    <div class="detail-pl-inner">
+                                                        <a href="" ng-click="goToDetail(v)"><h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
+                                                        <span class="add-time">added {{v.timeStamp}} ago</span>
+                                                        <ul class="list-star">
+                                                            <div  class="pull-left" star-rating stars="5"
+                                                                  outer-star-selection="stars"
+                                                                  readonly="true"
+                                                                  outer-percent="rating"
+                                                                  rating-define="star"
+                                                                  rating-stars="{{v.averageRating}}"
+                                                                  star-radius="7" sel-color="gold"
+                                                                  back-color="white"></div>
+                                                        </ul></br>
+                                                        <p class="list-view">
+                                                            <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
+                                                            <!-- <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp; -->
+                                                            <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <p class="box-description pre-wap">
+                                                    {{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}
+                                                </p>
+                                                <p class="box-playlist">
+                                                    {{v.subject}}
+                                                </p>
+                                                <div class="box-ac">
+                                                    <ul class="list-ac">
+                                                        <li><a href="" ng-click="openEdit(v.vid)">Edit</a></li>
+                                                        <li><a href="" ng-really-message="Are you sure you want to remove video from playlist?" ng-really-click ="delete(v.vid)">Remove</a></li>
+                                                    </ul>
                                                 </div>
                                             </div>
-                                            <p class="box-description pre-wap">
-                                                {{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}
-                                            </p>
-                                            <p class="box-playlist">
-                                                {{v.subject}}
-                                            </p>
-                                            <div class="box-ac">
-                                                <ul class="list-ac">
-                                                    <li><a href="" ng-click="openEdit(v.vid)">Edit</a></li>
-                                                    <li><a href="" ng-really-message="Are you sure you want to remove video from playlist?" ng-really-click ="delete(v.vid)">Remove</a></li>
-                                                </ul>
+                                        </div>
+                                        <div ng-show="videos.length > 3" scroller="datasScrl" data-on-total-scroll="loadMoreVideoInPLaylist">
+                                            <div class="item" ng-repeat="v in videos track by $index">
+                                                <div class="check-box"><input type="checkbox" ng-model="v.selected" class="check-input" name="checkall"/></div>
+                                                <div class="box-detail-play clearfix">
+                                                <a href="" ng-click="goToDetail(v)">
+                                                    <span class="item-thumbnail">
+                                                        <img class="item-fix-size" src="{{v.image}}" alt="">
+                                                    </span></a>
+                                                    <div class="detail-pl-inner">
+                                                        <a href="" ng-click="goToDetail(v)"><h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
+                                                        <span class="add-time">added {{v.timeStamp}} ago</span>
+                                                        <ul class="list-star">
+                                                            <div  class="pull-left" star-rating stars="5"
+                                                                  outer-star-selection="stars"
+                                                                  readonly="true"
+                                                                  outer-percent="rating"
+                                                                  rating-define="star"
+                                                                  rating-stars="{{v.averageRating}}"
+                                                                  star-radius="7" sel-color="gold"
+                                                                  back-color="white"></div>
+                                                        </ul></br>
+                                                        <p class="list-view">
+                                                            <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
+                                                            <!-- <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp; -->
+                                                            <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <p class="box-description pre-wap">
+                                                    {{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}
+                                                </p>
+                                                <p class="box-playlist">
+                                                    {{v.subject}}
+                                                </p>
+                                                <div class="box-ac">
+                                                    <ul class="list-ac">
+                                                        <li><a href="" ng-click="openEdit(v.vid)">Edit</a></li>
+                                                        <li><a href="" ng-really-message="Are you sure you want to remove video from playlist?" ng-really-click ="delete(v.vid)">Remove</a></li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
