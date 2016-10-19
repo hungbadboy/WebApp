@@ -1134,9 +1134,9 @@ public class VideoServiceImpl implements VideoService {
             // List<Object> readObject1 = null;
             List<Object> readObject = dao.readObjects(entityName, queryParams);
             if (!CollectionUtils.isEmpty(readObject)) {
-                new SimpleResponse(SibConstants.SUCCESS, "videos", "getVideos", readObject);
+                response = new SimpleResponse(SibConstants.SUCCESS, "videos", "getVideos", readObject);
             } else {
-                new SimpleResponse(SibConstants.SUCCESS, "videos", "getVideos", SibConstants.NO_DATA);
+                response = new SimpleResponse(SibConstants.SUCCESS, "videos", "getVideos", SibConstants.NO_DATA);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());

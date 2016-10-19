@@ -51,8 +51,9 @@ brotControllers.controller('VideoManagerController',
 
     function loadVideos(){
       VideoService.getVideos(userId, 0).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-          $scope.videos = formatData(data.data.request_data_result);
+        var result = data.data.request_data_result;
+        if (result && result != "Found no data") {
+          $scope.videos = formatData(result);
           cacheVideos = $scope.videos.slice(0);
         } else
           $scope.videos = null;
