@@ -171,23 +171,30 @@ public class CommentServiceImpl implements CommentsService {
             }
             TransactionDefinition def = new DefaultTransactionDefinition();
             statusDB = transactionManager.getTransaction(def);
+            // Get request data
             String content = request.getRequest_data().getContent().replace("'", "\\\\'");
             content = content.replace("(", "\\\\(");
             content = content.replace(")", "\\\\)");
             String userName = request.getRequest_data().getAuthor();
-            Object[] queryParams = { userName, request.getRequest_data().getAuthorID(), content };
-            String vid = request.getRequest_data().getVid();
+            String authorId = request.getRequest_data().getAuthorID();
             boolean status = true;
             int cid = 0;
+            // insert comment table
+            Object[] queryParams = { userName, authorId, content };
             long idComent = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
             if (idComent > 0) {
-                Object[] queryParamsIns2 = { idComent, request.getRequest_data().getVid() };
+                // Insert comment video table
+                String vid = request.getRequest_data().getVid();
+                Object[] queryParamsIns2 = { idComent, vid };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_COMMENT, queryParamsIns2);
-                Object[] queryParamsIns3 = { vid, request.getRequest_data().getAuthorID(), "commentVideo", "New comment of video", vid, vid, request
-                    .getRequest_data()
-                    .getVid() };
-                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
+
+                // Insert notification table
+                String userId = request.getRequest_data().getUid();
+                String subjectId = request.getRequest_data().getSubjectId();
+                Object[] queryParamsIns3 = { userId, authorId, "commentVideo", "New comment of video", content, subjectId, vid };
+                status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
             }
+
             transactionManager.commit(statusDB);
 
             simpleResponse = new SimpleResponse(
