@@ -34,13 +34,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.model.SibUser;
 import com.siblinks.ws.model.SibUserDetails;
 import com.siblinks.ws.util.Parameters;
 
 /**
- *
+ * {@link UserDetailsService}
+ * 
  * @author hungpd
  *
  */
@@ -52,48 +54,63 @@ public class SibUserDetailServiceImp implements UserDetailsService {
     @Autowired
     private ObjectDao dao;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		LOGGER.debug("Authenticating user with username = {}", username.replaceFirst("@.*", "@.***"));
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        LOGGER.debug("Authenticating user with username = {}", username.replaceFirst("@.*", "@.***"));
+        SibUser user = null;
+        try {
+            username = username.replace("'", " ");
+            Object[] queryParams = { username };
 
+            List<Object> readObject = dao.readObjects(Parameters.GET_USER_BY_USERNAME, queryParams);
 
-		username = username.replace("'", " ");
-		Object[] queryParams = {username};
+            if (CollectionUtils.isEmpty(readObject)) {
+                throw new UsernameNotFoundException(username);
+            }
 
-		List<Object> readObject = dao.readObjects(Parameters.GET_USER_BY_USERNAME, queryParams);
-
-		if (CollectionUtils.isEmpty(readObject)) {
-            throw new UsernameNotFoundException(username);
+            Map<String, Object> userMap = (Map<String, Object>) readObject.get(0);
+            List<GrantedAuthority> authorities = getAuthorities((String) userMap.get(Parameters.USER_TYPE));
+            user = new SibUser();
+            user.setUsername(username);
+            user.setUserid(userMap.get(Parameters.USER_ID) + "");
+            user.setPassword((String) userMap.get(Parameters.PASSWORD));
+            user.setFirstname((String) userMap.get(Parameters.FIRST_NAME));
+            user.setLastname((String) userMap.get(Parameters.LAST_NAME));
+            user.setUserType((String) userMap.get(Parameters.USER_TYPE));
+            user.setImageUrl((String) userMap.get(Parameters.IMAGE_URL));
+            user.setDefaultSubjectId((String) userMap.get(Parameters.DEFAULT_SUBJECT_ID));
+            user.setEmail((String) userMap.get(Parameters.EMAIL));
+            user.setActiveFlag((String) userMap.get(Parameters.ENABLE_FLAG));
+            user.setBirthDay((Long) userMap.get(Parameters.BOD));
+            return new SibUserDetails(user, authorities);
+        } catch (DAOException e) {
+            throw new UsernameNotFoundException(e.getMessage());
         }
+    }
 
-		Map<String, Object> userMap =(Map<String, Object>)readObject.get(0);
-        List<GrantedAuthority> authorities = getAuthorities((String) userMap.get(Parameters.USER_TYPE));
-		SibUser user = new SibUser();
-		user.setUsername(username);
-        user.setUserid(userMap.get(Parameters.USER_ID) + "");
-		user.setPassword((String) userMap.get(Parameters.PASSWORD));
-		user.setFirstname((String) userMap.get(Parameters.FIRST_NAME));
-		user.setLastname((String) userMap.get(Parameters.LAST_NAME));
-		user.setUserType((String) userMap.get(Parameters.USER_TYPE));
-        user.setImageUrl((String) userMap.get(Parameters.IMAGE_URL));
-        user.setDefaultSubjectId((String) userMap.get(Parameters.DEFAULT_SUBJECT_ID));
-		return new SibUserDetails(user, authorities);
-	}
-
-	private List<GrantedAuthority> getAuthorities(final String role) {
+    /**
+     * This method get roles
+     * 
+     * @param role
+     * @return
+     */
+    private List<GrantedAuthority> getAuthorities(final String role) {
         List<GrantedAuthority> authList = new ArrayList<>();
         if (role != null && role.trim().length() > 0) {
             if ("A".equals(role)) {
-        		authList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                authList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
             } else if ("M".equals(role)) {
                 authList.add(new SimpleGrantedAuthority("ROLE_MENTOR"));
             } else if ("S".equals(role)) {
-        	    authList.add(new SimpleGrantedAuthority("ROLE_STUDENT"));
+                authList.add(new SimpleGrantedAuthority("ROLE_STUDENT"));
             } else {
                 authList.add(new SimpleGrantedAuthority("ROLE_GUEST"));
             }
         }
         return authList;
-	}
+    }
 }

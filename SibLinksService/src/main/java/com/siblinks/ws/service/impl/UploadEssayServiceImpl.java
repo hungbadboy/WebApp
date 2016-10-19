@@ -34,6 +34,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,6 +56,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.Download;
@@ -69,7 +71,7 @@ import com.siblinks.ws.util.SibConstants;
 import com.siblinks.ws.util.StringUtil;
 
 /**
- *
+ * {@link UploadEssayService}
  *
  * @author hungpd
  * @version 1.0
@@ -93,10 +95,17 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     @Autowired
     private PlatformTransactionManager transactionManager;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public void download(@RequestParam("essayId") final String essayId, final String type, final HttpServletRequest request, final HttpServletResponse response) {
+    public void download(@RequestParam("essayId") final String essayId, final String type, final HttpServletRequest request,
+            final HttpServletResponse response) {
 
+        // get output stream of the response
+        OutputStream outStream = null;
+        InputStream inputStream = null;
         try {
             String entityName = "";
             if (type.equals("S")) {
@@ -122,102 +131,113 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             String headerKey = "Content-Disposition";
             String headerValue = String.format("attachment; filename=\"%s\"", file.getFileName());
             response.setHeader(headerKey, headerValue);
+            outStream = response.getOutputStream();
 
-            // get output stream of the response
-            OutputStream outStream = null;
-            try {
-                outStream = response.getOutputStream();
-            } catch (IOException e) {
-                logger.error(e);
-            }
             byte[] buffer = new byte[BUFFER_SIZE];
             int bytesRead = -1;
-            InputStream inputStream = file.getInputStream();
+            inputStream = file.getInputStream();
             // write bytes read from the input stream into the output stream
-            try {
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outStream.write(buffer, 0, bytesRead);
-                }
-            } catch (IOException e) {
-                logger.error(e);
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outStream.write(buffer, 0, bytesRead);
             }
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                logger.error(e);
-            }
-            try {
-                outStream.close();
-            } catch (IOException e) {
-                logger.error(e);
-            }
+
         } catch (Exception e) {
             logger.error(e);
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outStream != null) {
+                    outStream.close();
+                }
+            } catch (IOException e) {
+                // Do nothing
+            }
         }
+
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
     @Override
     @RequestMapping(value = "/getEssayByUserId", method = RequestMethod.POST)
-    public ResponseEntity<Response> getEssayByUserId(@RequestBody final RequestData request) throws FileNotFoundException {
+    public ResponseEntity<Response> getEssayByUserId(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            CommonUtil util = CommonUtil.getInstance();
 
-        CommonUtil util = CommonUtil.getInstance();
+            Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
 
-        Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
+            Object[] queryParams = { request.getRequest_data().getUid(), map.get(Parameters.FROM), map.get(Parameters.TO) };
 
-        Object[] queryParams = { request.getRequest_data().getUid(), map.get(Parameters.FROM), map.get(Parameters.TO) };
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ESAY, queryParams);
+            if (readObject != null) {
+                Map dataMap = null;
 
-        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ESAY, queryParams);
-        if (readObject != null) {
-            Map dataMap = null;
+                String directory = env.getProperty("directoryDowloadEssay");
+                for (Object obj : readObject) {
+                    dataMap = (Map) obj;
 
-            String directory = env.getProperty("directoryDowloadEssay");
-            for (Object obj : readObject) {
-                dataMap = (Map) obj;
-
-                String status = dataMap.get("status").toString();
-                String uploadEssayId = dataMap.get("uploadEssayId").toString();
-                String uid = request.getRequest_data().getUid();
-                dataMap
-                    .put("downloadYourEssay", directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=" + status);
-                if (!"W".equalsIgnoreCase(status)) {
-                    dataMap.put(
-                        "downloadYourReview",
-                        directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=" + status);
-                } else {
-                    dataMap.put("downloadYourReview", "");
+                    String status = dataMap.get("status").toString();
+                    String uploadEssayId = dataMap.get("uploadEssayId").toString();
+                    String uid = request.getRequest_data().getUid();
+                    dataMap.put("downloadYourEssay", directory +
+                                                     "?userId=" +
+                                                     uid +
+                                                     "&essayId=" +
+                                                     uploadEssayId +
+                                                     "&status=" +
+                                                     status);
+                    if (!"W".equalsIgnoreCase(status)) {
+                        dataMap.put("downloadYourReview", directory +
+                                                          "?userId=" +
+                                                          uid +
+                                                          "&essayId=" +
+                                                          uploadEssayId +
+                                                          "&status=" +
+                                                          status);
+                    } else {
+                        dataMap.put("downloadYourReview", "");
+                    }
                 }
             }
-        }
 
-        String count = null;
-        if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
-            count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ESAY_COUNT, queryParams);
-        }
+            String count = null;
+            if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
+                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ESAY_COUNT, queryParams);
+            }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+            simpleResponse = new SimpleResponse(
+                                                "" + true,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject,
+                                                count);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
+        }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ResponseEntity<Response> upload(@RequestParam("name") final String name, @RequestParam("userId") final String userId,
-            @RequestParam("userType") final String userType, @RequestParam("file") final MultipartFile file)
-            throws FileNotFoundException {
-
+            @RequestParam("userType") final String userType, @RequestParam("file") final MultipartFile file) {
+        SimpleResponse simpleResponse = null;
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" + Boolean.FALSE,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+            return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
         }
 
         String statusMessage = null;
@@ -260,27 +280,23 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             statusMessage = "You failed to upload " + name + " because the file was empty.";
         }
 
-        SimpleResponse reponse = new SimpleResponse("" + status, "essay", "upload", statusMessage);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        simpleResponse = new SimpleResponse("" + status, "essay", "upload", statusMessage);
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/uploadEssayStudent", method = RequestMethod.POST)
     public ResponseEntity<Response> uploadEssayStudent(@RequestParam("desc") final String desc,
             @RequestParam("userId") final String userId, @RequestParam("fileName") final String fileName,
             @RequestParam("title") final String title, @RequestParam("schoolId") final String schoolId,
-            @RequestParam("majorId") final String majorId, @RequestParam("file") final MultipartFile file)
-            throws FileNotFoundException {
-
+            @RequestParam("majorId") final String majorId, @RequestParam("file") final MultipartFile file) {
+        SimpleResponse simpleResponse = null;
         if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              Boolean.FALSE,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+            return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
         }
 
         String statusMessage = "";
@@ -288,135 +304,165 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         statusMessage = validateEssay(file);
         if (!file.isEmpty() && StringUtil.isNull(statusMessage)) {
 
-            /// ResponseEntity<Response> msg = uploadFile(file);
-
-            // String urlFile = (String) msg.getBody().getRequest_data_result();
-            // if (msg.getBody().getStatus() == "true") {
-                try {
-                    boolean msgs = true;
+            try {
+                boolean msgs = true;
                 Object[] queryParams = { userId, file.getInputStream(), desc, file.getContentType(), fileName, title, file
                     .getSize(), schoolId, majorId };
-                    msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_STUDENT_UPLOAD_ESSAY, queryParams);
-                    if (msgs) {
-                        statusMessage = "Done";
-                    } else {
-                        status = false;
-                        statusMessage = "You failed to upload ";
-                    }
-
-                } catch (Exception e) {
+                msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_STUDENT_UPLOAD_ESSAY, queryParams);
+                if (msgs) {
+                    statusMessage = "Done";
+                } else {
                     status = false;
-                    statusMessage = "You failed to upload " + file.getOriginalFilename() + " => " + e.getMessage();
+                    statusMessage = "You failed to upload ";
                 }
-            } else {
-                status = false;
-            // statusMessage = (String) msg.getBody().getRequest_data_result();
-            }
-        // } else {
-        // status = false;
-        // statusMessage = "You failed to upload " + file.getOriginalFilename()
-        // + " because the file was empty.";
-        // }
 
-        SimpleResponse reponse = new SimpleResponse("" + status, "essay", "upload", statusMessage);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+            } catch (Exception e) {
+                status = false;
+                statusMessage = "You failed to upload " + file.getOriginalFilename() + " => " + e.getMessage();
+            }
+        } else {
+            status = false;
+        }
+
+        simpleResponse = new SimpleResponse("" + status, "essay", "upload", statusMessage);
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/postDiscussion", method = RequestMethod.POST)
     public ResponseEntity<Response> postDiscussion(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            String msg = request.getRequest_data().getMessage();
+            ;
+            // msg = msg.replace("(", "\\(");
+            // msg = msg.replace(")", "\\)");
+            Object[] queryParams = { request.getRequest_data().getUid(), msg };
 
-        String message = null;
-        String msg = request.getRequest_data().getMessage();
-        ;
-        // msg = msg.replace("(", "\\(");
-        // msg = msg.replace(")", "\\)");
-        Object[] queryParams = { request.getRequest_data().getUid(), msg };
+            boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_POST_DISCUSSION, queryParams);
+            String message = null;
+            if (status) {
+                message = "Done";
+            } else {
+                message = "Fail";
+            }
 
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_POST_DISCUSSION, queryParams);
-        if (status) {
-            message = "Done";
-        } else {
-            message = "Fail";
+            simpleResponse = new SimpleResponse(
+                                                "" + status,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                message);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
         }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    message);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getDiscussion", method = RequestMethod.POST)
     public ResponseEntity<Response> getDiscussion(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            String entityName = null;
 
-        String entityName = null;
+            CommonUtil util = CommonUtil.getInstance();
 
-        CommonUtil util = CommonUtil.getInstance();
+            Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
 
-        Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
+            Object[] queryParams = { request.getRequest_data().getUid(), map.get("from"), map.get("to") };
 
-        Object[] queryParams = { request.getRequest_data().getUid(), map.get("from"), map.get("to") };
+            entityName = SibConstants.SqlMapper.SQL_GET_DISCUSSION;
 
-        entityName = SibConstants.SqlMapper.SQL_GET_DISCUSSION;
+            List<Object> readObject = null;
+            readObject = dao.readObjects(entityName, queryParams);
 
-        List<Object> readObject = null;
-        readObject = dao.readObjects(entityName, queryParams);
+            String count = null;
+            if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
+                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_DISCUSSION, queryParams);
+            }
 
-        String count = null;
-        if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
-            count = dao.getCount(SibConstants.SqlMapper.SQL_GET_DISCUSSION, queryParams);
+            simpleResponse = new SimpleResponse(
+                                                "" + true,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject,
+                                                count);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
         }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/removeEssay", method = RequestMethod.POST)
     public ResponseEntity<Response> removeEssay(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            Object[] queryParams = { request.getRequest_data().getEssayId() };
 
-        Object[] queryParams = { request.getRequest_data().getEssayId() };
+            List<Object> readObject = null;
+            readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_URL_FILE_ESSAY, queryParams);
 
-        List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_URL_FILE_ESSAY, queryParams);
+            File file = new File((String) ((Map) readObject.get(0)).get("urlFile"));
 
-        File file = new File((String) ((Map) readObject.get(0)).get("urlFile"));
+            boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_REMOVE_ESAY, queryParams);
 
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_REMOVE_ESAY, queryParams);
+            String message = null;
+            if (status) {
+                file.delete();
+                message = "Done";
+            } else {
+                message = "Fail";
+            }
 
-        String message = null;
-        if (status) {
-            file.delete();
-            message = "Done";
-        } else {
-            message = "Fail";
+            simpleResponse = new SimpleResponse(
+                                                "" + status,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                message);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
         }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    message);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
-    public ResponseEntity<Response> uploadFile(final MultipartFile uploadfile) throws FileNotFoundException {
+    /**
+     * 
+     * @param uploadfile
+     * @return
+     * @throws FileNotFoundException
+     */
+    private ResponseEntity<Response> uploadFile(final MultipartFile uploadfile) {
 
-        String filename;
-        String name;
-        String filepath;
+        String filename = "";
+        String name = "";
+        String filepath = "";
+        SimpleResponse simpleResponse = null;
+        BufferedOutputStream stream = null;
         String directory = env.getProperty("directoryUploadEssay");
         String review = env.getProperty("directoryReviewUploadEssay");
         String sample = ".doc .docx .pdf .xls .xlsx";
@@ -426,9 +472,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         name = name.substring(index, name.length());
         boolean status = sample.contains(name.toLowerCase());
         if (directory != null && status) {
+            RandomString randomName = new RandomString();
+            String rdn = randomName.random();
             try {
-                RandomString randomName = new RandomString();
-                String rdn = randomName.random();
                 filename = rdn + name;
                 filepath = Paths.get(directory, filename).toString();
                 // Save the file locally
@@ -438,217 +484,262 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 if (!parentDir.exists()) {
                     parentDir.mkdirs();
                 }
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+                stream = new BufferedOutputStream(new FileOutputStream(file));
                 stream.write(uploadfile.getBytes());
-                stream.close();
 
-                params[0] = "-size";
-                params[1] = "160x120";
-                params[2] = filepath;
-                params[3] = review + rdn;
-                // Thumbnailer thumb = new Thumbnailer();
-                // thumb.CaptureImage(params);
-                // total = filepath + " " + params[3];
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (stream != null) {
+                        stream.close();
+                    }
+                } catch (IOException e) {
+                    // Do nothing
+                }
             }
 
-            catch (Exception e) {
-                logger.error(e.getMessage());
-                new SimpleResponse("" + false, "Fail");
-                return new ResponseEntity<Response>(HttpStatus.BAD_REQUEST);
-            }
-
-            SimpleResponse reponse = new SimpleResponse("" + true, filepath);
-            return new ResponseEntity<Response>(reponse, HttpStatus.OK);
+            params[0] = "-size";
+            params[1] = "160x120";
+            params[2] = filepath;
+            params[3] = review + rdn;
+            // Thumbnailer thumb = new Thumbnailer();
+            // thumb.CaptureImage(params);
+            // total = filepath + " " + params[3];
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, filepath);
         } else {
-            SimpleResponse reponse = new SimpleResponse(
-                                                        "" + false,
-                                                        "Your file couldn't be uploaded. File should be saved as doc, docx, xls, xlsx or pdf files.");
-            return new ResponseEntity<Response>(reponse, HttpStatus.OK);
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                "Your file couldn't be uploaded. File should be saved as doc, docx, xls, xlsx or pdf files.");
         }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getEssaybByStudentId", method = RequestMethod.POST)
-    public ResponseEntity<Response> getEssaybByStudentId(@RequestBody final RequestData request) throws FileNotFoundException {
+    public ResponseEntity<Response> getEssaybByStudentId(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            String limit = request.getRequest_data().getLimit();
+            String offset = request.getRequest_data().getOffset();
+            Object[] queryParams = { request.getRequest_data().getUid() };
+            String whereClause = "";
+            if (!StringUtil.isNull(limit)) {
+                whereClause += " LIMIT " + limit;
+            }
+            if (!StringUtil.isNull(offset)) {
+                whereClause += " OFFSET " + offset;
+            }
+            List<Object> readObject = null;
+            readObject = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT, whereClause, queryParams);
+            if (readObject != null) {
+                Map<String, Object> dataMap = null;
+                String directory = env.getProperty("directoryDowloadEssay");
+                for (Object obj : readObject) {
+                    dataMap = (Map) obj;
 
-        String limit = request.getRequest_data().getLimit();
-        String offset = request.getRequest_data().getOffset();
-        Object[] queryParams = { request.getRequest_data().getUid() };
-        String whereClause = "";
-        if (!StringUtil.isNull(limit)) {
-            whereClause += " LIMIT " + limit;
-        }
-        if (!StringUtil.isNull(offset)) {
-            whereClause += " OFFSET " + offset;
-        }
-        List<Object> readObject = null;
-        readObject = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT, whereClause, queryParams);
-        if (readObject != null) {
-            Map<String, Object> dataMap = null;
-            String directory = env.getProperty("directoryDowloadEssay");
-            for (Object obj : readObject) {
-                dataMap = (Map) obj;
-
-                String status = dataMap.get("status").toString();
-                String uploadEssayId = dataMap.get("uploadEssayId").toString();
-                String uid = request.getRequest_data().getUid();
-                dataMap
-                    .put("downloadYourEssay", directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=W");
-                if (!"W".equalsIgnoreCase(status)) {
-                    dataMap.put(
-                        "downloadYourReview",
-                        directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=A");
+                    String status = dataMap.get("status").toString();
+                    String uploadEssayId = dataMap.get("uploadEssayId").toString();
+                    String uid = request.getRequest_data().getUid();
+                    dataMap.put("downloadYourEssay", directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=W");
+                    if (!"W".equalsIgnoreCase(status)) {
+                        dataMap.put("downloadYourReview", directory +
+                                                          "?userId=" +
+                                                          uid +
+                                                          "&essayId=" +
+                                                          uploadEssayId +
+                                                          "&status=A");
+                    }
                 }
             }
-        }
 
-        String count = null;
-        if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
-            count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT_COUNT, queryParams);
-        }
+            String count = null;
+            if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
+                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT_COUNT, queryParams);
+            }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.SUCCESS,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject,
+                                                count);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
+        }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getEssayById", method = RequestMethod.POST)
-    public ResponseEntity<Response> getEssayById(@RequestBody final RequestData request) throws FileNotFoundException {
+    public ResponseEntity<Response> getEssayById(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            Object[] queryParams = { request.getRequest_data().getEssayId() };
 
-        Object[] queryParams = { request.getRequest_data().getEssayId() };
+            List<Object> readObject = null;
+            readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ESSAY_BY_ID, queryParams);
+            if (readObject != null) {
+                Map<String, Object> dataMap = null;
+                String directory = env.getProperty("directoryDowloadEssay");
+                for (Object obj : readObject) {
+                    dataMap = (Map) obj;
 
-        List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ESSAY_BY_ID, queryParams);
-        if (readObject != null) {
-            Map<String, Object> dataMap = null;
-            String directory = env.getProperty("directoryDowloadEssay");
-            for (Object obj : readObject) {
-                dataMap = (Map) obj;
-
-                // String status = dataMap.get("status").toString();
-                String uploadEssayId = dataMap.get("uploadEssayId").toString();
-                // String uid = request.getRequest_data().getUid();
-                // dataMap.put("downloadLink", directory + "&essayId=" +
-                // uploadEssayId + "&status=W");
-                // if ("A".equalsIgnoreCase(status)) {
-                // dataMap.put(
-                // "downloadReviewdLink",
-                // directory + "?userId=" + uid + "&essayId=" + uploadEssayId +
-                // "&status=A");
-                // }
-                dataMap.put("downloadLinkS", directory + "?essayId=" + uploadEssayId + "&type=S");
-                if (dataMap.get("reviewedDocument") != null) {
-                    dataMap.put("downloadLinkM", directory + "?essayId=" + uploadEssayId + "&type=M");
+                    // String status = dataMap.get("status").toString();
+                    String uploadEssayId = dataMap.get("uploadEssayId").toString();
+                    // String uid = request.getRequest_data().getUid();
+                    // dataMap.put("downloadLink", directory + "&essayId=" +
+                    // uploadEssayId + "&status=W");
+                    // if ("A".equalsIgnoreCase(status)) {
+                    // dataMap.put(
+                    // "downloadReviewdLink",
+                    // directory + "?userId=" + uid + "&essayId=" +
+                    // uploadEssayId +
+                    // "&status=A");
+                    // }
+                    dataMap.put("downloadLinkS", directory + "?essayId=" + uploadEssayId + "&type=S");
+                    if (dataMap.get("reviewedDocument") != null) {
+                        dataMap.put("downloadLinkM", directory + "?essayId=" + uploadEssayId + "&type=M");
+                    }
                 }
             }
-        }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.SUCCESS,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
+        }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getEssayCommentsPN", method = RequestMethod.POST)
     public ResponseEntity<Response> getEssayCommentsPN(@RequestBody final RequestData request) {
 
+        SimpleResponse simpleResponse = null;
+        try {
+            CommonUtil util = CommonUtil.getInstance();
 
+            Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
 
-        // DaoFactory factory = DaoFactory.getDaoFactory();
-        //
+            Object[] queryParams = {
 
-        CommonUtil util = CommonUtil.getInstance();
+            request.getRequest_data().getEssayId(), map.get(Parameters.FROM), map.get(Parameters.TO) };
 
-        Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_GET_ESSAY_COMMENTS_PN, queryParams);
+            String count = dao.getCount(SibConstants.SqlMapper.SQL_SIB_GET_ESSAY_COMMENTS_PN_COUNT, queryParams);
 
-        Object[] queryParams = {
-
-        request.getRequest_data().getEssayId(), map.get(Parameters.FROM), map.get(Parameters.TO) };
-
-        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_GET_ESSAY_COMMENTS_PN, queryParams);
-        String count = null;
-        count = dao.getCount(SibConstants.SqlMapper.SQL_SIB_GET_ESSAY_COMMENTS_PN_COUNT, queryParams);
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject,
-                                                    count);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject,
+                                                count);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
+        }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getFileReivewUploadEssay/{eid}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getFileReivewUploadEssay(@PathVariable(value = "eid") final String eid) throws IOException {
 
-        Object[] queryParams = { eid };
-        List<Object> readObject = null;
+        RandomAccessFile randomAccessFile = null;
+        ResponseEntity<byte[]> responseEntity = null;
+        try {
+            // Get file Essay
+            Object[] queryParams = { eid };
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_IMAGE_UPLOAD_ESSAY, queryParams);
+            if (((Map) readObject.get(0)).get(Parameters.URLREVIEW) != null) {
 
-        String path = null;
-
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_IMAGE_UPLOAD_ESSAY, queryParams);
-        if (((Map) readObject.get(0)).get(Parameters.URLREVIEW) != null) {
-            path = ((Map) readObject.get(0)).get(Parameters.URLREVIEW).toString();
-
-            RandomAccessFile t = null;
-            byte[] r = null;
-            try {
-                t = new RandomAccessFile(path, "r");
-                r = new byte[(int) t.length()];
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                // Read file Essay
+                String path = ((Map) readObject.get(0)).get(Parameters.URLREVIEW).toString();
+                randomAccessFile = new RandomAccessFile(path, "r");
+                byte[] r = new byte[(int) randomAccessFile.length()];
+                randomAccessFile.readFully(r);
+                responseEntity = new ResponseEntity<byte[]>(r, new HttpHeaders(), HttpStatus.OK);
+            } else {
+                responseEntity = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
             }
-
-            t.readFully(r);
-            final HttpHeaders headers = new HttpHeaders();
-
-            return new ResponseEntity<byte[]>(r, headers, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            // File essay not found
+            logger.error(e.getMessage());
+            responseEntity = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
+        } finally {
+            try {
+                if (randomAccessFile != null) {
+                    randomAccessFile.close();
+                }
+            } catch (IOException io) {
+                // Do nothing
+            }
         }
+        return responseEntity;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.siblinks.ws.service.UploadEssayService#getEssayProfile(long,
-     * long, long)
+    /**
+     * {@inheritDoc}
      */
     @Override
     @RequestMapping(value = "/getEssayProfile", method = RequestMethod.GET)
     public ResponseEntity<Response> getEssayProfile(@RequestParam final long userid, @RequestParam final long limit,
-            @RequestParam final long offset) throws FileNotFoundException {
-        String entityName = null;
-
-        Object[] queryParams = { userid, limit, offset };
-
-        entityName = SibConstants.SqlMapperBROT71.SQL_GET_ESSAY;
-
-        List<Object> readObject = dao.readObjects(entityName, queryParams);
-
+            @RequestParam final long offset) {
         SimpleResponse reponse = null;
-        if (readObject != null && readObject.size() > 0) {
-            reponse = new SimpleResponse("" + true, "essay", "getEssayProfile", readObject);
-        } else {
-            reponse = new SimpleResponse("" + true, "essay", "getEssayProfile", SibConstants.NO_DATA);
+        try {
+            // Get essay
+            Object[] queryParams = { userid, limit, offset };
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT71.SQL_GET_ESSAY, queryParams);
+
+            if (!CollectionUtils.isEmpty(readObject)) {
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "getEssayProfile", readObject);
+            } else {
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "getEssayProfile", SibConstants.NO_DATA);
+            }
+        } catch (DAOException e) {
+            logger.error(e.getMessage());
+            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "getEssayProfile", e.getMessage());
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
-    // validate essay type
+    /**
+     * validate essay type
+     * 
+     * @param file
+     *            File input
+     * @return Name file type
+     */
     private String validateEssay(final MultipartFile file) {
         String error = "";
         String name = "";
@@ -672,6 +763,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         return error;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getNewestEssay", method = RequestMethod.GET)
     public ResponseEntity<Response> getNewestEssay(final long userid, final int offset) {
@@ -680,14 +774,24 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         return entity;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getProcessingEssay", method = RequestMethod.GET)
     public ResponseEntity<Response> getProcessingEssay(final long userid, final int offset) {
-        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_PROCESSING_ESSAY, userid, offset, "getProcessingEssay");
+        SimpleResponse reponse = getEssay(
+            SibConstants.SqlMapperBROT163.SQL_GET_PROCESSING_ESSAY,
+            userid,
+            offset,
+            "getProcessingEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getIgnoredEssay", method = RequestMethod.GET)
     public ResponseEntity<Response> getInoredEssay(final long userid, final int offset) {
@@ -696,6 +800,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         return entity;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getRepliedEssay", method = RequestMethod.GET)
     public ResponseEntity<Response> getRepliedEssay(final long userid, final int offset) {
@@ -704,40 +811,66 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         return entity;
     }
 
+    /**
+     * This method get essay by user id
+     * 
+     * @param entityName
+     *            Script SQL SELECT
+     * @param userid
+     *            User id
+     * @param offset
+     *            Offset to get
+     * @param from
+     *            Get from
+     * @return SimpleResponse
+     */
+
     private SimpleResponse getEssay(final String entityName, final long userid, final int offset, final String from) {
         SimpleResponse reponse = null;
-        Object[] params = new Object[] { userid };
-        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_PROFILE, params);
-        long schoolId = -1;
-        for (Object object : readObject) {
-            Map<String, Object> map = (Map<String, Object>) object;
-            try {
-                schoolId = Long.parseLong(map.get("school").toString());
-            } catch (Exception e) {
-                logger.debug(e.getMessage());
+        try {
+            // Get information user
+            Object[] params = new Object[] { userid };
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_PROFILE, params);
+            // get school
+            long schoolId = -1;
+            if (CollectionUtils.isEmpty(readObject)) {
+                for (Object object : readObject) {
+                    Map<String, Object> map = (Map<String, Object>) object;
+                    if (map.get(Parameters.SCHOOL) != null && !"".equals(map.get(Parameters.SCHOOL))) {
+                        schoolId = Long.parseLong(map.get(Parameters.SCHOOL).toString());
+                    }
+                }
             }
-        }
-        if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY) || entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY)) {
-            params = new Object[] { userid, schoolId, offset };
-            readObject = dao.readObjects(entityName, params);
-        } else {
-            params = new Object[] { schoolId, offset };
-            readObject = dao.readObjects(entityName, params);
-        }
-        if (readObject != null && readObject.size() > 0) {
-            reponse = new SimpleResponse("" + true, "essay", from, readObject);
-        } else {
-            reponse = new SimpleResponse("" + true, "essay", from, SibConstants.NO_DATA);
+
+            if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY) ||
+                entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY)) {
+                params = new Object[] { userid, schoolId, offset };
+                readObject = dao.readObjects(entityName, params);
+            } else {
+                params = new Object[] { schoolId, offset };
+                readObject = dao.readObjects(entityName, params);
+            }
+            if (readObject != null && readObject.size() > 0) {
+                reponse = new SimpleResponse("" + true, "essay", from, readObject);
+            } else {
+                reponse = new SimpleResponse("" + true, "essay", from, SibConstants.NO_DATA);
+            }
+        } catch (DAOException e) {
+            logger.error(e.getMessage());
+            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "getEssay", e.getMessage());
         }
         return reponse;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/updateStatusEssay", method = RequestMethod.POST)
     public ResponseEntity<Response> updateStatusEssay(@RequestBody final RequestData request) {
-        
+
         SimpleResponse reponse = null;
-        try{
+        try {
             String mentorId = request.getRequest_data().getMentorId();
             String status = request.getRequest_data().getStatus();
             Object[] params = null;
@@ -750,27 +883,33 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
             }
             if (flag) {
-                reponse = new SimpleResponse("" + true, "essay", "updateStatusEssay", "Success");
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Success");
             } else {
-                reponse = new SimpleResponse("" + true, "essay", "updateStatusEssay", "Failed");
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Failed");
             }
-        }catch(Exception e){
-            reponse = new SimpleResponse("" + true, "essay", "updateStatusEssay", e.getMessage());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", e.getMessage());
         }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/insertCommentEssay", method = RequestMethod.POST)
-    public ResponseEntity<Response> insertCommentEssay(@RequestParam(required = false) final MultipartFile file, @RequestParam final long essayId,
-            @RequestParam final long mentorId, @RequestParam final String comment) {
+    public ResponseEntity<Response> insertCommentEssay(@RequestParam(required = false) final MultipartFile file,
+            @RequestParam final long essayId, @RequestParam final long mentorId, @RequestParam final String comment) {
         SimpleResponse reponse = null;
         boolean flag = false;
-        TransactionDefinition def = new DefaultTransactionDefinition();
-        TransactionStatus status = transactionManager.getTransaction(def);
+        TransactionStatus status = null;
+        Object[] params = null;
+
         try {
-            Object[] params = null;
+            TransactionDefinition def = new DefaultTransactionDefinition();
+            transactionManager.getTransaction(def);
             params = new Object[] { "", mentorId, comment };
             long cid = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, params);
             params = new Object[] { essayId, cid };
@@ -784,35 +923,43 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 params = new Object[] { mentorId, essayId };
                 flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITHOUT_FILE, params);
             }
-            
+
             if (flag) {
                 transactionManager.commit(status);
-                reponse = new SimpleResponse("" + true, "essay", "insertCommentEssay", "Success");
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "insertCommentEssay", "Success");
             } else {
                 transactionManager.rollback(status);
-                reponse = new SimpleResponse("" + false, "essay", "insertCommentEssay", "Failed");
+                reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Failed");
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
             transactionManager.rollback(status);
-            reponse = new SimpleResponse("" + true, "essay", "insertCommentEssay", e.getMessage());
+            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", e.getMessage());
         }
 
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getCommentEssay", method = RequestMethod.GET)
     public ResponseEntity<Response> getCommentEssay(final long essayId, final long mentorId) {
         SimpleResponse reponse = null;
-        Object[] params = new Object[] { mentorId, essayId };
-        List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COMMENT_ESSAY, params);
-        if (readObject != null && readObject.size() > 0) {
-            reponse = new SimpleResponse("" + true, "essay", "getRepliedEssay", readObject);
-        } else {
-            reponse = new SimpleResponse("" + true, "essay", "getRepliedEssay", SibConstants.NO_DATA);
+        try {
+            Object[] params = new Object[] { mentorId, essayId };
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COMMENT_ESSAY, params);
+            if (readObject != null && readObject.size() > 0) {
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "getRepliedEssay", readObject);
+            } else {
+                reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "getRepliedEssay", SibConstants.NO_DATA);
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "getRepliedEssay", e.getMessage());
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 }

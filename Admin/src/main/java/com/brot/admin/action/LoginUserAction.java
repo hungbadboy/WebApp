@@ -65,6 +65,7 @@ public class LoginUserAction extends BrotCommonAction {
         String status = ActionSupport.ERROR;
         try {
             String response = _instance.write(queryParams, endPointUrl);
+            System.out.println(response);
             JSONObject jsonObject = new JSONObject(response);
             boolean isStatus = jsonObject.getBoolean(Parameters.STATUS);
             if (isStatus) {

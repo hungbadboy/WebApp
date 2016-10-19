@@ -51,8 +51,7 @@ public interface PlaylistService {
      * @throws Exception
      */
     public ResponseEntity<Response> updatePlaylist(MultipartFile image, String oldImage, String title, String description, long subjectId, long createBy,
-            long plid)
-            throws Exception;
+ long plid) throws Exception;
 
     /**
      * This method is used to update record from Playlist

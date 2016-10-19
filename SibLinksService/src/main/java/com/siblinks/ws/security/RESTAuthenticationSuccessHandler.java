@@ -21,6 +21,8 @@ package com.siblinks.ws.security;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,9 +37,11 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.model.SibUser;
 import com.siblinks.ws.model.SibUserDetails;
+import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.SibConstants;
 
 /**
@@ -61,25 +65,40 @@ public class RESTAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
         this.mapper = messageConverter.getObjectMapper();
     }
 
-	@Override
+    /**
+     * Handling return user information after user login successful
+     */
+    @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
             final Authentication authentication) throws ServletException, IOException {
 
-	    response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType(request.getContentType());
-	    
-        SibUserDetails userDetails = (SibUserDetails) authentication.getPrincipal();
-        SibUser user = userDetails.getUser();
-        user.setStatus(SibConstants.SUCCESS);
-        user.setPassword(null);
-        userDetails.setUser(user);
-        // Update last online and isonline
-        dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATELASTONLINETIME, new Object[] { user.getUsername() });
+        PrintWriter writer = null;
+        try {
 
-        LOGGER.info(userDetails.getUsername() + " got is connected ");
+            SibUserDetails userDetails = (SibUserDetails) authentication.getPrincipal();
+            SibUser user = userDetails.getUser();
+            user.setStatus(SibConstants.SUCCESS);
+            user.setPassword(null);
+            userDetails.setUser(user);
+            // Update last online and isonline
+            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATELASTONLINETIME, new Object[] { user.getUsername() });
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType(request.getContentType());
 
-        PrintWriter writer = response.getWriter();
-        mapper.writeValue(writer, user);
-        writer.flush();
-	}
+            LOGGER.info(userDetails.getUsername() + " got is connected ");
+            writer = response.getWriter();
+            mapper.writeValue(writer, user);
+            writer.flush();
+        } catch (DAOException e) {
+            Map<String, String> mapError = new HashMap<String, String>();
+            mapError.put(Parameters.STATUS, SibConstants.FAILURE);
+            mapError.put(SibConstants.MessageKey.REQUEST_DATA_RESUTL, e.getMessage());
+            mapper.writeValue(writer, mapError);
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
+
+    }
 }

@@ -36,6 +36,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         var masterSubjects = JSON.parse(localStorage.getItem('subjects'));
 
         var search = $location.search().search;
+        var search = $location.search().type;
 
         $scope.fillListVideoByDefault = function () {
 
@@ -436,7 +437,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 if (response.data.status) {
                     $scope.listAllVideos = response.data.request_data_result;
                     if(!isEmpty(search)) {
-                        var searchValue = encodeURIComponent(search);
+                        var searchValue = decodeURIComponent(search);
                         var result = $scope.listAllVideos.filter(function (obj) {
                             if (obj.title.toLowerCase().indexOf(searchValue.toLowerCase()) != -1) {
                                 return obj;

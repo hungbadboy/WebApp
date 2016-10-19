@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.RequestData;
@@ -53,57 +54,69 @@ public class faqServiceImpl implements faqService {
 
     private final Log logger = LogFactory.getLog(faqServiceImpl.class);
 
-	@Autowired
-	private HttpServletRequest context;
+    @Autowired
+    private HttpServletRequest context;
 
     @Autowired
     ObjectDao dao;
 
-	@Override
-	@RequestMapping(value = "/fetchFaqs/top", method = RequestMethod.POST)
-	public ResponseEntity<Response> topFetchFaqs(@RequestBody final RequestData request) {
+    @Override
+    @RequestMapping(value = "/fetchFaqs/top", method = RequestMethod.POST)
+    public ResponseEntity<Response> topFetchFaqs(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
+            Object[] queryParams = { request.getRequest_data().getLimit(), request.getRequest_data().getOrder() };
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_FETCH_FAQ_TOP, queryParams);
+            simpleResponse = new SimpleResponse(
+                                                "" + Boolean.TRUE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject);
+        } catch (DAOException e) {
+            simpleResponse = new SimpleResponse(
+                                                "" + Boolean.TRUE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
+
         }
 
-        Object[] queryParams = { request.getRequest_data().getLimit(), request.getRequest_data().getOrder() };
-		List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_FETCH_FAQ_TOP, queryParams);
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
-				request.getRequest_data_type(),
-				request.getRequest_data_method(), readObject);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
-				HttpStatus.OK);
-		return entity;
-	}
+    @Override
+    @RequestMapping(value = "/fetchFaqs", method = RequestMethod.POST)
+    public ResponseEntity<Response> fetchFaqs(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
 
-	@Override
-	@RequestMapping(value = "/fetchFaqs", method = RequestMethod.POST)
-	public ResponseEntity<Response> fetchFaqs(@RequestBody final RequestData request) {
+            Object[] queryParams = { request.getRequest_data().getFaqCategory(), request.getRequest_data().getLimit(), request
+                .getRequest_data()
+                .getPage() };
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_FETCH_FAQ, queryParams);
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
+            simpleResponse = new SimpleResponse(
+                                                "" + Boolean.TRUE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject);
+        } catch (DAOException e) {
+            simpleResponse = new SimpleResponse(
+                                                "" + Boolean.TRUE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
+
         }
-
-        Object[] queryParams = { request.getRequest_data().getFaqCategory(), request.getRequest_data().getLimit(), request
-            .getRequest_data()
-            .getPage() };
-		List<Object> readObject = null;
-        readObject = dao.readObjects(SibConstants.SqlMapper.SQL_FETCH_FAQ, queryParams);
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
-				request.getRequest_data_type(),
-				request.getRequest_data_method(), readObject);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
-				HttpStatus.OK);
-		return entity;
-	}
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
 }

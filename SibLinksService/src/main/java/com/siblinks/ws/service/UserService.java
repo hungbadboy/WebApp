@@ -107,7 +107,7 @@ public interface UserService {
 
     /**
      * This method use to upload avatar for user
-     * 
+     *
      * @param uploadfile
      *            This param is avatar file.
      * @param userid
@@ -145,7 +145,7 @@ public interface UserService {
      *
      * @param jsonObject
      *            This parameter include user name and password
-     * 
+     *
      * @return
      * @throws FileNotFoundException
      */
@@ -153,7 +153,7 @@ public interface UserService {
 
     /**
      * This method get user information
-     * 
+     *
      * @param userid
      *            This is user id
      * @return Map object relate to user
@@ -162,11 +162,33 @@ public interface UserService {
 
     /**
      * This method get list user type Mentor
-     * 
+     *
      * @param
-     * 
+     *
      * @return Map object relate to user
      */
     public ResponseEntity<Response> getListMentor();
 
+    /**
+     * This method add new mentor or admin in Admin Module
+     *
+     * @param jsonRegister
+     * @return Map object relate to user
+     */
+    public ResponseEntity<Response> registerAdminMentor(String jsonRegister);
+
+    /**
+     * This method Admin update profile mentor from Admin Module
+     *
+     * @param jsonUpdate
+     * @return String status "true" if success or "false" if fail
+     */
+    public ResponseEntity<Response> adminUpdateProfileUser(String jsonUpdate);
+
+    /**
+     * This method to set Enable Or Disable Account User
+     * @param userId
+     * @return
+     */
+    public ResponseEntity<Response> setStatusUser(final String json);
 }

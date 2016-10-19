@@ -47,6 +47,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.common.LoggedInChecker;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.model.ManageSubjectModel;
@@ -76,12 +77,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private HttpServletRequest context;
 
-    /*
-     * (non-Javadoc)
+    /**
+     * {@inheritDoc}
      * 
-     * @see
-     * com.siblinks.ws.service.CategoryService#deleteCategoryData(com.siblinks
-     * .ws.model.ManageSubjectModel)
      */
     @Override
     @RequestMapping("/deleteCategory")
@@ -120,12 +118,9 @@ public class CategoryServiceImpl implements CategoryService {
         return entity;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * {@inheritDoc}
      * 
-     * @see
-     * com.siblinks.ws.service.CategoryService#insertCategoryData(com.siblinks
-     * .ws.model.ManageSubjectModel)
      */
     @Override
     @RequestMapping(value = "/insertCategory", method = RequestMethod.POST)
@@ -167,12 +162,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * {@inheritDoc}
      * 
-     * @see
-     * com.siblinks.ws.service.CategoryService#updateCategoryData(com.siblinks
-     * .ws.model.ManageSubjectModel)
      */
     @Override
     @RequestMapping("/updateCategory")
@@ -262,16 +254,23 @@ public class CategoryServiceImpl implements CategoryService {
         return entity;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     */
     @RequestMapping(value = "/getSubjects")
     @ResponseBody
     public ResponseEntity<Response> getSubjects() {
-        String entityName = SibConstants.SqlMapper.SQL_GET_MENU_BY_SUBJECT;
-        List<Object> subjects = dao.readObjects(entityName, new Object[] {});
-        SimpleResponse response = new SimpleResponse("" + Boolean.TRUE, "subject", "getSubjects", subjects);
+        SimpleResponse response = null;
+        try {
+            String entityName = SibConstants.SqlMapper.SQL_GET_MENU_BY_SUBJECT;
+            List<Object> subjects = dao.readObjects(entityName, new Object[] {});
+            response = new SimpleResponse(SibConstants.SUCCESS, "subject", "getSubjects", subjects);
+        } catch (DAOException e) {
+            logger.debug(e.getMessage());
+            response = new SimpleResponse(SibConstants.FAILURE, "CategoryServiceImpl", "getSubjects", e.getMessage());
+        }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
         return entity;
     }
-
-
-
 }

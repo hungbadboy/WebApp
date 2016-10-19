@@ -36,7 +36,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +52,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.RequestData;
@@ -77,8 +77,8 @@ public class CommentServiceImpl implements CommentsService {
 
     private final Log logger = LogFactory.getLog(CommentServiceImpl.class);
 
-	@Autowired
-	private HttpServletRequest context;
+    @Autowired
+    private HttpServletRequest context;
 
     @Autowired
     ObjectDao dao;
@@ -87,164 +87,208 @@ public class CommentServiceImpl implements CommentsService {
     private PlatformTransactionManager transactionManager;
 
     @Autowired
-	private Environment environment;
+    private Environment environment;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/getNestedComments" ,method = RequestMethod.POST)
-	public ResponseEntity<Response> getNestedComments(@RequestBody final RequestData request){
+    @RequestMapping(value = "/getNestedComments", method = RequestMethod.POST)
+    public ResponseEntity<Response> getNestedComments(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
+            Object[] queryParams = { request.getRequest_data().getCid() };
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_GET_NESTED_COMMENTS, queryParams);
+
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.SUCCESS,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
         }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
 
-        Object[] queryParams = { request.getRequest_data().getCid() };
-        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_GET_NESTED_COMMENTS, queryParams);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/addNestedComment", method = RequestMethod.POST)
+    public ResponseEntity<Response> addNestedComment(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
-	}
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+            Object[] queryParams = { request.getRequest_data().getCid(), request.getRequest_data().getAuthor(), request
+                .getRequest_data()
+                .getAuthorID(), request.getRequest_data().getContent(), request.getRequest_data().getImage() };
 
-	@Override
-	@RequestMapping(value="/addNestedComment" ,method = RequestMethod.POST)
-	public ResponseEntity<Response> addNestedComment(@RequestBody final RequestData request){
+            boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_NESTED_COMMENT, queryParams);
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
-		}
+            List<Object> readObject = null;
+            if (status) {
+                Object[] queryParams1 = { request.getRequest_data().getAuthorID(), request.getRequest_data().getContent() };
+                readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_GET_NESTED_CID, queryParams1);
+                int childId = Integer.valueOf(((Map) readObject.get(0)).get("cid").toString());
+                Object[] queryParams2 = { request.getRequest_data().getCid(), Integer.valueOf(childId).toString() };
+                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_NESTED_TABLE, queryParams2);
+            }
 
-        Object[] queryParams = { request.getRequest_data().getCid(), request.getRequest_data().getAuthor(), request
-            .getRequest_data()
-            .getAuthorID(), request.getRequest_data().getContent(), request.getRequest_data().getImage() };
-
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_NESTED_COMMENT, queryParams);
-
-        List<Object> readObject = null;
-        if (status) {
-            Object[] queryParams1 = { request.getRequest_data().getAuthorID(), request.getRequest_data().getContent() };
-            readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_GET_NESTED_CID, queryParams1);
-			int childId = Integer.valueOf(((Map)readObject.get(0)).get("cid").toString());
-            Object[] queryParams2 = { request.getRequest_data().getCid(), Integer.valueOf(childId).toString() };
-            boolean statusIns = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_NESTED_TABLE, queryParams2);
-		}
-
-		SimpleResponse reponse = new SimpleResponse("" + status,request.getRequest_data_type(),request.getRequest_data_method(), readObject);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
-	}
-
-	@Override
-	@RequestMapping(value="/addComment" ,method = RequestMethod.POST)
-	public ResponseEntity<Response> addComment(@RequestBody final RequestData request) {
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
+            simpleResponse = new SimpleResponse(
+                                                "" + status,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
         }
-        TransactionDefinition def = new DefaultTransactionDefinition();
-        TransactionStatus statusDB = transactionManager.getTransaction(def);
-        String content = request.getRequest_data().getContent().replace("'", "\\\\'");
-        content = content.replace("(", "\\\\(");
-        content = content.replace(")", "\\\\)");
-        String userName = request.getRequest_data().getAuthor();
-        Object[] queryParams = { userName, request.getRequest_data().getAuthorID(), content };
-        String vid = request.getRequest_data().getVid();
-        boolean status = true;
-        int cid = 0;
-        long idComent = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
-        try{
-    		if(idComent > 0) {
-                Object[] queryParamsIns2 = {idComent, request.getRequest_data().getVid() };
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
+
+    @Override
+    @RequestMapping(value = "/addComment", method = RequestMethod.POST)
+    public ResponseEntity<Response> addComment(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        TransactionStatus statusDB = null;
+        try {
+
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+            TransactionDefinition def = new DefaultTransactionDefinition();
+            statusDB = transactionManager.getTransaction(def);
+            String content = request.getRequest_data().getContent().replace("'", "\\\\'");
+            content = content.replace("(", "\\\\(");
+            content = content.replace(")", "\\\\)");
+            String userName = request.getRequest_data().getAuthor();
+            Object[] queryParams = { userName, request.getRequest_data().getAuthorID(), content };
+            String vid = request.getRequest_data().getVid();
+            boolean status = true;
+            int cid = 0;
+            long idComent = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
+            if (idComent > 0) {
+                Object[] queryParamsIns2 = { idComent, request.getRequest_data().getVid() };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_COMMENT, queryParamsIns2);
-                Object[] queryParamsIns3 = { vid, request
+                Object[] queryParamsIns3 = { vid, request.getRequest_data().getAuthorID(), "commentVideo", "New comment of video", vid, vid, request
                     .getRequest_data()
-                    .getAuthorID(), "commentVideo", "New comment of video", vid, vid, request.getRequest_data().getVid() };
-                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
-    		}
-    		  transactionManager.commit(statusDB);
-        } catch (
-                NullPointerException
-                | NumberFormatException
-                | DataAccessException e) {
-            transactionManager.rollback(statusDB);
-            throw e;
-        }
-		SimpleResponse reponse = new SimpleResponse("" + status ,request.getRequest_data_type(),request.getRequest_data_method(), cid);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
-	}
+                    .getVid() };
+                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
+            }
+            transactionManager.commit(statusDB);
 
-	@Override
-	@RequestMapping(value="/addCommentMobile" ,method = RequestMethod.POST)
-	public ResponseEntity<Response> addCommentMobile(@RequestBody final RequestData request){
+            simpleResponse = new SimpleResponse(
+                                                "" + status,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                cid);
+        } catch (Exception e) {
+            if (statusDB != null) {
+                transactionManager.rollback(statusDB);
+            }
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
+        }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
+
+    @Override
+    @RequestMapping(value = "/addCommentMobile", method = RequestMethod.POST)
+    public ResponseEntity<Response> addCommentMobile(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+
+            Object[] queryParams = { request.getRequest_data().getAuthorID(), request.getRequest_data().getContent(), request
+                .getRequest_data()
+                .getImage() };
+
+            boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
+            int cid = 0;
+            if (status) {
+                Object[] queryParams1 = { request.getRequest_data().getContent(), request.getRequest_data().getAuthorID() };
+
+                List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams1);
+                Map lastInsertComment = (Map) readObject.get(0);
+                Object[] queryParamsIns = { lastInsertComment.get(Parameters.CID).toString(), request.getRequest_data().getVid() };
+                boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_COMMENT, queryParamsIns);
+
+                if (flag) {
+                    Object[] queryParamsUpdate = { request.getRequest_data().getVid() };
+                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_UPDATE_VIDEO_COMMENT, queryParamsUpdate);
+                }
+            }
+
+            simpleResponse = new SimpleResponse(
+                                                "" + status,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                cid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
+        }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseEntity<Response> update(@RequestBody final RequestData request) {
+        SimpleResponse reponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                SimpleResponse simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+                return entity;
+            }
+
+            Object[] queryParams = { request.getRequest_data().getCid(), request.getRequest_data().getContent() };
+            boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_EDIT_COMMENT, queryParams);
+            reponse = new SimpleResponse(
+                                         SibConstants.SUCCESS,
+                                         request.getRequest_data_type(),
+                                         request.getRequest_data_method(),
+                                         status);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            reponse = new SimpleResponse(
+                                         SibConstants.FAILURE,
+                                         request.getRequest_data_type(),
+                                         request.getRequest_data_method(),
+                                         e.getMessage());
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    public ResponseEntity<Response> remove(@RequestBody final RequestData request) {
 
         if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Object[] queryParams = { request.getRequest_data().getAuthorID(), request.getRequest_data().getContent(), request
-            .getRequest_data()
-            .getImage() };
-
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
-        int cid = 0;
-		if(status){
-            Object[] queryParams1 = { request.getRequest_data().getContent(), request.getRequest_data().getAuthorID() };
-
-            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams1);
-            Map lastInsertComment = (Map) readObject.get(0);
-            Object[] queryParamsIns = { lastInsertComment.get(Parameters.CID).toString(), request.getRequest_data().getVid() };
-            boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_COMMENT, queryParamsIns);
-
-    		if(flag){
-                Object[] queryParamsUpdate = { request.getRequest_data().getVid() };
-                boolean flagUpdate = dao.insertUpdateObject(
-                    SibConstants.SqlMapper.SQL_SIB_UPDATE_VIDEO_COMMENT,
-                    queryParamsUpdate);
-    		}
-		}
-
-		SimpleResponse reponse = new SimpleResponse("" + status,request.getRequest_data_type(),request.getRequest_data_method(), cid);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
-	}
-
-
-	@Override
-	@RequestMapping(value="/update" ,method = RequestMethod.POST)
-	public ResponseEntity<Response> update(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Object[] queryParams = { request.getRequest_data().getCid(), request.getRequest_data().getContent() };
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_EDIT_COMMENT, queryParams);
-
-		SimpleResponse reponse = new SimpleResponse("" + status,request.getRequest_data_type(),request.getRequest_data_method(), status);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
-	}
-
-	@Override
-	@RequestMapping(value="/remove" ,method = RequestMethod.POST)
-	public ResponseEntity<Response> remove(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
+            SimpleResponse simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
             ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             return entity;
         }
@@ -258,155 +302,186 @@ public class CommentServiceImpl implements CommentsService {
             dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_DELETE_COMMENT_VIDEO, queryParams);
             dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_REMOVE_COMMENT, queryParams);
             transactionManager.commit(status);
-            reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), "Success");
+            reponse = new SimpleResponse(
+                                         SibConstants.SUCCESS,
+                                         request.getRequest_data_type(),
+                                         request.getRequest_data_method(),
+                                         "Success");
         } catch (Exception e) {
             transactionManager.rollback(status);
-            reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), "Failed");
+            reponse = new SimpleResponse(
+                                         SibConstants.FAILURE,
+                                         request.getRequest_data_type(),
+                                         request.getRequest_data_method(),
+                                         "Failed");
         }
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
-	}
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return entity;
+    }
 
-	@Override
-	@RequestMapping(value="/addCommentArticle" ,method = RequestMethod.POST)
-	public ResponseEntity<Response> addCommentArticle(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
-        }
-        String content = request.getRequest_data_article().getContent().replace("'", "\\\\'");
-		content = content.replace("(", "\\\\(");
-		content = content.replace(")", "\\\\)");
-
-        Object[] queryParams = { request.getRequest_data_article().getAuthorId(), content, request
-            .getRequest_data_article()
-            .getArId() };
-
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
-        int cid = 0;
-        if (status) {
-            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams);
-            cid = Integer.valueOf(((Map) readObject.get(0)).get(Parameters.CID).toString());
-            Object[] queryParamsIns = { ((Map) readObject.get(0)).get(Parameters.CID).toString(), request
-                .getRequest_data_article()
-                .getArId() };
-            boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_ARTICLE_COMMENT, queryParamsIns);
-
-            readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_INFO_ARTICLE, queryParamsIns);
-            Object[] queryParamsIns1 = { ((Map) readObject.get(0)).get(Parameters.AUTHOR_ID).toString(), request
-                .getRequest_data_article()
-                .getAuthorId(), "commentArticle", "New comment of article", "commented a article: " +
-                                                                            ((Map) readObject.get(0)).get("title").toString() };
-            if (!((Map) readObject.get(0))
-                .get("authorId")
-                .toString()
-                .equalsIgnoreCase(request.getRequest_data_article().getAuthorId())) {
-                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ARTICLE, queryParamsIns1);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/addCommentArticle", method = RequestMethod.POST)
+    public ResponseEntity<Response> addCommentArticle(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
-
-            if (flag) {
-                Object[] queryParamsUpdate = { request.getRequest_data_article().getArId() };
-                boolean flagUpdate = dao.insertUpdateObject(
-                    SibConstants.SqlMapper.SQL_SIB_UPDATE_ARTICLE_COMMENT,
-                    queryParamsUpdate);
-            }
-        }
-
-		SimpleResponse reponse = new SimpleResponse("" + status,request.getRequest_data_type(),request.getRequest_data_method(), cid);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
-	}
-
-	@Override
-	@RequestMapping(value="/addCommentVideoAdmission" ,method = RequestMethod.POST)
-	public ResponseEntity<Response> addCommentVideoAdmission(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        String content = request.getRequest_data().getContent();
-        if (!StringUtil.isNull(content)) {
-            content = content.replace("'", "\\\\'");
+            String content = request.getRequest_data_article().getContent().replace("'", "\\\\'");
             content = content.replace("(", "\\\\(");
             content = content.replace(")", "\\\\)");
-        } else {
-            SimpleResponse reponse = new SimpleResponse(
-                                                        "" +
-                                                        false,
-                                                        request
-                                                            .getRequest_data_type(),
-                                                        request
-                                                            .getRequest_data_method(),
-                                                        "");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           reponse,
-                                                                           HttpStatus.OK);
-            return entity;
-        }
 
-        Object[] queryParams = { "",request.getRequest_data().getAuthorID(), content };
-        boolean flag = true;
-        long id = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
-        TransactionDefinition def = new DefaultTransactionDefinition();
-        TransactionStatus statusDB = transactionManager.getTransaction(def);
-        try{
-            if (id>0) {
-    			Object[] queryParamsIns = {request.getRequest_data().getVid(),""+ id};
+            Object[] queryParams = { request.getRequest_data_article().getAuthorId(), content, request
+                .getRequest_data_article()
+                .getArId() };
+
+            boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
+            int cid = 0;
+            if (status) {
+                List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams);
+                cid = Integer.valueOf(((Map) readObject.get(0)).get(Parameters.CID).toString());
+                Object[] queryParamsIns = { ((Map) readObject.get(0)).get(Parameters.CID).toString(), request
+                    .getRequest_data_article()
+                    .getArId() };
+                boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_ARTICLE_COMMENT, queryParamsIns);
+
+                readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_INFO_ARTICLE, queryParamsIns);
+                Object[] queryParamsIns1 = { ((Map) readObject.get(0)).get(Parameters.AUTHOR_ID).toString(), request
+                    .getRequest_data_article()
+                    .getAuthorId(), "commentArticle", "New comment of article", "commented a article: " +
+                                                                                ((Map) readObject.get(0)).get("title").toString() };
+                if (!((Map) readObject.get(0))
+                    .get("authorId")
+                    .toString()
+                    .equalsIgnoreCase(request.getRequest_data_article().getAuthorId())) {
+                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ARTICLE, queryParamsIns1);
+                }
+
+                if (flag) {
+                    Object[] queryParamsUpdate = { request.getRequest_data_article().getArId() };
+                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_UPDATE_ARTICLE_COMMENT, queryParamsUpdate);
+                }
+            }
+
+            simpleResponse = new SimpleResponse(
+                                                "" + status,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                cid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
+        }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/addCommentVideoAdmission", method = RequestMethod.POST)
+    public ResponseEntity<Response> addCommentVideoAdmission(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        TransactionStatus statusDB = null;
+        try {
+
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+
+            String content = request.getRequest_data().getContent();
+            if (!StringUtil.isNull(content)) {
+                content = content.replace("'", "\\\\'");
+                content = content.replace("(", "\\\\(");
+                content = content.replace(")", "\\\\)");
+            } else {
+                simpleResponse = new SimpleResponse(
+                                                    "" + false,
+                                                    request.getRequest_data_type(),
+                                                    request.getRequest_data_method(),
+                                                    "");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+            }
+
+            Object[] queryParams = { "", request.getRequest_data().getAuthorID(), content };
+            boolean flag = true;
+            long id = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
+            TransactionDefinition def = new DefaultTransactionDefinition();
+            statusDB = transactionManager.getTransaction(def);
+            if (id > 0) {
+                Object[] queryParamsIns = { request.getRequest_data().getVid(), "" + id };
                 flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_ADMISSION_COMMENT, queryParamsIns);
-                List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_DETAIL_BY_ID, new Object[] { request.getRequest_data().getVid() });
+                List<Object> readObject = dao.readObjects(
+                    SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_DETAIL_BY_ID,
+                    new Object[] { request.getRequest_data().getVid() });
                 Map userPostVideoMap = (Map) readObject.get(0);
 
-                Object[] queryParamsIns3 = { userPostVideoMap.get("userid"), request
-                    .getRequest_data()
-                    .getAuthorID(), "commentVideoAdmssion", "New comment of video", "commented video : " +
-                                                                            userPostVideoMap.get("title").toString(), userPostVideoMap
-                                                                                .get("idAdmission"),  request.getRequest_data().getVid() };
+                Object[] queryParamsIns3 = { userPostVideoMap.get("userid"), request.getRequest_data().getAuthorID(), "commentVideoAdmssion", "New comment of video", "commented video : " +
+                                                                                                                                                                      userPostVideoMap
+                                                                                                                                                                          .get(
+                                                                                                                                                                              "title")
+                                                                                                                                                                          .toString(), userPostVideoMap
+                    .get("idAdmission"), request.getRequest_data().getVid() };
                 if (!userPostVideoMap.get("userid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
                     dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
                 }
 
-    		}
-        } catch (NullPointerException | NumberFormatException | DataAccessException e) {
-            transactionManager.rollback(statusDB);
-            throw e;
-        }
-		SimpleResponse reponse = new SimpleResponse("" + flag,request.getRequest_data_type(),request.getRequest_data_method(),"" + id);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
-	}
-
-	@Override
-	@RequestMapping(value="/getAllComment" ,method = RequestMethod.POST)
-	public ResponseEntity<Response> getAllComment(@RequestBody final RequestData request){
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
+            }
+            transactionManager.commit(statusDB);
+            simpleResponse = new SimpleResponse("" + flag, request.getRequest_data_type(), request.getRequest_data_method(), "" +
+                                                                                                                             id);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            if (statusDB != null) {
+                transactionManager.rollback(statusDB);
+            }
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
         }
 
-        Object[] queryParams = {};
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
 
-        List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_COMMENT, queryParams);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/getAllComment", method = RequestMethod.POST)
+    public ResponseEntity<Response> getAllComment(@RequestBody final RequestData request) {
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+                return entity;
+            }
 
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" + Boolean.TRUE,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
-	}
+            Object[] queryParams = {};
 
-	@Override
-	@RequestMapping(value = "/deleteComment", method = RequestMethod.POST)
-	public ResponseEntity<Response> deleteComment(
-			@RequestBody final RequestData request) {
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_COMMENT, queryParams);
+
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.SUCCESS,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
+        }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/deleteComment", method = RequestMethod.POST)
+    public ResponseEntity<Response> deleteComment(@RequestBody final RequestData request) {
 
         Object[] queryParams = { request.getRequest_data().getCid() };
 
@@ -422,147 +497,159 @@ public class CommentServiceImpl implements CommentsService {
             transactionManager.rollback(status);
             reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), "Failed");
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-	}
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
+    }
 
-	@Override
-	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<Response> uploadFile(
-	    @RequestParam("uploadfile") final MultipartFile uploadfile) throws IOException {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Response> uploadFile(@RequestParam("uploadfile") final MultipartFile uploadfile) {
 
-		String filename;
-		String name;
-		String filepath;
-		String directory = environment.getProperty("directoryImageComment");
-		String directoryGetImage = environment.getProperty("directoryGetImageComment");
-		String linkToImage = null;
+        String filename = "";
+        String name = "";
+        String filepath = "";
+        SimpleResponse reponse = null;
+        try {
+            String directory = environment.getProperty("directoryImageComment");
+            String directoryGetImage = environment.getProperty("directoryGetImageComment");
+            String linkToImage = null;
 
-		name = uploadfile.getContentType();
-		boolean status = name.contains("image");
-		if(directory != null && status) {
-			try {
-				RandomString randomName = new RandomString();
+            name = uploadfile.getContentType();
+            boolean status = name.contains("image");
+            if (directory != null && status) {
+                RandomString randomName = new RandomString();
 
-				filename = randomName.random();
-				filepath = Paths.get(directory, filename + ".png").toString();
+                filename = randomName.random();
+                filepath = Paths.get(directory, filename + ".png").toString();
 
-				BufferedOutputStream stream =
-						new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-				stream.write(uploadfile.getBytes());
-				stream.close();
-				linkToImage = directoryGetImage + filename;
-			}
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+                stream.write(uploadfile.getBytes());
+                stream.close();
+                linkToImage = directoryGetImage + filename;
 
-			catch (Exception e) {
-				logger.error(e.getMessage());
-				return new ResponseEntity<Response>(HttpStatus.BAD_REQUEST);
-			}
+                reponse = new SimpleResponse(SibConstants.SUCCESS, linkToImage);
+            } else {
+                reponse = new SimpleResponse(
+                                             SibConstants.FAILURE,
+                                             "Your photos couldn't be uploaded. Photos should be saved as JPG, PNG, GIF or BMP files.");
 
-            SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, linkToImage);
-			return new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		} else {
-            SimpleResponse reponse = new SimpleResponse(
-                                                        "" + Boolean.FALSE,
-                                                        "Your photos couldn't be uploaded. Photos should be saved as JPG, PNG, GIF or BMP files.");
-			return new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		}
-	}
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            reponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
 
-	@Override
-	@RequestMapping(value = "/uploadMultiFile", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<Response> uploadMultiFile(@RequestParam("file") final MultipartFile[] uploadfiles)
-			throws IOException {
+        }
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
+    }
 
-		String directoryGetImage = environment.getProperty("directoryGetImageComment");
-		MultipartFile uploadfile;
-		String filePath = "";
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/uploadMultiFile", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Response> uploadMultiFile(@RequestParam("file") final MultipartFile[] uploadfiles) {
 
-		try {
-			if (uploadfiles != null & uploadfiles.length > 0) {
-				for (int i = 0; i < uploadfiles.length; i++) {
-					uploadfile = uploadfiles[i];
-					filePath += directoryGetImage + uploadFile(uploadfile, "directoryImageComment");
-					if (i < uploadfiles.length - 1) {
-						filePath += ";;";
-					}
-				}
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			return new ResponseEntity<Response>(HttpStatus.BAD_REQUEST);
-		}
+        MultipartFile uploadfile = null;
+        String filePath = "";
+        SimpleResponse reponse = null;
+        try {
+            String directoryGetImage = environment.getProperty("directoryGetImageComment");
+            if (uploadfiles != null & uploadfiles.length > 0) {
+                for (int i = 0; i < uploadfiles.length; i++) {
+                    uploadfile = uploadfiles[i];
+                    filePath += directoryGetImage + uploadFile(uploadfile, "directoryImageComment");
+                    if (i < uploadfiles.length - 1) {
+                        filePath += ";;";
+                    }
+                }
+            }
+            reponse = new SimpleResponse(SibConstants.SUCCESS, filePath);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            reponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
+        }
 
-		SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, filePath);
-		return new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
 
-	}
+    }
 
-	 public  String uploadFile(final MultipartFile uploadfile, final String path) throws FileNotFoundException {
+    /**
+     * {@inheritDoc}
+     */
+    public String uploadFile(final MultipartFile uploadfile, final String path) throws FileNotFoundException {
 
-			String filename="";
-			String name;
-			String filepath = "";
-			String directory = environment.getProperty(path);
-			String sample = ".png .jpng .jpg .bmp";
-			name = uploadfile.getOriginalFilename();
-			String nameExt = FilenameUtils.getExtension(name);
-			name.toLowerCase();
-			boolean status = sample.contains(nameExt);
-			if (directory != null && status) {
-				try {
-					RandomString randomName = new RandomString();
-					filename = randomName.random();
-					filepath = Paths.get(directory, filename+"."+nameExt).toString();
-					// Save the file locally
-					File file = new File(filepath);
-					File parentDir = file.getParentFile();
-					if (!parentDir.exists()) {
-						parentDir.mkdirs();
-					}
-					BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
-					stream.write(uploadfile.getBytes());
-					stream.close();
-				}
+        String filename = "";
+        String name;
+        String filepath = "";
+        String directory = environment.getProperty(path);
+        String sample = ".png .jpng .jpg .bmp";
+        name = uploadfile.getOriginalFilename();
+        String nameExt = FilenameUtils.getExtension(name);
+        name.toLowerCase();
+        boolean status = sample.contains(nameExt);
+        if (directory != null && status) {
+            try {
+                RandomString randomName = new RandomString();
+                filename = randomName.random();
+                filepath = Paths.get(directory, filename + "." + nameExt).toString();
+                // Save the file locally
+                File file = new File(filepath);
+                File parentDir = file.getParentFile();
+                if (!parentDir.exists()) {
+                    parentDir.mkdirs();
+                }
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+                stream.write(uploadfile.getBytes());
+                stream.close();
+            }
 
-				catch (Exception e) {
-					e.printStackTrace();
-				}
+            catch (Exception e) {
+                e.printStackTrace();
+            }
 
-			}
-			return filename;
-		}
+        }
+        return filename;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/getImageComment/{name}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getImageComment(@PathVariable(value = "name") final String name) {
+        ResponseEntity<byte[]> responseEntity = null;
+        RandomAccessFile randomAccessFile = null;
+        try {
+            if (name != null) {
+                String directory = environment.getProperty("directoryImageComment");
+                String path = directory + "/" + name + ".png";
 
-	@Override
-	@RequestMapping(value = "/getImageComment/{name}", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> getImageComment(@PathVariable (value = "name") final String name) throws IOException {
+                randomAccessFile = new RandomAccessFile(path, "r");
+                byte[] r = new byte[(int) randomAccessFile.length()];
+                randomAccessFile.readFully(r);
+                responseEntity = new ResponseEntity<byte[]>(r, new HttpHeaders(), HttpStatus.OK);
+            } else {
+                responseEntity = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+        } finally {
+            try {
+                if (randomAccessFile != null) {
+                    randomAccessFile.close();
+                }
+            } catch (IOException e) {
+                // Do nothing
+            }
+        }
+        return responseEntity;
 
-		String path = null;
-		if(name != null) {
-			String directory = environment.getProperty("directoryImageComment");
-
-			path = directory + "/" + name + ".png";
-
-			RandomAccessFile t = null;
-			byte[] r = null;
-			try {
-				t = new RandomAccessFile(path, "r");
-				r = new byte[(int)t.length()];
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-
-			t.readFully(r);
-		    final HttpHeaders headers = new HttpHeaders();
-
-			return new ResponseEntity<byte[]>(r, headers, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
-		}
-	}
+    }
 
     /**
      * This method to get image from path directory Image question
@@ -571,90 +658,96 @@ public class CommentServiceImpl implements CommentsService {
      *            name
      *
      */
-	@Override
-	@RequestMapping(value = "/getImageQuestion/{name}", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> getImageQuestion(@PathVariable (value = "name") final String name) throws IOException {
+    @Override
+    @RequestMapping(value = "/getImageQuestion/{name}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getImageQuestion(@PathVariable(value = "name") final String name) {
+        RandomAccessFile t = null;
+        ResponseEntity<byte[]> responseEntity = null;
+        try {
+            if (name != null) {
+                String directory = environment.getProperty("directoryImageQuestion");
 
-		String path = null;
-		if(name != null) {
-			String directory = environment.getProperty("directoryImageQuestion");
+                String path = directory + "/" + name + ".png";
 
-			path = directory + "/" + name + ".png";
-
-			RandomAccessFile t = null;
-			byte[] r = null;
-			try {
-				t = new RandomAccessFile(path, "r");
-				r = new byte[(int)t.length()];
+                t = new RandomAccessFile(path, "r");
+                byte[] r = new byte[(int) t.length()];
                 t.readFully(r);
-			} catch (FileNotFoundException e) {
-                // e.printStackTrace();
-                logger.info("File image is not found " + path);
-            } finally {
+                responseEntity = new ResponseEntity<byte[]>(r, new HttpHeaders(), HttpStatus.OK);
+            } else {
+                responseEntity = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
+            }
+        } catch (Exception e) {
+            // e.printStackTrace();
+            logger.error(e.getMessage());
+        } finally {
+            try {
                 if (t != null) {
-                    try {
-                        t.close();
-                    } catch (IOException e) {
-                        // do nothing
-                    }
+                    t.close();
                 }
-			}
-
-            HttpHeaders headers = new HttpHeaders();
-
-			return new ResponseEntity<byte[]>(r, headers, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
-		}
-	}
-
-	@Override
-	@RequestMapping(value="/addCommentEssay" ,method = RequestMethod.POST)
-	public ResponseEntity<Response> addCommentEssay(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            SimpleResponse simpleResponse = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            return entity;
+            } catch (IOException e) {
+                // do nothing
+            }
         }
+        return responseEntity;
+    }
 
-        String content = request.getRequest_data().getContent().replace("'", "\\\\'");
-		content = content.replace("(", "\\\\(");
-		content = content.replace(")", "\\\\)");
+    @Override
+    @RequestMapping(value = "/addCommentEssay", method = RequestMethod.POST)
+    public ResponseEntity<Response> addCommentEssay(@RequestBody final RequestData request) {
 
-        Object[] queryParams = { request.getRequest_data().getAuthorID(), content, request.getRequest_data().getEssayId() };
-        int cid = 0;
-        boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
-		if(status) {
-            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams);
-            cid = Integer.valueOf(((Map) readObject.get(0)).get("cid").toString());
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
 
-            Object[] queryParamsIns = { ((Map) readObject.get(0)).get("cid").toString(), request.getRequest_data().getEssayId() };
-            boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_ESSAY_COMMENT, queryParamsIns);
+            String content = request.getRequest_data().getContent().replace("'", "\\\\'");
+            content = content.replace("(", "\\\\(");
+            content = content.replace(")", "\\\\)");
 
-            readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_INFO_ESSAY, queryParamsIns);
-            Object[] queryParamsIns1 = { ((Map) readObject.get(0)).get("userId").toString(), request
-                .getRequest_data()
-                .getAuthorID(), "commentEssay", "New comment of essay", "commented a essay: " +
-                                                                        ((Map) readObject.get(0)).get("nameOfEssay").toString() };
-    		if(!((Map)readObject.get(0)).get("userId").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ESSAY, queryParamsIns);
-    		}
+            Object[] queryParams = { request.getRequest_data().getAuthorID(), content, request.getRequest_data().getEssayId() };
+            int cid = 0;
+            boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
+            if (status) {
+                List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams);
+                cid = Integer.valueOf(((Map) readObject.get(0)).get("cid").toString());
 
-//    		if(flag) {
-            // SibConstants.SqlMapper.SQL_="SIB_UPDATE_ARTICLE_COMMENT";
-            // Object[] queryParamsUpdate = null;
-//    			queryParamsUpdate = new HashMap<String, String>();
-//    			queryParamsUpdate.put("essayId", request.getRequest_data().getEssayId());
-            // boolean flagUpdate =
-            // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_,
-            // queryParamsUpdate);
-//    		}
-		}
+                Object[] queryParamsIns = { ((Map) readObject.get(0)).get("cid").toString(), request
+                    .getRequest_data()
+                    .getEssayId() };
+                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_ESSAY_COMMENT, queryParamsIns);
 
-		SimpleResponse reponse = new SimpleResponse("" + status,request.getRequest_data_type(),request.getRequest_data_method(), cid);
-		ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-		return entity;
-	}
+                readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_INFO_ESSAY, queryParamsIns);
+                ((Map) readObject.get(0)).get("userId").toString();
+                request.getRequest_data().getAuthorID();
+                ((Map) readObject.get(0)).get("nameOfEssay").toString();
+                if (!((Map) readObject.get(0)).get("userId").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
+                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ESSAY, queryParamsIns);
+                }
+
+                // if(flag) {
+                // SibConstants.SqlMapper.SQL_="SIB_UPDATE_ARTICLE_COMMENT";
+                // Object[] queryParamsUpdate = null;
+                // queryParamsUpdate = new HashMap<String, String>();
+                // queryParamsUpdate.put("essayId",
+                // request.getRequest_data().getEssayId());
+                // boolean flagUpdate =
+                // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_,
+                // queryParamsUpdate);
+                // }
+            }
+
+            simpleResponse = new SimpleResponse(
+                                                "" + status,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                cid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
+        }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
 
 }
