@@ -34,6 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -44,6 +45,8 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.siblinks.ws.common.DAOException;
+import com.siblinks.ws.common.ErrorLevel;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.model.Download;
 import com.siblinks.ws.util.CommonUtil;
@@ -66,7 +69,7 @@ public class ObjectDaoImpl implements ObjectDao {
     private Environment env;
 
     @Override
-    public boolean insertUpdateObject(final String dsConfigName, final Object[] params) {
+    public boolean insertUpdateObject(final String dsConfigName, final Object[] params) throws DAOException {
         boolean flag = true;
         try {
             logger.debug("Insert or Update " + dsConfigName);
@@ -86,9 +89,10 @@ public class ObjectDaoImpl implements ObjectDao {
                 flag = false;
             }
             logger.debug("Insert or Update num rows" + numRows);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             flag = false;
             e.printStackTrace();
+            throw new DAOException(e.getCause(), e.getMessage(), null, ErrorLevel.ERROR);
         }
         return flag;
     }
@@ -202,44 +206,6 @@ public class ObjectDaoImpl implements ObjectDao {
         }
         
         return (files != null) ? files.get(0) : null;
-    }
-
-    @Override
-    public boolean insertObjectNotResource(final String dsConfigName, final String userId, final String itemId) {
-        boolean flag = true;
-        logger.info("ssn " + dsConfigName, new Date());
-        PreparedStatement stmt = null;
-        Connection conn = null;
-        try {
-            conn = jdbcTemplate.getDataSource().getConnection();
-            logger.debug("con===" + conn);
-            stmt = conn.prepareStatement(
-                env.getProperty(dsConfigName),
-                ResultSet.TYPE_SCROLL_SENSITIVE,
-                ResultSet.CONCUR_UPDATABLE);
-            stmt.executeUpdate();
-            conn.commit();
-        } catch (Exception e) {
-            try {
-                conn.rollback();
-            } catch (SQLException sqle) {
-                // Nothing
-            }
-            flag = false;
-            e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.isClosed();
-                }
-                if (conn != null && !conn.isClosed()) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                // Nothing
-            }
-        }
-        return flag;
     }
 
     @Override

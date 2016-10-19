@@ -19,7 +19,6 @@
  */
 package com.siblinks.ws.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.RequestData;
@@ -49,7 +49,8 @@ import com.siblinks.ws.util.SibConstants;
 
 /**
  *
- *
+ * {@link LikeService}
+ * 
  * @author hungpd
  * @version 1.0
  */
@@ -65,880 +66,1006 @@ public class LikeServiceImpl implements LikeService {
     @Autowired
     ObjectDao dao;
 
-    @Override
-    @RequestMapping(value = "/likeComment", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> likeComment(@RequestBody final RequestData request) {
+    // @Override
+    // @RequestMapping(value = "/likeComment", method = RequestMethod.POST)
+    // public @ResponseBody ResponseEntity<Response> likeComment(@RequestBody
+    // final RequestData request) {
+    //
+    // if (!AuthenticationFilter.isAuthed(context)) {
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(
+    // new SimpleResponse(
+    // "" +
+    // false,
+    // "Authentication required."),
+    // HttpStatus.FORBIDDEN);
+    // return entity;
+    // }
+    //
+    // Map<String, String> queryParams = new HashMap<String, String>();
+    //
+    // queryParams.put("authorID", request.getRequest_data().getAuthorID());
+    // queryParams.put("cid", request.getRequest_data().getCid());
+    //
+    // List<Object> readObject = null;
+    // String entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ;
+    // readObject = dao.readObjects(entityName, queryParams);
+    //
+    // boolean status = true, notifi = true;
+    // Map<String, String> queryParamsIns = null;
+    // String message = "";
+    // if (readObject.size() == 0) {
+    // queryParamsIns = new HashMap<String, String>();
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_INSERT;
+    // status = dao.insertUpdateObject(entityName, queryParams);
+    //
+    // queryParamsIns = getParamLikeComment(
+    // "GET_VIDEOID_OF_COMMENT",
+    // "GET_AUTHOR_COMMENT",
+    // "GET_VIDEO_WITH_VIDEOID",
+    // queryParams,
+    // request);
+    // if
+    // (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID()))
+    // {
+    // entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO;
+    // notifi = dao.insertUpdateObject(entityName, queryParamsIns);
+    // }
+    // } else {
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ_CHECK;
+    // readObject = dao.readObjects(entityName, queryParams);
+    // if (readObject.size() == 0) {
+    // queryParamsIns = new HashMap<String, String>();
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_UPDATE;
+    // status = dao.insertUpdateObject(entityName, queryParams);
+    //
+    // queryParamsIns = getParamLikeComment(
+    // "GET_VIDEOID_OF_COMMENT",
+    // "GET_AUTHOR_COMMENT",
+    // "GET_VIDEO_WITH_VIDEOID",
+    // queryParams,
+    // request);
+    // if
+    // (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID()))
+    // {
+    // entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO;
+    // notifi = dao.insertUpdateObject(entityName, queryParamsIns);
+    // }
+    // } else {
+    // entityName = SibConstants.SqlMapper.SQL_UNLIKE_COMMENT_UPDATE;
+    // status = dao.insertUpdateObject(entityName, queryParams);
+    // }
+    // }
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_READ;
+    // readObject = dao.readObjects(entityName, queryParams);
+    // if (status) {
+    // message = "Done";
+    // } else {
+    // message = "Fail";
+    // }
+    //
+    // SimpleResponse reponse = new SimpleResponse(
+    // "" +
+    // status,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // readObject);
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
+    // HttpStatus.OK);
+    // return entity;
+    // }
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
+    // @Override
+    // @RequestMapping(value = "/likeCommentMobile", method =
+    // RequestMethod.POST)
+    // public @ResponseBody ResponseEntity<Response>
+    // likeCommentMobile(@RequestBody final RequestData request) {
+    //
+    // if (!AuthenticationFilter.isAuthed(context)) {
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(
+    // new SimpleResponse(
+    // "" +
+    // false,
+    // "Authentication required."),
+    // HttpStatus.FORBIDDEN);
+    // return entity;
+    // }
+    //
+    // Map<String, String> queryParams = new HashMap<String, String>();
+    // queryParams.put("uid", request.getRequest_data().getUid());
+    // queryParams.put("cid", request.getRequest_data().getCid());
+    // List<Object> readObject = null;
+    // String entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ;
+    // readObject = dao.readObjects(entityName, queryParams);
+    //
+    // boolean status1 = false;
+    // queryParams.put("status", "Y");
+    // if (readObject == null || readObject.size() == 0) {
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_INSERT;
+    // boolean msgs = dao.insertUpdateObject(entityName, queryParams);
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_UPDATE;
+    // dao.insertUpdateObject(entityName, queryParams);
+    // readObject = new ArrayList<Object>();
+    // if (msgs) {
+    // readObject.add(request.getRequest_data().getUid());
+    // readObject.add(request.getRequest_data().getCid());
+    // status1 = true;
+    // } else {
+    // readObject.add(request.getRequest_data().getUid());
+    // readObject.add(request.getRequest_data().getCid());
+    // }
+    // } else {
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ_CHECK;//
+    // readObject = dao.readObjects(entityName, queryParams);
+    // if (readObject == null) {
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_UPDATE;
+    // boolean msgs = dao.insertUpdateObject(entityName, queryParams);
+    //
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_UPDATE;
+    // dao.insertUpdateObject(entityName, queryParams);
+    //
+    // readObject = new ArrayList<Object>();
+    // if (msgs) {
+    // readObject.add(request.getRequest_data().getUid());
+    // readObject.add(request.getRequest_data().getCid());
+    // status1 = true;
+    // } else {
+    // readObject.add(request.getRequest_data().getUid());
+    // readObject.add(request.getRequest_data().getCid());
+    // }
+    // } else {
+    // status1 = true;
+    // readObject = new ArrayList<Object>();
+    // readObject.add(request.getRequest_data().getUid());
+    // readObject.add(request.getRequest_data().getCid());
+    // }
+    //
+    // }
+    //
+    // SimpleResponse reponse = new SimpleResponse(
+    // "" +
+    // status1,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // readObject);
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
+    // HttpStatus.OK);
+    //
+    // return entity;
+    // }
 
-        Map<String, String> queryParams = new HashMap<String, String>();
+    // @Override
+    // @RequestMapping(value = "/likeQuestion", method = RequestMethod.POST)
+    // public @ResponseBody ResponseEntity<Response> likeQuestion(@RequestBody
+    // final RequestData request) {
+    //
+    // if (!AuthenticationFilter.isAuthed(context)) {
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(
+    // new SimpleResponse(
+    // "" + false,
+    // "Authentication required."),
+    // HttpStatus.FORBIDDEN);
+    // return entity;
+    // }
+    //
+    // List<Object> readObject = null;
+    // Object[] queryParams = { request.getRequest_data().getAuthorID(),
+    // request.getRequest_data().getPid() };
+    //
+    // String entityName = SibConstants.SqlMapper.SQL_LIKE_POST_READ;
+    // readObject = dao.readObjects(entityName, queryParams);
+    // boolean status = true, notifi = true;
+    // String message = "";
+    // Map<String, String> queryParamsIns = new HashMap<String, String>();
+    // if (readObject.size() == 0) {
+    // status =
+    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_QUESTION_ID_LIKE,
+    // queryParams);
+    //
+    // // queryParamsIns =
+    // // getParamLikeQuestion(SibConstants.SqlMapper.SQL_GET_POST_WITH_POSTID,
+    // // queryParams, request);
+    // // if
+    // //
+    // (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID()))
+    // // {
+    // // entityName =
+    // // SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION;
+    // // notifi = dao.insertUpdateObject(entityName, queryParamsIns);
+    // // }
+    // } else {
+    // entityName = SibConstants.SqlMapper.SQL_SELECT_QUESTION;
+    // readObject = dao.readObjects(entityName, queryParams);
+    // if (readObject.size() == 0) {
+    // entityName = SibConstants.SqlMapper.SQL_UPDATE_LIKE_POST;
+    // status = dao.insertUpdateObject(entityName, queryParams);
+    //
+    // // queryParamsIns = getParamLikeQuestion("GET_POST_WITH_POSTID",
+    // // queryParams, request);
+    // // if
+    // //
+    // (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID()))
+    // // {
+    // // entityName =
+    // // SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION;
+    // // notifi = dao.insertUpdateObject(entityName, queryParamsIns);
+    // // }
+    // } else {
+    // entityName = SibConstants.SqlMapper.SQL_UPDATE_UNLIKE_POST;
+    // status = dao.insertUpdateObject(entityName, queryParams);
+    // }
+    // }
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_POST_READ;
+    // readObject = dao.readObjects(entityName, queryParams);
+    //
+    // if (status) {
+    // message = "Done";
+    // } else {
+    // message = "Fail";
+    // }
+    //
+    // SimpleResponse reponse = new SimpleResponse(
+    // "" + status,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // readObject);
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
+    // HttpStatus.OK);
+    // return entity;
+    // }
 
-        queryParams.put("authorID", request.getRequest_data().getAuthorID());
-        queryParams.put("cid", request.getRequest_data().getCid());
-
-        List<Object> readObject = null;
-        String entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-
-        boolean status = true, notifi = true;
-        Map<String, String> queryParamsIns = null;
-        String message = "";
-        if (readObject.size() == 0) {
-            queryParamsIns = new HashMap<String, String>();
-            entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_INSERT;
-            status = dao.insertUpdateObject(entityName, queryParams);
-
-            queryParamsIns = getParamLikeComment(
-                "GET_VIDEOID_OF_COMMENT",
-                "GET_AUTHOR_COMMENT",
-                "GET_VIDEO_WITH_VIDEOID",
-                queryParams,
-                request);
-            if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-                entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO;
-                notifi = dao.insertUpdateObject(entityName, queryParamsIns);
-            }
-        } else {
-            entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ_CHECK;
-            readObject = dao.readObjects(entityName, queryParams);
-            if (readObject.size() == 0) {
-                queryParamsIns = new HashMap<String, String>();
-                entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_UPDATE;
-                status = dao.insertUpdateObject(entityName, queryParams);
-
-                queryParamsIns = getParamLikeComment(
-                    "GET_VIDEOID_OF_COMMENT",
-                    "GET_AUTHOR_COMMENT",
-                    "GET_VIDEO_WITH_VIDEOID",
-                    queryParams,
-                    request);
-                if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-                    entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO;
-                    notifi = dao.insertUpdateObject(entityName, queryParamsIns);
-                }
-            } else {
-                entityName = SibConstants.SqlMapper.SQL_UNLIKE_COMMENT_UPDATE;
-                status = dao.insertUpdateObject(entityName, queryParams);
-            }
-        }
-        entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-        if (status) {
-            message = "Done";
-        } else {
-            message = "Fail";
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    @Override
-    @RequestMapping(value = "/likeCommentMobile", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> likeCommentMobile(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-        queryParams.put("uid", request.getRequest_data().getUid());
-        queryParams.put("cid", request.getRequest_data().getCid());
-        List<Object> readObject = null;
-        String entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-
-        boolean status1 = false;
-        queryParams.put("status", "Y");
-        if (readObject == null || readObject.size() == 0) {
-            entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_INSERT;
-            boolean msgs = dao.insertUpdateObject(entityName, queryParams);
-            entityName = SibConstants.SqlMapper.SQL_LIKE_UPDATE;
-            dao.insertUpdateObject(entityName, queryParams);
-            readObject = new ArrayList<Object>();
-            if (msgs) {
-                readObject.add(request.getRequest_data().getUid());
-                readObject.add(request.getRequest_data().getCid());
-                status1 = true;
-            } else {
-                readObject.add(request.getRequest_data().getUid());
-                readObject.add(request.getRequest_data().getCid());
-            }
-        } else {
-            entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ_CHECK;//
-            readObject = dao.readObjects(entityName, queryParams);
-            if (readObject == null) {
-                entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_UPDATE;
-                boolean msgs = dao.insertUpdateObject(entityName, queryParams);
-
-                entityName = SibConstants.SqlMapper.SQL_LIKE_UPDATE;
-                dao.insertUpdateObject(entityName, queryParams);
-
-                readObject = new ArrayList<Object>();
-                if (msgs) {
-                    readObject.add(request.getRequest_data().getUid());
-                    readObject.add(request.getRequest_data().getCid());
-                    status1 = true;
-                } else {
-                    readObject.add(request.getRequest_data().getUid());
-                    readObject.add(request.getRequest_data().getCid());
-                }
-            } else {
-                status1 = true;
-                readObject = new ArrayList<Object>();
-                readObject.add(request.getRequest_data().getUid());
-                readObject.add(request.getRequest_data().getCid());
-            }
-
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status1,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-
-        return entity;
-    }
-
-    @Override
-    @RequestMapping(value = "/likeQuestion", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> likeQuestion(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        List<Object> readObject = null;
-        Object[] queryParams = { request.getRequest_data().getAuthorID(), request.getRequest_data().getPid() };
-
-        String entityName = SibConstants.SqlMapper.SQL_LIKE_POST_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-        boolean status = true, notifi = true;
-        String message = "";
-        Map<String, String> queryParamsIns = new HashMap<String, String>();
-        if (readObject.size() == 0) {
-            status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_QUESTION_ID_LIKE, queryParams);
-
-//            queryParamsIns = getParamLikeQuestion(SibConstants.SqlMapper.SQL_GET_POST_WITH_POSTID, queryParams, request);
-//            if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-//                entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION;
-//                notifi = dao.insertUpdateObject(entityName, queryParamsIns);
-//            }
-        } else {
-            entityName = SibConstants.SqlMapper.SQL_SELECT_QUESTION;
-            readObject = dao.readObjects(entityName, queryParams);
-            if (readObject.size() == 0) {
-                entityName = SibConstants.SqlMapper.SQL_UPDATE_LIKE_POST;
-                status = dao.insertUpdateObject(entityName, queryParams);
-
-//                queryParamsIns = getParamLikeQuestion("GET_POST_WITH_POSTID", queryParams, request);
-//                if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-//                    entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION;
-//                    notifi = dao.insertUpdateObject(entityName, queryParamsIns);
-//                }
-            } else {
-                entityName = SibConstants.SqlMapper.SQL_UPDATE_UNLIKE_POST;
-                status = dao.insertUpdateObject(entityName, queryParams);
-            }
-        }
-        entityName = SibConstants.SqlMapper.SQL_LIKE_POST_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-
-        if (status) {
-            message = "Done";
-        } else {
-            message = "Fail";
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/likeAnswer", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity<Response> likeAnswer(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-        Object[] queryParams = { request.getRequest_data().getAuthorID(), request.getRequest_data().getAid() };
-        List<Object> readObject = null;
-        String entityName = SibConstants.SqlMapper.SQL_LIKE_ANSWER_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-        boolean status = true, notifi = true;
-        String statusType = "like";
-        if (readObject.size() == 0) {
-            entityName = SibConstants.SqlMapper.SQL_ANSWER_ID_LIKE;
-            status = dao.insertUpdateObject(entityName, queryParams);
-            statusType = "like";
-        } else {
-            entityName = SibConstants.SqlMapper.SQL_UPDATE_LIKE_ANSWER;
-            status = dao.insertUpdateObject(entityName, queryParams);
-            String subscribe = (String) ((Map) readObject.get(0)).get(Parameters.LIKEANSWER);
-            if (subscribe != null && subscribe.equals("Y")) {
-                statusType = "unlike";
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
-           
-        }
-        SimpleResponse reponse = new SimpleResponse("" + status, statusType, request.getRequest_data_method(), readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
+            Object[] queryParams = { request.getRequest_data().getAuthorID(), request.getRequest_data().getAid() };
 
-    @Override
-    @RequestMapping(value = "/unlikeComment", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> unlikeComment(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-        queryParams.put("userid", request.getRequest_data().getUid());
-        queryParams.put("cid", request.getRequest_data().getCid());
-        List<Object> readObject = null;
-        String entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ_CHECK;
-        readObject = dao.readObjects(entityName, queryParams);
-
-        boolean status1 = false;
-
-        if (readObject == null) {
-            status1 = true;
-            readObject = new ArrayList<Object>();
-            readObject.add(request.getRequest_data().getCid());
-        } else {
-            queryParams.put("status", "N");
-
-            entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_UPDATE;
-            boolean msgs = dao.insertUpdateObject(entityName, queryParams);
-
-            entityName = SibConstants.SqlMapper.SQL_UNLIKE_UPDATE;
-            dao.insertUpdateObject(entityName, queryParams);
-            readObject = new ArrayList<Object>();
-            if (msgs) {
-                readObject.add(request.getRequest_data().getCid());
-                status1 = true;
+            String entityName = SibConstants.SqlMapper.SQL_LIKE_ANSWER_READ;
+            List<Object> readObject = dao.readObjects(entityName, queryParams);
+            boolean status = true;
+            String statusType = "like";
+            if (!CollectionUtils.isEmpty(readObject)) {
+                entityName = SibConstants.SqlMapper.SQL_ANSWER_ID_LIKE;
+                status = dao.insertUpdateObject(entityName, queryParams);
+                statusType = "like";
             } else {
-                readObject.add(request.getRequest_data().getCid());
-            }
-        }
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status1,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    @Override
-    @RequestMapping(value = "/likeVideo", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> likeVideo(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-        queryParams.put("userid", request.getRequest_data().getUid());
-        queryParams.put("vid", request.getRequest_data().getVid());
-        List<Object> readObject = null;
-        String entityName = SibConstants.SqlMapper.SQL_LIKE_VIDEO_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-
-        boolean status1 = false;
-        queryParams.put("status", "Y");
-        if (readObject == null) {
-            entityName = SibConstants.SqlMapper.SQL_LIKE_VIDEO_INSERT;
-            boolean msgs = dao.insertUpdateObject(entityName, queryParams);
-            entityName = SibConstants.SqlMapper.SQL_VIDEO_LIKE_UPDATE;
-            dao.insertUpdateObject(entityName, queryParams);
-            readObject = new ArrayList<Object>();
-            if (msgs) {
-                readObject.add(request.getRequest_data().getVid());
-                status1 = true;
-            } else {
-                readObject.add(request.getRequest_data().getVid());
-            }
-        } else {
-            entityName = SibConstants.SqlMapper.SQL_LIKE_VIDEO_READ_CHECK;
-            readObject = dao.readObjects(entityName, queryParams);
-            if (readObject == null) {
-                entityName = SibConstants.SqlMapper.SQL_LIKE_VIDEO_UPDATE;
-                boolean msgs = dao.insertUpdateObject(entityName, queryParams);
-
-                entityName = SibConstants.SqlMapper.SQL_VIDEO_LIKE_UPDATE;
-                dao.insertUpdateObject(entityName, queryParams);
-
-                readObject = new ArrayList<Object>();
-                if (msgs) {
-                    readObject.add(request.getRequest_data().getVid());
-                    status1 = true;
-                } else {
-                    readObject.add(request.getRequest_data().getVid());
+                entityName = SibConstants.SqlMapper.SQL_UPDATE_LIKE_ANSWER;
+                status = dao.insertUpdateObject(entityName, queryParams);
+                String subscribe = (String) ((Map) readObject.get(0)).get(Parameters.LIKEANSWER);
+                if (subscribe != null && subscribe.equals("Y")) {
+                    statusType = "unlike";
                 }
-            } else {
-                status1 = true;
-                readObject = new ArrayList<Object>();
-                readObject.add(request.getRequest_data().getVid());
+
             }
+            simpleResponse = new SimpleResponse("" + status, statusType, request.getRequest_data_method(), readObject);
+        } catch (DAOException e) {
+
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
         }
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status1,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
-    @Override
-    @RequestMapping(value = "/unlikeVideo", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> unlikeVideo(@RequestBody final RequestData request) {
+    // @Override
+    // @RequestMapping(value = "/unlikeComment", method = RequestMethod.POST)
+    // public @ResponseBody ResponseEntity<Response> unlikeComment(@RequestBody
+    // final RequestData request) {
+    // SimpleResponse simpleResponse = null;
+    // try {
+    // if (!AuthenticationFilter.isAuthed(context)) {
+    // simpleResponse = new SimpleResponse(SibConstants.FAILURE,
+    // "Authentication required.");
+    // return new ResponseEntity<Response>(simpleResponse,
+    // HttpStatus.FORBIDDEN);
+    // }
+    //
+    // Map<String, String> queryParams = new HashMap<String, String>();
+    // queryParams.put("userid", request.getRequest_data().getUid());
+    // queryParams.put("cid", request.getRequest_data().getCid());
+    //
+    // String entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ_CHECK;
+    // List<Object> readObject = dao.readObjects(entityName, queryParams);
+    //
+    // boolean status1 = false;
+    //
+    // if (CollectionUtils.isEmpty(readObject)) {
+    // status1 = true;
+    // readObject = new ArrayList<Object>();
+    // readObject.add(request.getRequest_data().getCid());
+    // } else {
+    // queryParams.put("status", "N");
+    //
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_UPDATE;
+    // boolean msgs = dao.insertUpdateObject(entityName, queryParams);
+    //
+    // entityName = SibConstants.SqlMapper.SQL_UNLIKE_UPDATE;
+    // dao.insertUpdateObject(entityName, queryParams);
+    // readObject = new ArrayList<Object>();
+    // if (msgs) {
+    // readObject.add(request.getRequest_data().getCid());
+    // status1 = true;
+    // } else {
+    // readObject.add(request.getRequest_data().getCid());
+    // }
+    // }
+    // simpleResponse = new SimpleResponse(
+    // "" + status1,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // readObject);
+    // } catch (DAOException e) {
+    //
+    // simpleResponse = new SimpleResponse(
+    // SibConstants.FAILURE,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // e.getMessage());
+    // }
+    // ResponseEntity<Response> entity = new
+    // ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    // return entity;
+    // }
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
+    // @Override
+    // @RequestMapping(value = "/likeVideo", method = RequestMethod.POST)
+    // public @ResponseBody ResponseEntity<Response> likeVideo(@RequestBody
+    // final RequestData request) {
+    //
+    // if (!AuthenticationFilter.isAuthed(context)) {
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(
+    // new SimpleResponse(
+    // "" + false,
+    // "Authentication required."),
+    // HttpStatus.FORBIDDEN);
+    // return entity;
+    // }
+    //
+    // Map<String, String> queryParams = new HashMap<String, String>();
+    // queryParams.put("userid", request.getRequest_data().getUid());
+    // queryParams.put("vid", request.getRequest_data().getVid());
+    // List<Object> readObject = null;
+    // String entityName = SibConstants.SqlMapper.SQL_LIKE_VIDEO_READ;
+    // readObject = dao.readObjects(entityName, queryParams);
+    //
+    // boolean status1 = false;
+    // queryParams.put("status", "Y");
+    // if (readObject == null) {
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_VIDEO_INSERT;
+    // boolean msgs = dao.insertUpdateObject(entityName, queryParams);
+    // entityName = SibConstants.SqlMapper.SQL_VIDEO_LIKE_UPDATE;
+    // dao.insertUpdateObject(entityName, queryParams);
+    // readObject = new ArrayList<Object>();
+    // if (msgs) {
+    // readObject.add(request.getRequest_data().getVid());
+    // status1 = true;
+    // } else {
+    // readObject.add(request.getRequest_data().getVid());
+    // }
+    // } else {
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_VIDEO_READ_CHECK;
+    // readObject = dao.readObjects(entityName, queryParams);
+    // if (readObject == null) {
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_VIDEO_UPDATE;
+    // boolean msgs = dao.insertUpdateObject(entityName, queryParams);
+    //
+    // entityName = SibConstants.SqlMapper.SQL_VIDEO_LIKE_UPDATE;
+    // dao.insertUpdateObject(entityName, queryParams);
+    //
+    // readObject = new ArrayList<Object>();
+    // if (msgs) {
+    // readObject.add(request.getRequest_data().getVid());
+    // status1 = true;
+    // } else {
+    // readObject.add(request.getRequest_data().getVid());
+    // }
+    // } else {
+    // status1 = true;
+    // readObject = new ArrayList<Object>();
+    // readObject.add(request.getRequest_data().getVid());
+    // }
+    // }
+    // SimpleResponse reponse = new SimpleResponse(
+    // "" + status1,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // readObject);
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
+    // HttpStatus.OK);
+    // return entity;
+    // }
 
-        Map<String, String> queryParams = new HashMap<String, String>();
-        queryParams.put("userid", request.getRequest_data().getUid());
-        queryParams.put("vid", request.getRequest_data().getVid());
-        List<Object> readObject = null;
-        String entityName = SibConstants.SqlMapper.SQL_LIKE_VIDEO_READ_CHECK;
-        readObject = dao.readObjects(entityName, queryParams);
+    // @Override
+    // @RequestMapping(value = "/unlikeVideo", method = RequestMethod.POST)
+    // public @ResponseBody ResponseEntity<Response> unlikeVideo(@RequestBody
+    // final RequestData request) {
+    //
+    // if (!AuthenticationFilter.isAuthed(context)) {
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(
+    // new SimpleResponse(
+    // "" + false,
+    // "Authentication required."),
+    // HttpStatus.FORBIDDEN);
+    // return entity;
+    // }
+    //
+    // Map<String, String> queryParams = new HashMap<String, String>();
+    // queryParams.put("userid", request.getRequest_data().getUid());
+    // queryParams.put("vid", request.getRequest_data().getVid());
+    // List<Object> readObject = null;
+    // String entityName = SibConstants.SqlMapper.SQL_LIKE_VIDEO_READ_CHECK;
+    // readObject = dao.readObjects(entityName, queryParams);
+    //
+    // boolean status1 = false;
+    //
+    // if (readObject == null) {
+    // status1 = true;
+    // readObject = new ArrayList<Object>();
+    // readObject.add(request.getRequest_data().getVid());
+    // } else {
+    // queryParams.put("status", "N");
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_VIDEO_UPDATE;
+    // boolean msgs = dao.insertUpdateObject(entityName, queryParams);
+    //
+    // entityName = SibConstants.SqlMapper.SQL_VIDEO_UNLIKE_UPDATE;
+    // dao.insertUpdateObject(entityName, queryParams);
+    //
+    // readObject = new ArrayList<Object>();
+    // if (msgs) {
+    // readObject.add(request.getRequest_data().getVid());
+    // status1 = true;
+    // } else {
+    // readObject.add(request.getRequest_data().getVid());
+    // }
+    // }
+    // SimpleResponse reponse = new SimpleResponse(
+    // "" + status1,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // readObject);
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
+    // HttpStatus.OK);
+    // return entity;
+    // }
 
-        boolean status1 = false;
+    // @Override
+    // @RequestMapping(value = "/markVideoAsWatched", method =
+    // RequestMethod.POST)
+    // public @ResponseBody ResponseEntity<Response>
+    // markVideoAsWatched(@RequestBody final RequestData request) {
+    //
+    // if (!AuthenticationFilter.isAuthed(context)) {
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(
+    // new SimpleResponse(
+    // "" + false,
+    // "Authentication required."),
+    // HttpStatus.FORBIDDEN);
+    // return entity;
+    // }
+    //
+    // Map<String, String> queryParams = new HashMap<String, String>();
+    // queryParams.put("userid", request.getRequest_data().getUid());
+    // queryParams.put("vid", request.getRequest_data().getVid());
+    // List<Object> readObject = null;
+    // String entityName = SibConstants.SqlMapper.SQL_WATCH_VIDEO_READ;
+    // readObject = dao.readObjects(entityName, queryParams);
+    //
+    // boolean status1 = false;
+    //
+    // if (readObject == null) {
+    // entityName = SibConstants.SqlMapper.SQL_WATCH_VIDEO_INSERT;
+    // boolean msgs = dao.insertUpdateObject(entityName, queryParams);
+    // entityName = SibConstants.SqlMapper.SQL_WATCH_VIDEO_UPDATE;
+    // dao.insertUpdateObject(entityName, queryParams);
+    // readObject = new ArrayList<Object>();
+    // if (msgs) {
+    // readObject.add(request.getRequest_data().getVid());
+    // status1 = true;
+    // } else {
+    // readObject.add(request.getRequest_data().getVid());
+    // }
+    // } else {
+    // status1 = true;
+    // readObject = new ArrayList<Object>();
+    //
+    // readObject.add(request.getRequest_data().getVid());
+    // }
+    // SimpleResponse reponse = new SimpleResponse(
+    // "" + status1,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // readObject);
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
+    // HttpStatus.OK);
+    // return entity;
+    // }
 
-        if (readObject == null) {
-            status1 = true;
-            readObject = new ArrayList<Object>();
-            readObject.add(request.getRequest_data().getVid());
-        } else {
-            queryParams.put("status", "N");
-            entityName = SibConstants.SqlMapper.SQL_LIKE_VIDEO_UPDATE;
-            boolean msgs = dao.insertUpdateObject(entityName, queryParams);
-
-            entityName = SibConstants.SqlMapper.SQL_VIDEO_UNLIKE_UPDATE;
-            dao.insertUpdateObject(entityName, queryParams);
-
-            readObject = new ArrayList<Object>();
-            if (msgs) {
-                readObject.add(request.getRequest_data().getVid());
-                status1 = true;
-            } else {
-                readObject.add(request.getRequest_data().getVid());
-            }
-        }
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status1,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    @Override
-    @RequestMapping(value = "/markVideoAsWatched", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> markVideoAsWatched(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-        queryParams.put("userid", request.getRequest_data().getUid());
-        queryParams.put("vid", request.getRequest_data().getVid());
-        List<Object> readObject = null;
-        String entityName = SibConstants.SqlMapper.SQL_WATCH_VIDEO_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-
-        boolean status1 = false;
-
-        if (readObject == null) {
-            entityName = SibConstants.SqlMapper.SQL_WATCH_VIDEO_INSERT;
-            boolean msgs = dao.insertUpdateObject(entityName, queryParams);
-            entityName = SibConstants.SqlMapper.SQL_WATCH_VIDEO_UPDATE;
-            dao.insertUpdateObject(entityName, queryParams);
-            readObject = new ArrayList<Object>();
-            if (msgs) {
-                readObject.add(request.getRequest_data().getVid());
-                status1 = true;
-            } else {
-                readObject.add(request.getRequest_data().getVid());
-            }
-        } else {
-            status1 = true;
-            readObject = new ArrayList<Object>();
-
-            readObject.add(request.getRequest_data().getVid());
-        }
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status1,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getPostLikeByUser", method = RequestMethod.POST)
     public ResponseEntity<Response> getPostLikeByUser(@RequestBody final RequestData request) {
 
-        String entityName = null;
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+
+            Map<String, String> queryParams = new HashMap<String, String>();
+            queryParams.put("uid", request.getRequest_data().getUid());
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_LIKE_POST_BY_USER, queryParams);
+
+            simpleResponse = new SimpleResponse(
+                                                "" + true,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject);
+        } catch (DAOException e) {
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
         }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("uid", request.getRequest_data().getUid());
-        entityName = SibConstants.SqlMapper.SQL_GET_LIKE_POST_BY_USER;
-
-        List<Object> readObject = null;
-        readObject = dao.readObjects(entityName, queryParams);
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    true,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
         return entity;
     }
 
-    @Override
-    @RequestMapping(value = "/likeCommentArticle", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> likeCommentArticle(@RequestBody final RequestData request) {
+    /**
+     * {@inheritDoc}
+     */
+    // @Override
+    // @RequestMapping(value = "/likeCommentArticle", method =
+    // RequestMethod.POST)
+    // public @ResponseBody ResponseEntity<Response>
+    // likeCommentArticle(@RequestBody final RequestData request) {
+    //
+    // SimpleResponse simpleResponse = null;
+    // try {
+    // if (!AuthenticationFilter.isAuthed(context)) {
+    // simpleResponse = new SimpleResponse(SibConstants.FAILURE,
+    // "Authentication required.");
+    // return new ResponseEntity<Response>(simpleResponse,
+    // HttpStatus.FORBIDDEN);
+    // }
+    //
+    //
+    // List<Object> readObject = dao.readObjects(
+    // SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ;,
+    // new Object[] { request.getRequest_data_article().getAuthorId(),
+    // request.getRequest_data_article().getCid() });
+    //
+    // boolean status = true, notifi = true;
+    // Map<String, String> queryParamsIns = null;
+    // String message = "";
+    // if (readObject.size() == 0) {
+    // status =
+    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_LIKE_COMMENT_INSERT,
+    // new Object[]{});
+    // queryParamsIns = getParamLikeCommentArticle(
+    // "GET_ARTICLEID_OF_COMMENT",
+    // "GET_AUTHOR_COMMENT",
+    // "GET_ARTICLE_WITH_ARTICLEID",
+    // new Object[]{},
+    // request);
+    // if
+    // (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data_article().getAuthorId()))
+    // {
+    // notifi =
+    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ARTICLE,
+    // queryParamsIns);
+    // }
+    // } else {
+    // readObject =
+    // dao.readObjects(SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ_CHECK, new
+    // Object[]{});
+    // if (readObject.size() == 0) {
+    // queryParamsIns = new HashMap<String, String>();
+    // status =
+    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_LIKE_COMMENT_UPDATE,
+    // new Object[]{});
+    //
+    // queryParamsIns = getParamLikeCommentArticle(
+    // "GET_ARTICLEID_OF_COMMENT",
+    // "GET_AUTHOR_COMMENT",
+    // "GET_ARTICLE_WITH_ARTICLEID",
+    // new Object[]{},
+    // request);
+    // if
+    // (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data_article().getAuthorId()))
+    // {
+    // notifi =
+    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ARTICLE,
+    // queryParamsIns);
+    // }
+    // } else {
+    // status =
+    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UNLIKE_COMMENT_UPDATE,
+    // new Object[]{});
+    // }
+    // }
+    // readObject =
+    // dao.readObjects(SibConstants.SqlMapper.SQL_LIKE_COMMENT_READ, new
+    // Object[]{});
+    // if (status) {
+    // message = "Done";
+    // } else {
+    // message = "Fail";
+    // }
+    // simpleResponse = new SimpleResponse(
+    // "" + status,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // readObject);
+    // } catch (DAOException e) {
+    // simpleResponse = new SimpleResponse(
+    // SibConstants.FAILURE,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // e.getMessage());
+    // }
+    // return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    // }
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
+    // /**
+    // * {@inheritDoc}
+    // */
+    // @Override
+    // @RequestMapping(value = "/likeCommentVideoAdmission", method =
+    // RequestMethod.POST)
+    // public @ResponseBody ResponseEntity<Response>
+    // likeCommentVideoAdmission(@RequestBody final RequestData request) {
+    //
+    // SimpleResponse simpleResponse = null;
+    // try {
+    // if (!AuthenticationFilter.isAuthed(context)) {
+    // simpleResponse = new SimpleResponse(SibConstants.FAILURE,
+    // "Authentication required.");
+    // return new ResponseEntity<Response>(simpleResponse,
+    // HttpStatus.FORBIDDEN);
+    // }
+    //
+    // Map<String, String> queryParams = new HashMap<String, String>();
+    //
+    // queryParams.put("authorID",
+    // request.getRequest_data_videoAdmission().getAuthorId());
+    // queryParams.put("cid",
+    // request.getRequest_data_videoAdmission().getCid());
+    //
+    //
+    // String entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ;
+    // List<Object> readObject = dao.readObjects(entityName, queryParams);
+    //
+    // boolean status = true, notifi = true;
+    // Map<String, String> queryParamsIns = null;
+    // String message = "";
+    // if (readObject.size() == 0) {
+    // queryParamsIns = new HashMap<String, String>();
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_INSERT;
+    // status = dao.insertUpdateObject(entityName, queryParams);
+    //
+    // queryParamsIns = getParamLikeCommentVideoAdmission(
+    // "GET_VIDEO_ADMISSION_ID_OF_COMMENT",
+    // "GET_AUTHOR_COMMENT",
+    // "GET_VIDEO_ADMISSION_WITH_VIDEOID",
+    // queryParams,
+    // request);
+    // if (!queryParamsIns
+    // .get("uid")
+    // .toString()
+    // .equalsIgnoreCase(request.getRequest_data_videoAdmission().getAuthorId()))
+    // {
+    // entityName =
+    // SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO_ADMISSION;
+    // notifi = dao.insertUpdateObject(entityName, queryParamsIns);
+    // }
+    // } else {
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ_CHECK;
+    // readObject = dao.readObjects(entityName, queryParams);
+    // if (readObject.size() == 0) {
+    // queryParamsIns = new HashMap<String, String>();
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_UPDATE;
+    // status = dao.insertUpdateObject(entityName, queryParams);
+    //
+    // queryParamsIns = getParamLikeCommentVideoAdmission(
+    // "GET_VIDEO_ADMISSION_ID_OF_COMMENT",
+    // "GET_AUTHOR_COMMENT",
+    // "GET_VIDEO_ADMISSION_WITH_VIDEOID",
+    // queryParams,
+    // request);
+    // if (!queryParamsIns
+    // .get("uid")
+    // .toString()
+    // .equalsIgnoreCase(request.getRequest_data_videoAdmission().getAuthorId()))
+    // {
+    // entityName =
+    // SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO_ADMISSION;
+    // notifi = dao.insertUpdateObject(entityName, queryParamsIns);
+    // }
+    // } else {
+    // entityName = SibConstants.SqlMapper.SQL_UNLIKE_COMMENT_UPDATE;
+    // status = dao.insertUpdateObject(entityName, queryParams);
+    // }
+    // }
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_READ;
+    // readObject = dao.readObjects(entityName, queryParams);
+    // if (status) {
+    // message = "Done";
+    // } else {
+    // message = "Fail";
+    // }
+    // } catch (DAOException e) {
+    // simpleResponse = new SimpleResponse(
+    // SibConstants.FAILURE,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // e.getMessage());
+    // }
+    // simpleResponse = new SimpleResponse(
+    // "" + status,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // readObject);
+    // } catch (DAOException e) {
+    // simpleResponse = new SimpleResponse(
+    // SibConstants.FAILURE,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // e.getMessage());
+    // }
+    // return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    // }
 
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("authorID", request.getRequest_data_article().getAuthorId());
-        queryParams.put("cid", request.getRequest_data_article().getCid());
-
-        List<Object> readObject = null;
-        String entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-
-        boolean status = true, notifi = true;
-        Map<String, String> queryParamsIns = null;
-        String message = "";
-        if (readObject.size() == 0) {
-            queryParamsIns = new HashMap<String, String>();
-            entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_INSERT;
-            status = dao.insertUpdateObject(entityName, queryParams);
-
-            queryParamsIns = getParamLikeCommentArticle(
-                "GET_ARTICLEID_OF_COMMENT",
-                "GET_AUTHOR_COMMENT",
-                "GET_ARTICLE_WITH_ARTICLEID",
-                queryParams,
-                request);
-            if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data_article().getAuthorId())) {
-                entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ARTICLE;
-                notifi = dao.insertUpdateObject(entityName, queryParamsIns);
-            }
-        } else {
-            entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ_CHECK;
-            readObject = dao.readObjects(entityName, queryParams);
-            if (readObject.size() == 0) {
-                queryParamsIns = new HashMap<String, String>();
-                entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_UPDATE;
-                status = dao.insertUpdateObject(entityName, queryParams);
-
-                queryParamsIns = getParamLikeCommentArticle(
-                    "GET_ARTICLEID_OF_COMMENT",
-                    "GET_AUTHOR_COMMENT",
-                    "GET_ARTICLE_WITH_ARTICLEID",
-                    queryParams,
-                    request);
-                if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data_article().getAuthorId())) {
-                    entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ARTICLE;
-                    notifi = dao.insertUpdateObject(entityName, queryParamsIns);
-                }
-            } else {
-                entityName = SibConstants.SqlMapper.SQL_UNLIKE_COMMENT_UPDATE;
-                status = dao.insertUpdateObject(entityName, queryParams);
-            }
-        }
-        entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-        if (status) {
-            message = "Done";
-        } else {
-            message = "Fail";
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    @Override
-    @RequestMapping(value = "/likeCommentVideoAdmission", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> likeCommentVideoAdmission(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("authorID", request.getRequest_data_videoAdmission().getAuthorId());
-        queryParams.put("cid", request.getRequest_data_videoAdmission().getCid());
-
-        List<Object> readObject = null;
-        String entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-
-        boolean status = true, notifi = true;
-        Map<String, String> queryParamsIns = null;
-        String message = "";
-        if (readObject.size() == 0) {
-            queryParamsIns = new HashMap<String, String>();
-            entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_INSERT;
-            status = dao.insertUpdateObject(entityName, queryParams);
-
-            queryParamsIns = getParamLikeCommentVideoAdmission(
-                "GET_VIDEO_ADMISSION_ID_OF_COMMENT",
-                "GET_AUTHOR_COMMENT",
-                "GET_VIDEO_ADMISSION_WITH_VIDEOID",
-                queryParams,
-                request);
-            if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data_videoAdmission().getAuthorId())) {
-                entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO_ADMISSION;
-                notifi = dao.insertUpdateObject(entityName, queryParamsIns);
-            }
-        } else {
-            entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ_CHECK;
-            readObject = dao.readObjects(entityName, queryParams);
-            if (readObject.size() == 0) {
-                queryParamsIns = new HashMap<String, String>();
-                entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_UPDATE;
-                status = dao.insertUpdateObject(entityName, queryParams);
-
-                queryParamsIns = getParamLikeCommentVideoAdmission(
-                    "GET_VIDEO_ADMISSION_ID_OF_COMMENT",
-                    "GET_AUTHOR_COMMENT",
-                    "GET_VIDEO_ADMISSION_WITH_VIDEOID",
-                    queryParams,
-                    request);
-                if (!queryParamsIns
-                    .get("uid")
-                    .toString()
-                    .equalsIgnoreCase(request.getRequest_data_videoAdmission().getAuthorId())) {
-                    entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO_ADMISSION;
-                    notifi = dao.insertUpdateObject(entityName, queryParamsIns);
-                }
-            } else {
-                entityName = SibConstants.SqlMapper.SQL_UNLIKE_COMMENT_UPDATE;
-                status = dao.insertUpdateObject(entityName, queryParams);
-            }
-        }
-        entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-        if (status) {
-            message = "Done";
-        } else {
-            message = "Fail";
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    @Override
-    @RequestMapping(value = "/likeCommentEssay", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Response> likeCommentEssay(@RequestBody final RequestData request) {
-
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-
-        Map<String, String> queryParams = new HashMap<String, String>();
-
-        queryParams.put("authorID", request.getRequest_data().getAuthorID());
-        queryParams.put("cid", request.getRequest_data().getCid());
-
-        List<Object> readObject = null;
-        String entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-
-        boolean status = true, notifi = true;
-        Map<String, String> queryParamsIns = null;
-        String message = "";
-        if (readObject.size() == 0) {
-            queryParamsIns = new HashMap<String, String>();
-            entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_INSERT;
-            status = dao.insertUpdateObject(entityName, queryParams);
-
-            queryParamsIns = getParamLikeCommentEssay(
-                "GET_ESSAYID_OF_COMMENT",
-                "GET_AUTHOR_COMMENT",
-                "GET_ESSAY_WITH_ESSAYID",
-                queryParams,
-                request);
-            if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-                entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ESSAY;
-                notifi = dao.insertUpdateObject(entityName, queryParamsIns);
-            }
-        } else {
-            entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ_CHECK;
-            readObject = dao.readObjects(entityName, queryParams);
-            if (readObject.size() == 0) {
-                queryParamsIns = new HashMap<String, String>();
-                entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_UPDATE;
-                status = dao.insertUpdateObject(entityName, queryParams);
-
-                queryParamsIns = getParamLikeCommentEssay(
-                    "GET_ESSAYID_OF_COMMENT",
-                    "GET_AUTHOR_COMMENT",
-                    "GET_ESSAY_WITH_ESSAYID",
-                    queryParams,
-                    request);
-                if (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-                    entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ESSAY;
-                    notifi = dao.insertUpdateObject(entityName, queryParamsIns);
-                }
-            } else {
-                entityName = SibConstants.SqlMapper.SQL_UNLIKE_COMMENT_UPDATE;
-                status = dao.insertUpdateObject(entityName, queryParams);
-            }
-        }
-        entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_READ;
-        readObject = dao.readObjects(entityName, queryParams);
-        if (status) {
-            message = "Done";
-        } else {
-            message = "Fail";
-        }
-
-        SimpleResponse reponse = new SimpleResponse(
-                                                    "" +
-                                                    status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
-    }
-
-    public Map<String, String> getParamLikeComment(final String sql1, final String sql2, final String sql3,
-            final Map<String, String> queryParams, final RequestData request) {
-
-        List<Object> readObject = null;
-        Map<String, String> queryParamsIns = new HashMap<String, String>();
-
-        readObject = dao.readObjects(sql1, queryParams);
-        queryParamsIns.put("vid", ((Map) readObject.get(0)).get("vid").toString());
-
-        readObject = dao.readObjects(sql2, queryParams);
-        queryParamsIns.put("uid", ((Map) readObject.get(0)).get("authorId").toString());
-
-        readObject = dao.readObjects(sql3, queryParamsIns);
-        queryParamsIns.put("authorID", request.getRequest_data().getAuthorID());
-        queryParamsIns.put("subjectId", ((Map) readObject.get(0)).get("subjectId").toString());
-        queryParamsIns.put("topicId", ((Map) readObject.get(0)).get("topicId").toString());
-        queryParamsIns.put("type", "likeDiscussion");
-        queryParamsIns.put("title", "Like discussion");
-        queryParamsIns.put("notification", "liked your discussion");
-
-        return queryParamsIns;
-    }
-
-    public Map<String, String> paramLikeAnswer(final String sql1, final String sql2, final Object[] queryParams,
-            final String authorID) {
-
-        List<Object> readObject = null;
-        Map<String, String> queryParamsIns = new HashMap<String, String>();
-
-        readObject = dao.readObjects(sql1, new Object[] { queryParams[0] });
-        if (!CollectionUtils.isEmpty(readObject)) {
-            queryParamsIns.put("pid", ((Map) readObject.get(0)).get("pid").toString());
-            queryParamsIns.put("uid", ((Map) readObject.get(0)).get("authorID").toString());
-            readObject = dao.readObjects(sql2, new Object[] { "" + ((Map) readObject.get(0)).get("pid") });
-            if (!CollectionUtils.isEmpty(readObject)) {
-                queryParamsIns.put("authorID", authorID);
-                queryParamsIns.put("subjectId", ((Map) readObject.get(0)).get("subjectId").toString());
-                queryParamsIns.put("type", "likeAnswer");
-                queryParamsIns.put("title", "Like answer");
-                queryParamsIns.put("notification", "liked your answer");
-            }
-        }
-        return queryParamsIns;
-    }
-
-    public Map<String, String> getParamLikeCommentArticle(final String sql1, final String sql2, final String sql3,
-            final Map<String, String> queryParams, final RequestData request) {
-
-        List<Object> readObject = null;
-        Map<String, String> queryParamsIns = new HashMap<String, String>();
-
-        readObject = dao.readObjects(sql1, queryParams);
-        queryParamsIns.put("arId", ((Map) readObject.get(0)).get("arId").toString());
-
-        readObject = dao.readObjects(sql2, queryParams);
-        queryParamsIns.put("uid", ((Map) readObject.get(0)).get("authorId").toString());
-
-        readObject = dao.readObjects(sql3, queryParamsIns);
-        queryParamsIns.put("authorID", request.getRequest_data_article().getAuthorId());
-        queryParamsIns.put("type", "likeDiscussionArticle");
-        queryParamsIns.put("title", "Like discussion article");
-        queryParamsIns.put("notification", "liked your discussion article");
-
-        return queryParamsIns;
-    }
-
-    public Map<String, String> getParamLikeCommentVideoAdmission(final String sql1, final String sql2, final String sql3,
-            final Map<String, String> queryParams, final RequestData request) {
-
-        List<Object> readObject = null;
-        Map<String, String> queryParamsIns = new HashMap<String, String>();
-
-        readObject = dao.readObjects(sql1, queryParams);
-        queryParamsIns.put("vid", ((Map) readObject.get(0)).get("vId").toString());
-
-        readObject = dao.readObjects(sql2, queryParams);
-        queryParamsIns.put("uid", ((Map) readObject.get(0)).get("authorId").toString());
-
-        readObject = dao.readObjects(sql3, queryParamsIns);
-        queryParamsIns.put("authorID", request.getRequest_data_videoAdmission().getAuthorId());
-        queryParamsIns.put("type", "likeDiscussionVideoAdmission");
-        queryParamsIns.put("title", "Like discussion video admission");
-        queryParamsIns.put("notification", "liked your discussion video admission");
-
-        return queryParamsIns;
-    }
-
-    public Map<String, String> getParamLikeCommentEssay(final String sql1, final String sql2, final String sql3,
-            final Map<String, String> queryParams, final RequestData request) {
-
-        List<Object> readObject = null;
-        Map<String, String> queryParamsIns = new HashMap<String, String>();
-
-        readObject = dao.readObjects(sql1, queryParams);
-        queryParamsIns.put("essayId", ((Map) readObject.get(0)).get("eid").toString());
-
-        readObject = dao.readObjects(sql2, queryParams);
-        queryParamsIns.put("uid", ((Map) readObject.get(0)).get("authorId").toString());
-
-        readObject = dao.readObjects(sql3, queryParamsIns);
-        queryParamsIns.put("authorID", request.getRequest_data().getAuthorID());
-        queryParamsIns.put("type", "likeDiscussionEssay");
-        queryParamsIns.put("title", "Like discussion essay");
-        queryParamsIns.put("notification", "liked your discussion essay");
-
-        return queryParamsIns;
-    }
+    // /**
+    // * {@inheritDoc}
+    // */
+    // @Override
+    // @RequestMapping(value = "/likeCommentEssay", method = RequestMethod.POST)
+    // public @ResponseBody ResponseEntity<Response>
+    // likeCommentEssay(@RequestBody final RequestData request) {
+    //
+    // SimpleResponse simpleResponse = null;
+    // try {
+    // if (!AuthenticationFilter.isAuthed(context)) {
+    // simpleResponse = new SimpleResponse(SibConstants.FAILURE,
+    // "Authentication required.");
+    // return new ResponseEntity<Response>(simpleResponse,
+    // HttpStatus.FORBIDDEN);
+    // }
+    //
+    // Map<String, String> queryParams = new HashMap<String, String>();
+    //
+    // queryParams.put("authorID", request.getRequest_data().getAuthorID());
+    // queryParams.put("cid", request.getRequest_data().getCid());
+    //
+    // List<Object> readObject = null;
+    // String entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ;
+    // readObject = dao.readObjects(entityName, queryParams);
+    //
+    // boolean status = true, notifi = true;
+    // Map<String, String> queryParamsIns = null;
+    // String message = "";
+    // if (readObject.size() == 0) {
+    // queryParamsIns = new HashMap<String, String>();
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_INSERT;
+    // status = dao.insertUpdateObject(entityName, queryParams);
+    //
+    // queryParamsIns = getParamLikeCommentEssay(
+    // "GET_ESSAYID_OF_COMMENT",
+    // "GET_AUTHOR_COMMENT",
+    // "GET_ESSAY_WITH_ESSAYID",
+    // queryParams,
+    // request);
+    // if
+    // (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID()))
+    // {
+    // entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ESSAY;
+    // notifi = dao.insertUpdateObject(entityName, queryParamsIns);
+    // }
+    // } else {
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMEMENT_READ_CHECK;
+    // readObject = dao.readObjects(entityName, queryParams);
+    // if (readObject.size() == 0) {
+    // queryParamsIns = new HashMap<String, String>();
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_UPDATE;
+    // status = dao.insertUpdateObject(entityName, queryParams);
+    //
+    // queryParamsIns = getParamLikeCommentEssay(
+    // "GET_ESSAYID_OF_COMMENT",
+    // "GET_AUTHOR_COMMENT",
+    // "GET_ESSAY_WITH_ESSAYID",
+    // queryParams,
+    // request);
+    // if
+    // (!queryParamsIns.get("uid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID()))
+    // {
+    // entityName = SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ESSAY;
+    // notifi = dao.insertUpdateObject(entityName, queryParamsIns);
+    // }
+    // } else {
+    // entityName = SibConstants.SqlMapper.SQL_UNLIKE_COMMENT_UPDATE;
+    // status = dao.insertUpdateObject(entityName, queryParams);
+    // }
+    // }
+    // entityName = SibConstants.SqlMapper.SQL_LIKE_COMMENT_READ;
+    // readObject = dao.readObjects(entityName, queryParams);
+    // if (status) {
+    // message = "Done";
+    // } else {
+    // message = "Fail";
+    // }
+    // } catch (DAOException e) {
+    // simpleResponse = new SimpleResponse(
+    // SibConstants.FAILURE,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // e.getMessage());
+    // }
+    // SimpleResponse reponse = new SimpleResponse(
+    // "" + status,
+    // request.getRequest_data_type(),
+    // request.getRequest_data_method(),
+    // readObject);
+    // ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse,
+    // HttpStatus.OK);
+    // return entity;
+    // }
+    //
+    // /**
+    // * {@inheritDoc}
+    // */
+    // public Map<String, String> getParamLikeComment(final String sql1, final
+    // String sql2, final String sql3,
+    // final Map<String, String> queryParams, final RequestData request) {
+    //
+    // List<Object> readObject = null;
+    // Map<String, String> queryParamsIns = new HashMap<String, String>();
+    //
+    // readObject = dao.readObjects(sql1, queryParams);
+    // queryParamsIns.put("vid", ((Map)
+    // readObject.get(0)).get("vid").toString());
+    //
+    // readObject = dao.readObjects(sql2, queryParams);
+    // queryParamsIns.put("uid", ((Map)
+    // readObject.get(0)).get("authorId").toString());
+    //
+    // readObject = dao.readObjects(sql3, queryParamsIns);
+    // queryParamsIns.put("authorID", request.getRequest_data().getAuthorID());
+    // queryParamsIns.put("subjectId", ((Map)
+    // readObject.get(0)).get("subjectId").toString());
+    // queryParamsIns.put("topicId", ((Map)
+    // readObject.get(0)).get("topicId").toString());
+    // queryParamsIns.put("type", "likeDiscussion");
+    // queryParamsIns.put("title", "Like discussion");
+    // queryParamsIns.put("notification", "liked your discussion");
+    //
+    // return queryParamsIns;
+    // }
+    //
+    // /**
+    // * {@inheritDoc}
+    // */
+    // public Map<String, String> paramLikeAnswer(final String sql1, final
+    // String sql2, final Object[] queryParams,
+    // final String authorID) {
+    //
+    // List<Object> readObject = null;
+    // Map<String, String> queryParamsIns = new HashMap<String, String>();
+    //
+    // readObject = dao.readObjects(sql1, new Object[] { queryParams[0] });
+    // if (!CollectionUtils.isEmpty(readObject)) {
+    // queryParamsIns.put("pid", ((Map)
+    // readObject.get(0)).get("pid").toString());
+    // queryParamsIns.put("uid", ((Map)
+    // readObject.get(0)).get("authorID").toString());
+    // readObject = dao.readObjects(sql2, new Object[] { "" + ((Map)
+    // readObject.get(0)).get("pid") });
+    // if (!CollectionUtils.isEmpty(readObject)) {
+    // queryParamsIns.put("authorID", authorID);
+    // queryParamsIns.put("subjectId", ((Map)
+    // readObject.get(0)).get("subjectId").toString());
+    // queryParamsIns.put("type", "likeAnswer");
+    // queryParamsIns.put("title", "Like answer");
+    // queryParamsIns.put("notification", "liked your answer");
+    // }
+    // }
+    // return queryParamsIns;
+    // }
+    //
+    // /**
+    // * {@inheritDoc}
+    // */
+    // public Map<String, String> getParamLikeCommentArticle(final String sql1,
+    // final String sql2, final String sql3,
+    // final Map<String, String> queryParams, final RequestData request) {
+    //
+    // List<Object> readObject = null;
+    // Map<String, String> queryParamsIns = new HashMap<String, String>();
+    //
+    // readObject = dao.readObjects(sql1, queryParams);
+    // queryParamsIns.put("arId", ((Map)
+    // readObject.get(0)).get("arId").toString());
+    //
+    // readObject = dao.readObjects(sql2, queryParams);
+    // queryParamsIns.put("uid", ((Map)
+    // readObject.get(0)).get("authorId").toString());
+    //
+    // readObject = dao.readObjects(sql3, queryParamsIns);
+    // queryParamsIns.put("authorID",
+    // request.getRequest_data_article().getAuthorId());
+    // queryParamsIns.put("type", "likeDiscussionArticle");
+    // queryParamsIns.put("title", "Like discussion article");
+    // queryParamsIns.put("notification", "liked your discussion article");
+    //
+    // return queryParamsIns;
+    // }
+    //
+    // /**
+    // * {@inheritDoc}
+    // */
+    // public Map<String, String> getParamLikeCommentVideoAdmission(final String
+    // sql1, final String sql2, final String sql3,
+    // final Map<String, String> queryParams, final RequestData request) {
+    //
+    // List<Object> readObject = null;
+    // Map<String, String> queryParamsIns = new HashMap<String, String>();
+    //
+    // readObject = dao.readObjects(sql1, queryParams);
+    // queryParamsIns.put("vid", ((Map)
+    // readObject.get(0)).get("vId").toString());
+    //
+    // readObject = dao.readObjects(sql2, queryParams);
+    // queryParamsIns.put("uid", ((Map)
+    // readObject.get(0)).get("authorId").toString());
+    //
+    // readObject = dao.readObjects(sql3, queryParamsIns);
+    // queryParamsIns.put("authorID",
+    // request.getRequest_data_videoAdmission().getAuthorId());
+    // queryParamsIns.put("type", "likeDiscussionVideoAdmission");
+    // queryParamsIns.put("title", "Like discussion video admission");
+    // queryParamsIns.put("notification",
+    // "liked your discussion video admission");
+    //
+    // return queryParamsIns;
+    // }
+    //
+    // /**
+    // * {@inheritDoc}
+    // */
+    // public Map<String, String> getParamLikeCommentEssay(final String sql1,
+    // final String sql2, final String sql3,
+    // final Map<String, String> queryParams, final RequestData request) {
+    //
+    // List<Object> readObject = null;
+    // Map<String, String> queryParamsIns = new HashMap<String, String>();
+    //
+    // readObject = dao.readObjects(sql1, queryParams);
+    // queryParamsIns.put("essayId", ((Map)
+    // readObject.get(0)).get("eid").toString());
+    //
+    // readObject = dao.readObjects(sql2, queryParams);
+    // queryParamsIns.put("uid", ((Map)
+    // readObject.get(0)).get("authorId").toString());
+    //
+    // readObject = dao.readObjects(sql3, queryParamsIns);
+    // queryParamsIns.put("authorID", request.getRequest_data().getAuthorID());
+    // queryParamsIns.put("type", "likeDiscussionEssay");
+    // queryParamsIns.put("title", "Like discussion essay");
+    // queryParamsIns.put("notification", "liked your discussion essay");
+    //
+    // return queryParamsIns;
+    // }
 
 }

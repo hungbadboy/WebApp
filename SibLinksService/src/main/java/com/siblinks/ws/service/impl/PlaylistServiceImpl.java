@@ -33,6 +33,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -49,6 +51,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
@@ -58,12 +61,15 @@ import com.siblinks.ws.util.RandomString;
 import com.siblinks.ws.util.SibConstants;
 
 /**
+ * {@link PlaylistService}
+ * 
  * @author Hoai Nguyen
  * @version v1.0
  */
 @RestController
 @RequestMapping("/siblinks/services/playlist")
 public class PlaylistServiceImpl implements PlaylistService {
+    private final Log logger = LogFactory.getLog(PlaylistServiceImpl.class);
 
     @Autowired
     private HttpServletRequest context;
@@ -73,37 +79,46 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Autowired
     private Environment environment;
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.siblinks.ws.service.PlaylistService#getPlaylist()
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     @RequestMapping(value = "/getPlaylist", method = RequestMethod.GET)
-    public ResponseEntity<Response> getPlaylist(@RequestParam final long userid, @RequestParam final int offset) throws Exception {
-        Object[] queryParams = { userid, offset };
-        String entityName = SibConstants.SqlMapperBROT44.SQL_GET_PLAYLIST;
-        List<Object> readObject = dao.readObjects(entityName, queryParams);
-        SimpleResponse reponse = null;
-        List<Object> dataReturn = new ArrayList<Object>();
+    public ResponseEntity<Response> getPlaylist(@RequestParam final long userid, @RequestParam final int offset) {
+        SimpleResponse simpleResponse = null;
+        try {
+            Object[] queryParams = { userid, offset };
+            String entityName = SibConstants.SqlMapperBROT44.SQL_GET_PLAYLIST;
+            List<Object> readObject = dao.readObjects(entityName, queryParams);
+            List<Object> dataReturn = new ArrayList<Object>();
 
-        if (readObject != null && readObject.size() > 0) {
-            Map<String, Object> playlistItem = null;
-            for (Object object : readObject) {
-                playlistItem = (Map<String, Object>) object;
-                playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
-                dataReturn.add(playlistItem);
+            if (readObject != null && readObject.size() > 0) {
+                Map<String, Object> playlistItem = null;
+                for (Object object : readObject) {
+                    playlistItem = (Map<String, Object>) object;
+                    playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
+                    dataReturn.add(playlistItem);
+                }
+                simpleResponse = new SimpleResponse("" + true, "playlist", "getPlaylist", dataReturn);
+            } else {
+                simpleResponse = new SimpleResponse("" + true, "playlist", "getPlaylist", SibConstants.NO_DATA);
             }
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", dataReturn);
-        } else {
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", SibConstants.NO_DATA);
-        }
 
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        } catch (DAOException e) {
+            logger.error(e);
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getNotificationNotReaded", e.getMessage());
+        }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
-    
-    private long getCountVideos(final String plid) {
+
+    /**
+     * {@inheritDoc}
+     */
+    private long getCountVideos(final String plid) throws DAOException {
         long numVideos = 0;
         Object[] params = new Object[] { plid };
         List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_VIDEOS_IN_PLAYLIST, params);
@@ -115,25 +130,18 @@ public class PlaylistServiceImpl implements PlaylistService {
         } else {
             numVideos = 0;
         }
+
         return numVideos;
     }
-    
-    @Autowired
-    private PlatformTransactionManager transactionManager;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.siblinks.ws.service.PlaylistService#insertPlaylist(com.siblinks.ws
-     * .model.RequestData)
+    /**
+     * {@inheritDoc}
      */
     @Override
     @RequestMapping(value = "/insertPlaylist", method = RequestMethod.POST)
     public ResponseEntity<Response> insertPlaylist(@RequestParam final MultipartFile image, @RequestParam final String title,
-            @RequestParam final String description, @RequestParam final String url, @RequestParam final long subjectId, @RequestParam final long createBy,
-            @RequestParam(required = false) final ArrayList<String> vids)
-            throws Exception {
+            @RequestParam final String description, @RequestParam final String url, @RequestParam final long subjectId,
+            @RequestParam final long createBy, @RequestParam(required = false) final ArrayList<String> vids) throws Exception {
         String entityName = null;
         SimpleResponse reponse = null;
         try {
@@ -168,6 +176,9 @@ public class PlaylistServiceImpl implements PlaylistService {
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     private String uploadPlaylistThumbnail(final MultipartFile image) throws Exception {
         String fullPath = "";
         String filename = "";
@@ -208,10 +219,8 @@ public class PlaylistServiceImpl implements PlaylistService {
         return fullPath;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.siblinks.ws.service.PlaylistService#deletePlaylist(long)
+    /**
+     * {@inheritDoc}
      */
     @Override
     @RequestMapping(value = "/deletePlaylist", method = RequestMethod.POST)
@@ -227,8 +236,7 @@ public class PlaylistServiceImpl implements PlaylistService {
         } catch (Exception e) {
             throw e;
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
     private boolean deletePlaylist(final String plid, final String uid) {
@@ -253,10 +261,8 @@ public class PlaylistServiceImpl implements PlaylistService {
         return flag;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.siblinks.ws.service.PlaylistService#deletePlaylist(long)
+    /**
+     * {@inheritDoc}
      */
     @Override
     @RequestMapping(value = "/getPlaylistById/{plid}", method = RequestMethod.GET)
@@ -275,14 +281,16 @@ public class PlaylistServiceImpl implements PlaylistService {
             reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", SibConstants.NO_DATA);
         }
 
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/searchPlaylist", method = RequestMethod.GET)
-    public ResponseEntity<Response> searchPlaylist(@RequestParam final long uid, @RequestParam final String keyword, @RequestParam final int offset)
-            throws Exception {
+    public ResponseEntity<Response> searchPlaylist(@RequestParam final long uid, @RequestParam final String keyword,
+            @RequestParam final int offset) throws Exception {
         Object[] queryParams = { uid };
         String entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST;
         String term = StringEscapeUtils.escapeJava(keyword);
@@ -308,10 +316,12 @@ public class PlaylistServiceImpl implements PlaylistService {
             reponse = new SimpleResponse("" + true, "playlist", "searchPlaylist", SibConstants.NO_DATA);
         }
 
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getPlaylistBySubject", method = RequestMethod.GET)
     public ResponseEntity<Response> getPlaylistBySubject(final long uid, final long subjectId, final int offset) throws Exception {
@@ -333,13 +343,15 @@ public class PlaylistServiceImpl implements PlaylistService {
             reponse = new SimpleResponse("" + true, "playlist", "getPlaylistBySubject", SibConstants.NO_DATA);
         }
 
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/deleteMultiplePlaylist", method = RequestMethod.POST)
-    public ResponseEntity<Response> deleteMultiplePlaylist(@RequestBody final RequestData request) throws Exception {
+    public ResponseEntity<Response> deleteMultiplePlaylist(@RequestBody final RequestData request) {
         String uid = request.getRequest_playlist().getCreateBy();
         ArrayList<String> plids = request.getRequest_playlist().getPlids();
         SimpleResponse reponse = null;
@@ -357,13 +369,15 @@ public class PlaylistServiceImpl implements PlaylistService {
         String msg = String.format("Delete success %d playlist and failed %d playlist", countSuccess, countFail);
         reponse = new SimpleResponse("" + true, "playlist", "deleteMultiplePlaylist", msg);
 
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/deleteVideoInPlaylist", method = RequestMethod.POST)
-    public ResponseEntity<Response> deleteVideoInPlaylist(@RequestBody final RequestData request) throws Exception {
+    public ResponseEntity<Response> deleteVideoInPlaylist(@RequestBody final RequestData request) {
         ArrayList<String> vids = request.getRequest_data().getVids();
         SimpleResponse reponse = null;
 
@@ -378,16 +392,17 @@ public class PlaylistServiceImpl implements PlaylistService {
             reponse = new SimpleResponse("" + true, "playlist", "deleteVideoInPlaylist", e.getMessage());
         }
 
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/updatePlaylist", method = RequestMethod.POST)
-    public ResponseEntity<Response> updatePlaylist(@RequestParam(required = false) final MultipartFile image, @RequestParam final String oldImage,
-            @RequestParam final String title,
-            @RequestParam final String description, @RequestParam final long subjectId, @RequestParam final long createBy, @RequestParam final long plid)
-            throws Exception {
+    public ResponseEntity<Response> updatePlaylist(@RequestParam(required = false) final MultipartFile image,
+            @RequestParam final String oldImage, @RequestParam final String title, @RequestParam final String description,
+            @RequestParam final long subjectId, @RequestParam final long createBy, @RequestParam final long plid) {
         String entityName = null;
         boolean updateObject;
         SimpleResponse reponse = null;
@@ -427,16 +442,18 @@ public class PlaylistServiceImpl implements PlaylistService {
                 reponse = new SimpleResponse("" + true, "playlist", "updatePlaylist", "failed");
             }
         } catch (Exception e) {
-            throw e;
+            reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "updatePlaylist", "failed");
         }
 
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getAllPlaylist", method = RequestMethod.GET)
-    public ResponseEntity<Response> getAllPlaylist() throws Exception {
+    public ResponseEntity<Response> getAllPlaylist() {
         SimpleResponse reponse = null;
         try {
             List<Object> readObjects = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_ALL_PLAYLIST, new Object[] {});
@@ -448,24 +465,28 @@ public class PlaylistServiceImpl implements PlaylistService {
         } catch (Exception e) {
             reponse = new SimpleResponse(true + "", "playlist", "getAllPlaylist", e.getMessage());
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getVideoInPlaylist", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideoInPlaylist(final long plid, final int offset) throws Exception {
+    public ResponseEntity<Response> getVideoInPlaylist(final long plid, final int offset) {
         Object[] queryParams = { plid, offset };
         SimpleResponse reponse = null;
+        try {
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_VIDEOS_IN_PLAYLIST, queryParams);
+            if (readObject != null && readObject.size() > 0) {
+                reponse = new SimpleResponse("" + true, "Video", "getVideoInPlaylist", readObject);
+            } else {
+                reponse = new SimpleResponse("" + true, "Video", "getVideoInPlaylist", SibConstants.NO_DATA);
+            }
 
-        List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_VIDEOS_IN_PLAYLIST, queryParams);
-        if (readObject != null && readObject.size() > 0) {
-            reponse = new SimpleResponse("" + true, "Video", "getVideoInPlaylist", readObject);
-        } else {
-            reponse = new SimpleResponse("" + true, "Video", "getVideoInPlaylist", SibConstants.NO_DATA);
+        } catch (Exception e) {
+            reponse = new SimpleResponse(true + "", "playlist", "getAllPlaylist", e.getMessage());
         }
-
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 }

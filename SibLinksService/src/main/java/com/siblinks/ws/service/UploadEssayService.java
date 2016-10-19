@@ -18,9 +18,9 @@ import com.siblinks.ws.response.Response;
  */
 public interface UploadEssayService {
 
-	public ResponseEntity<Response> upload(String name, String userId,String userType, MultipartFile file) throws FileNotFoundException;
+    public ResponseEntity<Response> upload(String name, String userId, String userType, MultipartFile file);
 
-	public ResponseEntity<Response> getEssayByUserId(RequestData video) throws FileNotFoundException;
+    public ResponseEntity<Response> getEssayByUserId(RequestData video);
 
     // public void download(String userId, String essayId, String
     // status,HttpServletRequest request, HttpServletResponse response);
@@ -33,13 +33,13 @@ public interface UploadEssayService {
 
 	public ResponseEntity<Response> getDiscussion(RequestData video);
 
-	public ResponseEntity<Response> getEssaybByStudentId(RequestData request) throws FileNotFoundException;
+    public ResponseEntity<Response> getEssaybByStudentId(RequestData request);
 
-	public ResponseEntity<Response> getEssayById(RequestData request) throws FileNotFoundException;
+    public ResponseEntity<Response> getEssayById(RequestData request);
 
 	public ResponseEntity<Response> getEssayCommentsPN(RequestData request);
 
-    public ResponseEntity<Response> getEssayProfile(long userid, long limit, long offset) throws FileNotFoundException;
+    public ResponseEntity<Response> getEssayProfile(long userid, long limit, long offset);
 
     /**
      * upload essay for student

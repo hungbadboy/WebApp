@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.response.Response;
@@ -44,6 +45,8 @@ import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.SibConstants;
 
 /**
+ * {@link StudentService}
+ * 
  * @author Tavv
  *
  */
@@ -57,143 +60,160 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private HttpServletRequest context;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.siblinks.ws.service.StudentService#getMentorSubscribed(com.siblinks.
-     * ws.model.RequestData)
+    /**
+     * {@inheritDoc}
      */
     @Override
     @RequestMapping(value = "/getMentorSubscribed", method = RequestMethod.GET)
     public ResponseEntity<Response> getMentorSubscribed(final long studentId, final String limit, final String offset) {
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" +
-                                                                                              false,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
-        CommonUtil util = CommonUtil.getInstance();
-        Map<String, String> pageLimit = util.getOffset(limit, offset);
-        Object[] params = { studentId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
-        String entityName = SibConstants.SqlMapper.SQL_MENTOR_STUDENT_SUBSCRIBED;
-        List<Object> listMentorSubsribed = dao.readObjects(entityName, params);
-        String count = "0";
-        if (listMentorSubsribed != null) {
-            count = String.valueOf(listMentorSubsribed.size());
-        }
-        SimpleResponse response;
-        if (listMentorSubsribed.size() > 0) {
-            response = new SimpleResponse("" + Boolean.TRUE, "student", "getMentorSubscribed", listMentorSubsribed, count);
-        } else {
-            response = new SimpleResponse("" + Boolean.TRUE, "student", "getMentorSubscribed", SibConstants.NO_DATA, count);
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                // Return authentication
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+            CommonUtil util = CommonUtil.getInstance();
+            Map<String, String> pageLimit = util.getOffset(limit, offset);
+            Object[] params = { studentId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
+
+            List<Object> listMentorSubsribed = dao.readObjects(SibConstants.SqlMapper.SQL_MENTOR_STUDENT_SUBSCRIBED, params);
+            if (CollectionUtils.isEmpty(listMentorSubsribed)) {
+                simpleResponse = new SimpleResponse(
+                                                    SibConstants.SUCCESS,
+                                                    "student",
+                                                    "getMentorSubscribed",
+                                                    listMentorSubsribed,
+                                                    "" + listMentorSubsribed.size());
+            } else {
+                simpleResponse = new SimpleResponse(
+                                                    SibConstants.SUCCESS,
+                                                    "student",
+                                                    "getMentorSubscribed",
+                                                    SibConstants.NO_DATA,
+                                                    "0");
+            }
+        } catch (DAOException e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "student", "getMentorSubscribed", e.getMessage());
         }
 
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
     /**
+     * {@inheritDoc}
      * 
-     * @param userId
-     * @param studentId
-     * @param limit
-     * @param offset
-     * @return listMentorSubscribed see with Mentor view profile Student
      */
     @Override
     @RequestMapping(value = "/getSubscribedMentorViewStudent", method = RequestMethod.GET)
     public ResponseEntity<Response> getSubscribedMentorViewStudent(@RequestParam final long userId,
             @RequestParam final long studentId, @RequestParam final String limit, @RequestParam final String offset) {
+        SimpleResponse simpleResponse = null;
+        try {
+            Map<String, String> pageLimit = CommonUtil.getInstance().getOffset(limit, offset);
+            // Get subscribed of student
+            Object[] params = new Object[] { studentId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit
+                .get("offset")) };
+            List<Object> listMentorSubscribedOfStudent = dao.readObjects(
+                SibConstants.SqlMapper.SQL_SUBSCRIBED_FROM_MENTOR_VIEW_STUDENT,
+                params);
 
-        Map<String, String> pageLimit = CommonUtil.getInstance().getOffset(limit, offset);
+            // Get student subscribed
+            params = new Object[] { userId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
+            List<Object> listMentorSubscribedOfCurrentId = dao.readObjects(
+                SibConstants.SqlMapper.SQL_MENTOR_STUDENT_SUBSCRIBED,
+                params);
 
-        Object[] params = null;
-        params = new Object[] { studentId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
-        String entityName = SibConstants.SqlMapper.SQL_SUBSCRIBED_FROM_MENTOR_VIEW_STUDENT;
-
-        List<Object> listMentorSubscribedOfStudent = dao.readObjects(entityName, params);
-
-        params = new Object[] { userId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
-
-        List<Object> listMentorSubscribedOfCurrentId = dao
-            .readObjects(SibConstants.SqlMapper.SQL_MENTOR_STUDENT_SUBSCRIBED, params);
-
-        Map<Integer, Object> data = new HashMap<>();
-        if (!CollectionUtils.isEmpty(listMentorSubscribedOfStudent)) {
-            for (Object obj : listMentorSubscribedOfStudent) {
-                Map objConvert = (Map) obj;
-                if ((long) objConvert.get("isSubs") == 1) {
-                    data.put((int) objConvert.get("userid"), obj);
+            Map<Integer, Object> data = new HashMap<>();
+            if (!CollectionUtils.isEmpty(listMentorSubscribedOfStudent)) {
+                for (Object obj : listMentorSubscribedOfStudent) {
+                    Map objConvert = (Map) obj;
+                    if ((long) objConvert.get("isSubs") == 1) {
+                        data.put((int) objConvert.get("userid"), obj);
+                    }
                 }
             }
-        }
-        List<Object> readObject = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(listMentorSubscribedOfCurrentId)) {
-            for (Object obj : listMentorSubscribedOfStudent) {
-                Map objConvert = (Map) obj;
-                System.out.println((int) objConvert.get("userid"));
-                System.out.println(data.get((int) objConvert.get("userid")));
-                if (data.get((int) objConvert.get("userid")) != null) {
-                    objConvert.put("isSubs", 1);
+
+            List<Object> readObject = new ArrayList<>();
+            if (!CollectionUtils.isEmpty(listMentorSubscribedOfCurrentId)) {
+                if (!CollectionUtils.isEmpty(listMentorSubscribedOfStudent)) {
+                    for (Object obj : listMentorSubscribedOfStudent) {
+                        Map objConvert = (Map) obj;
+                        // System.out.println((int) objConvert.get("userid"));
+                        // System.out.println(data.get((int)
+                        // objConvert.get("userid")));
+                        if (data.get((int) objConvert.get("userid")) != null) {
+                            objConvert.put("isSubs", 1);
+                        } else {
+                            objConvert.put("isSubs", 0);
+                        }
+                        readObject.add(objConvert);
+                    }
                 } else {
-                    objConvert.put("isSubs", 0);
+                    // Do nothing
                 }
-                readObject.add(objConvert);
-            }
-        } else {
-            for (Object obj : listMentorSubscribedOfStudent) {
-                Map objConvert = (Map) obj;
-                if ((long) objConvert.get("isSubs") == 1) {
-                    objConvert.put("isSubs", 0);
-                    readObject.add(objConvert);
+            } else {
+                if (!CollectionUtils.isEmpty(listMentorSubscribedOfStudent)) {
+                    for (Object obj : listMentorSubscribedOfStudent) {
+                        Map objConvert = (Map) obj;
+                        if ((long) objConvert.get("isSubs") == 1) {
+                            objConvert.put("isSubs", 0);
+                            readObject.add(objConvert);
+                        }
+                    }
+                } else {
+                    // Do nothing
                 }
             }
+            if (readObject.size() > 0) {
+                simpleResponse = new SimpleResponse("" + true, "student", "getSubscribedMentorViewStudent", readObject);
+            } else {
+                simpleResponse = new SimpleResponse("" + true, "student", "getSubscribedMentorViewStudent", SibConstants.NO_DATA);
+            }
+        } catch (DAOException e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "student", "getSubscribedMentorViewStudent", e.getMessage());
         }
-        SimpleResponse response;
-        if (readObject.size() > 0) {
-            response = new SimpleResponse("" + true, "student", "getSubscribedMentorViewStudent", readObject);
-        } else {
-            response = new SimpleResponse("" + true, "student", "getSubscribedMentorViewStudent", SibConstants.NO_DATA);
-        }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
-        return entity;
+
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/checkStudentSubscribe", method = RequestMethod.GET)
     public ResponseEntity<Response> checkStudentSubscribe(@RequestParam final long studentId, @RequestParam final long mentorId) {
-        boolean status;
+
         String message = "";
-        SimpleResponse response;
-        ResponseEntity<Response> entity;
-        if (studentId == 0 || mentorId == 0) {
-            status = false;
-            message = SibConstants.USER_NOT_EXISTS;
-            response = new SimpleResponse("" + status, "student", "checkStudentSubscribe", message);
-            entity = new ResponseEntity<Response>(response, HttpStatus.OK);
-            return entity;
-        }
-        status = true;
-        Object[] params = { studentId, mentorId };
-
-        String entityName = SibConstants.SqlMapper.SQL_CHECK_STUDENT_SUBSCRIBE;
-
-        List<Object> readObject = dao.readObjects(entityName, params);
-        boolean isSubscribed = false;
-        if (!CollectionUtils.isEmpty(readObject)) {
-            for (Object object : readObject) { // Only one object
-                Map obj = (Map) object;
-                isSubscribed = (long) obj.get("count(*)") > 0;
+        SimpleResponse simpleResponse = null;
+        try {
+            if (studentId == 0 || mentorId == 0) {
+                message = SibConstants.USER_NOT_EXISTS;
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "student", "checkStudentSubscribe", message);
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
+            Object[] params = { studentId, mentorId };
+
+            String entityName = SibConstants.SqlMapper.SQL_CHECK_STUDENT_SUBSCRIBE;
+
+            List<Object> readObject = dao.readObjects(entityName, params);
+            boolean isSubscribed = false;
+            if (!CollectionUtils.isEmpty(readObject)) {
+                for (Object object : readObject) { // Only one object
+                    Map obj = (Map) object;
+                    isSubscribed = (long) obj.get("count(*)") > 0;
+                }
+            }
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "student", "checkStudentSubscribe", isSubscribed);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "student", "getSubscribedMentorViewStudent", e.getMessage());
         }
-        response = new SimpleResponse("" + status, "student", "checkStudentSubscribe", isSubscribed);
-        entity = new ResponseEntity<Response>(response, HttpStatus.OK);
-        return entity;
+
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
 }

@@ -9,11 +9,16 @@ brotControllers.controller('PlaylistController',
     init();
 
     function init(){
-      loadPlaylist();
-      initSubject();
-      getAllPlaylist();
+      if (userId && userId > 0) {
+        loadPlaylist();
+        initSubject();
+        getAllPlaylist();
 
-      $('#txtDescription').val('');
+        $('#txtDescription').val('');
+      } else {
+        window.localStorage.clear();
+        window.location.href = '/';
+      }      
     }
 
     function initSubject(){      
@@ -329,7 +334,8 @@ brotControllers.controller('PlaylistController',
 
       $rootScope.$broadcast('open');
       PlaylistService.insertPlaylist(fd).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result == "success") {
+        var result = data.data.request_data_result;
+        if (result != null && result.message == "success") {
           //reload page
           $scope.success = "Insert playlist successful.";
           loadPlaylist();

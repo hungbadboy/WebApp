@@ -51,4 +51,8 @@ public class Parameters {
     public static final String BIO = "bio";
     public static final String ACCOMPLISHMENT = "accomplishment";
     public static final String LOGIN_MENTOR_URL = "mentor/signin";
+    public static final String ENABLE_FLAG = "enableFlag";
+    public static final String STATUS = "status";
+    public static final String ID_FACEBOOK = "idFacebook";
+    public static final String ID_GOOGLE = "idGoogle";
 }

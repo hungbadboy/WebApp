@@ -15,7 +15,7 @@ public class VideoRunningTimeUpdate {
 	public static Map<String, Object> jsonToMap(final JSONObject json) throws JSONException {
 	    Map<String, Object> retMap = new HashMap<String, Object>();
 
-	    if(json != JSONObject.NULL) {
+        if (json != null) {
 	        retMap = toMap(json);
 	    }
 	    return retMap;

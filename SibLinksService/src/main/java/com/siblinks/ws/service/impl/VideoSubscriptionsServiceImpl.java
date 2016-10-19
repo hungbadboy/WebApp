@@ -50,6 +50,8 @@ import com.siblinks.ws.util.DateUtil;
 import com.siblinks.ws.util.SibConstants;
 
 /**
+ * {@link VideoSubscriptionsService}
+ * 
  * @author kypv
  * @version 1.0
  */
@@ -63,83 +65,97 @@ public class VideoSubscriptionsServiceImpl implements VideoSubscriptionsService 
     @Autowired
     private ObjectDao dao;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getListCategorySubscription", method = RequestMethod.GET)
     public ResponseEntity<Response> getListCategorySubscription() {
-        String method = "getListCategorySubscription()";
-
-        logger.debug(method + " start");
-
-        Object[] queryParams = {};
-        String entityName = SibConstants.SqlMapper.SQL_SIB_GET_LIST_CATEGORY_SUBSCRIPTION;
-
-        List<Object> readObject = dao.readObjects(entityName, queryParams);
-
-        SimpleResponse reponse = new SimpleResponse("true", readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-
-        logger.debug(method + " end");
-        return entity;
+        SimpleResponse response = null;
+        try {
+            String method = "getListCategorySubscription()";
+            logger.debug(method + " start");
+            Object[] queryParams = {};
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_GET_LIST_CATEGORY_SUBSCRIPTION, queryParams);
+            response = new SimpleResponse(SibConstants.SUCCESS, readObject);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            response = new SimpleResponse(SibConstants.FAILURE, "video", "getListCategorySubscription", e.getMessage());
+        }
+        return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getListVideoSubscription", method = RequestMethod.GET)
     public ResponseEntity<Response> getListVideoSubscription(@RequestParam("userId") final String userId,
             @RequestParam("subjectId") final String subjectId) {
-        String method = "getListVideoSubscription()";
-        logger.debug(method + " start");
-
-        String entityName = null;
-        List<Object> readObject = null;
-        String currentDate = "";
-        String firstDayOfCurrentWeek = "";
-        Object[] queryParams = null;
-        Map<String, List<Object>> mapListVideo = new HashMap<String, List<Object>>();
-
+        SimpleResponse response = null;
         try {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(new Date());
-            cal.setFirstDayOfWeek(Calendar.MONDAY);
-            cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-            Date firstDayOfTheWeek = cal.getTime();
+            String method = "getListVideoSubscription()";
+            logger.debug(method + " start");
 
-            currentDate = DateUtil.date2YYYYMMDD000000(new Date());
-            firstDayOfCurrentWeek = DateUtil.date2YYYYMMDD000000(firstDayOfTheWeek);
+            String entityName = null;
+            List<Object> readObject = null;
+            String currentDate = "";
+            String firstDayOfCurrentWeek = "";
+            Object[] queryParams = null;
+            Map<String, List<Object>> mapListVideo = new HashMap<String, List<Object>>();
 
-            if ("-2".equals(subjectId)) {
-                entityName = SibConstants.SqlMapper.SQL_SIB_GET_ALL_VIDEO_SUBSCRIPTION;
-                queryParams = new Object[] { userId, currentDate, userId, firstDayOfCurrentWeek, currentDate, userId };
-            } else {
-                entityName = SibConstants.SqlMapper.SQL_SIB_GET_ALL_VIDEO_SUBSCRIPTION_BY_CATEGORY;
-                queryParams = new Object[] { userId, currentDate, subjectId, userId, firstDayOfCurrentWeek, currentDate, subjectId, userId, subjectId };
+            try {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new Date());
+                cal.setFirstDayOfWeek(Calendar.MONDAY);
+                cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+                Date firstDayOfTheWeek = cal.getTime();
+
+                currentDate = DateUtil.date2YYYYMMDD000000(new Date());
+                firstDayOfCurrentWeek = DateUtil.date2YYYYMMDD000000(firstDayOfTheWeek);
+
+                if ("-2".equals(subjectId)) {
+                    entityName = SibConstants.SqlMapper.SQL_SIB_GET_ALL_VIDEO_SUBSCRIPTION;
+                    queryParams = new Object[] { userId, currentDate, userId, firstDayOfCurrentWeek, currentDate, userId };
+                } else {
+                    entityName = SibConstants.SqlMapper.SQL_SIB_GET_ALL_VIDEO_SUBSCRIPTION_BY_CATEGORY;
+                    queryParams = new Object[] { userId, currentDate, subjectId, userId, firstDayOfCurrentWeek, currentDate, subjectId, userId, subjectId };
+                }
+
+                readObject = dao.readObjects(entityName, queryParams);
+
+                if (readObject == null) {
+                    readObject = new ArrayList<Object>();
+                }
+
+                JSONArray jsonAraay = new JSONArray(readObject);
+
+                for (int i = 0; i < jsonAraay.length(); i++) {
+                    JSONObject jsonObj = jsonAraay.getJSONObject(i);
+                    ObjectMapper mapper = new ObjectMapper();
+                    Object obj = mapper.readValue(jsonObj.toString(), Object.class);
+                    addMapVideo(mapListVideo, jsonObj.get("flag").toString(), obj);
+                }
+
+            } catch (ParseException | IOException e) {
+                logger.error(method + " - error : " + e.getMessage());
             }
 
-            readObject = dao.readObjects(entityName, queryParams);
-
-            if (readObject == null) {
-                readObject = new ArrayList<Object>();
-            }
-
-            JSONArray jsonAraay = new JSONArray(readObject);
-
-            for (int i = 0; i < jsonAraay.length(); i++) {
-                JSONObject jsonObj = jsonAraay.getJSONObject(i);
-                ObjectMapper mapper = new ObjectMapper();
-                Object obj = mapper.readValue(jsonObj.toString(), Object.class);      
-                addMapVideo(mapListVideo, jsonObj.get("flag").toString(), obj);
-            }
-
-        } catch (ParseException | IOException e) {
-            logger.error(method + " - error : " + e.getMessage());
+            response = new SimpleResponse("true", mapListVideo);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            response = new SimpleResponse(SibConstants.FAILURE, "video", "getListVideoSubscription", e.getMessage());
         }
-
-        SimpleResponse reponse = new SimpleResponse("true", mapListVideo);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-
-        logger.debug(method + " end");
-        return entity;
+        return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
 
+    /**
+     * 
+     * @param map
+     * @param key
+     * @param value
+     * @throws ParseException
+     */
     private static void addMapVideo(final Map<String, List<Object>> map, final String key, final Object value)
             throws ParseException {
         if (map.containsKey(key)) {
@@ -152,95 +168,97 @@ public class VideoSubscriptionsServiceImpl implements VideoSubscriptionsService 
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getListVideoOfRecent", method = RequestMethod.POST)
     public ResponseEntity<Response> getListVideoOfRecent(@RequestParam("subjectId") final String subjectId) {
-        String method = "getListVideoOfRecent()";
-
-        logger.debug(method + " start");
-
-        String entityName = null;
-        List<Object> readObject = null;
-
+        SimpleResponse response = null;
         try {
+            String method = "getListVideoOfRecent()";
+            logger.debug(method + " start");
             String currentDate = DateUtil.date2YYYYMMDD000000(new Date());
-            System.out.println(currentDate);
-
-            entityName = SibConstants.SqlMapper.SQL_SIB_GET_LIST_VIDEO_OF_RECENT;
-
             Object[] queryParams = { subjectId, currentDate };
-
-            readObject = dao.readObjects(entityName, queryParams);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_GET_LIST_VIDEO_OF_RECENT, queryParams);
+            response = new SimpleResponse("true", readObject);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "getVideoTuttorialAdmission", e.getMessage());
         }
-
-        SimpleResponse reponse = new SimpleResponse("true", readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-
-        logger.debug(method + " end");
-        return entity;
+        return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getListVideoOfWeek", method = RequestMethod.POST)
     public ResponseEntity<Response> getListVideoOfWeek(@RequestParam("subjectId") final String subjectId) {
-        String method = "getListVideoOfWeek()";
-
-        logger.debug(method + " start");
-
-        String entityName = null;
-        List<Object> readObject = null;
-        String currentDate = "";
-        String firstDayOfCurrentWeek = "";
-
+        SimpleResponse response = null;
         try {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(new Date());
-            cal.setFirstDayOfWeek(Calendar.MONDAY);
-            cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-            Date firstDayOfTheWeek = cal.getTime();
+            String method = "getListVideoOfWeek()";
 
-            currentDate = DateUtil.date2YYYYMMDD000000(new Date());
-            firstDayOfCurrentWeek = DateUtil.date2YYYYMMDD000000(firstDayOfTheWeek);
+            logger.debug(method + " start");
 
-            System.out.println(firstDayOfCurrentWeek);
+            String entityName = null;
+            List<Object> readObject = null;
+            String currentDate = "";
+            String firstDayOfCurrentWeek = "";
 
-            entityName = SibConstants.SqlMapper.SQL_SIB_GET_LIST_VIDEO_OF_WEEK;
+            try {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new Date());
+                cal.setFirstDayOfWeek(Calendar.MONDAY);
+                cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+                Date firstDayOfTheWeek = cal.getTime();
 
-            Object[] queryParams = { subjectId, firstDayOfCurrentWeek, currentDate };
+                currentDate = DateUtil.date2YYYYMMDD000000(new Date());
+                firstDayOfCurrentWeek = DateUtil.date2YYYYMMDD000000(firstDayOfTheWeek);
 
-            readObject = dao.readObjects(entityName, queryParams);
+                System.out.println(firstDayOfCurrentWeek);
 
-        } catch (ParseException e) {
-            e.printStackTrace();
+                entityName = SibConstants.SqlMapper.SQL_SIB_GET_LIST_VIDEO_OF_WEEK;
+
+                Object[] queryParams = { subjectId, firstDayOfCurrentWeek, currentDate };
+
+                readObject = dao.readObjects(entityName, queryParams);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            response = new SimpleResponse("true", readObject);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "getVideoTuttorialAdmission", e.getMessage());
         }
-
-        SimpleResponse reponse = new SimpleResponse("true", readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-
-        logger.debug(method + " end");
-        return entity;
+        return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @RequestMapping(value = "/getListVideoOlder", method = RequestMethod.POST)
     public ResponseEntity<Response> getListVideoOlder(@RequestParam("userId") final String userId) {
-        String method = "getListVideoOlder()";
+        SimpleResponse response = null;
+        try {
+            String method = "getListVideoOlder()";
 
-        logger.debug(method + " start");
+            logger.debug(method + " start");
 
-        Object[] queryParams = { userId };
-        String entityName = SibConstants.SqlMapper.SQL_SIB_GET_LIST_VIDEO_OLDER;
+            Object[] queryParams = { userId };
+            String entityName = SibConstants.SqlMapper.SQL_SIB_GET_LIST_VIDEO_OLDER;
 
-        List<Object> readObject = dao.readObjects(entityName, queryParams);
+            List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-        SimpleResponse reponse = new SimpleResponse("true", readObject);
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-
-        logger.debug(method + " end");
-        return entity;
+            response = new SimpleResponse("true", readObject);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "getVideoTuttorialAdmission", e.getMessage());
+        }
+        return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
 
 }

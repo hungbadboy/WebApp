@@ -9,18 +9,23 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   init();
 
   function init(){
-    $(window).scroll(function(){    
-      var qa_scroll = $(window).scrollTop();
-      if (qa_scroll > 75) {
-        $(".mentor-manage-qa-content .left-qa").css({"top":"95px", "height":"90%"});
-        $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"75vh"});
-      }
-      else {
-        $(".mentor-manage-qa-content .left-qa").css("top","auto");
-        $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"70vh"});
-      }
-    })
-    getAllEssay();    
+    if (userId && userId > 0) {
+      $(window).scroll(function(){    
+        var qa_scroll = $(window).scrollTop();
+        if (qa_scroll > 75) {
+          $(".mentor-manage-qa-content .left-qa").css({"top":"95px", "height":"90%"});
+          $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"75vh"});
+        }
+        else {
+          $(".mentor-manage-qa-content .left-qa").css("top","auto");
+          $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"70vh"});
+        }
+      })
+      getAllEssay();  
+    } else {
+      window.localStorage.clear();
+      window.location.href = '/';
+    }      
   }
   
   function getAllEssay(){

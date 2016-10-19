@@ -6,9 +6,6 @@ brotControllers.controller('VideoManagerController',
     var userId = localStorage.getItem('userId');
     
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
-
-    // $scope.loadMore = new LoadMore();
-
     $scope.subject = [0];
 
     var cacheVideos = [];
@@ -16,9 +13,14 @@ brotControllers.controller('VideoManagerController',
     init();
 
     function init(){
-      initSubject();
-      loadVideos();
-      getAllVideos();
+      if (userId && userId > 0) {
+        initSubject();
+        loadVideos();
+        getAllVideos();
+      } else {
+        window.localStorage.clear();
+        window.location.href = '/';
+      }      
     }
 
     function initSubject(){
@@ -49,8 +51,9 @@ brotControllers.controller('VideoManagerController',
 
     function loadVideos(){
       VideoService.getVideos(userId, 0).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-          $scope.videos = formatData(data.data.request_data_result);
+        var result = data.data.request_data_result;
+        if (result && result != "Found no data") {
+          $scope.videos = formatData(result);
           cacheVideos = $scope.videos.slice(0);
         } else
           $scope.videos = null;

@@ -9,12 +9,17 @@ brotControllers.controller('AddUpdatePlaylistController',
     init();
 
     function init(){
-      $('#txtUpdateDescription').val('');
-      initSubject();
-      if (!isNaN(pl_id) && pl_id > 0) {
-        $scope.plid = pl_id;
-        getPlaylistById(pl_id);
-      }
+      if (userId && userId > 0) {
+        $('#txtUpdateDescription').val('');
+        initSubject();
+        if (!isNaN(pl_id) && pl_id > 0) {
+          $scope.plid = pl_id;
+          getPlaylistById(pl_id);
+        }
+      } else {
+        window.localStorage.clear();
+        window.location.href = '/';
+      }      
     }
 
     function initSubject(){

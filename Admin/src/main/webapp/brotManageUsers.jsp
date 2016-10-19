@@ -3,7 +3,24 @@
 <head>
 <script type="text/javascript" src="js/brotManagerUsers.js"></script>
 <script type="text/javascript">
+	var userId = '<s:property value="#session.user_info.getUserid()"/>';
+	var userName = '<s:property value="#session.user_info.getUsername()"/>';
 	var type = '<s:property value="#session.user_info.getUserType()"/>';
+	var firstName = '<s:property value="#session.user_info.getFirstname()"/>';
+	var lastName = '<s:property value="#session.user_info.getLastname()"/>';
+	var status = '<s:property value="#session.user_info.getActiveFlag()"/>';
+	var email = '<s:property value="#session.user_info.getEmail()"/>';
+	var bod = '<s:property value="#session.user_info.getBirthDay()"/>';
+	var UserInfo = {
+		userId : userId,
+		userName : userName,
+		firstName : firstName,
+		lastName : lastName,
+		status : status,
+		email : email,
+		type : type,
+		bod : bod
+	}
 </script>
 </head>
 <body>
@@ -17,6 +34,9 @@
 			</button>
 			<button id="btnAddAdmin" type="button" class="btn btn-info">
 				<span class="glyphicon glyphicons-user-asterisk"></span> Add Admin
+			</button>
+			<button id="btnEditMyProfile" type="button" class="btn btn-info">
+				<span class="glyphicon glyphicons-user-asterisk"></span> My Profile
 			</button>
 		</div>
 		<div id="box-add-admin" title="Add New Admin">
@@ -72,7 +92,7 @@
 		
 		<div id="box-edit-admin" title="Edit Admin">
 			<div class="message">
-				<span id="msgRegister"></span>
+				<span id="msgEditAdmin"></span>
 			</div>
 			<div id="loading-div-background-admin">
 				<div id="loading-div-admin" class="ui-corner-all">
@@ -86,43 +106,44 @@
 					<div class="left-site">
 						<div class="form-group clearfix">
 							<label id="emailAdmin">Email:</label> <input type="email" placeholder="Email"
-								name="email" tabindex="1">
+								name="emailAdmin" tabindex="1">
 						</div>
 
 						<div class="form-group clearfix">
 							<label>First Name:</label> <input type="text"
-								placeholder="Firstname" name="firstname" tabindex="3">
+								placeholder="Firstname" name="firstnameAdmin" tabindex="3">
 						</div>
 						
-						<div class="form-group clearfix">
-							<label>Old Password:</label> <input type="password"
-								placeholder="Old Password" name="oldPwd" tabindex="5">
-						</div>
 					</div>
 					<div class="right-site">
 						<div class="form-group clearfix">
 							<label>Birthday:</label> <input type="text"
-								placeholder="Birthday" id="datepicker" name="birthday"
+								placeholder="Birthday" id="datepickerAdmin" name="birthday"
 								tabindex="2">
 						</div>
 						<div class="form-group clearfix">
 							<label>Last Name:</label> <input type="text"
-								placeholder="Lastname" name="lastname" tabindex="4">
-						</div>
-						<div class="form-group clearfix">
-							<label>New Password:</label> <input type="password"
-								placeholder="Password" name="newPwd" tabindex="6">
-						</div>
-						<div class="form-group clearfix">
-							<label>Confirm Password:</label> <input type="password"
-								placeholder="Confirm Password" name="confirmPwd" tabindex="7">
+								placeholder="Lastname" name="lastnameAdmin" tabindex="4">
 						</div>
 					</div>
 				</div>
+				
+				<!-- <div class="form-group clearfix">
+					<label style="width : 15%;">Old Password:</label> <input style="width : 75%;" type="password"
+						placeholder="Old Password" name="oldPwd" tabindex="5">
+					</div>
+					<div class="form-group clearfix">
+						<label style="width : 15%;">New Password:</label> <input style="width : 75%;" type="password"
+						placeholder="Password" name="newPwdAdmin" tabindex="6">
+					</div>
+					<div class="form-group clearfix">
+						<label style="width : 15%;">Confirm Password:</label> <input style="width : 75%;" type="password" 
+						placeholder="Confirm Password" name="confirmPwdAdmin" tabindex="7">
+				</div>-->
 				<div class="active">
-					<input type="checkbox" value="active" id="chk" name="active" tabindex="8"><label
+					<input type="checkbox" value="active" id="chkEditAdmin" name="active" tabindex="8"><label
 						for="chk">Active</label>
-				</div>
+				</div> 
 			</form>
 		</div>
 
@@ -206,6 +227,88 @@
 					</form>
 				</div>
 			</div>
+		</div>
+		
+		<div id="confirmDelete" title="Change Status User?"></div> 
+		
+		<div id="dialog-profile-info" class="ui-helper-hidden tabdialog">
+	  		<div id="tabs-profile">
+			    <ul>
+			      <li><a href="#box-update-profile">Information</a></li>
+			      <li><a href="#tab-changePwd">Change Password</a></li>
+			    </ul>
+		<div id="tab-info">
+			<div id="box-update-profile" title="Update Profile">
+				<div class="message">
+					<span id="msgUpdateProfile"></span>
+				</div>
+				<div id="loading-div-background-admin">
+					<div id="loading-div-admin" class="ui-corner-all">
+						<img style="height: 32px; width: 32px; margin: 30px;"
+							src="css/images/waiting.gif" alt="Loading.." /><br>PROCESSING.
+						PLEASE WAIT...
+					</div>
+				</div>
+				<form>
+				<div class="clearfix">
+					<div class="left-site">
+						<div class="form-group clearfix">
+							<label id="emailAdmin">Email:</label> <input type="email" placeholder="Email"
+								name="emailProfile" tabindex="1">
+						</div>
+
+						<div class="form-group clearfix">
+							<label>First Name:</label> <input type="text"
+								placeholder="Firstname" name="firstnameProfile" tabindex="3">
+						</div>
+						
+					</div>
+					<div class="right-site">
+						<div class="form-group clearfix">
+							<label>Birthday:</label> <input type="text"
+								placeholder="Birthday" id="datepickerProfile" name="birthday"
+								tabindex="2">
+						</div>
+						<div class="form-group clearfix">
+							<label>Last Name:</label> <input type="text"
+								placeholder="Lastname" name="lastnameProfile" tabindex="4">
+						</div>
+					</div>
+				</div>
+				<div class="active">
+					<input type="checkbox" value="active" id="chkProfile" name="active" tabindex="8"><label
+						for="chk">Active</label>
+				</div> 
+			</form>	
+		</div>
+		</div>
+		<div id="tab-pwd">
+					<div class="message">
+							<span id="msgChangePwd"></span>
+					</div>
+					<div id="loading-div-background-admin">
+							<div id="loading-div-admin" class="ui-corner-all">
+								<img style="height: 32px; width: 32px; margin: 30px;"
+									src="css/images/waiting.gif" alt="Loading.." /><br>PROCESSING.
+								PLEASE WAIT...
+							</div>
+					</div>
+			    	<div id="tab-changePwd">
+						<div class="form-group clearfix">
+							<label style="width : 15%;">Old Password:</label> <input style="width : 75%;" type="password"
+								placeholder="Old Password" name="oldPwd" tabindex="5">
+						</div>
+						<div class="form-group clearfix">
+							<label style="width : 15%;">New Password:</label> <input style="width : 75%;" type="password"
+							placeholder="Password" name="newPwdProfile" tabindex="6">
+						</div>
+						<div class="form-group clearfix">
+							<label style="width : 15%;">Confirm Password:</label> <input style="width : 75%;" type="password" 
+							placeholder="Confirm Password" name="confirmPwdProfile" tabindex="7">
+						</div>
+					</div>
+			    </div>
+		</div>
 		</div>
 
 		<div class="col-md-2">

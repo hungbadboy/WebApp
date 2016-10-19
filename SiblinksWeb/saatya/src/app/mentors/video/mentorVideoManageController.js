@@ -17,10 +17,15 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
     init();
 
     function init(){
-      getDashboardInfo();
-      loadVideos();
-      getLatestRatings();
-      getLatestComments();
+      if (userId && userId > 0) {
+        getDashboardInfo();
+        loadVideos();
+        getLatestRatings();
+        getLatestComments();
+      } else {
+        window.localStorage.clear();
+        window.location.href = '/';
+      }      
     }
 
     function getDashboardInfo(){

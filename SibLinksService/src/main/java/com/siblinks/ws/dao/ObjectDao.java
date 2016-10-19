@@ -3,9 +3,9 @@ package com.siblinks.ws.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.model.Download;
 
 /**
@@ -26,7 +26,7 @@ public interface ObjectDao {
      * @return It will return True if executing SQL script is success else it is
      *         False
      */
-    public boolean insertUpdateObject(String dsConfigName, Object[] params);
+    public boolean insertUpdateObject(String dsConfigName, Object[] params) throws DAOException;
 
     /**
      * This is method to retrieve data
@@ -37,7 +37,7 @@ public interface ObjectDao {
      *            This is array object which are parameters.
      * @return List object
      */
-    public List<Object> readObjects(String dsConfigName, Object[] params);
+    public List<Object> readObjects(String dsConfigName, Object[] params) throws DAOException;
 
     /**
      * This is method to retrieve data
@@ -48,7 +48,7 @@ public interface ObjectDao {
      *            This is map key/value object to map and set parameters.
      * @return List object
      */
-    public List<Object> readObjects(final String dsConfigName, final Map<String, String> params);
+    public List<Object> readObjects(final String dsConfigName, final Map<String, String> params) throws DAOException;
 
     /**
      * This is the uploading file data. User can upload images, videos.
@@ -60,7 +60,7 @@ public interface ObjectDao {
      * @return It will return True if executing SQL script is success else it is
      *         False
      */
-    public boolean upload(String dsConfigName, Object[] params, MultipartFile file);
+    public boolean upload(String dsConfigName, Object[] params, MultipartFile file) throws DAOException;
 
     /**
      * This method is handling download file.
@@ -71,20 +71,7 @@ public interface ObjectDao {
      *            this is array object which are parameters.
      * @return Return Download object
      */
-    public Download download(String dsConfigName, Object[] params);
-
-    /**
-     * The insertObjectNotResource use to insert
-     *
-     * @param query
-     *            Key mapping to get SQL script
-     * @param userId
-     *            User did login
-     * @param itemId
-     *            Item Id
-     * @return Return true or false
-     */
-    public boolean insertObjectNotResource(String query, String userId, String itemId) throws DataAccessException;
+    public Download download(String dsConfigName, Object[] params) throws DAOException;
 
     /**
      *
@@ -95,7 +82,7 @@ public interface ObjectDao {
      * @return It will return True if executing SQL script is success else it is
      *         False
      */
-    public boolean insertUpdateObject(final String dsConfigName, final Map<String, String> params) throws DataAccessException;
+    public boolean insertUpdateObject(final String dsConfigName, final Map<String, String> params) throws DAOException;
 
     /**
      * Reading object is not resource
@@ -106,7 +93,7 @@ public interface ObjectDao {
      *            this is array object which are parameters.
      * @return List object
      */
-    public List<Object> readObjectsNotResource(String query) throws DataAccessException;
+    public List<Object> readObjectsNotResource(String query) throws DAOException;
 
     /**
      * This method count data
@@ -118,7 +105,7 @@ public interface ObjectDao {
      *
      * @return Counter number of data
      */
-    public String getCount(String strSQLMapper, final Object[] params) throws DataAccessException;
+    public String getCount(String strSQLMapper, final Object[] params) throws DAOException;
 
     /**
      * Insert object get generate auto Id Key
@@ -129,7 +116,7 @@ public interface ObjectDao {
      *            Parameters of object
      * @return return auto generate key id
      */
-    public long insertObject(String dsConfigName, Object[] params) throws DataAccessException;
+    public long insertObject(String dsConfigName, Object[] params) throws DAOException;
 
     /**
      * This method append where clause to SQL
@@ -142,11 +129,11 @@ public interface ObjectDao {
      *            ParamaterObject
      * @return
      */
-    List<Object> readObjectsWhereClause(String dsConfigName, String whereClause, Object[] params) throws DataAccessException;
+    List<Object> readObjectsWhereClause(String dsConfigName, String whereClause, Object[] params) throws DAOException;
 
     /**
      * @param dsConfigName
      * @param listParams
      */
-    void insertUpdateBatch(String dsConfigName, List<Object[]> listParams) throws DataAccessException;
+    void insertUpdateBatch(String dsConfigName, List<Object[]> listParams) throws DAOException;
 }

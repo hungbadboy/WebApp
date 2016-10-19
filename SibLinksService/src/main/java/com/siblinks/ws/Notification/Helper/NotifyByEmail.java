@@ -151,20 +151,17 @@ public class NotifyByEmail {
      * @param toEmail
      */
     public void sendHmtlTemplateEmail(final String toEmail, final String strSubjectEmail, final String templateFile,
-            final Map model) {
+            final Map model) throws MessagingException {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             @Override
-            public void prepare(final MimeMessage mimeMessage) {
+            public void prepare(final MimeMessage mimeMessage) throws MessagingException {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-                try {
                     message.setTo(toEmail);
                     message.setSubject(strSubjectEmail);
                     String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, templateFile, model);
                     // LOG.info(text);
                     message.setText(text, true);
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                }
+
             }
         };
         this.mailSender.send(preparator);
