@@ -26,7 +26,7 @@
                             </form>
                         </div>
                         <div class="col-md-2 sl-sbj">
-                            <select class="select-sbj" id="subject" ng-model="subject" ng-change="loadVideoBySubject(subject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in filterSubjects'>
+                            <select class="select-sbj" id="subject" data-ng-model="subject" ng-change="loadVideoBySubject(subject)" class="form-control" data-ng-options='subject.subjectId as subject.subject for subject in filterSubjects'>
                         </select>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                                     <textarea name="desciptions" id="txtTutDescription" rows="8" cols="5" class="form-control textarea-custom" placeholder="Description" maxlength="1024">{{description}}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <select  id="insertSubject" class="form-control" ng-model="addSubject" ng-change="changeValue(addSubject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in subjects'>                                        
+                                    <select  id="insertSubject" class="form-control" data-ng-model="addSubject" ng-change="changeValue(addSubject)" class="form-control" data-ng-options='subject.subjectId as subject.subject for subject in subjects'>                                        
                                     </select>
                                 </div>
                             </form>

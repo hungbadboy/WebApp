@@ -27,7 +27,7 @@
                                         </div>
                                         <div class="top-nav-w clearfix">
                                             <span class="pull-left">{{playlist.fullName}}</span>
-                                            <span class="pull-right">{{$index+1}} of {{videos.length}} videos</span>
+                                            <span class="pull-right">{{pos+1}} of {{videos.length}} videos</span>
                                         </div>
                                         <ul class="list-videp-w">
                                             <li class="video-list-item" ng-repeat="v in videos track by $index" ng-click="selectIndex($index)" ng-class="{'active':currentId==v.vid}" >

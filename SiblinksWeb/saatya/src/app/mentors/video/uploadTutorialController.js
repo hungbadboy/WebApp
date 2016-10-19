@@ -51,8 +51,8 @@ brotControllers.controller('UploadTutorialController',
               'subject' : 'Select a Subject'
             }); 
             $scope.uploadSubjects = arr;
+            $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
          }
-         // $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
       } else{
         HomeService.getAllCategory().then(function (data) {
            if (data.data.status) {
@@ -62,7 +62,7 @@ brotControllers.controller('UploadTutorialController',
                 'subject' : 'Select a Subject'
               }); 
               $scope.uploadSubjects = arr;
-              // $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
+              $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
            }
        });
       }      
@@ -95,16 +95,12 @@ brotControllers.controller('UploadTutorialController',
       $scope.error = null;
       $scope.success = null;
       
-      // $('#txtUploadLink').val($scope.editVideo.url);
-      // $scope.uploadLink = $scope.editVideo.url;
+      $scope.link = $scope.editVideo.url;
       $scope.title = $scope.editVideo.title;
       $scope.duration = $scope.editVideo.runningTime;
       $scope.description = $scope.editVideo.description;
       checkLink($scope.editVideo.url);
 
-      // $('#txtUploadTitle').val($scope.editVideo.title);
-      // $('#txtUploadDuration').val($scope.editVideo.runningTime);
-      // $('#txtUploadDescription').val($scope.editVideo.description);
       $scope.uploadSubject = $scope.editVideo.subjectId;
       $scope.uploadPlaylist = $scope.editVideo.plid != null ? $scope.editVideo.plid : 0;
     }
@@ -121,9 +117,6 @@ brotControllers.controller('UploadTutorialController',
     }
 
     $scope.update = function(title, description){
-      // var title = $('#txtUploadTitle').val();
-      // var description = $('#txtUploadDescription').val();
-
       if (title == null || title.length == 0) {
         $scope.error = "Please input Title. \n";
         angular.element('#txtUploadTitle').trigger('focus');
@@ -243,20 +236,15 @@ brotControllers.controller('UploadTutorialController',
     }
 
     $scope.delete = function(vid){
-      if (confirm("Are you sure?")) {
-        VideoService.deleteVideo(vid, u_id).then(function(data){
-          if (data.data.status) {
-             loadVideoRecently();       
-          }
-        });
-      }
+      VideoService.deleteVideo(vid, u_id).then(function(data){
+        if (data.data.status) {
+           loadVideoRecently();       
+        }
+      });
     }
 
     function clearContent(){
-      // $('#txtUploadTitle').val('');
       $('#txtTutorialUrl').val('');
-      // $('#txtUploadDescription').val('');
-      // $('#txtUploadDuration').val('');
       $scope.uploadLink = null;
       $scope.title = '';
       $scope.duration = '';
@@ -275,7 +263,6 @@ brotControllers.controller('UploadTutorialController',
     }
 
     $scope.validateLink = function(link){
-      // if ($('#txtUploadLink').val() == '')
       if (link.length == 0)
         clearContent();
       checkLink(link);
