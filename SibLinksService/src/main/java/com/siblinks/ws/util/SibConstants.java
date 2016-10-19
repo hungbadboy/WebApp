@@ -533,6 +533,9 @@ public class SibConstants {
         public static final String SQL_SIB_NUM_REPLIES_UPDATE_DELETE = "SIB_NUM_REPLIES_UPDATE_DELETE";
         public static final String SQL_STUDENT_UPLOAD_ESSAY = "STUDENT_UPLOAD_ESSAY";
 
+        public static final String SQL_VIDEO_COMMENT_UPDATE = "VIDEO_COMMENT_UPDATE";
+        public static final String SQL_VIDEO_DEL_COMMENT_UPDATE = "VIDEO_DEL_COMMENT_UPDATE";
+
         // Admin Another Admin, Mentor
         public static final String SQL_ADMIN_ADD_ANOTHER_ADMIN = "SIB_ADMIN_ADD_ANOTHER_ADMIN";
         public static final String SQL_ADMIN_ADD_ANOTHER_MENTOR = "SIB_ADMIN_ADD_ANOTHER_MENTOR";

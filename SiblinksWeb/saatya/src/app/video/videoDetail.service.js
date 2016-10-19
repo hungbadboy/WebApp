@@ -49,18 +49,14 @@ brotServices.factory('videoDetailService', ['$http', function ($http) {
     };
 
 
-    factory.addCommentVideo = function(userId, content, videoId) {
+    factory.addCommentVideo = function(objRequest) {
         var promise = $http({
             method: 'POST',
             url: NEW_SERVICE_URL + 'comments/addComment',
             data: {
                 "request_data_type":"video",
                 "request_data_method":"add_comment",
-                "request_data": {
-                    "authorID": userId,
-                    "content": (content),
-                    "vid": videoId
-                }
+                "request_data": objRequest
             }
         });
         return promise;

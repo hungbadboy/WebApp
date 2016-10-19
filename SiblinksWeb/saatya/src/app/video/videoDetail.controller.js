@@ -6,6 +6,8 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         $scope.userId = localStorage.getItem('userId');
         $scope.avartar = localStorage.getItem('imageUrl');
 
+        var userName = localStorage.getItem('nameHome') != null ?  localStorage.getItem('nameHome') : "";
+
         var videoid = $routeParams.videoid;
 
         $scope.listVideos = null;
@@ -369,27 +371,37 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                 return;
             }
             $rootScope.$broadcast('open');
-            videoDetailService.addCommentVideo($scope.userId, content, videoid).success(function (data) {
-                if (data.status == 'true') {
-                    $("#add-comment").val('');
-                    $(".comment-action").hide();
-                    videoDetailService.getCommentVideoById(videoid).then(function (data) {
-                        if (data.data.status == 'true') {
-                            if (data.data.request_data_result.length == 0) {
-                                $scope.nocommentInfo = "Have no comment";
+            if($scope.videoInfo){
+                var objRequest = {
+                    authorID : $scope.userId,
+                    content : content,
+                    vid : videoid,
+                    uid: $scope.videoInfo.userid,
+                    title : $scope.videoInfo.title,
+                    subjectId : $scope.videoInfo.subjectId,
+                    author : userName
+                };
+                videoDetailService.addCommentVideo(objRequest).success(function (data) {
+                    if (data.status == 'true') {
+                        $("#add-comment").val('');
+                        $(".comment-action").hide();
+                        videoDetailService.getCommentVideoById(videoid).then(function (data) {
+                            if (data.data.status == 'true') {
+                                if (data.data.request_data_result.length == 0) {
+                                    $scope.nocommentInfo = "Have no comment";
+                                }
+                                else {
+                                    $scope.comments = data.data.request_data_result;
+                                }
+
                             }
-                            else {
-                                $scope.comments = data.data.request_data_result;
-                            }
 
-                        }
-
-                    });
-                }
-                $rootScope.$broadcast('close');
-            });
-
-        }
+                        });
+                    }
+                    $rootScope.$broadcast('close');
+                });
+            }
+        };
 
         $scope.updateComment = function () {
             var content = CKEDITOR.instances['discuss'].getData();

@@ -177,7 +177,7 @@ public class CommentServiceImpl implements CommentsService {
             content = content.replace(")", "\\\\)");
             String userName = request.getRequest_data().getAuthor();
             String authorId = request.getRequest_data().getAuthorID();
-            boolean status = true;
+            boolean status = true, statusUpdateCmtVideo = false;
             int cid = 0;
             // insert comment table
             Object[] queryParams = { userName, authorId, content };
@@ -187,7 +187,12 @@ public class CommentServiceImpl implements CommentsService {
                 String vid = request.getRequest_data().getVid();
                 Object[] queryParamsIns2 = { idComent, vid };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_COMMENT, queryParamsIns2);
-
+                if (status) {
+                    statusUpdateCmtVideo = dao.insertUpdateObject(
+                        SibConstants.SqlMapper.SQL_VIDEO_COMMENT_UPDATE,
+                        new Object[] { request.getRequest_data().getVid() });
+                }
+                status = status && statusUpdateCmtVideo ? true : false;
                 // Insert notification table
                 String userId = request.getRequest_data().getUid();
                 String subjectId = request.getRequest_data().getSubjectId();
