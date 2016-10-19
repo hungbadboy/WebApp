@@ -4,7 +4,8 @@
         <div class="center-content-wrapper">
             <section id="dashboard">
                 <div class="dashboard-header">    
-                    <h4>Manage Essay</h4>
+                    <h4><a href="#/"> Siblinks</a> / Manage Essay</h4>
+                    <!-- <h4>Manage Essay</h4> -->
                 </div>
                 <div class="manager-video mentor-manage-qa-content mentor-manage-essay">
                     <div class="row top-mag">
@@ -50,7 +51,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div ng-show="!newestEssays"><h4>No Newest Essay</h4></div>
+                                        <div ng-show="!newestEssays"><h4>No Essay</h4></div>
                                     </div>
                                     <div class="tab-pane" ng-class="{'active': tabpane == 2}">
                                         <div ng-if="processingEssays" scroller="processingEssaysScrl" data-on-total-scroll="">
@@ -71,7 +72,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div ng-show="!processingEssays"><h4>No Processing Essay</h4></div>
+                                        <div ng-show="!processingEssays"><h4>No Essay</h4></div>
                                     </div>
                                     <div class="tab-pane" ng-class="{'active': tabpane == 3}">
                                         <div ng-if="ignoredEssays" scroller="ignoredEssaysScrl" data-on-total-scroll="">
@@ -91,7 +92,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div ng-show="!ignoredEssays"><h4>No Ignored Essay</h4></div>
+                                        <div ng-show="!ignoredEssays"><h4>No Essay</h4></div>
                                     </div>
                                     <div class="tab-pane" ng-class="{'active': tabpane == 4}">
                                         <div ng-if="repliedEssays" scroller="repliedEssaysScrl" data-on-total-scroll="">
@@ -111,7 +112,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div ng-show="!repliedEssays"><h4>No Replied Essay</h4></div>
+                                        <div ng-show="!repliedEssays"><h4>No Essay</h4></div>
                                     </div>
                                 </div>
                             </div>
