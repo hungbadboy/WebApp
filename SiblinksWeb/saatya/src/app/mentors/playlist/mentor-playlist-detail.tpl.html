@@ -8,7 +8,7 @@
                         <h4><a href="#/"> Siblinks</a> / <a href="#/mentor/playlistManager">Manage Playlist<a> <span>/ Playlist Detail</span>
                         </h4>
                     </div>
-                    <div class="manager-video manager-playlist manager-playlist-detail manage-tutorial">
+                    <div class="manager-video manager-playlist-detail">
                         <div class="row">
                             <div class="col-md-7 top-vd-dt">
                                 <div class="box-detail-play clearfix">
@@ -52,9 +52,10 @@
                                         <div class="item" ng-repeat="v in videos track by $index">
                                             <div class="check-box"><input type="checkbox" ng-model="v.selected" class="check-input" name="checkall"/></div>
                                             <div class="box-detail-play clearfix">
+                                            <a href="" ng-click="goToDetail(v)">
                                                 <span class="item-thumbnail">
-                                                    <a href="" ng-click="goToDetail(v)"><img class="item-fix-size" src="{{v.image}}" alt=""></a>
-                                                </span>
+                                                    <img class="item-fix-size" src="{{v.image}}" alt="">
+                                                </span></a>
                                                 <div class="detail-pl-inner">
                                                     <a href="" ng-click="goToDetail(v)"><h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
                                                     <span class="add-time">added {{v.timeStamp}} ago</span>

@@ -421,7 +421,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         
         function cleanContentEdit() {
             $('#txtAnswer').val("");
-            $scope.stepsModel = [];
             $scope.filesArray = [];
             $scope.imagePathOld = [];
             $scope.isEdit = false;
@@ -522,7 +521,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
             });
         }
-        $scope.stepsModel = [];
         $scope.filesArray = [];
         $scope.onFileSelect = function ($files,errFiles) {
             $scope.QAErrorMsg = "";
@@ -534,10 +532,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 for (var i = 0; i < $files.length; i++) {
                     var file = $files[i];
                     $scope.filesArray.push(file);
-                    var reader = new FileReader();
-                    reader.onload = $scope.imageIsLoaded;
-                    reader.readAsDataURL(file);
-
                 }
             }
         };
@@ -552,13 +546,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $window.location.reload();
         }
 
-        // hide popup when tranfer page
-        // $scope.$on('$locationChangeStart', function (event) {
-        //     if ($location.$$path.indexOf('managerQA') < 0) {
-        //         angular.element(document.getElementById('answer-detail')).modal('hide');
-        //     }
-        //
-        // });
         // show confirm when click other page
         // $scope.$on('$locationChangeStart', function (event) {
         //     // var answer = confirm("Are you sure you want to leave this page?")
@@ -598,7 +585,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
        
         $scope.removeImg = function (index) {
             $scope.filesArray.splice(index, 1);
-            $scope.stepsModel.splice(index, 1);
 
         }
         $scope.removeImgOld = function (index) {
@@ -609,11 +595,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
         }
 
-        $scope.imageIsLoaded = function (e) {
-            $scope.$apply(function () {
-                $scope.stepsModel.push(e.target.result);
-            });
-        }
         $scope.zoomImage = function (img) {
             $scope.currentImage = ( img + "");
             $(".popup-images").css({"left": 0});

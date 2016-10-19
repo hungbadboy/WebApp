@@ -872,6 +872,22 @@ img.loadingImgCentered {
 	text-align: center;
 }
 
+#msgUpdateProfile {
+	display: block;
+	font-size: 20px;
+	weight : bold;
+	text-align: center;
+	margin-top : 10px;
+}
+
+#msgChangePwd {
+	display: block;
+	font-size: 20px;
+	weight : bold;
+	text-align: center;
+	margin-top : 10px;
+}
+
 /*CSS Form add new student*/
 
 ul, li {

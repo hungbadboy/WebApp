@@ -99,31 +99,21 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
                 window.location.href = '#/signup';
             }
         };
-        $scope.stepsModel = [];
         $scope.onFileSelect = function ($files) {
             $scope.askErrorMsg = "";
             if ($files != null) {
                 for (var i = 0; i < $files.length; i++) {
                     var file = $files[i];
                     $scope.filesArray.push(file);
-                    var reader = new FileReader();
-                    reader.onload = $scope.imageIsLoaded;
-                    reader.readAsDataURL(file);
 
                 }
             }
         };
         $scope.removeImg = function (index) {
             $scope.filesArray.splice(index, 1);
-            $scope.stepsModel.splice(index, 1);
 
         }
 
-        $scope.imageIsLoaded = function (e) {
-            $scope.$apply(function () {
-                $scope.stepsModel.push(e.target.result);
-            });
-        }
         $scope.redirectForum = function () {
             // get question of student
         	if (selectCategory == null || selectCategory === undefined || selectCategory.originalObject == null) {
