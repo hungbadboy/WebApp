@@ -38,7 +38,7 @@ public class Thumbnailer {
     private static File inFile;
     private static final String LOG4J_CONFIG_FILE = "conf/javathumbnailer.log4j.properties";
     
-    public String CaptureImage(String params[]) throws IOException, ThumbnailerException {
+    public String CaptureImage(final String params[]) throws IOException, ThumbnailerException {
     	if (params.length == 0)
         {
             explainUsage();
@@ -46,7 +46,7 @@ public class Thumbnailer {
         }
         initLogging();
         
-        mLog.info("Params thumbnailer: " + params);
+        // mLog.info("Params thumbnailer: " + params);
         
         thumbnailer = new ThumbnailerManager();
 
@@ -59,10 +59,11 @@ public class Thumbnailer {
         initParams();
         parseParams(params);
 
-        if (outFile == null)
+        if (outFile == null) {
             outFile = thumbnailer.createThumbnail(inFile);
-        else
+        } else {
             thumbnailer.generateThumbnail(inFile, outFile);
+        }
 
     	return null;
     }
@@ -72,7 +73,7 @@ public class Thumbnailer {
         options.addOption(OptionBuilder.withArgName("WIDTHxHEIGHT").hasArg().withDescription("Size of the new thumbnail (default: 160x120)").create("size"));
     }
     
-    private static void parseParams(String[] params) {
+    private static void parseParams(final String[] params) {
         CommandLineParser parser = new GnuParser();
         CommandLine line = null;
         try {
@@ -95,8 +96,9 @@ public class Thumbnailer {
             System.exit(1);
         }
         inFile = new File(files[0]);
-        if (files.length > 1)
+        if (files.length > 1) {
             outFile = new File(files[1]);
+        }
     }
 
     private static void explainUsage() {
@@ -110,8 +112,9 @@ public class Thumbnailer {
     }
     
     protected static void loadExistingThumbnailers() {
-        if (classExists("de.uni_siegen.wineme.come_in.thumbnailer.thumbnailers.NativeImageThumbnailer"))
+        if (classExists("de.uni_siegen.wineme.come_in.thumbnailer.thumbnailers.NativeImageThumbnailer")) {
             thumbnailer.registerThumbnailer(new NativeImageThumbnailer());
+        }
 
         thumbnailer.registerThumbnailer(new OpenOfficeThumbnailer());
         thumbnailer.registerThumbnailer(new PDFBoxThumbnailer());
@@ -147,14 +150,18 @@ public class Thumbnailer {
             try {
                 out = FileUtils.openOutputStream(logConfigFile);
                 IOUtils.copy(in, out);
-            } finally { try { if (in != null) in.close(); } finally { if (out != null) out.close(); } }
+            } finally { try { if (in != null) {
+                in.close();
+            } } finally { if (out != null) {
+                out.close();
+            } } }
         }
 
         PropertyConfigurator.configureAndWatch(logConfigFile.getAbsolutePath(), 10 * 1000);
         mLog.info("Logging initialized");
     }
     
-    public static boolean classExists(String qualifiedClassname) {
+    public static boolean classExists(final String qualifiedClassname) {
         try {
             Class.forName(qualifiedClassname);
         } catch (ClassNotFoundException e) {

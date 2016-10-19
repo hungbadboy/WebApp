@@ -76,16 +76,18 @@ public class SibUserDetailServiceImp implements UserDetailsService {
             List<GrantedAuthority> authorities = getAuthorities((String) userMap.get(Parameters.USER_TYPE));
             user = new SibUser();
             user.setUsername(username);
-            user.setUserid(userMap.get(Parameters.USER_ID) + "");
-            user.setPassword((String) userMap.get(Parameters.PASSWORD));
-            user.setFirstname((String) userMap.get(Parameters.FIRST_NAME));
-            user.setLastname((String) userMap.get(Parameters.LAST_NAME));
-            user.setUserType((String) userMap.get(Parameters.USER_TYPE));
-            user.setImageUrl((String) userMap.get(Parameters.IMAGE_URL));
-            user.setDefaultSubjectId((String) userMap.get(Parameters.DEFAULT_SUBJECT_ID));
-            user.setEmail((String) userMap.get(Parameters.EMAIL));
-            user.setActiveFlag((String) userMap.get(Parameters.ENABLE_FLAG));
-            user.setBirthDay((Long) userMap.get(Parameters.BOD));
+            user.setUserid("" + userMap.get(Parameters.USER_ID));
+            user.setPassword((userMap.get(Parameters.PASSWORD) != null) ? "" + userMap.get(Parameters.PASSWORD) : null);
+            user.setFirstname((userMap.get(Parameters.FIRST_NAME) != null) ? "" + userMap.get(Parameters.FIRST_NAME) : null);
+            user.setLastname((userMap.get(Parameters.LAST_NAME) != null) ? "" + userMap.get(Parameters.LAST_NAME) : null);
+            user.setUserType((userMap.get(Parameters.USER_TYPE) != null) ? "" + userMap.get(Parameters.USER_TYPE) : null);
+            user.setImageUrl((userMap.get(Parameters.IMAGE_URL) != null) ? "" + userMap.get(Parameters.IMAGE_URL): null);
+            user.setDefaultSubjectId((userMap.get(Parameters.DEFAULT_SUBJECT_ID) != null) ? "" + userMap.get(Parameters.DEFAULT_SUBJECT_ID):null);
+            user.setEmail((userMap.get(Parameters.EMAIL) != null) ? "" +  userMap.get(Parameters.EMAIL):null);
+            user.setActiveFlag((userMap.get(Parameters.ENABLE_FLAG) != null) ? "" +  userMap.get(Parameters.ENABLE_FLAG):null);
+            user.setBirthDay((userMap.get(Parameters.BOD) != null && !"".equals(userMap.get(Parameters.BOD))) ? Long
+                .parseLong("" + userMap.get(Parameters.BOD)) : null);
+            
             return new SibUserDetails(user, authorities);
         } catch (DAOException e) {
             throw new UsernameNotFoundException(e.getMessage());
