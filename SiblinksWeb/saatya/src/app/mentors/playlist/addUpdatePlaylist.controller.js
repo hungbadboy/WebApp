@@ -106,10 +106,6 @@ brotControllers.controller('AddUpdatePlaylistController',
         PlaylistService.insertPlaylist(fd).then(function(data){
           var result = data.data.request_data_result;
           if (result && result.message == "success") {
-            //reload page
-            // $scope.success = "Insert playlist successful.";
-            // loadPlaylist();
-            // clearContent();
             var playlist = {
               'plid': result.plid,
               'name': title,
