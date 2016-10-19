@@ -1,6 +1,6 @@
 brotControllers.controller('StudentProfileController',
-    ['$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService', 'HomeService',
-        function ($scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService, HomeService) {
+    ['$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService', 'HomeService', 'uploadEssayService',
+        function ($scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService, HomeService, uploadEssayService) {
             var userId = localStorage.getItem('userId');
             var userName = localStorage.getItem('userName');
             var userType = localStorage.getItem('userType');
@@ -42,6 +42,11 @@ brotControllers.controller('StudentProfileController',
                 getStudentProfile();
                 getEssayProfile();
                 getMyQuestions(userId, limit, offset, "newest", "-1", "-1");
+                uploadEssayService.collegesOrUniversities().then(function (data) {
+                    if (data.data.status) {
+                        $scope.listSchools = data.data.request_data_result;
+                    }
+                });
             }
 
 
@@ -305,16 +310,16 @@ brotControllers.controller('StudentProfileController',
                 for (var i = 0; i < subjectSelected.length; i++) {
                     arrSubjectSelected.push(subjectSelected[i].defaultValue);
                 }
-                strSubs = arrSubjectSelected.join(',');
+
                 // Selected Favourite
                 var arrFavouriteSelected = [];
                 var favSelected = angular.element('.masterFavourite:checked');
                 for (var i = 0; i < favSelected.length; i++) {
                     arrFavouriteSelected.push(favSelected[i].defaultValue);
+                    arrSubjectSelected.push(favSelected[i].defaultValue);
                 }
-
                 favorite = arrFavouriteSelected.join(',');
-
+                strSubs = arrSubjectSelected.join(',');
                 if (check) {
                     var student = {
                         'role': "S",
@@ -342,6 +347,8 @@ brotControllers.controller('StudentProfileController',
                                 $scope.studentInfo.school = student.school;
                                 $scope.studentInfo.email = student.email;
                                 $scope.studentInfo.bio = student.bio;
+                                $scope.studentInfo.schoolName = angular.element('#school option[value='+$scope.studentInfo.school+']').text();
+                                localStorage.setItem('defaultSubjectId', strSubs);
                                 if (subjects != null || subjects !== undefined) {
                                     $scope.objSubs = getSubjectNameById(strSubs, subjects);
                                 }
@@ -600,4 +607,5 @@ brotControllers.controller('StudentProfileController',
                     angular.element("#" + id).addClass('hidden');
                 }
             }
+
         }]);
