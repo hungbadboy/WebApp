@@ -85,17 +85,6 @@ public interface ObjectDao {
     public boolean insertUpdateObject(final String dsConfigName, final Map<String, String> params) throws DAOException;
 
     /**
-     * Reading object is not resource
-     *
-     * @param dsConfigName
-     *            this parameter will map to get script SQL
-     * @param params
-     *            this is array object which are parameters.
-     * @return List object
-     */
-    public List<Object> readObjectsNotResource(String query) throws DAOException;
-
-    /**
      * This method count data
      *
      * @param strSQLMapper
@@ -129,11 +118,20 @@ public interface ObjectDao {
      *            ParamaterObject
      * @return
      */
-    List<Object> readObjectsWhereClause(String dsConfigName, String whereClause, Object[] params) throws DAOException;
+    public List<Object> readObjectsWhereClause(String dsConfigName, String whereClause, Object[] params) throws DAOException;
 
     /**
      * @param dsConfigName
      * @param listParams
      */
-    void insertUpdateBatch(String dsConfigName, List<Object[]> listParams) throws DAOException;
+    public void insertUpdateBatch(String dsConfigName, List<Object[]> listParams) throws DAOException;
+
+    /**
+     * This method get query no condition
+     * 
+     * @param dsConfigName
+     * @return
+     * @throws DAOException
+     */
+    public List<Map<String, Object>> readObjectNoCondition(String dsConfigName) throws DAOException;
 }
