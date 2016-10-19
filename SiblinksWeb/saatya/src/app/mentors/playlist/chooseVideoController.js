@@ -56,7 +56,7 @@ brotControllers.controller('ChooseVideoController',
     function formatVideos(data){
         for (var i = data.length - 1; i >= 0; i--) {
             data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
-            data[i].playlist = "none";
+            data[i].playlist = "None";
             data[i].selected = false;
         }
         return data;

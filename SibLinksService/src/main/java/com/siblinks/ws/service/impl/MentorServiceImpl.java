@@ -1217,9 +1217,9 @@ public class MentorServiceImpl implements MentorService {
                 SibConstants.SqlMapperBROT163.SQL_GET_ALL_STUDENT_SUBSCRIBED,
                 new Object[] { uid });
             if (readObjects != null && readObjects.size() > 0) {
-                new SimpleResponse("" + true, "mentor", "getAllStudentSubscribed", readObjects);
+                simpleResponse = new SimpleResponse("" + true, "mentor", "getAllStudentSubscribed", readObjects);
             } else {
-                new SimpleResponse("" + true, "mentor", "getAllStudentSubscribed", SibConstants.NO_DATA);
+                simpleResponse = new SimpleResponse("" + true, "mentor", "getAllStudentSubscribed", SibConstants.NO_DATA);
             }
         } catch (DAOException e) {
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getNewestAnswers", e.getMessage());
