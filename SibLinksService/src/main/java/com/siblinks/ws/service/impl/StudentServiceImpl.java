@@ -78,7 +78,7 @@ public class StudentServiceImpl implements StudentService {
             Object[] params = { studentId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
 
             List<Object> listMentorSubsribed = dao.readObjects(SibConstants.SqlMapper.SQL_MENTOR_STUDENT_SUBSCRIBED, params);
-            if (CollectionUtils.isEmpty(listMentorSubsribed)) {
+            if (!CollectionUtils.isEmpty(listMentorSubsribed)) {
                 simpleResponse = new SimpleResponse(
                                                     SibConstants.SUCCESS,
                                                     "student",
