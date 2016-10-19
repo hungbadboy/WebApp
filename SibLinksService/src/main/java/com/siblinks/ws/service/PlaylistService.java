@@ -82,7 +82,7 @@ public interface PlaylistService {
      */
     public ResponseEntity<Response> getPlaylistById(long plid) throws Exception;
 
-    public ResponseEntity<Response> searchPlaylist(long uid, String keyword, int offset) throws Exception;
+    public ResponseEntity<Response> searchPlaylist(RequestData request) throws Exception;
 
     public ResponseEntity<Response> getPlaylistBySubject(long uid, long subjectId, int offset) throws Exception;
 
@@ -90,7 +90,7 @@ public interface PlaylistService {
 
     public ResponseEntity<Response> deleteVideoInPlaylist(RequestData request) throws Exception;
 
-    public ResponseEntity<Response> getAllPlaylist() throws Exception;
+    public ResponseEntity<Response> getAllPlaylist(long uid) throws Exception;
     
     public ResponseEntity<Response> getVideoInPlaylist(long plid, int offset) throws Exception;
 }

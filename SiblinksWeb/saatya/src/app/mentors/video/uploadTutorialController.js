@@ -276,7 +276,8 @@ brotControllers.controller('UploadTutorialController',
       var videoid = link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
       if (videoid != null) {
         $scope.vid = videoid[1];
-        getVideoInfo($scope.vid);
+        if (!$scope.editVideo)
+          getVideoInfo($scope.vid);
         if (player === undefined){          
           onYouTubeIframeAPIReady($scope.vid);             
         }          
