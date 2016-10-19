@@ -209,44 +209,6 @@ public class ObjectDaoImpl implements ObjectDao {
     }
 
     @Override
-    public boolean insertObjectNotResource(final String dsConfigName, final String userId, final String itemId) {
-        boolean flag = true;
-        logger.info("ssn " + dsConfigName, new Date());
-        PreparedStatement stmt = null;
-        Connection conn = null;
-        try {
-            conn = jdbcTemplate.getDataSource().getConnection();
-            logger.debug("con===" + conn);
-            stmt = conn.prepareStatement(
-                env.getProperty(dsConfigName),
-                ResultSet.TYPE_SCROLL_SENSITIVE,
-                ResultSet.CONCUR_UPDATABLE);
-            stmt.executeUpdate();
-            conn.commit();
-        } catch (Exception e) {
-            try {
-                conn.rollback();
-            } catch (SQLException sqle) {
-                // Nothing
-            }
-            flag = false;
-            e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.isClosed();
-                }
-                if (conn != null && !conn.isClosed()) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                // Nothing
-            }
-        }
-        return flag;
-    }
-
-    @Override
     public List<Object> readObjectsNotResource(final String dsConfigName) {
 
 

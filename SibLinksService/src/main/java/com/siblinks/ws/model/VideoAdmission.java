@@ -1,9 +1,34 @@
+/*
+ * Copyright (c) 2016-2017, Tinhvan Outsourcing JSC. All rights reserved.
+ *
+ * No permission to use, copy, modify and distribute this software
+ * and its documentation for any purpose is granted.
+ * This software is provided under applicable license agreement only.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.siblinks.ws.model;
 
-public class VideoAdmission extends Video {
+/**
+ * This is object set/get video admission
+ * 
+ * @author hungpd
+ * @version 1.0
+ */
+public class VideoAdmission {
 	
-	private String vId;
-	private String authorId;
+    private String vId;
+    private String authorId;
 	private String youtubeUrl;
 	private String idTopicSubAdmission;
 	private String idSubAdmission;
@@ -11,73 +36,67 @@ public class VideoAdmission extends Video {
     private String description;
     private String image;
     private String active;
-	
-	public String getvId() {
-		return vId;
-	}
-	
-	public void setvId(final String vId) {
-		this.vId = vId;
-	}
-	
-	public String getAuthorId() {
-		return authorId;
-	}
-	
-	public void setAuthorId(final String authorId) {
-		this.authorId = authorId;
-	}
 
-	public String getYoutubeUrl() {
-		return youtubeUrl;
-	}
+    public String getvId() {
+        return vId;
+    }
 
-	public void setYoutubeUrl(final String youtubeUrl) {
-		this.youtubeUrl = youtubeUrl;
-	}
+    public void setvId(final String vId) {
+        this.vId = vId;
+    }
 
-	public String getIdTopicSubAdmission() {
-		return idTopicSubAdmission;
-	}
+    public String getAuthorId() {
+        return authorId;
+    }
 
-	public void setIdTopicSubAdmission(final String idTopicSubAdmission) {
-		this.idTopicSubAdmission = idTopicSubAdmission;
-	}
+    public void setAuthorId(final String authorId) {
+        this.authorId = authorId;
+    }
 
-	public String getIdSubAdmission() {
-		return idSubAdmission;
-	}
+    public String getYoutubeUrl() {
+        return youtubeUrl;
+    }
 
-	public void setIdSubAdmission(final String idSubAdmission) {
-		this.idSubAdmission = idSubAdmission;
-	}
+    public void setYoutubeUrl(final String youtubeUrl) {
+        this.youtubeUrl = youtubeUrl;
+    }
 
-    @Override
+    public String getIdTopicSubAdmission() {
+        return idTopicSubAdmission;
+    }
+
+    public void setIdTopicSubAdmission(final String idTopicSubAdmission) {
+        this.idTopicSubAdmission = idTopicSubAdmission;
+    }
+
+    public String getIdSubAdmission() {
+        return idSubAdmission;
+    }
+
+    public void setIdSubAdmission(final String idSubAdmission) {
+        this.idSubAdmission = idSubAdmission;
+    }
+
     public String getTitle() {
         return title;
     }
 
-    @Override
     public void setTitle(final String title) {
         this.title = title;
     }
 
-    @Override
     public String getDescription() {
         return description;
     }
 
-    @Override
     public void setDescription(final String description) {
         this.description = description;
     }
 
-    @Override
     public String getImage() {
         return image;
     }
 
-    @Override
     public void setImage(final String image) {
         this.image = image;
     }

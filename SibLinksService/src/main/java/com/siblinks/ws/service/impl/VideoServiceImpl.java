@@ -765,7 +765,13 @@ public class VideoServiceImpl implements VideoService {
                 }
             }
 
-            int vid = Integer.valueOf(queryParams1.get("vid"));
+            int vid = 0;
+            if (queryParams1 != null) {
+                String svid = queryParams1.get("vid");
+                if (svid != null && !"".equals(svid)) {
+                    vid = Integer.parseInt(svid);
+                }
+            }
             if (!status) {
                 vid = 0;
             } else if (!tagStatus) {
@@ -1211,23 +1217,19 @@ public class VideoServiceImpl implements VideoService {
         try {
             String entityName = null;
             Object[] queryParams = null;
-            try {
-                if (vid != null && vid != "") {
-                    queryParams = new Object[] { uid, vid };
-                    entityName = SibConstants.SqlMapper.SQL_DELETE_HISTORY_VIDEO_BY_VID;
-                } else {
-                    queryParams = new Object[] { uid };
-                    entityName = SibConstants.SqlMapper.SQL_CLEAR_HISTORY_VIDEOS_LIST;
-                }
+            if (vid != null && !"".equals(vid)) {
+                queryParams = new Object[] { uid, vid };
+                entityName = SibConstants.SqlMapper.SQL_DELETE_HISTORY_VIDEO_BY_VID;
+            } else {
+                queryParams = new Object[] { uid };
+                entityName = SibConstants.SqlMapper.SQL_CLEAR_HISTORY_VIDEOS_LIST;
+            }
 
-                boolean deleteObject = dao.insertUpdateObject(entityName, queryParams);
-                if (deleteObject) {
-                    response = new SimpleResponse("true", deleteObject);
-                } else {
-                    response = new SimpleResponse("false", "History is not exists video id " + vid);
-                }
-            } catch (DataAccessException e) {
-                response = new SimpleResponse("false", "Error system");
+            boolean deleteObject = dao.insertUpdateObject(entityName, queryParams);
+            if (deleteObject) {
+                response = new SimpleResponse("true", deleteObject);
+            } else {
+                response = new SimpleResponse("false", "History is not exists video id " + vid);
             }
         } catch (Exception e) {
             logger.error(e.getMessage());

@@ -37,7 +37,7 @@ public class SibUser {
     private String defaultSubjectId;
     private String email;
     private String activeFlag;
-    private long birthDay;
+    private Long birthDay;
 
     public String getDefaultSubjectId() {
         return defaultSubjectId;
@@ -144,7 +144,7 @@ public class SibUser {
     /**
      * @return the birthDay
      */
-    public long getBirthDay() {
+    public Long getBirthDay() {
         return birthDay;
     }
 
@@ -152,7 +152,7 @@ public class SibUser {
      * @param birthDay
      *            the birthDay to set
      */
-    public void setBirthDay(final long birthDay) {
+    public void setBirthDay(final Long birthDay) {
         this.birthDay = birthDay;
     }
 

@@ -354,38 +354,34 @@ public class UserServiceImpl implements UserService {
             if (readObject.size() == 0) {
 
                 List<Object> msgs1 = null;
-                String userId = null;
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIGNUP_COMPLETE_USER, queryParams);
 
                 if (status) {
                     msgs1 = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USERID, queryParams);
                     if (msgs1 != null && msgs1.size() > 0) {
-                        userId = ((Map) msgs1.get(0)).get(Parameters.USERID).toString();
+                        ((Map) msgs1.get(0)).get(Parameters.USERID).toString();
                     }
                 }
 
                 if (request.getRequest_data().getColmajor() != null) {
-                    List<String> myListMajorId = new ArrayList<String>(Arrays.asList(request
+                    new ArrayList<String>(Arrays.asList(request
                         .getRequest_data()
                         .getColmajor()
                         .split(",")));
-                    insertNotResource(myListMajorId, userId, "INSERT_SIB_USER_MAJOR");
                 }
 
                 if (request.getRequest_data().getActivities() != null) {
-                    List<String> myListActivityId = new ArrayList<String>(Arrays.asList(request
+                    new ArrayList<String>(Arrays.asList(request
                         .getRequest_data()
                         .getActivities()
                         .split(",")));
-                    insertNotResource(myListActivityId, userId, "INSERT_SIB_USER_ACTIVITY");
                 }
 
                 if (request.getRequest_data().getHelpin() != null) {
-                    List<String> myListHelpId = new ArrayList<String>(Arrays.asList(request
+                    new ArrayList<String>(Arrays.asList(request
                         .getRequest_data()
                         .getHelpin()
                         .split(",")));
-                    insertNotResource(myListHelpId, userId, "INSERT_SIB_USER_SUBJECT");
                 }
             } else {
                 readObject = new ArrayList<Object>();
@@ -1649,9 +1645,10 @@ public class UserServiceImpl implements UserService {
         SimpleResponse response = null;
         try {
             Object[] queryParams = { request.getRequest_data().getUid(), request.getRequest_data().getMajorid() };
-            List<String> myListMajorId = new ArrayList<String>(Arrays.asList(request.getRequest_data().getMajorid().split(",")));
-            String userId = request.getRequest_data().getUid();
-            insertNotResource(myListMajorId, userId, SibConstants.SqlMapper.SQL_INSERT_SIB_USER_MAJOR);
+            new ArrayList<String>(Arrays.asList(request.getRequest_data().getMajorid().split(",")));
+            request.getRequest_data().getUid();
+            // insertNotResource(myListMajorId, userId,
+            // SibConstants.SqlMapper.SQL_INSERT_SIB_USER_MAJOR);
             List<Object> msg = new ArrayList<Object>();
             boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_USER_MAJOR, queryParams);
             if (status) {
@@ -1685,13 +1682,16 @@ public class UserServiceImpl implements UserService {
         try {
             Object[] queryParams = { request.getRequest_data().getUid(), request.getRequest_data().getActivityid() };
 
-            List<String> myListActivityId = new ArrayList<String>(Arrays.asList(request
+            new ArrayList<String>(Arrays.asList(request
                 .getRequest_data()
                 .getActivityid()
                 .split(",")));
-            String userId = request.getRequest_data().getUid();
-            insertNotResource(myListActivityId, userId, SibConstants.SqlMapper.SQL_INSERT_SIB_USER_ACTIVITY);
-
+            /*
+             * String userId = request.getRequest_data().getUid();
+             * 
+             * insertNotResource(myListActivityId, userId,
+             * SibConstants.SqlMapper.SQL_INSERT_SIB_USER_ACTIVITY);
+             */
             boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_USER_ACTIVITY, queryParams);
             List<Object> msg = new ArrayList<Object>();
             if (status) {
@@ -1725,13 +1725,14 @@ public class UserServiceImpl implements UserService {
         try {
             Object[] queryParams = { request.getRequest_data().getUid(), request.getRequest_data().getTopicId() };
 
-            List<String> myListHelpId = new ArrayList<String>(Arrays.asList(request.getRequest_data().getTopicId().split(",")));
+            new ArrayList<String>(Arrays.asList(request.getRequest_data().getTopicId().split(",")));
 
-            String userId = request.getRequest_data().getUid();
+            request.getRequest_data().getUid();
 
             boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_DELETE_USER_TOPIC, queryParams);
 
-            insertNotResource(myListHelpId, userId, SibConstants.SqlMapper.SQL_INSERT_SIB_USER_TOPIC);
+            // insertNotResource(myListHelpId, userId,
+            // SibConstants.SqlMapper.SQL_INSERT_SIB_USER_TOPIC);
 
             List<Object> msg = new ArrayList<Object>();
             if (status) {
@@ -2073,21 +2074,22 @@ public class UserServiceImpl implements UserService {
         return responseEntity;
     }
 
-    /**
-     * 
-     * @param listId
-     * @param userId
-     * @param QueryProperties
-     * @throws DAOException
-     */
-    private void insertNotResource(final List<String> listId, final String userId, final String QueryProperties)
-            throws DAOException {
-        String INSERT_USERID_X = null;
-        for (int i = 0; i < listId.size(); i++) {
-            INSERT_USERID_X = QueryProperties;
-            dao.insertObjectNotResource(INSERT_USERID_X, userId, listId.get(i));
-        }
-    }
+    // /**
+    // *
+    // * @param listId
+    // * @param userId
+    // * @param QueryProperties
+    // * @throws DAOException
+    // */
+    // private void insertNotResource(final List<String> listId, final String
+    // userId, final String QueryProperties)
+    // throws DAOException {
+    // String INSERT_USERID_X = null;
+    // for (int i = 0; i < listId.size(); i++) {
+    // INSERT_USERID_X = QueryProperties;
+    // dao.insertObjectNotResource(INSERT_USERID_X, userId, listId.get(i));
+    // }
+    // }
 
     /**
      * {@inheritDoc}

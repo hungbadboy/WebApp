@@ -585,14 +585,14 @@ public class CommentServiceImpl implements CommentsService {
         String filename = "";
         String name;
         String filepath = "";
-        String directory = environment.getProperty(path);
-        String sample = ".png .jpng .jpg .bmp";
-        name = uploadfile.getOriginalFilename();
-        String nameExt = FilenameUtils.getExtension(name);
-        name.toLowerCase();
-        boolean status = sample.contains(nameExt);
-        if (directory != null && status) {
-            try {
+        BufferedOutputStream stream = null;
+        try {
+            String directory = environment.getProperty(path);
+            String sample = ".png .jpng .jpg .bmp";
+            name = uploadfile.getOriginalFilename();
+            String nameExt = FilenameUtils.getExtension(name);
+            boolean status = sample.contains(nameExt);
+            if (directory != null && status) {
                 RandomString randomName = new RandomString();
                 filename = randomName.random();
                 filepath = Paths.get(directory, filename + "." + nameExt).toString();
@@ -602,16 +602,23 @@ public class CommentServiceImpl implements CommentsService {
                 if (!parentDir.exists()) {
                     parentDir.mkdirs();
                 }
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+
+                stream = new BufferedOutputStream(new FileOutputStream(file));
                 stream.write(uploadfile.getBytes());
-                stream.close();
-            }
 
-            catch (Exception e) {
-                e.printStackTrace();
             }
-
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        } finally {
+            try {
+                if (stream != null) {
+                    stream.close();
+                }
+            } catch (IOException io) {
+                // Do nothing
+            }
         }
+
         return filename;
     }
 

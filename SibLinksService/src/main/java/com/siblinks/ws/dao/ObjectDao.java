@@ -74,19 +74,6 @@ public interface ObjectDao {
     public Download download(String dsConfigName, Object[] params) throws DAOException;
 
     /**
-     * The insertObjectNotResource use to insert
-     *
-     * @param query
-     *            Key mapping to get SQL script
-     * @param userId
-     *            User did login
-     * @param itemId
-     *            Item Id
-     * @return Return true or false
-     */
-    public boolean insertObjectNotResource(String query, String userId, String itemId) throws DAOException;
-
-    /**
      *
      * @param dsConfigName
      *            this parameter will map to get script SQL
