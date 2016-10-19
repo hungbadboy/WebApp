@@ -246,7 +246,6 @@ brotControllers
                     $('#autocompleteQuest_value').val("");
                     $(".form-ask-question").css({"left": 0});
                     $scope.filesArray = [];
-                    $scope.stepsModel = [];
                 }
                 $scope.closePopupAskQuestion = function () {
                     bodyRef.removeClass('disableScroll');
@@ -442,30 +441,17 @@ brotControllers
                 $scope.filesArray = [];
                 $scope.removeImg = function (index) {
                     $scope.filesArray.splice(index, 1);
-                    $scope.stepsModel.splice(index, 1);
 
                 }
-                $scope.stepsModel = [];
                 $scope.onFileSelect = function ($files) {
                     $scope.askErrorMsg= "";
                     if ($files != null) {
                         for (var i = 0; i < $files.length; i++) {
                             var file = $files[i];
                             $scope.filesArray.push(file);
-                            var reader = new FileReader();
-                            reader.onload = $scope.imageIsLoaded;
-                            reader.readAsDataURL(file);
-
                         }
                     }
                 };
-
-                $scope.imageIsLoaded = function (e) {
-                    $scope.$apply(function () {
-                        $scope.stepsModel.push(e.target.result);
-                    });
-                }
-
 
                 $scope.editQuestion = function (qid, image, imagepath, content, subjectid, subject) {
                     bodyRef.addClass('disableScroll');
@@ -654,16 +640,13 @@ brotControllers
 
 
                 };
-                $scope.stepsModel = [];
                 $scope.onFileSelect = function ($files) {
                     $scope.askErrorMsg= "";
                     if ($files != null) {
                         for (var i = 0; i < $files.length; i++) {
                             var file = $files[i];
                             $scope.filesArray.push(file);
-                            var reader = new FileReader();
-                            reader.onload = $scope.imageIsLoaded;
-                            reader.readAsDataURL(file);
+
 
                         }
                     }

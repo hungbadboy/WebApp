@@ -899,7 +899,7 @@ public class PostServiceImpl implements PostService {
 
             Object[] queryParams = { request.getRequest_data().getAid() };
             TransactionDefinition def = new DefaultTransactionDefinition();
-            transactionManager.getTransaction(def);
+            statusDB = transactionManager.getTransaction(def);
 
             status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_NUM_REPLIES_UPDATE_DELETE, queryParams);
 
@@ -1161,7 +1161,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 
+     *
      * @param uploadfile
      * @param path
      * @return
@@ -1251,7 +1251,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 
+     *
      * @param filename
      * @param path
      */
@@ -1264,7 +1264,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 
+     *
      * @param oldImagePathEdited
      * @param path
      */
@@ -1303,7 +1303,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 
+     *
      * @param str
      * @return
      */
@@ -1330,7 +1330,7 @@ public class PostServiceImpl implements PostService {
 
     /**
      * This method is validate image file type, size, length
-     * 
+     *
      * @param files
      *            These are file upload image
      * @return Message error
