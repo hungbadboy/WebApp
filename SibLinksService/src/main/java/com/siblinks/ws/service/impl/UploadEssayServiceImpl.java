@@ -906,30 +906,35 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         boolean flag = false;
         TransactionStatus status = null;
         Object[] params = null;
-
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        transactionManager.getTransaction(def);
         try {
-            TransactionDefinition def = new DefaultTransactionDefinition();
-            transactionManager.getTransaction(def);
-            params = new Object[] { "", mentorId, comment };
-            long cid = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, params);
-            params = new Object[] { essayId, cid };
-            flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_FK, params);
-
             String statusMsg = validateEssay(file);
-            if (StringUtil.isNull(statusMsg)) {
-                params = new Object[] { mentorId, file.getInputStream(), file.getSize(), file.getOriginalFilename(), essayId };
-                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITH_FILE, params);
+            if (statusMsg.equals("Error Format")) {
+                reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Your file is not valid.");
+            } else if (statusMsg.equals("File over 10M")) {
+                reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Your file is lager than 10MB.");
             } else {
-                params = new Object[] { mentorId, essayId };
-                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITHOUT_FILE, params);
-            }
+                params = new Object[] { "", mentorId, comment };
+                long cid = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, params);
+                params = new Object[] { essayId, cid };
+                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_FK, params);
 
-            if (flag) {
-                transactionManager.commit(status);
-                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "insertCommentEssay", "Success");
-            } else {
-                transactionManager.rollback(status);
-                reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Failed");
+                if (StringUtil.isNull(statusMsg)) {
+                    params = new Object[] { mentorId, file.getInputStream(), file.getSize(), file.getOriginalFilename(), essayId };
+                    flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITH_FILE, params);
+                } else {
+                    params = new Object[] { mentorId, essayId };
+                    flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITHOUT_FILE, params);
+                }
+
+                if (flag) {
+                    transactionManager.commit(status);
+                    reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "insertCommentEssay", "Success");
+                } else {
+                    transactionManager.rollback(status);
+                    reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Failed");
+                }
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
