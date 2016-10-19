@@ -180,6 +180,14 @@ $(document).ready(function() {
 	$('#btnEditMyProfile').click(function() {
 		tabProfileDialog();
 	});
+	
+	
+	$('#tabs-profile').on('tabsbeforeactivate', function (event, ui) {
+		
+	    $("#msgChangePwd").text("");
+	    $("#msgUpdateProfile").text("");
+	});
+	
 	userMgr.navGrid("#pager", {
 		edit : false,
 		add : false,
@@ -345,7 +353,7 @@ function IsEmail(email) {
 
 /**
  * @param tagOfDatePicker is tag of datepicker in html
- * @returns format date tyep dd M, yy
+ * @returns format date type dd M, yy
  */
 function formatOutputDatePicker(tagOfDatePicker) {
 	var date = $(tagOfDatePicker).datepicker("getDate");
@@ -926,6 +934,7 @@ function setDataFormEditAdmin(userId){
 
 function updateAdminInfor(json){
 	disableButtonSubmitForm(true);
+	var isUpdateProfile = json.hasOwnProperty("userid");
 	$.ajax({
 		url : endPointUrl + 'user/updateInfoAdmin',
 		type : "POST",
@@ -934,36 +943,44 @@ function updateAdminInfor(json){
 		data : JSON.stringify(json),
 		success : function(data){
 			if(data.status == "true"){
-				$("#msgEditAdmin").text(data.request_data_result).css('color', 'yellowgreen');
+				$(isUpdateProfile ? "#msgUpdateProfile" : "#msgEditAdmin").text(data.request_data_result).css('color', 'yellowgreen');
 			}else{
-				$("#msgEditAdmin").text(json.request_data_result).css('color', 'red');
+				$(isUpdateProfile ? "#msgUpdateProfile" : "#msgEditAdmin").text(json.request_data_result).css('color', 'red');
+			}
+			if(isUpdateProfile){
+				setUserInfoAfterUpdate(json);
 			}
 			disableButtonSubmitForm(false);
 		},
 		error : function(data){
-			$("#msgEditAdmin").text(json.request_data_result).css('color', 'red');
+			$(isUpdateProfile ? "#msgUpdateProfile" : "#msgEditAdmin").text(json.request_data_result).css('color', 'red');
 		}
 	});
 }
+
 
 function changePassword(json){
 	disableButtonSubmitForm(true);
 	$.ajax({
 		url : endPointUrl + 'user/changePassword',
 		type : "POST",
-		dataType : "json",
 		contentType : "application/json; charset=utf-8",
-		data : JSON.stringify(json),
+		data: JSON.stringify({
+            "request_data_type": "user",
+            "request_data_method": "changePassword",
+            "request_user": json
+        }),
 		success : function(data){
 			if(data.status == "true"){
 				$("#msgChangePwd").text(data.request_data_result).css('color', 'yellowgreen');
 			}else{
-				$("#msgChangePwd").text(json.request_data_result).css('color', 'red');
+				$("#msgChangePwd").text(data.request_data_result).css('color', 'red');
 			}
 			disableButtonSubmitForm(false);
+			clearDataChangePwd();
 		},
 		error : function(data){
-			$("#msgChangePwd").text(json.request_data_result).css('color', 'red');
+			$("#msgChangePwd").text(data.request_data_result).css('color', 'red');
 		}
 	});
 }
@@ -989,7 +1006,6 @@ function tabProfileDialog(){
 	    create: function() {
 	        $('#tabs-profile').tabs({
 	            create: function(e, ui) {
-	            	
 	            }            
 	        });
 	       // remove the title of the dialog as we want to use the tab's one 
@@ -1002,17 +1018,24 @@ function tabProfileDialog(){
 	    	 if(index == 0){
 	    		 var json = validateUpdateProfile();
 	    		 if (json.hasOwnProperty("message")) {
-	    				$("#msgEditAdmin").text(json.message).css('color', 'red');
+	    				$("#msgUpdateProfile").text(json.message).css('color', 'red');
 	    		 }else{ 
 		    		 json.userid = UserInfo.userId;
 		    		 updateAdminInfor(json);
 	    		 }
 	    	 }else{
 	    		 var jsonPwd = validateChangePwd();
-	    		 changePassword(jsonPwd);
+	    		 if(jsonPwd.hasOwnProperty("message")){
+	    			 $("#msgChangePwd").text(jsonPwd.message).css('color', 'red');
+	    		 }else{
+	    			 changePassword(jsonPwd);
+	    		 }
 	    	 }
 	     },
-	     Cancel:function () {$(this).dialog("close");}
+	     Cancel:function () {
+	    	 
+	    	 $(this).dialog("close");
+	     }
 	    }    
 	});
 }
@@ -1042,7 +1065,7 @@ function validateChangePwd(){
 	var message;
 	var oldPwd = $("input[name=oldPwd]").val();
 	if(isEmpty(oldPwd)){
-		message = "Old password is no empty,"
+		message = "Old password is not empty,"
 	}
 	var password = $("input[name=newPwdProfile]").val();
 	var confirmPwd = $("input[name=confirmPwdProfile]").val();
@@ -1100,3 +1123,19 @@ function validateUpdateProfile(){
 		return {message : message};
 	}
 }
+
+function setUserInfoAfterUpdate(json){
+	UserInfo.userId = json.userid;
+	UserInfo.firstName = json.firstName;
+	UserInfo.lastName = json.lastName;
+	UserInfo.status = json.active;
+	UserInfo.email = json.username;
+	UserInfo.bod = json.bod;
+}
+
+function clearDataChangePwd(){
+	$("input[name=oldPwd]").val("");
+	$("input[name=newPwdProfile]").val("");
+	$("input[name=confirmPwdProfile]").val("");
+}
+

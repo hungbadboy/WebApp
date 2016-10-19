@@ -234,11 +234,11 @@
 		<div id="dialog-profile-info" class="ui-helper-hidden tabdialog">
 	  		<div id="tabs-profile">
 			    <ul>
-			      <li><a href="#box-edit-admin">Information</a></li>
+			      <li><a href="#box-update-profile">Information</a></li>
 			      <li><a href="#tab-changePwd">Change Password</a></li>
 			    </ul>
 		<div id="tab-info">
-			<div id="box-edit-admin" title="Edit Admin">
+			<div id="box-update-profile" title="Update Profile">
 				<div class="message">
 					<span id="msgUpdateProfile"></span>
 				</div>
@@ -279,14 +279,14 @@
 					<input type="checkbox" value="active" id="chkProfile" name="active" tabindex="8"><label
 						for="chk">Active</label>
 				</div> 
-			</form>
+			</form>	
 		</div>
-			    </div>
+		</div>
 		<div id="tab-pwd">
 					<div class="message">
 							<span id="msgChangePwd"></span>
-						</div>
-						<div id="loading-div-background-admin">
+					</div>
+					<div id="loading-div-background-admin">
 							<div id="loading-div-admin" class="ui-corner-all">
 								<img style="height: 32px; width: 32px; margin: 30px;"
 									src="css/images/waiting.gif" alt="Loading.." /><br>PROCESSING.
@@ -308,7 +308,7 @@
 						</div>
 					</div>
 			    </div>
-		  	</div>
+		</div>
 		</div>
 
 		<div class="col-md-2">

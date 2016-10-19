@@ -82,7 +82,7 @@ import com.siblinks.ws.util.StringUtil;
 /**
  *
  * {@link UserService}
- * 
+ *
  * @author hungpd
  * @version 1.0
  */
@@ -937,7 +937,7 @@ public class UserServiceImpl implements UserService {
                                                "" + Boolean.TRUE,
                                                request.getRequest_data_type(),
                                                request.getRequest_data_method(),
-                                               "Success");
+                                               "Changed Password Successfully");
                         } else {
                             new SimpleResponse(
                                                "" + Boolean.FALSE,
@@ -1688,7 +1688,7 @@ public class UserServiceImpl implements UserService {
                 .split(",")));
             /*
              * String userId = request.getRequest_data().getUid();
-             * 
+             *
              * insertNotResource(myListActivityId, userId,
              * SibConstants.SqlMapper.SQL_INSERT_SIB_USER_ACTIVITY);
              */
@@ -2038,7 +2038,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      */
     @SuppressWarnings("resource")
     @Override
@@ -2093,7 +2093,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      */
     @Override
     @RequestMapping(value = "/updateUserProfile", method = RequestMethod.POST)
@@ -2154,7 +2154,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @return
      */
     @Override
