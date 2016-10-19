@@ -49,10 +49,9 @@ import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.common.ErrorLevel;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.model.Download;
-import com.siblinks.ws.util.CommonUtil;
 
 /**
- *
+ * {@link ObjectDao}
  *
  * @author hungpd
  * @version 1.0
@@ -68,6 +67,9 @@ public class ObjectDaoImpl implements ObjectDao {
     @Autowired
     private Environment env;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean insertUpdateObject(final String dsConfigName, final Object[] params) throws DAOException {
         boolean flag = true;
@@ -89,16 +91,18 @@ public class ObjectDaoImpl implements ObjectDao {
                 flag = false;
             }
             logger.debug("Insert or Update num rows" + numRows);
-        } catch (DataAccessException e) {
+        } catch (NullPointerException | DataAccessException e) {
             flag = false;
-            e.printStackTrace();
             throw new DAOException(e.getCause(), e.getMessage(), null, ErrorLevel.ERROR);
         }
         return flag;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean insertUpdateObject(final String dsConfigName, final Map<String, String> params) {
+    public boolean insertUpdateObject(final String dsConfigName, final Map<String, String> params) throws DAOException {
         boolean flag = true;
         try {
             logger.debug("Insert or Update " + dsConfigName + " SQL" + env.getProperty(dsConfigName));
@@ -118,42 +122,48 @@ public class ObjectDaoImpl implements ObjectDao {
                 flag = false;
             }
             logger.debug("Insert or Update num rows" + numRows);
-        } catch (Exception e) {
+        } catch (NullPointerException | DataAccessException e) {
             flag = false;
-            e.printStackTrace();
+            throw new DAOException(e.getCause(), e.getMessage(), null, ErrorLevel.ERROR);
         }
         return flag;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     // @CacheResult(cacheName = "readObjects")
-    public List readObjects(final String dsConfigName, final Object[] params) {
+    public List readObjects(final String dsConfigName, final Object[] params) throws DAOException {
         logger.info("ssn " + dsConfigName + " not found in cache. TimeStamp: {}", new Date());
         List<Map<String, Object>> listUser = null;
         try {
             String query = env.getProperty(dsConfigName);
             listUser = jdbcTemplate.queryForList(query, params);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NullPointerException | DataAccessException e) {
+            throw new DAOException(e.getCause(), e.getMessage(), null, ErrorLevel.ERROR);
         }
         return listUser;
     }
 
     @Override
-    public List readObjects(final String dsConfigName, final Map<String, String> params) {
+    public List readObjects(final String dsConfigName, final Map<String, String> params) throws DAOException {
         logger.info("ssn " + dsConfigName + " not found in cache. TimeStamp: {}", new Date());
         List<Map<String, Object>> listUser = null;
         try {
             String query = env.getProperty(dsConfigName);
             listUser = jdbcTemplate.queryForList(query, params);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NullPointerException | DataAccessException e) {
+            throw new DAOException(e.getCause(), e.getMessage(), null, ErrorLevel.ERROR);
         }
         return listUser;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean upload(final String dsConfigName, final Object[] params, final MultipartFile fis) {
+    public boolean upload(final String dsConfigName, final Object[] params, final MultipartFile fis) throws DAOException {
         boolean flag = false;
         try {
             logger.info("ssn " + dsConfigName + " not found in cache. TimeStamp: {}", new Date());
@@ -173,16 +183,20 @@ public class ObjectDaoImpl implements ObjectDao {
                 flag = true;
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NullPointerException | DataAccessException e) {
+            throw new DAOException(e.getCause(), e.getMessage(), null, ErrorLevel.ERROR);
         }
 
         return flag;
     }
 
+    /**
+     * {@inheritDoc}
+     * @throws DAOException 
+     */
     @SuppressWarnings("unchecked")
     @Override
-    public Download download(final String dsConfigName, final Object[] params) {
+    public Download download(final String dsConfigName, final Object[] params) throws DAOException {
         List<Download> files = null;
         try {
             logger.info("ssn " + dsConfigName, new Date());
@@ -201,50 +215,16 @@ public class ObjectDaoImpl implements ObjectDao {
                 }
             });
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NullPointerException | DataAccessException e) {
+            throw new DAOException(e.getCause(), e.getMessage(), null, ErrorLevel.ERROR);
         }
         
         return (files != null) ? files.get(0) : null;
     }
 
-    @Override
-    public List<Object> readObjectsNotResource(final String dsConfigName) {
-
-
-        logger.info("ssn " + dsConfigName, new Date());
-        List<Object> listUser = null;
-        Connection conn = null;
-        ResultSet rs = null;
-        PreparedStatement stmt = null;
-        try {
-            conn = jdbcTemplate.getDataSource().getConnection();
-            stmt = conn.prepareStatement(
-                env.getProperty(dsConfigName),
-                ResultSet.TYPE_SCROLL_SENSITIVE,
-                ResultSet.CONCUR_UPDATABLE);
-            rs = stmt.executeQuery();
-            if (rs != null) {
-                CommonUtil util = CommonUtil.getInstance();
-                listUser = util.getObjects(rs);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) {
-                    stmt.isClosed();
-                }
-                if (conn != null && !conn.isClosed()) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                // Nothing
-            }
-        }
-        return listUser;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getCount(final String strSQLMapper, final Object[] params) {
         String count = "";
@@ -334,6 +314,20 @@ public class ObjectDaoImpl implements ObjectDao {
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     */
+    @Override
+    public List<Map<String, Object>> readObjectNoCondition(final String dsConfigName) throws DAOException {
+        try {
+            String query = env.getProperty(dsConfigName);
+            return jdbcTemplate.queryForList(query);
+        } catch (NullPointerException | DataAccessException e) {
+            throw new DAOException(e.getCause(), e.getMessage(), null, ErrorLevel.ERROR);
         }
     }
 }

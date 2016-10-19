@@ -1539,7 +1539,7 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Response> getAddressPage(@RequestBody final RequestData request) {
         SimpleResponse response = null;
         try {
-            List<Object> readObject = dao.readObjectsNotResource(SibConstants.SqlMapper.SQL_GET_ADDRESS_WEB);
+            List<Map<String, Object>> readObject = dao.readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ADDRESS_WEB);
             response = new SimpleResponse(
                                           SibConstants.SUCCESS,
                                           request.getRequest_data_type(),
@@ -1564,7 +1564,7 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Response> getPolicy(@RequestBody final RequestData request) {
         SimpleResponse response = null;
         try {
-            List<Object> readObject = dao.readObjectsNotResource(SibConstants.SqlMapper.SQL_GET_POLICY);
+            List<Map<String, Object>> readObject = dao.readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_POLICY);
 
             response = new SimpleResponse(
                                           SibConstants.SUCCESS,
@@ -1590,7 +1590,7 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Response> getTerms(@RequestBody final RequestData request) {
         SimpleResponse response = null;
         try {
-            List<Object> readObject = dao.readObjectsNotResource(SibConstants.SqlMapper.SQL_GET_TERMS);
+            List<Map<String, Object>> readObject = dao.readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_TERMS);
 
             response = new SimpleResponse(
                                           SibConstants.SUCCESS,
