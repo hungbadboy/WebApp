@@ -63,17 +63,9 @@
                                                         <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
                                                     </div>
                                                 </output>
-                                                <!-- <input type="file" class="inputfile" name="file1" id="file1" value="" ng-file-select="onFileSelect($files)" accept='image/*'>
-                                                <label for="file1" class="label-1">
-                                                    <input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)" accept='image/*'>
-                                                    <img src="assets/images/icon-upload.png" alt="">
-                                                    <span>to upload<br/> playlist thumbnail</span>
-                                                </label> -->
                                                 <label for="file1" class="label-1" ngf-select="onFileSelect($files)" multiple
                                                         accept="image/*" ngf-max-size="5MB">
-                                                    <!-- <button > -->
                                                     <img style="pointer-events: none;" src="assets/images/icon-upload.png"/>
-                                                    <!-- </button> -->
                                                     <span>to upload<br/> playlist thumbnail</span>
                                                 </label>
                                             </span>
@@ -95,7 +87,41 @@
                                         <div class="text-ac">Action</div>
                                     </div>
                                     <div class="group-item">
-                                        <div ng-if="playlist" scroller="playlistScrl" data-on-total-scroll="loadMorePlaylist">
+                                        <div ng-if="playlist.length <= 3">
+                                            <div class="item" ng-repeat="p in playlist track by $index">
+                                                <div class="check-box"><input type="checkbox" ng-model="p.selected" class="check-input" name="checkall" ng-click="optionSelected()"/></div>
+                                                <div class="box-detail-play clearfix">
+                                                    <span class="item-thumbnail">
+                                                        <a href="#/mentor/playlist/detail/{{p.plid}}"><img class="item-fix-size" src="{{p.image}}" alt=""></a>
+                                                        <div class="box-all-vd">
+                                                            <p>
+                                                                <b>{{p.count_videos}}</b>
+                                                                <span>videos</span>
+                                                                <a href="#/mentor/playlist/detail/{{p.plid}}"><img src="assets/images/img-all-video.png" alt=""></a>
+                                                            </p>
+                                                        </div>
+                                                    </span>
+                                                    <div class="detail-pl-inner">
+                                                        <a href="#/mentor/playlist/detail/{{p.plid}}"><h5>{{p.name | limitTo : 20}}{{p.name.length > 20 ? '...' : ''}}</h5></a>
+                                                        <span class="add-time">{{p.timeStamp}} ago</span>
+                                                        
+                                                        <p class="list-view">
+                                                            <span><img src="assets/images/icon-view.png" alt=""> {{p.numViews ? p.numViews : 0}}</span>&nbsp;&nbsp;
+                                                            <span><img src="assets/images/icon-comment.png" alt=""> {{p.numComments}}</span>&nbsp;&nbsp;
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <p class="box-playlist">{{p.subject}}</p>
+                                                <div class="box-ac">
+                                                    <ul class="list-ac">
+                                                        <li><a href="" ng-click="openEdit(p.plid)">Edit</a></li>
+                                                        <li><a href="" ng-click="addVideo(p.plid)">Add tutorial</a></li>
+                                                        <li><a href="" ng-really-message="Are you sure you want to delete?" ng-really-click ="delete(p)()">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="playlist.length > 3" scroller="playlistScrl" data-on-total-scroll="loadMorePlaylist">
                                             <div class="item" ng-repeat="p in playlist track by $index">
                                                 <div class="check-box"><input type="checkbox" ng-model="p.selected" class="check-input" name="checkall" ng-click="optionSelected()"/></div>
                                                 <div class="box-detail-play clearfix">
