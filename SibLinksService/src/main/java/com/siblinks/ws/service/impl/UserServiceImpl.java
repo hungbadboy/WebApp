@@ -2114,6 +2114,8 @@ public class UserServiceImpl implements UserService {
             Object[] queryParams = null;
             User user = request.getRequest_user();
             String role = user.getRole();
+            String school = user.getSchool() != null &&
+                            (user.getSchool().equals("0") || StringUtils.isEmpty(user.getSchool())) ? null : user.getSchool();
             if (!StringUtils.isEmpty(role)) {
                 if (role.equals("M")) {
                     queryParams = new Object[] { user.getFirstName(), user.getLastName(), request.getRequest_user().getEmail(), user
@@ -2121,7 +2123,8 @@ public class UserServiceImpl implements UserService {
                         .getFavorite(), user.getDefaultSubjectId(), request.getRequest_user().getUserid() };
                 } else if (role.equals("S")) {
                     queryParams = new Object[] { user.getFirstName(), user.getLastName(), request.getRequest_user().getEmail(), user
-                        .getGender(), user.getSchool(), null, dateUpdate, request.getRequest_user().getBio(), user.getFavorite(), user
+                            .getGender(), school, null, dateUpdate, request.getRequest_user().getBio(), user
+                                .getFavorite(), user
                         .getDefaultSubjectId(), request.getRequest_user().getUserid() };
                 }
             }
