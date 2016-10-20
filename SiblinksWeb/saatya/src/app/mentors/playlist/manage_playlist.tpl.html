@@ -6,7 +6,6 @@
                 <div class="dashboard-wrapper">
                     <div class="dashboard-header">
                         <h4><a href="#/"> Siblinks</a> / Manage Playlist</h4>
-                    <!-- <h4>Manage Playlist</h4> -->
                     </div>
                     <div class="manager-video manager-playlist">
                         <div class="row top-mag">
@@ -14,14 +13,13 @@
                                 <div class="col-md-7 search">
                                     <form class="navbar-form" role="search">
                                         <div class="input-group">                                                        
-                                            <!-- <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term" ng-enter="search()"> -->
                                             <div id="srch-term" angucomplete-alt id="srch-term" ng-enter="search()" placeholder="Search" pause="50" selected-object="onSelect"
                                                 local-data="listAllPlaylist" search-fields="name" title-field="name"
                                                 minlength="1" input-class="form-control input-search"
                                                 text-no-results="Playlist Not Found"
                                                 match-class="highlight" ></div>
                                             <div class="input-group-btn">
-                                                <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
+                                                <button class="btn btn-default" type="submit" ng-click="search()"><img src="assets/images/icon-search.png" alt=""></button>
                                             </div>
                                         </div>
                                     </form>
@@ -30,7 +28,6 @@
                                     <select class="select-sbj" ng-model="subject" ng-change="loadPlaylistBySubject(subject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in filterSubjects'>
                                     </select>
                                 </div>
-                                <!-- <div class="col-md-2 btn-filter"><button>Filter</button></div> -->
                             </div>
                         </div>
                         <div class="row">

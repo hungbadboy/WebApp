@@ -214,16 +214,15 @@ brotControllers.controller('MentorProfileController',
                     arrSubjectSelected.push(subjectSelected[i].defaultValue);
                     strSubsName += subjectSelected[i].name + ', ';
                 }
-                var strSubs = arrSubjectSelected.join(',');
                 // Selected Favourite
                 var arrFavouriteSelected = [];
                 var favSelected = angular.element('.masterFavourite:checked');
                 for (var i = 0; i < favSelected.length; i++) {
                     arrFavouriteSelected.push(favSelected[i].defaultValue);
+                    arrSubjectSelected.push(favSelected[i].defaultValue);
                 }
-
+                var strSubs = arrSubjectSelected.join(',');
                 var favorite = arrFavouriteSelected.join(',');
-
                 if (check) {
                     var mentor = {
                         'role': "M",
@@ -253,6 +252,7 @@ brotControllers.controller('MentorProfileController',
                                 $scope.mentorInfo.bio = mentor.bio;
                                 $scope.birthDay = mentor.bod;
                                 $scope.mentorSubs = strSubsName.substr(0, strSubsName.lastIndexOf(','));
+                                localStorage.setItem('defaultSubjectId', strSubs);
                             }
                             $scope.msgSuccess = "Updating profile successful !";
                         }
