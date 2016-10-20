@@ -291,7 +291,7 @@
                                                     <div class="favorite-field">
                                                         <p>Favourites Field:</p>
                                                         <div class="check-favorite">
-                                                        	<span ng-repeat=" mfav in masterFavourite">
+                                                        	<span ng-repeat="mfav in masterFavourite">
 		                                                     	<input type="checkbox" class="masterFavourite"
                                                                        name="favourites" ng-checked="(mfav.selected==1)"
                                                                        value="{{mfav.subjectId}}"/>
@@ -322,7 +322,7 @@
                                                     <div class="favorite-field">
                                                         <p>Subjects:</p>
                                                         <div class="check-favorite">
-		                                                    <span ng-repeat=" msub in masterSubjects">
+		                                                    <span ng-repeat="msub in masterSubjects" style="display: inline-block">
 		                                                     	<input type="checkbox" class="masterSubject"
                                                                        name="subjects" ng-checked="(msub.selected==1)"
                                                                        value="{{msub.subjectId}}"/>

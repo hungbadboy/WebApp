@@ -26,10 +26,13 @@ brotControllers.controller('StudentProfileController',
             // Student Profile
             $scope.studentInfo = {};
 
-            var oldDefaultSubjectId = "";
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
 
             $scope.schoolSelect = null;
+
+            var defaultSubjectChecked = [];
+            var defaultFavouriteChecked = [];
+            var bod = "";
 
             init();
             // var subjects = myCache.get("subjects");
@@ -235,7 +238,7 @@ brotControllers.controller('StudentProfileController',
                     angular.element('#confirm').trigger('focus');
                 } else if (oldPwd == newPwd) {
                     angular.element('#pass').trigger('focus');
-                    $scope.msgError = "New Password must difference New Password.";
+                    $scope.msgError = "New Password must difference Old Password.";
                 } else if (newPwd !== confirmPwd) {
                     angular.element('#pass').trigger('focus');
                     $scope.msgError = "Password is not matched.";
@@ -248,11 +251,12 @@ brotControllers.controller('StudentProfileController',
                     $rootScope.$broadcast('open');
                     StudentService.changePassword(user).then(function (data) {
                     	$rootScope.$broadcast('close');
-                        if (data.data.request_data_result == "Success") {
+                        if (data.data.status == "true") {
                             resetFormPwd();
-                            $scope.msgSuccess = "Change password successful.";
+                            $scope.msgSuccess = "Changed password successfully.";
                         } else {
-                            $scope.msgError = "Change password failure. Please try again !";
+                            // $scope.msgError = "Change password failure. Please try again !";
+                            $scope.msgError = data.data.request_data_result;
                         }
                     });
                 }
@@ -376,19 +380,58 @@ brotControllers.controller('StudentProfileController',
             	// Clear message
             	$scope.msgError = "";
             	$scope.msgSuccess = "";
+                // Clear input change password
+                $('#password').val("");
+                $('#pass').val("");
+                $('#confirm').val("");
             };
             
             /**
              * function click button reset in the setting profile form 
              */
             $scope.resetProfile = function () {
-
-                var subs = oldDefaultSubjectId.split(',');
-                console.log($scope.schoolSelect);
-                // for (var i = 0; i < subs.length; i++) {
-                //     var checkValue = subs[i];
-                //     // $("input:checkbox[value=checkValue]").prop("checked", true);
-                // }
+                if($scope.studentInfo){
+                    angular.element('#firstName').val($scope.studentInfo.firstname);
+                    angular.element('#lastName').val($scope.studentInfo.lastName);
+                    angular.element('#email').val($scope.studentInfo.email);
+                    $scope.schoolSelect = $scope.studentInfo.school != null ? {id : parseInt($scope.studentInfo.school, 10)} : null;
+                    angular.element('#bod').val(bod);
+                    angular.element('#about').val($scope.studentInfo.bio);
+                    var  subjectChecked = angular.element('.masterSubject:checked');
+                    for(var i = 0 ; i<subjectChecked.length;i++){
+                       subjectChecked[i].checked = false;
+                     }
+                     var allCheckboxSubs = angular.element('.masterSubject');
+                     for(var i = 0; i < allCheckboxSubs.length ; i++){
+                        if(defaultSubjectChecked[i].selected == "1"){
+                         allCheckboxSubs[i].checked = true;
+                        }
+                     }
+                     var  favouriteChecked = angular.element('.masterFavourite:checked');
+                     for(var i = 0 ; i<favouriteChecked.length;i++){
+                        favouriteChecked[i].checked = false;
+                     }
+                     var allCheckboxFavs = angular.element('.masterFavourite');
+                     for(var i = 0; i < allCheckboxFavs.length ; i++){
+                        if(defaultFavouriteChecked[i].selected == "1"){
+                         allCheckboxFavs[i].checked = true;
+                        }
+                     }
+                    switch ($scope.studentInfo.gender){
+                        case "M":
+                            angular.element('#male').prop('checked', true);
+                            break;
+                        case "F":
+                            angular.element('#female').prop('checked', true);
+                            break;
+                        case "O":
+                            angular.element('#other').prop('checked', true);
+                            break;
+                        default:
+                            angular.element('#other').prop('checked', true);
+                            break;
+                    }
+                }
             };
 
             /**
@@ -557,9 +600,11 @@ brotControllers.controller('StudentProfileController',
                     //displayInformation();
 
                     // This call method to return $scope.masterSubjects selected
-                    oldDefaultSubjectId = $scope.studentInfo.defaultSubjectId;
                     $scope.masterSubjects = putMasterSubjectSelected(subjects, $scope.studentInfo.defaultSubjectId, false);
                     $scope.masterFavourite = putMasterSubjectSelected(subjects, $scope.studentInfo.favorite, true);
+                    defaultSubjectChecked = $scope.masterSubjects;
+                    defaultFavouriteChecked  = $scope.masterFavourite;
+                    bod = $scope.birthDay;
                 });
 
             }

@@ -27,15 +27,18 @@
                                 </div>
                                 <div class="box-information" style="padding: 36px 13px 36px 20px">
                                     <h5>University</h5>
-                                    <p>{{mentorInfo.accomplishments != null ? mentorInfo.accomplishments :
+                                    <p>{{mentorInfo.schoolName != null ? mentorInfo.schoolName :
+                                        EMPTY_DATA}}</p>
+                                    <h5>Accomplishment</h5>
+                                    <p>{{mentorInfo.accomplishments != null && mentorInfo.accomplishments != "" ? mentorInfo.accomplishments :
                                         EMPTY_DATA}}</p>
                                     <h5>About me</h5>
-                                    <p class="pre-wrap">{{mentorInfo.bio != null ? mentorInfo.bio : EMPTY_DATA }}</p>
+                                    <p class="pre-wrap">{{mentorInfo.bio != null && mentorInfo.bio != "" ? mentorInfo.bio : EMPTY_DATA }}</p>
                                     <h5>Knowledge field: </h5>
                                     <p>{{mentorSubs}}</p>
                                     <h5>Sex <span>{{(mentorInfo.gender =='M')?'Male':(mentorInfo.gender =='F')?'Female':'Other'}}</span>
                                     </h5>
-                                    <h5>BOD <span>{{birthDay}}</span></h5>
+                                    <h5>BOD <span>{{birthDay != null && birthDay != "" ? birthDay : EMPTY_DATA}}</span></h5>
                                     <h5>Since <span>{{sinceDay}}</span></h5>
                                 </div>
                             </div>
@@ -73,7 +76,13 @@
                                                         <p>
                                                         	<input type="email" placeholder="Email" name="email"></p>
                                                         <p>
-                                                        	<input type="text" placeholder="Accomplishments" name="school"></p>
+                                                        	<input type="text" placeholder="Accomplishments" name="accomplishments"></p>
+
+                                                        <p><select ng-model="schoolSelect" id="school" class="form-control school-profile"
+                                                                   ng-options="school as school.name for school in listSchools track by school.id">
+                                                            <option value="">-- Select University --</option>
+                                                        </select>
+
                                                         <div class="favorite-field">
                                                             <p>Favourites Field:</p>
                                                             <div class="check-favorite">
@@ -85,6 +94,8 @@
 		                                                    </span>
                                                             </div>
                                                         </div>
+
+                                                        </p>
 
                                                         <div class="subject-field">
                                                             <!--<p ng-if="objSubs">Subjects Registered</p>-->

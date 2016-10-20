@@ -1,6 +1,6 @@
 brotControllers.controller('MentorProfileController',
-    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'MentorService', 'TeamMentorService', 'VideoService', 'StudentService', 'myCache',
-        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, MentorService, TeamMentorService, VideoService, StudentService, myCache) {
+    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'MentorService', 'TeamMentorService', 'VideoService', 'StudentService', 'myCache', 'uploadEssayService',
+        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, MentorService, TeamMentorService, VideoService, StudentService, myCache, uploadEssayService) {
 
             var userId = localStorage.getItem('userId');
             var userType = localStorage.getItem('userType');
@@ -20,6 +20,8 @@ brotControllers.controller('MentorProfileController',
             $scope.isLoginViaFBOrGoogle = false;
             var subjects = JSON.parse(localStorage.getItem('subjects'));
 
+            $scope.schoolSelect = null;
+
             init();
 
             function init() {
@@ -29,6 +31,11 @@ brotControllers.controller('MentorProfileController',
                 }
                 getStudentSubscribed();
                 getMentorProfile();
+                uploadEssayService.collegesOrUniversities().then(function (data) {
+                    if (data.data.status) {
+                        $scope.listSchools = data.data.request_data_result;
+                    }
+                });
             }
 
             // function checkStudentSubscribe(){
@@ -55,6 +62,9 @@ brotControllers.controller('MentorProfileController',
                         $scope.mentorInfo.imageUrl = $scope.mentorInfo.imageUrl != null ? $scope.mentorInfo.imageUrl : "assets/images/noavartar.jpg";
                         // var gender = $scope.mentorInfo.gender;
                         // $scope.gender = validateGender(gender);
+                        if($scope.mentorInfo.school != null && !isEmpty($scope.mentorInfo.school)){
+                            $scope.schoolSelect = {id : parseInt($scope.mentorInfo.school, 10)};
+                        }
                         var bioTimeStamp = $scope.mentorInfo.birthDay;
                         var registrationTime = $scope.mentorInfo.registrationTime;
                         $scope.birthDay = timeConverter(bioTimeStamp, FormatDateTimeType.DD_MM_YY);
@@ -105,7 +115,7 @@ brotControllers.controller('MentorProfileController',
                 $('input[name="email"]').val($scope.mentorInfo.email);
                 $('input[id="bod"]').val($scope.birthDay);
                 $('textarea[name="aboutme"]').val($scope.mentorInfo.bio);
-                $('input[name="school"]').val($scope.mentorInfo.accomplishments);
+                $('input[name="accomplishments"]').val($scope.mentorInfo.accomplishments);
                 if ($scope.mentorInfo.gender) {
                     switch ($scope.mentorInfo.gender) {
                         case "M":
@@ -223,6 +233,8 @@ brotControllers.controller('MentorProfileController',
                 }
                 var strSubs = arrSubjectSelected.join(',');
                 var favorite = arrFavouriteSelected.join(',');
+
+                var school = $scope.schoolSelect != null && !isEmpty($scope.schoolSelect) ? $scope.schoolSelect.id : null;
                 if (check) {
                     var mentor = {
                         'role': "M",
@@ -231,8 +243,8 @@ brotControllers.controller('MentorProfileController',
                         'lastName': $('input[name="lastname"]').val(),
                         'email': email,
                         'gender': gender,
-                        'accomplishments' : $('input[name="school"]').val(),
-                        'school': "",
+                        'accomplishments' : $('input[name="accomplishments"]').val(),
+                        'school': school,
                         'bod': $('input[id="bod"]').val(),
                         'bio': $('textarea[name="aboutme"]').val(),
                         'favorite': favorite,
@@ -251,6 +263,7 @@ brotControllers.controller('MentorProfileController',
                                 $scope.mentorInfo.email = mentor.email;
                                 $scope.mentorInfo.bio = mentor.bio;
                                 $scope.birthDay = mentor.bod;
+                                $scope.mentorInfo.schoolName = $scope.schoolSelect != null ?  $scope.schoolSelect.name : null;
                                 $scope.mentorSubs = strSubsName.substr(0, strSubsName.lastIndexOf(','));
                                 localStorage.setItem('defaultSubjectId', strSubs);
                             }
