@@ -21,7 +21,7 @@
                                     </div>
                                 </div>
                                 <ul class="list-review">
-                                    <li><img src="assets/images/icon-l-review.png" alt="">&nbsp;&nbsp;<b>{{dashboard.count_views}}</b>&nbsp;&nbsp;views</li>
+                                    <li><img src="assets/images/icon-l-review.png" alt="">&nbsp;&nbsp;<b>{{dashboard.count_views ? dashboard.count_views : 0}}</b>&nbsp;&nbsp;views</li>
                                     <li><img src="assets/images/icon-l-comments.png" alt="">&nbsp;&nbsp;<b>{{dashboard.count_comments}}</b>&nbsp;&nbsp;comments</li>
                                     <li class="clearfix">
                                         <span class="pull-left" ><img src="assets/images/icon-l-star.png" alt="">&nbsp;&nbsp;<b>{{dashboard.avg_rating}}</b>&nbsp;&nbsp;

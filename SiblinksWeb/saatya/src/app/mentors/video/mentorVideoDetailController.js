@@ -370,6 +370,7 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     function onPlayerReady(event) {
+      event.target.playVideo();
     }
 
     function onPlayerStateChange(event) {

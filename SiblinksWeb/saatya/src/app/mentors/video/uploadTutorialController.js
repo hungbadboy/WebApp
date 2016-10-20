@@ -1,6 +1,6 @@
 brotControllers.controller('UploadTutorialController', 
-  ['$rootScope','$scope', '$modalInstance', '$routeParams', '$http', '$location', 'VideoService', 'videoDetailService', 'HomeService', 'myCache', 'u_id' , 'v_id',
-                                       function ($rootScope, $scope, $modalInstance, $routeParams, $http, $location, VideoService, videoDetailService, HomeService, myCache, u_id, v_id) {
+  ['$rootScope','$scope', '$modal', '$modalInstance', '$routeParams', '$http', '$location', 'VideoService', 'videoDetailService', 'HomeService', 'myCache', 'u_id' , 'v_id',
+                                       function ($rootScope, $scope, $modal, $modalInstance, $routeParams, $http, $location, VideoService, videoDetailService, HomeService, myCache, u_id, v_id) {
 
     var userId = localStorage.getItem('userId');
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
@@ -105,7 +105,25 @@ brotControllers.controller('UploadTutorialController',
       checkLink($scope.editVideo.url);
 
       $scope.uploadSubject = $scope.editVideo.subjectId;
+      $('#uploadSubject').val(getPositionSubject($scope.uploadSubject));
       $scope.uploadPlaylist = $scope.editVideo.plid != null ? $scope.editVideo.plid : 0;
+      $('#uploadPlaylist').val(getPositionPlaylist($scope.uploadPlaylist));
+    }
+
+    function getPositionSubject(subid){
+      var result = $.grep($scope.uploadSubjects, function(s){
+        return s.subjectId == subid;
+      });
+
+      return $scope.uploadSubjects.indexOf(result[0]);
+    }
+
+    function getPositionPlaylist(plid){
+      var result = $.grep($scope.playlists, function(p){
+        return p.plid == plid;
+      });
+
+      return $scope.playlists.indexOf(result[0]);
     }
 
     $scope.openEdit = function (v){
@@ -230,12 +248,10 @@ brotControllers.controller('UploadTutorialController',
 
     $scope.changeSubject = function(e){
       $scope.uploadSubject = e;
-      console.log($scope.uploadSubject);
     }
 
     $scope.changPlaylist = function(e){
       $scope.uploadPlaylist = e;
-      console.log($scope.uploadPlaylist);
     }
 
     $scope.delete = function(vid){
@@ -246,17 +262,45 @@ brotControllers.controller('UploadTutorialController',
       });
     }
 
+    $scope.addToPlaylist = function(v){
+      if (v.playlistname != 'None'){
+        var ModalInstanceCtrl = function($scope, $modalInstance) {
+            $scope.ok = function() {
+                $modalInstance.close();
+            };
+        };
+        var message = 'This video already in another playlist.';
+        var modalHtml = ' <div class="modal-body">' + message + '</div>';
+        modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
+            'OK</button></div>';
+
+        var modalInstance = $modal.open({
+            template: modalHtml,
+            size: 'sm',
+            controller: ModalInstanceCtrl
+        });
+      }
+      else{
+        var selectedVideos = [v.vid];
+        openAddPlaylistPopup(selectedVideos);
+      }
+    }
+
     function clearContent(){
       $('#txtTutorialUrl').val('');
+      $('#txtTutorialTitle').val('');
+      $('#txtTutorialDescription').val('');
       $scope.uploadLink = null;
       $scope.title = '';
       $scope.duration = '';
       $scope.description = '';
 
       $scope.uploadSubject = 0;
+      // $scope.changeSubject($scope.uploadSubject);
       $('#uploadSubject').val(0);
       $scope.uploadPlaylist = 0;
-      $('#uploadPlaylist').val(0);      
+      // $scope.changPlaylist($scope.uploadPlaylist);
+      $('#uploadPlaylist').val(0);  
       $scope.vid = null;
       $scope.link = null;
     }
