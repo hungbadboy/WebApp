@@ -22,6 +22,10 @@ brotControllers.controller('MentorProfileController',
 
             $scope.schoolSelect = null;
 
+            var defaultSubjectChecked = [];
+            var defaultFavouriteChecked = [];
+            var bod = "";
+
             init();
 
             function init() {
@@ -91,6 +95,9 @@ brotControllers.controller('MentorProfileController',
                         // }
                         $scope.masterSubjects = putMasterSubjectSelected(subjects, $scope.mentorInfo.defaultSubjectId, false);
                         $scope.masterFavourite = putMasterSubjectSelected(subjects, $scope.mentorInfo.favorite, true);
+                        defaultSubjectChecked = $scope.masterSubjects;
+                        defaultFavouriteChecked  = $scope.masterFavourite;
+                        bod = $scope.birthDay;
                         var subName = [];
                         for (var i = 0; i < $scope.masterSubjects.length; i++) {
                             if ($scope.masterSubjects[i].selected == "1") {
@@ -289,13 +296,56 @@ brotControllers.controller('MentorProfileController',
             $scope.changeTab = function () {
             	$scope.msgError = "";
                 $scope.msgSuccess = "";
+                resetFormPwd();
             };
 
             /**
              * 
              */
             $scope.reset = function () {
-
+                if($scope.mentorInfo){
+                    angular.element('#firstName').val($scope.mentorInfo.firstname);
+                    angular.element('#lastName').val($scope.mentorInfo.lastName);
+                    angular.element('#email').val($scope.mentorInfo.email);
+                    angular.element('#accomplishments').val($scope.mentorInfo.accomplishments);
+                    $scope.schoolSelect = $scope.mentorInfo.school != null ? {id : parseInt($scope.mentorInfo.school, 10)} : null;
+                    angular.element('#bod').val(bod);
+                    angular.element('#about').val($scope.mentorInfo.bio);
+                    var  subjectChecked = angular.element('.masterSubject:checked');
+                    for(var i = 0 ; i<subjectChecked.length;i++){
+                        subjectChecked[i].checked = false;
+                    }
+                    var allCheckboxSubs = angular.element('.masterSubject');
+                    for(var i = 0; i < allCheckboxSubs.length ; i++){
+                        if(defaultSubjectChecked[i].selected == "1"){
+                            allCheckboxSubs[i].checked = true;
+                        }
+                    }
+                    var  favouriteChecked = angular.element('.masterFavourite:checked');
+                    for(var i = 0 ; i<favouriteChecked.length;i++){
+                        favouriteChecked[i].checked = false;
+                    }
+                    var allCheckboxFavs = angular.element('.masterFavourite');
+                    for(var i = 0; i < allCheckboxFavs.length ; i++){
+                        if(defaultFavouriteChecked[i].selected == "1"){
+                            allCheckboxFavs[i].checked = true;
+                        }
+                    }
+                    switch ($scope.mentorInfo.gender){
+                        case "M":
+                            angular.element('#male').prop('checked', true);
+                            break;
+                        case "F":
+                            angular.element('#female').prop('checked', true);
+                            break;
+                        case "O":
+                            angular.element('#other').prop('checked', true);
+                            break;
+                        default:
+                            angular.element('#other').prop('checked', true);
+                            break;
+                    }
+                }
             };
             
             /**
@@ -347,11 +397,11 @@ brotControllers.controller('MentorProfileController',
                     $rootScope.$broadcast('open');
                     StudentService.changePassword(user).then(function (data) {
                     	$rootScope.$broadcast('close');
-                        if (data.data.request_data_result == "Success") {
+                        if (data.data.status == "true") {
                             resetFormPwd();
-                            $scope.msgSuccess = "Change password successful.";
+                            $scope.msgSuccess = data.data.request_data_result;
                         } else {
-                            $scope.msgError = "Change password failure. Please try again !";
+                            $scope.msgError = data.data.request_data_result;
                         }
                     });
                 }

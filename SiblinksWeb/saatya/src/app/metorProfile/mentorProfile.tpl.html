@@ -68,15 +68,15 @@
                                                 <div class="personal-information">
                                                     <div class="left-form">
                                                         <p>
-                                                        	<input type="text" placeholder="FirstName" name="firstname">
+                                                        	<input type="text" placeholder="FirstName" id="firstName" name="firstname">
                                                         </p>
                                                         <p>
-                                                        	<input type="text" placeholder="LastName" name="lastname">
+                                                        	<input type="text" placeholder="LastName" id = "lastName" name="lastname">
                                                         </p>
                                                         <p>
-                                                        	<input type="email" placeholder="Email" name="email"></p>
+                                                        	<input type="email" placeholder="Email" id = "email" name="email"></p>
                                                         <p>
-                                                        	<input type="text" placeholder="Accomplishments" name="accomplishments"></p>
+                                                        	<input type="text" placeholder="Accomplishments" id = "accomplishments" name="accomplishments"></p>
 
                                                         <p><select ng-model="schoolSelect" id="school" class="form-control school-profile"
                                                                    ng-options="school as school.name for school in listSchools track by school.id">
@@ -118,12 +118,12 @@
                                                     </div>
                                                     <div class="right-form">
                                                         <p class="sex">
-                                                            <input type="radio" name="gender" value="male" checked><label>Male</label>
-                                                            <input type="radio" name="gender" value="female"><label>Female</label>
-                                                            <input type="radio" name="gender" value="other"><label>Other</label>
+                                                            <input type="radio" id="male" name="gender" value="male" checked><label>Male</label>
+                                                            <input type="radio" id="female" name="gender" value="female"><label>Female</label>
+                                                            <input type="radio" id="other" name="gender" value="other"><label>Other</label>
                                                         </p>
                                                         <p><input type="text" id="bod" ng-model="date" placeholder="BOD" brotdatepicker dateFormat="dd M, yy"/></p>
-                                                        <p><textarea placeholder="About me..." name="aboutme"></textarea></p>
+                                                        <p><textarea id="aboutme" placeholder="About me..." name="aboutme"></textarea></p>
                                                     </div>
                                                     <div class="submit col-md-12">
                                                         <button type="button" id="reset" ng-click="reset()">Reset
