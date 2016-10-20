@@ -29,6 +29,8 @@ brotControllers.controller('StudentProfileController',
             var oldDefaultSubjectId = "";
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
 
+            $scope.schoolSelect = null;
+
             init();
             // var subjects = myCache.get("subjects");
             function init() {
@@ -119,12 +121,12 @@ brotControllers.controller('StudentProfileController',
             }
 
 
-            $scope.hoverNewestVideo = function () {
-                $(".feature-thumnail .hover-video").show();
+            $scope.hoverVideo = function (vid) {
+                $("#"+vid+" .hover-video").show();
             };
 
-            $scope.unHoverNewestVideo = function () {
-                $(".feature-thumnail .hover-video").hide();
+            $scope.unHoverVideo = function (vid) {
+                $("#"+vid+" .hover-video").hide();
             };
 
             function getVideosRecently() {
@@ -320,6 +322,7 @@ brotControllers.controller('StudentProfileController',
                 }
                 favorite = arrFavouriteSelected.join(',');
                 strSubs = arrSubjectSelected.join(',');
+                var school = $scope.schoolSelect != null && !isEmpty($scope.schoolSelect) ? $scope.schoolSelect.id : null;
                 if (check) {
                     var student = {
                         'role': "S",
@@ -328,7 +331,7 @@ brotControllers.controller('StudentProfileController',
                         'lastName': $('#lastName').val(),
                         'email': $('#email').val(),
                         'gender': gender,
-                        'school': $('#school').val(),
+                        'school': school,
                         'bod': $('#bod').val(),
                         'bio': $('#about').val(),
                         'favorite': favorite,
@@ -344,10 +347,10 @@ brotControllers.controller('StudentProfileController',
                                 $scope.gender = student.gender;
                                 $scope.birthDay = student.bod;
                                 $scope.studentInfo.favorite = student.favorite;
-                                $scope.studentInfo.school = student.school;
+                                $scope.studentInfo.school = school;
                                 $scope.studentInfo.email = student.email;
                                 $scope.studentInfo.bio = student.bio;
-                                $scope.studentInfo.schoolName = angular.element('#school option[value='+$scope.studentInfo.school+']').text();
+                                $scope.studentInfo.schoolName = $scope.schoolSelect != null ?  $scope.schoolSelect.name : null;
                                 localStorage.setItem('defaultSubjectId', strSubs);
                                 if (subjects != null || subjects !== undefined) {
                                     $scope.objSubs = getSubjectNameById(strSubs, subjects);
@@ -379,8 +382,9 @@ brotControllers.controller('StudentProfileController',
              * function click button reset in the setting profile form 
              */
             $scope.resetProfile = function () {
+
                 var subs = oldDefaultSubjectId.split(',');
-                console.log($scope.masterSubjects);
+                console.log($scope.schoolSelect);
                 // for (var i = 0; i < subs.length; i++) {
                 //     var checkValue = subs[i];
                 //     // $("input:checkbox[value=checkValue]").prop("checked", true);
@@ -542,6 +546,9 @@ brotControllers.controller('StudentProfileController',
                             return;
                         }
                         $scope.studentInfo = dataResponse.data.request_data_result;
+                        if($scope.studentInfo.school != null && !isEmpty($scope.studentInfo.school)){
+                            $scope.schoolSelect = {id : parseInt($scope.studentInfo.school, 10)};
+                        }
                         $scope.studentInfo.imageUrl = $scope.studentInfo.imageUrl != null ? $scope.studentInfo.imageUrl : "assets/images/noavartar.jpg";
                         $scope.birthDay = timeConverter($scope.studentInfo.birthDay, FormatDateTimeType.DD_MM_YY);
                         $scope.sinceDay = timeConverter($scope.studentInfo.registrationTime, FormatDateTimeType.MM_YY);

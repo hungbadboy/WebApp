@@ -48,7 +48,7 @@
                     <div class="student-info-detail">
                         <div class="student-edu">
                             <strong>High School</strong><br>
-                            <span>{{studentInfo.schoolName}}</span>
+                            <span>{{studentInfo.schoolName != null ? studentInfo.schoolName : EMPTY_DATA}}</span>
                         </div>
                         <div class="student-info">
                             <strong>About me</strong><br>
@@ -279,16 +279,15 @@
                                                               name="lastname" value="{{studentInfo.lastName}}"></p>
                                                     <p><input type="email" id="email" placeholder="Email" name="email"
                                                               value="{{studentInfo.email}}"></p>
-                                                    <p>
-                                                        <!--<input type="text" id="school" placeholder="High School"
-                                                              name="school" value="{{studentInfo.school}}">-->
-                                                       <!--<select ng-model="studentInfo.school" name="school" id="school" class="form-control school-profile"
-                                                               ng-options="school.name for school in listSchools track by school.id">-->
-                                                        <select ng-model="studentInfo.school" name="school" id="school" class="form-control school-profile">
-                                                            <option value="0">Choose university</option>
-                                                            <option ng-repeat="school in listSchools" value="{{school.id}}" ng-selected="school.id == selectSchool">{{school.name}}</option>
-                                                       </select>
+                                                    <p><select ng-model="schoolSelect" name="school" id="school" class="form-control school-profile"
+                                                               ng-options="school as school.name for school in listSchools track by school.id">
+                                                        <option value="">-- Select School --</option>
+                                                    </select>
                                                     </p>
+                                                    <!--<p><select ng-model="studentInfo.school" name="school" id="school" class="form-control school-profile">
+                                                            <option value="0">Choose university</option>
+                                                            <option ng-repeat="school in listSchools" value="{{school.id}}" ng-selected="school.id">{{school.name}}</option>
+                                                    </select></p>-->
                                                     <div class="favorite-field">
                                                         <p>Favourites Field:</p>
                                                         <div class="check-favorite">
