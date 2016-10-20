@@ -101,7 +101,7 @@ brotApp.controller('MainController', function($scope, $http, $location, HomeServ
                   }
               });
           }
-
+          
 	  }
 });
 

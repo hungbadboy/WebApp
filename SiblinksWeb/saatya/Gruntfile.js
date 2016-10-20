@@ -65,6 +65,17 @@ module.exports = function ( grunt ) {
          * `build_dir`, and then to copy the assets to `compile_dir`.
          */
         copy: {
+        	firebase_messaging_sw: {
+        		files: [
+                        {
+                            src: [ 'firebase-messaging-sw.js'],
+                            dest: '<%= build_dir %>/',
+                            cwd: 'src/',
+                            expand: true,
+                            flatten: true
+                        }
+                    ]
+        	},
             build_app_assets: {
                 files: [
                     {
@@ -612,7 +623,10 @@ module.exports = function ( grunt ) {
                          'src/**/**/**/*.less' ],
                 tasks: [ 'less:build' ]
             },
-
+            messagesw: {
+                files: [ 'src/firebase-messaging-sw.js' ],
+                tasks: [ 'js:copy' ]
+            },
             /**
              * When a JavaScript unit test file changes, we only want to lint it and
              * run the unit tests. We don't want to do any live reloading.
@@ -655,7 +669,7 @@ module.exports = function ( grunt ) {
             'clean', 'less:build', 'concat:build_css', 'concat:build_js', 'concat:build_utils',
             'copy:build_extends_files', 'copy:build_app_assets',
             'copy:build_vendor_assets', 'copy:build_vendorjs',
-            'copy:build_vendorcss', 'copy:build_apptemplate', 'index:build'
+            'copy:build_vendorcss', 'copy:build_apptemplate', 'index:build','copy:firebase_messaging_sw'
         ]);
 
         if (arguments.length !== 0) {
