@@ -1,6 +1,6 @@
 brotControllers.controller('VideoManagerController', 
-  ['$rootScope','$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService', 'myCache', 'HomeService',
-                                       function ($rootScope,$scope, $modal, $routeParams, $http, $location, VideoService, MentorService, myCache, HomeService) {
+  ['$rootScope','$scope', '$modal', '$routeParams', 'VideoService', 'MentorService', 'myCache', 'HomeService',
+                                       function ($rootScope,$scope, $modal, $routeParams, VideoService, MentorService, myCache, HomeService) {
 
 
     var userId = localStorage.getItem('userId');
@@ -120,6 +120,7 @@ brotControllers.controller('VideoManagerController',
     }
 
     $scope.checkAll = function(){
+      console.log($scope.selectedAll);
       var status = !$scope.selectedAll;
 
       angular.forEach($scope.videos, function(v){

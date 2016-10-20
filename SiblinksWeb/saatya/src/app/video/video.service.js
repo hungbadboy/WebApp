@@ -634,10 +634,20 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         });
     }
 
-    factory.searchVideosNonePlaylist = function(uid, keyword, offset){
+    factory.searchVideosNonePlaylist = function(uid, keyword, subjectId, offset){
         return $http({
-          method: 'GET',
-          url: NEW_SERVICE_URL + 'video/searchVideosNonePlaylist?uid='+uid+'&keyword='+keyword+'&offset='+offset+''
+            method: 'POST',
+            url: NEW_SERVICE_URL + 'video/searchVideosNonePlaylist',
+            data: {
+                "request_data_type": "video",
+                "request_data_method": "updateVideo",
+                "request_data": {
+                    "uid":uid,
+                    "keySearch":keyword,
+                    "subjectId":subjectId,
+                    "offset":offset
+                }
+            } 
         });
     }
 

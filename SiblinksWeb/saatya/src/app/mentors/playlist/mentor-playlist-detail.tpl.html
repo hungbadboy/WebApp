@@ -5,8 +5,9 @@
             <section id="dashboard">
                 <div class="dashboard-wrapper">
                     <div class="dashboard-header">    
-                        <h4><a href="#/"> Siblinks</a> / <a href="#/mentor/playlistManager">Manage Playlist<a> <span>/ Playlist Detail</span>
+                        <h4><a href="#/"> Siblinks</a> / <a href="#/mentor/playlistManager">Manage Playlist</a> / Playlist Detail
                         </h4>
+                        <!-- <h4>Playlist Detail</h4> -->
                     </div>
                     <div class="manager-video manager-playlist-detail">
                         <div class="row">
@@ -42,7 +43,7 @@
                                 </div>
                                 <div class="main-manager-video main-playlist-detail">
                                     <div class="filters filters-bottom clearfix">
-                                        <div class="check-all"><input id="check-all" ng-model="selectedAll" type="checkbox" name="checkall" ng-click="selectAll()" /></div>
+                                        <div class="check-all"><input ng-model="selectedAll" type="checkbox" ng-click="selectAll()" /></div>
                                         <div class="text-trf">Video informations</div>
                                         <div class="text-des">Description</div>
                                         <div class="text-play">Subject</div>
@@ -136,7 +137,7 @@
                                     </div>
                                     <div ng-show="!videos"><h5 style="margin-left: 15px; margin-top: 15px;">No video show</h5></div>
                                     <div class="filters filters-bottom clearfix">
-                                        <div class="check-all"><input id="check-all" ng-model="selectedAll" type="checkbox" name="checkall" ng-click="selectAll()"/></div>
+                                        <div class="check-all"><input ng-model="selectedAll" type="checkbox" ng-click="selectAll()"/></div>
                                         <div class="text-trf">Video informations</div>
                                         <div class="text-des">Description</div>
                                         <div class="text-play">Subject</div>

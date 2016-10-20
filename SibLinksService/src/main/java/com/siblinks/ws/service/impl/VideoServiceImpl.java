@@ -3227,14 +3227,29 @@ public class VideoServiceImpl implements VideoService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/searchVideosNonePlaylist", method = RequestMethod.GET)
-    public ResponseEntity<Response> searchVideosNonePlaylist(final long uid, final String keyword, final int offset) {
+    @RequestMapping(value = "/searchVideosNonePlaylist", method = RequestMethod.POST)
+    public ResponseEntity<Response> searchVideosNonePlaylist(@RequestBody final RequestData request) {
         SimpleResponse response = null;
         try {
-            String strEntity = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_NONE_PLAYLIST;
+            String strEntity = "";
+            Object[] params = null;
+            String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch());
+            int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request.getRequest_data().getSubjectId()) : 0;
+            int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
 
-            String whereClause = String.format(" and v.title like '%%%s%%' order by v.timeStamp DESC limit 5 offset %d", keyword, offset);
-            List<Object> readObjects = dao.readObjectsWhereClause(strEntity, whereClause, new Object[] { uid });
+            if (subjectId > 0) {
+                params = new Object[] { request.getRequest_data().getUid(), subjectId };
+                strEntity = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_NONE_PLAYLIST_WITH_SUBJECT;
+            } else {
+                params = new Object[] { request.getRequest_data().getUid() };
+                strEntity = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_NONE_PLAYLIST;
+            }
+            String whereClause = String.format(
+                " and v.title like '%%%s%%' or v.description like '%%%s%%' order by v.timeStamp DESC limit 5 offset %d",
+                term,
+                term,
+                offset);
+            List<Object> readObjects = dao.readObjectsWhereClause(strEntity, whereClause, params);
             if (readObjects != null && !readObjects.isEmpty()) {
                 response = new SimpleResponse(SibConstants.SUCCESS, "video", "searchVideosNonePlaylist", readObjects);
             } else {
