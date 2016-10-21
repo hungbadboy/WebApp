@@ -1,5 +1,5 @@
-brotControllers.controller('DashboardController',['$rootScope','$scope','$http', 'MentorService', 'VideoService',
-  function($rootScope, $scope, $http, MentorService, VideoService) {
+brotControllers.controller('DashboardController',['$rootScope','$scope','$http', 'MentorService', 'VideoService', 'EssayService',
+  function($rootScope, $scope, $http, MentorService, VideoService, EssayService) {
 
 	$scope.data =[
 	               { imageUrl:"assets/images/mentor-04.png", name:"Student1", caption:""},
@@ -11,6 +11,8 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
   //Author: Hoai Nguyen;
   //event click on "Submit" button;
   var userId = localStorage.getItem('userId');
+  var schoolId = localStorage.getItem('school');
+  var NO_DATA = "Found no data";
 
   init();
 
@@ -20,16 +22,36 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
       getVideosTopViewed();
       getNewestQuestions();
       getStudentsSubcribed();
+      getNewestEssay();
     } else {
       window.localStorage.clear();
       window.location.href = '/';
     }    
   }
 
+  function getNewestEssay(){
+    EssayService.getNewestEssay(userId, schoolId, 5, 0).then(function(data){
+      var result = data.data.request_data_result;
+      if (result && result != NO_DATA) {
+        $scope.newestEssays = formatEssay(result);
+      } else
+        $scope.newestEssays = null;
+    });
+  }
+
+  function formatEssay(data){
+    for (var i = data.length - 1; i >= 0; i--) {
+      data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
+      var fullName = data[i].firstName + ' ' + data[i].lastName;
+      data[i].fullName = fullName != ' ' ? fullName : data[i].userName;
+    }
+    return data;
+  }
+
   function getStudentsSubcribed(){
     MentorService.getAllStudentSubscribed(userId).then(function(data){
       var result = data.data.request_data_result;
-      if (result && result !== "Found no data") {
+      if (result && result !== NO_DATA) {
         $scope.data = result;
       } else
         $scope.data = null;
@@ -39,7 +61,7 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
   function getNewestQuestions(){
     MentorService.getNewestQuestions(userId).then(function(data){
       var result = data.data.request_data_result;
-      if (result && result != "Found no data") {
+      if (result && result != NO_DATA) {
         for (var i = result.length - 1; i >= 0; i--) {
           result[i].timeStamp = convertUnixTimeToTime(data.data.request_data_result[i].timeStamp);
           result[i].fullName = result[i].fullName != null ? result[i].fullName : result[i].userName;
@@ -53,7 +75,7 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
 
   function getMainDashboardInfo(){
     MentorService.getMainDashboardInfo(userId).then(function(data){
-      if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+      if (data.data.request_data_result != null && data.data.request_data_result != NO_DATA) {
         $scope.dashboard = data.data.request_data_result;
       }
     });
@@ -61,7 +83,7 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
 
   function getVideosTopViewed(){
     VideoService.getVideosTopViewed(userId, 0).then(function(data){
-      if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+      if (data.data.request_data_result != null && data.data.request_data_result != NO_DATA) {
         $scope.videosTopViewed = data.data.request_data_result;
         $scope.vTopViewed = $scope.videosTopViewed[0];            
         $scope.topViewedPos = 0;

@@ -45,6 +45,7 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
                 setStorage('userId', dataUser['userid'], 30);
                 setStorage('userType', dataUser['userType'], 10);
                 setStorage('imageUrl', dataUser['imageUrl'], 10);
+                setStorage('school', dataUser['school'], 30);
                 setStorage('firstName', (firstName != null && firstName !== undefined)?firstName:'', 30);
                 setStorage('lastname', (lastName != null && lastName !== undefined)?lastName:'', 30);
                 setStorage('defaultSubjectId', dataUser['defaultSubjectId'], 10);

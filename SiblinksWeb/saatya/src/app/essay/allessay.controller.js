@@ -1,6 +1,7 @@
 brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService', function ($scope, $location, EssayService) {
   var userType = localStorage.getItem('userType');
   var userId = localStorage.getItem('userId');
+  var schoolId = localStorage.getItem('school');
   $scope.userId = userId;
   $scope.avatar = localStorage.getItem('imageUrl');
   $scope.mentorName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastname');
@@ -36,7 +37,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   }
 
   function getRepliedEssay(){
-    EssayService.getRepliedEssay(userId, 0).then(function(data){
+    EssayService.getRepliedEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
         $scope.repliedEssays = formatEssay(result);
@@ -46,7 +47,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   }
 
   function getIgnoredEssay(){
-    EssayService.getIgnoredEssay(userId, 0).then(function(data){
+    EssayService.getIgnoredEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
         $scope.ignoredEssays = formatEssay(result);
@@ -56,7 +57,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   }
 
   function getProcessingEssay(){
-    EssayService.getProcessingEssay(userId, 0).then(function(data){
+    EssayService.getProcessingEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
         $scope.processingEssays = formatEssay(result);
@@ -66,7 +67,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   }
 
   function getNewestEssay(){
-    EssayService.getNewestEssay(userId, 0).then(function(data){
+    EssayService.getNewestEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
         $scope.newestEssays = formatEssay(result);
@@ -96,7 +97,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
         for (var i = result.length - 1; i >= 0; i--) {
-          result[i].docSubmittedDate = convertUnixTimeToTime(result[i].docSubmittedDate);
+          result[i].timeStamp = convertUnixTimeToTime(result[i].docSubmittedDate);
         }
         $scope.essay = result[0];
         getRepliedByEssay($scope.essay.uploadEssayId, userId);
@@ -126,13 +127,25 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   $scope.changeTab = function(val){
     $scope.tabpane = val;
     if (val == 1) {
-      $scope.eid = $scope.newestEssays[0].uploadEssayId;
+      if ($scope.newestEssays)
+        $scope.eid = $scope.newestEssays[0].uploadEssayId;
+      else
+        $scope.eid = null;
     } else if (val == 2) {
-      $scope.eid = $scope.processingEssays[0].uploadEssayId;
+      if ($scope.processingEssays)
+        $scope.eid = $scope.processingEssays[0].uploadEssayId;
+      else
+        $scope.eid = null;
     } else if (val == 3) {
-      $scope.eid = $scope.ignoredEssays[0].uploadEssayId;
+      if ($scope.ignoredEssays)
+        $scope.eid = $scope.ignoredEssays[0].uploadEssayId;
+      else
+        $scope.eid = null;
     } else {
-      $scope.eid = $scope.repliedEssays[0].uploadEssayId;
+      if ($scope.repliedEssays)
+        $scope.eid = $scope.repliedEssays[0].uploadEssayId;
+      else
+        $scope.eid = null;
     }
     getEssayById($scope.eid, userId);
   }
@@ -140,7 +153,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   $scope.changeStatus = function (eid,status) {
     EssayService.updateStatusEssay(eid, userId, status).then(function (data) {
       if (data.data.request_data_result == "Success") {
-        getNewestEssay();
+        getAllEssay();
       } else {
         console.log(data.data.request_data_result);
       }
