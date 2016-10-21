@@ -521,6 +521,7 @@ public class SibConstants {
 
         // video
         public static final String SQL_SEARCH_VIDEO = "SEARCH_VIDEO";
+        public static final String SQL_SEARCH_PLAYLIST = "SEARCH_PLAYLIST";
         public static final String SQL_GET_ALL_VIDEO = "GET_ALL_VIDEO";
         public static final String SQL_CHECK_VIDEO_FAVOURITE = "CHECK_VIDEO_FAVOURITE";
 
