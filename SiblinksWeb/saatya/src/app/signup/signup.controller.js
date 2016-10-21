@@ -39,12 +39,13 @@ brotControllers.controller('SignUpController', ['$scope','$rootScope', '$locatio
         return;
      }
     var url = NEW_SERVICE_URL + '/user/registerUser';
+    var token = angular.element("#token").text();
     var dataReg = {'username':user.email, 'password' :user.password};
     $http.post(url, dataReg).success(function(data) {
       if(data.status == 'true') {
         //active student
     	$rootScope.$broadcast('open');
-        StudentService.loginUser(user.email, user.password, function(data) {
+        StudentService.loginUser(user.email, user.password, token, function(data) {
         	$rootScope.$broadcast('close');
             if(data.status == 'true') {
               var dataUser = data;
@@ -87,8 +88,9 @@ brotControllers.controller('SignUpController', ['$scope','$rootScope', '$locatio
 	      $scope.lastName = data.last_name;
 	      $scope.facebookId = data.id;
 	      $scope.image = data.picture.data.url;
+	      var token = angular.element("#token").text();
 	      $rootScope.$broadcast('open');
-	      StudentService.loginFacebook($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.facebookId).then(function(data) {
+	      StudentService.loginFacebook($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.facebookId, token).then(function(data) {
 	    	  $rootScope.$broadcast('close');
 	    	  if(data.status == 'true') {
 	    		  var dataUser = data.data.request_data_result[0];
@@ -130,8 +132,9 @@ brotControllers.controller('SignUpController', ['$scope','$rootScope', '$locatio
 	          $scope.googleid = resp.id;
 	          $scope.image = resp.image.url;
 	          var nameHome = resp.displayName;
+	          var token = angular.element("#token").text();
 	          $rootScope.$broadcast('open');
-	          StudentService.loginGoogle($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.googleid).then(function(data) {
+	          StudentService.loginGoogle($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.googleid, token).then(function(data) {
 	        	$rootScope.$broadcast('close');
 	            var dataUser = data.data.request_data_result[0];
 	            setStorage('userName', dataUser['userName'], 30);
@@ -142,8 +145,7 @@ brotControllers.controller('SignUpController', ['$scope','$rootScope', '$locatio
 	            setStorage('lastname', dataUser['lastname'], 30);
 	            setStorage('nameHome', nameHome, 30);
 	            $window.location.href='#/student/studentProfile';
-	            $window.location.reload();
-  
+	            $window.location.reload();  
 	          });
 	        });
 	      });

@@ -1,14 +1,15 @@
 brotServices.factory('StudentService', ['$http', function ($http) {
     var factory = {};
 
-    factory.loginUser = function (userName, passWord, callback) {
+    factory.loginUser = function (userName, passWord, token, callback) {
         $.ajax({
             url: NEW_SERVICE_URL + 'user/login',
             type: 'POST',
             dataType: 'json',
             data: {
                 username: userName,
-                password: passWord
+                password: passWord,
+                token:token
             }, success: function (data) {
                 callback(data);
             }, error: function (xhr, ajaxOptions, thrownError) {
@@ -186,12 +187,12 @@ brotServices.factory('StudentService', ['$http', function ($http) {
         return promise;
     };
 
-    factory.changePasswordForgot = function (token, newPwd) {
+    factory.changePasswordForgot = function (code, newPwd) {
         var promise = $http({
             method: 'POST',
             url: NEW_SERVICE_URL + 'user/changePasswordForgot',
             data: {
-                "token": token,
+                "token": code,
                 "newPwd": newPwd
             }
         });
@@ -211,16 +212,16 @@ brotServices.factory('StudentService', ['$http', function ($http) {
         return promise;
     };
 
-    factory.confirmToken = function (token) {
+    factory.confirmToken = function (code) {
         var promise = $http({
             method: 'POST',
             url: NEW_SERVICE_URL + 'user/confirmToken',
-            data: {'token': token}
+            data: {'token': code}
         });
         return promise;
     };
 
-    factory.loginFacebook = function (username, usertype, firstname, lastname, image, facebookid) {
+    factory.loginFacebook = function (username, usertype, firstname, lastname, image, facebookid, token) {
         var promise = $http({
             method: 'POST',
             url: NEW_SERVICE_URL + 'user/loginFacebook',
@@ -233,14 +234,15 @@ brotServices.factory('StudentService', ['$http', function ($http) {
                     'lastname': lastname,
                     'usertype': usertype,
                     'image': image,
-                    'facebookid': facebookid
+                    'facebookid': facebookid,
+                    'token':token
                 }
             }
         });
         return promise;
     };
 
-    factory.loginGoogle = function (username, usertype, firstname, lastname, image, googleid) {
+    factory.loginGoogle = function (username, usertype, firstname, lastname, image, googleid, token) {
         var promise = $http({
             method: 'POST',
             url: NEW_SERVICE_URL + 'user/loginGoogle',
@@ -253,7 +255,8 @@ brotServices.factory('StudentService', ['$http', function ($http) {
                     'lastname': lastname,
                     'usertype': usertype,
                     'image': image,
-                    'googleid': googleid
+                    'googleid': googleid,
+                    'token': token
                 }
             }
         });

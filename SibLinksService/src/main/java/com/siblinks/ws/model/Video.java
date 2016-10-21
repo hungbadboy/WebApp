@@ -81,7 +81,7 @@ public class Video {
 	private String username;
 	private String accomplishments;
 	private String imageurl;
-	
+    private String token;
 	private String currentclass;
 	
 	private String subjects;
@@ -711,5 +711,13 @@ public class Video {
 	public void setOffset(final String offset) {
 		this.offset = offset;
 	}
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(final String token) {
+        this.token = token;
+    }
 
 }

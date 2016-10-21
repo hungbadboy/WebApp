@@ -364,24 +364,15 @@ public class UserServiceImpl implements UserService {
                 }
 
                 if (request.getRequest_data().getColmajor() != null) {
-                    new ArrayList<String>(Arrays.asList(request
-                        .getRequest_data()
-                        .getColmajor()
-                        .split(",")));
+                    new ArrayList<String>(Arrays.asList(request.getRequest_data().getColmajor().split(",")));
                 }
 
                 if (request.getRequest_data().getActivities() != null) {
-                    new ArrayList<String>(Arrays.asList(request
-                        .getRequest_data()
-                        .getActivities()
-                        .split(",")));
+                    new ArrayList<String>(Arrays.asList(request.getRequest_data().getActivities().split(",")));
                 }
 
                 if (request.getRequest_data().getHelpin() != null) {
-                    new ArrayList<String>(Arrays.asList(request
-                        .getRequest_data()
-                        .getHelpin()
-                        .split(",")));
+                    new ArrayList<String>(Arrays.asList(request.getRequest_data().getHelpin().split(",")));
                 }
             } else {
                 readObject = new ArrayList<Object>();
@@ -934,23 +925,23 @@ public class UserServiceImpl implements UserService {
                                 .getUsername() });
                         if (status) {
                             response = new SimpleResponse(
-                                               "" + Boolean.TRUE,
-                                               request.getRequest_data_type(),
-                                               request.getRequest_data_method(),
-                                               "Changed Password Successfully");
+                                                          "" + Boolean.TRUE,
+                                                          request.getRequest_data_type(),
+                                                          request.getRequest_data_method(),
+                                                          "Changed Password Successfully");
                         } else {
                             response = new SimpleResponse(
-                                               "" + Boolean.FALSE,
-                                               request.getRequest_data_type(),
-                                               request.getRequest_data_method(),
-                                               "Change password is failed. Please contact with administrator");
+                                                          "" + Boolean.FALSE,
+                                                          request.getRequest_data_type(),
+                                                          request.getRequest_data_method(),
+                                                          "Change password is failed. Please contact with administrator");
                         }
                     } else {
                         response = new SimpleResponse(
-                                           "" + Boolean.FALSE,
-                                           request.getRequest_data_type(),
-                                           request.getRequest_data_method(),
-                                           "Old password is not correctly");
+                                                      "" + Boolean.FALSE,
+                                                      request.getRequest_data_type(),
+                                                      request.getRequest_data_method(),
+                                                      "Old password is not correctly");
 
                     }
                 } else {
@@ -1682,13 +1673,10 @@ public class UserServiceImpl implements UserService {
         try {
             Object[] queryParams = { request.getRequest_data().getUid(), request.getRequest_data().getActivityid() };
 
-            new ArrayList<String>(Arrays.asList(request
-                .getRequest_data()
-                .getActivityid()
-                .split(",")));
+            new ArrayList<String>(Arrays.asList(request.getRequest_data().getActivityid().split(",")));
             /*
              * String userId = request.getRequest_data().getUid();
-             *
+             * 
              * insertNotResource(myListActivityId, userId,
              * SibConstants.SqlMapper.SQL_INSERT_SIB_USER_ACTIVITY);
              */
@@ -1867,14 +1855,8 @@ public class UserServiceImpl implements UserService {
                 if (mapUser.get(Parameters.ID_FACEBOOK) != null &&
                     mapUser.get(Parameters.ID_FACEBOOK).equals(request.getRequest_data().getFacebookid())) {// Registered
                     // Set parameter
-                    // Object[] queryParams = {
-                    // request.getRequest_data().getFirstname(),
-                    // request.getRequest_data().getLastname(), request
-                    // .getRequest_data()
-                    // .getImage(), request.getRequest_data().getFacebookid() };
-                    // status =
-                    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_FACEBOOK,
-                    // queryParams);
+                    Object[] queryParams = { request.getRequest_data().getToken(), request.getRequest_data().getFacebookid() };
+                    status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_FACEBOOK, queryParams);
                     simpleResponse = new SimpleResponse(
                                                         SibConstants.SUCCESS,
                                                         request.getRequest_data_type(),
@@ -1915,12 +1897,12 @@ public class UserServiceImpl implements UserService {
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request
                 .getRequest_data()
                 .getUsername() });
-            if (CollectionUtils.isEmpty(readObject)) {
+            if (CollectionUtils.isEmpty(readObject)) {// For register
                 Object[] queryParamsGG = { request.getRequest_data().getUsername(), request.getRequest_data().getUsertype(), request
                     .getRequest_data()
                     .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getImage(), request
                     .getRequest_data()
-                    .getGoogleid() };
+                    .getGoogleid(), request.getRequest_data().getToken() };
                 boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_USER_GOOGLE, queryParamsGG);
                 if (status) {
                     readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { request
@@ -1937,14 +1919,10 @@ public class UserServiceImpl implements UserService {
                 // Check google id for update
                 if (mapUser.get(Parameters.ID_GOOGLE) != null &&
                     mapUser.get(Parameters.ID_GOOGLE).equals(request.getRequest_data().getGoogleid())) {// Registered
-                    // status =
-                    // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_GOOGLE,
-                    // new Object[] { request
-                    // .getRequest_data()
-                    // .getFirstname(), request.getRequest_data().getLastname(),
-                    // request.getRequest_data().getImage(), request
-                    // .getRequest_data()
-                    // .getGoogleid() });
+                    // Update token
+                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_GOOGLE, new Object[] { request
+                        .getRequest_data()
+                        .getToken(), request.getRequest_data().getGoogleid() });
                     response = new SimpleResponse(
                                                   SibConstants.SUCCESS,
                                                   request.getRequest_data_type(),
@@ -2114,17 +2092,16 @@ public class UserServiceImpl implements UserService {
             Object[] queryParams = null;
             User user = request.getRequest_user();
             String role = user.getRole();
-            String school = user.getSchool() != null &&
-                            (user.getSchool().equals("0") || StringUtils.isEmpty(user.getSchool())) ? null : user.getSchool();
+            String school = user.getSchool() != null && (user.getSchool().equals("0") || StringUtils.isEmpty(user.getSchool())) ? null : user
+                .getSchool();
             if (!StringUtils.isEmpty(role)) {
                 if (role.equals("M")) {
                     queryParams = new Object[] { user.getFirstName(), user.getLastName(), request.getRequest_user().getEmail(), user
-                            .getGender(), school, user.getAccomplishments(), dateUpdate, request.getRequest_user().getBio(), user
+                        .getGender(), school, user.getAccomplishments(), dateUpdate, request.getRequest_user().getBio(), user
                         .getFavorite(), user.getDefaultSubjectId(), request.getRequest_user().getUserid() };
                 } else if (role.equals("S")) {
                     queryParams = new Object[] { user.getFirstName(), user.getLastName(), request.getRequest_user().getEmail(), user
-                            .getGender(), school, null, dateUpdate, request.getRequest_user().getBio(), user
-                                .getFavorite(), user
+                        .getGender(), school, null, dateUpdate, request.getRequest_user().getBio(), user.getFavorite(), user
                         .getDefaultSubjectId(), request.getRequest_user().getUserid() };
                 }
             }
