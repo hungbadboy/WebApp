@@ -55,4 +55,5 @@ public class Parameters {
     public static final String STATUS = "status";
     public static final String ID_FACEBOOK = "idFacebook";
     public static final String ID_GOOGLE = "idGoogle";
+    public static final String TOKEN = "token";
 }

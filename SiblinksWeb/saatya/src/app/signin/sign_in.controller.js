@@ -33,8 +33,11 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
             angular.element('#passWord').trigger('focus');
             return;
         }
+        
+        var token = angular.element("#token").text();
+        
         $rootScope.$broadcast('open');
-        StudentService.loginUser(userName, password, function (data) {
+        StudentService.loginUser(userName, password, token, function (data) {
         	$rootScope.$broadcast('close');
             if (data.status == 'true') {
                 var dataUser = data;
@@ -58,6 +61,7 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
                 setStorage('nameHome', nameHome, 30);
                 // Redirect to old link
                 if(redirectToOldLink()) {
+                	$window.location.reload();
                 	return;
                 }
                 
@@ -110,7 +114,8 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
             $scope.facebookId = data.id;
             $scope.image = data.picture.data.url;
             $rootScope.$broadcast('open');
-            StudentService.loginFacebook($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.facebookId).then(function (data) {
+            var token = angular.element("#token").text();
+            StudentService.loginFacebook($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.facebookId, token).then(function (data) {
             	$rootScope.$broadcast('close');    
             	if(data.data.status=='true') {
             		var dataUser = data.data.request_data_result[0];
@@ -126,6 +131,7 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
 	                $('#header .log_out .current').text(nameHome);
 	                // Redirect to old link
 	                if(redirectToOldLink()) {
+	                	$window.location.reload();
                     	return;
                     }
                     
@@ -163,9 +169,10 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
                     $scope.googleid = resp.id;
                     $scope.image = resp.image.url;
                     var nameHome = resp.displayName;
-                    //$rootScope.$broadcast('open');
-                    StudentService.loginGoogle($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.googleid).then(function (data) {
-                    	//$rootScope.$broadcast('close');
+                    $rootScope.$broadcast('open');
+                    var token = angular.element("#token").text();
+                    StudentService.loginGoogle($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.googleid, token).then(function (data) {
+                    	$rootScope.$broadcast('close');
                     	if(data.data.status=='true') {
 	                        var dataUser = data.data.request_data_result[0];
 	                        setStorage('userName', dataUser['userName'], 30);
@@ -176,11 +183,9 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
 	                        setStorage('firstName', dataUser['firstName'], 30);
                             setStorage('lastname', dataUser['lastName'], 30);
 	                        setStorage('defaultSubjectId', dataUser['defaultSubjectId'], 10);
-	                        //$('#header .login').addClass('hide');
-	                        //$('#header .log_out').removeClass('hide');
-	                        //$('#header .log_out .current').text(nameHome);
 	                        // Redirect to old link
 	                        if(redirectToOldLink()) {
+	                        	$window.location.reload();
 	                        	return;
 	                        }
 	                        // Redirect to home page
@@ -190,7 +195,6 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
 	                        	window.location.href = '/';
 	                        }
                     	} else {
-                    		$rootScope.$broadcast('close');
                     		$scope.loginMess = 'Your email is already registered and not account Google';
                     		return;
                     	}
