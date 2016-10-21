@@ -77,11 +77,12 @@ public class RESTAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
 
             SibUserDetails userDetails = (SibUserDetails) authentication.getPrincipal();
             SibUser user = userDetails.getUser();
+            String token = request.getParameter(Parameters.TOKEN);
             user.setStatus(SibConstants.SUCCESS);
             user.setPassword(null);
             userDetails.setUser(user);
             // Update last online and isonline
-            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATELASTONLINETIME, new Object[] { user.getUsername() });
+            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATELASTONLINETIME, new Object[] { token, user.getUsername() });
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType(request.getContentType());
 
