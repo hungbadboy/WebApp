@@ -998,7 +998,6 @@ public class VideoServiceImpl implements VideoService {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @RequestMapping(value = "/getVideosList", method = RequestMethod.POST)
     public ResponseEntity<Response> getVideosList(@RequestBody final RequestData request) {

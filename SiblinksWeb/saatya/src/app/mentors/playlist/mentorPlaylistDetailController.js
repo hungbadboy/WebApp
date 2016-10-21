@@ -17,7 +17,6 @@ brotControllers.controller('MentorPlaylistDetailController',
             } else{
                 // reload to home
                 window.location.href = '#/mentor/dashboard';
-                window.location.reload();
             }
         } else {
             window.localStorage.clear();
@@ -123,7 +122,6 @@ brotControllers.controller('MentorPlaylistDetailController',
     $scope.playAll = function(){
         localStorage.removeItem('vidInPlaylist');
         window.location.href = '#/mentor/playlist/playall/'+plid+'';
-        window.location.reload();
     }
 
     
@@ -193,13 +191,11 @@ brotControllers.controller('MentorPlaylistDetailController',
 
     $scope.goToDetail = function(v){
       if (v.plid && v.plid > 0) {
-        setStorage('vidInPlaylist', v.vid, 30);
+        setStorage('vidInPlaylist', v.vid, 1);
         window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
-        window.location.reload();
       } else{
         localStorage.removeItem('vidInPlaylist');
         window.location.href = '#/mentor/video/detail/'+v.vid+'';
-        window.location.reload();
       }
     }
 

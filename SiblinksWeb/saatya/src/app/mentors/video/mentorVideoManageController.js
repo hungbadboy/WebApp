@@ -227,14 +227,23 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
     }
   }
 
+  $scope.goVideoDetail = function(vid, plid){
+    if (plid && plid > 0) {
+      setStorage('vidInPlaylist', vid, 1);
+      window.location.href = '#/mentor/playlist/playall/'+plid+'';
+    } else {
+      localStorage.removeItem('vidInPlaylist');
+      window.location.href = '#/mentor/video/detail/'+vid+'';
+    }
+  }
+
   $scope.goToDetail = function(v){
     if (v.plid && v.plid > 0) {
-      setStorage('vidInPlaylist', v.vid, 30);
+      setStorage('vidInPlaylist', v.vid, 1);
       window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
-      window.location.reload();
     } else{
+      localStorage.removeItem('vidInPlaylist');
       window.location.href = '#/mentor/video/detail/'+v.vid+'';
-      window.location.reload();
     }
   }
 
