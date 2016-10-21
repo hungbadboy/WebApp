@@ -26,13 +26,11 @@ brotControllers.controller('MentorVideoDetailController',
             } else if (!isNaN(plid) && plid > 0) {
                 // get playlist detail
                 $scope.plid = plid;
-                angular.element(document.querySelector('#video_balance')).remove();            
                 loadPlaylistDetail();
                 getVideosInPlaylist();
             } 
             else{
                 window.location.href = '#/mentor/dashboard';
-                window.location.reload();
             }
         } else {
             window.localStorage.clear();

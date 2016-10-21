@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1013,7 +1014,25 @@ public class MentorServiceImpl implements MentorService {
                 queryParams);
 
             if (readObject != null && readObject.size() > 0) {
-                simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "mentor", "getLatestComments", readObject);
+                int size = readObject.size();
+                List<Object> playlist = null;
+                List<Object> result = new ArrayList<Object>();
+                Map<String, Object> map = new HashMap<String, Object>();
+                Map<String, Object> tmp = new HashMap<String, Object>();
+                for (int i = 0; i < size; i++) {
+                    map = (Map<String, Object>) readObject.get(i);
+                    playlist = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_INFO_OF_VIDEO, new Object[] { map.get("vid") });
+                    if (playlist != null && playlist.size() > 0) {
+                        for (Object object : playlist) {
+                            tmp = (Map<String, Object>) object;
+                            map.put("plid", tmp.get("plid"));
+                        }
+                    } else {
+                        map.put("plid", null);
+                    }
+                    result.add(map);
+                }
+                simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "mentor", "getLatestComments", result);
             } else {
                 simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "mentor", "getLatestComments", SibConstants.NO_DATA);
             }
