@@ -63,70 +63,79 @@
                               <h5>Articles</h5>
                               <ul>
                               	<div ng-repeat="lstArticleAdmission in listArticleAdmission track by $index" ng-if="$index < displayNumberOfArticle">
-                                  <li>
-                                      <div id="{{lstArticleAdmission.arId}}" class="video-wrapper" data-ng-click="showPopupArticle($event)">
+                              	<li data-toggle="modal" href="#article-detail{{$index}}">
+                                      <div class="video-wrapper">
                                           <div class="videos-thumnail">
-                                              <a href="javascript:void(0)" ><img ng-src="{{lstArticleAdmission.image}}"></a>
+                                              <a href="javascript:void(0)"><img ng-src="{{lstArticleAdmission.image}}"></a>
                                           </div>
-                                         <div class="videos-title">
-                                             <a href="javascript:void(0)">{{lstArticleAdmission.title}}</a>
-                                          </div>
-                                          <div class="videos-time-add">
-                                              <span class="video-poster" id="{{lstArticleAdmission.authorId}}" ng-click="showProfile($event);$event.stopPropagation()"> {{lstArticleAdmission.firstName + ' ' + lstArticleAdmission.lastName}}</span>
-                                              <span> added {{caculateTimeElapsed(lstArticleAdmission.createDate)}}</span>
+                                          <div class="video-header-infor">
+                                              <div class="videos-title">
+                                                  <a href="javascript:void(0)">{{lstArticleAdmission.title}}</a>
+                                              </div>
+                                              <div class="videos-time-add">
+                                                  <span class="video-poster" id="{{lstArticleAdmission.authorId}}" ng-click="showProfile($event);$event.stopPropagation()">{{lstArticleAdmission.firstName + ' ' + lstArticleAdmission.lastName}}</span>
+                                                  <span> added {{caculateTimeElapsed(lstArticleAdmission.createDate)}}</span>
+                                              </div>
                                           </div>
                                           <div class="videos-rate">
+                                              <p class="videos-start">
+                                              <!-- <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span> -->
+                                              </p>
                                               <p class="videos-rate-infor">
-                                                  <span data-icon="&#x49;"> {{lstArticleAdmission.numComments}}</span>
+                                                  <span data-icon="&#xe066;">{{lstArticleAdmission.numComments}}</span>
                                               </p>
                                           </div>
                                           <div class="video-description">
-                                              <p title="{{lstArticleAdmission.description}}" class="pre-wrap">{{ lstArticleAdmission.description | limitTo: 160 }}{{lstArticleAdmission.description.length > 160 ? '...' :''}}</p>
+                                              <p class="pre-wrap">{{ lstArticleAdmission.description | limitTo: 160 }}{{lstArticleAdmission.description.length > 160 ? '...' :''}}</p>
                                           </div>
                                       </div>
-                                    </li>
-                                    <li class="article-detail-popup">
-                                      <div class="article-detail" id="ad{{lstArticleAdmission.arId}}">
-                                       <div class="article-detail-content container">
-                                           <div class="article-detail-content-wrapper ">
-                                               <div class="article-detail-left col-md-3">
-                                                   <!--<h3>Article detail</h3>-->
-                                                   <div class="article-detail-top">
-                                                       <a href="#"><img ng-src="{{lstArticleAdmission.imageUrl}}">{{lstArticleAdmission.title}}</a>
-                                                   </div>
-                                                   <div class="article-thumb">
-                                                       <a href="#"><img ng-src="{{lstArticleAdmission.image}}"></a>
-                                                   </div>
-                                                   <div class="article-infor">
-                                                       <p>from <span class="name-mentor">{{lstArticleAdmission.firstName + ' ' + lstArticleAdmission.lastName}}</span> <span class="post-time">add {{caculateTimeElapsed(lstArticleAdmission.createDate)}}</span></p>
-                                                       <p class="video-view">
-                                                           <span class="fa fa-eye">434</span> 
-                                                           <span data-icon="&#xe089;" class="heart">12</span>
-                                                       </p>
-                                                       <p class="rate-video">
-                                                           <span>Rate this article</span>
-                                                           <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
-                                                       </p>
-                                                   </div>
-                                                   <button class="share">Share</button>
-                                               </div>
-                                               <div class="article-detail-right col-md-9">
-                                                   <div class="article-detail-right-content-wrapper">
-                                                       <div class="article-detail-right-content">
-                                                           <p data-ng-bind-html="comvertToDisplay(lstArticleAdmission.content)"></p>
-                                                           
-                                                          
-                                                       </div>
-                                                       <!-- <button class=read-more>Read more <span data-icon="&#x33;"></span></button> -->
-                                                   </div>
-                                                   <div class="close-popup-detail close" ng-click="closeArticlePopup()"><span data-icon="&#xe051;"></span></div>
-                                               </div>
-                                               
-                                           </div>
-                                       </div>
-                                       <div class="close-popup-images"></div>
-                                   </div>
                                   </li>
+                                  <!-- Article popup -->
+							        <div class="modal fade" id="article-detail{{$index}}">
+							            <div class="modal-dialog modal-add-video modal-qa modal-article">
+							                <div class="modal-content clearfix">
+							                    <div class="col-md-3 left-question">
+							                        <div class="article-detail-top">
+							                            <a href="javascript:void(0)">
+							                                <span class="article-detail-img">
+							                                	<img  ng-src="{{lstArticleAdmission.imageUrl}}"/>
+							                                </span>
+							                                <span class="article-detail-title"><p>{{lstArticleAdmission.title}}</p></span>
+							                            </a>
+							                        </div>
+							                        <div class="article-thumb">
+							                            <a href="javascript:void(0)"><img ng-src="{{lstArticleAdmission.image}}"></a>
+							                        </div>
+							                        <div class="article-infor">
+							                            <p>from <span class="name-mentor">{{lstArticleAdmission.firstName + ' ' + lstArticleAdmission.lastName}}</span> <span class="post-time">add {{caculateTimeElapsed(lstArticleAdmission.createDate)}} ago</span></p>
+							                            <p class="video-view">
+							                            	<span data-icon="&#xe066;">{{lstArticleAdmission.numComments}}</span>
+							                                <!-- <span class="fa fa-eye">434</span> 
+							                                <span data-icon="&#xe089;" class="heart">12</span> -->
+							                            </p>
+							                            <!-- <p class="rate-video">
+							                                <span>Rate this article</span>
+							                                <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
+							                            </p> -->
+							                        </div>
+							                        <!-- <button class="share">Share</button> -->
+							                   </div>
+							                   <div class="col-md-9 right-answer clearfix">
+							
+							                        <div class="article-detail-right-content-wrapper">
+							                            <div scroller class="article-detail-right-content" data-ng-bind-html="comvertToDisplay(lstArticleAdmission.content)">
+							                                <!-- <p data-ng-bind-html="comvertToDisplay(lstArticleAdmission.content)"></p> -->
+							                            </div>
+							                            <!-- <button class=read-more>Read more <span data-icon="&#x33;"></span></button> -->
+							                        </div>
+							                        <button type="button" class="close close-popup-detail" data-dismiss="modal" aria-label="Close">
+							                            <span aria-hidden="true" data-icon="&#x51;"></span>
+							                        </button>
+							                   </div>
+							                </div>
+							            </div>
+							        </div>
+							        <!-- /End Article popup -->
                                   </div>
                               </ul>
                               <div class="see-more" ng-click="showMoreArticle()" ng-show="flagShowMoreArticle"><span>Show more</span></div>
