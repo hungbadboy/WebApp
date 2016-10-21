@@ -15,12 +15,11 @@
                                 <a href="" class="btn-next" ng-click="nextVideo(pos)"><img src="assets/images/icon-right-sl-vd.png" alt=""></a>
                             </div>
                             <div class="group-video-pl">
-                                <div class="item-pl-video clearfix">
+                                <div class="item-pl-video clearfix" ng-if="plid">
                                     <div class="col-md-1"></div>
-                                    <div id="video_balance" class="col-md-2"></div>
                                     <div class="video-play col-md-7" id="detailPlayer">
                                     </div>                                    
-                                    <div class="video-wait col-md-3" ng-if="plid">
+                                    <div class="video-wait col-md-3">
                                         <div class="top-w clearfix">
                                             <h5 class="pull-left">{{ playlist.name | limitTo: 20 }}{{playlist.name.length > 20 ? '...' : ''}}</h5>
                                             <a href="#/mentor/playlist/detail/{{playlist.plid}}"><span class="pull-right" data-icon="&#xe037;"></span></a>
@@ -38,6 +37,12 @@
                                             </li>
                                         </ul>
                                     </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                                <div class="item-pl-video clearfix" ng-if="!plid">
+                                    <div class="col-md-2"></div>
+                                    <div class="video-play col-md-8" id="detailPlayer">
+                                    </div>                       
                                     <div class="col-md-1"></div>
                                 </div>
                             </div>
