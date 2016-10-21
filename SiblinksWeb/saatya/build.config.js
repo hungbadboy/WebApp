@@ -35,7 +35,7 @@ module.exports = {
         atpl: [ 'src/app/**/*.tpl.html' ],
         ctpl: [ 'src/common/**/*.tpl.html' ],
 
-        html: [ 'src/index.html' ],
+        html: [ 'src/index.html','src/firebase-message-ws.js' ],
         less: 'src/less/main.less'
     },
 
@@ -90,7 +90,7 @@ module.exports = {
             'vendor/nv.d3.js',
             'ckeditor/ckeditor.js',
             'vendor/moment.min.js'
-        ],
+            ],
         css: [
         ],
         assets: [

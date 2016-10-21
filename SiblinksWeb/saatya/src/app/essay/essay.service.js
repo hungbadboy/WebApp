@@ -139,28 +139,28 @@ brotServices.factory('EssayService', ['$http', function($http) {
     return NEW_SERVICE_URL + 'essay/getImageUploadEssay/' + eid;
   };
 
-  factory.getNewestEssay = function(uid, offset){
+  factory.getNewestEssay = function(uid, schoolId, limit, offset){
     return $http({
       method: 'GET',
-      url: NEW_SERVICE_URL + 'essay/getNewestEssay?userid='+uid+'&offset='+offset+''
+      url: NEW_SERVICE_URL + 'essay/getNewestEssay?userid='+uid+'&schoolId='+schoolId+'&limit='+limit+'&offset='+offset+''
     });
   };
-  factory.getProcessingEssay = function(uid, offset){
+  factory.getProcessingEssay = function(uid, schoolId, limit, offset){
     return $http({
       method: 'GET',
-      url: NEW_SERVICE_URL + 'essay/getProcessingEssay?userid='+uid+'&offset='+offset+''
+      url: NEW_SERVICE_URL + 'essay/getProcessingEssay?userid='+uid+'&schoolId='+schoolId+'&limit='+limit+'&offset='+offset+''
     });
   };
-  factory.getIgnoredEssay = function(uid, offset){
+  factory.getIgnoredEssay = function(uid, schoolId, limit, offset){
     return $http({
       method: 'GET',
-      url: NEW_SERVICE_URL + 'essay/getIgnoredEssay?userid='+uid+'&offset='+offset+''
+      url: NEW_SERVICE_URL + 'essay/getIgnoredEssay?userid='+uid+'&schoolId='+schoolId+'&limit='+limit+'&offset='+offset+''
     });
   };
-  factory.getRepliedEssay = function(uid, offset){
+  factory.getRepliedEssay = function(uid, schoolId, limit, offset){
     return $http({
       method: 'GET',
-      url: NEW_SERVICE_URL + 'essay/getRepliedEssay?userid='+uid+'&offset='+offset+''
+      url: NEW_SERVICE_URL + 'essay/getRepliedEssay?userid='+uid+'&schoolId='+schoolId+'&limit='+limit+'&offset='+offset+''
     });
   };
   factory.updateStatusEssay = function (eid, mentorid, status) {

@@ -1,6 +1,6 @@
 brotControllers.controller('ChooseVideoController', 
-  ['$rootScope','$scope', '$modalInstance', '$routeParams', '$http', '$location', 'PlaylistService', 'VideoService','HomeService', 'myCache', 'pl_id',
-                                       function ($rootScope, $scope, $modalInstance, $routeParams, $http, $location, PlaylistService, VideoService, HomeService, myCache, pl_id) {
+  ['$rootScope','$scope', '$modalInstance', '$routeParams', 'PlaylistService', 'VideoService','HomeService', 'myCache', 'pl_id',
+                                       function ($rootScope, $scope, $modalInstance, $routeParams, PlaylistService, VideoService, HomeService, myCache, pl_id) {
 
     var userId = localStorage.getItem('userId'); 
     $scope.subject = [0];
@@ -20,34 +20,36 @@ brotControllers.controller('ChooseVideoController',
 
     function getVideos(){
         VideoService.getVideosNonePlaylist(userId, 0).then(function(data){
-            if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-                $scope.videos = formatVideos(data.data.request_data_result);
-                cacheVideos = $scope.videos.slice(0);
-            }
+          var result = data.data.request_data_result;
+          if (result && result != "Found no data") {
+            $scope.videosNoPLaylist = formatVideos(result);
+            cacheVideos = $scope.videosNoPLaylist.slice(0);
+          } else
+            $scope.videosNoPLaylist = null;
         });
     }
 
     $scope.loadMoreVideos = function(){
         var offset = 0;
-        if ($scope.videos && $scope.videos.length > 0)
-            offset = $scope.videos.length;
+        if ($scope.videosNoPLaylist && $scope.videosNoPLaylist.length > 0)
+            offset = $scope.videosNoPLaylist.length;
 
-        var oldArr = $scope.videos;
+        var oldArr = $scope.videosNoPLaylist;
         var newArr = [];
         if ($scope.subject == 0) {
           VideoService.getVideosNonePlaylist(userId, offset).then(function(data){
             if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
                 newArr = formatVideos(data.data.request_data_result);
-                $scope.videos = oldArr.concat(newArr);
+                $scope.videosNoPLaylist = oldArr.concat(newArr);
                 cacheVideos.length = 0;
-                cacheVideos = $scope.videos.slice(0);
+                cacheVideos = $scope.videosNoPLaylist.slice(0);
             }
           });
         } else {
           VideoService.getVideosNonePlaylistBySubject(userId, $scope.subject, offset).then(function(data){
             if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
                 newArr = formatVideos(data.data.request_data_result);
-                $scope.videos = oldArr.concat(newArr);
+                $scope.videosNoPLaylist = oldArr.concat(newArr);
             }
           });
         }
@@ -113,46 +115,79 @@ brotControllers.controller('ChooseVideoController',
         $scope.subject = e;
         if (e == 0) {
           if(cacheVideos.length > 0)
-              $scope.videos = cacheVideos;
+              $scope.videosNoPLaylist = cacheVideos;
         } else{            
-          VideoService.getVideosNonePlaylistBySubject(userId, e, 0).then(function(data){
-            if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-                $scope.videos = formatVideos(data.data.request_data_result);
-            } else
-                $scope.videos = null;
-          });
+          getVideosNonePlaylistBySubject();
         }
+    }
+
+    function getVideosNonePlaylistBySubject(){
+      VideoService.getVideosNonePlaylistBySubject(userId, $scope.subject, 0).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+            $scope.videosNoPLaylist = formatVideos(data.data.request_data_result);
+        } else
+            $scope.videosNoPLaylist = null;
+      });
+    }
+
+    $scope.onSelect = function(selected){
+      VideoService.searchVideosNonePlaylist(userId, selected.title, $scope.subject, 0).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+            $scope.videosNoPLaylist = formatVideos(data.data.request_data_result);
+        } else
+            $scope.videosNoPLaylist = null;
+      });
     }
 
     $scope.search = function(){
         var key = $('#keyword').val();
         if (key.length > 0) {
-            VideoService.searchVideosNonePlaylist(userId, key, 0).then(function(data){
-                if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-                    $scope.videos = formatVideos(data.data.request_data_result);
-                } else
-                    $scope.videos = null;
-            });
+          VideoService.searchVideosNonePlaylist(userId, key, $scope.subject, 0).then(function(data){
+            if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+                $scope.videosNoPLaylist = formatVideos(data.data.request_data_result);
+            } else
+                $scope.videosNoPLaylist = null;
+          });
+        } else if(!key && $scope.subject > 0){
+          getVideosNonePlaylistBySubject();
         } else
-            $scope.videos = cacheVideos;
+          $scope.videosNoPLaylist = cacheVideos;
     }
     
+    var status;
     $scope.checkAll = function(){
-        var status = !$scope.selectedAll;
-        angular.forEach($scope.videos, function(v){
-            v.selected = status;
-        })
+      if ($scope.optionAll == null) {
+        if (status){
+          status = false;
+          $scope.optionAll = status;
+        } else {
+          status = true;
+          $scope.optionAll = status;
+        }
+      } else{
+        if (status){
+          status = false;
+          $scope.optionAll = status;
+        } else {
+          status = true;
+          $scope.optionAll = status;
+        }
+        // status = !$scope.optionAll;
+      }
+      angular.forEach($scope.videosNoPLaylist, function(v){
+          v.selected = status;
+      })
     }
 
     $scope.optionSelected = function(){
-        $scope.selectedAll = $scope.videos.every(function(v){
+        $scope.optionAll = $scope.videosNoPLaylist.every(function(v){
             return v.selected;
         });
     }
 
     function checkSelectedVideos(){
         var selectedVideos = [];
-        angular.forEach($scope.videos, function(v){
+        angular.forEach($scope.videosNoPLaylist, function(v){
             if (!!v.selected)
                 selectedVideos.push(v.vid);
             else{

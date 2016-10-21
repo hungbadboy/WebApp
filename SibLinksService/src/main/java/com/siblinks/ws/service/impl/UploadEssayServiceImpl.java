@@ -768,8 +768,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      */
     @Override
     @RequestMapping(value = "/getNewestEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> getNewestEssay(final long userid, final int offset) {
-        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY, userid, offset, "getNewestEssay");
+    public ResponseEntity<Response> getNewestEssay(final long userid, final int schoolId, final int limit, final int offset) {
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY, userid, schoolId, limit, offset, "getNewestEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -779,10 +779,10 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      */
     @Override
     @RequestMapping(value = "/getProcessingEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> getProcessingEssay(final long userid, final int offset) {
+    public ResponseEntity<Response> getProcessingEssay(final long userid, final int schoolId, final int limit, final int offset) {
         SimpleResponse reponse = getEssay(
             SibConstants.SqlMapperBROT163.SQL_GET_PROCESSING_ESSAY,
-            userid,
+ userid, schoolId, limit,
             offset,
             "getProcessingEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -794,8 +794,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      */
     @Override
     @RequestMapping(value = "/getIgnoredEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> getInoredEssay(final long userid, final int offset) {
-        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY, userid, offset, "getIgnoredEssay");
+    public ResponseEntity<Response> getInoredEssay(final long userid, final int schoolId, final int limit, final int offset) {
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY, userid, schoolId, limit, offset, "getIgnoredEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -805,8 +805,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      */
     @Override
     @RequestMapping(value = "/getRepliedEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> getRepliedEssay(final long userid, final int offset) {
-        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_REPLIED_ESSAY, userid, offset, "getRepliedEssay");
+    public ResponseEntity<Response> getRepliedEssay(final long userid, final int schoolId, final int limit, final int offset) {
+        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_REPLIED_ESSAY, userid, schoolId, limit, offset, "getRepliedEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -825,29 +825,18 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      * @return SimpleResponse
      */
 
-    private SimpleResponse getEssay(final String entityName, final long userid, final int offset, final String from) {
+    private SimpleResponse getEssay(final String entityName, final long userid, final int schoolId, final int limit, final int offset, final String from) {
         SimpleResponse reponse = null;
         try {
-            // Get information user
-            Object[] params = new Object[] { userid };
-            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_PROFILE, params);
-            // get school
-            long schoolId = -1;
-            if (CollectionUtils.isEmpty(readObject)) {
-                for (Object object : readObject) {
-                    Map<String, Object> map = (Map<String, Object>) object;
-                    if (map.get(Parameters.SCHOOL) != null && !"".equals(map.get(Parameters.SCHOOL))) {
-                        schoolId = Long.parseLong(map.get(Parameters.SCHOOL).toString());
-                    }
-                }
-            }
+            Object[] params = null;
+            List<Object> readObject = null;
 
             if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY) ||
                 entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY)) {
-                params = new Object[] { userid, schoolId, offset };
+                params = new Object[] { userid, schoolId, limit, offset };
                 readObject = dao.readObjects(entityName, params);
             } else {
-                params = new Object[] { schoolId, offset };
+                params = new Object[] { schoolId, limit, offset };
                 readObject = dao.readObjects(entityName, params);
             }
             if (readObject != null && readObject.size() > 0) {

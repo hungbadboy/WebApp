@@ -38,6 +38,15 @@ public class SibUser {
     private String email;
     private String activeFlag;
     private Long birthDay;
+    private String school;
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(final String school) {
+        this.school = school;
+    }
 
     public String getDefaultSubjectId() {
         return defaultSubjectId;

@@ -1,6 +1,6 @@
 brotControllers.controller('MentorPlaylistDetailController', 
-  ['$rootScope', '$scope', '$modal', '$routeParams', '$http', '$location', 'PlaylistService', 'VideoService',
-                                       function ($rootScope, $scope, $modal, $routeParams, $http, $location, PlaylistService, VideoService) {
+  ['$rootScope', '$scope', '$modal', '$routeParams', 'PlaylistService', 'VideoService',
+                                       function ($rootScope, $scope, $modal, $routeParams, PlaylistService, VideoService) {
 
     var plid = $routeParams.plid;
     var userId = localStorage.getItem('userId'); 
@@ -126,13 +126,7 @@ brotControllers.controller('MentorPlaylistDetailController',
         window.location.reload();
     }
 
-    $scope.selectAll = function(){
-        var status = !$scope.selectedAll;
-
-        angular.forEach($scope.videos, function(v){
-           v.selected = status;
-        });
-    }
+    
 
     $scope.removeAll = function(){
         var selectedVideos = checkSelectedVideos();
@@ -168,6 +162,14 @@ brotControllers.controller('MentorPlaylistDetailController',
         }
     }
 
+    $scope.selectAll = function(){
+        var status = !$scope.selectedAll;
+
+        angular.forEach($scope.videos, function(v){
+           v.selected = status;
+        });
+    }
+    
     $scope.optionSelected = function(){
       $scope.selectedAll = $scope.videos.every(function(v){
         return v.selected;

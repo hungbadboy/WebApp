@@ -8,7 +8,7 @@ brotControllers.controller('MentorVideoDetailController',
     var userId = localStorage.getItem('userId');
     var vidInPlaylist = localStorage.getItem('vidInPlaylist');
     $scope.avatar = localStorage.getItem('imageUrl');
-    
+    var userName = localStorage.getItem('nameHome') != null ?  localStorage.getItem('nameHome') : "";
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
 
     $scope.averageRating = 0.1;
@@ -305,8 +305,18 @@ brotControllers.controller('MentorVideoDetailController',
             $scope.errorVideo = "Please login";
             return;
         }
-
-        videoDetailService.addCommentVideo(userId, content, vid).success(function (data) {
+        if($scope.video) {
+            var objRequest = {
+                authorID: userId,
+                content: content,
+                vid: $scope.video.vid,
+                uid: $scope.video.userid,
+                title: $scope.video.title,
+                subjectId: $scope.video.subjectId,
+                author: userName
+            };
+        }
+        videoDetailService.addCommentVideo(objRequest).success(function (data) {
             if (data.status == 'true') {
                 $("#txtComment").val('');
                 $(".comment-action").hide();
@@ -370,6 +380,7 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     function onPlayerReady(event) {
+      event.target.playVideo();
     }
 
     function onPlayerStateChange(event) {

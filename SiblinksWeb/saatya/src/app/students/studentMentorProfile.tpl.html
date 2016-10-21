@@ -20,7 +20,7 @@
                     <h4>{{studentMentorProfile.firstname != null ? studentMentorProfile.firstname : ''}}
                         {{studentMentorProfile.lastName != null ? studentMentorProfile.lastName : ''}}</h4>
                     </p>
-                    <p><strong>Education:</strong> {{studentMentorProfile.accomplishments != null ?
+                    <p><strong>Education:</strong> {{studentMentorProfile.accomplishments != null && studentMentorProfile.accomplishments != ""?
                         studentMentorProfile.accomplishments :
                         EMPTY_DATA}}</p>
                     <p id="starPoint" star-rating stars="5" outer-star-selection="stars" outer-percent="rating"
@@ -94,15 +94,14 @@
             <div class="mentors-video-recently col-md-6 col-md-offset-3">
                 <h4 ng-show="!videosRecently">Sorry, no data at time</h4>
                 <div ng-show="videosRecently" class="feature-video">
-                    <div class="feature-thumnail" ng-mouseover="hoverNewestVideo()"
-                         ng-mouseleave="unHoverNewestVideo()">
+                    <div class="feature-thumnail" id="{{videosRecently[0].vid}}" ng-mouseover="hoverVideo(videosRecently[0].vid)"
+                         ng-mouseleave="unHoverVideo(videosRecently[0].vid)">
                         <a href="#/videos/detailVideo/{{videosRecently[0].vid}}">
                             <img ng-src="{{videosRecently[0].image}}">
                         </a>
-                        <div class="hover-video">
-                            <a href="#/videos/detailVideo/{{videosRecently[0].vid}}"><span
-                                    data-icon="&#x45;"></span></a>
-                        </div>
+                        <a href="#/videos/detailVideo/{{videosRecently[0].vid}}"><div class="hover-video">
+                            <span data-icon="&#x45;"></span>
+                        </div></a>
                     </div>
                     <div class="feature-detail">
                         <a href="#/videos/detailVideo/{{videosRecently[0].vid}}"><h5>{{videosRecently[0].title}}</h5>
@@ -128,14 +127,16 @@
                             <div class="top-videos-list">
                                 <ul ng-show="videosRecently && videosRecently.length > 1">
                                     <li ng-repeat="video in videosRecently track by $index" ng-if="$index > 0">
-                                        <div class="video-thumnail">
+                                        <div class="video-thumnail" id="{{video.vid}}" ng-mouseover="hoverVideo(video.vid)"
+                                             ng-mouseleave="unHoverVideo(video.vid)">
                                             <a href="#/videos/detailVideo/{{video.vid}}">
                                                 <img ng-src="{{video.image}}">
                                             </a>
-                                            <div class="hover-video">
-                                                <a href="#/videos/detailVideo/{{video.vid}}"><span
-                                                        data-icon="&#x45;"></span></a>
-                                            </div>
+                                            <a href="#/videos/detailVideo/{{video.vid}}">
+                                                <div class="hover-video">
+                                                    <span data-icon="&#x45;" style="top: 45px"></span>
+                                                </div>
+                                            </a>
                                         </div>
                                         <div class="video-info">
                                             <p class="video title">
