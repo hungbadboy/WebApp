@@ -12,7 +12,14 @@ brotControllers.run(function ($templateCache) {
 });
 
 //$location.path('/sampleurl', false); to prevent reloading
-brotControllers.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
+brotControllers.run(['$route', '$rootScope', '$modalStack', '$location', function ($route, $rootScope, $modalStack, $location) {
+    $rootScope.$on('$locationChangeStart', function (event) {
+        var top = $modalStack.getTop();
+        if (top) {
+            $modalStack.dismiss(top.key);
+            event.preventDefault();
+        }
+    });
 	var original = $location.path;
 	$location.path = function (path, reload) {
 		if (reload === false) {
