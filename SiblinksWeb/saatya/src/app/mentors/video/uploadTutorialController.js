@@ -7,6 +7,7 @@ brotControllers.controller('UploadTutorialController',
     $scope.uploadPlaylist = [0];
     $scope.editVideo = null;
     var sub = myCache.get("subjects");
+    
 
     init();
 

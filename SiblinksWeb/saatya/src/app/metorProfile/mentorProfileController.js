@@ -25,13 +25,17 @@ brotControllers.controller('MentorProfileController',
             var defaultSubjectChecked = [];
             var defaultFavouriteChecked = [];
             var bod = "";
+            var currentPageStudentSubs = 0;
+            $scope.isLoadMoreStudentSubs = false;
 
+            var defaultLimit = 6;
+            var hasLoadMore = false;
             init();
 
             function init() {
                 if (studentId != undefined) {
                     getStudentInfo();
-                    getMentorSubscribed(50, 0, "subscribe", studentId);
+                    getMentorSubscribed(9, 0, "subscribe", studentId);
                 }
                 getStudentSubscribed();
                 getMentorProfile();
@@ -67,13 +71,20 @@ brotControllers.controller('MentorProfileController',
                         // var gender = $scope.mentorInfo.gender;
                         // $scope.gender = validateGender(gender);
                         if($scope.mentorInfo.school != null && !isEmpty($scope.mentorInfo.school)){
-                            $scope.schoolSelect = {id : parseInt($scope.mentorInfo.school, 10)};
+                            $scope.schoolSelect = {id : parseInt($scope.mentorInfo.school, 10), name : $scope.mentorInfo.schoolName};
                         }
                         var bioTimeStamp = $scope.mentorInfo.birthDay;
                         var registrationTime = $scope.mentorInfo.registrationTime;
                         $scope.birthDay = timeConverter(bioTimeStamp, FormatDateTimeType.DD_MM_YY);
                         $scope.sinceDay = timeConverter(registrationTime, FormatDateTimeType.MM_YY);
                         $scope.isLoginViaFBOrGoogle = $scope.mentorInfo.idFacebook != null || $scope.mentorInfo.idGoogle != null;
+                        $scope.isEmptyName = false;
+                        if(($scope.mentorInfo.firstname == null || isEmpty($scope.mentorInfo.firstname))
+                            && ($scope.mentorInfo.lastName == null || isEmpty($scope.mentorInfo.lastName))){
+                            $scope.isEmptyName = true;
+                            $scope.mentorInfo.fullName = $scope.mentorInfo.username.indexOf('@') != -1 ?
+                                $scope.mentorInfo.username.substr(0, $scope.mentorInfo.username.indexOf('@')) : $scope.mentorInfo.username;
+                        }
                         // if (subjects) {
                         //     if (!isEmpty($scope.mentorInfo.defaultSubjectId) && $scope.mentorInfo.defaultSubjectId != null) {
                         //         var subsName = getSubjectNameById($scope.mentorInfo.defaultSubjectId, subjects);
@@ -174,7 +185,7 @@ brotControllers.controller('MentorProfileController',
             // }
 
             function getStudentSubscribed() {
-                MentorService.getStudentSubscribed(userId, 6, 0).then(function (data) {
+                MentorService.getStudentSubscribed(userId, defaultLimit, 0).then(function (data) {
                     if (data.data.status) {
                         var response = data.data.request_data_result;
                         if (response && response != "Found no data") {
@@ -187,21 +198,27 @@ brotControllers.controller('MentorProfileController',
                                 obj.userName = response[i].userName != null ? response[i].userName : ' ';
                                 obj.avatar = response[i].imageUrl;
                                 obj.defaultSubjectId = response[i].defaultSubjectId;
-                                obj.school = response[i].school;
+                                obj.schoolId = response[i].school;
+                                obj.schoolName = response[i].schoolName;
                                 students.push(obj);
                             }
-                            $scope.listStudentSubscribed = students;
+                            $scope.listStudentSubscribed = hasLoadMore ? $scope.listStudentSubscribed.concat(students) : students;
+                            $scope.totalStudentSubs = $scope.listStudentSubscribed.length;
+                            $scope.isLoadMoreStudentSubs = $scope.listStudentSubscribed.length < defaultLimit;
                         }
                     }
                 });
             }
 
+            function isNotValidName(strName) {
+                return /\`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\[|\{|\]|\}|\||\\|\'|\<|\,|\.|\>|\?|\/|\""|\;|\:|[0-9]/.test(strName);
+            }
+
             $scope.updateProfile = function () {
                 var check = true;
-                var error = '';
+                var error = "";
                 $scope.msgError = "";
                 $scope.msgSuccess = "";
-                
                 var gender = '';
                 if ($('input[name="gender"][value="male"]').is(':checked')) {
                     gender = "M";
@@ -216,9 +233,9 @@ brotControllers.controller('MentorProfileController',
                 var email = $('input[name="email"]').val();
 
                 if (!isEmpty(email)) {
-                    if (!isValidEmailAddress($('input[name="email"]').val())) {
+                    if (!isValidEmailAddress(email)) {
                         check = false;
-                        error += "Email is not valid";
+                        error += "Email is not valid,";
                     }
                 } else {
                     email = "";
@@ -242,18 +259,25 @@ brotControllers.controller('MentorProfileController',
                 var favorite = arrFavouriteSelected.join(',');
 
                 var school = $scope.schoolSelect != null && !isEmpty($scope.schoolSelect) ? $scope.schoolSelect.id : null;
+                var bio = $('textarea[name="aboutme"]').val();
+                var firstName = $('input[name="firstname"]').val();
+                var lastName = $('input[name="lastname"]').val();
+                if(isNotValidName(firstName) || isNotValidName(lastName)){
+                    check = false;
+                    error += "Special characters or number are not allowed,";
+                }
                 if (check) {
                     var mentor = {
                         'role': "M",
                         'userid': userId,
-                        'firstName': $('input[name="firstname"]').val(),
-                        'lastName': $('input[name="lastname"]').val(),
+                        'firstName': firstName,
+                        'lastName': lastName,
                         'email': email,
                         'gender': gender,
                         'accomplishments' : $('input[name="accomplishments"]').val(),
                         'school': school,
                         'bod': $('input[id="bod"]').val(),
-                        'bio': $('textarea[name="aboutme"]').val(),
+                        'bio': bio,
                         'favorite': favorite,
                         'defaultSubjectId': strSubs
                     };
@@ -262,6 +286,12 @@ brotControllers.controller('MentorProfileController',
                     	$rootScope.$broadcast('close');
                         if (data.data.request_data_result == "Success") {
                             if (mentor) {
+                                if($scope.isEmptyName){
+                                    if(!isEmpty(firstName) || !isEmpty(firstName)){
+                                        $scope.mentorInfo.fullName = "";
+                                        $scope.isEmptyName = false;
+                                    }
+                                }
                                 $scope.mentorInfo.firstname = mentor.firstName;
                                 $scope.mentorInfo.lastName = mentor.lastName;
                                 $scope.mentorInfo.gender = mentor.gender;
@@ -273,12 +303,15 @@ brotControllers.controller('MentorProfileController',
                                 $scope.mentorInfo.schoolName = $scope.schoolSelect != null ?  $scope.schoolSelect.name : null;
                                 $scope.mentorSubs = strSubsName.substr(0, strSubsName.lastIndexOf(','));
                                 localStorage.setItem('defaultSubjectId', strSubs);
+                                localStorage.setItem('firstName', mentor.firstName);
+                                localStorage.setItem('lastname', mentor.lastName);
+                                $rootScope.fullName = mentor.firstName + ' '+mentor.lastName;
                             }
                             $scope.msgSuccess = "Updating profile successful !";
                         }
                         else {
                             if (error != '') {
-                                $scope.msgError = error;
+                                $scope.msgError = error.substr(0, error.lastIndexOf(','));
                             } else {
                                 $scope.msgError = "Updating profile failure";
                             }
@@ -286,7 +319,7 @@ brotControllers.controller('MentorProfileController',
                     });
                 }
                 else {
-                    console.log(error);
+                    $scope.msgError = error.substr(0, error.lastIndexOf(','));
                 }
             };
             
@@ -456,7 +489,7 @@ brotControllers.controller('MentorProfileController',
                         $scope.sinceDay = timeConverter(registrationTime, FormatDateTimeType.MM_YY);
                         if (subjects) {
                             var subsName = getSubjectNameById($scope.studentInfo.defaultSubjectId, subjects);
-                            if (subsName.length != 0) {
+                            if (subsName != undefined && !subsName) {
                                 var listSubs = [];
                                 subsName.forEach(function (sub) {
                                     if (subsName.length - 1) {
@@ -526,6 +559,8 @@ brotControllers.controller('MentorProfileController',
                 }
             }
 
+
+
             function getMentorSubscribedByCurrentId(userId, studentId, limit, offset) {
                 if (userId && studentId) {
                     MentorService.getSubscribedMentorViewStudent(userId, studentId, limit, offset).then(function (response) {
@@ -571,12 +606,12 @@ brotControllers.controller('MentorProfileController',
                 }
             }
 
-            $scope.hoverProfileMentor = function () {
-                $(".mentors-infor-img .mentors-img-hover").show();
+            $scope.hoverProfileMentor = function (mentorId) {
+                $("#"+mentorId+" .mentors-img-hover").show();
             };
 
-            $scope.unHoverProfileMentor = function () {
-                $(".mentors-infor-img .mentors-img-hover").hide();
+            $scope.unHoverProfileMentor = function (mentorId) {
+                $("#"+mentorId+" .mentors-img-hover").hide();
             };
 
 
@@ -687,6 +722,20 @@ brotControllers.controller('MentorProfileController',
                     }
                 }
                 return masterSubjects;
+            }
+
+
+            $scope.loadMoreStudentSubscribed = function () {
+                hasLoadMore = true;
+                currentPageStudentSubs++;
+                if ($scope.isLoadMoreStudentSubs)
+                    return;
+                var newoffset = defaultLimit * currentPageStudentSubs;
+                if(newoffset > $scope.totalStudentSubs) {
+                    $scope.totalStudentSubs = newoffset;
+                }else{
+                    getStudentSubscribed(userId, defaultLimit, newoffset);
+                }
             }
 
 

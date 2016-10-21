@@ -5,25 +5,35 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
 
     var userId = localStorage.getItem('userId');
 
-    if ($rootScope.imageUrl != undefined) {
-        $rootScope.imageUrl = $rootScope.imageUrl;
-    } else {
-        $rootScope.imageUrl = localStorage.getItem('imageUrl');
-    }
+
 
     init();
 
     function init() {
-        var firstname = localStorage.getItem('firstName');
-        var lastname = localStorage.getItem('lastname');
-        if (firstname == null || firstname === undefined || firstname.length == 0 || firstname == "null") {
-            firstname = '';
-        }
-        if (lastname == null || lastname === undefined || lastname.length == 0 || lastname == "null") {
-            lastname = '';
+
+        if ($rootScope.imageUrl != undefined) {
+            $rootScope.imageUrl = $rootScope.imageUrl;
+        } else {
+            $rootScope.imageUrl = localStorage.getItem('imageUrl');
         }
 
-        $scope.fullName = firstname + ' ' + lastname;
+        if ($rootScope.fullName == undefined) {
+            var firstname = localStorage.getItem('firstName');
+            var lastname = localStorage.getItem('lastname');
+            var isEmptyName = false;
+            if (firstname == null || firstname === undefined || firstname.length == 0 || firstname == "null") {
+                isEmptyName = true;
+            }
+            if (lastname == null || lastname === undefined || lastname.length == 0 || lastname == "null") {
+                isEmptyName = true;
+            }
+            if(isEmptyName){
+                var userName =  localStorage.getItem('userName');
+                $rootScope.fullName = userName.indexOf('@') != -1 ? userName.substr(0, userName.indexOf('@')) : userName;
+            }else{
+                $rootScope.fullName = firstname + ' ' + lastname;
+            }
+        }
     }
 
     /**

@@ -14,8 +14,9 @@
                                     <div class="img-avt">
                                         <img ng-src="{{mentorInfo.imageUrl != null ? mentorInfo.imageUrl  : 'assets/images/noavartar.jpg'}}" err-src="assets/images/noavartar.jpg">
                                     </div>
-                                    <h4>{{mentorInfo.firstname != null ? mentorInfo.firstname : ''}}
+                                    <h4 ng-if="!isEmptyName">{{mentorInfo.firstname != null ? mentorInfo.firstname : ''}}
                                         {{mentorInfo.lastName != null ? mentorInfo.lastName : ''}}</h4>
+                                    <h4 ng-if="isEmptyName">{{mentorInfo.fullName}}</h4>
                                     <span class="changeImg broswer-img" ng-show="!isLoginViaFBOrGoogle">
                                         <!--<input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)" accept='image/*'>-->
                                         <!--<label for="changeImg">-->
@@ -68,10 +69,10 @@
                                                 <div class="personal-information">
                                                     <div class="left-form">
                                                         <p>
-                                                        	<input type="text" placeholder="FirstName" id="firstName" name="firstname">
+                                                            <input type="text" placeholder="FirstName" ng-model="isFirstNameValid" id="firstName" name="firstname">
                                                         </p>
                                                         <p>
-                                                        	<input type="text" placeholder="LastName" id = "lastName" name="lastname">
+                                                            <input type="text" placeholder="LastName" ng-model="isLastNameValid" id = "lastName" name="lastname">
                                                         </p>
                                                         <p>
                                                         	<input type="email" placeholder="Email" id = "email" name="email"></p>
@@ -81,29 +82,21 @@
                                                         <p><select ng-model="schoolSelect" id="school" class="form-control school-profile"
                                                                    ng-options="school as school.name for school in listSchools track by school.id">
                                                             <option value="">-- Select University --</option>
-                                                        </select>
+                                                        </select></p>
 
                                                         <div class="favorite-field">
                                                             <p>Favourites Field:</p>
                                                             <div class="check-favorite">
-                                                        	<span ng-repeat=" mfav in masterFavourite">
-		                                                     	<input type="checkbox" class="masterFavourite"
-                                                                       name="favourites" ng-checked="(mfav.selected==1)"
-                                                                       value="{{mfav.subjectId}}"/>
-		                                                    	<label>{{mfav.subject}}</label>
-		                                                    </span>
+                                                                <span ng-repeat=" mfav in masterFavourite">
+                                                                    <input type="checkbox" class="masterFavourite"
+                                                                           name="favourites" ng-checked="(mfav.selected==1)"
+                                                                           value="{{mfav.subjectId}}"/>
+                                                                    <label>{{mfav.subject}}</label>
+                                                                </span>
                                                             </div>
                                                         </div>
 
-                                                        </p>
-
                                                         <div class="subject-field">
-                                                            <!--<p ng-if="objSubs">Subjects Registered</p>-->
-                                                            <!--<ng-form name="check-subject" ng-repeat="sub in objSubs">-->
-                                                            <!--<input type="checkbox" id="{{sub.id}}" value="{{sub.id}}"-->
-                                                            <!--name="{{sub.name}}" checked>-->
-                                                            <!--<label>{{sub.name}}</label>-->
-                                                            <!--</ng-form>-->
                                                             <p>Subjects:</p>
                                                             <div class="check-favorite">
 		                                                    <span ng-repeat=" msub in masterSubjects" style="display: inline-block">
@@ -186,7 +179,7 @@
                                                 src="{{s.avatar}}" alt=""></a></span>
                                         <div class="txt-ifm pull-left">
                                             <a href="#/mentor/studentProfile/{{s.userId}}"><h5>{{s.userName}}</h5></a>
-                                            <p>High school: {{s.school}}</p>
+                                            <p>High school: {{s.schoolName}}</p>
                                         </div>
                                     </li>
                                 </ul>
