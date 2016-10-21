@@ -78,12 +78,12 @@ brotControllers.controller('PlaylistController',
 
     function loadPlaylist(){        
         PlaylistService.loadPlaylist(userId, 0).then(function(data){
-            if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-               $scope.playlist = parseData(data.data.request_data_result);   
-               cachePlaylist.length = 0;
-               cachePlaylist = $scope.playlist.slice(0);
-            } else
-              $scope.playlist = null;
+          if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+             $scope.playlist = parseData(data.data.request_data_result);   
+             cachePlaylist.length = 0;
+             cachePlaylist = $scope.playlist.slice(0);
+          } else
+            $scope.playlist = null;
         });
     }
 
@@ -114,22 +114,22 @@ brotControllers.controller('PlaylistController',
     }
     
     function parseData(data){
-        for (var i = 0; i < data.length; i++) {
-            data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
-            data[i].selected = false;
-        }
-        return data;
+      for (var i = 0; i < data.length; i++) {
+          data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
+          data[i].selected = false;
+      }
+      return data;
     }
 
     $scope.update = function(plid){
       var modalInstance = $modal.open({
-          templateUrl: 'src/app/playlist/updatePlaylist.tpl.html',
-          controller: 'updatePlaylistController',
-          resolve:{
-            pl_id: function(){
-              return plid;
-            }
+        templateUrl: 'src/app/playlist/updatePlaylist.tpl.html',
+        controller: 'updatePlaylistController',
+        resolve:{
+          pl_id: function(){
+            return plid;
           }
+        }
       });
     }
 
@@ -235,21 +235,6 @@ brotControllers.controller('PlaylistController',
         return selectedPlaylist;
     }
 
-    $scope.loadPlaylistBySubject = function(e){
-      $scope.subject = e;
-      if($scope.subject == 0){
-        if(cachePlaylist.length > 0) {
-          if ($scope.playlist && $scope.playlist.length > 0)
-            $scope.playlist = null;
-          $scope.playlist = cachePlaylist.slice(0);
-        } else{
-          loadPlaylist();
-        }
-      }else{
-        getPlaylistBySubject();
-      }      
-    }
-
     function getPlaylistBySubject(){
       PlaylistService.getPlaylistBySubject(userId, $scope.subject, 0).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
@@ -259,33 +244,52 @@ brotControllers.controller('PlaylistController',
       });
     }
 
+    $scope.loadPlaylistBySubject = function(e){
+      $scope.subject = e;
+      var keyword = $('input#srch-term').val();
+      if($scope.subject == 0){
+        if (keyword && keyword.length > 0) {
+          searchPlaylist(keyword, $scope.subject);
+        } else if(!keyword || keyword.length == 0 && cachePlaylist.length > 0) {
+          if ($scope.playlist && $scope.playlist.length > 0)
+            $scope.playlist = null;
+          $scope.playlist = cachePlaylist.slice(0);
+        } else{
+          loadPlaylist();
+        }
+      }else{
+        if (keyword && keyword.length > 0)
+          searchPlaylist(keyword, $scope.subject);
+        else
+          getPlaylistBySubject();
+      }      
+    }
+
     $scope.onSelect = function(selected){
       if (selected !== undefined) {
-        PlaylistService.searchPlaylist(userId, selected.title, $scope.subject, 0).then(function(data){
-          var result = data.data.request_data_result;
-          if (result && result != "Found no data") {
-            $scope.playlist = parseData(result);
-          } else
-            $scope.playlist = null;
-        });
+        searchPlaylist(selected.title, $scope.subject);
       }      
     }
 
     $scope.search = function(){
       var keyword = $('input#srch-term').val();
       if (keyword && keyword.trim().length > 0) {
-        PlaylistService.searchPlaylist(userId, keyword, $scope.subject, 0).then(function(data){
-          var result = data.data.request_data_result;
-          if (result && result != "Found no data") {
-            $scope.playlist = parseData(result);
-          } else
-            $scope.playlist = null;
-        });
+        searchPlaylist(keyword, $scope.subject);
       } else if(!keyword && $scope.subject > 0){
         getPlaylistBySubject();
       } else{
         $scope.playlist = angular.copy(cachePlaylist);
       }
+    }
+
+    function searchPlaylist(keyword, subjectId){
+      PlaylistService.searchPlaylist(userId, keyword, subjectId, 0).then(function(data){
+        var result = data.data.request_data_result;
+        if (result && result != "Found no data") {
+          $scope.playlist = parseData(result);
+        } else
+          $scope.playlist = null;
+      });
     }
 
     var file;

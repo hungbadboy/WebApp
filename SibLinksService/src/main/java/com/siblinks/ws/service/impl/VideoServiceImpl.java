@@ -1480,7 +1480,7 @@ public class VideoServiceImpl implements VideoService {
                 entityName = SibConstants.SqlMapperBROT126.SQL_SEARCH_VIDEOS;
             } else {
                 queryParams = new Object[] { request.getRequest_data().getUid(), subjectId };
-                entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_WITH_PLAYLIST;
+                entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_WITH_SUBJECT;
             }
 
             String whereClause = String.format(
@@ -3243,11 +3243,7 @@ public class VideoServiceImpl implements VideoService {
                 params = new Object[] { request.getRequest_data().getUid() };
                 strEntity = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_NONE_PLAYLIST;
             }
-            String whereClause = String.format(
-                " and v.title like '%%%s%%' or v.description like '%%%s%%' order by v.timeStamp DESC limit 5 offset %d",
-                term,
-                term,
-                offset);
+            String whereClause = String.format(" and v.title like '%%%s%%' order by v.timeStamp DESC limit 5 offset %d", term, offset);
             List<Object> readObjects = dao.readObjectsWhereClause(strEntity, whereClause, params);
             if (readObjects != null && !readObjects.isEmpty()) {
                 response = new SimpleResponse(SibConstants.SUCCESS, "video", "searchVideosNonePlaylist", readObjects);
