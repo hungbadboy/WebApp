@@ -81,7 +81,7 @@
                         <!-- List of top mentors -->
                         <div class="top-mentors-list">
                             <ul>
-                                <li ng-show="!listMentorSubscribed">List Mentor Subscription Is Empty</li>
+                                <li ng-show="!listMentorSubscribed">You have no subscriptions</li>
                                 <li ng-if="mentor" ng-repeat="mentor in listMentorSubscribed track by $index">
                                     <div class="top-mentors-img online">
                                         <a href="#/student/mentorProfile/{{mentor.MentorId}}">
@@ -718,7 +718,7 @@
                     </div>
 
                     <div class="tab-pane" id="favourite" ng-show="!searchItem">
-                        <h4>Favourite Tutorial</h4>
+                        <h4>Favorite Tutorials</h4>
                         <span class="number-media number-subscrip" ng-bind="listVideoFavourite.length"></span>
                         <!--<span class="number-media number-subscrip"-->
                         <!--ng-bind="listVideoFavourite.length"></span>-->

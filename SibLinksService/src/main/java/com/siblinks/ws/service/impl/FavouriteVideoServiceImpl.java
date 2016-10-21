@@ -60,7 +60,7 @@ import com.siblinks.ws.util.SibConstants;
 @RequestMapping("/siblinks/services/favourite")
 public class FavouriteVideoServiceImpl implements FavouriteVideoService {
 
-    private final Log logger = LogFactory.getLog(AdminServiceImpl.class);
+    private final Log logger = LogFactory.getLog(FavouriteVideoServiceImpl.class);
 
     @Autowired
     private ObjectDao dao;
@@ -100,10 +100,12 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
             logger.info("addfavourite success " + new Date());
         } catch (DAOException e) {
             message = e.getMessage();
-            logger.error("addfavourite error " + new Date());
-            transactionManager.rollback(status);
+            logger.error("addfavourite error " + e.getMessage());
+            if (status != null) {
+                transactionManager.rollback(status);
+            }
         }
-        SimpleResponse reponse = new SimpleResponse("" + isAdd, "favouriteService", "deleteMenuData", message);
+        SimpleResponse reponse = new SimpleResponse("" + isAdd, "favouriteService", "addFavouriteVideo", message);
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -168,7 +170,7 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
             logger.info("delfavourite success " + new Date());
 
         } catch (Exception e) {
-            logger.error("addfavourite error " + new Date());
+            logger.error("delFavourite error " + e.getMessage());
             message = "System error " + e.getMessage();
             transactionManager.rollback(status);
         }

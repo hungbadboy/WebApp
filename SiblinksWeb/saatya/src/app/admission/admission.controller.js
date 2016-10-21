@@ -289,18 +289,10 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 		});
 	}
 	
-	$scope.showPopupArticle = function(event) {
-		$('#ad' + event.currentTarget.getAttribute("id")).css({"left":"0"}); 
-	}
-	
 	$scope.showProfile = function(event) {
 		window.location.href = '#/student/mentorProfile/' + event.currentTarget.getAttribute("id");
 	}
 	
-	$scope.closeArticlePopup = function() {
-		$('.article-detail').css({"left":"100%"});
-	}
-
    $scope.beforeApplying = function(idSubAdmission, idTopicSubAdmission) {
     $location.url('/admission/videoadmission/listvideoadmission/' + idSubAdmission + '/' + idTopicSubAdmission);
   };

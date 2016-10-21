@@ -103,7 +103,8 @@
         width: 100%;
         background: #ffcc00;
     }
-    .manager-profile-std .avt .count-qt, .manager-profile-std .box-information {
+    .manager-profile-std .avt .count-qt, 
+    .manager-profile-std .box-information {
         width: 100%;
         position: relative;
         overflow: hidden;
@@ -133,19 +134,22 @@
     }
 
     /*======Mentor.Manage Tutorial======*/
-    .manager-video .group-item .item .box-detail-play .item-thumbnail, 
-    .manager-video .group-item .item .box-detail-play .detail-pl-inner {
-        width: 100%;
-        float: left;
-        padding-left: 0;
-    }
     .manage-tutorial .main-manager-video .filters .text-trf, 
     .manage-tutorial .group-item .item .box-detail-play {
-        width: 25%;
+        width: 415px;
     }
     .manage-tutorial .main-manager-video .filters .text-des, 
     .manage-tutorial .group-item .item .box-description {
-        width: 35%;
+        width: ~"calc(100% - 695px)";
+    }
+    .manage-tutorial .main-manager-video .filters .text-play, 
+    .manage-tutorial .group-item .item .box-playlist {
+        width: 100px;
+    }
+    .manage-tutorial .main-manager-video .filters .text-ac, 
+    .manage-tutorial .group-item .item .box-ac {
+        display: inline-block;
+        width: 110px;
     }
     a.left.carousel-control {
         left: -56px;
@@ -153,23 +157,6 @@
     a.right.carousel-control {
         right: -56px;
     }
-    .manage-tutorial .main-manager-video .filters .text-ac, 
-    .manage-tutorial .group-item .item .box-ac {
-        display: inline-block;
-        width: 25%;
-    }
-
-
-    /*mentor.Manage Playlist Detail*/
-    .manager-playlist-detail .main-manager-video .filters .text-trf, 
-    .manager-playlist-detail .group-item .item .box-detail-play {
-        width: 200px;
-        margin-right: 30px;
-    }
-    .manager-playlist-detail .group-item .item .box-detail-play {
-        margin-right: 32px;
-    }
-
     
 }
 @media screen and (max-width: 1600px) { 
@@ -241,6 +228,7 @@
     }
     .right-sub-video .list-sub-video li .sub-vd-right{
         padding-left: 10px;
+        width: ~"calc(100% - 150px)";
     }
     
     .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bx-detail-rpl .top-rpl .col-md-2 {        
@@ -269,7 +257,10 @@
     .manager-playlist .main-manager-video .filters .text-trf, 
     .manager-playlist .group-item .item .box-detail-play {
         width: 340px;
-        margin-right: 30px;
+        margin-right: 20px;
+    }
+    .manager-playlist .group-item .item .box-playlist {
+        padding-left: 1px;
     }
     .manager-playlist .main-list-video .filters .text-play, 
     .manager-playlist .group-item .item .box-playlist {
@@ -277,7 +268,7 @@
     }
     .manager-playlist-detail .main-manager-video .filters .text-play, 
     .manager-playlist-detail .group-item .item .box-playlist {
-        width: 15%;
+        width: 100px;
     }
     .manager-playlist .main-list-video .filters .text-ac, 
     .manager-playlist .group-item .item .box-ac {
@@ -301,15 +292,15 @@
         margin-left: ~"calc(50% + 17px)";
         width:~"calc(50% - 170px)";
     }
-    .manager-video .group-item .item .box-detail-play .item-thumbnail {
-        width: 196px;
-        margin-right: 10px;
-    }
-    .manager-playlist.manager-video .group-item .item .box-detail-play .detail-pl-inner {
+    .manager-playlist .group-item .item .box-detail-play .detail-pl-inner {
         width: ~"calc(100% - 206px)";
         float: left;
-        padding-left: 0;
+        padding-left: 20px;
     }
+    .manager-playlist .main-list-video .filters .text-play {
+        margin-right: 3px;
+    }
+
     /*====== Manage Playlist Detail =========*/
     .manager-playlist-detail .top-vd-dt .box-detail-play .item-thumbnail,
     .manager-playlist-detail .top-vd-dt .box-detail-play .detail-pl-inner {
@@ -324,8 +315,26 @@
     .manager-playlist-detail .top-vd-dt .box-detail-play .item-thumbnail {
         width: 300px
     }
-    .manager-playlist-detail .group-item .item .box-detail-play {
-        margin-right: 31px;
+    .manager-playlist-detail .main-manager-video .filters .text-play {
+        margin-right: 12px;
+    }
+    .manager-video .group-item .item .box-ac .list-ac li {
+        width: 100%;
+    }
+
+    /*======Mentor.Manage Tutorial======*/
+    .manage-tutorial .group-item .item .box-detail-play .detail-pl-inner {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .manage-tutorial .group-item .item .box-detail-play {
+        margin-right: 1px;
+    }
+    .manage-tutorial .group-item .item .box-playlist {
+        margin-right: 0;
+    }
+    .manage-tutorial .group-item .item .box-description {
+        margin-right: 9px;
     }
 
 }
@@ -363,6 +372,7 @@
     .dashboard-content-bottom-left,
     .dashboard-content-bottom-right {
         width: 100%;
+        padding-left: 0;
     }
 
     /*========Mentor.Studentprofile==========*/
@@ -384,17 +394,9 @@
     .manage-tutorial .group-item .item .box-playlist {
         width: 10%;
     }
-    .manage-tutorial .main-manager-video .filters .text-trf, 
-    .manage-tutorial .group-item .item .box-detail-play {
-        width: 30%;
-    }
 
     /*========Mentor.Manage Videoplaylist========*/
-    .manager-video .group-item .item .box-detail-play .detail-pl-inner {
-        width: 100%;
-        float: left;
-        padding-left: 0;
-    }
+
     .main-manager-video .filters .check-all,
     .manager-video .group-item .item .check-box {
         width: 30px;
@@ -416,10 +418,6 @@
     .manager-playlist-detail .bx-description {
         padding-left: 0;
         width: ~"calc(100% - 326px)";
-    }
-    .manager-playlist-detail .main-manager-video .filters .text-trf, 
-    .manager-playlist-detail .group-item .item .box-detail-play {
-        width: 197px;
     }
     .manager-playlist-detail .main-manager-video .filters .text-des, 
     .manager-playlist-detail .group-item .item .box-description {
@@ -548,6 +546,39 @@
         left: 25px;
     }
 
+    /*========Mentor. Manage Tutorial========*/
+    .manage-tutorial .main-manager-video .filters .text-trf, 
+    .manage-tutorial .group-item .item .box-detail-play {
+        width: 220px;
+    }
+    .manage-tutorial .main-manager-video .filters .text-des, 
+    .manage-tutorial .group-item .item .box-description {
+        width: ~"calc(100% - 475px)";
+    }
+    .manage-tutorial .group-item .item .box-description {
+        margin-right: 10px;
+    }
+    .manage-tutorial .group-item .item .box-detail-play .detail-pl-inner {
+        padding-left: 0;
+    }
+    /*========Mentor. Manage Detail Playlist========*/
+    .manager-playlist-detail .main-manager-video .filters .text-trf, 
+    .manager-playlist-detail .group-item .item .box-detail-play {
+        width: 220px;
+    }
+    .manager-playlist-detail .group-item .item .box-detail-play .detail-pl-inner {
+        float: left;
+        padding-left: 0;
+        width: 100%;
+    }
+    .manager-playlist-detail .group-item .item .box-description {
+        margin-right: 10px;
+    }
+    .manager-playlist-detail .main-manager-video .filters .text-des, 
+    .manager-playlist-detail .group-item .item .box-description {
+        width: ~"calc(100% - 480px)";
+    }
+
     .chat-body{
         padding-left: 25px !important;
     }
@@ -557,6 +588,7 @@
     .right-sub-video .list-sub-video li .sub-vd-right{
         padding-left: 0;
         padding-top: 10px;
+        width: auto;
     }
     .right-sub-video .list-sub-video li{
         padding-bottom: 5px;
@@ -565,9 +597,7 @@
     /*mentor Q&A*/
     .mentor-qa-search {
         width: 100%;
-    }
-
-      
+    }      
     .manager-playlist-detail .top-mag .search {
         width: 50%;
         float: left;
@@ -636,6 +666,15 @@
     }
     .account-user {
         height: auto;
+    }
+
+    /*Student.Ask A Question Form*/
+    .form-ask-question form {
+        width: 50%;
+        margin-left: 25%;
+    }
+    .form-ask-question-wrapper .upload-image {
+        max-height: none;
     }
 
 }

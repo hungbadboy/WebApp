@@ -62,9 +62,9 @@
                                                 <p>{{ question.content | limitTo: 185 }}{{question.content.length > 185 ? '...' : ''}}</p>
 
                                                 <div class="clearfix bt-item">
-                                                    <div class="col-md-6 replied" ng-if="question.timeanswer"><h6>Replied
+                                                    <div class="col-md-6 replied" ng-if="question.timeanswer"><h6>Replies
                                                         <span>&nbsp;{{convertUnixTimeToTime(question.timeanswer)}} ago</span></h6></div>
-                                                    <div class="col-md-6 replied" ng-if="!question.timeanswer"><h6>No replied </span></h6></div>
+                                                    <div class="col-md-6 replied" ng-if="!question.timeanswer"><h6>No replies </span></h6></div>
                                                     <div class="col-md-6">
                                                         <p class="list-view">
                                                             {{question.numReplies}} <span data-icon="&#x77;"></span>&nbsp;&nbsp;
