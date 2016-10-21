@@ -488,7 +488,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     /**
-     * 
+     *
      * @param vid
      * @param authorId
      * @return
@@ -2800,7 +2800,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     /**
-     * 
+     *
      * @param subjectId
      * @param userId
      * @param limit
@@ -2941,7 +2941,7 @@ public class VideoServiceImpl implements VideoService {
             Map<String, String> pageLimit = CommonUtil.getInstance().getOffset(limit, offset);
             Object[] params = null;
             String entityName = "";
-            params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("limit")) };
+            params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
             String count = "0";
             if (subjectId.equals("-1")) {
                 entityName = SibConstants.SqlMapper.SQL_GET_VIDEO_BY_VIEW;
@@ -2975,7 +2975,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     /**
-     * 
+     *
      * @param userId
      * @param subjectId
      * @return
@@ -2988,7 +2988,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     /**
-     * 
+     *
      * @return
      * @throws DAOException
      */

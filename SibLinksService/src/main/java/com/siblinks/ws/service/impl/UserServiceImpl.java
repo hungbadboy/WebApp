@@ -933,20 +933,20 @@ public class UserServiceImpl implements UserService {
                                 .getRequest_user()
                                 .getUsername() });
                         if (status) {
-                            new SimpleResponse(
+                            response = new SimpleResponse(
                                                "" + Boolean.TRUE,
                                                request.getRequest_data_type(),
                                                request.getRequest_data_method(),
                                                "Changed Password Successfully");
                         } else {
-                            new SimpleResponse(
+                            response = new SimpleResponse(
                                                "" + Boolean.FALSE,
                                                request.getRequest_data_type(),
                                                request.getRequest_data_method(),
                                                "Change password is failed. Please contact with administrator");
                         }
                     } else {
-                        new SimpleResponse(
+                        response = new SimpleResponse(
                                            "" + Boolean.FALSE,
                                            request.getRequest_data_type(),
                                            request.getRequest_data_method(),
@@ -2119,7 +2119,7 @@ public class UserServiceImpl implements UserService {
             if (!StringUtils.isEmpty(role)) {
                 if (role.equals("M")) {
                     queryParams = new Object[] { user.getFirstName(), user.getLastName(), request.getRequest_user().getEmail(), user
-                        .getGender(), null, user.getAccomplishments(), dateUpdate, request.getRequest_user().getBio(), user
+                            .getGender(), school, user.getAccomplishments(), dateUpdate, request.getRequest_user().getBio(), user
                         .getFavorite(), user.getDefaultSubjectId(), request.getRequest_user().getUserid() };
                 } else if (role.equals("S")) {
                     queryParams = new Object[] { user.getFirstName(), user.getLastName(), request.getRequest_user().getEmail(), user
