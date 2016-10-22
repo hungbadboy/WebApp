@@ -98,6 +98,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       if (result && result != NO_DATA) {
         for (var i = result.length - 1; i >= 0; i--) {
           result[i].timeStamp = convertUnixTimeToTime(result[i].docSubmittedDate);
+          result[i].odFilesize = formatBytes(result[i].odFilesize);
         }
         $scope.essay = result[0];
         getRepliedByEssay($scope.essay.uploadEssayId, userId);
@@ -112,6 +113,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
      var k = 1000;
      var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
      var i = Math.floor(Math.log(bytes) / Math.log(k));
+     console.log(parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i]);
      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
   }
 
@@ -119,7 +121,6 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     for (var i = data.length - 1; i >= 0; i--) {
       data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
       data[i].fullName = data[i].firstName + ' ' + data[i].lastName;
-      data[i].odFilesize = formatBytes(data[i].odFilesize);
     }
     return data;
   }
@@ -201,9 +202,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       EssayService.insertCommentEssay(fd).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result == "Success") {
           $scope.success = "Reply successful.";
-          getAllEssay();
+          getRepliedByEssay($scope.essay.uploadEssayId, userId);
         } else{
           $scope.error = data.data.request_data_result;
+          console.log($scope.error);
         }
       });
     }

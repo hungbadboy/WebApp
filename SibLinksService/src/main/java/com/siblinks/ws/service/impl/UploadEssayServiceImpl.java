@@ -893,10 +893,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             @RequestParam final long essayId, @RequestParam final long mentorId, @RequestParam final String comment) {
         SimpleResponse reponse = null;
         boolean flag = false;
-        TransactionStatus status = null;
         Object[] params = null;
         TransactionDefinition def = new DefaultTransactionDefinition();
-        transactionManager.getTransaction(def);
+        TransactionStatus status = transactionManager.getTransaction(def);
         try {
             String statusMsg = validateEssay(file);
             if (statusMsg.equals("Error Format")) {
@@ -926,6 +925,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 }
             }
         } catch (Exception e) {
+            System.out.println(e.getCause());
             logger.error(e.getMessage());
             transactionManager.rollback(status);
             reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", e.getMessage());

@@ -18,12 +18,12 @@
                         <div class="col-md-6 search">
                             <form class="navbar-form" role="search">
                                 <div class="input-group">                                                
-                                    <input type="text" class="form-control input-search" id="keyword" placeholder="Type your search" name="srch-term" onfocus="this.placeholder = ''" ng-enter="search()">
-                                    <!-- <div id="keyword" angucomplete-alt ng-enter="search()" placeholder="Search" pause="50" selected-object="onSelect" 
+                                    <!-- <input type="text" class="form-control input-search" id="keyword" placeholder="Type your search" name="srch-term" onfocus="this.placeholder = ''" ng-enter="search()"> -->
+                                    <div id="autocompleteSubsQA" angucomplete-alt ng-enter="search()" placeholder="Search" pause="50" selected-object="onSelect" 
                                         local-data="listAllVideos" search-fields="title" title-field="title"
                                         minlength="1" input-class="form-control input-search"
                                         text-no-results="Tutorial Not Found"
-                                        match-class="highlight" ></div> -->
+                                        match-class="highlight" ></div>
                                     <div class="input-group-btn">
                                         <button class="btn btn-default" type="submit" ng-click="search()"><img src="assets/images/icon-search.png" alt=""></button>
                                     </div>
