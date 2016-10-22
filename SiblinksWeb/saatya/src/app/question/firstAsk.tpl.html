@@ -62,8 +62,8 @@
                    <textarea id="autocompleteQuest_value" placeholder="{{questionIndex}}"></textarea>
                </p>
                <output class="upload-image " id="list">
-                   <div ng-repeat="step in stepsModel track by $index">
-                       <img class="thumb" ng-src="{{step}}"/>
+                   <div ng-repeat="step in filesArray track by $index">
+                       <img class="thumb" ngf-thumbnail="step" />
                        <div class="remove-image"><img src="assets/images/remove-img.png"
                                                       ng-click="removeImg($index)"></div>
                    </div>
