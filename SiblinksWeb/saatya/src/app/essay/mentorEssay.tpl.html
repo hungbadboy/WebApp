@@ -44,8 +44,8 @@
                                                         <b>{{e.nameOfEssay}}</b>
                                                         <p>{{e.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
-                                                            <button class="processing pull-left" ng-click="changeStatus(e.uploadEssayId,'P')"><span data-icon="&#xe02d;"></span>Waiting</button>
-                                                            <button class="ignore pull-left" ng-click="changeStatus(e.uploadEssayId,'I')"><span data-icon="&#xe02d;"></span>Ignore</button>
+                                                            <a href="" ng-click="changeStatus(e.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review">Process</span></a>
+                                                            <a href="" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-answers">Ignore</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -65,8 +65,8 @@
                                                         <b>{{pe.nameOfEssay}}</b>
                                                         <p>{{pe.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
-                                                            <div class="pull-left">Reviewing</div>
-                                                            <!-- <div class="follow pull-left"><span><i class="fa fa-font-awesome" aria-hidden="true"></i></span></div> -->
+                                                            <a href=""  ng-click="changeStatus(pe.uploadEssayId,'W')"><span class="essay-reviewing">Cancel</span></a>
+                                                            <a href="" ng-click="changeStatus(pe.uploadEssayId,'I')"><span class="essay-answers">Ignore</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -85,9 +85,6 @@
                                                         <h5><a href="" ng-click="goToProfile(ie.userId)">{{ie.fullName}} </a><span class="time">{{ie.timeStamp}} ago</span></h5>
                                                         <b>{{ie.nameOfEssay}}</b>
                                                         <p>{{ie.descriptionOfEssay}}</p>
-                                                        <div class="clearfix bt-item">
-                                                            <div class="ignore pull-left">Ignored</div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -105,9 +102,6 @@
                                                         <h5><a href="" ng-click="goToProfile(re.userId)">{{re.fullName}} </a><span class="time">{{re.timeStamp}} ago</span></h5>
                                                         <b>{{re.nameOfEssay}}</b>
                                                         <p>{{re.descriptionOfEssay}}</p>
-                                                        <div class="clearfix bt-item">
-                                                            <div class="pull-left">Replied</div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

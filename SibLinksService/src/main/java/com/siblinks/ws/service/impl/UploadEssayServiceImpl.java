@@ -907,6 +907,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             if (status != null && status.equals("I")) {
                 params = new Object[] { request.getRequest_data().getEssayId(), mentorId };
                 flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_IGNORE_ESSAY, params);
+            } else if (status != null && status.equals("W")) {
+                params = new Object[] { status, request.getRequest_data().getEssayId() };
+                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_CANCEL_ESSAY, params);
             } else {
                 params = new Object[] { status, mentorId, request.getRequest_data().getEssayId() };
                 flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
