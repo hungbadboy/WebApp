@@ -116,7 +116,10 @@ brotControllers.controller('PlaylistController',
     function parseData(data){
       for (var i = 0; i < data.length; i++) {
           data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
-          data[i].selected = false;
+          if ($scope.selectedAll == true)
+            data[i].selected = true;
+          else
+            data[i].selected = false;
       }
       return data;
     }
@@ -418,8 +421,9 @@ brotControllers.controller('PlaylistController',
     function clearContent(){
       $('#txtTitle').val('');
       $('#changeImg').val('');
-      $('#txtDescription').val('')
-      $scope.playlistSubject = [0];
+      $('#txtDescription').val('');
+      $scope.playlistSubject = 0;
+      $('#addSubject').val(0);
       $scope.stepsModel.splice(0, 1);
       file = null;
     }
