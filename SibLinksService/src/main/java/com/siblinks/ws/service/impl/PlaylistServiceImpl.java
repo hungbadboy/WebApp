@@ -140,8 +140,8 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Override
     @RequestMapping(value = "/insertPlaylist", method = RequestMethod.POST)
     public ResponseEntity<Response> insertPlaylist(@RequestParam final MultipartFile image, @RequestParam final String title,
-            @RequestParam final String description, @RequestParam final String url, @RequestParam final long subjectId,
-            @RequestParam final long createBy, @RequestParam(required = false) final ArrayList<String> vids) throws Exception {
+            @RequestParam final String description, @RequestParam final String url, @RequestParam final long subjectId, @RequestParam final long createBy,
+            @RequestParam(required = false) final ArrayList<String> vids) throws Exception {
         String entityName = null;
         SimpleResponse reponse = null;
         try {
@@ -298,16 +298,12 @@ public class PlaylistServiceImpl implements PlaylistService {
 
         if (subjectId == 0) {
             queryParams = new Object[] { request.getRequest_data().getUid() };
-            entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST;
+            entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST_MENTOR;
         } else {
             queryParams = new Object[] { request.getRequest_data().getUid(), subjectId };
             entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST_WITH_SUBJECT;
         }
-        String whereClause = String.format(
-            "and (p.name like '%%%s%%' or p.description like '%%%s%%') order by p.CreateDate DESC limit 10 offset %d",
-            term,
-            term,
-            offset);
+        String whereClause = String.format("and p.name like '%%%s%%' order by p.CreateDate DESC limit 10 offset %d", term, offset);
 
         List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
 
@@ -409,9 +405,9 @@ public class PlaylistServiceImpl implements PlaylistService {
      */
     @Override
     @RequestMapping(value = "/updatePlaylist", method = RequestMethod.POST)
-    public ResponseEntity<Response> updatePlaylist(@RequestParam(required = false) final MultipartFile image,
-            @RequestParam final String oldImage, @RequestParam final String title, @RequestParam final String description,
-            @RequestParam final long subjectId, @RequestParam final long createBy, @RequestParam final long plid) {
+    public ResponseEntity<Response> updatePlaylist(@RequestParam(required = false) final MultipartFile image, @RequestParam final String oldImage,
+            @RequestParam final String title, @RequestParam final String description, @RequestParam final long subjectId, @RequestParam final long createBy,
+            @RequestParam final long plid) {
         String entityName = null;
         boolean updateObject;
         SimpleResponse reponse = null;
