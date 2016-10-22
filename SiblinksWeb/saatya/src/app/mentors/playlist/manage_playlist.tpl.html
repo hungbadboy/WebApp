@@ -55,7 +55,7 @@
                                         <div class="form-group">
                                             <span class="add-img" id="add-thumb">
                                                 <output id="list" class="up-thumb up-thumb-sec">
-                                                    <div ng-repeat="step in stepsModel track by $index">
+                                                    <div style="height: 100px;" ng-repeat="step in stepsModel track by $index">
                                                         <img class="thumb" ng-src="{{step}}" />
                                                         <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
                                                     </div>
