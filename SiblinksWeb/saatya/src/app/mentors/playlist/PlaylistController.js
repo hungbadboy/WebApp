@@ -351,10 +351,14 @@ brotControllers.controller('PlaylistController',
           loadPlaylist();
           clearContent();
         } else{
-          $scope.error = data.data.request_data_result;
+          $scope.error = result;
         }
         $rootScope.$broadcast('close');
       });
+    }
+
+    $scope.clearMessage = function(){
+      $scope.success = null;
     }
 
     $scope.changeAddValue = function(e){
