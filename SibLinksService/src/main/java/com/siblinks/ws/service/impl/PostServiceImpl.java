@@ -381,7 +381,7 @@ public class PostServiceImpl implements PostService {
             readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_QUESTION, new Object[] {});
 
             simpleResponse = new SimpleResponse(
-                                                "" + Boolean.TRUE,
+                                                SibConstants.SUCCESS,
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
@@ -399,27 +399,27 @@ public class PostServiceImpl implements PostService {
     @RequestMapping(value = "/getPostById", method = RequestMethod.POST)
     public ResponseEntity<Response> getPostById(@RequestBody final RequestData request) {
         SimpleResponse simpleResponse = null;
+        TransactionStatus statusBD = null;
         try {
-            List<Object> readObject = null;
             Object[] queryParams = { request.getRequest_data().getPid() };
             TransactionDefinition def = new DefaultTransactionDefinition();
-            TransactionStatus statusBD = transactionManager.getTransaction(def);
-            try {
-                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_VIEW_POST, queryParams);
-                readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_POST_BY_ID, queryParams);
-                transactionManager.commit(statusBD);
-            } catch (NullPointerException e) {
-                transactionManager.rollback(statusBD);
-                logger.info("Delete answer Error:" + e.getMessage());
-            }
+            statusBD = transactionManager.getTransaction(def);
+            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_VIEW_POST, queryParams);
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_POST_BY_ID, queryParams);
+            transactionManager.commit(statusBD);
 
             simpleResponse = new SimpleResponse(
-                                                "" + Boolean.TRUE,
+                                                SibConstants.SUCCESS,
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            if (statusBD != null) {
+                transactionManager.rollback(statusBD);
+            }
+            logger.info("getPostById:" + e.getMessage());
+
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getPostById", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -440,7 +440,7 @@ public class PostServiceImpl implements PostService {
             readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_POST_ANSWER_LASTEST, queryParams);
 
             simpleResponse = new SimpleResponse(
-                                                "" + Boolean.TRUE,
+                                                SibConstants.SUCCESS,
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
@@ -473,7 +473,7 @@ public class PostServiceImpl implements PostService {
             readObject = dao.readObjects(sqlMapper, queryParams);
 
             simpleResponse = new SimpleResponse(
-                                                "" + Boolean.TRUE,
+                                                SibConstants.SUCCESS,
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
@@ -582,7 +582,7 @@ public class PostServiceImpl implements PostService {
             count = dao.getCount("GET_POST_LIST_PN_COUNT", new Object[] { request.getRequest_data().getSubjectId() });
 
             simpleResponse = new SimpleResponse(
-                                                "" + Boolean.TRUE,
+                                                SibConstants.SUCCESS,
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 resParentObject,
@@ -660,7 +660,7 @@ public class PostServiceImpl implements PostService {
                 .getPid() });
 
             simpleResponse = new SimpleResponse(
-                                                "" + Boolean.TRUE,
+                                                SibConstants.SUCCESS,
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 resParentObject,
@@ -712,7 +712,7 @@ public class PostServiceImpl implements PostService {
                 whereClause,
                 queryParams);
 
-            simpleResponse = new SimpleResponse("" + Boolean.TRUE, "GET", "getPostListMobile", readObject);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "GET", "getPostListMobile", readObject);
         } catch (DAOException e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getPostListMobile", e.getMessage());
@@ -812,7 +812,7 @@ public class PostServiceImpl implements PostService {
             }
 
             simpleResponse = new SimpleResponse(
-                                                "" + Boolean.TRUE,
+                                                SibConstants.SUCCESS,
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
@@ -1023,7 +1023,7 @@ public class PostServiceImpl implements PostService {
                     }
                 }
             }
-            simpleResponse = new SimpleResponse("" + Boolean.TRUE, "posted", "getStudentPosted", result_data);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "posted", "getStudentPosted", result_data);
         } catch (DAOException e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getStudentPosted", e.getMessage());
@@ -1061,7 +1061,7 @@ public class PostServiceImpl implements PostService {
                 whereClause,
                 queryParams);
 
-            simpleResponse = new SimpleResponse("" + Boolean.TRUE, "get", "countQuestions", readObject);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "get", "countQuestions", readObject);
         } catch (DAOException e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "countQuestions", e.getMessage());
@@ -1115,7 +1115,7 @@ public class PostServiceImpl implements PostService {
                 whereClause,
                 queryParams);
 
-            simpleResponse = new SimpleResponse("" + Boolean.TRUE, "get answer", "getAnswersList", readObject);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "get answer", "getAnswersList", readObject);
         } catch (DAOException e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getAnswersList", e.getMessage());
@@ -1152,7 +1152,7 @@ public class PostServiceImpl implements PostService {
                 whereClause,
                 params);
             String count = String.valueOf(readObjectTemp.size());
-            simpleResponse = new SimpleResponse("" + Boolean.TRUE, "GET", "getNewestQuestionBySubject", readObjectTemp, count);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "GET", "getNewestQuestionBySubject", readObjectTemp, count);
         } catch (DAOException e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getNewestQuestionBySubject", e.getMessage());

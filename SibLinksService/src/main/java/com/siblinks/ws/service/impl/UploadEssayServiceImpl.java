@@ -769,7 +769,13 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     @Override
     @RequestMapping(value = "/getNewestEssay", method = RequestMethod.GET)
     public ResponseEntity<Response> getNewestEssay(final long userid, final int schoolId, final int limit, final int offset) {
-        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY, userid, schoolId, limit, offset, "getNewestEssay");
+        SimpleResponse reponse = getEssay(
+            SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY,
+            userid,
+            schoolId,
+            limit,
+            offset,
+            "getNewestEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -782,7 +788,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     public ResponseEntity<Response> getProcessingEssay(final long userid, final int schoolId, final int limit, final int offset) {
         SimpleResponse reponse = getEssay(
             SibConstants.SqlMapperBROT163.SQL_GET_PROCESSING_ESSAY,
- userid, schoolId, limit,
+            userid,
+            schoolId,
+            limit,
             offset,
             "getProcessingEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -795,7 +803,13 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     @Override
     @RequestMapping(value = "/getIgnoredEssay", method = RequestMethod.GET)
     public ResponseEntity<Response> getInoredEssay(final long userid, final int schoolId, final int limit, final int offset) {
-        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY, userid, schoolId, limit, offset, "getIgnoredEssay");
+        SimpleResponse reponse = getEssay(
+            SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY,
+            userid,
+            schoolId,
+            limit,
+            offset,
+            "getIgnoredEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -806,7 +820,13 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     @Override
     @RequestMapping(value = "/getRepliedEssay", method = RequestMethod.GET)
     public ResponseEntity<Response> getRepliedEssay(final long userid, final int schoolId, final int limit, final int offset) {
-        SimpleResponse reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_REPLIED_ESSAY, userid, schoolId, limit, offset, "getRepliedEssay");
+        SimpleResponse reponse = getEssay(
+            SibConstants.SqlMapperBROT163.SQL_GET_REPLIED_ESSAY,
+            userid,
+            schoolId,
+            limit,
+            offset,
+            "getRepliedEssay");
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -825,7 +845,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      * @return SimpleResponse
      */
 
-    private SimpleResponse getEssay(final String entityName, final long userid, final int schoolId, final int limit, final int offset, final String from) {
+    private SimpleResponse getEssay(final String entityName, final long userid, final int schoolId, final int limit,
+            final int offset, final String from) {
         SimpleResponse reponse = null;
         try {
             Object[] params = null;
@@ -927,7 +948,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         } catch (Exception e) {
             System.out.println(e.getCause());
             logger.error(e.getMessage());
-            transactionManager.rollback(status);
+            if (status != null) {
+                transactionManager.rollback(status);
+            }
             reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", e.getMessage());
         }
 

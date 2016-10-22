@@ -62,29 +62,6 @@ brotControllers
                 function init() {
 
                     $scope.curentOrderType = "newest";
-                    if (isEmpty(userId)) {
-                        userId = -1;
-                    }
-                    if (isEmpty(subjectid)) {
-                        subjectid = "-1";
-                    }
-
-                    getQuestions(userId, LIMIT, OFFSET, $scope.curentOrderType, oldQid, subjectid);
-
-                    QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
-                        $scope.totalQuestion = data.data.request_data_result[0].numquestion;
-                        if (userId == "-1") {
-                            window.location.href = '/#/first-ask';
-                            return;
-                        }
-                        if ($scope.totalQuestion == 0 && $location.path().indexOf('question')>=0) {
-                            if (subjectid == -1) {
-                                window.location.href = '/#/first-ask';
-                                return;
-                            }
-                        }
-                    });
-
                     //get top mentors by subcribe
                     MentorService.getTopMentorsByLikeRateSubcrible(LIMIT_TOP_MENTORS, OFFSET, 'subcribe', userId).then(function (data) {
                         var data_result = data.data.request_data_result;
@@ -104,7 +81,7 @@ brotControllers
                                 mentor.isOnline = data_result[i].isOnline;
                                 mentor.defaultSubjectId = data_result[i].defaultSubjectId;
                                 if(data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
-                                	mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, $scope.subjects);
+                                    mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, $scope.subjects);
                                 }
                                 mentor.numAnswers = data_result[i].numAnswers;
                                 listTopMentors.push(mentor);
@@ -137,7 +114,30 @@ brotControllers
 
                     });
 
+                    if (isEmpty(subjectid)) {
+                        subjectid = "-1";
+                    }
 
+                    if (isEmpty(userId)) {
+                        userId = -1;
+                        return;
+                    }
+
+                    getQuestions(userId, LIMIT, OFFSET, $scope.curentOrderType, oldQid, subjectid);
+
+                    QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
+                        $scope.totalQuestion = data.data.request_data_result[0].numquestion;
+                        if (userId == "-1") {
+                            window.location.href = '/#/first-ask';
+                            return;
+                        }
+                        if ($scope.totalQuestion == 0 && $location.path().indexOf('question')>=0) {
+                            if (subjectid == -1) {
+                                window.location.href = '/#/first-ask';
+                                return;
+                            }
+                        }
+                    });
                 }
 
 

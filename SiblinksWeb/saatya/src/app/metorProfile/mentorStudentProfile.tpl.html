@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="box-information">
                                     <h5>University</h5>
-                                    <p>{{studentInfo.school != null ? studentInfo.school : EMPTY_DATA}}</p>
+                                    <p>{{studentInfo.schoolName != null ? studentInfo.schoolName : EMPTY_DATA}}</p>
                                     <h5>About me</h5>
                                     <p class="pre-wrap">{{studentInfo.bio != null ? studentInfo.bio : EMPTY_DATA}}.</p>
                                     <h5>Knowledge field: </h5>
@@ -64,8 +64,8 @@
                                             </div>
                                         </form>
                                         <div class="slide-broswer">
-                                            <a href="#" class="btn-prev"><span data-icon="&#x34;"></span></a>
-                                            <a href="#" class="btn-next"><span data-icon="&#x35;"></span></a>
+                                            <a class="btn-prev"><span data-icon="&#x34;"></span></a>
+                                            <a class="btn-next"><span data-icon="&#x35;"></span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -77,8 +77,8 @@
                                         <div class="col-md-4" ng-show="listMentorSubs"
                                              ng-repeat="mentor in listMentorSubs | filter:query track by $index">
                                             <div class="mentors-infor-img">
-                                                <!-- <div class="mentors-infor-img-wrapper" id="{{mentor.userid}}" ng-mouseover="hoverProfileMentor(mentor.userid)" ng-mouseleave="unHoverProfileMentor(mentor.userid)"> -->
-                                                <div class="mentors-infor-img-wrapper" id="{{mentor.userid}}">
+                                                <div class="mentors-infor-img-wrapper" id="{{mentor.userid}}" ng-mouseover="hoverProfileMentor(mentor.userid)" ng-mouseleave="unHoverProfileMentor(mentor.userid)">
+                                                <!--<div class="mentors-infor-img-wrapper" id="{{mentor.userid}}">-->
                                                     <a href="#/student/mentorProfile/{{mentor.userid}}"><img
                                                             ng-src="{{mentor.imageUrl != null ? mentor.imageUrl : 'assets/images/noavartar.jpg'}}"></a>
                                                     <div class="mentors-img-hover">

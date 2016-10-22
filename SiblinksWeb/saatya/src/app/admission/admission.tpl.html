@@ -47,8 +47,16 @@
                                               <span> added {{caculateTimeElapsed(lstVideoTutAdmission.creationDate)}}</span>
                                           </div>
                                           <div class="videos-rate">
-                                           	<p class="videos-start" ng-repeat="i in rangeAdmission(lstVideoTutAdmission.numRatings)">
-                                                  <span class="admission-star-rate" data-icon="&#xe033;"></span>
+                                           	<p class="videos-start star-admission">
+                                                  <span star-rating stars="5" id="divRate"
+				                                          outer-star-selection="stars"
+				                                          ng-click="rateFunction(stars)"
+				                                          outer-percent="rating"
+				                                          rating-define="star"
+				                                          rating-stars="{{lstVideoTutAdmission.averageRating}}"
+				                                          star-radius="6" sel-color="gold"
+				                                          back-color="white">
+				    	                            </span>
                                               </p>
                                               <p class="videos-rate-infor">
                                                   <span data-icon="&#x49;"> {{lstVideoTutAdmission.numViews}}</span>
