@@ -94,7 +94,7 @@
                                         <div class="video-member-subcriber">
 
                                             <button id="btnsubs" class="subscribers" ng-class="{'unsubcrib':isSubscribe=='1'}"
-                                                    ng-Mouseover="hoverSubcribe()" data-icon="&#x4c;" ng-mouseleave="unHoverSubcribe()"
+                                                    ng-Mouseover="hoverSubcribe()" data-icon="{{isSubscribe =='1'?'&#x4e;':'&#x4c;'}}" ng-mouseleave="unHoverSubcribe()"
                                                     ng-click="setSubscribeMentor(videoInfo.userid)">
                                                 <span id="spansubs" >Subscribe</span>
                                                 <span class="number-subscribers">{{videoInfo.numsub}}</span></button>
