@@ -61,13 +61,12 @@
                                         <a href="#/mentorProfile/{{videoInfo.userid}}"><img ng-src="{{videoInfo.avatar}}"></a>
                                         <div class="video-member-subcriber">
                                             <button id="btnsubs" class="subscribers" ng-class="{'unsubcrib':isSubscribe=='1'}"
-                                                    data-icon="&#x4c;" ng-Mouseover="hoverSubcribe()"
+                                                    data-icon="{{isSubscribe =='1'?'&#x4e;':'&#x4c;'}}" ng-Mouseover="hoverSubcribe()"
                                                     ng-mouseleave="unHoverSubcribe()" ng-click="setSubscribeMentor(videoInfo.userid)">
                                                 <span id="spansubs" >Subscribe</span>
                                                 <span class="number-subscribers">{{videoInfo.numsub}}</span></button>
 
                                         </div>
-                                        &nbsp;
                                         <button ng-if="userId" ng-disabled="isFavorite == '1'" class="favoriteVideo" ng-class="{'btn-warning':isFavorite =='1'}"
                                                 id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" ><span data-icon="&#xe031;"></span>Favorite</button>
                                     </div>

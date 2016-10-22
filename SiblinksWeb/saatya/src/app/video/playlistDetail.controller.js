@@ -23,6 +23,8 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         $scope.videosRelatedError = "";
         $scope.loadRate = false;
 
+        var userName = localStorage.getItem('nameHome') != null ?  localStorage.getItem('nameHome') : "";
+
         var LIMIT_VIDEO = 5;
         var OFFSET = 0;
 
@@ -477,7 +479,16 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 return;
             }
             $rootScope.$broadcast('open');
-            videoDetailService.addCommentVideo($scope.userId, content, $scope.currentvid).success(function (data) {
+            var objRequest = {
+                authorID : $scope.userId,
+                content : content,
+                vid : $scope.currentvid,
+                uid: $scope.videoInfo.userid,
+                title : $scope.videoInfo.title,
+                subjectId : $scope.videoInfo.subjectId,
+                author : userName
+            };
+            videoDetailService.addCommentVideo(objRequest).success(function (data) {
                 if (data.status == 'true') {
                     $("#add-comment").val('');
                     $(".comment-action").hide();
