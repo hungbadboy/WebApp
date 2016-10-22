@@ -72,4 +72,12 @@ public interface UploadEssayService {
 
     public ResponseEntity<Response> getCommentEssay(long essayId, long mentorId);
 
+    /**
+     * get mentor information for essay
+     *
+     * @param request
+     * @return
+     */
+    public ResponseEntity<Response> getMentorEssayByUid(RequestData request);
+
 }
