@@ -353,6 +353,7 @@ brotControllers.controller('PlaylistController',
         } else{
           $scope.error = result;
         }
+        console.log(result);
         $rootScope.$broadcast('close');
       });
     }

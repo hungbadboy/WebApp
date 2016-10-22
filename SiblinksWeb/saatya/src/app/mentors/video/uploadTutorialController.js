@@ -235,14 +235,16 @@ brotControllers.controller('UploadTutorialController',
       }
       $rootScope.$broadcast('open');
       VideoService.uploadTutorial(request).then(function(data){
-        if (data.data.request_data_result === "Success") {
+        var result = data.data.request_data_result
+        if (result === "Success") {
           $scope.success = "Upload Tutorial successful.";
           $rootScope.$broadcast("uploadNew");
           loadVideoRecently();
           clearContent();
         } else{
-          $scope.error = data.data.request_data_result;
+          $scope.error = result;
         }
+        console.log(result);
         $rootScope.$broadcast('close');
       });
     }
