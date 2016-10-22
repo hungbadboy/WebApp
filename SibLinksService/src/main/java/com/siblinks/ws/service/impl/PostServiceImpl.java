@@ -183,9 +183,13 @@ public class PostServiceImpl implements PostService {
             }
 
             Object[] queryParamsAnswer = { pid, mentorId, content, filePath };
+            String contentNofi = content;
+            if (!StringUtil.isNull(content) && content.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
+                contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
+            }
             id = dao.insertObject(SibConstants.SqlMapper.SQL_CREATE_ANSWER, queryParamsAnswer);
             Object[] queryParams = { mentorId, studentId, "answerQuestion", "Answer to question", "answered a question: " +
-                                                                                                  content, subjectId, pid };
+                                                                                                  contentNofi, subjectId, pid };
             dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_NUMREPLIES_QUESTION, new Object[] { pid });
 
             status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION, queryParams);

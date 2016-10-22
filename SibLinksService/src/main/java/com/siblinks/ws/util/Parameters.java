@@ -56,4 +56,5 @@ public class Parameters {
     public static final String ID_FACEBOOK = "idFacebook";
     public static final String ID_GOOGLE = "idGoogle";
     public static final String TOKEN = "token";
+    public static final int MAX_LENGTH_TO_NOFICATION = 50;
 }

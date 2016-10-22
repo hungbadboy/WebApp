@@ -173,8 +173,8 @@ public class CommentServiceImpl implements CommentsService {
             statusDB = transactionManager.getTransaction(def);
             // Get request data
             String content = request.getRequest_data().getContent().replace("'", "\\\\'");
-            content = content.replace("(", "\\\\(");
-            content = content.replace(")", "\\\\)");
+            // content = content.replace("(", "\\\\(");
+            // content = content.replace(")", "\\\\)");
             String userName = request.getRequest_data().getAuthor();
             String authorId = request.getRequest_data().getAuthorID();
             boolean status = true, statusUpdateCmtVideo = false;
@@ -196,7 +196,11 @@ public class CommentServiceImpl implements CommentsService {
                 // Insert notification table
                 String userId = request.getRequest_data().getUid();
                 String subjectId = request.getRequest_data().getSubjectId();
-                Object[] queryParamsIns3 = { userId, authorId, "commentVideo", "New comment of video", content, subjectId, vid };
+                String contentNofi = content;
+                if (!StringUtil.isNull(content) && content.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
+                    contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
+                }
+                Object[] queryParamsIns3 = { userId, authorId, "commentVideo", "New comment of video", contentNofi, subjectId, vid };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
             }
 
@@ -432,12 +436,12 @@ public class CommentServiceImpl implements CommentsService {
                     SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_DETAIL_BY_ID,
                     new Object[] { request.getRequest_data().getVid() });
                 Map userPostVideoMap = (Map) readObject.get(0);
-
-                Object[] queryParamsIns3 = { userPostVideoMap.get("userid"), request.getRequest_data().getAuthorID(), "commentVideoAdmssion", "New comment of video", "commented video : " +
-                                                                                                                                                                      userPostVideoMap
-                                                                                                                                                                          .get(
-                                                                                                                                                                              "title")
-                                                                                                                                                                          .toString(), userPostVideoMap
+                Object[] queryParamsIns3 = { userPostVideoMap.get("userid"), request
+                    .getRequest_data()
+                    .getAuthorID(), "commentVideoAdmssion", "New comment of video", "commented video : " +
+                                                                                    userPostVideoMap
+                                                                                        .get("title")
+                                                                                        .toString(), userPostVideoMap
                     .get("idAdmission"), request.getRequest_data().getVid() };
                 if (!userPostVideoMap.get("userid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
                     dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
