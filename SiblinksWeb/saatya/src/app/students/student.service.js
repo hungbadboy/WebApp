@@ -139,7 +139,7 @@ brotServices.factory('StudentService', ['$http', function ($http) {
             return rs;
         });
         return promise;
-    }
+    };
 
     factory.getListMajors = function () {
         var promise = $http({
@@ -159,7 +159,7 @@ brotServices.factory('StudentService', ['$http', function ($http) {
             method: 'GET',
             url: NEW_SERVICE_URL + 'student/checkStudentSubscribe?studentId=' + studentId + '&mentorId=' + mentorId
         });
-    }
+    };
 
     factory.getListActivities = function () {
         var promise = $http({
@@ -266,6 +266,15 @@ brotServices.factory('StudentService', ['$http', function ($http) {
     factory.getAvatar = function (userId) {
         return NEW_SERVICE_URL + 'user/getAvatar/' + userId;
     };
+    
+    
+    factory.getInfoMentorSubscribed = function (studentId, limit, offset) {
+        return $http({
+            method: 'GET',
+            url: NEW_SERVICE_URL + 'student/getAllInfoMentorSubscribed?studentId='+studentId+'&limit='+limit+'&offset='+offset
+        });
+    };
+    
 
     return factory;
 }]);

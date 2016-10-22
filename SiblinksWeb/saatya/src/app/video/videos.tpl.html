@@ -292,7 +292,7 @@
                                                     ng-Mouseover="hoverSubcribe(recommendedForYou[0].isSubs,recommendedForYou[$index].userId)"
                                                     ng-mouseleave="unHoverSubcribe(recommendedForYou[0].isSubs,recommendedForYou[$index].userId)">
                                                 <span id="span_{{recommendedForYou[$index].userId}}">Subscribe</span>
-                                                <span class="number-subscribers">{{recommendedForYou[$index].countSubscribe}}</span>
+                                                <span class="number-subscribers">{{recommendedForYou[$index].countSubscribe != null && recommendedForYou[$index].countSubscribe != "" ? recommendedForYou[$index].countSubscribe : 0}}</span>
                                             </button>
 
                                             <!--<button style="margin-top: 5px;" ng-click="setSubscribeMentor(recommendedForYou[$index].userId, $index)">-->
