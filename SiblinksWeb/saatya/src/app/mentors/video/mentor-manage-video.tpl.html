@@ -38,7 +38,7 @@
                                     <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt="" ng-click="goToDetail(v)"></span>
                                 </div>
                                 <div class="detail-vd">
-                                    <h5 ng-show="videos">{{v.title | limitTo : 15}}{{v.title.length > 15 ? '...' : ''}}</h5>
+                                    <a href="" ng-click="goToDetail(v)"><h5 ng-show="videos">{{v.title | limitTo : 15}}{{v.title.length > 15 ? '...' : ''}}</h5></a>
                                     <h5 ng-show="!videos">No video</h5>
                                     <div class="clearfix">
                                         <div class="average">
@@ -64,7 +64,7 @@
                                     <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt="" ng-click="goToDetail(vTopRated)"></span>
                                 </div>
                                 <div class="detail-vd detail-vd-2">
-                                    <h5 ng-show="videosTopRated">{{vTopRated.title | limitTo : 15}}{{vTopRated.title.length > 15 ? '...' : ''}}</h5>
+                                    <a href="" ng-click="goToDetail(vTopRated)"><h5 ng-show="videosTopRated">{{vTopRated.title | limitTo : 15}}{{vTopRated.title.length > 15 ? '...' : ''}}</h5></a>
                                     <h5 ng-show="!videosTopRated">No video</h5>
                                     <div class="clearfix">
                                         <div class="average">
@@ -91,7 +91,7 @@
                                     <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt="" ng-click="goToDetail(vTopViewed)"></span>
                                 </div>
                                 <div class="detail-vd detail-vd-3">
-                                    <h5 ng-show="videosTopViewed">{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5>
+                                    <a href="" ng-click="goToDetail(vTopRated)"><h5 ng-show="videosTopViewed">{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5></a>
                                     <h5 ng-show="!videosTopViewed">No video</h5>
                                     <div class="clearfix">
                                         <div class="average">

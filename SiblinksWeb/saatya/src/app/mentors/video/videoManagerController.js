@@ -314,9 +314,9 @@ brotControllers.controller('VideoManagerController',
       if (index != -1) {
           $scope.videos[index].title = a.title;
           $scope.videos[index].description = a.description;
-          if (a.plid && plid > 0){
+          if (a.plid && a.plid > 0){
             $scope.videos[index].plid = a.plid;
-            $scope.videos[index].playlistname = a.name;
+            $scope.videos[index].playlistname = a.playlistname;
           }
           $scope.videos[index].subjectId = a.subjectId;
       }
