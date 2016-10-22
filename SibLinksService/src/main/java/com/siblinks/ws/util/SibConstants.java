@@ -665,5 +665,6 @@ public class SibConstants {
         public static final String SQL_SEARCH_PLAYLIST_WITH_SUBJECT = "SEARCH_PLAYLIST_WITH_SUBJECT";
         public static final String SQL_SEARCH_VIDEOS_WITH_SUBJECT = "SEARCH_VIDEOS_WITH_SUBJECT";
         public static final String SQL_SEARCH_VIDEOS_NONE_PLAYLIST_WITH_SUBJECT = "SEARCH_VIDEOS_NONE_PLAYLIST_WITH_SUBJECT";
+        public static final String SQL_CANCEL_ESSAY = "CANCEL_ESSAY";
     }
 }
