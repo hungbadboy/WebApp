@@ -210,7 +210,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 }
                 $scope.currentPid = qid;
                 cleanContentEdit();
-
+                if(isEmpty(obj[0].firstName +obj[0].lastName)){
+                    obj[0].firstName = userName.split('@')[0];
+                }
                 var question = {
                     "authorId": obj[0].authorID,
                     "question_id": obj[0].pid,
