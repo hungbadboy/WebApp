@@ -22,8 +22,8 @@
                         {{errorInfo}}
                     </div>
                     <div class="series-video col-md-4">
-                        <div class="related-video">
-                            <h5>{{videoPlaylistInfo.title}}</h5>
+                        <div class="related-video" title="{{videoPlaylistInfo.playlistname}}">
+                            <h5>{{ videoPlaylistInfo.playlistname | limitTo: 73 }}{{videoPlaylistInfo.playlistname.length > 73 ? '...' : ''}}</h5>
                             <p class="owner-sum-vidoe">
                                 <a href="#/student/mentorProfile/{{videoPlaylistInfo.userid}}"><span class="owner-video">{{videoPlaylistInfo.firstName + "" +videoPlaylistInfo.lastName}}</span></a>
                                 <span class="video-count">{{index+1}} of {{videosList.length}} videos</span>
@@ -37,8 +37,8 @@
                                                 <img ng-src="{{video.image}}">
                                             </div>
                                             <div class="detail-video">
-                                                <p class="title-video">
-                                                    {{video.title}}
+                                                <p class="title-video" title="{{video.title}}">
+                                                    {{ video.title | limitTo: 73 }}{{video.title.length > 73 ? '...' : ''}}
                                                 </p>
                                                 <br>
                                                 <span class="view-count">
@@ -61,7 +61,8 @@
                 <div class="post-comment col-md-8">
                     <div class="post-comment-wrapper">
                         <div class="video-details-description">
-                            <h3>{{videoInfo.title}}</h3>
+                            <h3 title="{{videoInfo.title}}">
+                                {{ videoInfo.title | limitTo: 73 }}{{videoInfo.title.length > 73 ? '...' : ''}}</h3>
                             <span>from </span>
                             <a href="#/student/mentorProfile/{{videoInfo.userid}}">
                             <span class="own-video">{{videoInfo.firstName +" " + videoInfo.lastName}}
@@ -113,7 +114,7 @@
                             <div class="post-footer">
                                 <div class="input-group">
                                     <img  ng-if="userId" class="avatar" ng-src="{{avartar}}" alt="avatar">
-                                    <textarea ng-click="clickTxtComent()"  ng-if="userId" class="form-control" placeholder="Add a comment" type="text" id="add-comment"></textarea>
+                                    <textarea ng-if="userId" ng-click="clickTxtComent()"  ng-if="userId" class="form-control" placeholder="Add a comment" type="text" id="add-comment"></textarea>
                                     <div class="left-border"></div>
                                     <div ng-if="userId" class="comment-action">
                                         <button ng-click="cencelComment()" class="cancel">Cancel</button>
@@ -150,8 +151,10 @@
                                 </div>
                                 <div class="detail-video">
                                     <p class="title-video">
-                                        <a href="#/videos/detailVideo/{{videoRelate.vid}}">
-                                        {{videoRelate.title}}</a>
+                                        <a title="{{videoRelate.title}}" href="#/videos/detailVideo/{{videoRelate.vid}}">
+
+                                            {{ videoRelate.title | limitTo: 50 }}{{videoRelate.title.length > 50 ? '...' : ''}}
+                                        </a>
                                     </p>
                                     <span class="owner-video">
                                                         from

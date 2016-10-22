@@ -50,7 +50,8 @@
                 <div class="post-comment col-md-8">
                     <div class="post-comment-wrapper">
                         <div class="video-details-description">
-                            <h3>{{videoInfo.title}}</h3>
+                            <h3 title="{{videoInfo.title}}">
+                                {{ videoInfo.title | limitTo: 73 }}{{videoInfo.title.length > 73 ? '...' : ''}}</h3>
                             <span>from </span>
                             <a href="#/mentorProfile/{{videoInfo.userid}}"><span class="own-video">{{videoInfo.firstName +" " + videoInfo.lastName}}
                             </span></a>
@@ -113,7 +114,7 @@
                                     <!--</button>-->
                                     <img  ng-if="userId" class="avatar" ng-src="{{avartar}}" alt="avatar">
                                     <textarea ng-click="clickTxtComent()"  ng-if="userId" class="form-control" placeholder="Add a comment" type="text" id="add-comment"></textarea>
-                                    <div class="left-border"></div>
+                                    <div ng-if="userId" class="left-border"></div>
                                     <div ng-if="userId" class="comment-action">
                                         <button ng-click="cencelComment()" class="cancel">Cancel</button>
                                         <button ng-click="addComment()" class="add-comment">Add comment</button>
@@ -150,9 +151,11 @@
                                     <a href="#/videos/detailVideo/{{videoRelate.vid}}"><img ng-src="{{videoRelate.image}}"></a>
                                 </div>
                                 <div class="detail-video">
-                                    <a href="#/videos/detailVideo/{{videoRelate.vid}}"><p class="title-video">
-                                        {{videoRelate.title}}
-                                    </p></a>
+                                    <p class="title-video">
+                                        <a title="{{videoRelate.title}}" href="#/videos/detailVideo/{{videoRelate.vid}}">
+                                                {{ videoRelate.title | limitTo: 50 }}{{videoRelate.title.length > 50 ? '...' : ''}}
+                                        </a>
+                                    </p>
                                     <span class="owner-video">
                                                         from
                                             <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
