@@ -482,6 +482,7 @@ public class SibConstants {
         public static final String SQL_GET_STUDENT_SUBSCRIBED = "GET_STUDENT_SUBSCRIBED";
         public static final String SQL_MENTOR_GET_ACTIVITY_STUDENT = "MENTOR_GET_ACTIVITY_OF_STUDENT";
         public static final String SQL_SUBSCRIBED_FROM_MENTOR_VIEW_STUDENT = "GET_SUBSCRIBED_FROM_MENTOR_VIEW_STUDENT";
+        public static final String SQL_GET_ALL_INFO_MENTOR_SUBSCRIBED = "GET_ALL_INFO_MENTOR_SUBSCRIBED";
         // Manager Category
         public static final String SQL_GET_ALL_CATEGORY = "GET_ALL_CATEGORY";
         public static final String SQL_GET_CATEGORY_BY_ID = "GET_CATEGORY_BY_ID";

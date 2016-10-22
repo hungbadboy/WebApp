@@ -46,7 +46,7 @@ import com.siblinks.ws.util.SibConstants;
 
 /**
  * {@link StudentService}
- * 
+ *
  * @author Tavv
  *
  */
@@ -101,9 +101,10 @@ public class StudentServiceImpl implements StudentService {
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 
+
     /**
      * {@inheritDoc}
-     * 
+     *
      */
     @Override
     @RequestMapping(value = "/getSubscribedMentorViewStudent", method = RequestMethod.GET)
@@ -214,6 +215,38 @@ public class StudentServiceImpl implements StudentService {
         }
 
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.siblinks.ws.service.StudentService#getAllInfoMentorSubscribed(long,
+     * java.lang.String, java.lang.String)
+     */
+    @Override
+    @RequestMapping(value = "/getAllInfoMentorSubscribed", method = RequestMethod.GET)
+    public ResponseEntity<Response> getAllInfoMentorSubscribed(final long studentId, final String limit, final String offset) {
+        Map<String, String> pageLimit = CommonUtil.getInstance().getOffset(limit, offset);
+        Object[] params = { studentId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
+        String entityName = SibConstants.SqlMapper.SQL_GET_ALL_INFO_MENTOR_SUBSCRIBED;
+        SimpleResponse response;
+        try {
+            List<Object> readObjects = dao.readObjects(entityName, params);
+            if (!CollectionUtils.isEmpty(readObjects)) {
+                response = new SimpleResponse(SibConstants.SUCCESS, "student", "getAllInfoMentorSubscribed", readObjects);
+            } else {
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              "student",
+                                              "getAllInfoMentorSubscribed",
+                                              SibConstants.NO_DATA);
+            }
+        } catch (DAOException e) {
+            e.printStackTrace();
+            response = new SimpleResponse(SibConstants.FAILURE, "student", "getAllInfoMentorSubscribed", SibConstants.NO_DATA);
+        }
+        return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
 
 }

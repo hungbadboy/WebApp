@@ -47,4 +47,12 @@ public interface StudentService {
      */
     ResponseEntity<Response> getSubscribedMentorViewStudent(long userId, long studentId, String limit, String offset);
 
+    /**
+     * @param studentId
+     * @param limit
+     * @param offset
+     * @return
+     */
+    ResponseEntity<Response> getAllInfoMentorSubscribed(final long studentId, final String limit, final String offset);
+
 }
