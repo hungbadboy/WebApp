@@ -586,6 +586,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         objVideo.numComments = video.numComments;
                         objVideo.timeAgo = convertUnixTimeToTime(video.timeStamp);
                         objVideo.type = video.type;
+                        objVideo.countvid = video.countvid;
                         objVideo.href = video.type == "2" ? "#/videos/detailPlaylist/" + video.vid + "/0" : "#/videos/detailVideo/" + video.vid;
                         listVideosRecently.push(objVideo);
                     }

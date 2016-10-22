@@ -55,11 +55,11 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
                 if(data.data.status =="true") {
                     if (data.data.request_data_type == "subs") {
                         $scope.isSubscribe = 1;
-
                         //$('#subscribers_'+mentorId).addClass('unsubcrib');
                     }
                     else {
                         $scope.isSubscribe = 0;
+                        $("#span_"+mentorId).text('Subscribe');
                         $("#subscribers_"+mentorId).attr("data-icon","N");
                         $('#subscribers_'+mentorId).removeClass('unsubcrib');
                     }

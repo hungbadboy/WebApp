@@ -451,7 +451,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     }
 
     /**
-     * 
+     *
      * @param uploadfile
      * @return
      * @throws FileNotFoundException
@@ -661,6 +661,36 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      * {@inheritDoc}
      */
     @Override
+    @RequestMapping(value = "/getMentorEssayByUid", method = RequestMethod.POST)
+    public ResponseEntity<Response> getMentorEssayByUid(@RequestBody final RequestData request) {
+
+        SimpleResponse simpleResponse = null;
+        try {
+
+            Object[] queryParams = { request.getRequest_data().getUid() };
+
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_MENTOR_ESSAY, queryParams);
+
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject);
+        } catch (DAOException e) {
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
+        }
+        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @RequestMapping(value = "/getFileReivewUploadEssay/{eid}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getFileReivewUploadEssay(@PathVariable(value = "eid") final String eid) throws IOException {
 
@@ -724,7 +754,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
     /**
      * validate essay type
-     * 
+     *
      * @param file
      *            File input
      * @return Name file type
@@ -822,7 +852,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
     /**
      * This method get essay by user id
-     * 
+     *
      * @param entityName
      *            Script SQL SELECT
      * @param userid

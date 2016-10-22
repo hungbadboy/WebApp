@@ -30,6 +30,11 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
             uploadEssayService.getEssayById(uploadEssayId).then(function (data) {
                 if (data.data.status) {
                     $scope.currentEssay  = data.data.request_data_result[0];
+                    if(!isEmpty($scope.currentEssay.status == 'P')){
+                        uploadEssayService.getMentorEssayByUid($scope.currentEssay.mentorId).then(function (data) {
+                        $scope.currentMentor = data.data.request_data_result[0];
+                        });
+                    }
                     angular.element(document.getElementById('essay-detail')).modal();
                 }
             });

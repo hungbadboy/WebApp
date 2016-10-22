@@ -229,8 +229,15 @@
 
                                 <li ng-repeat="videoRecently in listVideoRecently | unique:'vid'">
                                     <div class="video-wrapper"><a ng-href="{{videoRecently.href}}">
-                                        <div class="videos-thumnail">
+                                    	<div class="videos-thumnail">
                                             <img ng-src="{{videoRecently.image}}">
+                                            <div class="box-all-vd" ng-if="videoRecently.countvid != null">
+                                                 <p>
+                                                     <b>{{videoRecently.countvid}}</b>
+                                                     <span>videos</span>
+                                                     <img src="assets/images/img-all-video.png" alt="">
+                                                 </p>
+                                             </div>
                                         </div>
                                         <div class="videos-title">
                                             <a href="#/videos/detailVideo/{{videoRecently.vid}}"

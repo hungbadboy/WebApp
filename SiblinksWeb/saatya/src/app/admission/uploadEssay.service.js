@@ -47,6 +47,23 @@ brotServices.factory('uploadEssayService', ['$http', function($http) {
         return promise;
     }
 
+
+    factory.getMentorEssayByUid = function(uid) {
+        var promise = $http({
+            method: 'POST',
+            url: NEW_SERVICE_URL + 'essay/getMentorEssayByUid',
+            data: {
+                "request_data_type": "essay",
+                "request_data_method": "getMentorEssayByUid",
+                "request_data": {
+                    "uid": uid
+                }
+            }
+        });
+        return promise;
+    };
+
+
     factory.getEssaybByStudentId = function (userId, limit,offset) {
         var promise = $http({
             method: 'POST',
