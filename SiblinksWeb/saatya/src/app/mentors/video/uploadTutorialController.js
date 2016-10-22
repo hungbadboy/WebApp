@@ -297,10 +297,8 @@ brotControllers.controller('UploadTutorialController',
       $scope.description = '';
 
       $scope.uploadSubject = 0;
-      // $scope.changeSubject($scope.uploadSubject);
       $('#uploadSubject').val(0);
       $scope.uploadPlaylist = 0;
-      // $scope.changPlaylist($scope.uploadPlaylist);
       $('#uploadPlaylist').val(0);  
       $scope.vid = null;
       $scope.link = null;

@@ -1,9 +1,7 @@
 <div class="content ask-a-question " id="videos-details">
-    <!-- Breadcrum -->
     <div class="breadcrum">
         <div class="container">
             <h5><a href="#/"> SibLinks</a> / <a href="#/videos">Tutorials<a> <span>/ {{videoInfo.firstName +" " + videoInfo.lastName}}</span></h5>
-            <!-- Search form -->
             <div class="search">
                 <form class="navbar-form" role="search">
                     <div class="input-group">
@@ -11,26 +9,17 @@
                         <div class="input-group-btn">
                             <button ng-click="searchEnter()" class="btn btn-default btn-search-video" ><span data-icon="&#x55;"></span></button>
                         </div>
-
                     </div>
                 </form>
-            </div><!-- /End Search form -->
+            </div>
         </div>
-
-    </div><!-- /End Breadcrum -->
-    <!-- Container -->
+    </div>
     <div class="body">
-        <!-- Content -->
         <section class="content videos-details-content">
-
-            <!-- Video details playlist -->
-            <div class="video-details-playlist">
+            <div class="video-details-playlist">`
                 <div class="video-details-playlist-wrapper container">
-                    <!-- 16:9 aspect ratio -->
                     <div class="video-iframe col-md-8" id="video">
                         {{errorInfo}}
-                        <!--<iframe width="100%" height="430px" src="https://www.youtube.com/embed/B7wkzmZ4GBw?enablejsapi=1" frameborder="0"></iframe>-->
-
                     </div>
                     <div class="series-video col-md-4">
                         <div class="related-video">
@@ -39,46 +28,36 @@
                                 <a href="#/student/mentorProfile/{{videoPlaylistInfo.userid}}"><span class="owner-video">{{videoPlaylistInfo.firstName + "" +videoPlaylistInfo.lastName}}</span></a>
                                 <span class="video-count">{{index+1}} of {{videosList.length}} videos</span>
                             </p>
-                                <ul scroller="videosPlayList" on-init="loadTo"  class="series-video-list" id="series-video-list">
-                                    <li id ="listPlaylist" ng-click="selectVideo($index)" ng-repeat="video in videosList track by $index"
-                                        ng-class="{'active':currentvid==video.vid}"  class="video-list-item ">
-                                        <div id="listPlaylist{{video.vid}}" class="content-warpper">
-                                            <div>
-                                                <div class="thumb-video">
-                                                    <img ng-src="{{video.image}}">
-                                                </div>
-                                                <div class="detail-video">
-                                                    <p class="title-video">
-                                                        {{video.title}}
-                                                    </p>
-                                                    <br>
-                                                    <span class="view-count">
-                                                                view: <span>{{video.numViews}}</span>
-                                                            </span>
-                                                </div>
+                            <ul scroller="videosPlayList" on-init="loadTo"  class="series-video-list" id="series-video-list">
+                                <li id ="listPlaylist" ng-click="selectVideo($index)" ng-repeat="video in videosList track by $index"
+                                    ng-class="{'active':currentvid==video.vid}"  class="video-list-item ">
+                                    <div id="listPlaylist{{video.vid}}" class="content-warpper">
+                                        <div>
+                                            <div class="thumb-video">
+                                                <img ng-src="{{video.image}}">
+                                            </div>
+                                            <div class="detail-video">
+                                                <p class="title-video">
+                                                    {{video.title}}
+                                                </p>
+                                                <br>
+                                                <span class="view-count">
+                                                    view: <span>{{video.numViews}}</span>
+                                                </span>
                                             </div>
                                         </div>
-                                    </li>
-
-                                </ul>
-
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="control-video">
                         <div class="left" ng-click="nextVideo('back')"><span data-icon="&#x34;"></span></div>
                         <div class="right" ng-click="nextVideo('next')"><span data-icon="&#x35;"></span></div>
                     </div>
-
-                    <!-- 4:3 aspect ratio -->
-                    <!-- <div class="embed-responsive embed-responsive-4by3">
-                      <iframe class="embed-responsive-item" src="..."></iframe>
-                    </div> -->
                 </div>
-            </div><!-- /End Video details playlist -->
-
-            <!-- Video details content -->
+            </div>
             <div class="video-details-content container">
-                <!-- Left side -->
                 <div class="post-comment col-md-8">
                     <div class="post-comment-wrapper">
                         <div class="video-details-description">
@@ -92,13 +71,11 @@
                                     <div class="video-details-sub">
                                         <img ng-src="{{videoInfo.avatar}}">
                                         <div class="video-member-subcriber">
-
                                             <button id="btnsubs" class="subscribers" ng-class="{'unsubcrib':isSubscribe=='1'}"
                                                     ng-Mouseover="hoverSubcribe()" data-icon="&#x4c;" ng-mouseleave="unHoverSubcribe()"
                                                     ng-click="setSubscribeMentor(videoInfo.userid)">
                                                 <span id="spansubs" >Subscribe</span>
                                                 <span class="number-subscribers">{{videoInfo.numsub}}</span></button>
-
                                         </div>
                                         &nbsp;
                                         <button ng-if="userId" ng-disabled="isFavorite == '1'" class="favoriteVideo" ng-class="{'btn-warning':isFavorite =='1'}"
@@ -113,7 +90,7 @@
                             </div>
                             <div class="videos-start">
                                 <span id="rateSpan">Rate
-                                     <div ng-if="loadRate" star-rating stars="5" id="divRate"
+                                    <div ng-if="loadRate" star-rating stars="5" id="divRate"
                                           outer-star-selection="stars"
                                           ng-click="rateFunction(stars)"
                                           outer-percent="rating"
@@ -122,27 +99,19 @@
                                           star-radius="10" sel-color="gold"
                                           back-color="white"></div>
                                 </span>
-
                             </div>
-                            <!--<div class="video-detaile-script">-->
-                                <!--<p>{{videoInfo.title}}</p>-->
-                                <!--<button class="read-more">Read more <span data-icon="&#x33;"></span></button>-->
-                                <!--Show 100 characters-->
-                                <p ng-if="videoInfo" read-more ng-model="videoInfo.description" words="false" length="100"></p>
-                            <!--</div>-->
+                            <p ng-if="videoInfo" read-more ng-model="videoInfo.description" words="false" length="100"></p>
                         </div>
                         <div class="video-comment post">
                             <div class="category">
                                 <span>Catalogue:</span><span> {{videoInfo.subject}}</span>
                             </div>
-
                             <div class="video-comment-sum">
                                 <h3 ng-if="comments">{{comments.length}} Comments</h3>
                                 <h3 ng-if="!comments">0 Comments</h3>
                             </div>
                             <div class="post-footer">
                                 <div class="input-group">
-                                    <!--<img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">-->
                                     <img  ng-if="userId" class="avatar" ng-src="{{avartar}}" alt="avatar">
                                     <textarea ng-click="clickTxtComent()"  ng-if="userId" class="form-control" placeholder="Add a comment" type="text" id="add-comment"></textarea>
                                     <div class="left-border"></div>
@@ -163,15 +132,12 @@
                                             </div>
                                             <p class="pre-wrap">{{comment.content}}</p>
                                         </div>
-
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                </div><!-- /End Left side -->
-
-                <!-- Right side -->
+                </div>
                 <div class="related-video col-md-4">
                     <h3>Related videos</h3>
                     <ul class="related-video-list" ng-repeat="videoRelate in videosRelated">
@@ -195,15 +161,11 @@
                                                         view: <span>{{videoRelate.numViews}}</span>
                                                     </span>
                                 </div>
-
                             </div>
                         </li>
-
                     </ul>
                 </div>
-            </div><!-- /End Video details content -->
-
-        </section><!-- /End content -->
-    </div><!-- End container -->
-
+            </div>
+        </section>
+    </div>
 </div>

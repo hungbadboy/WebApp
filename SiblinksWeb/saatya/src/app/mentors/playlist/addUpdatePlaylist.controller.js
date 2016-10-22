@@ -184,6 +184,7 @@ brotControllers.controller('AddUpdatePlaylistController',
 
     $scope.cancel = function(){
       $modalInstance.dismiss('cancel');
+      $rootScope.$broadcast('close');
     }
 
     $scope.changeValue = function(e){
