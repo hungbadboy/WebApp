@@ -25,7 +25,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,7 @@ import com.siblinks.ws.util.SibConstants;
 /**
  *
  * {@link LikeService}
- * 
+ *
  * @author hungpd
  * @version 1.0
  */
@@ -331,18 +330,17 @@ public class LikeServiceImpl implements LikeService {
             List<Object> readObject = dao.readObjects(entityName, queryParams);
             boolean status = true;
             String statusType = "like";
-            if (!CollectionUtils.isEmpty(readObject)) {
-                entityName = SibConstants.SqlMapper.SQL_ANSWER_ID_LIKE;
-                status = dao.insertUpdateObject(entityName, queryParams);
-                statusType = "like";
-            } else {
+            if (readObject != null && readObject.size() > 0) {
                 entityName = SibConstants.SqlMapper.SQL_UPDATE_LIKE_ANSWER;
                 status = dao.insertUpdateObject(entityName, queryParams);
                 String subscribe = (String) ((Map) readObject.get(0)).get(Parameters.LIKEANSWER);
                 if (subscribe != null && subscribe.equals("Y")) {
                     statusType = "unlike";
                 }
-
+            } else {
+                entityName = SibConstants.SqlMapper.SQL_ANSWER_ID_LIKE;
+                status = dao.insertUpdateObject(entityName, queryParams);
+                statusType = "like";
             }
             simpleResponse = new SimpleResponse("" + status, statusType, request.getRequest_data_method(), readObject);
         } catch (DAOException e) {
