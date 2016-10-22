@@ -308,6 +308,7 @@ brotControllers.controller('UploadTutorialController',
 
     $scope.cancel = function(){
       $modalInstance.dismiss('cancel');
+      $rootScope.$broadcast('close');
     }
 
     $scope.validateLink = function(link){

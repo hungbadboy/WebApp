@@ -99,6 +99,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
         for (var i = result.length - 1; i >= 0; i--) {
           result[i].timeStamp = convertUnixTimeToTime(result[i].docSubmittedDate);
           result[i].odFilesize = formatBytes(result[i].odFilesize);
+          result[i].rdFilesize = formatBytes(result[i].rdFilesize);
         }
         $scope.essay = result[0];
         getRepliedByEssay($scope.essay.uploadEssayId, userId);
@@ -113,7 +114,6 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
      var k = 1000;
      var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
      var i = Math.floor(Math.log(bytes) / Math.log(k));
-     console.log(parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i]);
      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
   }
 

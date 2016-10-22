@@ -595,21 +595,10 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 String directory = env.getProperty("directoryDowloadEssay");
                 for (Object obj : readObject) {
                     dataMap = (Map) obj;
-
-                    // String status = dataMap.get("status").toString();
                     String uploadEssayId = dataMap.get("uploadEssayId").toString();
-                    // String uid = request.getRequest_data().getUid();
-                    // dataMap.put("downloadLink", directory + "&essayId=" +
-                    // uploadEssayId + "&status=W");
-                    // if ("A".equalsIgnoreCase(status)) {
-                    // dataMap.put(
-                    // "downloadReviewdLink",
-                    // directory + "?userId=" + uid + "&essayId=" +
-                    // uploadEssayId +
-                    // "&status=A");
-                    // }
                     dataMap.put("downloadLinkS", directory + "?essayId=" + uploadEssayId + "&type=S");
-                    if (dataMap.get("reviewedDocument") != null) {
+                    int size = (dataMap.get("rdFilesize") != null ? (int) dataMap.get("rdFilesize") : 0);
+                    if (size > 0) {
                         dataMap.put("downloadLinkM", directory + "?essayId=" + uploadEssayId + "&type=M");
                     }
                 }
