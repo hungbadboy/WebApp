@@ -1,7 +1,7 @@
 //=========================================== HEADER.CONTROLLER.JS==============
 brotControllers.controller('UserHeaderController',
-    ['$scope', '$modal', '$rootScope', '$http', '$location', '$log', 'NotificationService', 'LogoutService', 'myCache', 'HomeService',
-        function ($scope, $modal, $rootScope, $http, $location, $log, NotificationService, LogoutService, myCache, HomeService) {
+    ['$scope', '$modal', '$rootScope', '$http', '$location', '$document','$log', 'NotificationService', 'LogoutService', 'myCache', 'HomeService',
+        function ($scope, $modal, $rootScope, $http, $location, $document, $log, NotificationService, LogoutService, myCache, HomeService) {
             // check login page
             brot.signin.statusStorageHtml();
             $scope.isHidden = false;
@@ -162,20 +162,9 @@ brotControllers.controller('UserHeaderController',
                 NotificationService.updateAllNotification(userId).then(function (data) {
                     if (data.data.request_data_result) {
                         $rootScope.countNotification = 0;
-                        $(".notification-content").toggle(); //show notification 
+                        //$(".notification-content").toggle(); //show notification 
                     }
                 });
-            }
-
-            function hideNotification() {
-//                $('#notification').find('.active').removeClass('hide');
-//                $('#notification .wrap_img').addClass('hide');
-//                $('#notification .icon_notification_white').removeClass('hide');
-            }
-
-            function hideProfileSetting() {
-//                $('.user-setting-wrapper span.current').removeClass('selected');
-//                $('.user-setting').addClass('hide');
             }
 
             init();
@@ -290,5 +279,30 @@ brotControllers.controller('UserHeaderController',
                 	}
                 }
             }
+            
+            /**
+             *  Show hide when toggle element and hide all element when click any where
+             */ 
+            angular.element($document).on('click', function(el) {
+            	var elem = $(el.target).closest('.notification'),
+            	userLogin= $(el.target).closest('.profile-user'),
+            	boxUserinfo= $(el.target).closest('#user-info'),
+            	box  = $(el.target).closest('.notification-content');
+            	
+            	if ( elem.length ) {
+            		el.preventDefault();
+            		$('.notification-content').toggle();
+            	}else if (!box.length){
+            		$('.notification-content').hide();
+            	}
+            	//
+            	if ( userLogin.length ) {
+            		el.preventDefault();
+            		$('#user-info').toggle();
+            	}else if (!boxUserinfo.length){
+            		$('#user-info').hide();
+            	}
+            });
         }]);
+
 //=========================================== HEADER.CONTROLLER.JS==============

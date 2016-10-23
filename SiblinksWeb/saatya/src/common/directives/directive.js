@@ -1106,25 +1106,6 @@ brotControllers.directive('readMore', function() {
     };
 });
 
-
-
-brotControllers.directive('hideWhenClickAnywhere',['$document', function ($document) {
-	  return {	    
-	    restrict: 'A',	    
-	    link: function (scope, element, attrs) {
-	    	
-	    	var el = element[0];
-	        angular.element($document).bind('click', function(){
-	          if(el.className === 'user-info' && !isToggleUserInfo){
-	        	  angular.element(el).addClass('ng-hide');
-	        	return;
-	          }
-	          isToggleUserInfo = false;
-	        });
-	      } 
-	   };
-	  
-	}]);
 brotControllers.directive('clickAnywhereButHere', function($document){
     return {
         restrict: 'A',
