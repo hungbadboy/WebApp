@@ -272,6 +272,10 @@ brotControllers.controller('MentorVideoDetailController',
         });
     }
 
+    $scope.loadTo = function(){
+        angular.element(document.getElementById('videos-in-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentId);
+    }
+
     $scope.showButton = function(){
         $(".comment-action").show();
     }
@@ -328,6 +332,7 @@ brotControllers.controller('MentorVideoDetailController',
                 loadVideoDetail($scope.videos[$scope.pos]);
             }
         }
+        angular.element(document.getElementById('videos-in-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentId);
     }
 
     $scope.nextVideo = function(pos){
@@ -339,6 +344,7 @@ brotControllers.controller('MentorVideoDetailController',
                 $scope.pos = pos + 1;
                 loadVideoDetail($scope.videos[$scope.pos]);
             }
+            angular.element(document.getElementById('videos-in-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentId);
         }
     }
 

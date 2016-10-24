@@ -28,14 +28,35 @@
                                             <span class="pull-left">{{playlist.fullName}}</span>
                                             <span class="pull-right">{{pos+1}} of {{videos.length}} videos</span>
                                         </div>
-                                        <ul class="list-videp-w">
-                                            <li class="video-list-item" ng-repeat="v in videos track by $index" ng-click="selectIndex($index)" ng-class="{'active':currentId==v.vid}" >
+                                        <ul class="list-videp-w" scroller="videosPlayList" on-init="loadTo" id="videos-in-list">
+                                            <li id="listPlaylist{{v.vid}}" class="video-list-item" ng-repeat="v in videos track by $index" ng-click="selectIndex($index)" ng-class="{'active':currentId==v.vid}" >
                                                 <a class="clearfix" href="">
                                                     <span class="pull-left"><img style="width: 116px; height: 65px;" src="{{v.image}}" alt=""></span>
                                                     <h6 class="pull-left">{{ v.title | limitTo: 15 }}{{v.name.title > 15 ? '...' : ''}}</h6>
                                                 </a>
                                             </li>
                                         </ul>
+                                        <!-- <ul scroller="videosPlayList" on-init="loadTo"  class="series-video-list" id="series-video-list">
+                                            <li id ="listPlaylist" ng-click="selectVideo($index)" ng-repeat="video in videos track by $index"
+                                                ng-class="{'active':currentId==video.vid}"  class="video-list-item ">
+                                                <div id="listPlaylist{{video.vid}}" class="content-warpper">
+                                                    <div>
+                                                        <div class="thumb-video">
+                                                            <img style="width: 116px; height: 65px;" ng-src="{{video.image}}">
+                                                        </div>
+                                                        <div class="detail-video">
+                                                            <p class="title-video" title="{{video.title}}">
+                                                                {{ video.title | limitTo: 20 }}{{video.title.length > 20 ? '...' : ''}}
+                                                            </p>
+                                                            <br>
+                                                            <span class="view-count">
+                                                                view: <span>{{video.numViews}}</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul> -->
                                     </div>
                                     <div class="col-md-1"></div>
                                 </div>
