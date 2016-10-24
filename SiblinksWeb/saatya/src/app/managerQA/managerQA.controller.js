@@ -453,7 +453,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             currentPage = 0;
             $scope.isLoadMore = true;
             selectedSubsId = selected.originalObject.id;
-            getListQuestionAndDetail(selectedSubsId,"");
+            getListQuestionAndDetail(selectedSubsId,$scope.textSearch);
         };
 
         $scope.changeWidth = function () {
