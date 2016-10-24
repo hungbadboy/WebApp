@@ -141,10 +141,10 @@ brotControllers.controller('MentorPlaylistDetailController',
                   $modalInstance.dismiss('cancel');
                 };
             };
-            var message = 'Are you sure you want to delete?';
+            var message = 'Are you sure you want to remove?';
             var modalHtml = ' <div class="modal-body">' + message + '</div>';
-                modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
-                    'OK</button><button class="btn btn-warning" ng-click="cancel()">Cancel</button></div>';
+                modalHtml += '<div class="modal-footer"><button class="btn btn-danger" ng-click="ok()">' +
+                    'Remove</button><button class="btn btn-default" ng-click="cancel()">Cancel</button></div>';
 
             var modalInstance = $modal.open({
                 template: modalHtml,

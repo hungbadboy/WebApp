@@ -389,7 +389,7 @@ brotControllers.controller('MentorVideoDetailController',
         //         window.location.href = '#/mentor/video/detail/'+$scope.videos[index-1].vid+'/list/'+plid+'';
         //     }
         // }
-        }        
+        // }        
     });
 
     $scope.$on('passing', function(e, video){
