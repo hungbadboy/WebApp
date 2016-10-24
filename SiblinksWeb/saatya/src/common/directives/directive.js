@@ -1000,8 +1000,8 @@ brotControllers.directive('ngReallyClick', ['$modal',
                     var message = attrs.ngReallyMessage || "Are you sure ?";
 
                     var modalHtml = ' <div class="modal-body">' + message + '</div>';
-                    modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
-                        'OK</button><button class="btn btn-warning" ng-click="cancel()">Cancel</button></div>';
+                    modalHtml += '<div class="modal-footer"><button class="btn btn-danger" ng-click="ok()">' +
+                        'Delete</button><button class="btn btn-default" ng-click="cancel()">Cancel</button></div>';
 
                     var modalInstance = $modal.open({
                         template: modalHtml,
@@ -1014,7 +1014,6 @@ brotControllers.directive('ngReallyClick', ['$modal',
                     }, function() {
                         //Modal dismissed
                     });
-                    //*/
 
                 });
 
@@ -1107,25 +1106,6 @@ brotControllers.directive('readMore', function() {
     };
 });
 
-
-
-brotControllers.directive('hideWhenClickAnywhere',['$document', function ($document) {
-	  return {	    
-	    restrict: 'A',	    
-	    link: function (scope, element, attrs) {
-	    	
-	    	var el = element[0];
-	        angular.element($document).bind('click', function(){
-	          if(el.className === 'user-info' && !isToggleUserInfo){
-	        	  angular.element(el).addClass('ng-hide');
-	        	return;
-	          }
-	          isToggleUserInfo = false;
-	        });
-	      } 
-	   };
-	  
-	}]);
 brotControllers.directive('clickAnywhereButHere', function($document){
     return {
         restrict: 'A',
