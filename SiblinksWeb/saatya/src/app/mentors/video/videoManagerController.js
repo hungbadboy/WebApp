@@ -173,27 +173,8 @@ brotControllers.controller('VideoManagerController',
     }
 
     $scope.addToPlaylist = function(v){
-      if (v.playlistname != 'None'){
-        var ModalInstanceCtrl = function($scope, $modalInstance) {
-            $scope.ok = function() {
-                $modalInstance.close();
-            };
-        };
-        var message = 'This video already in another playlist.';
-        var modalHtml = ' <div class="modal-body">' + message + '</div>';
-        modalHtml += '<div class="modal-footer"><button class="btn btn-default" ng-click="ok()">' +
-            'OK</button></div>';
-
-        var modalInstance = $modal.open({
-            template: modalHtml,
-            size: 'sm',
-            controller: ModalInstanceCtrl
-        });
-      }
-      else{
-        var selectedVideos = [v.vid];
-        openAddPlaylistPopup(selectedVideos);
-      }
+      var selectedVideos = [v.vid];
+      openAddPlaylistPopup(selectedVideos);
     }
 
     $scope.addMultipleToPlaylist = function(){

@@ -26,13 +26,11 @@ brotControllers.controller('UploadTutorialController',
       }           
     }
 
-    var item;
     function getVideoDetail(){
       VideoService.getVideoById(v_id, u_id).then(function(data){
         var result = data.data.request_data_result;
         if (result  && result != "Found no data") {
-          // displayEdit(result);
-          item = result;
+          displayEdit(result);
         }
       });
     }
@@ -85,7 +83,6 @@ brotControllers.controller('UploadTutorialController',
               'name': "Select a Playlist"
             })
             $scope.uploadPlaylist = $scope.playlists[0].plid;
-            displayEdit(item);
           }
         });
       }      
@@ -267,27 +264,23 @@ brotControllers.controller('UploadTutorialController',
     }
 
     $scope.addToPlaylist = function(v){
-      if (v.playlistname != 'None'){
-        var ModalInstanceCtrl = function($scope, $modalInstance) {
-            $scope.ok = function() {
-                $modalInstance.close();
-            };
-        };
-        var message = 'This video already in another playlist.';
-        var modalHtml = ' <div class="modal-body">' + message + '</div>';
-        modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
-            'OK</button></div>';
+      var selectedVideos = [v.vid];
+      openAddPlaylistPopup(selectedVideos);
+    }
 
-        var modalInstance = $modal.open({
-            template: modalHtml,
-            size: 'sm',
-            controller: ModalInstanceCtrl
-        });
-      }
-      else{
-        var selectedVideos = [v.vid];
-        openAddPlaylistPopup(selectedVideos);
-      }
+    function openAddPlaylistPopup(selectedVideos){
+      var modalInstance = $modal.open({
+        templateUrl: 'src/app/mentors/video/choose_playlist_popup.tpl.html',
+        controller: 'ChoosePlaylistController',
+        resolve: {
+            u_id: function () {
+                return userId;
+            },
+            v_ids: function(){
+              return selectedVideos;
+            }
+        }
+      });
     }
 
     function clearContent(){
@@ -378,6 +371,14 @@ brotControllers.controller('UploadTutorialController',
         var s = Math.floor(duration % 3600 % 60);
         return ((h > 0 ? h + ":" + (m < 10 ? "0" : "") : "") + m + ":" + (s < 10 ? "0" : "") + s);
     }
+
+    $scope.$on('addPlaylistVideo', function(){
+      loadVideoRecently();
+    });
+
+    $scope.$on('addPlaylist', function(){
+      loadVideoRecently();
+    });
 
     var player;
     function onYouTubeIframeAPIReady(youtubeId) {
