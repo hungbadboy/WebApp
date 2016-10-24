@@ -150,28 +150,37 @@
                             <div class="mentors-name">
                                 <a href="#/student/mentorProfile/{{currentEssay.mentorId}}">{{currentMentor.firstName + ' ' + currentMentor.lastName}}</a>
                                 <!--<span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span>-->
+                                <span  ng-if="currentMentor" star-rating stars="5"
+                                       outer-star-selection="stars"
+                                       readonly="true"
+                                       outer-percent="rating"
+                                       rating-define="star"
+                                       rating-stars="{{currentMentor.avgrate}}"
+                                       star-radius="8" sel-color="gold"
+                                       back-color="#edf1f2" style="width:auto;">
+	                            </span>
                             </div>
                             <div class="mentors-edu">
                                 <span>{{currentMentor.accomplishments}}</span>
                             </div>
-                            <!--<div class="mentors-skill">-->
-                                <!--<span>Bio, Physics</span>-->
-                            <!--</div>-->
+                            <div class="mentors-skill">
+                                <span ng-repeat="sub in defaultSubject track by $index">{{sub.name}}{{$index < defaultSubject.length ? ',' : ''}}</span>
+                            </div>
                             <div class="mentors-rate clearfix">
-                                <!--<button class="subscribers" data-icon="&#x4e;">-->
-                                    <!--<span>subscrible</span>-->
-                                    <!--<span class="number-subscribers">456</span>-->
-                                <!--</button>-->
-                                <!--<p class="likes">-->
-                                    <!--<span class="number-likes"><strong>68</strong></span><br>-->
-                                    <!--<span class="title-likes">likes</span>-->
-                                <!--</p>-->
-                                <!--<p class="videos">-->
-                                    <!--<span class="number-videos"><strong>12</strong></span><br>-->
-                                    <!--<span class="title-videos">videos</span>-->
-                                <!--</p>-->
+                                <button class="subscribers" data-icon="&#x4e;">
+                                    <span>subscrible</span>
+                                    <span class="number-subscribers">{{currentMentor.numsub}}</span>
+                                </button>
+                                <p class="likes">
+                                    <span class="number-likes"><strong>{{currentMentor.numlike}}</strong></span><br>
+                                    <span class="title-likes">likes</span>
+                                </p>
+                                <p class="videos">
+                                    <span class="number-videos"><strong>{{currentMentor.numvideos}}</strong></span><br>
+                                    <span class="title-videos">videos</span>
+                                </p>
                                 <p class="answers">
-                                    <span class="number-answers"><strong>{{currentMentor.numAnswerEssay}}</strong></span><br>
+                                    <span class="number-answers"><strong>{{currentMentor.numAnswer}}</strong></span><br>
                                     <span class="title-answers">answers</span>
                                 </p>
                             </div>
