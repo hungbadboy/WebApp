@@ -2,7 +2,7 @@ brotServices.factory('managerQAService', ['$http', function ($http) {
     var factory = {};
 
 
-    factory.getListQuestionQA = function (subjectId, userId, offset, type, limit,content) {
+    factory.getListQuestionQA = function (subjectId, userId, offset, type, limit,content,subjects) {
         var promise = $http({
             method: 'POST',
             url: NEW_SERVICE_URL + 'managerQA/getListQuestionQA',
@@ -15,7 +15,8 @@ brotServices.factory('managerQAService', ['$http', function ($http) {
                     "limit": limit,
                     "offset": offset,
                     "type": type,
-                    "content":content
+                    "content":content,
+                    "subjects":subjects
                 }
             }
         });
