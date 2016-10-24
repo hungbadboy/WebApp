@@ -62,6 +62,6 @@ public class Parameters {
     public static final String DATA_TYPE = "datatype";
     public static final String BODY = "body";
     public static final String NOTIFICATION = "notification";
-    public static final String DATA_CONTENT_MESSAGE = "content";
+    public static final String CLICK_ACTION = "click_action";
     public static final int MAX_LENGTH_TO_NOFICATION = 50;
 }

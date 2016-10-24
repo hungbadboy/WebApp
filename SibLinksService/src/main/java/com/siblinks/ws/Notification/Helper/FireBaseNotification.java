@@ -70,11 +70,13 @@ public class FireBaseNotification {
 
             JSONObject notification = new JSONObject();
             notification.put(Parameters.TITLE, title);
-            JSONObject body = new JSONObject();
-            body.put(Parameters.DATA_ID, dataId);
-            body.put(Parameters.DATA_TYPE, dataType);
-            body.put(Parameters.DATA_CONTENT_MESSAGE, content);
-            notification.put(Parameters.BODY, body);
+            notification.put(Parameters.BODY, content);
+            // click action
+            JSONObject clickAction = new JSONObject();
+            clickAction.put(Parameters.DATA_ID, dataId);
+            clickAction.put(Parameters.DATA_TYPE, dataType);
+            notification.put(Parameters.CLICK_ACTION, clickAction);
+            //
             message.put(Parameters.NOTIFICATION, notification);
 
             post.setEntity(new StringEntity(message.toString(), "UTF-8"));
