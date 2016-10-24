@@ -73,6 +73,7 @@ brotControllers.controller('UploadTutorialController',
     function initPlaylist(){
       if (myCache.get("playlist") !== undefined) {
         $scope.playlists = myCache.get("playlists");
+        $scope.uploadPlaylist = $scope.playlists[0].plid;
       } else{
         VideoService.getPlaylist(u_id).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
