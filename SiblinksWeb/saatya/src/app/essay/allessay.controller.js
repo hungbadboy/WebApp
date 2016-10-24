@@ -128,25 +128,33 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   $scope.changeTab = function(val){
     $scope.tabpane = val;
     if (val == 1) {
-      if ($scope.newestEssays)
+      if ($scope.newestEssays){
         $scope.eid = $scope.newestEssays[0].uploadEssayId;
-      else
+        $scope.ignored = false;
+      }
+      else{
         $scope.eid = null;
+      }
     } else if (val == 2) {
       if ($scope.processingEssays)
         $scope.eid = $scope.processingEssays[0].uploadEssayId;
-      else
+      else{
         $scope.eid = null;
+      }
     } else if (val == 3) {
-      if ($scope.ignoredEssays)
+      if ($scope.ignoredEssays){
         $scope.eid = $scope.ignoredEssays[0].uploadEssayId;
-      else
+        $scope.ignored = true;
+      }
+      else{
         $scope.eid = null;
+      }
     } else {
       if ($scope.repliedEssays)
         $scope.eid = $scope.repliedEssays[0].uploadEssayId;
-      else
+      else{
         $scope.eid = null;
+      }
     }
     getEssayById($scope.eid, userId);
   }
