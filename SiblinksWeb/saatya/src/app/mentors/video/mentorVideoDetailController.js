@@ -294,17 +294,14 @@ brotControllers.controller('MentorVideoDetailController',
             $scope.errorVideo = "Please login";
             return;
         }
-        if($scope.video) {
-            var objRequest = {
-                authorID: userId,
-                content: content,
-                vid: $scope.video.vid,
-                uid: $scope.video.userid,
-                title: $scope.video.title,
-                subjectId: $scope.video.subjectId,
-                author: userName
-            };
-        }
+        var objRequest = {
+            authorID: userId,
+            content: content,
+            vid: $scope.video.vid,
+            title: $scope.video.title,
+            subjectId: $scope.video.subjectId,
+            author: userName
+        };
         videoDetailService.addCommentVideo(objRequest).success(function (data) {
             if (data.status == 'true') {
                 $("#txtComment").val('');

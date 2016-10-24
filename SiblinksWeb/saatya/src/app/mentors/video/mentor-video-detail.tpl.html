@@ -36,27 +36,6 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                        <!-- <ul scroller="videosPlayList" on-init="loadTo"  class="series-video-list" id="series-video-list">
-                                            <li id ="listPlaylist" ng-click="selectVideo($index)" ng-repeat="video in videos track by $index"
-                                                ng-class="{'active':currentId==video.vid}"  class="video-list-item ">
-                                                <div id="listPlaylist{{video.vid}}" class="content-warpper">
-                                                    <div>
-                                                        <div class="thumb-video">
-                                                            <img style="width: 116px; height: 65px;" ng-src="{{video.image}}">
-                                                        </div>
-                                                        <div class="detail-video">
-                                                            <p class="title-video" title="{{video.title}}">
-                                                                {{ video.title | limitTo: 20 }}{{video.title.length > 20 ? '...' : ''}}
-                                                            </p>
-                                                            <br>
-                                                            <span class="view-count">
-                                                                view: <span>{{video.numViews}}</span>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul> -->
                                     </div>
                                     <div class="col-md-1"></div>
                                 </div>
@@ -82,7 +61,7 @@
                                             </div>
                                             <p class="list-view pull-right">
                                                 <span><i class="fa fa-play-circle-o" aria-hidden="true"></i> {{video.numViews}}</span>&nbsp;&nbsp;
-                                                <span><i class="fa fa-comments" aria-hidden="true"></i> {{video.numComments}}</span>&nbsp;&nbsp;
+                                                <span><i class="fa fa-comments" aria-hidden="true"></i> {{video.numComments ? video.numComments : 0}}</span>&nbsp;&nbsp;
                                             </p>
                                         </div>
                                         <div class="txt-dg clearfix">
