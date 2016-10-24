@@ -90,10 +90,12 @@ public class RESTAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
             mapper.writeValue(writer, user);
             writer.flush();
         } catch (DAOException e) {
+            e.printStackTrace();
             Map<String, String> mapError = new HashMap<String, String>();
             mapError.put(Parameters.STATUS, SibConstants.FAILURE);
             mapError.put(SibConstants.MessageKey.REQUEST_DATA_RESUTL, e.getMessage());
             mapper.writeValue(writer, mapError);
+            writer.flush();
         } finally {
             if (writer != null) {
                 writer.close();

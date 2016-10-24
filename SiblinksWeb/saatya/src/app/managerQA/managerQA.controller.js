@@ -178,6 +178,14 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
         }
 
+        $scope.convertName= function (name,userName) {
+            var result = name;
+            if(isEmpty(name)){
+                result =  userName.split('@')[0];
+            }
+            return result;
+        }
+
         $scope.selectTab= function (tab) {
             if($scope.currentTab == tab){
                 return ;

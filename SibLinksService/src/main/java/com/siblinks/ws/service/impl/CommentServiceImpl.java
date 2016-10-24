@@ -52,6 +52,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.siblinks.ws.Notification.Helper.FireBaseNotification;
 import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
@@ -59,6 +60,7 @@ import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.CommentsService;
+import com.siblinks.ws.service.UserService;
 import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.RandomString;
 import com.siblinks.ws.util.SibConstants;
@@ -88,6 +90,13 @@ public class CommentServiceImpl implements CommentsService {
 
     @Autowired
     private Environment environment;
+
+
+    @Autowired
+    private UserService userservice;
+
+    @Autowired
+    private FireBaseNotification fireBaseNotification;
 
     /**
      * {@inheritDoc}
@@ -191,8 +200,20 @@ public class CommentServiceImpl implements CommentsService {
                     if (!StringUtil.isNull(content) && content.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
                         contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
                     }
-                    Object[] queryParamsIns3 = { userId, authorId, "commentVideo", "New comment of video", contentNofi, subjectId, vid };
+                    Object[] queryParamsIns3 = { userId, authorId, "commentVideo", SibConstants.NOTIFICATION_TITLE_REPLY_VIDEO, contentNofi, subjectId, vid };
                     status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
+                    String toTokenId = userservice.getTokenUser(userId);
+                    if (!StringUtil.isNull(toTokenId)) {
+
+                        fireBaseNotification.sendMessage(
+                            toTokenId,
+                            SibConstants.NOTIFICATION_TITLE_REPLY_VIDEO,
+                            "3",
+                            vid,
+                            contentNofi,
+                            SibConstants.NOTIFICATION_ICON,
+                            SibConstants.NOTIFICATION_PRIPORITY_HIGH);
+                    }
                 }
             }
 
