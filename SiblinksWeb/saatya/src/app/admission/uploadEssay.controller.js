@@ -84,7 +84,7 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             fd.append('fileName',fileUpload.name);
             $rootScope.$broadcast('open');
             uploadEssayService.uploadEssayStudent(fd).then(function (data) {
-                 if (data.data.status) {
+                 if (data.data.status ==  'true') {
                      $scope.essayErrorMsg = "";
                      $scope.essaySusscesMsg = "You essay has been submitted for review";
                      $scope.selectSchool = 0;

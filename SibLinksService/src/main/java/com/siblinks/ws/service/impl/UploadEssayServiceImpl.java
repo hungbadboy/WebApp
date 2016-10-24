@@ -302,6 +302,21 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         String statusMessage = "";
         boolean status = true;
         statusMessage = validateEssay(file);
+        if (StringUtil.isNull(desc)) {
+            statusMessage = "Essay description can't blank!";
+        } else {
+            if (desc.length() > 1000) {
+                statusMessage = "Essay description can't over 1000 characters!";
+            }
+        }
+
+        if (StringUtil.isNull(title)) {
+            statusMessage = "Essay title can't blank!";
+        } else {
+            if (title.length() > 1000) {
+                statusMessage = "Essay title can't over 250 characters!";
+            }
+        }
         if (StringUtil.isNull(statusMessage)) {
 
             try {
