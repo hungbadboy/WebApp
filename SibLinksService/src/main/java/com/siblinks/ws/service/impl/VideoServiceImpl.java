@@ -3102,7 +3102,7 @@ public class VideoServiceImpl implements VideoService {
     @Override
     @RequestMapping(value = "/getVideoById", method = RequestMethod.GET)
     public ResponseEntity<Response> getVideoById(final long vid, final long userid) {
-        String entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEOS_BY_ID;
+        String entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEO_BY_ID;
         Object[] queryParams = { vid, userid };
         SimpleResponse response = null;
         try {

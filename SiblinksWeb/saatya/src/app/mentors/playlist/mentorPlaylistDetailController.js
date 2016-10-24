@@ -9,13 +9,10 @@ brotControllers.controller('MentorPlaylistDetailController',
 
     function init(){
         if (userId && userId > 0) {
-            // check plid is interger or not
             if (!isNaN(plid) && plid > 0) {
-                // load playlist information
                 loadPlaylistDetail();
                 getVideosInPlaylist();
             } else{
-                // reload to home
                 window.location.href = '#/mentor/dashboard';
             }
         } else {
@@ -120,11 +117,9 @@ brotControllers.controller('MentorPlaylistDetailController',
     }
 
     $scope.playAll = function(){
-        localStorage.removeItem('vidInPlaylist');
-        window.location.href = '#/mentor/playlist/playall/'+plid+'';
+        console.log(plid);
+        window.location.href = '#/mentor/video/detail/'+$scope.videos[0].vid+'/list/'+plid+'';
     }
-
-    
 
     $scope.removeAll = function(){
         var selectedVideos = checkSelectedVideos();
@@ -190,13 +185,7 @@ brotControllers.controller('MentorPlaylistDetailController',
     }
 
     $scope.goToDetail = function(v){
-      if (v.plid && v.plid > 0) {
-        setStorage('vidInPlaylist', v.vid, 1);
-        window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
-      } else{
-        localStorage.removeItem('vidInPlaylist');
-        window.location.href = '#/mentor/video/detail/'+v.vid+'';
-      }
+        window.location.href = '#/mentor/video/detail/'+v.vid+'/list/'+plid+'';
     }
 
     $scope.$on('passing', function(e,a){

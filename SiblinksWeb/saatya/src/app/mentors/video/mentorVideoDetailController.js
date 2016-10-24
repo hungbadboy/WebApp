@@ -6,7 +6,6 @@ brotControllers.controller('MentorVideoDetailController',
     var vid = $routeParams.vid;
     var plid = $routeParams.plid;
     var userId = localStorage.getItem('userId');
-    var vidInPlaylist = localStorage.getItem('vidInPlaylist');
     $scope.avatar = localStorage.getItem('imageUrl');
     var userName = localStorage.getItem('nameHome') != null ?  localStorage.getItem('nameHome') : "";
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
@@ -18,18 +17,17 @@ brotControllers.controller('MentorVideoDetailController',
 
     function init(){
         if (userId && userId > 0) {
-            if (!isNaN(vid) && vid > 0) {
-                // get video detail
+            if (!isNaN(vid) && vid > 0 ) {
                 $scope.vid = vid;
-                getVideoDetail(vid, userId);
-                getCommentVideoDetail(vid);            
-            } else if (!isNaN(plid) && plid > 0) {
-                // get playlist detail
-                $scope.plid = plid;
-                loadPlaylistDetail();
-                getVideosInPlaylist();
-            } 
-            else{
+                if (!isNaN(plid) && plid > 0) {
+                    $scope.plid = plid;
+                    loadPlaylistDetail();
+                    getVideosInPlaylist();
+                } else {
+                    getVideoDetail(vid, userId);
+                    getCommentVideoDetail(vid); 
+                }
+            } else {
                 window.location.href = '#/mentor/dashboard';
             }
         } else {
@@ -57,23 +55,26 @@ brotControllers.controller('MentorVideoDetailController',
             var result = data.data.request_data_result;
             if (result && result != "Found no data") {
                 $scope.videos = result;
-                if (vidInPlaylist && vidInPlaylist > 0) {
-                    var result = $.grep($scope.videos, function(v){
-                        return v.vid == vidInPlaylist;
+                if (vid && vid > 0) {
+                    var items = $.grep($scope.videos, function(v){
+                        return v.vid == vid;
                     });
-
-                    var index = $scope.videos.indexOf(result[0]);
-                    if (index != -1) {
-                        $scope.currentId = $scope.videos[index].vid;
-                        loadVideoDetail($scope.videos[index]);
-                        $scope.pos = index;
-                    }
+                    if (items.length > 0) {
+                        var index = $scope.videos.indexOf(items[0]);
+                        if (index != -1) {
+                            $scope.currentId = $scope.videos[index].vid;
+                            loadVideoDetail($scope.videos[index]);
+                            $scope.pos = index;
+                        }
+                    } else {
+                        window.location.href = '#/mentor/video/detail/'+$scope.videos[0].vid+'/list/'+plid+'';
+                    }                    
                 } else{
                     loadVideoDetail($scope.videos[0]);
                     $scope.pos = 0;
                 }
             } else
-                $scope.videos = null;
+                window.location.href = '#/mentor/playlist/detail/'+plid+'';
         });
     }
 
@@ -111,7 +112,7 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     function getVideoDetail(id, userId){
-        videoDetailService.getVideoDetailMentor(id, userId).then(function(data){
+        VideoService.getVideoById(id, userId).then(function(data){
             var result = data.data.request_data_result;
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.video = result[0];
@@ -119,9 +120,13 @@ brotControllers.controller('MentorVideoDetailController',
                 $scope.averageRating = $scope.video.averageRating;
                 $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
                 $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
-                initYoutubePlayer($scope.video.url);
-                getCommentVideoDetail($scope.video.vid);
-                getVideoRelated();
+                if ($scope.video.plid && $scope.video.plid > 0) {
+                    window.location.href = '#/mentor/video/detail/'+id+'/list/'+$scope.video.plid+'';
+                } else{
+                    initYoutubePlayer($scope.video.url);
+                    getCommentVideoDetail($scope.video.vid);
+                    getVideoRelated();                    
+                }
             }
         });
     }
@@ -181,12 +186,9 @@ brotControllers.controller('MentorVideoDetailController',
 
     function loadData(v){
         if (v.plid && v.plid > 0) {
-            setStorage('vidInPlaylist', v.vid, 30);
-            window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
-            window.location.reload();
+            window.location.href = '#/mentor/video/detail/'+v.vid+'/list/'+v.plid+'';
         } else{
             window.location.href = '#/mentor/video/detail/'+v.vid+'';
-            window.location.reload();
         }
     }
 
@@ -217,19 +219,6 @@ brotControllers.controller('MentorVideoDetailController',
         });
     }
 
-    // $scope.class = 'show-less';
-    // $scope.textShow = "Show more";
-
-    // $scope.showMore = function(){
-    //     if ($scope.class == 'show-more') {
-    //         $scope.class = 'show-less';
-    //         $scope.textShow = 'Show more';
-    //     } else{
-    //         $scope.class = 'show-more';
-    //         $scope.textShow = "Show less";
-    //     }
-    // }
-
     $scope.$on('passing', function(e, a){
         $scope.video.title = a.title;
         $scope.video.description = a.description;
@@ -259,7 +248,6 @@ brotControllers.controller('MentorVideoDetailController',
                     $scope.videos.splice($scope.pos, 1);
                     if ($scope.videos.length == 0) {
                         window.location.href = '#/mentor/mentorVideo';
-                        window.location.reload();
                     } else{
                         $scope.currentId = $scope.videos[$scope.pos].vid;
                         loadVideoDetail($scope.videos[$scope.pos]); 
@@ -269,7 +257,6 @@ brotControllers.controller('MentorVideoDetailController',
                         loadData($scope.videosRelated[0]);
                     } else{
                         window.location.href = '#/mentor/mentorVideo';
-                        window.location.reload();
                     }
                 }
            }
@@ -385,8 +372,27 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     $scope.$on('addPlaylist', function(e, value){
-        setStorage('vidInPlaylist', $scope.vid, 30);
-        window.location.href = '#/mentor/playlist/playall/'+value+'';
-        window.location.reload();
+        window.location.href = '#/mentor/video/detail/'+$scope.video.vid+'/list/'+value+'';
+        // if (!plid) {
+        // } else {
+        // var index = $scope.videos.indexOf($scope.video);
+        // console.log('index: '+index);
+        // if (index != -1)
+        //     $scope.videos.splice(index, 1);
+        // var size = $scope.videos.length;
+        // if (size == 0) {
+        //     window.location.href = '#/mentor/playlist/detail/'+plid+'';
+        // } else {
+        //     if (index < size - 1) {
+        //         window.location.href = '#/mentor/video/detail/'+$scope.videos[index].vid+'/list/'+plid+'';
+        //     } else {
+        //         window.location.href = '#/mentor/video/detail/'+$scope.videos[index-1].vid+'/list/'+plid+'';
+        //     }
+        // }
+        }        
+    });
+
+    $scope.$on('passing', function(e, video){
+        window.location.href = '#/mentor/video/detail/'+$scope.video.vid+'/list/'+video.plid+'';
     });
 }]);

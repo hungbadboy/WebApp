@@ -291,13 +291,9 @@ brotControllers.controller('VideoManagerController',
 
     $scope.goToDetail = function(v){
       if (v.plid && v.plid > 0) {
-        setStorage('vidInPlaylist', v.vid, 30);
-        window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
-        window.location.reload();
+        window.location.href = '#/mentor/video/detail/'+v.vid+'/list/'+v.plid+'';
       } else{
-        localStorage.removeItem('vidInPlaylist');
         window.location.href = '#/mentor/video/detail/'+v.vid+'';
-        window.location.reload();
       }
     }
 

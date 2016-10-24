@@ -571,7 +571,7 @@ public class SibConstants {
         public static final String SQL_GET_VIDEOS_RECENTLY = "GET_VIDEOS_RECENTLY";
         public static final String SQL_GET_STUDENT_SUBSCRIBE = "GET_STUDENT_SUBSCRIBE";
         public static final String SQL_GET_VIDEOS_PLAYLIST = "GET_VIDEOS_PLAYLIST";
-        public static final String SQL_GET_VIDEOS_BY_ID = "GET_VIDEOS_BY_ID";
+        public static final String SQL_GET_VIDEO_BY_ID = "GET_VIDEO_BY_ID";
         public static final String SQL_GET_SUBJECT = "GET_SUBJECT";
 
         public static final String SQL_INSERT_VIDEO = "INSERT_VIDEO";
