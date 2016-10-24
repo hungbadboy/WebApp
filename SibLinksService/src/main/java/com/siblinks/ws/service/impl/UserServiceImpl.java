@@ -1871,6 +1871,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             simpleResponse = new SimpleResponse(
                                                 SibConstants.FAILURE,
@@ -1937,12 +1938,13 @@ public class UserServiceImpl implements UserService {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            logger.debug("Upload avartar error " + e.getMessage());
             response = new SimpleResponse(
                                           SibConstants.FAILURE,
                                           request.getRequest_data_type(),
                                           request.getRequest_data_method(),
                                           e.getMessage());
-            logger.debug("Upload avartar error " + e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
