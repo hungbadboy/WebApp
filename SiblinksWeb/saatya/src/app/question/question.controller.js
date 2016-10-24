@@ -445,6 +445,15 @@ brotControllers
                 }
                 $scope.onFileSelect = function ($files) {
                     $scope.askErrorMsg= "";
+                    var errFile = errFiles && errFiles[0];
+                    if(!isEmpty(errFile)){
+                        $scope.askErrorMsg = 'File wrong format. Please select file image!';
+                        return;
+                    }
+                    if ($files!=null && $files.length > MAX_IMAGE){
+                        $scope.askErrorMsg = 'You only upload ' + MAX_IMAGE +' image';
+                        return ;
+                    }
                     if ($files != null) {
                         for (var i = 0; i < $files.length; i++) {
                             var file = $files[i];
@@ -478,7 +487,14 @@ brotControllers
 
                 }
                 $scope.redirectForum = function () {
-
+                    if (isEmpty(userId) ||userId=='-1') {
+                        $scope.askErrorMsg='Please login before you ask a question';
+                        $rootScope.myVarU = !$scope.myVarU;
+                        $timeout(function () {
+                            $rootScope.myVarU = false;
+                        }, 2500);
+                        return;
+                    }
                     // get question of student of ask question
                     if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
                         $scope.askErrorMsg='Please choose category';

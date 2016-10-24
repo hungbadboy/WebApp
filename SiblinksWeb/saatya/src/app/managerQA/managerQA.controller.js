@@ -529,6 +529,11 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             var errFile = errFiles && errFiles[0];
             if(!isEmpty(errFile)){
                 $scope.QAErrorMsg = 'File wrong format. Please select file image!';
+                return;
+            }
+            if ($files!=null && $files.length > MAX_IMAGE){
+                $scope.QAErrorMsg = 'You only upload ' + MAX_IMAGE +' image';
+                return ;
             }
             if ($files != null) {
                 for (var i = 0; i < $files.length; i++) {

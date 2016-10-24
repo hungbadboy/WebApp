@@ -99,8 +99,17 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
                 window.location.href = '#/signup';
             }
         };
-        $scope.onFileSelect = function ($files) {
+        $scope.onFileSelect = function ($files,errFiles) {
             $scope.askErrorMsg = "";
+            var errFile = errFiles && errFiles[0];
+            if(!isEmpty(errFile)){
+                $scope.askErrorMsg = 'File wrong format. Please select file image!';
+                return;
+            }
+            if ($files!=null && $files.length > MAX_IMAGE){
+                $scope.askErrorMsg = 'You only upload ' + MAX_IMAGE +' image';
+                return ;
+            }
             if ($files != null) {
                 for (var i = 0; i < $files.length; i++) {
                     var file = $files[i];
@@ -115,6 +124,15 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
         }
 
         $scope.redirectForum = function () {
+
+            if (isEmpty(userId) ||userId=='-1') {
+                $scope.askErrorMsg='Please login before you ask a question';
+                $rootScope.myVarU = !$scope.myVarU;
+                $timeout(function () {
+                    $rootScope.myVarU = false;
+                }, 2500);
+                return;
+            }
             // get question of student
         	if (selectCategory == null || selectCategory === undefined || selectCategory.originalObject == null) {
         		$scope.askErrorMsg='Please choose category';
@@ -136,14 +154,7 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
                 return;
             }
 
-            if (isEmpty(userId) ||userId=='-1') {
-            	$scope.askErrorMsg='Please login before you ask a question';
-                $rootScope.myVarU = !$scope.myVarU;
-                $timeout(function () {
-                    $rootScope.myVarU = false;
-                }, 2500);
-                return;
-            }
+
             fd = new FormData();
             var totalSize = 0;
             if ($scope.filesArray != null) {
