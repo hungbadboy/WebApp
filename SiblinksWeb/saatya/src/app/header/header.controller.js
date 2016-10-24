@@ -89,8 +89,8 @@ brotControllers.controller('UserHeaderController',
                     });
                 }
                 if (userId != null) {
-                	// get Notification by user
-                    NotificationService.getNotificationByUserId(userId).then(function (data) {
+                	// get Notification not read by user
+                	NotificationService.getNotificationByUserId(userId).then(function (data) {
                     	$rootScope.countNotification = data.data.count;
                     });
                     	//$scope.listNotifications = data.data.request_data_result;
@@ -159,12 +159,13 @@ brotControllers.controller('UserHeaderController',
             }
 
             function showNotification(ele) {
-                NotificationService.updateAllNotification(userId).then(function (data) {
-                    if (data.data.request_data_result) {
-                        $rootScope.countNotification = 0;
-                        //$(".notification-content").toggle(); //show notification 
-                    }
-                });
+            	if($rootScope.countNotification !== null && $rootScope.countNotification !== undefined && $rootScope.countNotification > 0) {
+	                NotificationService.updateAllNotification(userId).then(function (data) {
+	                    if (data.data.request_data_result) {
+	                        $rootScope.countNotification = 0;
+	                    }
+	                });
+            	}
             }
 
             init();

@@ -176,7 +176,7 @@ public class NotificationUserServiceImpl implements NotificationUserService {
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "notification", "getAllNotification", readObject, count);
         } catch (Exception e) {
             logger.error(e);
-            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getNotificationNotReaded", e.getMessage());
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getAllNotification", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
