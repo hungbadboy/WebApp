@@ -29,7 +29,7 @@
 									<img class="thumb" ngf-thumbnail="step" />
 	                                <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
 	                        </div>
-								<button ngf-select="onFileSelect($files)" multiple ngf-pattern="'image/*'"
+								<button ngf-select="onFileSelect($files,$invalidFiles)" multiple ngf-pattern="'image/*'"
 										accept="image/*" ngf-max-size="5MB" style="margin-top: 8px">
 									<img style="pointer-events: none;" src="assets/images/add-img.png"></button>
 								<!--<span class="add-img">-->

@@ -55,6 +55,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.siblinks.ws.Notification.Helper.FireBaseNotification;
 import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
@@ -62,6 +63,7 @@ import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.PostService;
+import com.siblinks.ws.service.UserService;
 import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.RandomString;
@@ -91,6 +93,12 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private Environment environment;
+
+    @Autowired
+    private UserService userservice;
+
+    @Autowired
+    private FireBaseNotification fireBaseNotification;
 
     /**
      * {@inheritDoc}
@@ -188,11 +196,24 @@ public class PostServiceImpl implements PostService {
                 contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
             }
             id = dao.insertObject(SibConstants.SqlMapper.SQL_CREATE_ANSWER, queryParamsAnswer);
-            Object[] queryParams = { mentorId, studentId, "answerQuestion", "Answer to question", "answered a question: " +
-                                                                                                  contentNofi, subjectId, pid };
+            Object[] queryParams = { mentorId, studentId, "answerQuestion", SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION, "answered a question: " +
+                                                                                                                             contentNofi, subjectId, pid };
             dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_NUMREPLIES_QUESTION, new Object[] { pid });
 
             status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION, queryParams);
+            // Push message notification
+            String toTokenId = userservice.getTokenUser(studentId);
+            if (!StringUtil.isNull(toTokenId)) {
+
+                fireBaseNotification.sendMessage(
+                    toTokenId,
+                    SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION,
+                    "1",
+                    pid,
+                    content,
+                    SibConstants.NOTIFICATION_ICON,
+                    SibConstants.NOTIFICATION_PRIPORITY_HIGH);
+            }
             if (id > 0 && status == true) {
                 status = true;
             }

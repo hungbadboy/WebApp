@@ -1,19 +1,42 @@
+/*
+ * Copyright (c) 2016-2017, Tinhvan Outsourcing JSC. All rights reserved.
+ *
+ * No permission to use, copy, modify and distribute this software
+ * and its documentation for any purpose is granted.
+ * This software is provided under applicable license agreement only.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 package com.siblinks.ws.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 
+/**
+ * the user service to CRUD user and relate to user
+ * 
+ * @author hungpd
+ * @version 1.0
+ */
 
-
-
-
-
+@Service("userService")
 public interface UserService {
 
 
@@ -22,19 +45,14 @@ public interface UserService {
 	 * Fetch Out of box Service
 	 *
 	 */
-	/*public Response fetchUsersAll();*/
 
 	public ResponseEntity<Response> isUsernameAvailable(String usernames);
+
 	public ResponseEntity<Response> adminRegisterUser(String username, String password,String firstname, String lastname);
+
 	public ResponseEntity<Response> adminloginUser(String username, String password);
-	//public ResponseEntity<Response> registerUser(RequestData video);
+
 	public ResponseEntity<Response> loginUser(String username, String password);
-
-    // public ResponseEntity<Response> resetPassword(String usernames,String
-    // password);
-	//public ResponseEntity<Response> updateUserProfile(String usernames,String type, String firstname, String lastname,String imageurl,String currentclass,String accomplishments,String subjects,String helpsubjects,String bio);
-
-    // public ResponseEntity<Response> updateUserProfile(RequestData video);
 
     public ResponseEntity<Response> findUser(String name);
     public ResponseEntity<Response> updateLastOnlineTime(String username);
@@ -55,10 +73,6 @@ public interface UserService {
     public ResponseEntity<Response> addUserNotes(RequestData video);
 
     public ResponseEntity<Response> getStudentMentors(RequestData sid);
-    //public ResponseEntity<Response> signupcomplete(RequestData video);
-
-    // public ResponseEntity<Response> updateUserProfileBasic(RequestData
-    // request);
 
 	public ResponseEntity<Response> listOfMajors(RequestData request);
 
@@ -191,4 +205,13 @@ public interface UserService {
      * @return
      */
     public ResponseEntity<Response> setStatusUser(final String json);
+
+    /**
+     * This method to get token of user by user id
+     * 
+     * @param userId
+     *            This is user id
+     * @return Token
+     */
+    public String getTokenUser(final String uid);
 }

@@ -302,7 +302,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         String statusMessage = "";
         boolean status = true;
         statusMessage = validateEssay(file);
-        if (!file.isEmpty() && StringUtil.isNull(statusMessage)) {
+        if (StringUtil.isNull(statusMessage)) {
 
             try {
                 boolean msgs = true;

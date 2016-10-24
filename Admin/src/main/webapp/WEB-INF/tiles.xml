@@ -53,15 +53,15 @@
 		<put-attribute name="body" value="brotManageComments" />
 	</definition>
 	<definition name="setting" extends="baseLayout">
-		<put-attribute name="title" value="MANAGEER COMMENTS" />
+		<put-attribute name="title" value="Manager setting" />
 		<put-attribute name="body" value="brotManageComments" />
 	</definition>
-	<definition name="coleageuniversity" extends="baseLayout">
-		<put-attribute name="title" value="MANAGEER COMMENTS" />
-		<put-attribute name="body" value="brotManageComments" />
+	<definition name="shool" extends="baseLayout">
+		<put-attribute name="title" value="Manager school" />
+		<put-attribute name="body" value="brotManagerSchool.jsp" />
 	</definition>
 	<definition name="menu" extends="baseLayout">
-		<put-attribute name="title" value="MANAGEER Menu" />
+		<put-attribute name="title" value="Manager Menu" />
 		<put-attribute name="body" value="/brotAdministration.jsp" />
 	</definition>
 	<definition name="categorymgr" extends="baseLayout">

@@ -31,6 +31,7 @@ brotControllers.controller('MentorProfileController',
             $scope.listMentorSubsSize = 0;
             $scope.canNext = true;
             var listMentorSubs = [];
+            var LIMIT_SUBJECT = 4;
             init();
 
             function init() {
@@ -481,10 +482,19 @@ brotControllers.controller('MentorProfileController',
                             var listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
                             if (listSubject != null && listSubject !== undefined) {
                                 var listSubjectName = [];
+                                var len =listSubject.length;
+                                var isMax = false;
+                                if(len > LIMIT_SUBJECT){
+                                    len = LIMIT_SUBJECT;
+                                    isMax = true;
+                                }
                                 for (var j = 0; j < listSubject.length; j++) {
                                     listSubjectName.push(listSubject[j].name);
                                 }
                                 strSubject = listSubjectName.join(", ");
+                                if(isMax){
+                                    strSubject = strSubject + '...';
+                                }
                             }
                             mentor.listSubject = strSubject;
                             listMentorSubscribed.push(mentor);

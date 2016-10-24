@@ -33,13 +33,20 @@ public class SibConstants {
     public enum ROLE_TYPE {
         A, S, M
     };
-
+    
     public class NUMBER {
         public static final int ZERO = 0;
         public static final int ONE = 1;
+        public static final int TWO = 2;
         public static final int THREE = 3;
         public static final int NINE = 9;
     }
+
+    
+    public static final String URL_SEND_NOTIFICATION_FIREBASE = "https://fcm.googleapis.com/fcm/send";
+    public static final String NOTIFICATION_ICON = "siblinks.icon";
+    public static final String NOTIFICATION_PRIPORITY_HIGH = "high";
+    public static final String NOTIFICATION_TITLE_ANSWER_QUESTION = "Answer to question";
 
     public static final String DOMAIN = "domain";
     public static final String DELETE = "DELETE";
@@ -91,6 +98,7 @@ public class SibConstants {
         public static final String SQL_GET_ALL_USERS = "GET_ALL_USERS";
         public static final String SQL_GET_USERS_BY_USER_TYPE = "GET_USERS_BY_USER_TYPE";
         public static final String SQL_GET_USER_BY_ID = "GET_USER_BY_ID";
+        public static final String SQL_GET_TOKEN_BY_USERID = "GET_TOKEN_BY_USERID";
         public static final String SQL_CHECK_USER = "CHECK_USER";
         public static final String SQL_CREATE_USER_FACEBOOK = "CREATE_USER_FACEBOOK";
         public static final String SQL_UPDATE_INFO_FACEBOOK = "UPDATE_INFO_FACEBOOK";

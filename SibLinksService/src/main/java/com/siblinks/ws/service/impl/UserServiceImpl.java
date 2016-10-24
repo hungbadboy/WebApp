@@ -1835,7 +1835,7 @@ public class UserServiceImpl implements UserService {
                     .getRequest_data()
                     .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getImage(), request
                     .getRequest_data()
-                    .getFacebookid() };
+                    .getFacebookid(), request.getRequest_data().getToken() };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_USER_FACEBOOK, queryParamsFB);
                 if (status) {
                     readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { request
@@ -2155,5 +2155,24 @@ public class UserServiceImpl implements UserService {
         }
 
         return new ResponseEntity<Response>(response, HttpStatus.OK);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getTokenUser(final String user) {
+        String token = "";
+        try {
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_TOKEN_BY_USERID, new Object[] { user });
+            if (!CollectionUtils.isEmpty(readObject)) {
+                token = ((Map<String, String>) readObject.get(0)).get(Parameters.TOKEN);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            return null;
+        }
+        return token;
     }
 }

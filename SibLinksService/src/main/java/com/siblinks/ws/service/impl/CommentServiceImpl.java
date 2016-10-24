@@ -172,9 +172,7 @@ public class CommentServiceImpl implements CommentsService {
             TransactionDefinition def = new DefaultTransactionDefinition();
             statusDB = transactionManager.getTransaction(def);
             // Get request data
-            String content = request.getRequest_data().getContent().replace("'", "\\\\'");
-            // content = content.replace("(", "\\\\(");
-            // content = content.replace(")", "\\\\)");
+            String content = request.getRequest_data().getContent();
             String userName = request.getRequest_data().getAuthor();
             String authorId = request.getRequest_data().getAuthorID();
             boolean status = true, statusUpdateCmtVideo = false;
@@ -411,11 +409,7 @@ public class CommentServiceImpl implements CommentsService {
             }
 
             String content = request.getRequest_data().getContent();
-            if (!StringUtil.isNull(content)) {
-                content = content.replace("'", "\\\\'");
-                content = content.replace("(", "\\\\(");
-                content = content.replace(")", "\\\\)");
-            } else {
+            if (StringUtil.isNull(content)) {
                 simpleResponse = new SimpleResponse(
                                                     "" + false,
                                                     request.getRequest_data_type(),
