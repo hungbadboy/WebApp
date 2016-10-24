@@ -26,14 +26,14 @@ brotControllers.controller('UploadTutorialController',
       }           
     }
 
+    var item;
     function getVideoDetail(){
-      $rootScope.$broadcast('open');
       VideoService.getVideoById(v_id, u_id).then(function(data){
         var result = data.data.request_data_result;
         if (result  && result != "Found no data") {
-          displayEdit(result);
+          // displayEdit(result);
+          item = result;
         }
-        $rootScope.$broadcast('close');
       });
     }
 
@@ -85,6 +85,7 @@ brotControllers.controller('UploadTutorialController',
               'name': "Select a Playlist"
             })
             $scope.uploadPlaylist = $scope.playlists[0].plid;
+            displayEdit(item);
           }
         });
       }      
@@ -235,14 +236,16 @@ brotControllers.controller('UploadTutorialController',
       }
       $rootScope.$broadcast('open');
       VideoService.uploadTutorial(request).then(function(data){
-        if (data.data.request_data_result === "Success") {
+        var result = data.data.request_data_result
+        if (result === "Success") {
           $scope.success = "Upload Tutorial successful.";
           $rootScope.$broadcast("uploadNew");
           loadVideoRecently();
           clearContent();
         } else{
-          $scope.error = data.data.request_data_result;
+          $scope.error = result;
         }
+        console.log(result);
         $rootScope.$broadcast('close');
       });
     }
@@ -297,10 +300,8 @@ brotControllers.controller('UploadTutorialController',
       $scope.description = '';
 
       $scope.uploadSubject = 0;
-      // $scope.changeSubject($scope.uploadSubject);
       $('#uploadSubject').val(0);
       $scope.uploadPlaylist = 0;
-      // $scope.changPlaylist($scope.uploadPlaylist);
       $('#uploadPlaylist').val(0);  
       $scope.vid = null;
       $scope.link = null;
@@ -308,6 +309,7 @@ brotControllers.controller('UploadTutorialController',
 
     $scope.cancel = function(){
       $modalInstance.dismiss('cancel');
+      $rootScope.$broadcast('close');
     }
 
     $scope.validateLink = function(link){

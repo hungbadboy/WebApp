@@ -52,6 +52,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.siblinks.ws.Notification.Helper.FireBaseNotification;
 import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
@@ -59,6 +60,7 @@ import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.CommentsService;
+import com.siblinks.ws.service.UserService;
 import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.RandomString;
 import com.siblinks.ws.util.SibConstants;
@@ -89,6 +91,13 @@ public class CommentServiceImpl implements CommentsService {
     @Autowired
     private Environment environment;
 
+
+    @Autowired
+    private UserService userservice;
+
+    @Autowired
+    private FireBaseNotification fireBaseNotification;
+
     /**
      * {@inheritDoc}
      */
@@ -106,11 +115,7 @@ public class CommentServiceImpl implements CommentsService {
             Object[] queryParams = { request.getRequest_data().getCid() };
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_GET_NESTED_COMMENTS, queryParams);
 
-            simpleResponse = new SimpleResponse(
-                                                SibConstants.SUCCESS,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                readObject);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
@@ -131,9 +136,9 @@ public class CommentServiceImpl implements CommentsService {
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
-            Object[] queryParams = { request.getRequest_data().getCid(), request.getRequest_data().getAuthor(), request
+            Object[] queryParams = { request.getRequest_data().getCid(), request.getRequest_data().getAuthor(), request.getRequest_data().getAuthorID(), request
                 .getRequest_data()
-                .getAuthorID(), request.getRequest_data().getContent(), request.getRequest_data().getImage() };
+                .getContent(), request.getRequest_data().getImage() };
 
             boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_NESTED_COMMENT, queryParams);
 
@@ -146,11 +151,7 @@ public class CommentServiceImpl implements CommentsService {
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_NESTED_TABLE, queryParams2);
             }
 
-            simpleResponse = new SimpleResponse(
-                                                "" + status,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                readObject);
+            simpleResponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
@@ -172,9 +173,7 @@ public class CommentServiceImpl implements CommentsService {
             TransactionDefinition def = new DefaultTransactionDefinition();
             statusDB = transactionManager.getTransaction(def);
             // Get request data
-            String content = request.getRequest_data().getContent().replace("'", "\\\\'");
-            content = content.replace("(", "\\\\(");
-            content = content.replace(")", "\\\\)");
+            String content = request.getRequest_data().getContent();
             String userName = request.getRequest_data().getAuthor();
             String authorId = request.getRequest_data().getAuthorID();
             boolean status = true, statusUpdateCmtVideo = false;
@@ -188,25 +187,39 @@ public class CommentServiceImpl implements CommentsService {
                 Object[] queryParamsIns2 = { idComent, vid };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_COMMENT, queryParamsIns2);
                 if (status) {
-                    statusUpdateCmtVideo = dao.insertUpdateObject(
-                        SibConstants.SqlMapper.SQL_VIDEO_COMMENT_UPDATE,
-                        new Object[] { request.getRequest_data().getVid() });
+                    statusUpdateCmtVideo = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_VIDEO_COMMENT_UPDATE, new Object[] { request
+                        .getRequest_data()
+                        .getVid() });
                 }
                 status = status && statusUpdateCmtVideo ? true : false;
                 // Insert notification table
                 String userId = request.getRequest_data().getUid();
-                String subjectId = request.getRequest_data().getSubjectId();
-                Object[] queryParamsIns3 = { userId, authorId, "commentVideo", "New comment of video", content, subjectId, vid };
-                status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
+                if (userId != null && Long.parseLong(userId) > 0) {
+                    String subjectId = request.getRequest_data().getSubjectId();
+                    String contentNofi = content;
+                    if (!StringUtil.isNull(content) && content.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
+                        contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
+                    }
+                    Object[] queryParamsIns3 = { userId, authorId, "commentVideo", SibConstants.NOTIFICATION_TITLE_REPLY_VIDEO, contentNofi, subjectId, vid };
+                    status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
+                    String toTokenId = userservice.getTokenUser(userId);
+                    if (!StringUtil.isNull(toTokenId)) {
+
+                        fireBaseNotification.sendMessage(
+                            toTokenId,
+                            SibConstants.NOTIFICATION_TITLE_REPLY_VIDEO,
+                            "3",
+                            vid,
+                            contentNofi,
+                            SibConstants.NOTIFICATION_ICON,
+                            SibConstants.NOTIFICATION_PRIPORITY_HIGH);
+                    }
+                }
             }
 
             transactionManager.commit(statusDB);
 
-            simpleResponse = new SimpleResponse(
-                                                "" + status,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                cid);
+            simpleResponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), cid);
         } catch (Exception e) {
             if (statusDB != null) {
                 transactionManager.rollback(statusDB);
@@ -227,9 +240,7 @@ public class CommentServiceImpl implements CommentsService {
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
 
-            Object[] queryParams = { request.getRequest_data().getAuthorID(), request.getRequest_data().getContent(), request
-                .getRequest_data()
-                .getImage() };
+            Object[] queryParams = { request.getRequest_data().getAuthorID(), request.getRequest_data().getContent(), request.getRequest_data().getImage() };
 
             boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
             int cid = 0;
@@ -247,11 +258,7 @@ public class CommentServiceImpl implements CommentsService {
                 }
             }
 
-            simpleResponse = new SimpleResponse(
-                                                "" + status,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                cid);
+            simpleResponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), cid);
         } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
@@ -275,18 +282,10 @@ public class CommentServiceImpl implements CommentsService {
 
             Object[] queryParams = { request.getRequest_data().getCid(), request.getRequest_data().getContent() };
             boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_EDIT_COMMENT, queryParams);
-            reponse = new SimpleResponse(
-                                         SibConstants.SUCCESS,
-                                         request.getRequest_data_type(),
-                                         request.getRequest_data_method(),
-                                         status);
+            reponse = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), status);
         } catch (DAOException e) {
             e.printStackTrace();
-            reponse = new SimpleResponse(
-                                         SibConstants.FAILURE,
-                                         request.getRequest_data_type(),
-                                         request.getRequest_data_method(),
-                                         e.getMessage());
+            reponse = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
         }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
@@ -314,18 +313,10 @@ public class CommentServiceImpl implements CommentsService {
             dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_DELETE_COMMENT_VIDEO, queryParams);
             dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_REMOVE_COMMENT, queryParams);
             transactionManager.commit(status);
-            reponse = new SimpleResponse(
-                                         SibConstants.SUCCESS,
-                                         request.getRequest_data_type(),
-                                         request.getRequest_data_method(),
-                                         "Success");
+            reponse = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), "Success");
         } catch (Exception e) {
             transactionManager.rollback(status);
-            reponse = new SimpleResponse(
-                                         SibConstants.FAILURE,
-                                         request.getRequest_data_type(),
-                                         request.getRequest_data_method(),
-                                         "Failed");
+            reponse = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), "Failed");
         }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
@@ -347,29 +338,24 @@ public class CommentServiceImpl implements CommentsService {
             content = content.replace("(", "\\\\(");
             content = content.replace(")", "\\\\)");
 
-            Object[] queryParams = { request.getRequest_data_article().getAuthorId(), content, request
-                .getRequest_data_article()
-                .getArId() };
+            Object[] queryParams = { request.getRequest_data_article().getAuthorId(), content, request.getRequest_data_article().getArId() };
 
             boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
             int cid = 0;
             if (status) {
                 List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams);
                 cid = Integer.valueOf(((Map) readObject.get(0)).get(Parameters.CID).toString());
-                Object[] queryParamsIns = { ((Map) readObject.get(0)).get(Parameters.CID).toString(), request
-                    .getRequest_data_article()
-                    .getArId() };
+                Object[] queryParamsIns = { ((Map) readObject.get(0)).get(Parameters.CID).toString(), request.getRequest_data_article().getArId() };
                 boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_ARTICLE_COMMENT, queryParamsIns);
 
                 readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_INFO_ARTICLE, queryParamsIns);
-                Object[] queryParamsIns1 = { ((Map) readObject.get(0)).get(Parameters.AUTHOR_ID).toString(), request
-                    .getRequest_data_article()
-                    .getAuthorId(), "commentArticle", "New comment of article", "commented a article: " +
-                                                                                ((Map) readObject.get(0)).get("title").toString() };
-                if (!((Map) readObject.get(0))
-                    .get("authorId")
-                    .toString()
-                    .equalsIgnoreCase(request.getRequest_data_article().getAuthorId())) {
+                Object[] queryParamsIns1 = { ((Map) readObject.get(0)).get(Parameters.AUTHOR_ID).toString(), request.getRequest_data_article().getAuthorId(), "commentArticle", "New comment of article", "commented a article: " +
+                                                                                                                                                                                                          ((Map) readObject
+                                                                                                                                                                                                              .get(0))
+                                                                                                                                                                                                              .get(
+                                                                                                                                                                                                                  "title")
+                                                                                                                                                                                                              .toString() };
+                if (!((Map) readObject.get(0)).get("authorId").toString().equalsIgnoreCase(request.getRequest_data_article().getAuthorId())) {
                     dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ARTICLE, queryParamsIns1);
                 }
 
@@ -379,11 +365,7 @@ public class CommentServiceImpl implements CommentsService {
                 }
             }
 
-            simpleResponse = new SimpleResponse(
-                                                "" + status,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                cid);
+            simpleResponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), cid);
         } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
@@ -407,16 +389,8 @@ public class CommentServiceImpl implements CommentsService {
             }
 
             String content = request.getRequest_data().getContent();
-            if (!StringUtil.isNull(content)) {
-                content = content.replace("'", "\\\\'");
-                content = content.replace("(", "\\\\(");
-                content = content.replace(")", "\\\\)");
-            } else {
-                simpleResponse = new SimpleResponse(
-                                                    "" + false,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    "");
+            if (StringUtil.isNull(content)) {
+                simpleResponse = new SimpleResponse("" + false, request.getRequest_data_type(), request.getRequest_data_method(), "");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
 
@@ -428,11 +402,10 @@ public class CommentServiceImpl implements CommentsService {
             if (id > 0) {
                 Object[] queryParamsIns = { request.getRequest_data().getVid(), "" + id };
                 flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_ADMISSION_COMMENT, queryParamsIns);
-                List<Object> readObject = dao.readObjects(
-                    SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_DETAIL_BY_ID,
-                    new Object[] { request.getRequest_data().getVid() });
+                List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_DETAIL_BY_ID, new Object[] { request
+                    .getRequest_data()
+                    .getVid() });
                 Map userPostVideoMap = (Map) readObject.get(0);
-
                 Object[] queryParamsIns3 = { userPostVideoMap.get("userid"), request.getRequest_data().getAuthorID(), "commentVideoAdmssion", "New comment of video", "commented video : " +
                                                                                                                                                                       userPostVideoMap
                                                                                                                                                                           .get(
@@ -445,8 +418,7 @@ public class CommentServiceImpl implements CommentsService {
 
             }
             transactionManager.commit(statusDB);
-            simpleResponse = new SimpleResponse("" + flag, request.getRequest_data_type(), request.getRequest_data_method(), "" +
-                                                                                                                             id);
+            simpleResponse = new SimpleResponse("" + flag, request.getRequest_data_type(), request.getRequest_data_method(), "" + id);
         } catch (Exception e) {
             logger.error(e.getMessage());
             if (statusDB != null) {
@@ -476,11 +448,7 @@ public class CommentServiceImpl implements CommentsService {
 
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_COMMENT, queryParams);
 
-            simpleResponse = new SimpleResponse(
-                                                SibConstants.SUCCESS,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                readObject);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         } catch (DAOException e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
@@ -544,9 +512,7 @@ public class CommentServiceImpl implements CommentsService {
 
                 reponse = new SimpleResponse(SibConstants.SUCCESS, linkToImage);
             } else {
-                reponse = new SimpleResponse(
-                                             SibConstants.FAILURE,
-                                             "Your photos couldn't be uploaded. Photos should be saved as JPG, PNG, GIF or BMP files.");
+                reponse = new SimpleResponse(SibConstants.FAILURE, "Your photos couldn't be uploaded. Photos should be saved as JPG, PNG, GIF or BMP files.");
 
             }
         } catch (Exception e) {
@@ -732,9 +698,7 @@ public class CommentServiceImpl implements CommentsService {
                 List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams);
                 cid = Integer.valueOf(((Map) readObject.get(0)).get("cid").toString());
 
-                Object[] queryParamsIns = { ((Map) readObject.get(0)).get("cid").toString(), request
-                    .getRequest_data()
-                    .getEssayId() };
+                Object[] queryParamsIns = { ((Map) readObject.get(0)).get("cid").toString(), request.getRequest_data().getEssayId() };
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_ESSAY_COMMENT, queryParamsIns);
 
                 readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_INFO_ESSAY, queryParamsIns);
@@ -757,11 +721,7 @@ public class CommentServiceImpl implements CommentsService {
                 // }
             }
 
-            simpleResponse = new SimpleResponse(
-                                                "" + status,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                cid);
+            simpleResponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), cid);
         } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());

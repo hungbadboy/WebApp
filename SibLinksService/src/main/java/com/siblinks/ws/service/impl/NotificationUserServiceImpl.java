@@ -107,7 +107,7 @@ public class NotificationUserServiceImpl implements NotificationUserService {
             }
 
             String count = dao.getCount(SibConstants.SqlMapper.SQL_GET_NOTIFICATION_READED_COUNT, new Object[] { uid });
-            simpleResponse = new SimpleResponse("" + Boolean.TRUE, "notification", "getNotificationReaded", "", count);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "notification", "getNotificationReaded", "", count);
         } catch (DAOException e) {
             logger.error(e);
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getNotificationReaded", e.getMessage());
@@ -173,10 +173,10 @@ public class NotificationUserServiceImpl implements NotificationUserService {
                 count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_NOTIFICATION_COUNT, new Object[] { uid });
             }
 
-            new SimpleResponse("" + Boolean.TRUE, "notification", "getAllNotification", readObject, count);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "notification", "getAllNotification", readObject, count);
         } catch (Exception e) {
             logger.error(e);
-            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getNotificationNotReaded", e.getMessage());
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getAllNotification", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
@@ -199,7 +199,11 @@ public class NotificationUserServiceImpl implements NotificationUserService {
 
             boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_STATUS_ALL_NOTIFICATION, queryParams);
 
-            new SimpleResponse("" + Boolean.TRUE, request.getRequest_data_type(), request.getRequest_data_method(), status);
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.SUCCESS,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                status);
         } catch (Exception e) {
             logger.error(e);
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getNotificationNotReaded", e.getMessage());

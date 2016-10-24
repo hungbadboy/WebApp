@@ -116,7 +116,10 @@ brotControllers.controller('PlaylistController',
     function parseData(data){
       for (var i = 0; i < data.length; i++) {
           data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
-          data[i].selected = false;
+          if ($scope.selectedAll == true)
+            data[i].selected = true;
+          else
+            data[i].selected = false;
       }
       return data;
     }
@@ -180,8 +183,8 @@ brotControllers.controller('PlaylistController',
         };
         var message = 'Are you sure you want to delete?';
         var modalHtml = ' <div class="modal-body">' + message + '</div>';
-            modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
-                'OK</button><button class="btn btn-warning" ng-click="cancel()">Cancel</button></div>';
+            modalHtml += '<div class="modal-footer"><button class="btn btn-danger" ng-click="ok()">' +
+                'Delete</button><button class="btn btn-default" ng-click="cancel()">Cancel</button></div>';
 
         var modalInstance = $modal.open({
             template: modalHtml,
@@ -199,7 +202,7 @@ brotControllers.controller('PlaylistController',
         };
         
         var modalHtml = ' <div class="modal-body">' + message + '</div>';
-        modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
+        modalHtml += '<div class="modal-footer"><button class="btn btn-default" ng-click="ok()">' +
             'OK</button></div>';
 
         var modalInstance = $modal.open({
@@ -351,10 +354,15 @@ brotControllers.controller('PlaylistController',
           loadPlaylist();
           clearContent();
         } else{
-          $scope.error = data.data.request_data_result;
+          $scope.error = result;
         }
+        console.log(result);
         $rootScope.$broadcast('close');
       });
+    }
+
+    $scope.clearMessage = function(){
+      $scope.success = null;
     }
 
     $scope.changeAddValue = function(e){
@@ -413,8 +421,9 @@ brotControllers.controller('PlaylistController',
     function clearContent(){
       $('#txtTitle').val('');
       $('#changeImg').val('');
-      $('#txtDescription').val('')
-      $scope.playlistSubject = [0];
+      $('#txtDescription').val('');
+      $scope.playlistSubject = 0;
+      $('#addSubject').val(0);
       $scope.stepsModel.splice(0, 1);
       file = null;
     }

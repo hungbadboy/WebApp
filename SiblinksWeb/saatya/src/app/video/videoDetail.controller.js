@@ -272,7 +272,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             $window.location.href = '#/videos?search='+encodeURIComponent(txtSearch);
         }
 
-
+        // rate video detail
         $scope.rateFunction = function (rate) {
             var ratenumOld = $scope.rateNum;
             if (isEmpty($scope.userId) || $scope.userId == "-1") {

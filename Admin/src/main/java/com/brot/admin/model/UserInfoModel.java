@@ -43,6 +43,7 @@ public class UserInfoModel implements Serializable {
     private String email;
     private String activeFlag;
     private String birthDay;
+    private String school;
 
     /**
      * @return the userid
@@ -256,6 +257,14 @@ public class UserInfoModel implements Serializable {
                ", birthDay=" +
                birthDay +
                "]";
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
     }
 
 }

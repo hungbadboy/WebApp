@@ -98,6 +98,8 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       if (result && result != NO_DATA) {
         for (var i = result.length - 1; i >= 0; i--) {
           result[i].timeStamp = convertUnixTimeToTime(result[i].docSubmittedDate);
+          result[i].odFilesize = formatBytes(result[i].odFilesize);
+          result[i].rdFilesize = formatBytes(result[i].rdFilesize);
         }
         $scope.essay = result[0];
         getRepliedByEssay($scope.essay.uploadEssayId, userId);
@@ -119,7 +121,6 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     for (var i = data.length - 1; i >= 0; i--) {
       data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
       data[i].fullName = data[i].firstName + ' ' + data[i].lastName;
-      data[i].odFilesize = formatBytes(data[i].odFilesize);
     }
     return data;
   }
@@ -127,25 +128,33 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   $scope.changeTab = function(val){
     $scope.tabpane = val;
     if (val == 1) {
-      if ($scope.newestEssays)
+      if ($scope.newestEssays){
         $scope.eid = $scope.newestEssays[0].uploadEssayId;
-      else
+        $scope.ignored = false;
+      }
+      else{
         $scope.eid = null;
+      }
     } else if (val == 2) {
       if ($scope.processingEssays)
         $scope.eid = $scope.processingEssays[0].uploadEssayId;
-      else
+      else{
         $scope.eid = null;
+      }
     } else if (val == 3) {
-      if ($scope.ignoredEssays)
+      if ($scope.ignoredEssays){
         $scope.eid = $scope.ignoredEssays[0].uploadEssayId;
-      else
+        $scope.ignored = true;
+      }
+      else{
         $scope.eid = null;
+      }
     } else {
       if ($scope.repliedEssays)
         $scope.eid = $scope.repliedEssays[0].uploadEssayId;
-      else
+      else{
         $scope.eid = null;
+      }
     }
     getEssayById($scope.eid, userId);
   }
@@ -201,9 +210,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       EssayService.insertCommentEssay(fd).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result == "Success") {
           $scope.success = "Reply successful.";
-          getAllEssay();
+          getRepliedByEssay($scope.essay.uploadEssayId, userId);
         } else{
           $scope.error = data.data.request_data_result;
+          console.log($scope.error);
         }
       });
     }

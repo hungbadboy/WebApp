@@ -56,4 +56,12 @@ public class Parameters {
     public static final String ID_FACEBOOK = "idFacebook";
     public static final String ID_GOOGLE = "idGoogle";
     public static final String TOKEN = "token";
+    public static final String PRIORITY = "priority";
+    public static final String TITLE = "title";
+    public static final String DATA_ID = "dataid";
+    public static final String DATA_TYPE = "datatype";
+    public static final String BODY = "body";
+    public static final String NOTIFICATION = "notification";
+    public static final String CLICK_ACTION = "click_action";
+    public static final int MAX_LENGTH_TO_NOFICATION = 50;
 }

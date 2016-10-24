@@ -32,6 +32,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         var aidEdit;
         $scope.isEdit = false;
         var isInit = true;
+        var listSubject = "";
         init();
 
 
@@ -39,12 +40,20 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
             $('#autocompleteSubsQA_dropdown').width($('#autocompleteSubsQA').width());
             var offset = 0;
-            managerQAService.getListQuestionQA(selectedSubsId, userId, offset, $scope.currentTab, LIMIT,$scope.textSearch).then(function (data) {
-                listDefaultSubjectId = getSubjectNameByIdQA(defaultSubjectId, allSubjects);
-                // add element All to list
-                $scope.initSubject = {name:'All',id:''};
-                listDefaultSubjectId.unshift($scope.initSubject);
-                $scope.subjectsParent = listDefaultSubjectId;
+            listDefaultSubjectId = getSubjectNameByIdQA(defaultSubjectId, allSubjects);
+            listSubject = "";
+            // get child subjectID from default subject
+            for (var i = 0; i < listDefaultSubjectId.length; i++) {
+                listSubject += listDefaultSubjectId[i].id;
+                if (i < listDefaultSubjectId.length - 1) {
+                    listSubject += ',';
+                }
+            }
+            // add element All to list
+            $scope.initSubject = {name:'All',id:''};
+            listDefaultSubjectId.unshift($scope.initSubject);
+            $scope.subjectsParent = listDefaultSubjectId;
+            managerQAService.getListQuestionQA(selectedSubsId, userId, offset, $scope.currentTab, LIMIT,$scope.textSearch,listSubject).then(function (data) {
                 // for (var i = 0; i < listDefaultSubjectId.length; i++) {
                 //     if (listDefaultSubjectId[i].level == '0') {
                 //         $scope.subjectsParent.push(listDefaultSubjectId[i]);
@@ -110,7 +119,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
             currentPage++;
             var newOffset = currentPage * LIMIT;
-            managerQAService.getListQuestionQA(selectedSubsId, userId, newOffset, $scope.currentTab, LIMIT,$scope.textSearch).then(function (data) {
+            managerQAService.getListQuestionQA(selectedSubsId, userId, newOffset, $scope.currentTab, LIMIT,$scope.textSearch,listSubject).then(function (data) {
                 var result = data.data;
                 if (result && result.status) {
                     if (result.request_data_result != null && result.request_data_result.length > 0) {
@@ -146,7 +155,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
                 }
             });
-            managerQAService.getListQuestionQA(selectedSubsId, userId, newOffset, $scope.currentTab, LIMIT,$scope.textSearch).then(function (data) {
+            managerQAService.getListQuestionQA(selectedSubsId, userId, newOffset, $scope.currentTab, LIMIT,$scope.textSearch,listSubject).then(function (data) {
                 var result = data.data;
                 if (result && result.status) {
                     if (result.request_data_result != null && result.request_data_result.length > 0) {
@@ -167,6 +176,14 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $scope.currentAnswer = $scope.listAnswer[index];
             angular.element(document.getElementById('answer-detail')).modal();
 
+        }
+
+        $scope.convertName= function (name,userName) {
+            var result = name;
+            if(isEmpty(name)){
+                result =  userName.split('@')[0];
+            }
+            return result;
         }
 
         $scope.selectTab= function (tab) {
@@ -210,7 +227,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 }
                 $scope.currentPid = qid;
                 cleanContentEdit();
-
+                if(isEmpty(obj[0].firstName +obj[0].lastName)){
+                    obj[0].firstName =  obj[0].userName.split('@')[0];
+                }
                 var question = {
                     "authorId": obj[0].authorID,
                     "question_id": obj[0].pid,
@@ -499,7 +518,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         }
 
         function getListQuestionAndDetail(selectedSubsId,txtSearch) {
-            managerQAService.getListQuestionQA(selectedSubsId, userId, 0, $scope.currentTab, LIMIT,txtSearch).then(function (data) {
+            managerQAService.getListQuestionQA(selectedSubsId, userId, 0, $scope.currentTab, LIMIT,txtSearch,listSubject).then(function (data) {
                 cleanContentEdit();
                 if (data.data.status) {
                     var result =  data.data.request_data_result;
@@ -527,6 +546,11 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             var errFile = errFiles && errFiles[0];
             if(!isEmpty(errFile)){
                 $scope.QAErrorMsg = 'File wrong format. Please select file image!';
+                return;
+            }
+            if ($files!=null && $files.length > MAX_IMAGE){
+                $scope.QAErrorMsg = 'You only upload ' + MAX_IMAGE +' image';
+                return ;
             }
             if ($files != null) {
                 for (var i = 0; i < $files.length; i++) {

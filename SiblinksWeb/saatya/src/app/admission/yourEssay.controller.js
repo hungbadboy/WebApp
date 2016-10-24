@@ -4,6 +4,7 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
         var userId = localStorage.getItem('userId');
         var LIMIT = "";
         var OFFSET = "";
+        var subjects = JSON.parse(localStorage.getItem('subjects'));
         init();
 
         function init() {
@@ -30,6 +31,12 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
             uploadEssayService.getEssayById(uploadEssayId).then(function (data) {
                 if (data.data.status) {
                     $scope.currentEssay  = data.data.request_data_result[0];
+                    if(!isEmpty($scope.currentEssay.status == 'P')){
+                        uploadEssayService.getMentorEssayByUid($scope.currentEssay.mentorId).then(function (data) {
+                        $scope.currentMentor = data.data.request_data_result[0];
+                            $scope.currentMentor.defaultSubject = getSubjectNameById($scope.currentMentor.defaultSubjectId, subjects);
+                        });
+                    }
                     angular.element(document.getElementById('essay-detail')).modal();
                 }
             });

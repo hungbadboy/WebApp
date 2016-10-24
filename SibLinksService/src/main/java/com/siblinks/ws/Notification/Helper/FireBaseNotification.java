@@ -20,10 +20,9 @@
 package com.siblinks.ws.Notification.Helper;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -34,6 +33,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import com.siblinks.ws.util.Parameters;
+import com.siblinks.ws.util.SibConstants;
+
 /**
  * @author hungpd
  * @version 1.0
@@ -43,8 +45,11 @@ public class FireBaseNotification {
     @Autowired
     Environment env;
 
-    public String sendMessage(final String toTokenId, final String title, final String body, final String icon,
-            final String priority) {
+    public String sendMessage(final String toTokenId, final String title, final String dataType, final String dataId,
+            final String content, final String icon, final String priority) {
+        InputStreamReader in = null;
+        BufferedReader br = null;
+        String lines = "";
         try {
 
             // FirebaseOptions options = new FirebaseOptions.Builder()
@@ -55,35 +60,49 @@ public class FireBaseNotification {
             // FirebaseApp.initializeApp(options);
 
             HttpClient client = HttpClientBuilder.create().build();
-            HttpPost post = new HttpPost("https://fcm.googleapis.com/fcm/send");
+            HttpPost post = new HttpPost(SibConstants.URL_SEND_NOTIFICATION_FIREBASE);
             post.setHeader("Content-type", "application/json");
             post.setHeader("Authorization", "key=" + env.getProperty("firebase.server.key"));
 
             JSONObject message = new JSONObject();
-            message.put("to",toTokenId);
-            message.put("priority", priority);
+            message.put(Parameters.TO, toTokenId);
+            message.put(Parameters.PRIORITY, priority);
 
             JSONObject notification = new JSONObject();
-            notification.put("title", title);
-            notification.put("body", body);
-            message.put("notification", notification);
+            notification.put(Parameters.TITLE, title);
+            notification.put(Parameters.BODY, content);
+            // click action
+            JSONObject clickAction = new JSONObject();
+            clickAction.put(Parameters.DATA_ID, dataId);
+            clickAction.put(Parameters.DATA_TYPE, dataType);
+            notification.put(Parameters.CLICK_ACTION, clickAction);
+            //
+            message.put(Parameters.NOTIFICATION, notification);
 
             post.setEntity(new StringEntity(message.toString(), "UTF-8"));
             HttpResponse response = client.execute(post);
-            HttpEntity entity = response.getEntity();
-            InputStream content = entity.getContent();
-            BufferedReader br = new BufferedReader(new InputStreamReader(content, "UTF-8"));
-            String line=null;
-            String lines = "";
+            in = new InputStreamReader(response.getEntity().getContent(), "UTF-8");
+            br = new BufferedReader(in);
+            String line = null;
             while ((line = br.readLine()) != null) {
                 lines += line;
             }
-            br.close();
-            return lines;
 
         } catch (Exception e) {
             e.printStackTrace();
             return e.getMessage();
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                // Do nothing
+            }
         }
+        return lines;
     }
 }

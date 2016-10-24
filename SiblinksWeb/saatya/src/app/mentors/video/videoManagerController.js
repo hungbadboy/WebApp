@@ -138,8 +138,8 @@ brotControllers.controller('VideoManagerController',
         };
         var message = 'Are you sure you want to delete?';
         var modalHtml = ' <div class="modal-body">' + message + '</div>';
-            modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
-                'OK</button><button class="btn btn-warning" ng-click="cancel()">Cancel</button></div>';
+            modalHtml += '<div class="modal-footer"><button class="btn btn-danger" ng-click="ok()">' +
+                'OK</button><button class="btn btn-default" ng-click="cancel()">Cancel</button></div>';
 
         var modalInstance = $modal.open({
             template: modalHtml,
@@ -181,7 +181,7 @@ brotControllers.controller('VideoManagerController',
         };
         var message = 'This video already in another playlist.';
         var modalHtml = ' <div class="modal-body">' + message + '</div>';
-        modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
+        modalHtml += '<div class="modal-footer"><button class="btn btn-default" ng-click="ok()">' +
             'OK</button></div>';
 
         var modalInstance = $modal.open({
@@ -291,13 +291,9 @@ brotControllers.controller('VideoManagerController',
 
     $scope.goToDetail = function(v){
       if (v.plid && v.plid > 0) {
-        setStorage('vidInPlaylist', v.vid, 30);
-        window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
-        window.location.reload();
+        window.location.href = '#/mentor/video/detail/'+v.vid+'/list/'+v.plid+'';
       } else{
-        localStorage.removeItem('vidInPlaylist');
         window.location.href = '#/mentor/video/detail/'+v.vid+'';
-        window.location.reload();
       }
     }
 
@@ -314,9 +310,12 @@ brotControllers.controller('VideoManagerController',
       if (index != -1) {
           $scope.videos[index].title = a.title;
           $scope.videos[index].description = a.description;
-          if (a.plid && plid > 0){
+          if (a.plid && a.plid > 0){
             $scope.videos[index].plid = a.plid;
-            $scope.videos[index].playlistname = a.name;
+            $scope.videos[index].playlistname = a.playlistname;
+          } else{
+            $scope.videos[index].plid = null;
+            $scope.videos[index].playlistname = "None";
           }
           $scope.videos[index].subjectId = a.subjectId;
       }

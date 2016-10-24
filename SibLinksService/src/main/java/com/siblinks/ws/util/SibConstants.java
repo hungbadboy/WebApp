@@ -37,9 +37,17 @@ public class SibConstants {
     public class NUMBER {
         public static final int ZERO = 0;
         public static final int ONE = 1;
+        public static final int TWO = 2;
         public static final int THREE = 3;
         public static final int NINE = 9;
     }
+
+
+    public static final String URL_SEND_NOTIFICATION_FIREBASE = "https://fcm.googleapis.com/fcm/send";
+    public static final String NOTIFICATION_ICON = "siblinks.icon";
+    public static final String NOTIFICATION_PRIPORITY_HIGH = "high";
+    public static final String NOTIFICATION_TITLE_ANSWER_QUESTION = "Answer to question";
+    public static final String NOTIFICATION_TITLE_REPLY_VIDEO = "New comment of video";
 
     public static final String DOMAIN = "domain";
     public static final String DELETE = "DELETE";
@@ -91,6 +99,7 @@ public class SibConstants {
         public static final String SQL_GET_ALL_USERS = "GET_ALL_USERS";
         public static final String SQL_GET_USERS_BY_USER_TYPE = "GET_USERS_BY_USER_TYPE";
         public static final String SQL_GET_USER_BY_ID = "GET_USER_BY_ID";
+        public static final String SQL_GET_TOKEN_BY_USERID = "GET_TOKEN_BY_USERID";
         public static final String SQL_CHECK_USER = "CHECK_USER";
         public static final String SQL_CREATE_USER_FACEBOOK = "CREATE_USER_FACEBOOK";
         public static final String SQL_UPDATE_INFO_FACEBOOK = "UPDATE_INFO_FACEBOOK";
@@ -482,6 +491,7 @@ public class SibConstants {
         public static final String SQL_GET_STUDENT_SUBSCRIBED = "GET_STUDENT_SUBSCRIBED";
         public static final String SQL_MENTOR_GET_ACTIVITY_STUDENT = "MENTOR_GET_ACTIVITY_OF_STUDENT";
         public static final String SQL_SUBSCRIBED_FROM_MENTOR_VIEW_STUDENT = "GET_SUBSCRIBED_FROM_MENTOR_VIEW_STUDENT";
+        public static final String SQL_GET_ALL_INFO_MENTOR_SUBSCRIBED = "GET_ALL_INFO_MENTOR_SUBSCRIBED";
         // Manager Category
         public static final String SQL_GET_ALL_CATEGORY = "GET_ALL_CATEGORY";
         public static final String SQL_GET_CATEGORY_BY_ID = "GET_CATEGORY_BY_ID";
@@ -544,6 +554,7 @@ public class SibConstants {
         public static final String SQL_ADMIN_UPDATE_PROFILE_MENTOR = "ADMIN_UPDATE_PROFILE_MENTOR";
         public static final String SQL_SET_ENABLE_FLAG_USER = "SET_ENABLE_USER";
         public static final String SQL_UPDATE_ADMIN_INFO = "UPDATE_ADMIN_INFO";
+        public static final String SQL_GET_MENTOR_ESSAY = "GET_MENTOR_ESSAY";
     }
 
     public class SqlMapperBROT4 {
@@ -569,7 +580,7 @@ public class SibConstants {
         public static final String SQL_GET_VIDEOS_RECENTLY = "GET_VIDEOS_RECENTLY";
         public static final String SQL_GET_STUDENT_SUBSCRIBE = "GET_STUDENT_SUBSCRIBE";
         public static final String SQL_GET_VIDEOS_PLAYLIST = "GET_VIDEOS_PLAYLIST";
-        public static final String SQL_GET_VIDEOS_BY_ID = "GET_VIDEOS_BY_ID";
+        public static final String SQL_GET_VIDEO_BY_ID = "GET_VIDEO_BY_ID";
         public static final String SQL_GET_SUBJECT = "GET_SUBJECT";
 
         public static final String SQL_INSERT_VIDEO = "INSERT_VIDEO";
@@ -638,7 +649,7 @@ public class SibConstants {
 
     public class SqlMapperBROT163 {
         public static final String SQL_GET_COUNT_VIDEOS_IN_PLAYLIST = "GET_COUNT_VIDEOS_IN_PLAYLIST";
-        public static final String SQL_SEARCH_PLAYLIST = "SEARCH_PLAYLIST";
+        public static final String SQL_SEARCH_PLAYLIST_MENTOR = "SEARCH_PLAYLIST_MENTOR";
         public static final String SQL_GET_PLAYLIST_BY_SUBJECT = "GET_PLAYLIST_BY_SUBJECT";
         public static final String SQL_GET_VIDEOS_NONE_PLAYLIST = "GET_VIDEOS_NONE_PLAYLIST";
         public static final String SQL_GET_VIDEOS_NONE_PLAYLIST_BY_SUBJECT = "GET_VIDEOS_NONE_PLAYLIST_BY_SUBJECT";
@@ -664,5 +675,6 @@ public class SibConstants {
         public static final String SQL_SEARCH_PLAYLIST_WITH_SUBJECT = "SEARCH_PLAYLIST_WITH_SUBJECT";
         public static final String SQL_SEARCH_VIDEOS_WITH_SUBJECT = "SEARCH_VIDEOS_WITH_SUBJECT";
         public static final String SQL_SEARCH_VIDEOS_NONE_PLAYLIST_WITH_SUBJECT = "SEARCH_VIDEOS_NONE_PLAYLIST_WITH_SUBJECT";
+        public static final String SQL_CANCEL_ESSAY = "CANCEL_ESSAY";
     }
 }

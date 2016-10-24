@@ -72,7 +72,7 @@ public class RESTAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
             final Authentication authentication) throws ServletException, IOException {
 
-        PrintWriter writer = null;
+        PrintWriter writer = response.getWriter();
         try {
 
             SibUserDetails userDetails = (SibUserDetails) authentication.getPrincipal();
@@ -87,19 +87,19 @@ public class RESTAuthenticationSuccessHandler extends SavedRequestAwareAuthentic
             response.setContentType(request.getContentType());
 
             LOGGER.info(userDetails.getUsername() + " got is connected ");
-            writer = response.getWriter();
             mapper.writeValue(writer, user);
             writer.flush();
         } catch (DAOException e) {
+            e.printStackTrace();
             Map<String, String> mapError = new HashMap<String, String>();
             mapError.put(Parameters.STATUS, SibConstants.FAILURE);
             mapError.put(SibConstants.MessageKey.REQUEST_DATA_RESUTL, e.getMessage());
             mapper.writeValue(writer, mapError);
+            writer.flush();
         } finally {
             if (writer != null) {
                 writer.close();
             }
         }
-
     }
 }

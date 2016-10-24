@@ -122,7 +122,7 @@ brotControllers.controller('ChooseVideoController',
 
     $scope.loadVideoBySubject = function(e){
         $scope.subject = e;
-        var key = $('#keyword').val();
+        var key = $('input#keyword').val();
         if (e == 0) {
           if (key && key.length > 0) {
             searchVideosNonePlaylist(key, $scope.subject);
@@ -152,25 +152,12 @@ brotControllers.controller('ChooseVideoController',
     }
 
     $scope.onSelect = function(selected){
-      // VideoService.searchVideosNonePlaylist(userId, selected.title, $scope.subject, 0).then(function(data){
-      //   if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-      //       $scope.videosNoPLaylist = formatVideos(data.data.request_data_result);
-      //   } else
-      //       $scope.videosNoPLaylist = null;
-      // });
       searchVideosNonePlaylist(selected.title, $scope.subject);
     }
 
     $scope.search = function(){
-      // var key = $('input#keyword').val();
-      var key = $('#keyword').val();
+      var key = $('input#keyword').val();
       if (key.length > 0) {
-        // VideoService.searchVideosNonePlaylist(userId, key, $scope.subject, 0).then(function(data){
-        //   if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-        //       $scope.videosNoPLaylist = formatVideos(data.data.request_data_result);
-        //   } else
-        //       $scope.videosNoPLaylist = null;
-        // });
         searchVideosNonePlaylist(key, $scope.subject);
       } else if(!key && $scope.subject > 0){
         getVideosNonePlaylistBySubject();

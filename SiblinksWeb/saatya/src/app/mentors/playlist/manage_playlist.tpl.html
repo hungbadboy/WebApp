@@ -42,7 +42,7 @@
                                            <span>{{error}}</span>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control input-custom" id="txtTitle" placeholder="Title" maxlength="99">
+                                            <input type="text" class="form-control input-custom" id="txtTitle" placeholder="Title" maxlength="99" ng-click="clearMessage()">
                                         </div>
                                         <div class="form-group">
                                             <textarea name="desciptions" rows="6" cols="5" id="txtDescription" class="form-control textarea-custom" placeholder="Desciptions" maxlength="500">
@@ -55,7 +55,7 @@
                                         <div class="form-group">
                                             <span class="add-img" id="add-thumb">
                                                 <output id="list" class="up-thumb up-thumb-sec">
-                                                    <div ng-repeat="step in stepsModel track by $index">
+                                                    <div style="height: 100px;" ng-repeat="step in stepsModel track by $index">
                                                         <img class="thumb" ng-src="{{step}}" />
                                                         <div class="remove-image"><img src="assets/images/remove-img.png" ng-click="removeImg($index)"></div>
                                                     </div>

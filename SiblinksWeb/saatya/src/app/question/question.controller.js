@@ -62,29 +62,6 @@ brotControllers
                 function init() {
 
                     $scope.curentOrderType = "newest";
-                    if (isEmpty(userId)) {
-                        userId = -1;
-                    }
-                    if (isEmpty(subjectid)) {
-                        subjectid = "-1";
-                    }
-
-                    getQuestions(userId, LIMIT, OFFSET, $scope.curentOrderType, oldQid, subjectid);
-
-                    QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
-                        $scope.totalQuestion = data.data.request_data_result[0].numquestion;
-                        if (userId == "-1") {
-                            window.location.href = '/#/first-ask';
-                            return;
-                        }
-                        if ($scope.totalQuestion == 0 && $location.path().indexOf('question')>=0) {
-                            if (subjectid == -1) {
-                                window.location.href = '/#/first-ask';
-                                return;
-                            }
-                        }
-                    });
-
                     //get top mentors by subcribe
                     MentorService.getTopMentorsByLikeRateSubcrible(LIMIT_TOP_MENTORS, OFFSET, 'subcribe', userId).then(function (data) {
                         var data_result = data.data.request_data_result;
@@ -104,7 +81,7 @@ brotControllers
                                 mentor.isOnline = data_result[i].isOnline;
                                 mentor.defaultSubjectId = data_result[i].defaultSubjectId;
                                 if(data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
-                                	mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, $scope.subjects);
+                                    mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, $scope.subjects);
                                 }
                                 mentor.numAnswers = data_result[i].numAnswers;
                                 listTopMentors.push(mentor);
@@ -137,7 +114,30 @@ brotControllers
 
                     });
 
+                    if (isEmpty(subjectid)) {
+                        subjectid = "-1";
+                    }
 
+                    if (isEmpty(userId)) {
+                        userId = -1;
+                        return;
+                    }
+
+                    getQuestions(userId, LIMIT, OFFSET, $scope.curentOrderType, oldQid, subjectid);
+
+                    QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
+                        $scope.totalQuestion = data.data.request_data_result[0].numquestion;
+                        if (userId == "-1") {
+                            window.location.href = '/#/first-ask';
+                            return;
+                        }
+                        if ($scope.totalQuestion == 0 && $location.path().indexOf('question')>=0) {
+                            if (subjectid == -1) {
+                                window.location.href = '/#/first-ask';
+                                return;
+                            }
+                        }
+                    });
                 }
 
 
@@ -445,6 +445,15 @@ brotControllers
                 }
                 $scope.onFileSelect = function ($files) {
                     $scope.askErrorMsg= "";
+                    var errFile = errFiles && errFiles[0];
+                    if(!isEmpty(errFile)){
+                        $scope.askErrorMsg = 'File wrong format. Please select file image!';
+                        return;
+                    }
+                    if ($files!=null && $files.length > MAX_IMAGE){
+                        $scope.askErrorMsg = 'You only upload ' + MAX_IMAGE +' image';
+                        return ;
+                    }
                     if ($files != null) {
                         for (var i = 0; i < $files.length; i++) {
                             var file = $files[i];
@@ -478,7 +487,14 @@ brotControllers
 
                 }
                 $scope.redirectForum = function () {
-
+                    if (isEmpty(userId) ||userId=='-1') {
+                        $scope.askErrorMsg='Please login before you ask a question';
+                        $rootScope.myVarU = !$scope.myVarU;
+                        $timeout(function () {
+                            $rootScope.myVarU = false;
+                        }, 2500);
+                        return;
+                    }
                     // get question of student of ask question
                     if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
                         $scope.askErrorMsg='Please choose category';

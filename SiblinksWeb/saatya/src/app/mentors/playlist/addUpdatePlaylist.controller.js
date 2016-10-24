@@ -59,8 +59,10 @@ brotControllers.controller('AddUpdatePlaylistController',
     }
 
     function displayPlaylist(p){
+      $scope.image = p.image;
       $('#txtUpdateTitle').val(p.name);
       $('#txtUpdateDescription').val(p.description);
+
       var item = $.grep($scope.updateSubjects, function(s){
         return s.subjectId == $scope.playlist.subjectId;
       });
@@ -184,6 +186,7 @@ brotControllers.controller('AddUpdatePlaylistController',
 
     $scope.cancel = function(){
       $modalInstance.dismiss('cancel');
+      $rootScope.$broadcast('close');
     }
 
     $scope.changeValue = function(e){
@@ -209,7 +212,11 @@ brotControllers.controller('AddUpdatePlaylistController',
     }
 
     $scope.removeImg = function (index) {
-        $scope.stepsModel.splice(index, 1);
-        file = null;
+      $scope.stepsModel.splice(index, 1);
+      file = null;
+    }
+
+    $scope.removeOldImg = function(image){
+      $scope.image = null;
     }
 }]);

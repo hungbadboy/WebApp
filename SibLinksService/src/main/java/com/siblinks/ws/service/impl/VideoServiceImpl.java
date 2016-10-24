@@ -3102,7 +3102,7 @@ public class VideoServiceImpl implements VideoService {
     @Override
     @RequestMapping(value = "/getVideoById", method = RequestMethod.GET)
     public ResponseEntity<Response> getVideoById(final long vid, final long userid) {
-        String entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEOS_BY_ID;
+        String entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEO_BY_ID;
         Object[] queryParams = { vid, userid };
         SimpleResponse response = null;
         try {
@@ -3234,12 +3234,13 @@ public class VideoServiceImpl implements VideoService {
                 map.put("recommended", resultDataRecommended);
                 map.put("recently", resultRecently);
             } else {
-                params = new Object[] { subjectId, Integer.parseInt(pageLimit.get("limit")), Integer
+                String childSubjectId = CommonUtil.getAllChildCategory("" + subjectId, getAllSubjectIdCategory());
+                params = new Object[] { childSubjectId, Integer.parseInt(pageLimit.get("limit")), Integer
                     .parseInt(pageLimit.get("offset")) };
                 List<Object> resultDataRecommended = dao
                     .readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_VIEW_BY_SUBJECT, params);
                 map.put("recommended", resultDataRecommended);
-                params = new Object[] { subjectId, subjectId, Integer.parseInt(pageLimit.get("limit")), Integer
+                params = new Object[] { childSubjectId, childSubjectId, Integer.parseInt(pageLimit.get("limit")), Integer
                     .parseInt(pageLimit.get("offset")) };
                 List<Object> resultRecently = dao.readObjects(SibConstants.SqlMapper.VIDEO_PLAYLIST_NEWEST_BY_SUBJECT, params);
                 map.put("recently", resultRecently);
@@ -3278,66 +3279,80 @@ public class VideoServiceImpl implements VideoService {
             }
             map.put("recommended_for_you", readObject);
         } else if (isValidatedForm(userId, subjectId)) {
-            int subId;
-            try {
-                subId = Integer.parseInt(subjectId);
-            } catch (Exception e) {
-                subId = -2;
-            }
-            if (subId != -2) {
-                if (subjectIds != null && !StringUtils.isEmpty(subjectIds)) {
-                    String[] subjects = subjectIds.split(",");
-                    if (ArrayUtils.contains(subjects, subjectId)) {
-                        params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer
-                            .parseInt(pageLimit.get("offset")) };
-                        StringBuilder sBuilder = new StringBuilder();
-                        for (String subject : subjects) {
-                            String childSubjectId = CommonUtil.getAllChildCategory("" + subject, getAllSubjectIdCategory());
-                            sBuilder.append(childSubjectId.concat(","));
-                        }
-                        String whereClause = "WHERE V.subjectId IN (" +
-                                             sBuilder.toString().substring(0, sBuilder.toString().lastIndexOf(",")) +
-                                             ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
-                        List<Object> resultDataRecommended = dao
-                            .readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
-                        map.put("recommended", resultDataRecommended);
-                    }
-                } else {
-                    params = new Object[] { subjectId, Integer.parseInt(pageLimit.get("limit")), Integer
-                        .parseInt(pageLimit.get("offset")) };
+            // int subId;
+            // try {
+            // subId = Integer.parseInt(subjectId);
+            // } catch (Exception e) {
+            // subId = -2;
+            // }
+            // if (subId != -2) {
+            if (subjectIds != null && !StringUtils.isEmpty(subjectIds)) {
+                String[] subjects = subjectIds.split(",");
+                if (ArrayUtils.contains(subjects, subjectId)) {
+                    params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
+
+                    // Get child category by subjectId
+                    String childSubjectId = CommonUtil.getAllChildCategory("" + subjectId, getAllSubjectIdCategory());
+
+                    // StringBuilder sBuilder = new StringBuilder();
+                    // for (String subject : subjects) {
+                    // String childSubjectId =
+                    // CommonUtil.getAllChildCategory("" + subject,
+                    // getAllSubjectIdCategory());
+                    // sBuilder.append(childSubjectId.concat(","));
+                    // }
+                    // if (childSubjectId.contains(",")) {
+                    // whereClause = "WHERE V.subjectId IN (" +
+                    // childSubjectId.substring(0,
+                    // childSubjectId.lastIndexOf(",")) +
+                    // ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
+                    // } else {
+                    String whereClause = "WHERE V.subjectId IN (" +
+                                         childSubjectId +
+                                         ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
+                    // }
                     List<Object> resultDataRecommended = dao
-                        .readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_VIEW_BY_SUBJECT, params);
+                        .readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
                     map.put("recommended", resultDataRecommended);
-                }
-                params = new Object[] { userId, subId, userId, subId, Integer.parseInt(pageLimit.get("limit")), Integer
-                    .parseInt(pageLimit.get("offset")) };
-                // String whereClause = "WHERE S.StudentId = ? AND S.Subcribe =
-                // 'Y' AND V.subjectId IN (" +
-                // subId +
-                // ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ? ";
+                    params = new Object[] { userId, childSubjectId, userId, childSubjectId, Integer
+                        .parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
+                    // String whereClause = "WHERE S.StudentId = ? AND
+                    // S.Subcribe =
+                    // 'Y' AND V.subjectId IN (" +
+                    // subId +
+                    // ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ? ";
 
-                List<Object> resultRecently = dao
-                    .readObjects(SibConstants.SqlMapper.SQL_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB, params);
-                map.put("recently", resultRecently != null ? resultRecently : null);
+                    List<Object> resultRecently = dao
+                        .readObjects(SibConstants.SqlMapper.SQL_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB, params);
+                    map.put("recently", resultRecently != null ? resultRecently : null);
 
-                String entityName = SibConstants.SqlMapper.SQL_VIDEO_RECOMMENDED_FOR_YOU_WITH_SUB_ID;
-                params = new Object[] { subId, userId };
-                List<Object> results = dao.readObjects(entityName, params);
-                MultiValueMap multiValueMap = new MultiValueMap();
-                ArrayList<Object> readObject = new ArrayList<>();
-                if (results != null) {
-                    for (int i = 0; i < results.size(); i++) {
-                        Map obj = (Map) results.get(i);
-                        multiValueMap.put(obj.get("name"), obj);
+                    String entityName = SibConstants.SqlMapper.SQL_VIDEO_RECOMMENDED_FOR_YOU_WITH_SUB_ID;
+                    params = new Object[] { childSubjectId, userId };
+                    List<Object> results = dao.readObjects(entityName, params);
+                    MultiValueMap multiValueMap = new MultiValueMap();
+                    ArrayList<Object> readObject = new ArrayList<>();
+                    if (results != null) {
+                        for (int i = 0; i < results.size(); i++) {
+                            Map obj = (Map) results.get(i);
+                            multiValueMap.put(obj.get("name"), obj);
+                        }
                     }
+                    Object[] key = multiValueMap.keySet().toArray();
+                    for (int i = 0; i < multiValueMap.keySet().size(); i++) {
+                        readObject.add(multiValueMap.get(key[i]));
+                    }
+                    map.put("recommended_for_you", readObject);
                 }
-                Object[] key = multiValueMap.keySet().toArray();
-                for (int i = 0; i < multiValueMap.keySet().size(); i++) {
-                    readObject.add(multiValueMap.get(key[i]));
-                }
-                map.put("recommended_for_you", readObject);
+                // }
+            } else {
+                params = new Object[] { subjectId, Integer.parseInt(pageLimit.get("limit")), Integer
+                    .parseInt(pageLimit.get("offset")) };
+                List<Object> resultDataRecommended = dao
+                    .readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_VIEW_BY_SUBJECT, params);
+                map.put("recommended", resultDataRecommended);
             }
         }
+
         return map;
     }
 
@@ -3709,7 +3724,8 @@ public class VideoServiceImpl implements VideoService {
                 params = new Object[] { request.getRequest_data().getUid() };
                 strEntity = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_NONE_PLAYLIST;
             }
-            String whereClause = String.format(" and v.title like '%%%s%%' order by v.timeStamp DESC limit 5 offset %d", term, offset);
+            String whereClause = String
+                .format(" and v.title like '%%%s%%' order by v.timeStamp DESC limit 5 offset %d", term, offset);
             List<Object> readObjects = dao.readObjectsWhereClause(strEntity, whereClause, params);
             if (readObjects != null && !readObjects.isEmpty()) {
                 response = new SimpleResponse(SibConstants.SUCCESS, "video", "searchVideosNonePlaylist", readObjects);

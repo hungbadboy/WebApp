@@ -9,13 +9,10 @@ brotControllers.controller('MentorPlaylistDetailController',
 
     function init(){
         if (userId && userId > 0) {
-            // check plid is interger or not
             if (!isNaN(plid) && plid > 0) {
-                // load playlist information
                 loadPlaylistDetail();
                 getVideosInPlaylist();
             } else{
-                // reload to home
                 window.location.href = '#/mentor/dashboard';
             }
         } else {
@@ -120,11 +117,9 @@ brotControllers.controller('MentorPlaylistDetailController',
     }
 
     $scope.playAll = function(){
-        localStorage.removeItem('vidInPlaylist');
-        window.location.href = '#/mentor/playlist/playall/'+plid+'';
+        console.log(plid);
+        window.location.href = '#/mentor/video/detail/'+$scope.videos[0].vid+'/list/'+plid+'';
     }
-
-    
 
     $scope.removeAll = function(){
         var selectedVideos = checkSelectedVideos();
@@ -146,10 +141,10 @@ brotControllers.controller('MentorPlaylistDetailController',
                   $modalInstance.dismiss('cancel');
                 };
             };
-            var message = 'Are you sure you want to delete?';
+            var message = 'Are you sure you want to remove?';
             var modalHtml = ' <div class="modal-body">' + message + '</div>';
-                modalHtml += '<div class="modal-footer"><button class="btn btn-primary" ng-click="ok()">' +
-                    'OK</button><button class="btn btn-warning" ng-click="cancel()">Cancel</button></div>';
+                modalHtml += '<div class="modal-footer"><button class="btn btn-danger" ng-click="ok()">' +
+                    'Remove</button><button class="btn btn-default" ng-click="cancel()">Cancel</button></div>';
 
             var modalInstance = $modal.open({
                 template: modalHtml,
@@ -190,13 +185,7 @@ brotControllers.controller('MentorPlaylistDetailController',
     }
 
     $scope.goToDetail = function(v){
-      if (v.plid && v.plid > 0) {
-        setStorage('vidInPlaylist', v.vid, 1);
-        window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
-      } else{
-        localStorage.removeItem('vidInPlaylist');
-        window.location.href = '#/mentor/video/detail/'+v.vid+'';
-      }
+        window.location.href = '#/mentor/video/detail/'+v.vid+'/list/'+plid+'';
     }
 
     $scope.$on('passing', function(e,a){
