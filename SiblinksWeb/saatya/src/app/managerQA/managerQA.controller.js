@@ -53,6 +53,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $scope.initSubject = {name:'All',id:''};
             listDefaultSubjectId.unshift($scope.initSubject);
             $scope.subjectsParent = listDefaultSubjectId;
+            $rootScope.$broadcast('open');
             managerQAService.getListQuestionQA(selectedSubsId, userId, offset, $scope.currentTab, LIMIT,$scope.textSearch,listSubject).then(function (data) {
                 // for (var i = 0; i < listDefaultSubjectId.length; i++) {
                 //     if (listDefaultSubjectId[i].level == '0') {
@@ -76,6 +77,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                     }
 
                 }
+                $rootScope.$broadcast('close');
             });
 
         }
@@ -216,10 +218,16 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.loadTo = function () {
             angular.element(document.getElementById('listQA')).mCustomScrollbar('scrollTo','#qa'+$scope.currentPid);
         }
+
+        $scope.cleanAnswer = function () {
+            cleanContentEdit();
+        }
        
         function getQuestionById(qid) {
             $scope.QAErrorMsg = "";
+            $rootScope.$broadcast('open');
             QuestionsService.getQuestionById(qid).then(function (data) {
+                $rootScope.$broadcast('close');
                 var obj = data.data.request_data_result;
                 if (obj == null || obj.length == 0) {
                     $scope.QAErrorMsg = "Not found question";
@@ -312,6 +320,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $scope.isEdit = true;
             oldImagePath = answeredit.imageAnswer;
             $scope.imagePathOld = [];
+            $scope.filesArray = [];
             $scope.imagePathOld = detectMultiImage(answeredit.imageAnswer);
 
         }
