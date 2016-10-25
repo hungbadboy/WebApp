@@ -126,8 +126,8 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		controller: 'ChangePasswordCtrl'
 	}).
 	when('/policy', {
-		templateUrl: 'src/app/policy.tpl.html',
-		controller: 'PolicyCtrl'
+		templateUrl: 'src/app/policy/policy.tpl.html',
+		controller: 'AboutCtrl'
 	}).
 	when('/notification', {
 		templateUrl: 'src/app/notification.tpl.html',

@@ -411,45 +411,49 @@ public class PlaylistServiceImpl implements PlaylistService {
         String entityName = null;
         boolean updateObject;
         SimpleResponse reponse = null;
-        try {
-            String newImage = null;
-            Object[] queryParams = null;
-            entityName = SibConstants.SqlMapperBROT44.SQL_UPDATE_PLAYLIST;
-            if (image != null) {
-                newImage = uploadPlaylistThumbnail(image);
-            }
+        if (subjectId <= 0) {
+            reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "updatePlaylist", "Subject is not valid");
+        } else {
 
-            if (newImage != null) {
-                queryParams = new Object[] { title, description, newImage, plid, createBy };
-            } else {
-                queryParams = new Object[] { title, description, oldImage, plid, createBy };
-            }
+            try {
+                String newImage = null;
+                Object[] queryParams = null;
+                entityName = SibConstants.SqlMapperBROT44.SQL_UPDATE_PLAYLIST;
+                if (image != null) {
+                    newImage = uploadPlaylistThumbnail(image);
+                }
 
-            updateObject = dao.insertUpdateObject(entityName, queryParams);
-            if (updateObject) {
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("status", "success");
-                if (newImage != null && newImage.length() > 0) {
-                    map.put("newImage", newImage);
+                if (newImage != null) {
+                    queryParams = new Object[] { title, description, newImage, subjectId, plid, createBy };
                 } else {
-                    map.put("newImage", oldImage);
+                    queryParams = new Object[] { title, description, oldImage, subjectId, plid, createBy };
                 }
-                reponse = new SimpleResponse("" + true, "playlist", "updatePlaylist", map);
 
-                if (newImage != null && !"".equals(newImage) && oldImage != null && !"".equals(oldImage)) {
-                    String fileName = oldImage.substring(oldImage.lastIndexOf("/"), oldImage.length());
-                    File fileOld = new File(environment.getProperty("directoryPlaylistImage") + fileName);
-                    if (fileOld.exists()) {
-                        FileUtils.forceDeleteOnExit(fileOld);
+                updateObject = dao.insertUpdateObject(entityName, queryParams);
+                if (updateObject) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("status", "success");
+                    if (newImage != null && newImage.length() > 0) {
+                        map.put("newImage", newImage);
+                    } else {
+                        map.put("newImage", oldImage);
                     }
-                }
-            } else {
-                reponse = new SimpleResponse("" + true, "playlist", "updatePlaylist", "failed");
-            }
-        } catch (Exception e) {
-            reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "updatePlaylist", "failed");
-        }
+                    reponse = new SimpleResponse("" + true, "playlist", "updatePlaylist", map);
 
+                    if (newImage != null && !"".equals(newImage) && oldImage != null && !"".equals(oldImage)) {
+                        String fileName = oldImage.substring(oldImage.lastIndexOf("/"), oldImage.length());
+                        File fileOld = new File(environment.getProperty("directoryPlaylistImage") + fileName);
+                        if (fileOld.exists()) {
+                            FileUtils.forceDeleteOnExit(fileOld);
+                        }
+                    }
+                } else {
+                    reponse = new SimpleResponse("" + true, "playlist", "updatePlaylist", "failed");
+                }
+            } catch (Exception e) {
+                reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "updatePlaylist", "failed");
+            }
+        }
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
