@@ -159,7 +159,7 @@
                 starsSelected: "=outerStarSelection",
                 customFigureDrawer: "=?",
                 readonly: "@",
-                ratingStarsChange: "@"
+                ratingStars: "@"
             },
             
             template: '<div class="stars" ng-mousemove="changeRating($event)" ng-mouseleave="leaveRating()" ng-style="{\'background-color\': emptyBackColor}"><div class="stars-selected" ng-style="{\'width\': percent + \'%\', \'background-color\': selColor}"></div></div>',
@@ -188,10 +188,8 @@
                         filler.css('width', newValue + '%');
                         $scope.starsSelected = starsUtility.starsByPercent($scope.howManyStars.length, $scope.percent);
                     });
-                    $scope.$watch('ratingStarsChange', function(newValue) {
-                        //filler.css('width', newValue + '%');
+                    $scope.$watch('ratingStars', function(newValue) {
                         $scope.percent = starsUtility.calculatePercent( attrs );
-                        //$scope.starsSelected = starsUtility.starsByPercent($scope.howManyStars.length, $scope.percent);
                     });
 
                     // handle events to change the rating

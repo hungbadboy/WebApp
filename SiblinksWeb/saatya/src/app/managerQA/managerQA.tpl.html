@@ -178,7 +178,7 @@
                                                     <div class="comment-action" style="display: block;">
                                                         <button ng-if="!isEdit" class="reply" ng-click="answerQuestion(questionDetail.question_id)" >Reply</button>
                                                         <button ng-if="isEdit" class="reply" ng-click="updateAnswer()" >Update</button>
-                                                        <button class="cancel">Cancel</button>
+                                                        <button class="cancel" ng-click="cleanAnswer()">Cancel</button>
                                                     </div>
                                                 </div>
 

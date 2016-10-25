@@ -1027,7 +1027,6 @@ brotControllers.directive('scroller', function($timeout, $parse) {
         link: function(scope, el, attrs) {
             var options = {
                 theme: 'dark',
-                autoHideScrollbar: true,
                 scrollInertia: 250,
                 advanced: {
                     updateOnContentResize: true
