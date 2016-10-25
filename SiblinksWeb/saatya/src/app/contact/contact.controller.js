@@ -1,11 +1,17 @@
-brotControllers.controller('ContactController', ['$scope', '$http', function($scope, $http){
+brotControllers.controller('ContactController', ['$scope', '$http','MentorService', function($scope, $http, MentorService){
 	
 	var name = angular.element(document.querySelector('#txtName'));
 	var email = angular.element(document.querySelector('#txtEmail'));
 	var subject = angular.element(document.querySelector('#txtSubject'));
 	var message = angular.element(document.querySelector('#txtMessage'));
 	var userId = localStorage.getItem('userId');
-
+	
+	var LIMIT_TOP_MENTORS = 5;
+	var OFFSET = 0;
+	
+	// initial get top mentor
+	init();
+	
 	//Author: Nhut Nguyen;
 	//set input is null when submit was successfully;
 	$scope.setNullinput = function(){
@@ -122,10 +128,35 @@ brotControllers.controller('ContactController', ['$scope', '$http', function($sc
 			});
 		}
 	};
-
-	$scope.signIn = function(){
-		console.log('singIn');
-		// brot.signin.signin();
-		$('#popSignIn').modal('show');
-	};
+	
+	
+	function init() {
+		 //get top mentors by subcribe
+	    MentorService.getTopMentorsByLikeRateSubcrible(LIMIT_TOP_MENTORS, OFFSET, 'subcribe', '-1').then(function (data) {
+	        var data_result = data.data.request_data_result;
+	        if (data_result) {
+	            var listTopMentors = [];
+	            for (var i = 0; i < data_result.length; i++) {
+	                var mentor = {};
+	                mentor.userid = data_result[i].userid;
+	                mentor.userName = data_result[i].userName ? data_result[i].userName : '';
+	                mentor.lastName = data_result[i].lastName ? data_result[i].lastName : '';
+	                mentor.firstName = data_result[i].firstName ? data_result[i].firstName : '';
+	                mentor.fullName = mentor.firstName + ' ' +mentor.lastName;
+	                mentor.imageUrl = data_result[i].imageUrl;
+	                mentor.numlike = data_result[i].numlike;
+	                mentor.numsub = data_result[i].numsub;
+	                mentor.numvideos = data_result[i].numvideos;
+	                mentor.isOnline = data_result[i].isOnline;
+	                mentor.defaultSubjectId = data_result[i].defaultSubjectId;
+	                if(data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
+	                    mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, $scope.subjects);
+	                }
+	                mentor.numAnswers = data_result[i].numAnswers;
+	                listTopMentors.push(mentor);
+	            }
+	        }
+	        $scope.listTopmentors = listTopMentors;
+	    });
+	}
 }]);
