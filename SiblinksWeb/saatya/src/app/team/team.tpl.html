@@ -46,14 +46,15 @@
                                   <div class="mentors-name">
                                       <a href="#/student/mentorProfile/{{mentor.userid}}" >{{mentor.firstName + '&nbsp;' + mentor.lastName}}</a>
                                       <!--<span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span>-->
-                                      <span  ng-if="mentor" star-rating stars="5" id="divRateTopMentop"
+                                      <span  ng-if="mentor" star-rating stars="5"
                                              outer-star-selection="stars"
                                              readonly="true"
                                              outer-percent="rating"
                                              rating-define="star"
                                              rating-stars="{{mentor.avgrate}}"
                                              star-radius="9" sel-color="gold"
-                                             back-color="white">
+                                             back-color="white"
+                                             rating-stars-change="{{mentor.avgrate}}">
 	                                 </span>
 
                                   </div>
