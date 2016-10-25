@@ -50,7 +50,7 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active tab-answered-tab" id="tab-1">
-                                    <div id="listQA" class="group-item-qa" ng-if="listQuestions" scroller="askQuestion" data-on-total-scroll="loadMorePost" on-init="loadTo">
+                                    <div ng-cloak id="listQA" class="group-item-qa" ng-if="listQuestions" scroller="askQuestion" data-on-total-scroll="loadMorePost" on-init="loadTo">
                                         <div ng-repeat="question in listQuestions | unique:'pid'" class="item-qa clearfix" ng-class="{'active':question.pid == currentPid}"
                                             ng-click="selectQuestion(question.pid)" id="qa{{question.pid}}">
                                             <div class="col-md-3">
@@ -99,7 +99,7 @@
                                             <div class="col-md-6 bx-dt-qa">
                                                 <h5> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{questionDetail.firstName +" "+ questionDetail.lastName}}</a></h5>
                                                 <span class="time">asked {{questionDetail.timeStamp}} ago</span>
-                                                <p class="txt-category"><b><a  href="" ng-click="clickSubject(questionDetail.subjectId,questionDetail.subject)">{{questionDetail.subject}}</a></b></p>
+                                                <p class="txt-category"><b style="cursor: pointer;" ng-click="clickSubject(questionDetail.subjectId,questionDetail.subject)">{{questionDetail.subject}}</b></p>
                                             </div>
                                             <div class="col-md-4 bt-item">
                                                 <p class="list-view">
