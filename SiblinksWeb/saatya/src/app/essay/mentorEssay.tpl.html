@@ -67,7 +67,6 @@
                                                         <p>{{pe.descriptionOfEssay | limitTo : 240 }}{{pe.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                         <div class="clearfix bt-item">
                                                             <a href=""  ng-click="changeStatus(pe.uploadEssayId,'W')"><span class="essay-reviewing">Cancel</span></a>
-                                                            <a href="" ng-click="changeStatus(pe.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -139,8 +138,7 @@
                                                     <a href="" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
                                                 </div>
                                                 <div class="bt-item-r col-md-4" ng-if="essay.status == 'P'">
-                                                    <a href=""  ng-click="changeStatus(pe.uploadEssayId,'W')"><span class="essay-reviewing">Cancel</span></a>
-                                                    <a href="" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                    <a href=""  ng-click="changeStatus(pe.uploadEssayId,'I')"><span class="essay-reviewing">Cancel</span></a>
                                                 </div>
                                             </div>
                                             <p class="text-rpl-2">
@@ -159,10 +157,13 @@
                                                         </div>
                                                         <div class="icon-upload">
                                                             <!-- <input class="input-file" name="file1" id="file1" type="file" ng-file-select="onFileSelect($files)"> -->
-                                                            <label for="file1" class="label-1" ngf-select="onFileSelect($files)" accept="'application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'" ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xlsx'" ngf-max-size="5MB">
-                                                            <label for="file1" class="label-1">
+                                                            <button class="label-1" ngf-select="onFileSelect($files)"
+                                                                    ngf-accept="'application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'"
+                                                                    ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xlsx'" ngf-max-size="5MB">
+                                                            <label class="label-1">
                                                                 <span data-icon="&#xe016;"></span>
                                                             </label>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <div class="clearfix" ng-if="!comments && essay.status == 'P'">
