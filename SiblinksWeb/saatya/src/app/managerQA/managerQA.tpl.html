@@ -89,7 +89,7 @@
                             </div>
                             <div class="group-item-sl">
                                 <div class="item-sl-rpl">
-                                    <p class="text-rpl">{{questionDetail.numReplies}} Replied</p>
+                                    <p class="text-rpl">{{listAnswer.length}} replies</p>
 
                                     <div class="bx-detail-rpl">
                                         <div class="top-rpl clearfix">
@@ -178,7 +178,7 @@
                                                     <div class="comment-action" style="display: block;">
                                                         <button ng-if="!isEdit" class="reply" ng-click="answerQuestion(questionDetail.question_id)" >Reply</button>
                                                         <button ng-if="isEdit" class="reply" ng-click="updateAnswer()" >Update</button>
-                                                        <button class="cancel">Cancel</button>
+                                                        <button class="cancel" ng-click="cleanAnswer()">Cancel</button>
                                                     </div>
                                                 </div>
 

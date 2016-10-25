@@ -10,12 +10,7 @@
                 <div class="manager-video mentor-manage-qa-content mentor-manage-essay">
                     <div class="row top-mag">
                         <div class="col-md-12">
-                            
-                        </div>
-                    </div>
-                    <div class="main-qa clearfix">
-                        <div class="left-qa left-essay">
-                             <div class="search">
+                            <div class="col-md-4 search">
                                 <form class="navbar-form" role="search">
                                     <div class="input-group">
                                         <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
@@ -25,6 +20,10 @@
                                     </div>
                                 </form>
                             </div>
+                        </div>
+                    </div>
+                    <div class="main-qa clearfix">
+                        <div class="left-qa left-essay">
                             <div role="tabpanel tab-all">
                                 <div class="t-panel">
                                     <p ng-class="{'active': tabpane == 1}" ng-click="changeTab(1)">New<span class="sup1">{{newestEssays.length > 0 ? newestEssays.length : 0}}</span></p>
@@ -37,16 +36,16 @@
                                         <div ng-if="newestEssays" scroller="newestEssaysScrl" data-on-total-scroll="">
                                             <div class="group-item-qa">
                                                 <div class="item-qa clearfix" ng-repeat="e in newestEssays track by $index">
-                                                    <div class="studentAvt">
+                                                    <div class="col-md-3">
                                                         <a href="" ng-click="goToProfile(e.userId)"><img src="{{e.imageUrl}}" alt=""></a>
                                                     </div>
-                                                    <div class="studentDetails bx-dt-qa">
+                                                    <div class="col-md-9 bx-dt-qa">
                                                         <h5><a href="" ng-click="goToProfile(e.userId)">{{e.fullName}} </a><span class="time">{{e.timeStamp}} ago</span></h5>
                                                         <b>{{e.nameOfEssay}}</b>
                                                         <p>{{e.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
-                                                            <a href="" ng-click="changeStatus(e.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
-                                                            <a href="" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                            <a href="" ng-click="changeStatus(e.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review">Process</span></a>
+                                                            <a href="" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-answers">Ignore</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -58,16 +57,16 @@
                                         <div ng-if="processingEssays" scroller="processingEssaysScrl" data-on-total-scroll="">
                                             <div class="group-item-qa">
                                                 <div class="item-qa clearfix" ng-repeat="pe in processingEssays track by $index">
-                                                    <div class="studentAvt">
+                                                    <div class="col-md-3">
                                                         <a href="" ng-click="goToProfile(pe.userId)"><img src="{{pe.imageUrl}}" alt=""></a>
                                                     </div>
-                                                    <div class="studentDetails bx-dt-qa">
+                                                    <div class="col-md-9 bx-dt-qa">
                                                         <h5><a href="" ng-click="goToProfile(pe.userId)">{{pe.fullName}} </a><span class="time">{{pe.timeStamp}} ago</span></h5>
                                                         <b>{{pe.nameOfEssay}}</b>
                                                         <p>{{pe.descriptionOfEssay}}</p>
                                                         <div class="clearfix bt-item">
                                                             <a href=""  ng-click="changeStatus(pe.uploadEssayId,'W')"><span class="essay-reviewing">Cancel</span></a>
-                                                            <a href="" ng-click="changeStatus(pe.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                            <a href="" ng-click="changeStatus(pe.uploadEssayId,'I')"><span class="essay-answers">Ignore</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -79,10 +78,10 @@
                                         <div ng-if="ignoredEssays" scroller="ignoredEssaysScrl" data-on-total-scroll="">
                                             <div class="group-item-qa">
                                                 <div class="item-qa clearfix" ng-repeat="ie in ignoredEssays track by $index">
-                                                    <div class="studentAvt">
+                                                    <div class="col-md-3">
                                                         <a href="" ng-click="goToProfile(ie.userId)"><img src="{{ie.imageUrl}}" alt=""></a>
                                                     </div>
-                                                    <div class="studentDetails bx-dt-qa">
+                                                    <div class="col-md-9 bx-dt-qa">
                                                         <h5><a href="" ng-click="goToProfile(ie.userId)">{{ie.fullName}} </a><span class="time">{{ie.timeStamp}} ago</span></h5>
                                                         <b>{{ie.nameOfEssay}}</b>
                                                         <p>{{ie.descriptionOfEssay}}</p>
@@ -96,10 +95,10 @@
                                         <div ng-if="repliedEssays" scroller="repliedEssaysScrl" data-on-total-scroll="">
                                             <div class="group-item-qa">
                                                 <div class="item-qa clearfix" ng-repeat="re in repliedEssays track by $index" ng-click="detailEssay(re.uploadEssayId)">
-                                                    <div class="studentAvt">
+                                                    <div class="col-md-3">
                                                         <a href="" ng-click="goToProfile(re.userId)"><img src="{{re.imageUrl}}" alt=""></a>
                                                     </div>
-                                                    <div class="studentDetails bx-dt-qa">
+                                                    <div class="col-md-9 bx-dt-qa">
                                                         <h5><a href="" ng-click="goToProfile(re.userId)">{{re.fullName}} </a><span class="time">{{re.timeStamp}} ago</span></h5>
                                                         <b>{{re.nameOfEssay}}</b>
                                                         <p>{{re.descriptionOfEssay}}</p>
@@ -112,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box-main-replied" >
+                        <div class="col-md-8 box-main-replied" >
                             <div class="slider-rpl" ng-if="essay">
                                 <div class="box-btn-sl clearfix">
                                     <a href="" class="btn-prev"><span data-icon="&#x34;"></span></a>
@@ -120,27 +119,24 @@
                                 </div>
                                 <div class="group-item-sl">
                                     <div class="item-sl-rpl">
-                                        <p class="text-rpl">{{comments ? comments.length : 0}} replies</p>
+                                        <p class="text-rpl">{{comments ? comments.length : 0}} Replied</p>
                                         <div class="bx-detail-rpl">
                                             <div class="top-rpl clearfix">
-                                               
-                                                <div class="col-md-8 bx-dt-qa">
-                                                    <div class="studentAvt">
+                                                <div class="col-md-2">
                                                     <a href="" ng-click="goToProfile(userId)"><img src="{{essay.imageUrl}}" alt=""></a>
-                                                    </div>
-                                                    <div class="studentDetails">
+                                                </div>
+                                                <div class="col-md-7 bx-dt-qa">
                                                     <a href="" ng-click="goToProfile(userId)"><h5>{{essay.fullName}}</h5></a>
                                                     <span class="time">{{essay.timeStamp}} ago</span>
                                                     <p class="txt-essay"><b>{{essay.nameOfEssay}}</b></p>
-                                                    </div>
                                                 </div>
-                                                <div class="bt-item-r col-md-4" ng-if="essay.status == 'W' && !ignored">
-                                                    <a href="" ng-click="changeStatus(e.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
-                                                    <a href="" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                <div class="bt-item col-md-3" ng-if="essay.status == 'W' && !ignored">
+                                                    <a href="" ng-click="changeStatus(e.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review">Process</span></a>
+                                                    <a href="" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-answers">Ignore</span></a>
                                                 </div>
-                                                <div class="bt-item-r col-md-4" ng-if="essay.status == 'P'">
+                                                <div class="bt-item col-md-3" ng-if="essay.status == 'P'">
                                                     <a href=""  ng-click="changeStatus(pe.uploadEssayId,'W')"><span class="essay-reviewing">Cancel</span></a>
-                                                    <a href="" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                    <a href="" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-answers">Ignore</span></a>
                                                 </div>
                                             </div>
                                             <p class="text-rpl-2">
@@ -151,7 +147,7 @@
                                             </div>
                                             <div class="form-chat form-chat-essay">
                                                 <form action="">
-                                                    <div class="box-chat-onl clearfix" ng-if="!comments && essay.status == 'P'">
+                                                    <div class="box-chat-onl clearfix" ng-if="!comments">
                                                         <a href="" class="col-md-1"><img src="{{avatar}}" alt=""></a>
                                                         <div class="texta">
                                                             <textarea id="comment" name="" class="col-md-11" placeholder="Add your reply here" ></textarea>
@@ -165,7 +161,7 @@
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div class="clearfix" ng-if="!comments && essay.status == 'P'">
+                                                    <div class="clearfix" ng-if="!comments">
                                                         <div class="btnreply pull-right">
                                                             <input type="button" name="reply"  value="Reply" ng-click="reply()">
                                                         </div>
@@ -178,7 +174,7 @@
                                                                 </span>
                                                                 <div class="chat-body clearfix">
                                                                     <div class="header">
-                                                                        <strong class="primary-font">{{mentorName}} </strong><span class="time">{{c.timestamp}} ago</span>
+                                                                        <strong class="primary-font">{{mentorName}}</strong><span class="time">{{c.timestamp}} ago</span>
                                                                     </div>
                                                                     <p>
                                                                         {{c.content}}
