@@ -41,6 +41,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
         $scope.repliedEssays = formatEssay(result);
+        if (justReplied) {
+          $scope.changeTab(4);
+          justReplied = false;          
+        }
       } else
         $scope.repliedEssays = null;
     });
@@ -85,7 +89,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
         for (var i = result.length - 1; i >= 0; i--) {
           result[i].timestamp = convertUnixTimeToTime(result[i].timestamp);
         }
-        $scope.comments = result;
+        $scope.comments = result;        
       } else {
         $scope.comments = null;
       }
@@ -93,20 +97,23 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   }
 
   function getEssayById(eid, userId){
-    EssayService.getEssayById(eid, userId).then(function(data){
-      var result = data.data.request_data_result;
-      if (result && result != NO_DATA) {
-        for (var i = result.length - 1; i >= 0; i--) {
-          result[i].timeStamp = convertUnixTimeToTime(result[i].docSubmittedDate);
-          result[i].odFilesize = formatBytes(result[i].odFilesize);
-          result[i].rdFilesize = formatBytes(result[i].rdFilesize);
-        }
-        $scope.essay = result[0];
-        getRepliedByEssay($scope.essay.uploadEssayId, userId);
-      } else {
-        $scope.essay = null;
-      }     
-    });
+    if (eid && eid > 0) {
+      EssayService.getEssayById(eid, userId).then(function(data){
+        var result = data.data.request_data_result;
+        if (result && result != NO_DATA) {
+          for (var i = result.length - 1; i >= 0; i--) {
+            result[i].timeStamp = convertUnixTimeToTime(result[i].docSubmittedDate);
+            result[i].odFilesize = formatBytes(result[i].odFilesize);
+            result[i].rdFilesize = formatBytes(result[i].rdFilesize);
+          }
+          $scope.essay = result[0];
+          getRepliedByEssay($scope.essay.uploadEssayId, userId);
+        } else {
+          $scope.essay = null;
+        }     
+      });
+    } else
+      $scope.essay = null;
   }
 
   function formatBytes(bytes) {
@@ -125,7 +132,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     return data;
   }
 
-  $scope.changeTab = function(val){
+  $scope.changeTab = function(val, eid){
     $scope.tabpane = val;
     if (val == 1) {
       if ($scope.newestEssays){
@@ -156,7 +163,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
         $scope.eid = null;
       }
     }
-    getEssayById($scope.eid, userId);
+    if (eid && eid > 0) {
+      getEssayById(eid, userId);  
+    } else
+      getEssayById($scope.eid, userId);
   }
 
   $scope.changeStatus = function (eid,status) {
@@ -177,10 +187,8 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   $scope.goToProfile = function(id){
       if (id == userId) {
           window.location.href = '#/mentor/mentorProfile';
-          window.location.reload();
       } else{
           window.location.href = '#/mentor/studentProfile/'+id+'';
-          window.location.reload();
       }
   }
 
@@ -193,6 +201,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     }
   }
 
+  var justReplied = false;
   $scope.reply = function(){
     var comment = $('#comment').val();
     if (comment == undefined || comment.trim().length == 0) {
@@ -210,7 +219,8 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       EssayService.insertCommentEssay(fd).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result == "Success") {
           $scope.success = "Reply successful.";
-          getRepliedByEssay($scope.essay.uploadEssayId, userId);
+          getAllEssay();
+          justReplied = true;
         } else{
           $scope.error = data.data.request_data_result;
           console.log($scope.error);
