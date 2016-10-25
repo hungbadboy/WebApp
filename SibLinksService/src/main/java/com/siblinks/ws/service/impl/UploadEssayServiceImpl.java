@@ -802,14 +802,13 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      */
     @Override
     @RequestMapping(value = "/getNewestEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> getNewestEssay(final long userid, final int schoolId, final int limit, final int offset) {
-        SimpleResponse reponse = getEssay(
-            SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY,
-            userid,
-            schoolId,
-            limit,
-            offset,
-            "getNewestEssay");
+    public ResponseEntity<Response> getNewestEssay(final long userid, final Integer schoolId, final int limit, final int offset) {
+        SimpleResponse reponse = null;
+        if (schoolId != null && schoolId > 0) {
+            reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY, userid, schoolId, limit, offset, "getNewestEssay");
+        } else {
+            reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "getNewestEssay", SibConstants.NO_DATA);
+        }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -819,14 +818,13 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      */
     @Override
     @RequestMapping(value = "/getProcessingEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> getProcessingEssay(final long userid, final int schoolId, final int limit, final int offset) {
-        SimpleResponse reponse = getEssay(
-            SibConstants.SqlMapperBROT163.SQL_GET_PROCESSING_ESSAY,
-            userid,
-            schoolId,
-            limit,
-            offset,
-            "getProcessingEssay");
+    public ResponseEntity<Response> getProcessingEssay(final long userid, final Integer schoolId, final int limit, final int offset) {
+        SimpleResponse reponse = null;
+        if (schoolId != null && schoolId > 0) {
+            reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_PROCESSING_ESSAY, userid, schoolId, limit, offset, "getProcessingEssay");
+        } else {
+            reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "getProcessingEssay", SibConstants.NO_DATA);
+        }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -836,14 +834,13 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      */
     @Override
     @RequestMapping(value = "/getIgnoredEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> getInoredEssay(final long userid, final int schoolId, final int limit, final int offset) {
-        SimpleResponse reponse = getEssay(
-            SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY,
-            userid,
-            schoolId,
-            limit,
-            offset,
-            "getIgnoredEssay");
+    public ResponseEntity<Response> getInoredEssay(final long userid, final Integer schoolId, final int limit, final int offset) {
+        SimpleResponse reponse = null;
+        if (schoolId != null && schoolId > 0) {
+            reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY, userid, schoolId, limit, offset, "getIgnoredEssay");
+        } else {
+            reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "getIgnoredEssay", SibConstants.NO_DATA);
+        }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -853,14 +850,13 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      */
     @Override
     @RequestMapping(value = "/getRepliedEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> getRepliedEssay(final long userid, final int schoolId, final int limit, final int offset) {
-        SimpleResponse reponse = getEssay(
-            SibConstants.SqlMapperBROT163.SQL_GET_REPLIED_ESSAY,
-            userid,
-            schoolId,
-            limit,
-            offset,
-            "getRepliedEssay");
+    public ResponseEntity<Response> getRepliedEssay(final long userid, final Integer schoolId, final int limit, final int offset) {
+        SimpleResponse reponse = null;
+        if (schoolId != null && schoolId > 0) {
+            reponse = getEssay(SibConstants.SqlMapperBROT163.SQL_GET_REPLIED_ESSAY, userid, schoolId, limit, offset, "getRepliedEssay");
+        } else {
+            reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "getRepliedEssay", SibConstants.NO_DATA);
+        }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
@@ -895,9 +891,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 readObject = dao.readObjects(entityName, params);
             }
             if (readObject != null && readObject.size() > 0) {
-                reponse = new SimpleResponse("" + true, "essay", from, readObject);
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", from, readObject);
             } else {
-                reponse = new SimpleResponse("" + true, "essay", from, SibConstants.NO_DATA);
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", from, SibConstants.NO_DATA);
             }
         } catch (DAOException e) {
             logger.error(e.getMessage());
