@@ -23,7 +23,7 @@
                                 <a href="#/student/mentorProfile/{{mentor.userid}}"><strong>{{mentor.userName}}</strong></a>
                             </p>
                             <p class="top-mentors-essay w-88" ng-show="mentor.listSubject.length">
-                                <a href="{{subject.id}}" ng-repeat="subject in  mentor.listSubject">
+                                <a href="{{subject.id}}" ng-repeat="subject in  mentor.listSubject track by $index" ng-if="$index < 3">
                                     {{subject.name}}{{($last)? "":", "}}
                                 </a>
                             </p>

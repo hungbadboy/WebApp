@@ -233,14 +233,17 @@ public class StudentServiceImpl implements StudentService {
         SimpleResponse response;
         try {
             List<Object> readObjects = dao.readObjects(entityName, params);
+            String count = "0";
             if (!CollectionUtils.isEmpty(readObjects)) {
-                response = new SimpleResponse(SibConstants.SUCCESS, "student", "getAllInfoMentorSubscribed", readObjects);
+                count = String.valueOf(readObjects.size());
+                response = new SimpleResponse(SibConstants.SUCCESS, "student", "getAllInfoMentorSubscribed", readObjects, count);
             } else {
                 response = new SimpleResponse(
                                               SibConstants.SUCCESS,
                                               "student",
                                               "getAllInfoMentorSubscribed",
-                                              SibConstants.NO_DATA);
+                                              SibConstants.NO_DATA,
+                                              count);
             }
         } catch (DAOException e) {
             e.printStackTrace();

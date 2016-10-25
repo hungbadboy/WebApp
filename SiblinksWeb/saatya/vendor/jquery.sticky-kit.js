@@ -198,7 +198,7 @@
               });
             }
             return elm.css({
-              position: "absolute",
+              position: "fixed",
               bottom: padding_bottom,
               top: "auto"
             }).trigger("sticky_kit:bottom");

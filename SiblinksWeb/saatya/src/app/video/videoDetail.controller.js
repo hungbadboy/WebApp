@@ -105,12 +105,6 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 
             });
 
-            videoDetailService.updateViewVideo(videoid).then(function (data) {
-                if (data.status == 'false') {
-                    console.log("Update view error");
-                }
-            });
-
             if (!isEmpty($scope.userId)) {
                 videoDetailService.updateVideoHistory(videoid, $scope.userId).then(function (data) {
                     if (data.status == 'false') {

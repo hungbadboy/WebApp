@@ -14,22 +14,23 @@
                                         <img ng-src="{{studentInfo.imageUrl != null ? studentInfo.imageUrl : 'assets/images/noavartar.jpg'}}"
                                              err-src="assets/images/noavartar.jpg">
                                     </div>
-                                    <h4>{{studentInfo.firstname != null ? studentInfo.firstname : ''}}
+                                    <h4 ng-if="!isEmptyName">{{studentInfo.firstname != null ? studentInfo.firstname : ''}}
                                         {{studentInfo.lastName != null ? studentInfo.lastName : ''}}</h4>
+                                    <h4 ng-if="isEmptyName">{{studentInfo.fullName}}</h4>
                                 </div>
                                 <div class="count-qt">
                                     <ul>
                                         <li>
                                             <b>{{studentInfo.count_question}}</b><br/>
-                                            <span>questions</span>
+                                            <span>Questions</span>
                                         </li>
                                         <li>
                                             <b>{{studentInfo.count_essay}}</b><br/>
-                                            <span>essay</span>
+                                            <span>Essay</span>
                                         </li>
                                         <li>
                                             <b>{{studentInfo.count_subscribe}}</b><br/>
-                                            <span>subscribed</span>
+                                            <span>Subscribed</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -63,7 +64,7 @@
                                                 </div>
                                             </div>
                                         </form>
-                                        <div class="slide-broswer">
+                                        <div class="slide-broswer" ng-hide="listMentorSubsSize == studentInfo.count_subscribe">
                                             <a class="btn-prev" ng-click="prevPageMentorSubs()" ng-class="{disabledNextPrev : offset == 0 && newLimit <= defaultLimit}"><span data-icon="&#x34;"></span></a>
                                             <a class="btn-next" ng-click="nextPageMentorSubs()" ng-class="{disabledNextPrev : listMentorSubsSize == studentInfo.count_subscribe}"><span data-icon="&#x35;"></span></a>
                                         </div>
@@ -79,10 +80,9 @@
                                             <div class="mentors-infor-img">
                                                 <div class="mentors-infor-img-wrapper" id="{{mentor.userid}}" ng-mouseover="hoverProfileMentor(mentor.userid)" ng-mouseleave="unHoverProfileMentor(mentor.userid)">
                                                 <!--<div class="mentors-infor-img-wrapper" id="{{mentor.userid}}">-->
-                                                    <a href="#/student/mentorProfile/{{mentor.userid}}"><img
-                                                            ng-src="{{mentor.imageUrl != null ? mentor.imageUrl : 'assets/images/noavartar.jpg'}}"></a>
+                                                    <img ng-src="{{mentor.imageUrl != null ? mentor.imageUrl : 'assets/images/noavartar.jpg'}}">
                                                     <div class="mentors-img-hover">
-                                                        <a href="#/student/mentorProfile/{{mentor.userid}}"><span
+                                                        <a ng-href="{{userId == mentor.userid ?  '#/mentor/mentorProfile' : '#/student/mentorProfile/'+mentor.userid}}"><span
                                                                 data-icon="&#x4c;"></span></a>
                                                     </div>
                                                 </div>

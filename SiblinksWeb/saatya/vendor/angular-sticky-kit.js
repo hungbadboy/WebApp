@@ -12,7 +12,7 @@ angular.module("angular-sticky-kit", [])
         inner_scrolling: true,
         recalc_every: null,
         parent: null,
-        offset_top: 0,
+        offset_top: 10,
         spacer: null,
         bottoming: true,
         stick: null,
