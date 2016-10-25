@@ -23,6 +23,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -33,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import com.siblinks.ws.service.impl.AdminServiceImpl;
 import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.SibConstants;
 
@@ -42,6 +45,7 @@ import com.siblinks.ws.util.SibConstants;
  */
 @Component("notificationFireBase")
 public class FireBaseNotification {
+    private Log logger = LogFactory.getLog(AdminServiceImpl.class);
     @Autowired
     Environment env;
 
@@ -78,8 +82,9 @@ public class FireBaseNotification {
             notification.put(Parameters.CLICK_ACTION, clickAction);
             //
             message.put(Parameters.NOTIFICATION, notification);
-
-            post.setEntity(new StringEntity(message.toString(), "UTF-8"));
+            StringEntity mesage = new StringEntity(message.toString(), "UTF-8");
+            logger.info("Message send Firebase: " + message.toString());
+            post.setEntity(mesage);
             HttpResponse response = client.execute(post);
             in = new InputStreamReader(response.getEntity().getContent(), "UTF-8");
             br = new BufferedReader(in);
@@ -87,7 +92,7 @@ public class FireBaseNotification {
             while ((line = br.readLine()) != null) {
                 lines += line;
             }
-
+            logger.info("Send Firebase result: " + lines.toString());
         } catch (Exception e) {
             e.printStackTrace();
             return e.getMessage();

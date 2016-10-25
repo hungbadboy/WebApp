@@ -5,10 +5,15 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.siblinks.ws.service.impl.AdminServiceImpl;
+
 @XmlRootElement(name="NotificationInfo")
 public class NotificationInfo  implements Serializable {
 		
-		
+    private Log logger = LogFactory.getLog(AdminServiceImpl.class);
 		private static final long serialVersionUID = 1683140299513210898L;
 	    private Map<String, String> templateMap;		
 		private long userId;

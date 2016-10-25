@@ -162,7 +162,8 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		controller: 'TeamCtrl'
 	}).
 	when('/about', {
-		templateUrl: 'src/app/about/about.tpl.html'
+		templateUrl: 'src/app/about/about.tpl.html',
+		controller: 'AboutCtrl'
 	}).
 	when('/all_essay', {
 		templateUrl: 'src/app/viewAllEssay.tpl.html',

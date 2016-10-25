@@ -1867,7 +1867,7 @@ public class UserServiceImpl implements UserService {
                                                         SibConstants.FAILURE,
                                                         request.getRequest_data_type(),
                                                         request.getRequest_data_method(),
-                                                        "");
+                                                        "Facebook id is not match");
                 }
             }
         } catch (Exception e) {

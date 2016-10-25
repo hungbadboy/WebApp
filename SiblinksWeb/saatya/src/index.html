@@ -54,34 +54,8 @@
         </div>
     </div>
     <!-- abc -->
-      <main class="mdl-layout__content mdl-color--grey-100">
-	    <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
-	
-	      <!-- Container for the Table of content -->
-	      <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
-	        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-	          <!-- div to display the generated Instance ID token -->
-	          <div id="token_div" style="display: none;">
-	            <h4>Instance ID Token</h4>
-	            <p id="token" style="word-break: break-all;"></p>
-	            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-	                    onclick="deleteToken()">Delete Token</button>
-	          </div>
-	          <!-- div to display the UI to allow the request for permission to
-	               notify the user. This is shown if the app has not yet been
-	               granted permission to notify. -->
-	          <div id="permission_div" style="display: none;">
-	            <h4>Needs Permission</h4>
-	            <p id="token"></p>
-	            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-	                    onclick="requestPermission()">Request Permission</button>
-	          </div>
-	          <!-- div to display messages received by this app. -->
-	          <div id="messages"></div>
-	        </div>
-	      </div>
-	    </div>
-	  </main>
+    <p id="token" style="word-break: break-all; display:none"></p>
+      
 	<!-- footer area -->
 	<footer id="footer">
 		<div ng-include="footerUser"></div>
@@ -108,46 +82,24 @@
        setInterval(timeBackEnd, 1000);
    </script>
    <script>
-	  // [START get_messaging_object]
-	  // Retrieve Firebase Messaging object.
 	  const messaging = firebase.messaging();
-	  // [END get_messaging_object]
-	  // IDs of divs that display Instance ID token UI or request permission UI.
-	  const tokenDivId = 'token_div';
-	  const permissionDivId = 'permission_div';
-	  // [START refresh_token]
-	  // Callback fired if Instance ID token is updated.
 	  messaging.onTokenRefresh(function() {
 	    messaging.getToken()
 	    .then(function(refreshedToken) {
 	      console.log('Token refreshed.');
-	      // Indicate that the new Instance ID token has not yet been sent to the
-	      // app server.
 	      setTokenSentToServer(false);
-	      // Send Instance ID token to app server.
 	      sendTokenToServer(refreshedToken);
-	      // [START_EXCLUDE]
-	      // Display new Instance ID token and clear UI of all previous messages.
 	      resetUI();
-	      // [END_EXCLUDE]
 	    })
 	    .catch(function(err) {
 	      console.log('Unable to retrieve refreshed token ', err);
 	      showToken('Unable to retrieve refreshed token ', err);
 	    });
 	  });
-	  // [END refresh_token]
-	  // [START receive_message]
-	  // Handle incoming messages. Called when:
-	  // - a message is received while the app has focus
-	  // - the user clicks on an app notification created by a sevice worker
-	  //   `messaging.setBackgroundMessageHandler` handler.
+
 	  messaging.onMessage(function(payload) {
 	    console.log("Message received. ", payload);
-	    // [START_EXCLUDE]
-	    // Update the UI to include the received message.
 	    appendMessage(payload);
-	    // [END_EXCLUDE]
 	  });
 	  // [END receive_message]
 	  resetUI();

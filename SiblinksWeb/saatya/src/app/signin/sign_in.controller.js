@@ -116,7 +116,7 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
             $rootScope.$broadcast('open');
             var token = angular.element("#token").text();
             StudentService.loginFacebook($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.facebookId, token).then(function (data) {
-            	$rootScope.$broadcast('close');    
+            	$rootScope.$broadcast('close');
             	if(data.data.status=='true') {
             		var dataUser = data.data.request_data_result[0];
 	                setStorage('userName', dataUser['userName'], 30);
