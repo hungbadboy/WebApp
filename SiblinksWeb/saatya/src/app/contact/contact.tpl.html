@@ -1,89 +1,285 @@
-<div id="id-contact-page">
-  <!-- end #header -->
-    <div id="main">
-      <div class="wrap_contact">
-        <div class="row data">
-          <div class="col-md-2 icon_contact">
-            <img src="assets/img/contact.png">
-          </div>
-          <div class="col-md-10 title_contact">
-            <span class="title">Get in Touch with SibLinks</span>  
-          </div>
-          
-        </div>
-      </div>
-      <div class="content">
-        <div class="contact_left">
-          <div class="contact_info">
-            <span class="title">Contact Us</span>
-            <div id="alert" style="margin-bottom: 6px;" class="alert alert-success" role="alert">Thank you for your contact</div>
-            <div id="warning" style="margin-bottom: 6px;" class="alert alert-danger" role="alert">There are some errors occur. Please try again later</div>
-            <input id="txtName" class="name" placeholder="Name"/>
-            <div id="error-name" class="error">Name can not be empty</div>
-            <input id="txtEmail" class="email" placeholder="Email"/>
-            <div id="error-email" class="error">Please input a valid email</div>
-            <input id="txtSubject" class="subject" placeholder="Subject"/>
-            <div id="error-subject" class="error">Subject can not be empty</div>
-            <textarea id="txtMessage" class="data_text" placeholder="Message"></textarea>
-            <div id="error-message" class="error">Message can not be empty</div>
-            <div align="right">
-              <button class="submit" ng-click="btnSubmit()">SUBMIT</button>
-            </div>
-          </div>
-        </div>
-        <!-- end .content_left  -->
-        <div class="contact_right">
-          <div class="siblink_info">
-            <span class="title">SibLinks</span>
-            <span class="address">3233 De La Cruz Blvd</span>
-            <span class="address">Suite D Santa Clara</span>
-            <span class="address">CA 95054</span>
-            <hr style="border-top-width: 4px;"/>
-            <div>
-              <span>
-                <img style="height:18px;margin-top:-2px;" src="assets/img/envelope.png">
-                <a href="mailto:help@siblinks.com">help@siblinks.com</a>
-              </span>
-              
-            </div>
-            
-            <hr style="border-top-width: 4px;"/>
-            <img height="35" src="assets/img/facebook_coloured.png">
-            <img height="35" src="assets/img/twitter_coloured.png">
-            <img height="35" src="assets/img/goggle_plus_coloured.png">
-          </div>
+<div class="content ask-a-question">
+       <!-- Breadcrum -->
+       <div class="breadcrum">
+           <div class="container">
+               <h5>Siblinks <span>/ Contact us</span></h5>
+           </div>
+       </div><!-- /End Breadcrum -->
+       <!-- Container -->
+       <div class="container">                
+           <!-- Content -->
+           <section class="ask-a-question-content" id="contact">
+               <!-- Question of user -->                                
+               <div class="content-contact">
+                   <div class="content-contact-wrapper">
+                       <div class="map-contact">
+                           <div class="">
+                               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61349.64852613086!2d108.17112818249831!3d16.047159880559942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314219c792252a13%3A0xfc14e3a044436487!2zRGEgTmFuZywgSOG6o2kgQ2jDonUsIERhIE5hbmcsIFZpZXRuYW0!5e0!3m2!1sen!2s!4v1477294585020" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                           </div>
+                       </div>
+                       <div class="send-contact-form">
+                           <h4>Send us an Email</h4>
+                           <form action="" method="">
+                               <div class="contact-form-body">
+                                   <p class="contact-name"><input type="text" placeholder="Name" name="name" onfocus="this.placeholder = ''"></p>
+                                   <p class="contact-email"><input type="email" placeholder="Email" name="email" onfocus="this.placeholder = ''"></p>
+                                   <p class="contact-phone"><input type="text" placeholder="Phone" name="phone" onfocus="this.placeholder = ''"></p>
+                                   <p class="contact-subject"><input type="text" placeholder="Subject" name="subject" onfocus="this.placeholder = ''" ></p>
+                                   <div class="form-group choose-services">
+                                       <select name="" id="" class="form-control">
+                                           <option value="0">Services</option>
+                                           <option value="1">Choose subject</option>
+                                           <option value="2">Choose subject</option>
+                                           <option value="3">Choose subject</option>
+                                       </select>
+                                   </div>
+                                   <p class="message"><textarea type="textarea" name="message" onfocus="this.placeholder = ''" placeholder="Message"></textarea></p>
+                               </div>
+                               <div>
+                                   <button type="button" id="submit">Send</button>
+                               </div>
+                           </form>
+                       </div>
+                   </div>
+               </div>
+               <div class="right-sidebar col-lg-4">
+                   <!-- Top videos -->
+                   <div class="contact-infor">
+                       <div class="contact-infor-wrapper col-xs-12">
+                           <!-- top-mentor-header -->
+                           <div class="contact-infor-header">
+                               <span data-icon="&#x5c;"></span><h4>Siblinks</h4>
+                           </div>
+                           <div class="contact-infor-content">
+                               <div class="sl-address">
+                                   <strong>Address</strong>
+                                   <p>3233 De La Cruz Blvd </br>Suite D Santa Clara</br> CA 95054</p>
+                               </div>
+                               <div class="sl-email">
+                                   <strong>Email us</strong>
+                                   <p><a href="mailto:help@siblinks.com">help@siblinks.com</a></p>
+                               </div>
+                               <div class="sl-social">
+                                   <a href=""><span data-icon="&#xe0aa;"></span></a>
+                                   <a href=""><span data-icon="&#xe0ab;"></span></a>
+                                   <a href=""><span data-icon="&#xe0ae;"></span></a>
+                                   <a href=""><span data-icon="&#xe0b8;"></span></a>
+                                   <a href=""><span data-icon="&#xe0ba;"></span></a>
+                               </div>
+                           </div><!-- /End top-mentor-header -->
+                       </div>        
+                   </div><!-- /End top memtor -->
 
-          <!-- <div class="siblink_help">
-            <div class="wrap_img">
-              <img height="60" src="assets/img/question.png">
-            </div>
-            <div class="data">
-              <span class="title_help">Need Help?</span>
-              <span><img src="assets/img/yellow _arrow.png" alt=""><a href="javascript:void(0);" title="">Contact Support</a></span>
-              <span><img src="assets/img/yellow _arrow.png" alt=""><a href="#/faqs" title="">Visit FAQs</a></span>
-            </div>
-            <div class="clearfix"></div>
-          </div> -->
-        </div>
-        <!-- end .content_right -->
-        <div class="clearfix"></div>
-      </div>
-    </div>
-    <!-- end #main -->
+                   <!-- Top mentor -->
+                   <div class="top-mentors">
+                       <div class="top-mentor-wrapper col-xs-12">
+                           <!-- top-mentor-header -->
+                           <div class="top-mentor-header">
+                               <div class="top-mentor-header-title">
+                                   <span data-icon="&#x5c;"></span><h4>Top Mentors</h4>
+                               </div>
+                               <div class="see-more">
+                                   <p><a href="">See More</a></p>
+                               </div>
+                           </div><!-- /End top-mentor-header -->
+                           <!-- List of top mentors -->
+                           <div class="top-mentors-list">
+                               <ul>
+                                   <li>
+                                       <div class="top-mentors-img online">
+                                           <a href="#"><img src="assets/images/mentor-02.png">
+                                           <span class="offline"><img src="assets/images/ask question/online.png"></span></a>
+                                       </div>
+                                       <div class="top-mentors-info">
+                                           <p class="top-mentors-name">
+                                               <a href="#"><strong>Brian M.Scott</strong></a>
+                                           </p>
+                                           <p class="top-mentors-essay">
+                                               <a href="/">Financial Aid, </a>Essay
+                                           </p>
+                                           <p class="top-mentors-answed">
+                                               500 subcrible, 5765 answed
+                                           </p>
+                                       </div>
+                                   </li>
+                                   <li>
+                                       <div class="top-mentors-img">
+                                           <a href="#"><img src="assets/images/ask question/mentor-02.png">
+                                           <span class="offline"><img src="assets/images/ask question/offline.png"></span></a>
+                                       </div>
+                                       <div class="top-mentors-info">
+                                           <p class="top-mentors-name">
+                                               <a href="#"><strong>Brian M.Scott</strong></a>
+                                           </p>
+                                           <p class="top-mentors-essay">
+                                               <a href="/">Financial Aid, </a>Essay
+                                           </p>
+                                           <p class="top-mentors-answed">
+                                               500 subcrible, 5765 answed
+                                           </p>
+                                       </div>
+                                   </li>
+                                   <li>
+                                       <div class="top-mentors-img">
+                                           <a href="#"><img src="assets/images/mentor-03.png"><span class="offline"><img src="assets/images/ask question/offline.png"></span></a>
+                                       </div>
+                                       <div class="top-mentors-info">
+                                           <p class="top-mentors-name">
+                                               <a href="#"><strong>Brian M.Scott</strong></a>
+                                           </p>
+                                           <p class="top-mentors-essay">
+                                               <a href="/">Financial Aid, </a>Essay
+                                           </p>
+                                           <p class="top-mentors-answed">
+                                               500 subcrible, 5765 answed
+                                           </p>
+                                       </div>
+                                   </li>
+                                   <li>
+                                       <div class="top-mentors-img">
+                                           <a href="#"><img src="assets/images/mentor-04.png"><span class="online"><img src="assets/images/ask question/online.png"></span></a>
+                                       </div>
+                                       <div class="top-mentors-info">
+                                           <p class="top-mentors-name">
+                                               <a href="#"><strong>Brian M.Scott</strong></a>
+                                           </p>
+                                           <p class="top-mentors-essay">
+                                               <a href="/">Financial Aid, </a>Essay
+                                           </p>
+                                           <p class="top-mentors-answed">
+                                               500 subcrible, 5765 answed
+                                           </p>
+                                       </div>
+                                   </li>
+                                   <li>
+                                       <div class="top-mentors-img">
+                                           <a href="#"><img src="assets/images/mentor-04.png"><span class="online"><img src="assets/images/ask question/online.png"></span></a>
+                                       </div>
+                                       <div class="top-mentors-info">
+                                           <p class="top-mentors-name">
+                                               <a href="#"><strong>Brian M.Scott</strong></a>
+                                           </p>
+                                           <p class="top-mentors-essay">
+                                               <a href="/">Financial Aid, </a>Essay
+                                           </p>
+                                           <p class="top-mentors-answed">
+                                               500 subcrible, 5765 answed
+                                           </p>
+                                       </div>
+                                   </li>
+                               </ul>
+                           </div><!-- /End list of top mentors -->
+                       </div>        
+                   </div><!-- /End top memtor -->
 
-    <!-- <div id="ready">
-      <div class="w965">
-        <p class="fl">
-          Ready to get started with SibLinks?
-        </p>
-        <div class="login fr">
-          <a href="javascript:void(0)" ng-click="signIn()" class="btn signin">Sign in</a>
-          <a href="javascript:void(0)" class="btn signup" data-toggle="modal" data-target="#popSignUp">Sign up</a>
-        </div>
-      </div>
-    </div> -->
-    <!-- end #ready -->
-</div>
-<div id="loading-dialog">
-  <img src="assets/img/loading.gif"/>
+                   
+               </div>
+           </section><!-- /End content -->
+
+           <!-- Notification -->
+           <div class="notification-content">
+               <div class="notification-wrapper">
+                   <div class="ntf-header">
+                       <div class="ntf-left">
+                           5 Notifications
+                       </div>
+                       <div class="ntf-right">
+                           <button>see more</button>
+                       </div>
+                   </div>
+                   <div class="nft-body">
+                       <ul>
+                           <li><a href="#">
+                               <div class="nft-type nft-qa">
+                                   <img src="assets/images/AskAQuestion.png">
+                               </div>
+                               <div class="nft-info">
+                                   Your question has been answered by <span class="nft-name"> Tony Ngo</span>
+                               </div>
+                               <div class="nft-time">
+                                   3 minutes
+                               </div></a>
+                           </li>
+                           <li><a href="#">
+                               <div class="nft-type nft-qa">
+                                   <img src="assets/images/AskAQuestion.png">
+                               </div>
+                               <div class="nft-info">
+                                   Your question has been answered by <span class="nft-name"> Tony Ngo</span>
+                               </div>
+                               <div class="nft-time">
+                                   3 minutes
+                               </div></a>
+                           </li>
+                           <li><a href="#">
+                               <div class="nft-type nft-qa">
+                                   <img src="assets/images/AskAQuestion.png">
+                               </div>
+                               <div class="nft-info">
+                                   Your question has been answered by <span class="nft-name"> Tony Ngo</span>
+                               </div>
+                               <div class="nft-time">
+                                   3 minutes
+                               </div></a>
+                           </li>
+                           <li><a href="#">
+                               <div class="nft-type nft-qa">
+                                   <img src="assets/images/AskAQuestion.png">
+                               </div>
+                               <div class="nft-info">
+                                   Your question has been answered by <span class="nft-name"> Tony Ngo</span>
+                               </div>
+                               <div class="nft-time">
+                                   3 minutes
+                               </div></a>
+                           </li>
+                           <li><a href="#">
+                               <div class="nft-type nft-qa">
+                                   <img src="assets/images/AskAQuestion.png">
+                               </div>
+                               <div class="nft-info">
+                                   Your question has been answered by <span class="nft-name"> Tony Ngo</span>
+                               </div>
+                               <div class="nft-time">
+                                   3 minutes
+                               </div></a>
+                           </li>
+                       </ul>
+                   </div>
+               </div>
+               <div class="top-border"></div>
+           </div><!-- /End Notification -->
+           
+       </div><!-- End container -->
+
+       <!-- Form add new ask -->
+       <div class="form-ask-question">
+           <div class="form-ask-question-wrapper">
+               <form action="" method="" class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
+                   <h3>Ask a question</h3>
+                   <p><select name="Select">
+                       <option selected>Select: Catagory</option>
+                       <option value="value1">Value 1</option> 
+                       <option value="value2">Value 2</option>
+                       <option value="value3">Value 3</option>
+                   </select></p>
+                   <p><textarea placeholder="What do you want to ask?..." id ="ask"></textarea></p>
+                   <p class="upload-image">
+                       <output id="list"></output>
+                       <span class="add-img"><input type="file" id="files" name="files[]" multiple /><label for="files"><img src="assets/images/add-img.png"></label></span>
+                   </p>
+                   <!-- <label for="files"><img src="assets/images/add-img.png"><span> add images</span></label>
+                   <input type="file" id="files" name="files[]" multiple /> -->
+                   <!-- <p><input type="button" value="Ask Now"></p> -->
+                   <p><button type="button" class="ask-question-now">Ask Now</button></p>
+                   <p class="close-form close"><span data-icon="&#xe051;"></span></p>
+               </form>
+
+   
+           </div>
+
+           <div class="close-popup-images">
+           </div>
+       </div>
+       <!-- /End Form add new ask-->
 </div>
