@@ -107,6 +107,13 @@ brotControllers.controller('StudentProfileController',
                             $scope.GenderMentor = validateGender(gender);
                             var birthDay = calculateBirthDay(result_data.birthDay);
                             $scope.bod = birthDay;
+                            $scope.isEmptyName = false;
+                            if (($scope.studentMentorProfile.firstname == null || isEmpty($scope.studentMentorProfile.firstname))
+                                && ($scope.studentMentorProfile.lastName == null || isEmpty($scope.studentMentorProfile.lastName))) {
+                                $scope.isEmptyName = true;
+                                $scope.studentMentorProfile.fullName = $scope.studentMentorProfile.username.indexOf('@') != -1 ?
+                                    $scope.studentMentorProfile.username.substr(0, $scope.studentMentorProfile.username.indexOf('@')) : $scope.studentMentorProfile.username;
+                            }
                             if (result_data.defaultSubjectId && (subjects !== undefined || subjects != null)) {
                                 var subs = getSubjectNameById(result_data.defaultSubjectId, subjects);
                                 $scope.mentorSubs = subs;
@@ -327,6 +334,12 @@ brotControllers.controller('StudentProfileController',
                 favorite = arrFavouriteSelected.join(',');
                 strSubs = arrSubjectSelected.join(',');
                 var school = $scope.schoolSelect != null && !isEmpty($scope.schoolSelect) ? $scope.schoolSelect.id : null;
+                var firstName = $('input[name="firstname"]').val();
+                var lastName = $('input[name="lastname"]').val();
+                if (isNotValidName(firstName) || isNotValidName(lastName)) {
+                    check = false;
+                    error += "First name or last name contains special characters or number,";
+                }
                 if (check) {
                     var student = {
                         'role': "S",
@@ -346,6 +359,12 @@ brotControllers.controller('StudentProfileController',
                     	$rootScope.$broadcast('close');
                         if (data.data.request_data_result == "Success") {
                             if (student) {
+                                if ($scope.isEmptyName) {
+                                    if (!isEmpty(firstName) || !isEmpty(firstName)) {
+                                        $scope.studentInfo.fullName = "";
+                                        $scope.isEmptyName = false;
+                                    }
+                                }
                                 $scope.studentInfo.firstname = student.firstName;
                                 $scope.studentInfo.lastName = student.lastName;
                                 $scope.gender = student.gender;
@@ -356,6 +375,9 @@ brotControllers.controller('StudentProfileController',
                                 $scope.studentInfo.bio = student.bio;
                                 $scope.studentInfo.schoolName = $scope.schoolSelect != null ?  $scope.schoolSelect.name : null;
                                 localStorage.setItem('defaultSubjectId', strSubs);
+                                localStorage.setItem('firstName', student.firstName);
+                                localStorage.setItem('lastname', student.lastName);
+                                localStorage.setItem('school', $scope.schoolSelect.id);
                                 if (subjects != null || subjects !== undefined) {
                                     $scope.objSubs = getSubjectNameById(strSubs, subjects);
                                 }
@@ -589,8 +611,17 @@ brotControllers.controller('StudentProfileController',
                             return;
                         }
                         $scope.studentInfo = dataResponse.data.request_data_result;
+                        $scope.studentInfo.count_essay = $scope.studentInfo.count_essay != null && $scope.studentInfo.count_essay != "" ? $scope.studentInfo.count_essay : 0;
+                        $scope.studentInfo.count_subscribe = $scope.studentInfo.count_subscribe != null && $scope.studentInfo.count_subscribe != "" ? $scope.studentInfo.count_subscribe : 0;
                         if($scope.studentInfo.school != null && !isEmpty($scope.studentInfo.school)){
                             $scope.schoolSelect = {id : parseInt($scope.studentInfo.school, 10)};
+                        }
+                        $scope.isEmptyName = false;
+                        if (($scope.studentInfo.firstname == null || isEmpty($scope.studentInfo.firstname))
+                            && ($scope.studentInfo.lastName == null || isEmpty($scope.studentInfo.lastName))) {
+                            $scope.isEmptyName = true;
+                            $scope.studentInfo.fullName = $scope.studentInfo.username.indexOf('@') != -1 ?
+                                $scope.studentInfo.username.substr(0, $scope.studentInfo.username.indexOf('@')) : $scope.studentInfo.username;
                         }
                         $scope.studentInfo.imageUrl = $scope.studentInfo.imageUrl != null ? $scope.studentInfo.imageUrl : "assets/images/noavartar.jpg";
                         $scope.birthDay = timeConverter($scope.studentInfo.birthDay, FormatDateTimeType.DD_MM_YY);
