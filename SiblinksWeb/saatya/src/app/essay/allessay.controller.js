@@ -105,6 +105,8 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
             result[i].timeStamp = convertUnixTimeToTime(result[i].docSubmittedDate);
             result[i].odFilesize = formatBytes(result[i].odFilesize);
             result[i].rdFilesize = formatBytes(result[i].rdFilesize);
+            var fullname = result[i].firstName + ' ' + result[i].lastName;
+            result[i].fullName = fullname != ' ' ? fullname : result[i].userName;
           }
           $scope.essay = result[0];
           getRepliedByEssay($scope.essay.uploadEssayId, userId);
@@ -127,7 +129,8 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   function formatEssay(data){
     for (var i = data.length - 1; i >= 0; i--) {
       data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
-      data[i].fullName = data[i].firstName + ' ' + data[i].lastName;
+      var fullname = data[i].firstName + ' ' + data[i].lastName;
+      data[i].fullName = fullname != ' ' ? fullname : data[i].userName;
     }
     return data;
   }
