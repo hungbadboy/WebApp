@@ -1,0 +1,89 @@
+<div id="id-contact-page">
+  <!-- end #header -->
+    <div id="main">
+      <div class="wrap_contact">
+        <div class="row data">
+          <div class="col-md-2 icon_contact">
+            <img src="assets/img/contact.png">
+          </div>
+          <div class="col-md-10 title_contact">
+            <span class="title">Get in Touch with SibLinks</span>  
+          </div>
+          
+        </div>
+      </div>
+      <div class="content">
+        <div class="contact_left">
+          <div class="contact_info">
+            <span class="title">Contact Us</span>
+            <div id="alert" style="margin-bottom: 6px;" class="alert alert-success" role="alert">Thank you for your contact</div>
+            <div id="warning" style="margin-bottom: 6px;" class="alert alert-danger" role="alert">There are some errors occur. Please try again later</div>
+            <input id="txtName" class="name" placeholder="Name"/>
+            <div id="error-name" class="error">Name can not be empty</div>
+            <input id="txtEmail" class="email" placeholder="Email"/>
+            <div id="error-email" class="error">Please input a valid email</div>
+            <input id="txtSubject" class="subject" placeholder="Subject"/>
+            <div id="error-subject" class="error">Subject can not be empty</div>
+            <textarea id="txtMessage" class="data_text" placeholder="Message"></textarea>
+            <div id="error-message" class="error">Message can not be empty</div>
+            <div align="right">
+              <button class="submit" ng-click="btnSubmit()">SUBMIT</button>
+            </div>
+          </div>
+        </div>
+        <!-- end .content_left  -->
+        <div class="contact_right">
+          <div class="siblink_info">
+            <span class="title">SibLinks</span>
+            <span class="address">3233 De La Cruz Blvd</span>
+            <span class="address">Suite D Santa Clara</span>
+            <span class="address">CA 95054</span>
+            <hr style="border-top-width: 4px;"/>
+            <div>
+              <span>
+                <img style="height:18px;margin-top:-2px;" src="assets/img/envelope.png">
+                <a href="mailto:help@siblinks.com">help@siblinks.com</a>
+              </span>
+              
+            </div>
+            
+            <hr style="border-top-width: 4px;"/>
+            <img height="35" src="assets/img/facebook_coloured.png">
+            <img height="35" src="assets/img/twitter_coloured.png">
+            <img height="35" src="assets/img/goggle_plus_coloured.png">
+          </div>
+
+          <!-- <div class="siblink_help">
+            <div class="wrap_img">
+              <img height="60" src="assets/img/question.png">
+            </div>
+            <div class="data">
+              <span class="title_help">Need Help?</span>
+              <span><img src="assets/img/yellow _arrow.png" alt=""><a href="javascript:void(0);" title="">Contact Support</a></span>
+              <span><img src="assets/img/yellow _arrow.png" alt=""><a href="#/faqs" title="">Visit FAQs</a></span>
+            </div>
+            <div class="clearfix"></div>
+          </div> -->
+        </div>
+        <!-- end .content_right -->
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <!-- end #main -->
+
+    <!-- <div id="ready">
+      <div class="w965">
+        <p class="fl">
+          Ready to get started with SibLinks?
+        </p>
+        <div class="login fr">
+          <a href="javascript:void(0)" ng-click="signIn()" class="btn signin">Sign in</a>
+          <a href="javascript:void(0)" class="btn signup" data-toggle="modal" data-target="#popSignUp">Sign up</a>
+        </div>
+      </div>
+    </div> -->
+    <!-- end #ready -->
+</div>
+<div id="loading-dialog">
+  <img src="assets/img/loading.gif"/>
+</div>
