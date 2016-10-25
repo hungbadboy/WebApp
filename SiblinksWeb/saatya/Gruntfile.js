@@ -214,7 +214,9 @@ module.exports = function ( grunt ) {
                       'src/app/changePassword/forgotPassword.controller.js',
                       // About
                       'src/app/about/about.controller.js',
-                      
+                      // Contact
+                      'src/app/contact/contact.controller.js',
+                      // 
                       'src/app/comment/comment.service.js',
                       'src/app/essay/allessay.controller.js',
                       'src/app/essay/essayDetail.controller.js',
