@@ -13,9 +13,9 @@
                             <div class="col-md-4 search">
                                 <form class="navbar-form" role="search">
                                     <div class="input-group">
-                                        <input type="text" class="form-control input-search" placeholder="Type your search" name="srch-term" id="srch-term">
+                                        <div id="essay-term" angucomplete-alt ng-enter="search()" placeholder="Search" pause="50" selected-object="onSelect" local-data="listAllEssay" search-fields="nameOfEssay" title-field="nameOfEssay" minlength="1" input-class="form-control input-search" text-no-results="Essay Not Found" match-class="highlight" input-changed="textChanged"></div>
                                         <div class="input-group-btn">
-                                            <button class="btn btn-default" type="submit"><img src="assets/images/icon-search.png" alt=""></button>
+                                            <button class="btn btn-default" type="submit" ng-click="search()"><img src="assets/images/icon-search.png" alt=""></button>
                                         </div>
                                     </div>
                                 </form>
@@ -71,7 +71,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div ng-show="!processingEssays"><h5>Found no data</h5></div>
+                                        <div ng-show="!processingEssays || processingEssays.length == 0"><h5>Found no data</h5></div>
                                     </div>
                                     <div class="tab-pane" ng-class="{'active': tabpane == 3}">
                                         <div ng-if="ignoredEssays" scroller="ignoredEssaysScrl" data-on-total-scroll="">

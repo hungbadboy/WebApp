@@ -80,4 +80,7 @@ public interface UploadEssayService {
      */
     public ResponseEntity<Response> getMentorEssayByUid(RequestData request);
 
+    public ResponseEntity<Response> getSuggestionEssay(Integer schoolId);
+
+    public ResponseEntity<Response> searchEssay(RequestData request);
 }
