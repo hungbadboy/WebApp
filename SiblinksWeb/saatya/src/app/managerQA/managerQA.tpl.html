@@ -170,13 +170,16 @@
                                                             <!--<label for="files">-->
                                                             <!--<img src="assets/images/add-img.png"></label>-->
                                                                         <!--</span>-->
-                                                        <button ngf-select="onFileSelect($files,$invalidFiles)" multiple style="margin-top: 8px" accept='image/*' ngf-pattern="'image/*'"
+                                                        <button ngf-select="onFileSelect($files,$invalidFiles)" multiple accept='image/*' ngf-pattern="'image/*'"
                                                                 ngf-max-size="5MB">
                                                             <img style="pointer-events: none;" src="assets/images/add-img.png"/></button>
                                                         <br><br>
-                                                    </output>
-                                                    <button ng-if="!isEdit" class="reply" ng-click="answerQuestion(questionDetail.question_id)" >Reply</button>
-                                                    <button ng-if="isEdit" class="reply" ng-click="updateAnswer()" >Update</button>
+                                                    </output>                                                    
+                                                    <div class="comment-action" style="display: block;">
+                                                        <button ng-if="!isEdit" class="reply" ng-click="answerQuestion(questionDetail.question_id)" >Reply</button>
+                                                        <button ng-if="isEdit" class="reply" ng-click="updateAnswer()" >Update</button>
+                                                        <button class="cancel">Cancel</button>
+                                                    </div>
                                                 </div>
 
                                                 <div class="detail-chat">
