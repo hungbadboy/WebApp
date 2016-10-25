@@ -676,5 +676,10 @@ public class SibConstants {
         public static final String SQL_SEARCH_VIDEOS_WITH_SUBJECT = "SEARCH_VIDEOS_WITH_SUBJECT";
         public static final String SQL_SEARCH_VIDEOS_NONE_PLAYLIST_WITH_SUBJECT = "SEARCH_VIDEOS_NONE_PLAYLIST_WITH_SUBJECT";
         public static final String SQL_CANCEL_ESSAY = "CANCEL_ESSAY";
+        public static final String SQL_GET_SUGGESTION_ESSAY = "GET_SUGGESTION_ESSAY";
+        public static final String SQL_SEARCH_REPLIED_ESSAY = "SEARCH_REPLIED_ESSAY";
+        public static final String SQL_SEARCH_NEWEST_ESSAY = "SEARCH_NEWEST_ESSAY";
+        public static final String SQL_SEARCH_PROCESSING_ESSAY = "SEARCH_PROCESSING_ESSAY";
+        public static final String SQL_SEARCH_IGNORED_ESSAY = "SEARCH_IGNORED_ESSAY";
     }
 }

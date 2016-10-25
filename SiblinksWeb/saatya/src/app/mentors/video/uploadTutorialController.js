@@ -332,8 +332,16 @@ brotControllers.controller('UploadTutorialController',
           var result = data.data.items;
           var contentDetails = result[0].contentDetails;
           $scope.duration = convertTime(contentDetails.duration);
-          $scope.title = result[0].snippet.title;
-          $scope.description = result[0].snippet.description;
+          
+          if ($('#txtTutorialTitle').val() == null || $('#txtTutorialTitle').val().length == 0)
+            $scope.title = result[0].snippet.title;
+          else
+            $scope.title = $('#txtTutorialTitle').val();
+
+          if ($('#txtTutorialDescription').val() == null || $('#txtTutorialDescription').val().length == 0)
+            $scope.description = result[0].snippet.description;
+          else
+            $scope.description = $('#txtTutorialDescription').val();
        });
     }
 

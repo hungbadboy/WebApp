@@ -58,13 +58,13 @@ public interface UploadEssayService {
 
     public ResponseEntity<byte[]> getFileReivewUploadEssay(String eid) throws IOException;
 
-    public ResponseEntity<Response> getProcessingEssay(long userid, int schoolId, int limit, int offset);
+    public ResponseEntity<Response> getProcessingEssay(long userid, Integer schoolId, int limit, int offset);
 
-    public ResponseEntity<Response> getInoredEssay(long userid, int schoolId, int limit, int offset);
+    public ResponseEntity<Response> getInoredEssay(long userid, Integer schoolId, int limit, int offset);
 
-    public ResponseEntity<Response> getRepliedEssay(long userid, int schoolId, int limit, int offset);
+    public ResponseEntity<Response> getRepliedEssay(long userid, Integer schoolId, int limit, int offset);
 
-    public ResponseEntity<Response> getNewestEssay(long userid, int schoolId, int limit, int offset);
+    public ResponseEntity<Response> getNewestEssay(long userid, Integer schoolId, int limit, int offset);
 
     public ResponseEntity<Response> updateStatusEssay(RequestData request);
 
@@ -80,4 +80,7 @@ public interface UploadEssayService {
      */
     public ResponseEntity<Response> getMentorEssayByUid(RequestData request);
 
+    public ResponseEntity<Response> getSuggestionEssay(Integer schoolId);
+
+    public ResponseEntity<Response> searchEssay(RequestData request);
 }

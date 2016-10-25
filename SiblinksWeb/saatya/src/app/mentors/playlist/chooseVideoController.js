@@ -192,7 +192,6 @@ brotControllers.controller('ChooseVideoController',
           status = true;
           $scope.optionAll = status;
         }
-        // status = !$scope.optionAll;
       }
       angular.forEach($scope.videosNoPLaylist, function(v){
           v.selected = status;
@@ -251,7 +250,7 @@ brotControllers.controller('ChooseVideoController',
     }
 
     $scope.changeValue = function(e){
-        $scope.insertSubject = e;
+        $scope.addSubject = e;
     }
 
     $scope.upload = function(){
@@ -281,7 +280,7 @@ brotControllers.controller('ChooseVideoController',
         $scope.error = "Description can not longer than 1024 characters. \n";
         angular.element('#txtTutDescription').trigger('focus');    
         return;    
-      } else if ($scope.insertSubject == 0) {
+      } else if ($scope.addSubject == 0) {
         check = false;
         $scope.error = "Please select subject. \n";
         angular.element('#insertSubject').trigger('focus');     
@@ -294,8 +293,9 @@ brotControllers.controller('ChooseVideoController',
         "title": title.trim(),
         "url": link,
         "image": thumbnail,
+        "runningTime": $scope.duration,
         "description": description,
-        "subjectId": $scope.insertSubject,
+        "subjectId": $scope.addSubject,
         "plid": pl_id
       }
       $rootScope.$broadcast('open');
@@ -341,8 +341,11 @@ brotControllers.controller('ChooseVideoController',
           var result = data.data.items;
           var contentDetails = result[0].contentDetails;
           $scope.duration = convertTime(contentDetails.duration);
-          $scope.title = result[0].snippet.title;
-          $scope.description = result[0].snippet.description;
+          
+          if ($('#txtTutTitle').val() == null || $('#txtTutTitle').val().length == 0)
+              $scope.title = result[0].snippet.title;
+          if ($('#txtTutDescription').val() == null || $('#txtTutDescription').val().length == 0)
+              $scope.description = result[0].snippet.description;
        });
     }
 

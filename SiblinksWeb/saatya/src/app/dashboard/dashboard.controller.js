@@ -30,13 +30,18 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
   }
 
   function getNewestEssay(){
-    EssayService.getNewestEssay(userId, schoolId, 5, 0).then(function(data){
-      var result = data.data.request_data_result;
-      if (result && result != NO_DATA) {
-        $scope.newestEssays = formatEssay(result);
-      } else
-        $scope.newestEssays = null;
-    });
+    if (schoolId == undefined) {
+      $scope.newestEssays = null;
+      return;
+    } else {
+      EssayService.getNewestEssay(userId, schoolId, 5, 0).then(function(data){
+        var result = data.data.request_data_result;
+        if (result && result != NO_DATA) {
+          $scope.newestEssays = formatEssay(result);
+        } else
+          $scope.newestEssays = null;
+      });
+    }
   }
 
   function formatEssay(data){

@@ -197,5 +197,21 @@ brotServices.factory('EssayService', ['$http', function($http) {
     });
   }
 
+  factory.getSuggestionEssay = function(schoolId){
+    return $http({
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'essay/getSuggestionEssay?schoolId='+schoolId+''
+    });
+  }
+
+  factory.search = function(request){
+    return $http({
+      method: 'POST',
+      url: NEW_SERVICE_URL + 'essay/searchEssay',
+      data:{
+        'request_data': request        
+      }
+    });
+  }
   return factory;
 }]);

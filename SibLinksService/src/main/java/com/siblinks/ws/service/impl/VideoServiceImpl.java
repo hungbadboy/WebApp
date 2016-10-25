@@ -2616,7 +2616,18 @@ public class VideoServiceImpl implements VideoService {
         String description = request.getRequest_data().getDescription();
         SimpleResponse response = null;
         try {
-            if (description != null && description.length() < 1024) {
+            String title = request.getRequest_data().getTitle();
+            String duration = request.getRequest_data().getRunningTime();
+            String subjectId = request.getRequest_data().getSubjectId();
+            if (title == null || title.isEmpty()) {
+                response = new SimpleResponse(SibConstants.FAILURE, "videos", "insertVideo", "Title can not be empty");
+            } else if (duration == null || duration.isEmpty()) {
+                response = new SimpleResponse(SibConstants.FAILURE, "videos", "insertVideo", "Running time can not be empty");
+            } else if (subjectId == null || subjectId.isEmpty() || Integer.parseInt(subjectId) == 0) {
+                response = new SimpleResponse(SibConstants.FAILURE, "videos", "insertVideo", "Subject is required");
+            } else if (description != null && description.length() > 1024) {
+                response = new SimpleResponse(SibConstants.FAILURE, "videos", "insertVideo", "Description can not longer than 1024 characters");
+            } else {
                 TransactionDefinition def = new DefaultTransactionDefinition();
                 TransactionStatus status = transactionManager.getTransaction(def);
                 String authorId = request.getRequest_data().getAuthorID();
@@ -2661,10 +2672,7 @@ public class VideoServiceImpl implements VideoService {
                     transactionManager.rollback(status);
                     logger.debug(e.getMessage());
                 }
-            } else {
-                response = new SimpleResponse(SibConstants.SUCCESS, "videos", "insertVideo", "Description cannot longer than 1024 characters");
             }
-
         } catch (Exception e) {
             logger.error(e.getMessage());
             response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
