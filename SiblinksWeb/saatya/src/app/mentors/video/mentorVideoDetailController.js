@@ -53,7 +53,11 @@ brotControllers.controller('MentorVideoDetailController',
     function getVideosInPlaylist(){
         videoDetailService.getVideoByPlaylistId(plid).then(function (data) {
             var result = data.data.request_data_result;
+            console.log(result);
             if (result && result != "Found no data") {
+                for (var i = result.length - 1; i >= 0; i--) {
+                    result[i].timeStamp = convertUnixTimeToTime(result[i].timeStamp);
+                }
                 $scope.videos = result;
                 if (vid && vid > 0) {
                     var items = $.grep($scope.videos, function(v){
@@ -105,7 +109,7 @@ brotControllers.controller('MentorVideoDetailController',
         $scope.video.averageRating = parseAvgRating($scope.video.averageRating);
         $scope.averageRating = $scope.video.averageRating;
         $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
-        $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
+        // $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
         initYoutubePlayer($scope.video.url);
         getCommentVideoDetail(v.vid);
         getVideoRelated();

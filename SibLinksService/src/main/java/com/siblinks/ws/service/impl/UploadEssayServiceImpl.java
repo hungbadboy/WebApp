@@ -855,45 +855,50 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     public ResponseEntity<Response> insertCommentEssay(@RequestParam(required = false) final MultipartFile file, @RequestParam final long essayId,
             @RequestParam final long mentorId, @RequestParam final String comment) {
         SimpleResponse reponse = null;
-        boolean flag = false;
-        Object[] params = null;
-        TransactionDefinition def = new DefaultTransactionDefinition();
-        TransactionStatus status = transactionManager.getTransaction(def);
-        try {
-            String statusMsg = validateEssay(file);
-            if (statusMsg.equals("Error Format")) {
-                reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Your file is not valid.");
-            } else if (statusMsg.equals("File over 10M")) {
-                reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Your file is lager than 10MB.");
-            } else {
-                params = new Object[] { "", mentorId, comment };
-                long cid = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, params);
-                params = new Object[] { essayId, cid };
-                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_FK, params);
+        if (comment != null && comment.length() > 1000) {
+            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Content can not longer than 1000 characters");
+        } else {
 
-                if (StringUtil.isNull(statusMsg)) {
-                    params = new Object[] { mentorId, file.getInputStream(), file.getSize(), file.getOriginalFilename(), essayId };
-                    flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITH_FILE, params);
+            boolean flag = false;
+            Object[] params = null;
+            TransactionDefinition def = new DefaultTransactionDefinition();
+            TransactionStatus status = transactionManager.getTransaction(def);
+            try {
+                String statusMsg = validateEssay(file);
+                if (statusMsg.equals("Error Format")) {
+                    reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Your file is not valid.");
+                } else if (statusMsg.equals("File over 10M")) {
+                    reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Your file is lager than 10MB.");
                 } else {
-                    params = new Object[] { mentorId, essayId };
-                    flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITHOUT_FILE, params);
+                    params = new Object[] { "", mentorId, comment };
+                    long cid = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, params);
+                    params = new Object[] { essayId, cid };
+                    flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_FK, params);
+
+                    if (StringUtil.isNull(statusMsg)) {
+                        params = new Object[] { mentorId, file.getInputStream(), file.getSize(), file.getOriginalFilename(), essayId };
+                        flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITH_FILE, params);
+                    } else {
+                        params = new Object[] { mentorId, essayId };
+                        flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITHOUT_FILE, params);
+                    }
+
+                    if (flag) {
+                        transactionManager.commit(status);
+                        reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "insertCommentEssay", "Success");
+                    } else {
+                        transactionManager.rollback(status);
+                        reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Failed");
+                    }
                 }
-
-                if (flag) {
-                    transactionManager.commit(status);
-                    reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "insertCommentEssay", "Success");
-                } else {
+            } catch (Exception e) {
+                System.out.println(e.getCause());
+                logger.error(e.getMessage());
+                if (status != null) {
                     transactionManager.rollback(status);
-                    reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Failed");
                 }
+                reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", e.getMessage());
             }
-        } catch (Exception e) {
-            System.out.println(e.getCause());
-            logger.error(e.getMessage());
-            if (status != null) {
-                transactionManager.rollback(status);
-            }
-            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", e.getMessage());
         }
 
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
