@@ -469,6 +469,10 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $('#autocompleteSubsQA_dropdown').width($('#autocompleteSubsQA').width());
         }
 
+        $scope.clickSubject = function (subjectId,subjectName) {
+            $scope.$broadcast('angucomplete-alt:changeInput', 'autocompleteSubsQA', {name:subjectName,id:subjectId});
+        }
+
         $scope.fillerSubject = function () {
             currentPage = 0;
             $scope.isLoadMore = true;
