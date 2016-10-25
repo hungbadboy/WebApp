@@ -17,7 +17,7 @@
                                         <img class="playlist-detail-fix-img" src="{{playlist.image}}" alt="">
                                     </span>
                                     <div class="detail-pl-inner pull-left">
-                                        <h5>{{playlist.name}}
+                                        <h5>{{playlist.name | limitTo : 50}}{{playlist.name.length > 50 ? '...' : ''}}
                                         <span class="add-time">{{playlist.timeStamp}} ago</span>
                                         <p class="list-view">
                                             <span><img src="assets/images/icon-play.png" alt=""> {{playlist.numViews ? playlist.numViews : 0}}</span>&nbsp;&nbsp;
