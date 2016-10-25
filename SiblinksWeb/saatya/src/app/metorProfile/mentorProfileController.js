@@ -29,8 +29,7 @@ brotControllers.controller('MentorProfileController',
             $scope.defaultLimit = 6;
             var hasLoadMore = false;
             $scope.listMentorSubsSize = 0;
-            $scope.canNext = true;
-            var listMentorSubs = [];
+            $scope.disableNext = true;
             var LIMIT_SUBJECT = 4;
             init();
 
@@ -502,8 +501,6 @@ brotControllers.controller('MentorProfileController',
                         $scope.isReadyLoadPointSubscribed = true;
                         $scope.listMentorSubs = isNextPage ? $scope.listMentorSubs.concat(listMentorSubscribed) : listMentorSubscribed;
                         $scope.listMentorSubsSize = $scope.listMentorSubs.length;
-                        listMentorSubs = $scope.listMentorSubs;
-                        $scope.canNext = newOffset < $scope.listMentorSubsSize;
                     }
                 });
             }
@@ -696,7 +693,6 @@ brotControllers.controller('MentorProfileController',
                 currentMentorSubPage++;
                 newOffset = $scope.defaultLimit * currentMentorSubPage;
                 if (newOffset > $scope.listMentorSubsSize) {
-                    $scope.canNext = false;
                     return;
                 }
                 isNextPage = true;
@@ -710,11 +706,14 @@ brotControllers.controller('MentorProfileController',
                 if(currentMentorSubPage < 0){
                     return;
                 }
-                $scope.offset = newOffset - $scope.offset;
+                $scope.listMentorSubs.splice(newOffset, $scope.newLimit);
+                $scope.offset = $scope.listMentorSubs.length - $scope.defaultLimit;
+                newOffset = $scope.offset;
                 $scope.newLimit = $scope.newLimit - $scope.defaultLimit;
+                $scope.listMentorSubsSize = $scope.listMentorSubs.length;
             };
 
-            $scope.disabled = function () {
+            $scope.disabledNextPrev = function () {
                 if($scope.offset == 0 && $scope.newLimit <= $scope.defaultLimit){
                     return true;
                 }

@@ -328,6 +328,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             }
             getAllVideos();
             reloadHistory();
+            getFavouriteVideosList();
         }
 
         function reloadHistory() {
@@ -374,7 +375,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             }
         }
 
-        $rootScope.subjectId = $rootScope.subjectId||-1;
+        $rootScope.subjectId = $rootScope.subjectId || -1;
         $rootScope.sortBySubject = function (subjectId) {
             resetAllData();
             $rootScope.subjectId = subjectId;
@@ -436,7 +437,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             VideoService.getAllVideos().then(function (response) {
                 if (response.data.status) {
                     $scope.listAllVideos = response.data.request_data_result;
-                    if(!isEmpty(search)) {
+                    if (!isEmpty(search)) {
                         var searchValue = decodeURIComponent(search);
                         var result = $scope.listAllVideos.filter(function (obj) {
                             if (obj.title.toLowerCase().indexOf(searchValue.toLowerCase()) != -1) {
@@ -476,7 +477,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 }
                 return null;
             });
-            $location.search('search',encodeURIComponent(searchValue));
+            $location.search('search', encodeURIComponent(searchValue));
             $scope.isSearchAction = true;
             $scope.searchItem = result;
         };
@@ -999,11 +1000,11 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 $scope.numberOfHistoryVideo += 4;
             if ($scope.numberOfHistoryVideo >= $scope.listVideos.length)
                 $scope.flagShowMoreButton = false;
-        }
+        };
 
         $scope.range = function (num) {
             return new Array(num);
-        }
+        };
 
 
         $scope.resetFlagShowMore = reloadHistory();
@@ -1030,12 +1031,13 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
 
         /* Favourite Video begin */
+        // $scope.loadRateFavorite = false;
+        // if (myCache.get("listVideoFavourite") !== undefined) {
+        //     $log.info("My cache already exists");
+        //     $scope.listVideoFavourite = myCache.get("listVideoFavourite");
+        // } else {
         var listVideoFavourite = '';
-        $scope.loadRateFavorite = false;
-        if (myCache.get("listVideoFavourite") !== undefined) {
-            $log.info("My cache already exists");
-            $scope.listVideoFavourite = myCache.get("listVideoFavourite");
-        } else {
+        function getFavouriteVideosList() {
             if (userId === null || userId === undefined) {
                 return;
             }
@@ -1046,10 +1048,11 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         $scope.listVideoFavourite[i].timeStamp = $scope.caculateTimeElapsed($scope.listVideoFavourite[i].timeStamp)
                     }
                     $scope.loadRateFavorite = true;
-                    myCache.put("listVideoFavourite", $scope.listVideoFavourite);
+                    // myCache.put("listVideoFavourite", $scope.listVideoFavourite);
                 }
             });
         }
+        // }
 
         $scope.numberOfFavouriteVideo = 4;
         $scope.flagShowMoreFavourite = true;
@@ -1167,13 +1170,13 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                                 updateTopMentorBlock($scope.listVideoRecommendedForU[i][0]);
                             }
                         }
-                    }else {
+                    } else {
                         $scope.isSubscribe = 0;
                         $("#subscribers_" + mentorId).attr("data-icon", "N");
                         $('#subscribers_' + mentorId).removeClass('unsubcrib');
                         var listMentor = $scope.listMentorSubscribed;
                         for (var i = 0; i < listMentor.length; i++) {
-                            if(listMentor[i].MentorId == mentorId){
+                            if (listMentor[i].MentorId == mentorId) {
                                 listMentor.splice(i, 1);
                             }
                         }
@@ -1182,6 +1185,15 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 }
             });
         };
+
+
+        $scope.textChange = function (str) {
+            if (isEmpty(str)) {
+                //TODO : Handle input when clear
+                $scope.searchItem = null;
+                $scope.isSearchAction = false;
+            }
+        }
 
 
     }]);
