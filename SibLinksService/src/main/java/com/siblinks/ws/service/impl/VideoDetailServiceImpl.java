@@ -33,6 +33,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +59,7 @@ import com.siblinks.ws.util.StringUtil;
 
 /**
  * {@link VideoService}
- * 
+ *
  * @author hungpd
  * @version 1.0
  */
@@ -71,6 +75,9 @@ public class VideoDetailServiceImpl implements VideoDetailService {
     private ObjectDao dao;
 
     @Autowired
+    private PlatformTransactionManager transactionManager;
+
+    @Autowired
     VideoDetailServiceImpl(final LoggedInChecker loggedInChecker) {
     }
 
@@ -81,13 +88,20 @@ public class VideoDetailServiceImpl implements VideoDetailService {
     @RequestMapping(value = "/getVideoDetailById/{vid}", method = RequestMethod.GET)
     public ResponseEntity<Response> getVideoDetailById(@PathVariable(value = "vid") final long vid) {
         SimpleResponse response = null;
+        TransactionStatus statusBD = null;
         try {
+            TransactionDefinition def = new DefaultTransactionDefinition();
+            statusBD = transactionManager.getTransaction(def);
             Object[] queryParams = { vid };
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEODETAIL_BY_ID, queryParams);
             response = new SimpleResponse(SibConstants.SUCCESS, "Video", "getVideoDetailById", readObject);
+            String entityName = SibConstants.SqlMapper.SQL_UPDATE_NUMVIEW_VIDEO;
+            dao.insertUpdateObject(entityName, queryParams);
+            transactionManager.commit(statusBD);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "getVideoDetailById", e.getMessage());
+            transactionManager.rollback(statusBD);
+            response = new SimpleResponse(SibConstants.FAILURE, "Video", "getVideoDetailById", e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -420,7 +434,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
     }
 
     /**
-     * 
+     *
      * @param subjectId
      * @param categoryList
      * @param subIds

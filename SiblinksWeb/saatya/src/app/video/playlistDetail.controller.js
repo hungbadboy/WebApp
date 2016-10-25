@@ -112,7 +112,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
             if (!isEmpty($scope.userId)) {
                 videoDetailService.updateVideoHistory(videoid, $scope.userId).then(function (data) {
                     if (data.status == 'false') {
-                        console.log("Update view error");
+                        console.log("Update history error");
                     }
                 });
             }
@@ -129,11 +129,6 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
 
             });
 
-            videoDetailService.updateViewVideo(videoid).then(function (data) {
-                if (data.status == 'false') {
-                    console.log("Update view error");
-                }
-            });
         }
 
         $scope.viewVideo = function (vid) {
