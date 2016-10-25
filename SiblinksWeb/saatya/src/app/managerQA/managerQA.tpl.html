@@ -89,7 +89,7 @@
                             </div>
                             <div class="group-item-sl">
                                 <div class="item-sl-rpl">
-                                    <p class="text-rpl">{{questionDetail.numReplies}} Replied</p>
+                                    <p class="text-rpl">{{listAnswer.length}} replies</p>
 
                                     <div class="bx-detail-rpl">
                                         <div class="top-rpl clearfix">
@@ -99,7 +99,7 @@
                                             <div class="col-md-6 bx-dt-qa">
                                                 <h5> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{questionDetail.firstName +" "+ questionDetail.lastName}}</a></h5>
                                                 <span class="time">asked {{questionDetail.timeStamp}} ago</span>
-                                                <p class="txt-category"><b><a>{{questionDetail.subject}}</a></b></p>
+                                                <p class="txt-category"><b><a  href="" ng-click="clickSubject(questionDetail.subjectId,questionDetail.subject)">{{questionDetail.subject}}</a></b></p>
                                             </div>
                                             <div class="col-md-4 bt-item">
                                                 <p class="list-view">
@@ -170,13 +170,16 @@
                                                             <!--<label for="files">-->
                                                             <!--<img src="assets/images/add-img.png"></label>-->
                                                                         <!--</span>-->
-                                                        <button ngf-select="onFileSelect($files,$invalidFiles)" multiple style="margin-top: 8px" accept='image/*' ngf-pattern="'image/*'"
+                                                        <button ngf-select="onFileSelect($files,$invalidFiles)" multiple accept='image/*' ngf-pattern="'image/*'"
                                                                 ngf-max-size="5MB">
                                                             <img style="pointer-events: none;" src="assets/images/add-img.png"/></button>
                                                         <br><br>
-                                                    </output>
-                                                    <button ng-if="!isEdit" class="reply" ng-click="answerQuestion(questionDetail.question_id)" >Reply</button>
-                                                    <button ng-if="isEdit" class="reply" ng-click="updateAnswer()" >Update</button>
+                                                    </output>                                                    
+                                                    <div class="comment-action" style="display: block;">
+                                                        <button ng-if="!isEdit" class="reply" ng-click="answerQuestion(questionDetail.question_id)" >Reply</button>
+                                                        <button ng-if="isEdit" class="reply" ng-click="updateAnswer()" >Update</button>
+                                                        <button class="cancel" ng-click="cleanAnswer()">Cancel</button>
+                                                    </div>
                                                 </div>
 
                                                 <div class="detail-chat">

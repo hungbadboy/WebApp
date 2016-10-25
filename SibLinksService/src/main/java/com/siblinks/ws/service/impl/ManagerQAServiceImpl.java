@@ -101,15 +101,16 @@ public class ManagerQAServiceImpl implements managerQAService {
 
             if (!StringUtil.isNull(subjectId) && !"-1".equals(subjectId)) {
                 whereCause += " AND X.subjectId = " + subjectId;
-            }
-
-            if (StringUtil.isNull(subjects)) {
-                whereCause += " AND FIND_IN_SET(X.subjectId , (SELECT defaultSubjectId FROM Sib_Users where userid = " +
-                              userId +
-                              " ))";
             } else {
-                whereCause += " AND FIND_IN_SET(X.subjectId , '" + subjects + "')";
 
+                if (StringUtil.isNull(subjects)) {
+                    whereCause += " AND FIND_IN_SET(X.subjectId , (SELECT defaultSubjectId FROM Sib_Users where userid = " +
+                                  userId +
+                                  " ))";
+                } else {
+                    whereCause += " AND FIND_IN_SET(X.subjectId , '" + subjects + "')";
+
+                }
             }
 
             Object[] queryParams = { userId };

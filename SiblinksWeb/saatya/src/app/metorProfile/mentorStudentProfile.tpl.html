@@ -64,8 +64,8 @@
                                             </div>
                                         </form>
                                         <div class="slide-broswer">
-                                            <a class="btn-prev" ng-click="prevPageMentorSubs()" ng-class="{disabled : offset == 0 && newLimit <= defaultLimit}"><span data-icon="&#x34;"></span></a>
-                                            <a class="btn-next" ng-click="nextPageMentorSubs()" ng-class="{disabled : !canNext}"><span data-icon="&#x35;"></span></a>
+                                            <a class="btn-prev" ng-click="prevPageMentorSubs()" ng-class="{disabledNextPrev : offset == 0 && newLimit <= defaultLimit}"><span data-icon="&#x34;"></span></a>
+                                            <a class="btn-next" ng-click="nextPageMentorSubs()" ng-class="{disabledNextPrev : listMentorSubsSize == studentInfo.count_subscribe}"><span data-icon="&#x35;"></span></a>
                                         </div>
                                     </div>
                                 </div>
