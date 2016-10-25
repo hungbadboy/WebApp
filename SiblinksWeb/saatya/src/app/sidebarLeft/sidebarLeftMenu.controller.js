@@ -29,9 +29,9 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
             }
             if(isEmptyName){
                 var userName =  localStorage.getItem('userName');
-                $rootScope.fullName = userName.indexOf('@') != -1 ? userName.substr(0, userName.indexOf('@')) : userName;
+                $rootScope.firstName = userName.indexOf('@') != -1 ? userName.substr(0, userName.indexOf('@')) : userName;
             }else{
-                $rootScope.fullName = firstname + ' ' + lastname;
+                $rootScope.firstName = firstname;
             }
         }
     }

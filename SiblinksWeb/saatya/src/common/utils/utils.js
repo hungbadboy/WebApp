@@ -537,3 +537,8 @@ function resetUI() {
     showHideDiv(tokenDivId, false);
     showHideDiv(permissionDivId, true);
   }
+
+  //Check first name or last name had special character
+  function isNotValidName(strName) {
+    return /\`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\[|\{|\]|\}|\||\\|\'|\<|\,|\>|\?|\/|\""|\;|\:|[0-9]/.test(strName);
+  }

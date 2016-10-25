@@ -14,6 +14,7 @@ brotControllers.controller('MentorProfileController',
             $scope.EMPTY_DATA = StatusError.MSG_UNKNOWN;
 
             $scope.isSubscribe = 0;
+            $scope.userId = userId;
 
             $scope.isLoginViaFBOrGoogle = false;
             var subjects = JSON.parse(localStorage.getItem('subjects'));
@@ -185,10 +186,6 @@ brotControllers.controller('MentorProfileController',
                 });
             }
 
-            function isNotValidName(strName) {
-                return /\`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\[|\{|\]|\}|\||\\|\'|\<|\,|\>|\?|\/|\""|\;|\:|[0-9]/.test(strName);
-            }
-
             $scope.updateProfile = function () {
                 var check = true;
                 var error = "";
@@ -281,7 +278,7 @@ brotControllers.controller('MentorProfileController',
                                 localStorage.setItem('firstName', mentor.firstName);
                                 localStorage.setItem('lastname', mentor.lastName);
                                 localStorage.setItem('school', $scope.schoolSelect.id);
-                                $rootScope.fullName = mentor.firstName + ' ' + mentor.lastName;
+                                $rootScope.firstName = mentor.firstName;
                             }
                             $scope.msgSuccess = "Updating profile successful !";
                         }
@@ -466,8 +463,14 @@ brotControllers.controller('MentorProfileController',
                         for (var i = 0; i < data_result.length; i++) {
                             var mentor = {};
                             mentor.userid = data_result[i].userid;
-                            mentor.lastName = (data_result[i].lastName == null || data_result[i].lastName === undefined) ? "" : data_result[i].lastName;
-                            mentor.firstName = (data_result[i].firstName == null || data_result[i].firstName === undefined) ? "" : data_result[i].firstName;
+                            if ((data_result[i].firstName == null || isEmpty(data_result[i].firstName))
+                                && (data_result[i].lastName == null || isEmpty(data_result[i].lastName))) {
+                                mentor.firstName = data_result[i].loginName.indexOf('@') != -1 ?
+                                    data_result[i].loginName.substr(0, data_result[i].loginName.indexOf('@')) : data_result[i].loginName;
+                            }else{
+                                mentor.lastName = (data_result[i].lastName == null || data_result[i].lastName === undefined) ? "" : data_result[i].lastName;
+                                mentor.firstName = (data_result[i].firstName == null || data_result[i].firstName === undefined) ? "" : data_result[i].firstName;
+                            }
                             mentor.accomplishments = (data_result[i].accomplishments == null || data_result[i].accomplishments === undefined) ? "" : data_result[i].accomplishments;
                             mentor.bio = data_result[i].bio;
                             mentor.numsub = data_result[i].numsub;
