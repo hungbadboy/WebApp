@@ -15,7 +15,7 @@
                              selected-object="onSelect"
                              local-data="listAllVideos" search-fields="title" title-field="title"
                              minlength="1" input-class="form-control form-control-small form-control-search"
-                             text-no-results="Video Not Found"
+                             text-no-results="Video Not Found" input-changed="textChange"
                              match-class="highlight"></div>
 
                         <div class="input-group-btn">
@@ -51,7 +51,7 @@
                         <li class="history" ng-click="resetFlagShowMore();">
                             <a data-toggle="tab" href="/videos/#history">
                                 <span data-icon="&#xe06b;"></span><span>History</span>
-                                <span ng-if="login == 1" class="number-media number-history" ng-bind="listVideos.length"></span>
+                                <span ng-if="login == 1" class="number-media number-history" ng-bind="listVideos ? listVideos.length : 0"></span>
                             </a>
                         </li>
                         <li class="like-video" ng-if="login == 1" ng-click="resetFlagShowMoreFavourite();">
@@ -59,7 +59,7 @@
                                 <span data-icon="&#xe033;"></span><span>Favorites</span><span
                                     ng-if="login == 1"
                                     class="number-media number-like"
-                                    ng-bind="listVideoFavourite.length"></span>
+                                    ng-bind="listVideoFavourite ? listVideoFavourite.length : 0"></span>
                             </a>
                         </li>
                     </ul><!-- /End Tab left menu -->
@@ -729,18 +729,18 @@
                         <span class="number-media number-subscrip" ng-bind="listVideoFavourite.length"></span>
                         <!--<span class="number-media number-subscrip"-->
                         <!--ng-bind="listVideoFavourite.length"></span>-->
-                        <div class="clear-history"><p ng-click="deleteFavouriteVideo('')">Clear history</p></div>
+                        <div class="clear-history"><p ng-click="deleteFavouriteVideo('')">Clear Favourite</p></div>
                         <div class="video-list-content">
                             <ul>
                                 <li ng-repeat="videoFavourite in listVideoFavourite | limitTo: numberOfFavouriteVideo"
                                     id="favouriteVideo{{videoFavourite.vid}}">
                                     <div class="video-wrapper">
                                         <div class="videos-thumnail">
-                                            <img src="{{videoFavourite.image}}">
+                                            <a href="#/videos/detailVideo/{{videoFavourite.vid}}"><img src="{{videoFavourite.image}}"></a>
                                         </div>
                                         <div class="video-details">
                                             <div class="videos-title" style="margin: 0px 0px 2px 0px">
-                                                <a href="#/videos/detailVideo/{{video.vid}}" title="{{video.title}}">{{videoFavourite.title}}</a>
+                                                <a href="#/videos/detailVideo/{{videoFavourite.vid}}" title="{{videoFavourite.title}}">{{videoFavourite.title}}</a>
                                             </div>
                                             <div class="videos-time-add">
                                                 <span>from</span>
