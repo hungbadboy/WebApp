@@ -99,7 +99,7 @@
                                             <div class="col-md-6 bx-dt-qa">
                                                 <h5> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{questionDetail.firstName +" "+ questionDetail.lastName}}</a></h5>
                                                 <span class="time">asked {{questionDetail.timeStamp}} ago</span>
-                                                <p class="txt-category"><b><a>{{questionDetail.subject}}</a></b></p>
+                                                <p class="txt-category"><b><a  href="" ng-click="clickSubject(questionDetail.subjectId,questionDetail.subject)">{{questionDetail.subject}}</a></b></p>
                                             </div>
                                             <div class="col-md-4 bt-item">
                                                 <p class="list-view">
