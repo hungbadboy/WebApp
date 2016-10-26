@@ -1,18 +1,13 @@
 <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
-
-<!-- Main center content -->
 <div class="content">
     <div class="center-content">
         <div class="center-content-wrapper">
             <section id="dashboard">
                 <div class="dashboard-wrapper">
-                    <!-- Header of content -->
                     <div class="dashboard-header">    
                         <h4>Dashboard</h4>
-                    </div><!-- /End Header of content -->
-                    <!-- Content of center side -->
+                    </div>
                     <div class="dashboard-content">
-                        <!-- Top area -->
                         <div class="dashboard-content-top-left">
                             <div class="dashboard-content-top-left-wrapper">
                                 <div class="total-likes">
@@ -64,41 +59,37 @@
                                     </div>
                                 </div>                                            
                             </div>
-                        </div><!-- Top area -->
-
-                        <!-- Bottom left area -->
+                        </div>
                         <div class="dashboard-content-bottom-left">
                             <div class="dashboard-content-bottom-left-wrapper">
                                 <h4>Newest Questions</h4><a href="#/mentor/managerQA"><span data-icon="&#xe037;" class="setting"></span></a>
                                 <div class="newest-qa" ng-show="questions">
                                     <ul ng-repeat="q in questions track by $index">
                                         <li>
-                                            <div class="newest-qa-student-img online">
-                                                <a href="#/mentor/studentProfile/{{q.userId}}"><img src="{{q.imageUrl}}"></a>
-                                            </div>
-                                            <div class="newest-qa-student-info">
-                                                <p class="newest-qa-student-name">
-                                                    <a href="#/mentor/studentProfile/{{q.userId}}"><strong>{{q.userName}}</strong></a>
-                                                    <span class="time-post">{{q.timeStamp}} ago</span>
-                                                </p>
-                                                <p class="newest-qa-in">
-                                                    In {{q.subject}}
-                                                </p>
-                                                <p class="newest-qa-detail">
-                                                    {{q.content | limitTo : 30}}{{q.content.length > 30 ? '...' : ''}}
-                                                </p>
-                                            </div>
-                                            <div class="student-rate ">
-                                              <a href="#/mentor/managerQA?pid={{q.pid}}"><span data-icon="&#x35;"></span></a>
-                                            </div>
+                                          <div class="newest-qa-student-img online">
+                                              <a href="#/mentor/studentProfile/{{q.userId}}"><img src="{{q.imageUrl}}"></a>
+                                          </div>
+                                          <div class="newest-qa-student-info">
+                                              <p class="newest-qa-student-name">
+                                                  <a href="#/mentor/studentProfile/{{q.userId}}"><strong>{{q.userName}}</strong></a>
+                                                  <span class="time-post">{{q.timeStamp}} ago</span>
+                                              </p>
+                                              <p class="newest-qa-in">
+                                                  In {{q.subject}}
+                                              </p>
+                                              <p class="newest-qa-detail">
+                                                  {{q.content | limitTo : 30}}{{q.content.length > 30 ? '...' : ''}}
+                                              </p>
+                                          </div>
+                                          <div class="student-rate ">
+                                            <a href="#/mentor/managerQA?pid={{q.pid}}"><span data-icon="&#x35;"></span></a>
+                                          </div>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                             <div ng-show="!questions">Found no question</div>
                         </div>
-                        <!-- /End Bottom left area -->
-
-                        <!-- Bottom right area -->
                         <div class="dashboard-content-bottom-right">
                             <div class="dashboard-content-bottom-right-wrapper">
                                 <div class="total-subcribers-wrapper">
@@ -138,8 +129,8 @@
                                                            <span class="essay-wait-review"><span data-icon="&#xe02d;"></span>Waiting</span>
                                                        </p> -->
                                                        <p class="newest-sub-esay-status ">
-                                                            <span class="processing"><span data-icon="&#xe02d;"></span>Process</span>
-                                                            <span class="fa fa-font-awesome"></span>
+                                                          <a href="" ng-click="changeStatus(e.uploadEssayId,'P')"><span class="processing"><span data-icon="&#xe02d;"></span>Process</span></a>
+                                                          <a href="" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="fa fa-font-awesome"></span></a>
                                                         </p>
                                                    </div>
                                                </li>
@@ -151,20 +142,12 @@
                            </div>
                             <div class="dashboard-video" ng-show="videosTopViewed">
                                 <div class="video-detail" id="player">
-                                    <!-- <img src="{{vTopViewed.image}}" alt="">
-                                    <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span> -->
                                 </div>
-
-                                <!-- <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zOD2BuV1nGo" frameborder="0"></iframe> -->
                                 <div class="video-wrapper dashboard-top">
                                     <div class="videos-title">
                                         <h5>{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5>
                                     </div>
                                     <div class="videos-rate">
-                                        <!-- <div class="videos-start">
-                                            <img src="assets/images/star.png">
-                                            <p class="rate"></p>
-                                        </div> -->
                                         <div ng-if="vTopViewed" class="list-star pull-left star-align" star-rating stars="5"
                                               outer-star-selection="stars"
                                               outer-percent="rating"
@@ -176,7 +159,6 @@
                                               
                                         <p class="videos-rate-infor">
                                             <span data-icon="&#x49;">{{vTopViewed.numViews}}</span>
-                                            <!-- <span data-icon="&#xe089;">12</span> -->
                                             <span data-icon="&#xe066;">{{vTopViewed.numComments}}</span>
                                         </p>
                                     </div>
@@ -189,16 +171,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- /End Bottom right area -->
+                        </div>
                     </div>
-                    <!-- /End Content of center side -->
                 </div>
             </section>
         </div>
     </div>      
-
 </div>
-<!-- /End Main center content -->
-    
 <div id="sidebar-right" ng-include="sidebarRight"></div>
-
