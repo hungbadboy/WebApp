@@ -12,6 +12,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   $scope.avatar = localStorage.getItem('imageUrl');
   $scope.mentorName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastname');
   $scope.tabpane = 1;
+  $scope.pos = 0;
 
   init();
 
@@ -273,7 +274,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   }
 
   function switchTab(val){
-    if (val == 1) {
+    if (val == 1) {      
       if ($scope.newestEssays && $scope.newestEssays.length > 0){
         $scope.eid = $scope.newestEssays[0].uploadEssayId;
         $scope.ignored = false;
@@ -302,6 +303,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
         $scope.eid = null;
       }
     }
+    $scope.pos = 0;
     getEssayById($scope.eid, userId);
   }
 
@@ -438,5 +440,85 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
 
       switchTab($scope.tabpane);
     });
+  }
+
+  $scope.prevEssay = function(pos){
+    if ($scope.tabpane == 1) {
+      if ($scope.newestEssays && $scope.newestEssays.length > 0) {
+        if (pos == 0) {
+          $scope.pos = $scope.newestEssays.length - 1;
+        } else {
+          $scope.pos = pos-1;
+        }
+        getEssayById($scope.newestEssays[$scope.pos].uploadEssayId, userId);
+      }
+    } else if ($scope.tabpane == 2) {
+      if ($scope.processingEssays && $scope.processingEssays.length > 0) {
+        if (pos == 0) {
+          $scope.pos = $scope.processingEssays.length - 1;
+        } else {
+          $scope.pos = pos-1;
+        }
+        getEssayById($scope.processingEssays[$scope.pos].uploadEssayId, userId);
+      }
+    } else if ($scope.tabpane == 3) {
+      if ($scope.ignoredEssays && $scope.ignoredEssays.length > 0) {
+        if (pos == 0) {
+          $scope.pos = $scope.ignoredEssays.length - 1;
+        } else {
+          $scope.pos = pos-1;
+        }
+        getEssayById($scope.ignoredEssays[$scope.pos].uploadEssayId, userId);
+      }
+    } else {
+      if ($scope.repliedEssays && $scope.repliedEssays.length > 0) {
+        if (pos == 0) {
+          $scope.pos = $scope.repliedEssays.length - 1;
+        } else {
+          $scope.pos = pos-1;
+        }
+        getEssayById($scope.repliedEssays[$scope.pos].uploadEssayId, userId);
+      }
+    }
+  }
+
+  $scope.nextEssay = function(pos){
+    if ($scope.tabpane == 1) {
+      if ($scope.newestEssays && $scope.newestEssays.length > 0) {
+        if (pos == $scope.newestEssays.length - 1) {
+          $scope.pos = 0;
+        } else {
+          $scope.pos = pos+1;
+        }
+        getEssayById($scope.newestEssays[$scope.pos].uploadEssayId, userId);
+      }
+    } else if ($scope.tabpane == 2) {
+      if ($scope.processingEssays && $scope.processingEssays.length > 0) {
+        if (pos == $scope.processingEssays.length - 1) {
+          $scope.pos = 0;
+        } else {
+          $scope.pos = pos+1;
+        }
+        getEssayById($scope.processingEssays[$scope.pos].uploadEssayId, userId);
+      }
+    } else if ($scope.tabpane == 3) {
+      if ($scope.ignoredEssays && $scope.ignoredEssays.length > 0) {
+        if (pos == $scope.ignoredEssays.length - 1) {
+          $scope.pos = 0;
+        } else {
+          $scope.pos = pos+1;
+        }
+        getEssayById($scope.ignoredEssays[$scope.pos].uploadEssayId, userId);
+      }
+    } else {
+      if ($scope.repliedEssays && $scope.repliedEssays.length > 0) {
+        if (pos == $scope.repliedEssays.length - 1) {
+          $scope.pos = 0;
+        } else {
+          $scope.pos = pos+1;
+        }
+        getEssayById($scope.repliedEssays[$scope.pos].uploadEssayId, userId);
+      }
+    }
   }
 }]);
