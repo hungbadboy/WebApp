@@ -10,10 +10,11 @@
                 <a href="" ng-click="addNewPlaylist()">Add new</a>
             </div>
             <div class="form-group col-md-10">
-                <select class="form-control" id="playlist">
-                    <option value="0">Choose a playlist</option>
-                    <option ng-repeat="p in playlists track by $index" value="{{p.plid}}">{{p.name}}</option>
+                <select class="select-sbj" ng-model="playlist" ng-change="selectPlaylist(playlist)" class="form-control" ng-options='playlist.plid as playlist.name for playlist in playlists'>
                 </select>
+                <div ng-if="error" class="validate_error">
+                   <span>{{error}}</span>
+                </div>
             </div>
             <div class="btn-modal col-md-2">
                 <button type="button" class="btn btn-default btn-app" ng-click="apply()">Apply</button> 

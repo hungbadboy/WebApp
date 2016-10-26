@@ -233,6 +233,13 @@ brotControllers
 
                 };
 
+                //fix height in first ask
+                $timeout(function(){
+                    if ($location.absUrl().indexOf('first-ask') > -1 && $("#top-mentors-videos").height() > 0) {
+                        $(".create-ask").height($("#top-mentors-videos").height());
+                    }
+                });
+
                 $scope.detailQuestion = function (id) {
                     window.location.href = '/#/question_detail/' + id + "";
                 }

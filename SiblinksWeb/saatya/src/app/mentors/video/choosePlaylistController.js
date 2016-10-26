@@ -12,13 +12,20 @@ brotControllers.controller('ChoosePlaylistController',
 
     function initPlaylist(){
       if (userId && userId > 0) {
-        if (myCache.get("playlist") !== undefined) {
-          $scope.playlists = myCache.get("playlist");
+        var selectPlaylistSubjects = localStorage.getItem('selectPlaylistSubjects');
+        if (selectPlaylistSubjects !== null) {
+          $scope.playlists = JSON.parse(selectPlaylistSubjects);
+          $scope.playlist = $scope.playlists[0].plid;
         } else{
           VideoService.getPlaylist(u_id).then(function(data){
             if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
               $scope.playlists = data.data.request_data_result;
-              myCache.put("playlist", data.data.request_data_result);
+              $scope.playlists.splice(0,0,{
+                'plid':0,
+                'name': "Select a Playlist"
+              });
+              localStorage.setItem("selectPlaylistSubjects", JSON.stringify($scope.playlists), 10);
+              $scope.playlist = $scope.playlists[0].plid;
             }
           });
         }  
@@ -28,19 +35,25 @@ brotControllers.controller('ChoosePlaylistController',
       }          
     }
 
+    $scope.selectPlaylist = function(e){
+      $scope.playlist = e;
+      $scope.error = null;
+    }
+
     $scope.apply = function(){
-      var plid = $('#playlist').val();
-      if(plid == 0)
-        alert('Choose playlist first.');
+      if($scope.playlist == 0){
+        $scope.error = 'Choose playlist first.';
+        return;
+      }
 
       var request = {
         'authorID': u_id,
-        'plid': plid,
+        'plid': $scope.playlist,
         'vids': v_ids
       }
       $rootScope.$broadcast('open');
       VideoService.addVideosToPlaylist(request).then(function(data){
-        $rootScope.$broadcast('addPlaylist', plid);
+        $rootScope.$broadcast('addPlaylist', $scope.playlist);
         $modalInstance.dismiss('cancel');
         $rootScope.$broadcast('close');
       });

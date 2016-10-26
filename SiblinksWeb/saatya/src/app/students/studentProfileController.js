@@ -107,11 +107,11 @@ brotControllers.controller('StudentProfileController',
                             $scope.GenderMentor = validateGender(gender);
                             var birthDay = calculateBirthDay(result_data.birthDay);
                             $scope.bod = birthDay;
-                            $scope.isEmptyName = false;
+                            $scope.isEmptyNameMentor = false;
                             if (($scope.studentMentorProfile.firstname == null || isEmpty($scope.studentMentorProfile.firstname))
                                 && ($scope.studentMentorProfile.lastName == null || isEmpty($scope.studentMentorProfile.lastName))) {
-                                $scope.isEmptyName = true;
-                                $scope.studentMentorProfile.fullName = $scope.studentMentorProfile.username.indexOf('@') != -1 ?
+                                $scope.isEmptyNameMentor = true;
+                                $scope.studentMentorProfile.fullNameMentor = $scope.studentMentorProfile.username.indexOf('@') != -1 ?
                                     $scope.studentMentorProfile.username.substr(0, $scope.studentMentorProfile.username.indexOf('@')) : $scope.studentMentorProfile.username;
                             }
                             if (result_data.defaultSubjectId && (subjects !== undefined || subjects != null)) {
@@ -140,7 +140,7 @@ brotControllers.controller('StudentProfileController',
             };
 
             function getVideosRecently() {
-                VideoService.getVideosRecently(mentorId).then(function (data) {
+                VideoService.getVideoPlaylistRecently(mentorId, 6, 0).then(function (data) {
                     if (data.data.status) {
                         if (data.data.request_data_result == StatusError.MSG_DATA_NOT_FOUND) {
                             $scope.videosRecently = null;

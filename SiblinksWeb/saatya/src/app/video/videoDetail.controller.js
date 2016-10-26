@@ -367,10 +367,10 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             $rootScope.$broadcast('open');
             if($scope.videoInfo){
                 var objRequest = {
-                    authorID : $scope.userId,
+                    authorID : $scope.videoInfo.userid,
                     content : content,
                     vid : videoid,
-                    uid: $scope.videoInfo.userid,
+                    uid: $scope.userId,
                     title : $scope.videoInfo.title,
                     subjectId : $scope.videoInfo.subjectId,
                     author : userName
