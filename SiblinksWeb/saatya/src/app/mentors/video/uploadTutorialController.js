@@ -71,18 +71,19 @@ brotControllers.controller('UploadTutorialController',
     }
 
     function initPlaylist(){
-      if (myCache.get("playlist") !== undefined) {
-        $scope.playlists = myCache.get("playlists");
+      var playlists = localStorage.getItem("playlists");
+      if (playlists !== null) {
+        $scope.playlists = JSON.parse(playlists);
         $scope.uploadPlaylist = $scope.playlists[0].plid;
       } else{
         VideoService.getPlaylist(u_id).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-            myCache.put("playlists", data.data.request_data_result);
             $scope.playlists = data.data.request_data_result;
             $scope.playlists.splice(0,0,{
               'plid':0,
               'name': "Select a Playlist"
             })
+            localStorage.setItem("playlists", JSON.stringify($scope.playlists), 10);
             $scope.uploadPlaylist = $scope.playlists[0].plid;
           }
         });
@@ -95,6 +96,7 @@ brotControllers.controller('UploadTutorialController',
       } else{
         $scope.editVideo = v;
       }
+      console.log($scope.editVideo);
       $scope.error = null;
       $scope.success = null;
       
@@ -114,16 +116,18 @@ brotControllers.controller('UploadTutorialController',
       var result = $.grep($scope.uploadSubjects, function(s){
         return s.subjectId == subid;
       });
-
-      return $scope.uploadSubjects.indexOf(result[0]);
+      var index = $scope.uploadSubjects.indexOf(result[0]);
+      if (index == -1) index = 0;
+      return index;
     }
 
     function getPositionPlaylist(plid){
       var result = $.grep($scope.playlists, function(p){
         return p.plid == plid;
       });
-
-      return $scope.playlists.indexOf(result[0]);
+      var index = $scope.playlists.indexOf(result[0]);
+      if (index == -1) index = 0;
+      return index;
     }
 
     $scope.openEdit = function (v){
