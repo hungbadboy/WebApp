@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="tab-content">
                                     <div class="tab-pane" ng-class="{'active': tabpane == 1}">
-                                        <div ng-if="newestEssays" scroller="newestEssaysScrl" data-on-total-scroll="loadMoreEssay()">
+                                        <div ng-if="newestEssays" scroller="newestEssaysScrl" data-on-total-scroll="loadMoreEssay">
                                             <div class="group-item-qa">
                                                 <div class="item-qa clearfix" ng-repeat="e in newestEssays track by $index" ng-click="detailEssay(e.uploadEssayId)">
                                                     <div class="studentAvt">
@@ -55,7 +55,7 @@
                                         <div ng-show="!newestEssays"><h5>Found no data</h5></div>
                                     </div>
                                     <div class="tab-pane" ng-class="{'active': tabpane == 2}">
-                                        <div ng-if="processingEssays" scroller="processingEssaysScrl" data-on-total-scroll="loadMoreEssay()">
+                                        <div ng-if="processingEssays" scroller="processingEssaysScrl" data-on-total-scroll="loadMoreEssay">
                                             <div class="group-item-qa">
                                                 <div class="item-qa clearfix" ng-repeat="pe in processingEssays track by $index" ng-click="detailEssay(pe.uploadEssayId)">
                                                     <div class="studentAvt">
@@ -75,7 +75,7 @@
                                         <div ng-show="!processingEssays || processingEssays.length == 0"><h5>Found no data</h5></div>
                                     </div>
                                     <div class="tab-pane" ng-class="{'active': tabpane == 3}">
-                                        <div ng-if="ignoredEssays" scroller="ignoredEssaysScrl" data-on-total-scroll="loadMoreEssay()">
+                                        <div ng-if="ignoredEssays" scroller="ignoredEssaysScrl" data-on-total-scroll="loadMoreEssay">
                                             <div class="group-item-qa">
                                                 <div class="item-qa clearfix" ng-repeat="ie in ignoredEssays track by $index" ng-click="detailEssay(ie.uploadEssayId)">
                                                     <div class="studentAvt">
@@ -92,7 +92,7 @@
                                         <div ng-show="!ignoredEssays"><h5>Found no data</h5></div>
                                     </div>
                                     <div class="tab-pane" ng-class="{'active': tabpane == 4}">
-                                        <div ng-if="repliedEssays" scroller="repliedEssaysScrl" data-on-total-scroll="loadMoreEssay()">
+                                        <div ng-if="repliedEssays" scroller="repliedEssaysScrl" data-on-total-scroll="loadMoreEssay">
                                             <div class="group-item-qa">
                                                 <div class="item-qa clearfix" ng-repeat="re in repliedEssays track by $index" ng-click="detailEssay(re.uploadEssayId)">
                                                     <div class="studentAvt">

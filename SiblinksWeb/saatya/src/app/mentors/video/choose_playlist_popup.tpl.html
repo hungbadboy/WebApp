@@ -10,7 +10,7 @@
                 <a href="" ng-click="addNewPlaylist()">Add new</a>
             </div>
             <div class="form-group col-md-10">
-                <select class="select-sbj" ng-model="playlist" ng-change="selectPlaylist(playlist)" class="form-control" ng-options='playlist.plid as playlist.name for playlist in playlists'>
+                <select class="form-control" ng-model="playlist" ng-change="selectPlaylist(playlist)" class="form-control" ng-options='playlist.plid as playlist.name for playlist in playlists'>
                 </select>
                 <div ng-if="error" class="validate_error">
                    <span>{{error}}</span>

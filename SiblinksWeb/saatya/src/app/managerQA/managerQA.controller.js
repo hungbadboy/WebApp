@@ -38,7 +38,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
         function init() {
 
-            $('#autocompleteSubsQA_dropdown').width($('#autocompleteSubsQA').width());
             var offset = 0;
             listDefaultSubjectId = getSubjectNameByIdQA(defaultSubjectId, allSubjects);
             listSubject = "";
@@ -79,6 +78,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             });
 
         }
+        $timeout(function () {
+            $('#autocompleteSubsQA_dropdown').width($('#autocompleteSubsQA').width());
+        }, 300);
 
         $document.on('scroll', function() {
             // do your things like logging the Y-axis

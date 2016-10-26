@@ -380,6 +380,8 @@ brotControllers
 
 
                 $scope.showFormAdd = function () {
+                    // fix in IE
+                    $("#autocompleteCate_value_dropdown").addClass('ng-hide');
                     bodyRef.addClass('disableScroll');
                     $scope.titlePopupAsk = "Ask a question";
                     $scope.isEdit = false;

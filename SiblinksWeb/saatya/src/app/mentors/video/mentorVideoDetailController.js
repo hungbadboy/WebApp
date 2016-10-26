@@ -43,8 +43,9 @@ brotControllers.controller('MentorVideoDetailController',
 
                 data.numView = data.numView != null ? data.numView : 0;
                 data.numComment = data.numComment != null ? data.numComment : 0;
-                data.timeStamp = convertUnixTimeToTime(data.timeStamp); 
-                data.fullName = data.firstName + ' ' + data.lastName;
+                data.timeStamp = convertUnixTimeToTime(data.timeStamp);
+                var fullname = data.firstName + ' ' + data.lastName;
+                data.fullName = fullname != ' ' ? fullname : data.userName.substr(0, data.userName.indexOf('@'));
                 $scope.playlist = data;    
             }
         });
@@ -159,7 +160,7 @@ brotControllers.controller('MentorVideoDetailController',
             if (data[i].userid == userId)
                 data[i].fullName = 'You';
             else
-                data[i].fullName = fullname != ' ' ? fullname : data[i].userName;
+                data[i].fullName = fullname != ' ' ? fullname : data[i].userName.substr(0, data[i].userName.indexOf('@'));
             data[i].imageUrl = data[i].imageUrl != null ? data[i].imageUrl : 'assets/images/noavartar.jpg';
             data[i].content = decodeURIComponent(data[i].content);
         }
