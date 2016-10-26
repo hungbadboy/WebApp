@@ -113,7 +113,7 @@ public class ManagerQAServiceImpl implements managerQAService {
                 }
             }
 
-            Object[] queryParams = { userId };
+            Object[] queryParams = {};
             boolean status = true;
 
             whereCause += " ORDER BY X.datetime DESC ";

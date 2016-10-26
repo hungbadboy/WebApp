@@ -64,7 +64,8 @@
                                                 <div class="clearfix bt-item">
                                                     <div class="col-md-6 replied" ng-if="question.timeanswer"><h6>Replies
                                                         <span>&nbsp;{{convertUnixTimeToTime(question.timeanswer)}} ago</span></h6></div>
-                                                    <div class="col-md-6 replied" ng-if="!question.timeanswer"><h6>No replies </span></h6></div>
+                                                    <div class="col-md-6 replied" ng-if="!question.timeanswer && currentTab != 'unanswered'"><h6>No replies </span></h6></div>
+                                                    <div class="col-md-6 replied" ng-if="currentTab == 'unanswered'"><h6></span></h6></div>
                                                     <div class="col-md-6">
                                                         <p class="list-view">
                                                             {{question.numReplies}} <span data-icon="&#x77;"></span>&nbsp;&nbsp;
@@ -196,12 +197,12 @@
                                                                 <span title="Delete" ng-really-message="Are you sure you want to delete?"
                                                                       ng-really-click ="removeAnswer(answer.aid)" class="edit-answer" data-icon="&#xe019;"></span>
                                                                 <span class="pull-right time" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
-                                                                <span class="like-h" data-icon="&#xe089;"></span>
+                                                                <span class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                             </div>
                                                             <div class="header" ng-if="userId != answer.authorID">
                                                                 <strong class="primary-font pull-left"><a href="#/student/mentorProfile/{{answer.authorID}}">{{answer.firstName +" " +answer.lastName}}</a></strong>
                                                                 <span class="time pull-left" >&nbsp;Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago &nbsp; </span>{{answer.numlike}}
-                                                                <span ng-click="likeAnswer(answer.aid)" id="heart{{answer.aid}}" class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
+                                                                <span  id="heart{{answer.aid}}" class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                             </div>
                                                             <p class="pre-wrap" ng-click="showAnswer($index)">{{answer.content}}</p>
                                                             <div class="images-question" >

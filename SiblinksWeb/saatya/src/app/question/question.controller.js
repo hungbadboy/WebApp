@@ -244,6 +244,7 @@ brotControllers
                     window.location.href = '/#/question_detail/' + id + "";
                 }
                 $scope.showFormAdd = function () {
+                    $("#autocompleteCate_value_dropdown").addClass('ng-hide');
                     bodyRef.addClass('disableScroll');
                     $scope.titlePopupAsk = "Ask a question";
                     $scope.isEdit = false;
