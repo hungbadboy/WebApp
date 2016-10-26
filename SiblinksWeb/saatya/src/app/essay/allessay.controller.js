@@ -103,7 +103,6 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
         newestEssayCache = $scope.newestEssays.slice(0);
         $scope.eid = $scope.newestEssays[0].uploadEssayId;
         getEssayById($scope.eid, userId);
-        console.log($scope.newestEssays);
       } else
         $scope.newestEssays = null;
     });
@@ -133,7 +132,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
             result[i].odFilesize = formatBytes(result[i].odFilesize);
             result[i].rdFilesize = formatBytes(result[i].rdFilesize);
             var fullname = result[i].firstName + ' ' + result[i].lastName;
-            result[i].fullName = fullname != ' ' ? fullname : result[i].userName;
+            result[i].fullName = fullname != ' ' ? fullname : result[i].userName.substr(0, result[i].userName.indexOf('@'));
           }
           $scope.essay = result[0];
           getRepliedByEssay($scope.essay.uploadEssayId, userId);
@@ -157,7 +156,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     for (var i = data.length - 1; i >= 0; i--) {
       data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
       var fullname = data[i].firstName + ' ' + data[i].lastName;
-      data[i].fullName = fullname != ' ' ? fullname : data[i].userName;
+      data[i].fullName = fullname != ' ' ? fullname : data[i].userName.substr(0, data[i].userName.indexOf('@'));
     }
     return data;
   }
@@ -166,6 +165,8 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     var offset = 0;
     if ($scope.tabpane == 1) {
       offset = getOffset($scope.newestEssays);
+      if (offset == undefined || offset == null)
+        offset = 0;
       loadMoreNewestEssay(offset);
     } else if ($scope.tabpane == 2) {
       offset = getOffset($scope.processingEssays);
@@ -191,6 +192,8 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
           $scope.newestEssays = newEss;
         newestEssayCache.length = 0;
         newestEssayCache = $scope.newestEssays.slice(0);
+        $scope.eid = $scope.newestEssays[0].uploadEssayId;
+        getEssayById($scope.eid, userId);
       }
     });
   }

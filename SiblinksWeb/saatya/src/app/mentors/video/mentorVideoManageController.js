@@ -51,7 +51,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
         var firstname = data[i].firstName != null ? data[i].firstName : '';
         var lastname = data[i].lastName != null ? data[i].lastName : '';
         var fullname = firstname + ' ' + lastname;
-        data[i].fullName = fullname == ' ' ? data[i].userName : fullname;
+        data[i].fullName = fullname == ' ' ? data[i].userName.substr(0, data[i].userName.indexOf('@')) : fullname;
         data[i].timestamp = convertUnixTimeToTime(data[i].timestamp);
         data[i].content = decodeURIComponent(data[i].content);
       }
@@ -72,7 +72,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
         var firstname = data[i].firstName != null ? data[i].firstName : '';
         var lastname = data[i].lastName != null ? data[i].lastName : '';
         var fullname = firstname + ' ' + lastname;
-        data[i].fullName = fullname == ' ' ? data[i].userName : fullname;
+        data[i].fullName = fullname == ' ' ? data[i].userName.substr(0, data[i].userName.indexOf('@')) : fullname;
       }
       return data;
     }

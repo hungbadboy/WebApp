@@ -48,7 +48,7 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
     for (var i = data.length - 1; i >= 0; i--) {
       data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
       var fullName = data[i].firstName + ' ' + data[i].lastName;
-      data[i].fullName = fullName != ' ' ? fullName : data[i].userName;
+      data[i].fullName = fullName != ' ' ? fullName : data[i].userName.substr(0, data[i].userName.indexOf('@'));;
     }
     return data;
   }
@@ -69,8 +69,9 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
       if (result && result != NO_DATA) {
         for (var i = result.length - 1; i >= 0; i--) {
           result[i].timeStamp = convertUnixTimeToTime(data.data.request_data_result[i].timeStamp);
-          result[i].fullName = result[i].fullName != null ? result[i].fullName : result[i].userName;
-          result[i].imageUrl = result[i].imageUrl != null ? result[i].imageUrl : 'assets/images/noavartar.jpg'
+          var fullname = result[i].firstName + ' ' + result[i].lastName;
+          result[i].fullName = fullname != ' ' ? fullname : result[i].userName.substr(0, result[i].userName.indexOf('@'));
+          result[i].imageUrl = result[i].imageUrl != null ? result[i].imageUrl : 'assets/images/noavartar.jpg';
         }
         $scope.questions = result;
       } else
