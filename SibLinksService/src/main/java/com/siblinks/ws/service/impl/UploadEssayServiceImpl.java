@@ -837,13 +837,25 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     params = new Object[] { "W", essayId };
                     flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_CANCEL_ESSAY, params);
                 } else {
-                    params = new Object[] { status, mentorId, essayId };
-                    flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
+                    List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_STATUS_ESSAY, new Object[] { essayId });
+                    String essayStatus = "";
+                    if (readObject != null && readObject.size() > 0) {
+                        for (int i = 0; i < readObject.size(); i++) {
+                            Map<String, Object> map = (Map<String, Object>) readObject.get(i);
+                            essayStatus = (String) map.get("status");
+                        }
+                    }
+                    if (essayStatus.equals("P")) {
+                        reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", "Processed");
+                    } else {
+                        params = new Object[] { status, mentorId, essayId };
+                        flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
+                    }
                 }
                 if (flag) {
                     reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Success");
                 } else {
-                    reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Failed");
+                    reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", "Failed");
                 }
             } catch (Exception e) {
                 logger.error(e.getMessage());
