@@ -57,20 +57,27 @@
                                                 <a><img class="avatar-fix-max-size60" ng-src="{{question.imageUrl}}" alt="avatar"></a>
                                             </div>
                                             <div class="col-md-9 bx-dt-qa">
-                                                <h5>{{convertName(question.firstName+' '+question.lastName,question.userName)}}<span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span></h5>
+                                                <h5>{{convertName(question.firstName+question.lastName,question.userName)}}<br><span class="time col-md-6"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span></h5>
+                                                 <div class="col-md-6">
+                                                    <p ng-if="currentTab == 'unanswered'" class="list-view">
+                                                        {{question.numReplies}} <span data-icon="&#x77;"></span>&nbsp;&nbsp;
+                                                        {{question.numViews}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                    </p>
+                                                </div>
+                                                
                                                 <p><span>in</span> <b>{{question.subject}}</b></p>
                                                 <p>{{ question.content | limitTo: 185 }}{{question.content.length > 185 ? '...' : ''}}</p>
 
                                                 <div class="clearfix bt-item">
-                                                    <div class="col-md-6 replied" ng-if="question.timeanswer"><h6>Replied
+                                                    <div class="col-md-6 replied" ng-if="question.timeanswer"><h6>Replies
                                                         <span>&nbsp;{{convertUnixTimeToTime(question.timeanswer)}} ago</span></h6></div>
-                                                    <div class="col-md-6 replied" ng-if="!question.timeanswer"><h6>No replies </span></h6></div>
+                                                    <div class="col-md-6 replied" ng-if="!question.timeanswer"><h6>No replies</h6></div>
                                                     <div class="col-md-6">
-                                                        <p class="list-view">
-                                                            {{question.numReplies}} <span data-icon="&#x77;"></span>&nbsp;&nbsp;
-                                                            {{question.numViews}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
-                                                        </p>
-                                                    </div>
+                                                    <p class="list-view">
+                                                        {{question.numReplies}} <span data-icon="&#x77;"></span>&nbsp;&nbsp;
+                                                        {{question.numViews}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                    </p>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
