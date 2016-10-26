@@ -129,6 +129,10 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/policy/policy.tpl.html',
 		controller: 'AboutCtrl'
 	}).
+    when('/terms', {
+        templateUrl: 'src/app/term/term_us.tpl.html',
+        controller: 'AboutCtrl'
+    }).
 	when('/notification', {
 		templateUrl: 'src/app/notification.tpl.html',
 		controller: 'NotificationCtrl'

@@ -3289,4 +3289,40 @@ public class VideoServiceImpl implements VideoService {
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/getVideoPlaylistRecently", method = RequestMethod.GET)
+    public ResponseEntity<Response> getVideoPlaylistRecently(@RequestParam final long userId, @RequestParam final String limit,
+            @RequestParam final String offset) {
+        Map<String, String> pageLimit = CommonUtil.getInstance().getOffset(limit, offset);
+        if (userId < 1) {
+            return new ResponseEntity<Response>(
+                                                new SimpleResponse(
+                                                                   (SibConstants.SUCCESS),
+                                                                   "video",
+                                                                   "getVideoPlaylistRecently",
+                                                                   SibConstants.USER_NOT_EXISTS),
+                                                HttpStatus.OK);
+        }
+        Object[] params = { userId, userId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
+        SimpleResponse response;
+        try {
+            List<Object> readObjects = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_PLAYLIST_RECENTLY, params);
+            if (!CollectionUtils.isEmpty(readObjects)) {
+                String count = String.valueOf(readObjects.size());
+                response = new SimpleResponse(SibConstants.SUCCESS, "video", "getVideoPlaylistRecently", readObjects, count);
+            } else {
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              "video",
+                                              "getVideoPlaylistRecently",
+                                              SibConstants.NO_DATA,
+                                              "0");
+            }
+        } catch (DAOException e) {
+            logger.error(e.getMessage());
+            response = new SimpleResponse(SibConstants.FAILURE, "video", "getVideoPlaylistRecently", SibConstants.NO_DATA, "0");
+        }
+        return new ResponseEntity<Response>(response, HttpStatus.OK);
+    }
+
 }
