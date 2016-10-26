@@ -169,6 +169,8 @@ brotControllers.controller('PlaylistController',
           if (data.data.status) {
              loadPlaylist();         
           }
+          localStorage.removeItem("selectPlaylistSubjects");
+          localStorage.removeItem("playlists");
           $rootScope.$broadcast('close');
         });
       }      
