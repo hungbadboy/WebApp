@@ -54,7 +54,7 @@
                                         <span class="time">{{video.timeStamp}} ago</span>
                                         <div class="btn-count clearfix">
                                             <div class="bx-btn pull-left">
-                                                <button id="btnDelete" class="btn-add active" data-toggle="modal" href='' ng-if="!plid" ng-click="openAddPlaylist(video.vid)">Add to playlist</button>
+                                                <button id="btnDelete" class="btn-add active" data-toggle="modal" ng-click="openAddPlaylist(video.vid)">Add to playlist</button>
                                                 <button class="btn-edit" ng-click="editVideo(video.vid)">Edit</button>
                                                 <button class="btn-remove" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteVideo(video.vid)">Delete</button>
                                             </div>
