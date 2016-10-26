@@ -1,11 +1,10 @@
 <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
 <div class="content">
-    <div class="center-content">
+    <div id="center-content" class="center-content">
         <div class="center-content-wrapper">
             <section id="dashboard">
                 <div class="dashboard-header">    
                     <h4><a href="#/"> SibLinks</a> / Manage Essay</h4>
-                    <!-- <h4>Manage Essay</h4> -->
                 </div>
                 <div class="manager-video mentor-manage-qa-content mentor-manage-essay">
                     <div class="row top-mag">
@@ -114,8 +113,8 @@
                         <div class="box-main-replied" >
                             <div class="slider-rpl" ng-if="essay">
                                 <div class="box-btn-sl clearfix">
-                                    <a href="" class="btn-prev"><span data-icon="&#x34;"></span></a>
-                                    <a href="" class="btn-next"><span data-icon="&#x35;"></span></a>
+                                    <a href="" class="btn-prev" ng-click="prevEssay(pos)"><span data-icon="&#x34;"></span></a>
+                                    <a href="" class="btn-next" ng-click="nextEssay(pos)"><span data-icon="&#x35;"></span></a>
                                 </div>
                                 <div class="group-item-sl">
                                     <div class="item-sl-rpl">
@@ -156,7 +155,6 @@
                                                             <div class="left-border"></div>
                                                         </div>
                                                         <div class="icon-upload">
-                                                            <!-- <input class="input-file" name="file1" id="file1" type="file" ng-file-select="onFileSelect($files)"> -->
                                                             <button class="label-1" ngf-select="onFileSelect($files)"
                                                                     ngf-accept="'application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'"
                                                                     ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xlsx'" ngf-max-size="5MB">
