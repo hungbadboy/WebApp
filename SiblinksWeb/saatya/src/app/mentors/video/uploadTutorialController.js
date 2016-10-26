@@ -76,7 +76,7 @@ brotControllers.controller('UploadTutorialController',
             $scope.playlists.splice(0,0,{
               'plid':0,
               'name': "Select a Playlist"
-            })
+            });
             localStorage.setItem("playlists", JSON.stringify($scope.playlists), 10);
             $scope.uploadPlaylist = $scope.playlists[0].plid;
           }

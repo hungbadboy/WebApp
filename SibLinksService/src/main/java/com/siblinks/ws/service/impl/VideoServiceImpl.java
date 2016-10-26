@@ -3123,9 +3123,13 @@ public class VideoServiceImpl implements VideoService {
                     msg = String.format("Insert success %d videos and fail %d videos into playlist", countSuccess, countFail);
                 }
 
-                response = new SimpleResponse(true + "", request.getRequest_data_type(), request.getRequest_data_method(), msg);
+                response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), msg);
             } else {
-                response = new SimpleResponse(true + "", request.getRequest_data_type(), request.getRequest_data_method(), "Missing authorId or plid.");
+                response = new SimpleResponse(
+                                              SibConstants.FAILURE,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "Missing author or playlist information.");
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
