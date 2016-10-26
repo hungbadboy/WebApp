@@ -95,8 +95,8 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     });
   }
 
-  function getNewestEssay(offset){
-    EssayService.getNewestEssay(userId, schoolId, 10, offset).then(function(data){
+  function getNewestEssay(){
+    EssayService.getNewestEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
         $scope.newestEssays = formatEssay(result);
