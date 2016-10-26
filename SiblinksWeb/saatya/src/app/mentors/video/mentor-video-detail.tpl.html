@@ -1,5 +1,4 @@
 <div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
-<!-- main start -->
 <div class="content">
     <div class="center-content">
         <div class="center-content-wrapper">
@@ -11,8 +10,6 @@
                     <div class="manager-detail-video">
                         <div class="play-video">
                             <div class="box-btn-sl clearfix" ng-if="plid">
-                                <!-- <a href="" class="btn-prev" ng-click="preVideo(pos)"><img src="assets/images/icon-left-sl-vd.png" alt=""></a>
-                                <a href="" class="btn-next" ng-click="nextVideo(pos)"><img src="assets/images/icon-right-sl-vd.png" alt=""></a> -->
                                 <a href="" class="btn-prev" ng-click="preVideo(pos)" data-icon="&#x34;"></a>
                                 <a href="" class="btn-next" ng-click="nextVideo(pos)" data-icon="&#x35;"></a>
                             </div>
@@ -75,10 +72,8 @@
                                         </div>
                                     </div>
                                     <div class="show-about">
-                                        <!-- <p ng-class="class" ng-show="video.description.length > 0">{{video.description}}</p> -->
                                         <p ng-if="video" read-more ng-model="video.description" words="false" length="250"></p>
                                         <p ng-class="class" ng-hide="video.description.length > 0">No Description</p>
-                                        <!-- <a href="" ng-click="showMore()" ng-show="video.description && video.description.length > 100">{{textShow}} --><!-- <span data-icon="&#x33;"></span> --></a>
                                     </div>
                                     <div class="catego clearfix">
                                         <p class="pull-right"><span>Catalogue</span>&nbsp;&nbsp;<b>{{video.subject}}</b></p>
@@ -106,7 +101,7 @@
                                                         <div class="chat-body col-md-11">
                                                             <div class="header">
                                                                 <a href="" ng-click="goToProfile(c.userid)"><strong class="primary-font">{{c.fullName}}</strong></a><span class="time">{{c.timestamp}} ago</span>
-                                                                <a href="" class="txt-dlt pull-right" ng-click="deleteComment(c.cid, video.vid)">Delete</a>
+                                                                <a href="" class="txt-dlt pull-right" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteComment(c.cid, video.vid)">Delete</a>
                                                             </div>
                                                             <p>
                                                                 {{c.content}}
@@ -143,6 +138,4 @@
         </div>
     </div>                
 </div>
-<!--  end main -->
-<div id="sidebar-right" ng-include="sidebarRight"></div>
-        
+<div id="sidebar-right" ng-include="sidebarRight"></div>        
