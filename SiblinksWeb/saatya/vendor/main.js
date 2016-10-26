@@ -136,6 +136,7 @@ jQuery(document).ready(function($) {
       $("#sidebar-menu .navigation .nav>.active>a span.sub-menu").toggleClass ("show");
       $(this).next().slideToggle();
     })
+    
 
     // Slide for student Mentor page
 //    $('#studentCarousel[data-type="multi"] .item').each(function(){
