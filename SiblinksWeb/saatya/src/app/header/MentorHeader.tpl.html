@@ -1,67 +1,68 @@
 <div class="clearfix">
   <!-- Left header -->
-  <div class="mentor-left-header">
+  
+  <div id="mentor-left-header" class="mentor-left-header " ng-class="{in: isMiniMenu}">
       <div class="left-header-wrapper">
           <div class="main-logo">
      		<a href="#/mentor">
          		<span class="logo-full"><img src="assets/images/logo.png"></span>
              </a>
-                    </div>                            
-                </div>
-            </div>
-            <!-- /End Left header -->
+          </div>
+      </div>
+   </div>
+   <!-- /End Left header -->
 
-            <!-- Center header -->
-            <div class="mentor-center-header">
-                <div class="navbar-header"> 
-                    <button type="button" aria-expanded="false" ng-click="showSmallLeftSideBar()">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="fa fa-bars"></span>
-                    </button>
-                </div>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" href='#uploadImg' id="upImg" ng-click="showUpload()">
-                    <span data-icon="&#xe070;">Upload Video</span>
-                </button>
-                
-               
-            </div>
-            <!-- /End center header -->
+   <!-- Center header -->
+   <div id="mentor-center-header" class="mentor-center-header" ng-class="{in: isMiniMenu}">
+       <div class="navbar-header"> 
+           <button type="button" aria-expanded="false" ng-click="showSmallLeftSideBar()">
+           <span class="sr-only">Toggle navigation</span>
+           <span class="fa fa-bars"></span>
+           </button>
+       </div>
+       <!-- Button trigger modal -->
+       <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" href='#uploadImg' id="upImg" ng-click="showUpload()">
+           <span data-icon="&#xe070;">Upload Video</span>
+       </button>
+       
+      
+   </div>
+   <!-- /End center header -->
 
-            <!-- Right header -->
-            <div class="mentor-right-header">
-                <!-- nofitication of user -->
-                <div class="user-nofitication">
-                    <div class="logined"> 
-                        <div class="notification " ng-click="popupNotification()">
-                            <img src="assets/images/bell.png"><span ng-if="countNotification > 0">{{countNotification}}</span>
-                        </div>
-                        <div class="user-login">
-                            <div class="user-img">
-                                <span><img ng-src="{{imageUrl}}" err-src="assets/images/noavartar.jpg" ng-if="imageUrl"></span>
-                            </div>
-                            <div class="profile-user"><img src="assets/images/arrow.png"></div>
-                         	<div id="user-info" class="user-info">
-                         	<ul>
-			                 	<li class="profile"><a href="#/mentor/mentorProfile" ><span data-icon="&#xe08a;"></span>My Profile</a></li>
-			                    <li class="setting"><a href="javascript:void(0);" ng-click="goToEditMentor()"><span data-icon="&#xe037;"></span>Settings</a></li>
-			                    <li class="logout" style="width:100%;"><a href="javascript:void(0)" ng-click="logout()"><span class="fa fa-power-off"></span>Log Out</a></li>
-             				</ul>
-                            </div>                   
-                        </div>
-                    </div>
-                    <div class="no-login inactive">
-                        <div class="register">
-                            <a href="register.html">Register</a>
-                        </div>
-                        <div class="login">
-                            <a href="login.html">Login</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="background-color">
-                </div>
-            </div>
-            <!-- /End Right header -->
-        </div>
-        <!-- Notification --><div class="notification-content" ng-include="'src/app/notification/notification.tpl.html'" ng-controller="NotificationCtrl"></div><!-- /End Notification -->
+   <!-- Right header -->
+   <div class="mentor-right-header">
+       <!-- nofitication of user -->
+       <div class="user-nofitication">
+           <div class="logined"> 
+               <div class="notification " ng-click="popupNotification()">
+                   <img src="assets/images/bell.png"><span ng-if="countNotification > 0">{{countNotification}}</span>
+               </div>
+               <div class="user-login">
+                   <div class="user-img">
+                       <span><img ng-src="{{imageUrl}}" err-src="assets/images/noavartar.jpg" ng-if="imageUrl"></span>
+                   </div>
+                   <div class="profile-user"><img src="assets/images/arrow.png"></div>
+                	<div id="user-info" class="user-info">
+                	<ul>
+           	<li class="profile"><a href="#/mentor/mentorProfile" ><span data-icon="&#xe08a;"></span>My Profile</a></li>
+              <li class="setting"><a href="javascript:void(0);" ng-click="goToEditMentor()"><span data-icon="&#xe037;"></span>Settings</a></li>
+              <li class="logout" style="width:100%;"><a href="javascript:void(0)" ng-click="logout()"><span class="fa fa-power-off"></span>Log Out</a></li>
+    				</ul>
+                   </div>                   
+               </div>
+           </div>
+           <div class="no-login inactive">
+               <div class="register">
+                   <a href="register.html">Register</a>
+               </div>
+               <div class="login">
+                   <a href="login.html">Login</a>
+               </div>
+           </div>
+       </div>
+       <div class="background-color">
+       </div>
+   </div>
+   <!-- /End Right header -->
+</div>
+<!-- Notification --><div class="notification-content" ng-include="'src/app/notification/notification.tpl.html'" ng-controller="NotificationCtrl"></div><!-- /End Notification -->

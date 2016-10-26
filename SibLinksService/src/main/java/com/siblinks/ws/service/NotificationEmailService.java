@@ -42,7 +42,7 @@ public interface NotificationEmailService {
      *            Parameter is user name that is email
      * @return Message alert for user sent to email
      */
-    public ResponseEntity<Response> contact(RequestData video) throws DAOException;
+    public ResponseEntity<Response> contact(RequestData contact) throws DAOException;
 
     /**
      * This method is update token in DB then send email for verify to new

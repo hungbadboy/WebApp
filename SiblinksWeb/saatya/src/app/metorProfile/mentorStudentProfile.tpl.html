@@ -1,8 +1,8 @@
 <!-- Sidebar left menu -->
-<div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
+<div id="sidebar-menu" class="sidebar-left"  ng-class="{in: isMiniMenu}" ng-include="sidebarLeft"></div>
 <!-- /End Sidebar left menu -->
 <div class="content">
-    <div id="center-content" class="center-content">
+    <div id="center-content" class="center-content" ng-class="{in: isMiniMenu}">
         <div class="center-content-wrapper">
             <section id="dashboard">
                 <div class="dashboard-wrapper">
