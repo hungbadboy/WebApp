@@ -36,7 +36,7 @@
                                     <div class="tab-pane" ng-class="{'active': tabpane == 1}">
                                         <div ng-if="newestEssays" scroller="newestEssaysScrl" data-on-total-scroll="">
                                             <div class="group-item-qa">
-                                                <div class="item-qa clearfix" ng-repeat="e in newestEssays track by $index">
+                                                <div class="item-qa clearfix" ng-repeat="e in newestEssays track by $index" ng-click="detailEssay(e.uploadEssayId)">
                                                     <div class="studentAvt">
                                                         <a href="" ng-click="goToProfile(e.userId)"><img src="{{e.imageUrl}}" alt=""></a>
                                                     </div>
@@ -57,7 +57,7 @@
                                     <div class="tab-pane" ng-class="{'active': tabpane == 2}">
                                         <div ng-if="processingEssays" scroller="processingEssaysScrl" data-on-total-scroll="">
                                             <div class="group-item-qa">
-                                                <div class="item-qa clearfix" ng-repeat="pe in processingEssays track by $index">
+                                                <div class="item-qa clearfix" ng-repeat="pe in processingEssays track by $index" ng-click="detailEssay(pe.uploadEssayId)">
                                                     <div class="studentAvt">
                                                         <a href="" ng-click="goToProfile(pe.userId)"><img src="{{pe.imageUrl}}" alt=""></a>
                                                     </div>
@@ -77,7 +77,7 @@
                                     <div class="tab-pane" ng-class="{'active': tabpane == 3}">
                                         <div ng-if="ignoredEssays" scroller="ignoredEssaysScrl" data-on-total-scroll="">
                                             <div class="group-item-qa">
-                                                <div class="item-qa clearfix" ng-repeat="ie in ignoredEssays track by $index">
+                                                <div class="item-qa clearfix" ng-repeat="ie in ignoredEssays track by $index" ng-click="detailEssay(ie.uploadEssayId)">
                                                     <div class="studentAvt">
                                                         <a href="" ng-click="goToProfile(ie.userId)"><img src="{{ie.imageUrl}}" alt=""></a>
                                                     </div>
