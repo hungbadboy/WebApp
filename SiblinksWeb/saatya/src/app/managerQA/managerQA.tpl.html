@@ -57,7 +57,7 @@
                                                 <a><img class="avatar-fix-max-size60" ng-src="{{question.imageUrl}}" alt="avatar"></a>
                                             </div>
                                             <div class="col-md-9 bx-dt-qa">
-                                                <h5>{{convertName(question.firstName+question.lastName,question.userName)}}<span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span></h5>
+                                                <h5>{{convertName(question.firstName+' '+question.lastName,question.userName)}}<span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span></h5>
                                                 <p><span>in</span> <b>{{question.subject}}</b></p>
                                                 <p>{{ question.content | limitTo: 185 }}{{question.content.length > 185 ? '...' : ''}}</p>
 

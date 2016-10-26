@@ -820,28 +820,35 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     public ResponseEntity<Response> updateStatusEssay(@RequestBody final RequestData request) {
 
         SimpleResponse reponse = null;
-        try {
-            String mentorId = request.getRequest_data().getMentorId();
-            String status = request.getRequest_data().getStatus();
-            Object[] params = null;
-            boolean flag = false;
-            if (status != null && status.equals("I")) {
-                params = new Object[] { request.getRequest_data().getEssayId(), mentorId };
-                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_IGNORE_ESSAY, params);
-                params = new Object[] { "W", request.getRequest_data().getEssayId() };
-                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_CANCEL_ESSAY, params);
-            } else {
-                params = new Object[] { status, mentorId, request.getRequest_data().getEssayId() };
-                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
+        String essayId = request.getRequest_data().getEssayId();
+        String mentorId = request.getRequest_data().getMentorId();
+        if (essayId == null || essayId.isEmpty() || Integer.parseInt(essayId) == 0) {
+            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", "Essay can not be empty");
+        } else if (mentorId == null || mentorId.isEmpty() || Integer.parseInt(mentorId) == 0) {
+            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", "Mentor can not be empty");
+        } else {
+            try {
+                String status = request.getRequest_data().getStatus();
+                Object[] params = null;
+                boolean flag = false;
+                if (status != null && status.equals("I")) {
+                    params = new Object[] { essayId, mentorId };
+                    flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_IGNORE_ESSAY, params);
+                    params = new Object[] { "W", essayId };
+                    flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_CANCEL_ESSAY, params);
+                } else {
+                    params = new Object[] { status, mentorId, essayId };
+                    flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
+                }
+                if (flag) {
+                    reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Success");
+                } else {
+                    reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Failed");
+                }
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+                reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", e.getMessage());
             }
-            if (flag) {
-                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Success");
-            } else {
-                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Failed");
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", e.getMessage());
         }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;

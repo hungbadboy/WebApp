@@ -6,7 +6,6 @@
                 <div class="dashboard-wrapper">
                     <div class="dashboard-header">    
                     <h4><a href="#/"> SibLinks</a> / General</h4> 
-                    <!-- <h4>General</h4> -->
                     </div>
                     <div class="manager-box-video">
                         <div class="row">
@@ -123,11 +122,11 @@
                                                 <h5><a href="#/mentor/studentProfile/{{r.userid}}"">{{r.fullName}}</a></h5>
                                                 <div class="rate-star clearfix">
                                                     <span class="pull-left">
-                                                        <div ng-if="comments" star-rating stars="5"
+                                                        <div star-rating stars="5"
                                                           outer-star-selection="stars"
                                                           outer-percent="rating"
                                                           rating-define="star"
-                                                          rating-stars="{{r.rating}}"
+                                                          rating-stars="{{r.rating ? r.rating : 0}}"
                                                           star-radius="7" sel-color="gold"
                                                           back-color="white"></div>
                                                      </span>

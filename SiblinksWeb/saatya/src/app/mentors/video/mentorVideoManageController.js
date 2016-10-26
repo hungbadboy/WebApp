@@ -3,7 +3,6 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
 
 
     var userId = localStorage.getItem('userId');
-    // var userId = 111;
     $scope.fullName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastname');
     $scope.avatar = localStorage.getItem('imageUrl');
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
@@ -229,18 +228,15 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
 
   $scope.goVideoDetail = function(vid, plid){
     if (plid && plid > 0) {
-      setStorage('vidInPlaylist', vid, 1);
-      window.location.href = '#/mentor/playlist/playall/'+plid+'';
+      window.location.href = '#/mentor/video/detail/'+vid+'/list/'+plid+'';
     } else {
-      localStorage.removeItem('vidInPlaylist');
       window.location.href = '#/mentor/video/detail/'+vid+'';
     }
   }
 
   $scope.goToDetail = function(v){
     if (v.plid && v.plid > 0) {
-      setStorage('vidInPlaylist', v.vid, 1);
-      window.location.href = '#/mentor/playlist/playall/'+v.plid+'';
+      window.location.href = '#/mentor/video/detail/'+v.vid+'/list/'+v.plid+'';
     } else{
       localStorage.removeItem('vidInPlaylist');
       window.location.href = '#/mentor/video/detail/'+v.vid+'';

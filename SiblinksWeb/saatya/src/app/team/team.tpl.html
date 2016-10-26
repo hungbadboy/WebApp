@@ -33,7 +33,7 @@
                  <!-- Information of mentors -->
                  <div class="browser-mentors-infor">
                      <div class="browser-mentors-infor-wrapper clearfix">
-                          <div class="col-md-4" ng-repeat="mentor in listTopmentors  | filter:query track by $index">
+                          <div class="col-md-4" ng-repeat="mentor in listTopmentors  | fillterTeam:query ">
                               <div class="mentors-infor-img">
                                   <div class="mentors-infor-img-wrapper">
                                       <a href="#/student/mentorProfile/{{mentor.userid}}"><img src="{{mentor.imageUrl}}"></a>
