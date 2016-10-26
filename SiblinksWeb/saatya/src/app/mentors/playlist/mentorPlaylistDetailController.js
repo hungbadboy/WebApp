@@ -189,16 +189,17 @@ brotControllers.controller('MentorPlaylistDetailController',
     }
 
     $scope.$on('passing', function(e,a){
-        var result = $.grep($scope.videos, function(v){
-            return v.vid == a.vid;
-        });
+        // var result = $.grep($scope.videos, function(v){
+        //     return v.vid == a.vid;
+        // });
 
-        var index = $scope.videos.indexOf(result[0]);
-        if (index != -1) {
-            $scope.videos[index].title = a.title;
-            $scope.videos[index].description = a.description;
+        // var index = $scope.videos.indexOf(result[0]);
+        // if (index != -1) {
+        //     $scope.videos[index].title = a.title;
+        //     $scope.videos[index].description = a.description;
 
-        }
+        // }
+        getVideosInPlaylist();
     });
 
     $scope.$on('addVideo', function(e,a){
