@@ -24,15 +24,16 @@ brotControllers.controller('VideoManagerController',
     }
 
     function initSubject(){
-      if (sub) {
-        var arr = angular.copy(sub);
-         if (arr[0].subjectId != 0) {
-            arr.splice(0, 0, {
-              'subjectId': 0,
-              'subject' : 'All'
-            });
-         }
-         $scope.videoMgrSubjects = arr;
+      var videoMgrSubjects = localStorage.getItem("videoManagerSubjects");
+      if (videoMgrSubjects != null) {
+        // var arr = angular.copy(sub);
+        //  if (arr[0].subjectId != 0) {
+        //     arr.splice(0, 0, {
+        //       'subjectId': 0,
+        //       'subject' : 'All'
+        //     });
+        //  }
+         $scope.videoMgrSubjects = JSON.parse(videoMgrSubjects);
          $scope.subject = $scope.videoMgrSubjects[0].subjectId;        
       } else{
         HomeService.getAllCategory().then(function (data) {
@@ -43,6 +44,7 @@ brotControllers.controller('VideoManagerController',
                 'subject' : 'All'
                });
                $scope.videoMgrSubjects = arr;
+               localStorage.setItem("videoManagerSubjects", JSON.stringify($scope.videoMgrSubjects), 10)
                $scope.subject = $scope.videoMgrSubjects[0].subjectId;
            }
          });

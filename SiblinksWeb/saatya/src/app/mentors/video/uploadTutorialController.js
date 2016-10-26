@@ -90,7 +90,6 @@ brotControllers.controller('UploadTutorialController',
       } else{
         $scope.editVideo = v;
       }
-      console.log($scope.editVideo);
       $scope.error = null;
       $scope.success = null;
       
