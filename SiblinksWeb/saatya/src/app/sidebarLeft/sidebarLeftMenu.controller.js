@@ -42,8 +42,10 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
     $scope.showSubMenu = function showSubMenu(subMenuId) {
         if (!angular.element("#" + subMenuId ).hasClass('show')) {
             angular.element("#" + subMenuId +", #menu-video").addClass('show');
+            $('#menu-video').attr('data-icon','3');
         } else {
             angular.element("#" + subMenuId +", #menu-video").removeClass('show');
+            $('#menu-video').attr('data-icon','4')
         }
     }
 }]);

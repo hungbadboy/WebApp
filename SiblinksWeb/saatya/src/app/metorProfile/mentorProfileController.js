@@ -1,3 +1,21 @@
+brotControllers.filter('filterSub', function() {
+    return function(items, name) {
+        var filtered = [];
+        var fullName = "";
+        var nameSearch = name;
+        if(!isEmpty(name)){
+            nameSearch = name.toLowerCase();
+        }
+        angular.forEach(items, function(el) {
+            fullName =  trimStr(el.firstName)+ ' ' + trimStr(el.lastName);
+            if((!isEmpty(fullName) && fullName.toLowerCase().indexOf(nameSearch)>-1)
+                || isEmpty(name)) {
+                filtered.push(el);
+            }
+        });
+        return filtered;
+    }
+});
 brotControllers.controller('MentorProfileController',
     ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'MentorService', 'TeamMentorService', 'VideoService', 'StudentService', 'myCache', 'uploadEssayService',
         function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, MentorService, TeamMentorService, VideoService, StudentService, myCache, uploadEssayService) {
@@ -502,7 +520,7 @@ brotControllers.controller('MentorProfileController',
                             listMentorSubscribed.push(mentor);
                         }
                         $scope.isReadyLoadPointSubscribed = true;
-                        $scope.listMentorSubs = isNextPage ? $scope.listMentorSubs.concat(listMentorSubscribed) : listMentorSubscribed;
+                        $scope.listMentorSubs = $scope.isNextPage ? $scope.listMentorSubs.concat(listMentorSubscribed) : listMentorSubscribed;
                         $scope.listMentorSubsSize = $scope.listMentorSubs.length;
                     }
                 });
@@ -687,18 +705,17 @@ brotControllers.controller('MentorProfileController',
             };
 
             var currentMentorSubPage = 0;
-            var isNextPage = false;
+            $scope.isNextPage = false;
             $scope.offset = 0;
             $scope.newLimit = $scope.defaultLimit;
             var newOffset = 0;
             $scope.nextPageMentorSubs = function () {
-                //TODO: handle if array exist data
                 currentMentorSubPage++;
                 newOffset = $scope.defaultLimit * currentMentorSubPage;
                 if (newOffset > $scope.listMentorSubsSize) {
                     return;
                 }
-                isNextPage = true;
+                $scope.isNextPage = true;
                 $scope.offset = newOffset;
                 $scope.newLimit = newOffset + $scope.defaultLimit;
                 getMentorSubscribed(studentId, $scope.defaultLimit, newOffset);

@@ -94,12 +94,10 @@
                                     </div>
                                     <div class="top-mentors-info">
                                         <p class="top-mentors-name">
-                                            <a href="#/student/mentorProfile/{{mentor.MentorId}}"><strong>{{mentor.MentorName}}</strong></a>
+                                            <a href="#/student/mentorProfile/{{mentor.MentorId}}"><strong>{{validateShowName(mentor.MentorName, mentor.userName)}}</strong></a>
                                         </p>
                                         <p class="top-mentors-essay">
-                                            <a href="/subjectId/{{subject.id}}">
-                                                <div ng-repeat="subject in mentor.subjects track by $index" class="subjects">{{subject.name}}</div>
-                                            </a>
+                                            <div ng-repeat="subject in mentor.subjects track by $index" class="subjects"><a href="/subjectId/{{subject.id}}">{{subject.name}}</a></div>
                                         </p>
                                     </div>
                                 </li>
@@ -194,7 +192,7 @@
                                     </a>
                                         <div class="videos-time-add">
                                             <a href="#/student/mentorProfile/{{recommend.authorID}}"><span
-                                                    class="video-poster"> {{recommend.userName}}</span></a><span> added {{recommend.timeAgo}} ago</span>
+                                                    class="video-poster"> {{validateShowName(recommend.name, recommend.userName)}}</span></a><span> added {{convertUnixTimeToTime(recommend.timeStamp)}} ago</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
@@ -202,16 +200,16 @@
                                                       outer-star-selection="stars"
                                                       outer-percent="rating"
                                                       rating-define="star"
-                                                      rating-stars="{{recommend.averageRating}}"
+                                                      rating-stars="{{recommend.averageRating != null ? recommend.averageRating : 0}}"
                                                       star-radius="6" sel-color="gold"
                                                       readonly="true"
                                                       back-color="white">
                                                  </span>
                                             </p>
                                             <p class="videos-rate-infor">
-                                                <span data-icon="&#x49;">{{recommend.numViews}}</span>
+                                                <span data-icon="&#x49;">{{recommend.numViews != null ? recommend.numViews : 0}}</span>
                                                 <!--<span data-icon="&#xe089;" class="favourite">{{recommend.numFavourite}}</span>-->
-                                                <span data-icon="&#xe066;">{{recommend.numComments}}</span>
+                                                <span data-icon="&#xe066;">{{recommend.numComments ? recommend.numComments : 0}}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -228,7 +226,7 @@
                             <ul>
 
                                 <li ng-repeat="videoRecently in listVideoRecently | unique:'vid'">
-                                    <div class="video-wrapper"><a ng-href="{{videoRecently.href}}">
+                                    <div class="video-wrapper"><a ng-href="{{videoRecently.type == 2 ? '#/videos/detailPlaylist/' + videoRecently.vid + '/0' : '#/videos/detailVideo/'+videoRecently.vid }}">
                                     	<div class="videos-thumnail">
                                             <img ng-src="{{videoRecently.image}}">
                                             <div class="box-all-vd" ng-if="videoRecently.countvid != null">
@@ -240,7 +238,7 @@
                                              </div>
                                         </div>
                                         <div class="videos-title">
-                                            <a href="#/videos/detailVideo/{{videoRecently.vid}}"
+                                            <a ng-href="{{videoRecently.type == 2 ? '#/videos/detailPlaylist/' + videoRecently.vid + '/0' : '#/videos/detailVideo/'+videoRecently.vid }}"
                                                title="{{videoRecently.title}}">
                                                 {{ videoRecently.title | limitTo: 40 }}{{videoRecently.title.length
                                                 > 40 ?
@@ -251,7 +249,7 @@
                                     </a>
                                         <div class="videos-time-add">
                                             <a href="#/student/mentorProfile/{{videoRecently.authorID}}"><span
-                                                    class="video-poster"> {{videoRecently.userName}}</span></a><span> added {{videoRecently.timeAgo}} ago</span>
+                                                    class="video-poster"> {{validateShowName(videoRecently.name, videoRecently.userName)}}</span></a><span> added {{convertUnixTimeToTime(videoRecently.timeStamp)}} ago</span>
                                         </div>
                                         <div class="videos-rate" ng-show="{{videoRecently.type == '1'}}">
                                             <p class="videos-start">
@@ -259,7 +257,7 @@
                                                        outer-star-selection="stars"
                                                        outer-percent="rating"
                                                        rating-define="star"
-                                                       rating-stars="{{videoRecently.averageRating}}"
+                                                       rating-stars="{{videoRecently.averageRating != null ? videoRecently.averageRating : 0}}"
                                                        star-radius="6" sel-color="gold"
                                                        readonly="true"
                                                        back-color="white">
@@ -282,24 +280,24 @@
 
                             <div ng-repeat="recommendedForYou in listVideoRecommendedForU | limitTo : limitOfRecommendedForU track by $index"
                                  ng-style="{'border-bottom': !$last ? '1px solid #ddd' : '' }" class="clearfix">
+
                                 <div class="video-member-header">
                                     <div class="video-member-title">
-                                        <a href="#/student/mentorProfile/{{recommendedForYou[$index].userId}}"><h5>
-                                            {{recommendedForYou[0].name}}</h5></a>
+                                        <a href="#/student/mentorProfile/{{recommendedForYou[0].userid}}"><h5>
+                                            {{validateShowName(recommendedForYou[0].name, recommendedForYou[0].userName)}}</h5></a>
                                         <p><span>recommended videos for you</span></p>
                                     </div>
                                     <div class="video-member-subcriber">
                                         <p>
-
                                             <button style="margin-top: 5px;" class="subscribers active"
                                                     data-icon="&#x4c;"
-                                                    id="subscribers_{{recommendedForYou[$index].userId}}"
-                                                    ng-click="setSubscribeMentor(recommendedForYou[$index].userId)"
+                                                    id="subscribers_{{recommendedForYou[0].userid}}"
+                                                    ng-click="setSubscribeMentor(recommendedForYou[0].userid)"
                                                     ng-class="{'unsubcrib':recommendedForYou[0].isSubs =='1'}"
-                                                    ng-Mouseover="hoverSubcribe(recommendedForYou[0].isSubs,recommendedForYou[$index].userId)"
-                                                    ng-mouseleave="unHoverSubcribe(recommendedForYou[0].isSubs,recommendedForYou[$index].userId)">
-                                                <span id="span_{{recommendedForYou[$index].userId}}">Subscribe</span>
-                                                <span class="number-subscribers">{{recommendedForYou[$index].countSubscribe != null && recommendedForYou[$index].countSubscribe != "" ? recommendedForYou[$index].countSubscribe : 0}}</span>
+                                                    ng-Mouseover="hoverSubcribe(recommendedForYou[0].isSubs,recommendedForYou[0].userid)"
+                                                    ng-mouseleave="unHoverSubcribe(recommendedForYou[0].isSubs,recommendedForYou[0].userid)">
+                                                <span id="span_{{recommendedForYou[0].userid}}">Subscribe</span>
+                                                <span class="number-subscribers">{{recommendedForYou[0].countSubscribe != null && recommendedForYou[0].countSubscribe != "" ? recommendedForYou[0].countSubscribe : 0}}</span>
                                             </button>
 
                                             <!--<button style="margin-top: 5px;" ng-click="setSubscribeMentor(recommendedForYou[$index].userId, $index)">-->
@@ -316,7 +314,7 @@
                                                 <img ng-src="{{detailVideo.image}}">
                                             </div>
                                             <div class="videos-title">
-                                                <a title="{{detailVideo.title}}">
+                                                <a href="#/videos/detailVideo/{{detailVideo.vid}}" title="{{detailVideo.title}}">
                                                     {{ detailVideo.title | limitTo: 40 }}{{detailVideo.title.length
                                                     > 40 ?
                                                     '...' :
@@ -325,8 +323,8 @@
                                             </div>
                                         </a>
                                             <div class="videos-time-add">
-                                                <a href="#/student/mentorProfile/{{detailVideo.userId}}"><span
-                                                        class="video-poster"> {{detailVideo.name}}</span></a><span> added {{detailVideo.time}} ago</span>
+                                                <a href="#/student/mentorProfile/{{detailVideo.userid}}"><span
+                                                        class="video-poster"> {{validateShowName(detailVideo.name, detailVideo.userName)}}</span></a><span> added {{convertUnixTimeToTime(detailVideo.timeStamp)}} ago</span>
                                             </div>
                                             <div class="videos-rate">
                                                 <p class="videos-start">

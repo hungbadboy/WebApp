@@ -64,7 +64,7 @@
                                                 </div>
                                             </div>
                                         </form>
-                                        <div class="slide-broswer" ng-hide="listMentorSubsSize == studentInfo.count_subscribe">
+                                        <div class="slide-broswer" ng-hide="listMentorSubsSize == studentInfo.count_subscribe && !isNextPage">
                                             <a class="btn-prev" ng-click="prevPageMentorSubs()" ng-class="{disabledNextPrev : offset == 0 && newLimit <= defaultLimit}"><span data-icon="&#x34;"></span></a>
                                             <a class="btn-next" ng-click="nextPageMentorSubs()" ng-class="{disabledNextPrev : listMentorSubsSize == studentInfo.count_subscribe}"><span data-icon="&#x35;"></span></a>
                                         </div>
@@ -76,7 +76,7 @@
                                             No have mentor subscribed
                                         </div>
                                         <div class="col-md-4" ng-show="listMentorSubs"
-                                                 ng-repeat="mentor in listMentorSubs | filter:query track by $index " ng-if="$index >= offset && $index < newLimit">
+                                                 ng-repeat="mentor in listMentorSubs | filterSub:query track by $index " ng-if="$index >= offset && $index < newLimit">
                                             <div class="mentors-infor-img">
                                                 <div class="mentors-infor-img-wrapper" id="{{mentor.userid}}" ng-mouseover="hoverProfileMentor(mentor.userid)" ng-mouseleave="unHoverProfileMentor(mentor.userid)">
                                                 <!--<div class="mentors-infor-img-wrapper" id="{{mentor.userid}}">-->
