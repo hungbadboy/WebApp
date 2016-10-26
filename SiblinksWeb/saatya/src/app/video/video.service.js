@@ -375,6 +375,14 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         });
         return promise;
     };
+
+    factory.getVideoPlaylistRecently = function (userId, limit, offset) {
+        var promise = $http({
+            method: 'GET',
+            url: NEW_SERVICE_URL + 'video/getVideoPlaylistRecently?userId=' + userId + '&limit=' + limit + '&offset=' + offset
+        });
+        return promise;
+    };
     
     //MTDU
     factory.getHistoryVideosList = function (uid) {
