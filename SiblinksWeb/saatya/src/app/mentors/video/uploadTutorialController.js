@@ -106,10 +106,14 @@ brotControllers.controller('UploadTutorialController',
       $scope.description = $scope.editVideo.description;
       checkLink($scope.editVideo.url);
 
-      $scope.uploadSubject = $scope.editVideo.subjectId;
-      $('#uploadSubject').val(getPositionSubject($scope.uploadSubject));
-      $scope.uploadPlaylist = $scope.editVideo.plid != null ? $scope.editVideo.plid : 0;
-      $('#uploadPlaylist').val(getPositionPlaylist($scope.uploadPlaylist));
+      // $scope.uploadSubject = $scope.editVideo.subjectId;
+      // $('#uploadSubject').val(getPositionSubject($scope.uploadSubject));
+      var subId = $scope.editVideo.subjectId;
+      $('#uploadSubject').val(getPositionSubject(subId));
+      // $scope.uploadPlaylist = $scope.editVideo.plid != null ? $scope.editVideo.plid : 0;
+      // $('#uploadPlaylist').val(getPositionPlaylist($scope.uploadPlaylist));
+      var plid = $scope.editVideo.plid != null ? $scope.editVideo.plid : 0;
+      $('#uploadPlaylist').val(getPositionPlaylist(plid));
     }
 
     function getPositionSubject(subid){
@@ -117,8 +121,7 @@ brotControllers.controller('UploadTutorialController',
         return s.subjectId == subid;
       });
       var index = $scope.uploadSubjects.indexOf(result[0]);
-      if (index == -1) index = 0;
-      return index;
+      return index != -1 ? index : 0;
     }
 
     function getPositionPlaylist(plid){
@@ -126,8 +129,7 @@ brotControllers.controller('UploadTutorialController',
         return p.plid == plid;
       });
       var index = $scope.playlists.indexOf(result[0]);
-      if (index == -1) index = 0;
-      return index;
+      return index != -1 ? index : 0;
     }
 
     $scope.openEdit = function (v){
