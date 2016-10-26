@@ -475,10 +475,10 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
             }
             $rootScope.$broadcast('open');
             var objRequest = {
-                authorID : $scope.userId,
+                authorID : $scope.videoInfo.userid,
                 content : content,
                 vid : $scope.currentvid,
-                uid: $scope.videoInfo.userid,
+                uid: $scope.userId,
                 title : $scope.videoInfo.title,
                 subjectId : $scope.videoInfo.subjectId,
                 author : userName
