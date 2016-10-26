@@ -44,17 +44,10 @@ brotControllers.controller('UploadTutorialController',
     }
 
     function initSubject(){
-      if (sub) {
-        var arr = angular.copy(sub);
-
-        if (arr[0].subjectId != 0) {
-            arr.splice(0, 0, {
-              'subjectId': 0,
-              'subject' : 'Select a Subject'
-            }); 
-            $scope.uploadSubjects = arr;
-            $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
-         }
+      var subjects = localStorage.getItem("insertupdateTutorialSubjects");
+      if (subjects != null) {
+        $scope.uploadSubjects = JSON.parse(subjects);
+        $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
       } else{
         HomeService.getAllCategory().then(function (data) {
            if (data.data.status) {
@@ -64,6 +57,7 @@ brotControllers.controller('UploadTutorialController',
                 'subject' : 'Select a Subject'
               }); 
               $scope.uploadSubjects = arr;
+              localStorage.setItem("insertupdateTutorialSubjects", JSON.stringify($scope.uploadSubjects), 10)
               $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
            }
        });
