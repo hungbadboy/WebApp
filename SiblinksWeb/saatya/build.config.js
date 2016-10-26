@@ -89,7 +89,8 @@ module.exports = {
             'vendor/d3.min.js',
             'vendor/nv.d3.js',
             'ckeditor/ckeditor.js',
-            'vendor/moment.min.js'
+            'vendor/moment.min.js',
+            'vendor/css_browser_selector.js'
             ],
         css: [
         ],
