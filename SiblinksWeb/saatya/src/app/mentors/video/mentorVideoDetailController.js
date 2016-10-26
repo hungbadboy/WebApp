@@ -54,7 +54,6 @@ brotControllers.controller('MentorVideoDetailController',
     function getVideosInPlaylist(){
         videoDetailService.getVideoByPlaylistId(plid).then(function (data) {
             var result = data.data.request_data_result;
-            console.log(result);
             if (result && result != "Found no data") {
                 for (var i = result.length - 1; i >= 0; i--) {
                     result[i].timeStamp = convertUnixTimeToTime(result[i].timeStamp);
@@ -114,6 +113,7 @@ brotControllers.controller('MentorVideoDetailController',
         initYoutubePlayer($scope.video.url);
         getCommentVideoDetail(v.vid);
         getVideoRelated();
+        $location.path('/mentor/video/detail/'+v.vid+'/list/'+plid+'',false);
     }
 
     function getVideoDetail(id, userId){
@@ -142,12 +142,14 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     function getCommentVideoDetail(vid){
+        console.log(vid);
         videoDetailService.getCommentVideoById(vid).then(function(data){
             var result = data.data.request_data_result;
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.comments = formatData(result);
             } else
                 $scope.comments = null;
+            console.log($scope.comments);
         });
     }
 
@@ -200,10 +202,8 @@ brotControllers.controller('MentorVideoDetailController',
     $scope.goToProfile = function(id){
         if (id == userId) {
             window.location.href = '#/mentor/mentorProfile';
-            window.location.reload();
         } else{
             window.location.href = '#/mentor/studentProfile/'+id+'';
-            window.location.reload();
         }
     }
 
@@ -311,14 +311,14 @@ brotControllers.controller('MentorVideoDetailController',
             if (data.status == 'true') {
                 $("#txtComment").val('');
                 $(".comment-action").hide();
-                videoDetailService.getCommentVideoById(vid).then(function (data) {
-                    if (data.data.status == 'true') {
-                        if (data.data.request_data_result.length > 0) {
-                            $scope.comments = formatData(data.data.request_data_result);
-                        }
-                    }
-
-                });
+                // videoDetailService.getCommentVideoById($scope.video.vid).then(function (data) {
+                //     if (data.data.status == 'true') {
+                //         if (data.data.request_data_result.length > 0) {
+                //             $scope.comments = formatData(data.data.request_data_result);
+                //         }
+                //     }
+                // });
+                getCommentVideoDetail($scope.video.vid);
             }
         });
 
