@@ -57,15 +57,15 @@
                                                     <a><img class="avatar-fix-max-size60" ng-src="{{question.imageUrl}}" alt="avatar"></a>
                                                 </div>
                                                 <div class="col-md-9 bx-dt-qa">
-                                                    <h5>{{convertName(question.firstName+' '+question.lastName,question.userName)}}<span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span></h5>
-                                                    <p><span>in</span> <b>{{question.subject}}</b></p>
-                                                    <p>{{ question.content | limitTo: 185 }}{{question.content.length > 185 ? '...' : ''}}</p>
+                                                    <h5>{{convertName(question.firstName+' '+question.lastName,question.userName)}}</h5><span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span>
+                                                    <p class="in-subj"><span>in</span> <b>{{question.subject}}</b></p>
+                                                    <p class="q-cont">{{ question.content | limitTo: 185 }}{{question.content.length > 185 ? '...' : ''}}</p>
                                                     <div class="clearfix bt-item">
-                                                        <div class="col-md-6 replied" ng-if="question.timeanswer"><h6>Replied
+                                                        <div class="col-md-8 replied" ng-if="question.timeanswer"><h6>Replied
                                                             <span>&nbsp;{{convertUnixTimeToTime(question.timeanswer)}} ago</span></h6></div>
-                                                        <div class="col-md-6 replied" ng-if="!question.timeanswer && currentTab != 'unanswered'"><h6>No replies </span></h6></div>
-                                                        <div class="col-md-6 replied" ng-if="currentTab == 'unanswered'"><h6></span></h6></div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-8 replied" ng-if="!question.timeanswer && currentTab != 'unanswered'"><h6>No replies </span></h6></div>
+                                                        <div class="col-md-8 replied" ng-if="currentTab == 'unanswered'"><h6></span></h6></div>
+                                                        <div class="lis-view">
                                                             <p  class="{{currentTab != 'unanswered'?'list-view':'list-view-un'}}">
                                                                 {{question.numReplies}} <span data-icon="&#x77;"></span>&nbsp;&nbsp;
                                                                 {{question.numViews}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
