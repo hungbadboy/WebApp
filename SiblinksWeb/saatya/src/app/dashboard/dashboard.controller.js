@@ -134,6 +134,16 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
     }
   }
 
+  $scope.changeStatus = function (eid,status) {
+    EssayService.updateStatusEssay(eid, userId, status).then(function (data) {
+      if (data.data.request_data_result == "Success") {
+        getNewestEssay();
+      } else {
+        console.log(data.data.request_data_result);
+      }
+    });
+  }
+  
   var player;
   function onYouTubeIframeAPIReady(youtubeId) {
     player = new YT.Player('player', {

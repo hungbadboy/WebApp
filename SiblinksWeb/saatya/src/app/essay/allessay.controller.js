@@ -20,7 +20,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       $(window).scroll(function(){    
         var qa_scroll = $(window).scrollTop();
         if (qa_scroll > 75) {
-          $(".mentor-manage-qa-content .left-qa").css({"top":"95px", "height":"90%"});
+          $(".mentor-manage-qa-content .left-qa").css({"top":"95px", "height":"80%"});
           $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"75vh"});
         }
         else {
@@ -95,14 +95,15 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     });
   }
 
-  function getNewestEssay(){
-    EssayService.getNewestEssay(userId, schoolId, 10, 0).then(function(data){
+  function getNewestEssay(offset){
+    EssayService.getNewestEssay(userId, schoolId, 10, offset).then(function(data){
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
         $scope.newestEssays = formatEssay(result);
         newestEssayCache = $scope.newestEssays.slice(0);
         $scope.eid = $scope.newestEssays[0].uploadEssayId;
         getEssayById($scope.eid, userId);
+        console.log($scope.newestEssays);
       } else
         $scope.newestEssays = null;
     });
@@ -161,7 +162,95 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     return data;
   }
 
+  $scope.loadMoreEssay = function(){
+    var offset = 0;
+    if ($scope.tabpane == 1) {
+      offset = getOffset($scope.newestEssays);
+      loadMoreNewestEssay(offset);
+    } else if ($scope.tabpane == 2) {
+      offset = getOffset($scope.processingEssays);
+      loadMoreProcessingEssay(offset);
+    } else if ($scope.tabpane == 3) {
+      offset = getOffset($scope.ignoredEssays);
+      loadMoreIgnoredEssay(offset);
+    } else {
+      offset = getOffset($scope.repliedEssays);
+      loadMoreRepliedEssay(offset);
+    }
+  }
+
+  function loadMoreNewestEssay(offset){
+    EssayService.getNewestEssay(userId, schoolId, 10, offset).then(function(data){
+      var result = data.data.request_data_result;
+      if (result && result != NO_DATA) {
+        var oldEss = $scope.newestEssays;
+        var newEss = formatEssay(result);
+        if (oldEss && oldEss.length > 0)
+          $scope.newestEssays = oldEss.concat(newEss);
+        else
+          $scope.newestEssays = newEss;
+        newestEssayCache.length = 0;
+        newestEssayCache = $scope.newestEssays.slice(0);
+      }
+    });
+  }
+
+  function loadMoreProcessingEssay(offset){
+    EssayService.getProcessingEssay(userId, schoolId, 10, offset).then(function(data){
+      var result = data.data.request_data_result;
+      if (result && result != NO_DATA) {
+        var oldEss = $scope.processingEssays;
+        var newEss = formatEssay(result);
+        if (oldEss && oldEss.length > 0)
+          $scope.processingEssays = oldEss.concat(newEss);
+        else
+          $scope.processingEssays = newEss;
+        processingEssayCache.length = 0;
+        processingEssayCache = $scope.processingEssays.slice(0);
+      }
+    });
+  }
+
+  function loadMoreIgnoredEssay(offset){
+    EssayService.getIgnoredEssay(userId, schoolId, 10, offset).then(function(data){
+      var result = data.data.request_data_result;
+      if (result && result != NO_DATA) {
+        var oldEss = $scope.ignoredEssays;
+        var newEss = formatEssay(result);
+        if (oldEss && oldEss.length > 0)
+          $scope.ignoredEssays = oldEss.concat(newEss);
+        else
+          $scope.ignoredEssays = newEss;
+        ignoredEssayCache.length = 0;
+        ignoredEssayCache = $scope.ignoredEssays.slice(0);
+      }
+    });
+  }
   
+  function loadMoreRepliedEssay(offset){
+    EssayService.getRepliedEssay(userId, schoolId, 10, offset).then(function(data){
+      var result = data.data.request_data_result;
+      if (result && result != NO_DATA) {
+        var oldEss = $scope.repliedEssays;
+        var newEss = formatEssay(result);
+        if (oldEss && oldEss.length > 0)
+          $scope.repliedEssays = oldEss.concat(newEss);
+        else
+          $scope.repliedEssays = newEss;
+        repliedEssayCache.length = 0;
+        repliedEssayCache = $scope.repliedEssays.slice(0);
+        // if (justReplied) {
+        //   $scope.changeTab(4);
+        //   justReplied = false;          
+        // }
+      }
+    });
+  }
+
+  function getOffset(array){
+    return (array && array.length > 0) ? array.length : 0;
+  }
+
   $scope.changeTab = function(val){
     $scope.tabpane = val;
     var keyword = $('input#essay-term').val();

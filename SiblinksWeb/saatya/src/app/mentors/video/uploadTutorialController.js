@@ -137,11 +137,13 @@ brotControllers.controller('UploadTutorialController',
     }
 
     $scope.update = function(title, description){
+      var plPos = $('#uploadPlaylist').val();
+      var subjectPos = $('#uploadSubject').val();
       if (title == null || title.length == 0) {
         $scope.error = "Please input Title. \n";
         angular.element('#txtUploadTitle').trigger('focus');
         return;
-      } else if ($scope.uploadSubject == 0) {
+      } else if (subjectPos == 0) {
         $scope.error = "Please select a Subject. \n";
         angular.element('#uploadSubject').trigger('focus');
         return;
@@ -151,21 +153,20 @@ brotControllers.controller('UploadTutorialController',
         "vid": $scope.editVideo.vid,
         "title": title,
         "description": description,
-        "subjectId": $scope.uploadSubject,
-        "plid": $scope.uploadPlaylist > 0 ? $scope.uploadPlaylist : null
+        "subjectId": $scope.uploadSubjects[subjectPos].subjectId,
+        "plid": plPos > 0 ? $scope.playlists[plPos].plid : null
       }
       $rootScope.$broadcast('open');
       VideoService.updateTutorial(request).then(function(data){
         if (data.data.request_data_result === "Success") {
           if (!isNaN(v_id) && v_id > 0) {
-            
              var video = {
                'vid': v_id,
                'title': title,
                'description': description,
-               'plid': $scope.uploadPlaylist > 0 ? $scope.uploadPlaylist : null,
-               'playlistname': $scope.uploadPlaylist > 0 ? getPlaylistName() : null,
-               'subjectId': $scope.uploadSubject
+               'plid': plPos > 0 ? $scope.playlists[plPos].plid : null,
+               'playlistname': plPos > 0 ? getPlaylistName($scope.playlists[plPos].plid) : null,
+               'subjectId': $scope.uploadSubjects[subjectPos].subjectId
              } 
              $rootScope.$broadcast('passing', video);
 
@@ -183,10 +184,10 @@ brotControllers.controller('UploadTutorialController',
       });
     }
 
-    function getPlaylistName(){
+    function getPlaylistName(plid){
       var name = null;
       var result = $.grep($scope.playlists, function(v){
-        return v.plid == $scope.uploadPlaylist;
+        return v.plid == plid;
       });
 
       var index = $scope.playlists.indexOf(result[0]);
