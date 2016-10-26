@@ -1,9 +1,25 @@
-
+brotControllers.filter('fillterTeam', function() {
+    return function(items, name) {
+        var filtered = [];
+        var fullName = "";
+        var nameSearch = name;
+        if(!isEmpty(name)){
+            nameSearch = name.toLowerCase();
+        }
+        angular.forEach(items, function(el) {
+            fullName =  el.firstName + ' ' + el.lastName;
+            if((!isEmpty(fullName) && fullName.toLowerCase().indexOf(nameSearch)>-1)
+                || (!isEmpty(el.accomplishments) && el.accomplishments.toLowerCase().indexOf(nameSearch)>-1) || isEmpty(name)) {
+                filtered.push(el);
+            }
+        });
+        return filtered;
+    }
+});
 brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$location', '$sce', 'TeamMentorService','myCache','VideoService',
     function ($scope, $rootScope, $log, $location, $sce, TeamMentorService,myCache,VideoService) {
 
-
-        var limit = "50";
+        var limit = "500";
         var offset = "0";
         $scope.type = "subs";
         brot.signin.statusStorageHtml();
