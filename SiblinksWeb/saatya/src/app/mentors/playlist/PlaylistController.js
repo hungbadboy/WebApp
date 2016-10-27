@@ -25,27 +25,6 @@ brotControllers.controller('PlaylistController',
       var playlistManagerSubjects = localStorage.getItem("playlistManagerSubjects");
       var filterSubjects = localStorage.getItem("filterSubjects");
       if (playlistManagerSubjects != null && filterSubjects != null){    
-        // var objArr = angular.copy(sub);
-        // var objArr2 = angular.copy(sub);
-
-        //  if (objArr[0].subjectId != 0) {
-        //     objArr.splice(0, 0, {
-        //       'subjectId': 0,
-        //       'subject' : 'Select a Subject'
-        //     });
-        //     $scope.subjects = objArr;
-        //     $scope.addSubject = $scope.subjects[0].subjectId;  
-        //  }           
-
-        //  if (objArr2[0].subjectId != 0) {
-        //     objArr2.splice(0, 0, {
-        //       'subjectId': 0,
-        //       'subject' : 'All'
-        //     });
-        //     $scope.filterSubjects = objArr2;
-        //     $scope.subject = $scope.filterSubjects[0].subjectId;
-        //  }  
-
         $scope.subjects = JSON.parse(playlistManagerSubjects);;
         $scope.addSubject = $scope.subjects[0].subjectId;
         $scope.filterSubjects = JSON.parse(filterSubjects);
@@ -61,7 +40,7 @@ brotControllers.controller('PlaylistController',
                'subject' : 'Select a Subject'
              });
              $scope.subjects = objArr;
-             localStorage.setItem("playlistManagerSubjects", JSON.stringify($scope.subjects), 10)
+             localStorage.setItem("playlistManagerSubjects", JSON.stringify($scope.subjects), 2)
              $scope.addSubject = $scope.subjects[0].subjectId;  
 
              objArr2.splice(0, 0, {
@@ -69,7 +48,7 @@ brotControllers.controller('PlaylistController',
               'subject' : 'All'
              });
              $scope.filterSubjects = objArr2;
-             localStorage.setItem("filterSubjects", JSON.stringify($scope.filterSubjects), 10)
+             localStorage.setItem("filterSubjects", JSON.stringify($scope.filterSubjects), 2)
              $scope.subject = $scope.filterSubjects[0].subjectId;               
            }
          });
@@ -185,6 +164,8 @@ brotControllers.controller('PlaylistController',
               $rootScope.$broadcast('open');
               PlaylistService.deleteMultiplePlaylist(selectedPlaylist, userId).then(function(data){
                 loadPlaylist();
+                localStorage.removeItem("selectPlaylistSubjects");
+                localStorage.removeItem("playlists");
                 $rootScope.$broadcast('close');
               });
             };
@@ -362,6 +343,8 @@ brotControllers.controller('PlaylistController',
         if (result != null && result.message == "success") {
           //reload page
           $scope.success = "Insert playlist successful.";
+          localStorage.removeItem("selectPlaylistSubjects");
+          localStorage.removeItem("playlists");
           loadPlaylist();
           clearContent();
         } else{
