@@ -17,12 +17,15 @@
                                     <h4 ng-if="!isEmptyName">{{mentorInfo.firstname != null ? mentorInfo.firstname : ''}}
                                         {{mentorInfo.lastName != null ? mentorInfo.lastName : ''}}</h4>
                                     <h4 ng-if="isEmptyName">{{mentorInfo.fullName}}</h4>
+                                    <div ng-if="errorMessage" class="validate_error" style="background: transparent; margin-top : 10px;text-align: center; font-weight: 500">
+                                        <span ng-bind="errorMessage" style="color: red"></span>
+                                    </div>
                                     <span class="changeImg broswer-img" ng-show="!isLoginViaFBOrGoogle">
                                         <!--<input type="file" id="changeImg" name="changeImg[]" ng-file-select="onFileSelect($files)" accept='image/*'>-->
                                         <!--<label for="changeImg">-->
                                         	<!--<span data-icon="î�µ"></span>-->
                                         <!--</label>-->
-                                        <button ngf-pattern="'image/*'" id="changeImg" name="changeImg[]" ngf-select="onFileSelect($files)" multiple accept="image/*" ngf-max-size="5MB">
+                                        <button ngf-pattern="'image/*'" id="changeImg" name="changeImg[]" ngf-select="onFileSelect($files, $invalidFiles)" multiple accept="image/*" ngf-max-size="5MB">
                                      <span style="pointer-events: none;" data-icon="&#xe075;"></span></button>
                                     </span>
                                 </div>

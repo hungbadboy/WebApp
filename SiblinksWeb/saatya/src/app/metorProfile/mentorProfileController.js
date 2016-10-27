@@ -627,7 +627,17 @@ brotControllers.controller('MentorProfileController',
             };
 
 
-            $scope.onFileSelect = function ($files) {
+            $scope.onFileSelect = function ($files, errFiles) {
+                $scope.errorMessage = "";
+                var errFile = errFiles && errFiles[0];
+                if(!isEmpty(errFile)){
+                    if(errFile.$error == "maxSize"){
+                        $scope.errorMessage = 'File must not exceed 5 MB';
+                        return;
+                    }
+                    $scope.errorMessage = 'File wrong format. Please select file image!';
+                    return;
+                }
                 var fd = new FormData();
                 if ($files != null) {
                     fd.append('uploadfile', $files[0]);
