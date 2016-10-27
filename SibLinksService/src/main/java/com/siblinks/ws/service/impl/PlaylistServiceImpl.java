@@ -190,33 +190,43 @@ public class PlaylistServiceImpl implements PlaylistService {
         String directory = environment.getProperty("directoryPlaylistImage");
         String service = environment.getProperty("directoryGetPlaylistImage");
         String strExtenstionFile = environment.getProperty("file.upload.image.type");
-        name = image.getOriginalFilename();
-        String nameExt = FilenameUtils.getExtension(name);
-        boolean status = strExtenstionFile.contains(nameExt.toLowerCase());
-        BufferedOutputStream stream = null;
-        if (directory != null && status) {
-            try {
-                RandomString randomName = new RandomString();
-                filename = randomName.random() + "." + "png";
+        String limitSize = environment.getProperty("file.upload.essay.size");
 
-                filepath = "" + Paths.get(directory, filename);
-                // Save the file locally
-                File file = new File(filepath);
-                File parentDir = file.getParentFile();
-                if (!parentDir.exists()) {
-                    parentDir.mkdirs();
-                }
-                stream = new BufferedOutputStream(new FileOutputStream(file));
-                stream.write(image.getBytes());
+        if (image != null) {
+            name = image.getOriginalFilename();
+            String nameExt = FilenameUtils.getExtension(name);
+            boolean status = strExtenstionFile.contains(nameExt.toLowerCase());
+            if (image.getSize() > Long.parseLong(limitSize)) {
+                throw new Exception("Thumbnail maximum is 5MB.");
+            } else {
+                BufferedOutputStream stream = null;
+                if (directory != null && status) {
+                    try {
+                        RandomString randomName = new RandomString();
+                        filename = randomName.random() + "." + "png";
 
-                fullPath = service + filename;
-            } catch (Exception e) {
-                throw new Exception("Upload playlist thumbnail failed");
-            } finally {
-                if (stream != null) {
-                    stream.close();
+                        filepath = "" + Paths.get(directory, filename);
+                        // Save the file locally
+                        File file = new File(filepath);
+                        File parentDir = file.getParentFile();
+                        if (!parentDir.exists()) {
+                            parentDir.mkdirs();
+                        }
+                        stream = new BufferedOutputStream(new FileOutputStream(file));
+                        stream.write(image.getBytes());
+
+                        fullPath = service + filename;
+                    } catch (Exception e) {
+                        throw new Exception("Upload playlist thumbnail failed");
+                    } finally {
+                        if (stream != null) {
+                            stream.close();
+                        }
+                    }
                 }
             }
+        } else {
+            throw new Exception("Please select playlist thumbnail.");
         }
 
         return fullPath;
