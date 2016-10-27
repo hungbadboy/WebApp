@@ -99,6 +99,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
             dao.insertUpdateObject(entityName, queryParams);
             transactionManager.commit(statusBD);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             transactionManager.rollback(statusBD);
             response = new SimpleResponse(SibConstants.FAILURE, "Video", "getVideoDetailById", e.getMessage());
@@ -118,6 +119,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_DETAIL_BY_ID, queryParams);
             response = new SimpleResponse(SibConstants.SUCCESS, "Video", "getVideoDetailById", readObject);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "getVideoAdmissionDetailById", e.getMessage());
         }
@@ -136,6 +138,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_COMMENT_VIDEO_BY_VID, queryParams);
             response = new SimpleResponse(SibConstants.SUCCESS, "Video", "getCommentVideoById", readObject);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "getCommentVideoById", e.getMessage());
         }
@@ -155,6 +158,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_COMMENT_VIDEO_ADMISSION_BY_VID, queryParams);
             response = new SimpleResponse(SibConstants.SUCCESS, "Video", "getCommentVideoById", readObject);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "getCommentVideoAdmissionById", e.getMessage());
         }
@@ -191,6 +195,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
 
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), message);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "updateVideoHistory", e.getMessage());
         }
@@ -223,6 +228,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
 
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), message);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "updateViewVideoAdmission", e.getMessage());
         }
@@ -259,6 +265,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
             List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
             response = new SimpleResponse(SibConstants.SUCCESS, "Video", "getVideoByCategoryId", readObject);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "getVideoByCategoryId", e.getMessage());
         }
@@ -297,6 +304,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
                 queryParams);
             response = new SimpleResponse(SibConstants.SUCCESS, "Video", "getVideoByAdmissionId", readObject);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "getVideoByAdmissionId", e.getMessage());
         }
@@ -317,6 +325,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_SUBSCRIBE, queryParams);
             response = new SimpleResponse(SibConstants.SUCCESS, "Video", "checkSubscribe", readObject);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "checkSubscribe", e.getMessage());
         }
@@ -341,6 +350,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "getVideoByPlaylistId", e.getMessage());
         }
@@ -368,6 +378,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
                 response = new SimpleResponse(SibConstants.SUCCESS, "Video", "getVideoById", "Missing vid or userid.");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "getVideoById", e.getMessage());
         }
@@ -427,6 +438,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
                 response = new SimpleResponse(SibConstants.SUCCESS, "videodetail", "getVideoRelatedMentor", SibConstants.NO_DATA);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             response = new SimpleResponse(SibConstants.FAILURE, "videoAdmission", "getVideoRelatedMentor", e.getMessage());
         }
