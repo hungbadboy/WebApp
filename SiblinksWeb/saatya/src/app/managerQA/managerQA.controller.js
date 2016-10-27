@@ -84,17 +84,17 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
         $document.on('scroll', function() {
             // do your things like logging the Y-axis
-            var height = '75vh';
+            var height = '73vh';
             if($window.innerWidth >= 1600){
-                height = '70vh';
+                height = '62vh';
             }
             if ($window.scrollY > 70) {
-                $(".mentor-manage-qa-content .left-qa").css({"top":"105px", "height":"85%"});
-                $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"75vh"});
+                $(".mentor-manage-qa-content .left-qa").css({"top":"105px", "height":"81%"});
+                $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"74vh"});
             }
             else {
                 $(".mentor-manage-qa-content .left-qa").css("top","auto");
-                $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":height});
+                $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"62vh"});
             }
         });
 
