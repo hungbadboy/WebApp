@@ -162,11 +162,17 @@
                     </button>
 
                     <!-- Modal Content (The Image) -->
-                    <div class="modal-content clearfix" >
-                        <ul class="bxslider">
+
+                    <!--<div class="popup-images-wrapper">-->
+                        <ul id="bxslider">
                             <li ng-repeat="img in currentImage"><img ng-src="{{img}}"  /></li>
                         </ul>
-                    </div>
+                        <!-- The thumbnails -->
+                        <div id="bx-pager">
+                            <a ng-repeat="img in currentImage track by $index"  data-slideIndex="{{$index}}"><img ng-src="{{img}}"  /></a>
+
+                        </div>
+                    <!--</div>-->
 
                 </div>
                 <!-- /End POPUP of images's question -->
