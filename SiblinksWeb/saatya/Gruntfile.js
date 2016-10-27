@@ -277,7 +277,7 @@ module.exports = function ( grunt ) {
                       'src/app/mentors/playlist/addUpdatePlaylist.controller.js',
                       // Profile
                       'src/app/students/studentProfileController.js',
-                      'src/app/metorProfile/mentorProfileController.js',
+                      'src/app/mentorProfile/mentorProfileController.js',
                       // Mentor Manage Video
                       'src/app/mentors/video/mentorVideoManageController.js',
                       'src/app/mentors/video/videoManagerController.js',
