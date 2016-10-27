@@ -71,10 +71,10 @@
                                         <div class="images-question"  ng-if="question.image">
                                             <ul>
                                              <li class="item" ng-repeat="image in question.image track by $index">
-                                               <div class="item-img" ng-if="image" ng-mouseover="imageHoverIn(question.id +''+$index)" ng-mouseleave="imageHoverOut(question.id +''+$index)" ng-click="zoomImage(image)">
+                                               <div class="item-img" ng-if="image" ng-mouseover="imageHoverIn(question.id +''+$index)" ng-mouseleave="imageHoverOut(question.id +''+$index)" ng-click="zoomImage(question.image)">
                                                    <img ng-src="{{image}}">
                                                    <div class="item-hover" id="{{question.id}}{{$index}}">
-                                                     <img src="assets/images/ask question/look-img.png" ng-click="zoomImage(image)">
+                                                     <img src="assets/images/ask question/look-img.png">
                                                    </div>
                                                </div>
                                            </li>
@@ -112,7 +112,7 @@
                                                                                  ng-mouseleave="imageHoverOut('aimg_'+answer.aid +''+$index)" class="item-img">
                                                                                 <img   ng-click="zoomImage(image)" ng-src="{{aimage}}">
                                                                                 <div id="aimg_{{+answer.aid +''+$index}}" class="item-hover">
-                                                                                    <img  ng-click="zoomImage(aimage)" src="assets/images/ask question/look-img.png">
+                                                                                    <img src="assets/images/ask question/look-img.png">
                                                                                 </div>
                                                                             </div>
                                                                         </li>
@@ -144,13 +144,32 @@
                     </div><!-- /End question of user -->
                 </div>
                 <!-- POPUP of images's question -->
-                <div class="popup-images">
-                    <div class="popup-images-wrapper">
-                        <img ng-src="{{currentImage}}" width="800px" height="600px">
+                <!--<div class="popup-images">-->
+                    <!--<div class="popup-images-wrapper">-->
+                        <!--&lt;!&ndash;<img ng-src="{{currentImage}}" width="800px" height="600px">&ndash;&gt;-->
+                        <!--<ul class="bxslider">-->
+                            <!--<li ng-repeat="img in currentImage"><img ng-src="{{img}}" /></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                    <!--<div class="close-popup-images" ng-click="closeImage()">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div id="modalImage" class="modal face">
+
+                    <!-- The Close Button -->
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" data-icon="&#x51;"></span>
+                    </button>
+
+                    <!-- Modal Content (The Image) -->
+                    <div class="modal-content clearfix" >
+                        <ul class="bxslider">
+                            <li ng-repeat="img in currentImage"><img ng-src="{{img}}"  /></li>
+                        </ul>
                     </div>
-                    <div class="close-popup-images" ng-click="closeImage()">
-                    </div>
-                </div><!-- /End POPUP of images's question -->
+
+                </div>
+                <!-- /End POPUP of images's question -->
                 <div sticky-kit="stickyOptions1"  class="top-mentors-videos col-lg-4">
                     <!-- Top mentor -->
                     <div  class="top-mentors" ng-include="'src/app/topMentor/topMentors.tpl.html'">

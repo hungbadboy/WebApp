@@ -118,6 +118,15 @@ public class PostServiceImpl implements PostService {
             }
             long id = 0l;
             String error = validateFileImage(files);
+            if (StringUtil.isNull(content) || content.length() > 4000) {
+                // Return is not exist image
+                simpleResponse = new SimpleResponse(
+                                                    SibConstants.FAILURE,
+                                                    "post",
+                                                    "createPost",
+                                                    "Content over 4000 or content null");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+            }
             if (!StringUtil.isNull(error)) {
                 // Return is not exist image
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "createPost", error);
@@ -171,6 +180,14 @@ public class PostServiceImpl implements PostService {
             boolean status = false;
             long id = 0l;
             String error = validateFileImage(files);
+            if (StringUtil.isNull(content) || content.length() > 4000) {
+                simpleResponse = new SimpleResponse(
+                                                    SibConstants.FAILURE,
+                                                    "post",
+                                                    "createAnswer",
+                                                    "Answer over 4000 or answer null");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+            }
             if (!StringUtil.isNull(error)) {
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "createAnswer", error);
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -246,9 +263,18 @@ public class PostServiceImpl implements PostService {
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
+            if (StringUtil.isNull(content) || content.length() > 4000) {
+                // Return is not exist image
+                simpleResponse = new SimpleResponse(
+                                                    SibConstants.FAILURE,
+                                                    "post",
+                                                    "editPost",
+                                                    "Content over 4000 or content null");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+            }
             String error = validateFileImage(files);
             if (!StringUtil.isNull(error)) {
-                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "createPost", error);
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editPost", error);
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
             MultipartFile file = null;
@@ -261,7 +287,7 @@ public class PostServiceImpl implements PostService {
             if (files != null && files.length > 0) {
                 if ((files.length + filePathEdited.split(";").length) > Integer.parseInt(maxLength)) {
                     error = "You only upload " + maxLength + " image";
-                    Response reponse = new SimpleResponse("" + Boolean.FALSE, "post", "createPost", error);
+                    Response reponse = new SimpleResponse("" + Boolean.FALSE, "post", "editPost", error);
                     ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
                     return entity;
                 }
@@ -281,10 +307,10 @@ public class PostServiceImpl implements PostService {
             dao.insertUpdateObject(
                 SibConstants.SqlMapper.SQL_POST_EDIT,
                 new Object[] { fixFilePath(filePathEdited + filePath), content, subjectId, qid });
-            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "post", "createPost", "");
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "post", "editPost", "");
         } catch (IOException | DAOException e1) {
             e1.printStackTrace();
-            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "EditPost", e1.getMessage());
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "editPost", e1.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
@@ -863,6 +889,15 @@ public class PostServiceImpl implements PostService {
             if (!AuthenticationFilter.isAuthed(context)) {
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+
+            if (StringUtil.isNull(content) || content.length() > 4000) {
+                simpleResponse = new SimpleResponse(
+                                                    SibConstants.FAILURE,
+                                                    "post",
+                                                    "editAnswer",
+                                                    "Answer over 4000 or answer null");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
 
             String error = validateFileImage(files);
