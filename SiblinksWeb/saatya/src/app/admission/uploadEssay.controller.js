@@ -86,7 +86,7 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             uploadEssayService.uploadEssayStudent(fd).then(function (data) {
                  if (data.data.status ==  'true') {
                      $scope.essayErrorMsg = "";
-                     $scope.essaySusscesMsg = "You essay has been submitted for review";
+                     $scope.essaySusscesMsg = "Your essay has been submitted for review";
                      $scope.selectSchool = 0;
                      $scope.selectMajor = 0;
                      $scope.fileName = 'Upload your file (word, excel, pdf....)';

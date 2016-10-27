@@ -298,13 +298,13 @@ brotControllers.controller('MentorProfileController',
                                 localStorage.setItem('school', $scope.schoolSelect.id);
                                 $rootScope.firstName = mentor.firstName;
                             }
-                            $scope.msgSuccess = "Updating profile successful !";
+                            $scope.msgSuccess = "Your profile has been updated successfully!";
                         }
                         else {
                             if (error != '') {
                                 $scope.msgError = error.substr(0, error.lastIndexOf(','));
                             } else {
-                                $scope.msgError = "Updating profile failure";
+                                $scope.msgError = "Failed to update your profile";
                             }
                         }
                     });

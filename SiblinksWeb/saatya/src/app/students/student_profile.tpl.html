@@ -150,7 +150,7 @@
                                                     <div class="total-number-answer"
                                                          ng-click="showAnswerQuestion(q.id)">
                                                         <div ng-class="{'has-answer': q.count_answer != '0' , 'no-answer': q.count_answer == '0'}"
-                                                             class="total-answer"><p>{{q.count_answer}} answers</p>
+                                                             class="total-answer"><p>{{q.count_answer > 1 ? (q.count_answer + " answers") : (q.count_answer + " answer")}} </p>
                                                         </div>
                                                         <div class="total-view">&nbsp;&nbsp;&nbsp; {{q.numviews}}
                                                             views
