@@ -951,7 +951,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             if (displayName == null || isEmpty(displayName)) {
                 return userName != null ? userName.substr(0, userName.indexOf('@')) : "Mentor";
             } else {
-                return displayName;
+                return displayName.trim();
             }
         };
 
@@ -986,6 +986,5 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 $scope.isSearchAction = false;
             }
         }
-
 
     }]);
