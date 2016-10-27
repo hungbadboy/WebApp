@@ -176,10 +176,11 @@ public class CommentServiceImpl implements CommentsService {
             String content = request.getRequest_data().getContent();
             String userName = request.getRequest_data().getAuthor();
             String authorId = request.getRequest_data().getAuthorID();
+            String userId = request.getRequest_data().getUid();
             boolean status = true, statusUpdateCmtVideo = false;
             int cid = 0;
             // insert comment table
-            Object[] queryParams = { userName, authorId, content };
+            Object[] queryParams = { userName, userId, content };
             long idComent = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
             if (idComent > 0) {
                 // Insert comment video table
@@ -193,7 +194,7 @@ public class CommentServiceImpl implements CommentsService {
                 }
                 status = status && statusUpdateCmtVideo ? true : false;
                 // Insert notification table
-                String userId = request.getRequest_data().getUid();
+
                 if (userId != null && Long.parseLong(userId) > 0) {
                     String subjectId = request.getRequest_data().getSubjectId();
                     String contentNofi = content;
