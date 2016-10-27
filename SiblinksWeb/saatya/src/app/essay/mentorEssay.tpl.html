@@ -165,6 +165,14 @@
                                                             </button>
                                                         </div>
                                                     </div>
+                                                    
+                                                    <div ng-if="error" style="margin-top: 10px; margin-bottom: 10px; margin-left: 75px;">
+                                                       <span style="color: red;">{{error}}</span>
+                                                    </div>
+                                                    <div ng-if="fileName" style="margin-top: 10px; margin-bottom: -8px; margin-left: 75px;">
+                                                       <img src="assets/images/img-attacfile.png" alt=""><span> {{fileName}} - {{fileSize}}</span>
+                                                    </div>
+                                                    
                                                     <div class="clearfix" ng-if="!comments && essay.status == 'P'">
                                                         <div class="btnreply pull-right">
                                                             <input type="button" name="reply"  value="Reply" ng-click="reply()">

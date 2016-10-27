@@ -60,6 +60,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   }
 
   function getRepliedEssay(){
+    if (schoolId == undefined || schoolId == null) {
+      $scope.repliedEssays = null;
+      return;
+    }
     EssayService.getRepliedEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
@@ -75,6 +79,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   }
 
   function getIgnoredEssay(){
+    if (schoolId == undefined || schoolId == null) {
+      $scope.ignoredEssays = null;
+      return;
+    }
     EssayService.getIgnoredEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
@@ -86,6 +94,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   }
 
   function getProcessingEssay(){
+    if (schoolId == undefined || schoolId == null) {
+      $scope.processingEssays = null;
+      return;
+    }
     EssayService.getProcessingEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
@@ -97,6 +109,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   }
 
   function getNewestEssay(){
+    if (schoolId == undefined || schoolId == null) {
+      $scope.newestEssays = null;
+      return;
+    }
     EssayService.getNewestEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
@@ -395,8 +411,13 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   $scope.onFileSelect = function($files){
     if ($files && $files.length > 0) {
       file = $files[0];
-      if (file == undefined) 
-        alert('Only accept document file..');
+      if (file == undefined){
+        // alert('Only accept document file..');
+        $scope.error = "Only accept document file.";
+      } else{
+        $scope.fileName = file.name;
+        $scope.fileSize = formatBytes(file.size);
+      }
     }
   }
 
