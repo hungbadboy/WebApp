@@ -710,7 +710,7 @@ a.right.carousel-control {
     height: 234px;
 }
 .manager-box-video .box-video-inner .video-detail a>img.nodata {
-    height: 225px;
+    height: 233px;
 }
 .manager-box-video .box-l-comment .clearfix.ng-scope {
     margin-bottom: 10px;
@@ -817,6 +817,7 @@ iframe#detailPlayer {
 }
 .manage-tutorial .group-item .item .box-detail-play .detail-pl-inner h5 {
     margin-top: 6px;
+    word-wrap: break-word;
 }
 .manage-tutorial .group-item .item .box-playlist {
     margin-right: 1px;
@@ -892,6 +893,7 @@ iframe#detailPlayer {
 }
 .manager-playlist-detail .group-item .item .box-detail-play .detail-pl-inner h5 {
     margin-top: 6px;
+    word-wrap: break-word;
 }
 .manager-playlist-detail .group-item .item .box-ac {
     margin-top: 8px;
@@ -1153,7 +1155,17 @@ footer#footer {
 }*/
 
 .modal-add-video .right-answer:after {
-    width: 16px;
+    position: absolute;
+    top: 48%;
+    left: -12px;
+    width: 30px;
+    height: 30px;
+    background: #edf1f2;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
 }
 /*Fix Firefox*/
 .gecko #videos-details textarea#add-comment{
@@ -1217,9 +1229,8 @@ footer#footer {
 /*span:before {
     color: #909090;
 }*/
-.mentor-manage-qa-content .left-qa .tab-answered .tab-content,
-.mentor-manage-qa-content .left-qa .tab-answered .tab-content .tab-answered-tab {
-    height: auto;
+.mentor-manage-qa-content .left-qa .tab-answered .tab-content {
+    height: 80%;
 }
 .box-main-replied .bx-detail-rpl .bt-item-r {
     text-align: right;
@@ -1242,6 +1253,17 @@ iframe#video {
 }
 #videos-details .search .input-group .input-group-btn button {
   height: 34px;
+}
+#sidebar-menu .navigation ul li:hover{
+  background: none;
+}
+#sidebar-menu .navigation ul li:hover a>span:before,
+#sidebar-menu .navigation ul li:hover a>span {
+  color: #ffcc00;
+}
+.modal-add-video .right-answer .pgt-right-ans span.num-pgt {
+    padding-left: 5px;
+    padding-right: 0;
 }
 /**** End HongTTT *****/
 
@@ -1538,6 +1560,9 @@ p.star-admission.videos-start {
 }
 .mentor-left-header .main-logo {
     padding: 16px 23px 16px 23px;
+}
+.mentor-left-header.in .main-logo {
+  padding: 16px 23px 16px 23px;
 }
 .mentor-center-header button {
     margin-top: 4px;
