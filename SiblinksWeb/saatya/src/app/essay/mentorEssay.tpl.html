@@ -182,11 +182,11 @@
                                                         <ul class="chat" ng-if="comments">
                                                             <li class="left clearfix" ng-repeat="c in comments track by $index">
                                                                 <span class="chat-img pull-left">
-                                                                    <img src="{{avatar}}" alt="User Avatar">
+                                                                    <img src="{{c.imageUrl}}" alt="User Avatar">
                                                                 </span>
                                                                 <div class="chat-body clearfix">
                                                                     <div class="header">
-                                                                        <strong class="primary-font">{{mentorName}} </strong><span class="time">{{c.timestamp}} ago</span>
+                                                                        <strong class="primary-font">{{c.fullName}} </strong><span class="time">{{c.timestamp}} ago</span>
                                                                     </div>
                                                                     <p class="pre-wap">
                                                                         {{c.content}}

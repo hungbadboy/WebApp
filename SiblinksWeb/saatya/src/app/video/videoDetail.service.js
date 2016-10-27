@@ -18,10 +18,10 @@ brotServices.factory('videoDetailService', ['$http', function ($http) {
         return promise;
     };
 
-    factory.getVideoRelatedMentor = function (subid, uid, offset) {
+    factory.getVideoRelatedMentor = function (vid,subid, uid, offset) {
         var promise = $http({
             method: 'get',
-            url: NEW_SERVICE_URL + 'videodetail/getVideoRelatedMentor?subjectId='+subid+'&uid='+uid+'&offset='+offset+''
+            url: NEW_SERVICE_URL + 'videodetail/getVideoRelatedMentor?vid='+vid+'&subjectId='+subid+'&uid='+uid+'&offset='+offset+''
         });
         return promise;
     };

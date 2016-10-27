@@ -157,6 +157,9 @@ public class PlaylistServiceImpl implements PlaylistService {
                     map.put("plid", plid);
                     if (vids != null && vids.size() > 0) {
                         for (String vid : vids) {
+                            queryParams = new Object[] { vid };
+                            dao.insertUpdateObject(SibConstants.SqlMapperBROT43.SQL_DELETE_VIDEO_PLAYLIST, queryParams);
+
                             queryParams = new Object[] { plid, vid };
                             dao.insertUpdateObject(SibConstants.SqlMapperBROT126.SQL_ADD_VIDEOS_PLAYLIST, queryParams);
                         }
