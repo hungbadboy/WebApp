@@ -422,7 +422,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
 
         function onYouTubeIframeAPIReady(youtubeId) {
             player = new YT.Player('video', {
-                height: '430',
+                height: '380',
                 width: '100%',
                 videoId: youtubeId,
                 events: {

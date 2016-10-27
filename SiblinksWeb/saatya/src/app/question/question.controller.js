@@ -207,6 +207,7 @@ brotControllers
                 $scope.closePopupAskQuestion = function () {
                     bodyRef.removeClass('disableScroll');
                     $(".popup-images, .form-ask-question").css({"left": "100%"});
+                    $scope.askErrorMsg = '';
                 }
 
                 $scope.viewAnswer = function (qid) {
@@ -321,13 +322,35 @@ brotControllers
 
 
                 $scope.isShowImageHover = false;
-                $scope.currentImage = "";
+                $scope.currentImage = [];
                 $scope.toggleShowOrder = function () {
                     $scope.isShowOrder = $scope.isShowOrder === false ? true : false;
                 };
+
+                $timeout(function () {
+                    angular.element(document.getElementsByClassName('bxslider')).bxSlider({
+                        nextText: 'next',
+                        prevText: 'pre',
+                        infiniteLoop: false,
+
+                    });
+                }, 300);
                 $scope.zoomImage = function (img) {
-                    $scope.currentImage = ( img );
-                    $(".popup-images").css({"left": 0});
+                    // if(img == $scope.currentImage){
+                    //    // $(".popup-images").css({"left": 0});
+                    //     angular.element(document.getElementById('essay-detail')).modal();
+                    //     return;
+                    // }
+                    $scope.currentImage = img;
+                    //$(".popup-images").css({"left": 0});
+
+                    angular.element(document.getElementsByClassName('bxslider')).bxSlider({
+                        nextText: 'next',
+                        prevText: 'pre',
+                        infiniteLoop: false,
+
+                    });
+                    angular.element(document.getElementById('modalImage')).modal();
                 }
 
                 $scope.closeImage = function () {
@@ -516,8 +539,9 @@ brotControllers
                     HomeService.addQuestion(fd).then(function (data) {
                         if (data.data.status == "true") {
                             $(".popup-images, .form-ask-question").css({"left": "100%"});
-                            window.location.href = '/#/ask_a_question/-1';
-                            window.location.reload();
+                            //window.location.href = '/#/ask_a_question/-1';
+                           // window.location.reload();
+                            init();
                         }
                         else {
                             $scope.askErrorMsg =data.data.request_data_result;
