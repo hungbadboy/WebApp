@@ -23,28 +23,24 @@ brotControllers.controller('AddUpdatePlaylistController',
     }
 
     function initSubject(){
-      if ($scope.updateSubjects == undefined) {
-        if (myCache.get("subjects") !== undefined) {
-           $scope.updateSubjects = myCache.get("subjects");
-           if ($scope.updateSubjects[0].subjectId != 0) {
-              $scope.updateSubjects.splice(0, 0, {
-                'subjectId': 0,
-                'subject' : 'Select a Subject'
-              });
-           }          
-           $scope.updateSubject = $scope.updateSubjects[0].subjectId;
-        } else {
-           HomeService.getAllCategory().then(function (data) {
-               if (data.data.status) {
-                   $scope.updateSubjects = data.data.request_data_result;                 
-                   $scope.updateSubjects.splice(0, 0, {
-                    'subjectId': 0,
-                    'subject' : 'Select a Subject'
-                   });
-                   $scope.updateSubject = $scope.updateSubjects[0].subjectId;
-               }
-           });
-        }
+      var playlistDetaillSubjects = localStorage.getItem("playlistManagerSubjects");
+      if (playlistDetaillSubjects !== null) {
+         $scope.updateSubjects = JSON.parse(playlistDetaillSubjects);
+         $scope.updateSubject = $scope.updateSubjects[0].subjectId;
+      } else {
+         HomeService.getAllCategory().then(function (data) {
+             if (data.data.status) {
+                $scope.updateSubjects = data.data.request_data_result;                 
+                $scope.updateSubjects.splice(0, 0, {
+                  'subjectId': 0,
+                  'subject' : 'Select a Subject'
+                });
+                localStorage.setItem("playlistManagerSubjects", JSON.stringify($scope.updateSubjects), 2)
+                $scope.updateSubject = $scope.updateSubjects[0].subjectId;
+                if ($scope.playlist)
+                  displayPlaylist($scope.playlist);
+             }
+         });
       }
     }
 
