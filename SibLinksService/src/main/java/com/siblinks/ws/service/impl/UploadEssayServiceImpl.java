@@ -797,7 +797,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 params = new Object[] { userid, schoolId, limit, offset };
                 readObject = dao.readObjects(entityName, params);
             } else {
-                params = new Object[] { schoolId, limit, offset };
+                params = new Object[] { schoolId, userid, limit, offset };
                 readObject = dao.readObjects(entityName, params);
             }
             if (readObject != null && readObject.size() > 0) {
@@ -1005,7 +1005,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 whereClause = String.format("and e.nameOfEssay like '%%%s%%' order by e.uploadEssayId DESC limit %s offset %d", term, request
                     .getRequest_data()
                     .getLimit(), offset);
-                readObjects = dao.readObjectsWhereClause(entityString, whereClause, new Object[] { schoolId });
+                readObjects = dao.readObjectsWhereClause(entityString, whereClause, new Object[] { schoolId, mentorId });
                 if (readObjects != null && readObjects.size() > 0) {
                     result.put("processingEssay", readObjects);
                 } else {
@@ -1029,7 +1029,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 whereClause = String.format("and e.nameOfEssay like '%%%s%%' order by c.cid DESC limit %s offset %d", term, request
                     .getRequest_data()
                     .getLimit(), offset);
-                readObjects = dao.readObjectsWhereClause(entityString, whereClause, new Object[] { schoolId });
+                readObjects = dao.readObjectsWhereClause(entityString, whereClause, new Object[] { schoolId, mentorId });
                 if (readObjects != null && readObjects.size() > 0) {
                     result.put("repliedEssay", readObjects);
                 } else {

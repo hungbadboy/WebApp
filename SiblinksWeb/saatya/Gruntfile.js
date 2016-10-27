@@ -212,8 +212,10 @@ module.exports = function ( grunt ) {
                       'src/app/forgotPassword/forgotPassword.controller.js',
                       // Change password
                       'src/app/changePassword/forgotPassword.controller.js',
-                      // About
-                      'src/app/about/about.controller.js',
+                      // TopMentor
+                      'src/app/topMentor/topMentors.controller.js',
+                      // TopVideos
+                      'src/app/topVideo/topVideos.controller.js',
                       // Contact
                       'src/app/contact/contact.controller.js',
                       'src/app/contact/contact.service.js',

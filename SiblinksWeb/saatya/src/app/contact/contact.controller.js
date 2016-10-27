@@ -1,4 +1,4 @@
-brotControllers.controller('ContactController', ['$scope', '$rootScope', '$http','MentorService','ContactService', function($scope, $rootScope, $http, MentorService, ContactService){
+brotControllers.controller('ContactCtrl', ['$scope', '$rootScope', '$http','MentorService','ContactService', function($scope, $rootScope, $http, MentorService, ContactService){
 	
 	var name = angular.element('#txtName');
 	var email = angular.element('#txtEmail');
@@ -6,9 +6,6 @@ brotControllers.controller('ContactController', ['$scope', '$rootScope', '$http'
 	var phone = angular.element('#txtPhone');
 	var message = angular.element('#txtMessage');
 	var userId = localStorage.getItem('userId');
-	
-	var LIMIT_TOP_MENTORS = 5;
-	var OFFSET = 0;
 	
 	$scope.contact={};
 	
@@ -83,33 +80,6 @@ brotControllers.controller('ContactController', ['$scope', '$rootScope', '$http'
 	
 	
 	function init() {
-		name.focus();
-		 //get top mentors by subcribe
-	    MentorService.getTopMentorsByLikeRateSubcrible(LIMIT_TOP_MENTORS, OFFSET, 'subcribe', '-1').then(function (data) {
-	        var data_result = data.data.request_data_result;
-	        if (data.data.status == 'true') {
-	            var listTopMentors = [];
-	            for (var i = 0; i < data_result.length; i++) {
-	                var mentor = {};
-	                mentor.userid = data_result[i].userid;
-	                mentor.userName = data_result[i].userName ? data_result[i].userName : '';
-	                mentor.lastName = data_result[i].lastName ? data_result[i].lastName : '';
-	                mentor.firstName = data_result[i].firstName ? data_result[i].firstName : '';
-	                mentor.fullName = mentor.firstName + ' ' +mentor.lastName;
-	                mentor.imageUrl = data_result[i].imageUrl;
-	                mentor.numlike = data_result[i].numlike;
-	                mentor.numsub = data_result[i].numsub;
-	                mentor.numvideos = data_result[i].numvideos;
-	                mentor.isOnline = data_result[i].isOnline;
-	                mentor.defaultSubjectId = data_result[i].defaultSubjectId;
-	                if(data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
-	                    mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, $scope.subjects);
-	                }
-	                mentor.numAnswers = data_result[i].numAnswers;
-	                listTopMentors.push(mentor);
-	            }
-	        }
-	        $scope.listTopmentors = listTopMentors;
-	    });
+		name.focus();		 
 	}
 }]);

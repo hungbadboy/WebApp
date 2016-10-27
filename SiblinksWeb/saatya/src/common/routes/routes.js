@@ -94,7 +94,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	}).
 	when('/contact', {
 		templateUrl: 'src/app/contact/contact.tpl.html',
-		controller: 'ContactController'
+		controller: 'ContactCtrl'
 	}).
 	when('/question_detail/:question_id', {
 		templateUrl: 'src/app/questionDetail/questionDetail.tpl.html',
@@ -126,12 +126,10 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		controller: 'ChangePasswordCtrl'
 	}).
 	when('/policy', {
-		templateUrl: 'src/app/policy/policy.tpl.html',
-		controller: 'AboutCtrl'
+		templateUrl: 'src/app/policy/policy.tpl.html'
 	}).
     when('/terms', {
-        templateUrl: 'src/app/term/term_us.tpl.html',
-        controller: 'AboutCtrl'
+        templateUrl: 'src/app/term/term_us.tpl.html'
     }).
 	when('/notification', {
 		templateUrl: 'src/app/notification.tpl.html',
@@ -166,8 +164,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		controller: 'TeamCtrl'
 	}).
 	when('/about', {
-		templateUrl: 'src/app/about/about.tpl.html',
-		controller: 'AboutCtrl'
+		templateUrl: 'src/app/about/about.tpl.html'
 	}).
 	when('/all_essay', {
 		templateUrl: 'src/app/viewAllEssay.tpl.html',

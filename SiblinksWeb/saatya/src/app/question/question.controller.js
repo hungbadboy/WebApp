@@ -62,57 +62,6 @@ brotControllers
                 function init() {
 
                     $scope.curentOrderType = "newest";
-                    //get top mentors by subcribe
-                    MentorService.getTopMentorsByLikeRateSubcrible(LIMIT_TOP_MENTORS, OFFSET, 'subcribe', userId).then(function (data) {
-                        var data_result = data.data.request_data_result;
-                        if (data_result) {
-                            var listTopMentors = [];
-                            for (var i = 0; i < data_result.length; i++) {
-                                var mentor = {};
-                                mentor.userid = data_result[i].userid;
-                                mentor.userName = data_result[i].userName ? data_result[i].userName : '';
-                                mentor.lastName = data_result[i].lastName ? data_result[i].lastName : '';
-                                mentor.firstName = data_result[i].firstName ? data_result[i].firstName : '';
-                                mentor.fullName = mentor.firstName + ' ' +mentor.lastName;
-                                mentor.imageUrl = data_result[i].imageUrl;
-                                mentor.numlike = data_result[i].numlike;
-                                mentor.numsub = data_result[i].numsub;
-                                mentor.numvideos = data_result[i].numvideos;
-                                mentor.isOnline = data_result[i].isOnline;
-                                mentor.defaultSubjectId = data_result[i].defaultSubjectId;
-                                if(data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
-                                    mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, $scope.subjects);
-                                }
-                                mentor.numAnswers = data_result[i].numAnswers;
-                                listTopMentors.push(mentor);
-                            }
-                        }
-                        $scope.listTopmentors = listTopMentors;
-                    });
-
-                    //get videos by top rate
-                    VideoService.getVideoByRate(LIMIT_TOP_VIDEOS, OFFSET).then(function (data) {
-                        if (data.data.status) {
-                            var result_data = data.data.request_data_result;
-                            if (result_data) {
-                                var listVideoRate = [];
-                                for (var i = 0; i < result_data.length; i++) {
-                                    var element = result_data[i];
-                                    var video = {};
-                                    video.title = element.title;
-                                    video.image = element.image;
-                                    video.url = element.url;
-                                    video.numRatings = element.numRatings;
-                                    video.averageRating = element.averageRating;
-                                    video.uid = element.uid;
-                                    video.vid = element.vid;
-                                    listVideoRate.push(video);
-                                }
-                            }
-                            $scope.listVideoRate = listVideoRate;
-                        }
-
-                    });
 
                     if (isEmpty(subjectid)) {
                         subjectid = "-1";
@@ -258,6 +207,7 @@ brotControllers
                 $scope.closePopupAskQuestion = function () {
                     bodyRef.removeClass('disableScroll');
                     $(".popup-images, .form-ask-question").css({"left": "100%"});
+                    $scope.askErrorMsg = '';
                 }
 
                 $scope.viewAnswer = function (qid) {
@@ -372,13 +322,35 @@ brotControllers
 
 
                 $scope.isShowImageHover = false;
-                $scope.currentImage = "";
+                $scope.currentImage = [];
                 $scope.toggleShowOrder = function () {
                     $scope.isShowOrder = $scope.isShowOrder === false ? true : false;
                 };
+
+                $timeout(function () {
+                    angular.element(document.getElementsByClassName('bxslider')).bxSlider({
+                        nextText: 'next',
+                        prevText: 'pre',
+                        infiniteLoop: false,
+
+                    });
+                }, 300);
                 $scope.zoomImage = function (img) {
-                    $scope.currentImage = ( img );
-                    $(".popup-images").css({"left": 0});
+                    // if(img == $scope.currentImage){
+                    //    // $(".popup-images").css({"left": 0});
+                    //     angular.element(document.getElementById('essay-detail')).modal();
+                    //     return;
+                    // }
+                    $scope.currentImage = img;
+                    //$(".popup-images").css({"left": 0});
+
+                    angular.element(document.getElementsByClassName('bxslider')).bxSlider({
+                        nextText: 'next',
+                        prevText: 'pre',
+                        infiniteLoop: false,
+
+                    });
+                    angular.element(document.getElementById('modalImage')).modal();
                 }
 
                 $scope.closeImage = function () {
@@ -567,8 +539,9 @@ brotControllers
                     HomeService.addQuestion(fd).then(function (data) {
                         if (data.data.status == "true") {
                             $(".popup-images, .form-ask-question").css({"left": "100%"});
-                            window.location.href = '/#/ask_a_question/-1';
-                            window.location.reload();
+                            //window.location.href = '/#/ask_a_question/-1';
+                           // window.location.reload();
+                            init();
                         }
                         else {
                             $scope.askErrorMsg =data.data.request_data_result;

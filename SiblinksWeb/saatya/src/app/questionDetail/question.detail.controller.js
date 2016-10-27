@@ -396,6 +396,7 @@ brotControllers
                 $scope.closePopupAskQuestion = function () {
                     bodyRef.removeClass('disableScroll');
                     $(".popup-images, .form-ask-question").css({"left": "100%"});
+                    $scope.askErrorMsg = '';
                 }
                 
                 $scope.imageHoverIn = function (eId) {

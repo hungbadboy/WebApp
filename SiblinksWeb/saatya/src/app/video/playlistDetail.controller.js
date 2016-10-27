@@ -408,7 +408,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                         $scope.errorVideo = "You are rated!";
                         $scope.rateNum = ratenumOld;
                     } else {
-                        VideoService.rateVideo($scope.userId, videoid, parseInt(rate)).then(function (data) {
+                        VideoService.rateVideo($scope.userId, $scope.videoInfo.vid, parseInt(rate)).then(function (data) {
                             if (data.data.status) {
                                 $scope.rateNum = parseInt(rate);
                             }
@@ -422,7 +422,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
 
         function onYouTubeIframeAPIReady(youtubeId) {
             player = new YT.Player('video', {
-                height: '430',
+                height: '380',
                 width: '100%',
                 videoId: youtubeId,
                 events: {

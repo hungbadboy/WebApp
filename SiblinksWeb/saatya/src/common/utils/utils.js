@@ -238,7 +238,7 @@ function showClickRating(callback) {
     callback(arr_rate);
 }
 function isEmpty(str) {
-    return typeof str == 'string' && !str.trim() || typeof str == 'undefined' || str === null;
+    return typeof str == 'string' && !str.trim() || str === undefined || str === null || str == 'null';
 
 }
 
@@ -397,7 +397,7 @@ function timeBackEnd() {
     }
     // Increment time by 1 second
     serverDateTime++;
-    return;
+    return serverDateTime;
     //console.log(serverDateTime);
 }
 
@@ -536,4 +536,22 @@ function checkNameToTrim(str) {
         return str.trim();
     }
     return str;
+}
+
+/**
+ * Show name user
+ * @param firstName
+ * @param lastName
+ * @param userName
+ * @returns
+ */
+ 
+function displayUserName(firstName, lastName, userName) {
+    if (!isEmpty(firstName) && !isEmpty(lastName)) {
+    	return firstName + ' ' + lastName;
+    } else if(isEmpty(firstName) && isEmpty(lastName)) {
+    	return capitaliseFirstLetter(userName.substr(0, userName.indexOf('@')));
+    } else {
+    	return  !isEmpty(firstName)?firstName:lastName;
+    }
 }
