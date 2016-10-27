@@ -57,7 +57,7 @@ brotControllers.controller('UploadTutorialController',
                 'subject' : 'Select a Subject'
               }); 
               $scope.uploadSubjects = arr;
-              localStorage.setItem("insertupdateTutorialSubjects", JSON.stringify($scope.uploadSubjects), 10)
+              localStorage.setItem("insertupdateTutorialSubjects", JSON.stringify($scope.uploadSubjects), 2)
               $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
            }
        });
@@ -67,9 +67,11 @@ brotControllers.controller('UploadTutorialController',
     function initPlaylist(){
       var playlists = localStorage.getItem("playlists");
       if (playlists !== null) {
+        console.log("get Playlist in cache");
         $scope.playlists = JSON.parse(playlists);
         $scope.uploadPlaylist = $scope.playlists[0].plid;
       } else{
+        console.log("get Playlist on server");
         VideoService.getPlaylist(u_id).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.playlists = data.data.request_data_result;
@@ -77,7 +79,7 @@ brotControllers.controller('UploadTutorialController',
               'plid':0,
               'name': "Select a Playlist"
             });
-            localStorage.setItem("playlists", JSON.stringify($scope.playlists), 10);
+            localStorage.setItem("playlists", JSON.stringify($scope.playlists), 2);
             $scope.uploadPlaylist = $scope.playlists[0].plid;
           }
         });
@@ -99,12 +101,8 @@ brotControllers.controller('UploadTutorialController',
       $scope.description = $scope.editVideo.description;
       checkLink($scope.editVideo.url);
 
-      // $scope.uploadSubject = $scope.editVideo.subjectId;
-      // $('#uploadSubject').val(getPositionSubject($scope.uploadSubject));
       var subId = $scope.editVideo.subjectId;
       $('#uploadSubject').val(getPositionSubject(subId));
-      // $scope.uploadPlaylist = $scope.editVideo.plid != null ? $scope.editVideo.plid : 0;
-      // $('#uploadPlaylist').val(getPositionPlaylist($scope.uploadPlaylist));
       var plid = $scope.editVideo.plid != null ? $scope.editVideo.plid : 0;
       $('#uploadPlaylist').val(getPositionPlaylist(plid));
     }

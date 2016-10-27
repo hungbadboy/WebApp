@@ -142,14 +142,12 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     function getCommentVideoDetail(vid){
-        console.log(vid);
         videoDetailService.getCommentVideoById(vid).then(function(data){
             var result = data.data.request_data_result;
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.comments = formatData(result);
             } else
                 $scope.comments = null;
-            console.log($scope.comments);
         });
     }
 
@@ -311,13 +309,6 @@ brotControllers.controller('MentorVideoDetailController',
             if (data.status == 'true') {
                 $("#txtComment").val('');
                 $(".comment-action").hide();
-                // videoDetailService.getCommentVideoById($scope.video.vid).then(function (data) {
-                //     if (data.data.status == 'true') {
-                //         if (data.data.request_data_result.length > 0) {
-                //             $scope.comments = formatData(data.data.request_data_result);
-                //         }
-                //     }
-                // });
                 getCommentVideoDetail($scope.video.vid);
             }
         });
@@ -381,23 +372,6 @@ brotControllers.controller('MentorVideoDetailController',
 
     $scope.$on('addPlaylist', function(e, value){
         window.location.href = '#/mentor/video/detail/'+$scope.video.vid+'/list/'+value+'';
-        // if (!plid) {
-        // } else {
-        // var index = $scope.videos.indexOf($scope.video);
-        // console.log('index: '+index);
-        // if (index != -1)
-        //     $scope.videos.splice(index, 1);
-        // var size = $scope.videos.length;
-        // if (size == 0) {
-        //     window.location.href = '#/mentor/playlist/detail/'+plid+'';
-        // } else {
-        //     if (index < size - 1) {
-        //         window.location.href = '#/mentor/video/detail/'+$scope.videos[index].vid+'/list/'+plid+'';
-        //     } else {
-        //         window.location.href = '#/mentor/video/detail/'+$scope.videos[index-1].vid+'/list/'+plid+'';
-        //     }
-        // }
-        // }        
     });
 
     $scope.$on('passing', function(e, video){
