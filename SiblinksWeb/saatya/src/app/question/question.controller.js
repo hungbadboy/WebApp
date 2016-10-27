@@ -85,6 +85,8 @@ brotControllers
                                 window.location.href = '/#/first-ask';
                                 return;
                             }
+                        } else {
+                            window.location.href = '/#/ask_a_question/-1';
                         }
                     });
                 }
@@ -195,6 +197,7 @@ brotControllers
                 $scope.showFormAdd = function () {
                     $("#autocompleteCate_value_dropdown").addClass('ng-hide');
                     bodyRef.addClass('disableScroll');
+                    $scope.filesArray = [];
                     $scope.titlePopupAsk = "Ask a question";
                     $scope.isEdit = false;
                     //$scope.initCategory = {};
@@ -202,7 +205,6 @@ brotControllers
                     $scope.imagePathOld = [];
                     $('#autocompleteQuest_value').val("");
                     $(".form-ask-question").css({"left": 0});
-                    $scope.filesArray = [];
                 }
                 $scope.closePopupAskQuestion = function () {
                     bodyRef.removeClass('disableScroll');
