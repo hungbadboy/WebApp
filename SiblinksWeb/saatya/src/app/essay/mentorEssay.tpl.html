@@ -122,20 +122,21 @@
                                         <div class="bx-detail-rpl">
                                             <div class="top-rpl clearfix">
                                                
-                                                <div class="col-md-8 bx-dt-qa">
+                                                <div class="col-md-12 bx-dt-qa">
                                                     <div class="studentAvt">
                                                     <a href="" ng-click="goToProfile(userId)"><img src="{{essay.imageUrl}}" alt=""></a>
                                                     </div>
                                                     <div class="studentDetails">
                                                     <a href="" ng-click="goToProfile(userId)"><h5>{{essay.fullName}}</h5></a>
                                                     <span class="time">{{essay.timeStamp}} ago</span>
+                                                    <div class="bt-item-r" ng-if="essay.status == 'W' && !ignored">
+                                                        <a href="" ng-click="changeStatus(essay.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
+                                                        <a href="" ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                    </div>
                                                     <p class="txt-essay"><b>{{essay.nameOfEssay}}</b></p>
                                                     </div>
                                                 </div>
-                                                <div class="bt-item-r col-md-4" ng-if="essay.status == 'W' && !ignored">
-                                                    <a href="" ng-click="changeStatus(essay.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
-                                                    <a href="" ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
-                                                </div>
+                                                
                                                 <div class="bt-item-r col-md-4" ng-if="essay.status == 'P'">
                                                     <a href=""  ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-reviewing">Cancel</span></a>
                                                 </div>
