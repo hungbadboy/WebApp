@@ -19,13 +19,13 @@
                         <input type="text" class="form-control input-custom-link" readonly="readonly" value="{{link}}" ng-show="link" tabindex="-1">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="txtTutorialTitle" ng-model="title" ng-readonly="!title" placeholder="Tutorial Title" maxlength="100">
+                        <input type="text" class="form-control" id="txtTutorialTitle" ng-model="title" ng-readonly="!title && !editVideo" placeholder="Tutorial Title" maxlength="100">
                     </div>                    
                     <div class="form-group">
                         <input type="text" class="form-control box-duration" ng-model="duration" placeholder="Tutorial Duration" readonly="true" tabindex="-1">
                     </div>
                     <div class="form-group">
-                        <textarea name="desciption" id="txtTutorialDescription" rows="4" cols="5" ng-readonly="!description" ng-model="description" class="form-control textarea-custom" placeholder="Description" maxlength="1024"></textarea>
+                        <textarea name="desciption" id="txtTutorialDescription" rows="4" cols="5" ng-readonly="!description && !editVideo" ng-model="description" class="form-control textarea-custom" placeholder="Description" maxlength="1024"></textarea>
                     </div>
                     <div class="form-group">
                         <select class="select-sbj form-control" id="uploadSubject" data-ng-model="uploadSubject" ng-change="changeSubject(uploadSubject)" class="form-control" data-ng-options='subject.subjectId as subject.subject for subject in uploadSubjects'>

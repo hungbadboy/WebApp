@@ -8,7 +8,6 @@ brotControllers.controller('MentorVideoDetailController',
     var userId = localStorage.getItem('userId');
     $scope.avatar = localStorage.getItem('imageUrl');
     var userName = localStorage.getItem('nameHome') != null ?  localStorage.getItem('nameHome') : "";
-    $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
 
     $scope.averageRating = 0.1;
 
