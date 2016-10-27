@@ -531,7 +531,7 @@ function isValidPhoneUSA(p) {
 }
 
 //Validate input before trim()
-function trimStr(str) {
+function checkNameToTrim(str) {
     if (!isEmpty(str)) {
         return str.trim();
     }
