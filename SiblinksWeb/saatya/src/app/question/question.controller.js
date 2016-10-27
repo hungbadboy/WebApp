@@ -537,6 +537,7 @@ brotControllers
                             $(".popup-images, .form-ask-question").css({"left": "100%"});
                             //window.location.href = '/#/ask_a_question/-1';
                            // window.location.reload();
+                            isLoadMore = false;
                             init();
                         }
                         else {
