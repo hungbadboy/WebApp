@@ -14,39 +14,37 @@
                    <div class="content-contact-wrapper">
                        <div class="map-contact">
                            <div class="">
-                               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61349.64852613086!2d108.17112818249831!3d16.047159880559942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314219c792252a13%3A0xfc14e3a044436487!2zRGEgTmFuZywgSOG6o2kgQ2jDonUsIERhIE5hbmcsIFZpZXRuYW0!5e0!3m2!1sen!2s!4v1477294585020" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                               <iframe  src="https://www.google.com/maps/embed/v1/place?q=3233%20De%20La%20Cruz%20Blvd%20%20Suite%20D%20Santa%20Clara&key=AIzaSyAntngbzsMjywqJkHcnMlhutTX2bQzxy54" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
                            </div>
                        </div>
                        <div class="send-contact-form">
                            <h4>Send us an Email</h4>
                            <form action="" method="">
+                               <div ng-if="msgError!==undefined && msgError!=''" class="validate_error">
+						          <span >{{ msgError }}</span>
+						       </div>
+						       <div ng-if="msgSuccess" class="succesful">
+							          <span>{{msgSuccess}}</span>
+							    </div>
                                <div class="contact-form-body">
-                                   <p class="contact-name">
-                                   	<input id="txtName" type="text" placeholder="Name" name="name" onfocus="this.placeholder = ''"/>
+                                   <p class="contact-subject">
+                                   	<input id="txtName" type="text" placeholder="{{contact.name ? contact.name : 'Name'}}" ng-model="contact.name" name="name" ng-enter="btnSubmit(contact)"/>
                                    </p>
                                    <p class="contact-email">
-                                   	<input id="txtEmail" type="email" placeholder="Email" name="email" onfocus="this.placeholder = ''"/>
+                                   	<input id="txtEmail" type="email" placeholder="Email" ng-model="contact.email" name="email" ng-enter="btnSubmit(contact)"/>
                                    	</p>
                                    <p class="contact-phone">
-                                   	<input id="txtSubject" type="text" placeholder="Phone" name="phone" onfocus="this.placeholder = ''"/>
+                                   	<input id="txtPhone" mask="(888) 888-8888" restrict="reject" type="text" placeholder="Ex: (888) 888-8888" ng-model="contact.phone" name="phone" ng-enter="btnSubmit(contact)"/>
                                    	</p>
                                    <p class="contact-subject">
-                                   	<input id="txtMessage" type="text" placeholder="Subject" name="subject" onfocus="this.placeholder = ''"/>
+                                   	<input id="txtSubject" type="text" placeholder="Subject" ng-model="contact.subject" name="subject" ng-enter="btnSubmit(contact)"/>
                                    	</p>
-<!--                                    <div class="form-group choose-services">
-                                       <select name="" id="" class="form-control">
-                                           <option value="0">Services</option>
-                                           <option value="1">Choose subject</option>
-                                           <option value="2">Choose subject</option>
-                                           <option value="3">Choose subject</option>
-                                       </select>
-                                   </div>
- -->                              <p class="message">
- 									<textarea id="txtMessage" type="textarea" name="message" onfocus="this.placeholder = ''" placeholder="Message"></textarea>
+	                              <p class="message">
+ 									<textarea id="txtMessage" type="textarea" ng-model ="contact.message" name="message" placeholder="Message"></textarea>
  								 </p>
                                </div>
                                <div>
-                                   <button type="button" id="submit">Send</button>
+                                   <button type="button" id="submit" ng-click="btnSubmit(contact)">Send</button>
                                </div>
                            </form>
                        </div>

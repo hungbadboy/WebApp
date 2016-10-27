@@ -17,40 +17,67 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.siblinks.ws.service;
-
-
-import org.springframework.http.ResponseEntity;
-
-import com.siblinks.ws.common.DAOException;
-import com.siblinks.ws.model.RequestData;
-import com.siblinks.ws.response.Response;
+package com.siblinks.ws.model;
 
 /**
- * This class will to send email for user when user request a Contact or Forgot
- * password
- *
+ * This is entity contact
+ * 
  * @author hungpd
  * @version 1.0
  */
-public interface NotificationEmailService {
+public class Contact {
+    private String name;
+    private String email;
+    private String phone;
+    private String subject;
+    private String message;
+    private String uid;
 
-    /**
-     * This method send email for user.
-     *
-     * @param request
-     *            Parameter is user name that is email
-     * @return Message alert for user sent to email
-     */
-    public ResponseEntity<Response> contact(RequestData contact) throws DAOException;
+    public String getUid() {
+        return uid;
+    }
 
-    /**
-     * This method is update token in DB then send email for verify to new
-     * password
-     *
-     * @param request
-     *            Parameter is user name that is email
-     * @return Message alert for user sent to email
-     */
-    public ResponseEntity<Response> forgotPassword(RequestData request) throws DAOException;
+    public void setUid(final String uid) {
+        this.uid = uid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(final String subject) {
+        this.subject = subject;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(final String phone) {
+        this.phone = phone;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(final String message) {
+        this.message = message;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
+    }
 }

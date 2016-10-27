@@ -39,7 +39,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.siblinks.ws.Notification.Helper.NotificationInfo;
 import com.siblinks.ws.Notification.Helper.NotifyByEmail;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
@@ -92,36 +91,28 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
 
-            NotificationInfo info = new NotificationInfo();
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("###Name###", request.getRequest_data().getName());
-            map.put("###BODY###", request.getRequest_data().getMessage());
-            map.put("subject", request.getRequest_data().getSubject());
-            map.put("Host", "");
-            map.put("From", request.getRequest_data().getEmail());
-            map.put("To", "siblinks.brot@gmail.com");
-            map.put("DomainName", "gmail.com");
-            map.put("Cc", "");
-            map.put("Bcc", "");
-            map.put("templateName", "MAIL_Notify_3.template");
+            map.put("Name", request.getContact_data().getName());
+            map.put("BODY", request.getContact_data().getMessage());
+            map.put("PHONE", request.getContact_data().getPhone());
+
             logger.debug(map);
-            info.setTemplateMap(map);
-            // NotifyByEmail notify = new NotifyByEmail(info);
-            String status = "SUCCESS";
-            boolean statusCheck = true;
-            // status = notify.sendMail();
-            String msg = null;
-            if ("SUCCESS".equalsIgnoreCase(status)) {
-                msg = "Thank you for contacting us. We will get back to you soon";
-            } else {
-                msg = "FAIL";
-                statusCheck = false;
-            }
+            NotifyByEmail notify = new NotifyByEmail();
+            notify.setMailSender(mailSender);
+            notify.setVelocityEngine(velocityEngine);
+            notify.sendHmtlTemplateEmail(
+                request.getContact_data().getEmail(),
+                env.getProperty("spring.mail.username"),
+                null,
+                null,
+                request.getContact_data().getSubject(),
+                "MAIL_Notify_3.vm",
+                map);
             simpleResponse = new SimpleResponse(
-                                                "" + statusCheck,
+                                                SibConstants.SUCCESS,
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
-                                                msg);
+                                                "Thank you for contacting us. We will get back to you soon");
         } catch (Exception e) {
             logger.error(e);
             simpleResponse = new SimpleResponse(
@@ -172,24 +163,25 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
                     }
                 }
 
-                // Send email
-                boolean isSendSuccess = true;
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("FORGOT", add + "forgotPassword?token=" + generateToken);
 
                 NotifyByEmail notify = new NotifyByEmail();
                 notify.setMailSender(mailSender);
                 notify.setVelocityEngine(velocityEngine);
-                notify
-                    .sendHmtlTemplateEmail(email, env.getProperty("app.subject-email.forgot-password"), "MAIL_Notify_4.vm", map);
-
-                //
-                String msg = (isSendSuccess) ? "You password was successfully changed" : "System cannot send email";
+                notify.sendHmtlTemplateEmail(
+                    null,
+                    email,
+                    null,
+                    null,
+                    env.getProperty("app.subject-email.forgot-password"),
+                    "MAIL_Notify_4.vm",
+                    map);
                 simpleResponse = new SimpleResponse(
-                                                    "" + isSendSuccess,
+                                                    SibConstants.SUCCESS,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
-                                                    msg);
+                                                    "You password was successfully changed");
             } else {
                 // Error email is not exist
                 simpleResponse = new SimpleResponse(

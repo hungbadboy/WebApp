@@ -1,6 +1,6 @@
 var brotApp = angular.module('brotApp', [ 'ngRoute', 'brotControllers',
 		'paginationListVideo', 'ngResource', 'brotServices',
-		'ngFileUpload','ui.bootstrap'
+		'ngFileUpload','ui.bootstrap','ngMask'
 //		, 'suggestSearch'
 		]
 );
@@ -90,6 +90,7 @@ brotApp.controller('MainController', function($scope, $http, $location, HomeServ
           } else {
         	  $scope.idbody = '';
           }
+          
       });
       
 	  // Check login

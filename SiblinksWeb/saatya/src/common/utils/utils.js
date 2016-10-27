@@ -390,15 +390,14 @@ function timeBackEnd() {
             xmlhttp.open("GET", NEW_SERVICE_URL + "/timeDB", false);
             xmlhttp.send();
             serverDateTime = JSON.parse(xmlhttp.responseText);
-            return;
-        } catch (e) {
-            console.log("can't connect to server");
-            serverDateTime = (Date.now() / 1000);
-        }
+    	} catch(e) {
+    		console.log("can't connect to server");
+    		serverDateTime = (Date.now() / 1000);
+    	}
     }
-
     // Increment time by 1 second
     serverDateTime++;
+    return;
     //console.log(serverDateTime);
 }
 
@@ -523,9 +522,15 @@ function updateUIForPushPermissionRequired() {
 //Check first name or last name had special character
 function isNotValidName(strName) {
     return /\`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\[|\{|\]|\}|\||\\|\'|\<|\,|\>|\?|\/|\""|\;|\:|[0-9]/.test(strName);
+  }
+  
+function isValidPhoneUSA(p) {
+	  var phoneRe = /^[2-9]\d{2}[2-9]\d{2}\d{4}$/;
+  var digits = p.replace(/\D/g, "");
+  return (digits.match(phoneRe) !== null);
 }
 
-// trim str
+//Validate input before trim()
 function trimStr(str) {
     if (!isEmpty(str)) {
         return str.trim();
