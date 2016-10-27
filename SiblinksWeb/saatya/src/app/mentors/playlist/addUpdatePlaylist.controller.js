@@ -1,6 +1,6 @@
 brotControllers.controller('AddUpdatePlaylistController', 
-  ['$rootScope','$scope', '$modalInstance', '$routeParams', '$location', 'VideoService', 'PlaylistService', 'myCache', 'pl_id', 'v_ids',
-                                       function ($rootScope,$scope, $modalInstance, $routeParams, $location, VideoService, PlaylistService, myCache, pl_id, v_ids) {
+  ['$rootScope','$scope', '$modalInstance', '$routeParams', '$location', 'HomeService', 'VideoService', 'PlaylistService', 'myCache', 'pl_id', 'v_ids',
+                                       function ($rootScope,$scope, $modalInstance, $routeParams, $location, HomeService, VideoService, PlaylistService, myCache, pl_id, v_ids) {
 
     var userId = localStorage.getItem('userId');
     
