@@ -1,8 +1,8 @@
     <div class="notification-wrapper">
         <div class="ntf-header">
-            <div class="ntf-left">{{countAll}} Notifications</div>
+            <div class="ntf-left">{{countAll > 1 ? (countAll + " notifications") : (countAll + " notification")}} </div>
             <div class="ntf-right">
-                <button>see more</button>
+                <button>See more</button>
             </div>
         </div>
         <div ng-if="countAll == null">

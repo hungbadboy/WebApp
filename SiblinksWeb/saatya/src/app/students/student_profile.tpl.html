@@ -10,6 +10,9 @@
         <!-- Content -->
         <section class="content student-profile-content">
             <div class="top-mentors-videos col-lg-4" id="student-profile-information">
+                <div ng-if="errorMessage" class="validate_error">
+                    <span ng-bind="errorMessage"></span>
+                </div>
                 <div class="student-profile">
                     <div class="student-header-detail">
                         <div class="student-img">
@@ -20,7 +23,7 @@
                                 studentInfo.lastName : ''}}</h3>
                             <h3 ng-if="isEmptyName" class="student-name" style="font-size: 20px; margin-top: 13px">{{studentInfo.fullName}}</h3>
                             <span class="changeImg" ng-hide="isLoginViaFBOrGoogle">
-                                <button ngf-select="onFileSelect($files)" multiple ngf-pattern="'image/*'"
+                                <button ngf-select="onFileSelect($files, $invalidFiles)" multiple ngf-pattern="'image/*'"
                                         accept="image/*" ngf-max-size="5MB">
 									<span style="pointer-events: none;" data-icon="&#xe075;"></span></button>
                                  <!--<input type="file" id="changeImg" name="changeImg[]"-->
@@ -150,7 +153,7 @@
                                                     <div class="total-number-answer"
                                                          ng-click="showAnswerQuestion(q.id)">
                                                         <div ng-class="{'has-answer': q.count_answer != '0' , 'no-answer': q.count_answer == '0'}"
-                                                             class="total-answer"><p>{{q.count_answer}} answers</p>
+                                                             class="total-answer"><p>{{q.count_answer > 1 ? (q.count_answer + " answers") : (q.count_answer + " answer")}} </p>
                                                         </div>
                                                         <div class="total-view">&nbsp;&nbsp;&nbsp; {{q.numviews}}
                                                             views
