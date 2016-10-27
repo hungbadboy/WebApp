@@ -56,7 +56,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.siblinks.ws.Notification.Helper.FireBaseNotification;
-import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.RequestData;
@@ -151,8 +150,9 @@ public class PostServiceImpl implements PostService {
                 new Object[] { userId, subjectId, content, filePath });
             simpleResponse = new SimpleResponse("" + (id > 0), "post", "createPost", id);
 
-        } catch (IOException | DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            logger.error(e.getMessage(), e.getCause());
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "createPost", e.getMessage());
         }
 
@@ -237,9 +237,12 @@ public class PostServiceImpl implements PostService {
             transactionManager.commit(statusBD);
             logger.info("Insert Menu success " + new Date());
             simpleResponse = new SimpleResponse("" + status, "POST", "createAnswer", status);
-        } catch (NullPointerException | NumberFormatException | DAOException | FileNotFoundException e) {
-            transactionManager.rollback(statusBD);
-            logger.info("Create answer Error:" + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (statusBD != null) {
+                transactionManager.rollback(statusBD);
+            }
+            logger.info("Create answer Error:" + e.getMessage(), e.getCause());
             simpleResponse = new SimpleResponse(e.getMessage(), "POST", "createAnswer", e.getMessage());
         }
 
@@ -308,9 +311,10 @@ public class PostServiceImpl implements PostService {
                 SibConstants.SqlMapper.SQL_POST_EDIT,
                 new Object[] { fixFilePath(filePathEdited + filePath), content, subjectId, qid });
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "post", "editPost", "");
-        } catch (IOException | DAOException e1) {
-            e1.printStackTrace();
-            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "editPost", e1.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage(), e.getCause());
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "editPost", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
@@ -333,7 +337,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "EditPost", e.getMessage());
         }
@@ -380,7 +384,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getPostInfo", e.getMessage());
         }
@@ -413,7 +417,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getPostInfo", e.getMessage());
         }
@@ -436,7 +440,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getPostInfo", e.getMessage());
         }
@@ -495,7 +499,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getPostById", e.getMessage());
         }
@@ -528,7 +532,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getPostById", e.getMessage());
         }
@@ -638,7 +642,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_method(),
                                                 resParentObject,
                                                 count);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getPostById", e.getMessage());
         }
@@ -716,7 +720,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_method(),
                                                 resParentObject,
                                                 count);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getPostById", e.getMessage());
         }
@@ -764,7 +768,7 @@ public class PostServiceImpl implements PostService {
                 queryParams);
 
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "GET", "getPostListMobile", readObject);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getPostListMobile", e.getMessage());
         }
@@ -795,7 +799,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 status);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "removePost", e.getMessage());
         }
@@ -867,7 +871,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "removePost", e.getMessage());
         }
@@ -934,7 +938,7 @@ public class PostServiceImpl implements PostService {
                                                                                                                filePath), aid });
             simpleResponse = new SimpleResponse("" + status, "Post", "editAnswer", "");
 
-        } catch (FileNotFoundException | DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "editAnswer", e.getMessage());
         }
@@ -972,7 +976,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 request.getRequest_data().getAid());
-        } catch (DAOException e) {
+        } catch (Exception e) {
             transactionManager.rollback(statusDB);
             logger.info("Delete answer Error:" + e.getMessage());
             e.printStackTrace();
@@ -1011,7 +1015,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 message);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "updateViewQuestion", e.getMessage());
         }
@@ -1084,7 +1088,7 @@ public class PostServiceImpl implements PostService {
                 }
             }
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "posted", "getStudentPosted", result_data);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getStudentPosted", e.getMessage());
         }
@@ -1122,7 +1126,7 @@ public class PostServiceImpl implements PostService {
                 queryParams);
 
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "get", "countQuestions", readObject);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "countQuestions", e.getMessage());
         }
@@ -1145,7 +1149,7 @@ public class PostServiceImpl implements PostService {
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_NEWEST_QUESTION, queryParams);
             String count = String.valueOf(readObject.size());
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "get", "getNewestQuestion", readObject, count);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getNewestQuestion", e.getMessage());
         }
@@ -1176,7 +1180,7 @@ public class PostServiceImpl implements PostService {
                 queryParams);
 
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "get answer", "getAnswersList", readObject);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getAnswersList", e.getMessage());
         }
@@ -1213,7 +1217,7 @@ public class PostServiceImpl implements PostService {
                 params);
             String count = String.valueOf(readObjectTemp.size());
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "GET", "getNewestQuestionBySubject", readObjectTemp, count);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getNewestQuestionBySubject", e.getMessage());
         }
@@ -1303,7 +1307,7 @@ public class PostServiceImpl implements PostService {
                                                 request.getRequest_data_type(),
                                                 request.getRequest_data_method(),
                                                 readObject);
-        } catch (DAOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "getAnswerByQid", e.getMessage());
         }
