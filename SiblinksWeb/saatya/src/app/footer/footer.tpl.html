@@ -1,16 +1,17 @@
-    <div class="container">
-        <div class="row box-ft">
-            <div class="footer-logo col-md-6"> <!-- footer logo -->
-                <div>
-                	<img src="assets/images/logo-footer.png" alt="">&nbsp;&nbsp;&nbsp;
-	            	<span>Copyright 2016 <a href="/">sibLinks.com</a>, made with <span data-icon="&#xe089;" id="heart"></span></i></span>
-	            </div>
-            </div>
-            <div class="col-md-6 footer-menu"> <!-- Footer menu -->
-                <a href="#/about">About us /</a>
-                <a href="#/contact">Contact Us /</a>
-                <a href="#/policy">Privacy Policy /</a>
-                <a href="#/terms">Terms of Service</a>
-            </div>
+<div class="container">
+    <div class="row box-ft">
+        <div class="footer-logo col-md-6"> <!-- footer logo -->
+            <div>
+            	<img src="assets/images/logo-footer.png" alt="">&nbsp;&nbsp;&nbsp;
+         	<span>Copyright 2016 <a href="/">sibLinks.com</a>, made with <span data-icon="&#xe089;" id="heart"></span></i></span>
+         </div>
+        </div>
+        {{currentPath}}
+        <div class="col-md-6 footer-menu"> <!-- Footer menu -->
+            <a href="#/about" ng-class="{active: currentPath == '/about'}">About us /</a>
+            <a href="#/contact" ng-class="{active: currentPath == '/contact'}">Contact Us /</a>
+            <a href="#/policy" ng-class="{active: currentPath == '/policy'}">Privacy Policy /</a>
+            <a href="#/terms" ng-class="{active: currentPath == '/terms'}">Terms of Service</a>
         </div>
     </div>
+</div>
