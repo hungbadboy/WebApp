@@ -642,10 +642,12 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             if (item) {
                 var listNewTopMentor = $scope.listMentorSubscribed;
                 var itemConvert = {};
-                itemConvert.MentorName = item.name;
-                itemConvert.MentorId = item.userId;
-                itemConvert.avatar = item.avatar;
+                itemConvert.firstName = item.firstName;
+                itemConvert.lastName = item.lastName;
+                itemConvert.MentorId = item.userid;
+                itemConvert.avatar = item.imageUrl;
                 itemConvert.isOnline = item.isOnline;
+                itemConvert.userName = item.userName;
                 itemConvert.subjects = getSubjectNameById(item.defaultSubjectId, masterSubjects);
                 listNewTopMentor.unshift(itemConvert);
                 $scope.listMentorSubscribed = listNewTopMentor;
@@ -914,8 +916,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             if (isSubs != '1' || isEmpty(userid)) {
                 return;
             }
+
             $("#subscribers_" + userid).attr("data-icon", "N");
-            $("#span_" + userid).text("Subscribed");
+            $("#span_" + userid).text($scope.isSubscribe == 1 ? "Subscribed" : "Subscribe");
         };
 
         $scope.setSubscribeMentor = function (mentorId) {
@@ -927,21 +930,26 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     if (data.data.request_data_type == "subs") {
                         $scope.isSubscribe = 1;
 
-                        //$('#subscribers_'+mentorId).addClass('unsubcrib');
                         for (var i = 0; i < $scope.listVideoRecommendedForU.length; i++) {
-                            if (mentorId == $scope.listVideoRecommendedForU[i][0].userId) {
+                            if (mentorId == $scope.listVideoRecommendedForU[i][0].userid) {
                                 $scope.listVideoRecommendedForU[i][0].isSubs = $scope.isSubscribe;
                                 updateTopMentorBlock($scope.listVideoRecommendedForU[i][0]);
                             }
                         }
                     } else {
                         $scope.isSubscribe = 0;
-                        $("#subscribers_" + mentorId).attr("data-icon", "N");
+                        $("#span_"+mentorId).text('Subscribe');
+                        $("#subscribers_" + mentorId).attr("data-icon", "L");
                         $('#subscribers_' + mentorId).removeClass('unsubcrib');
                         var listMentor = $scope.listMentorSubscribed;
                         for (var i = 0; i < listMentor.length; i++) {
                             if (listMentor[i].MentorId == mentorId) {
                                 listMentor.splice(i, 1);
+                            }
+                        }
+                        for (var i = 0; i < $scope.listVideoRecommendedForU.length; i++) {
+                            if (mentorId == $scope.listVideoRecommendedForU[i][0].userid) {
+                                $scope.listVideoRecommendedForU[i][0].isSubs = $scope.isSubscribe;
                             }
                         }
                         $scope.listMentorSubscribed = listMentor;

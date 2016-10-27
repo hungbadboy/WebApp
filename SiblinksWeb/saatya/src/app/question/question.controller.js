@@ -187,7 +187,7 @@ brotControllers
                     if ($location.absUrl().indexOf('first-ask') > -1 && $("#top-mentors-videos").height() > 0) {
                         $(".create-ask").height($("#top-mentors-videos").height());
                     }
-                });
+                },300);
 
                 $scope.detailQuestion = function (id) {
                     window.location.href = '/#/question_detail/' + id + "";

@@ -115,7 +115,7 @@
                                 <div class="input-group">
                                     <img  ng-if="userId" class="avatar" ng-src="{{avartar}}" alt="avatar">
                                     <textarea ng-if="userId" ng-click="clickTxtComent()"  ng-if="userId" class="form-control" placeholder="Add a comment" type="text" id="add-comment"></textarea>
-                                    <div class="left-border"></div>
+                                    <div ng-if="userId"  class="left-border"></div>
                                     <div ng-if="userId" class="comment-action">
                                         <button ng-click="cencelComment()" class="cancel">Cancel</button>
                                         <button ng-click="addComment()" class="add-comment">Add comment</button>

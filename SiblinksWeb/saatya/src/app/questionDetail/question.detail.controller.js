@@ -280,7 +280,7 @@ brotControllers
 
 
                 };
-                $scope.onFileSelect = function ($files) {
+                $scope.onFileSelect = function ($files,errFiles) {
                     $scope.askErrorMsg= "";
                     var errFile = errFiles && errFiles[0];
                     if(!isEmpty(errFile)){
