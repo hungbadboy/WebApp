@@ -37,24 +37,24 @@
                 <div class="videos-content-header-top">
                     <!-- Tab left menu -->
                     <ul class="nav nav-tabs">
-                        <li class="all-video active">
-                            <a data-toggle="tab" href="/videos/#all" ng-click="clearDataSearched()">
+                        <li class="all-video" ng-class="{active : currentTab == 'all'}">
+                            <a data-toggle="tab" href="/videos/#all" ng-click="changeCategory('all')">
                                 <span data-icon="&#xe074;"></span><span>All Tutorials</span>
                             </a>
                         </li>
-                        <li class="subsciption" ng-if="login == 1" ng-click="fillListVideoByDefault()">
+                        <li class="subsciption" ng-class="{active : currentTab == 'sub'}" ng-if="login == 1" ng-click="changeCategory('sub')">
                             <a data-toggle="tab" href="/videos/#subcriptions">
                                 <span data-icon="&#xe050;"></span><span>Subscriptions</span>
                                 <span class="number-media number-subscrip" ng-bind="totalSubscription"></span>
                             </a>
                         </li>
-                        <li class="history" ng-click="resetFlagShowMore();">
+                        <li class="history" ng-class="{active : currentTab == 'history'}" ng-click="changeCategory('history')">
                             <a data-toggle="tab" href="/videos/#history">
                                 <span data-icon="&#xe06b;"></span><span>History</span>
                                 <span ng-if="login == 1" class="number-media number-history" ng-bind="listVideos ? listVideos.length : 0"></span>
                             </a>
                         </li>
-                        <li class="like-video" ng-if="login == 1" ng-click="resetFlagShowMoreFavourite();">
+                        <li class="like-video" ng-class="{active : currentTab == 'favourite'}" ng-if="login == 1" ng-click="changeCategory('favourite')">
                             <a data-toggle="tab" href="/videos/#favourite">
                                 <span data-icon="&#xe033;"></span><span>Favorites</span><span
                                     ng-if="login == 1"
@@ -109,7 +109,7 @@
             <!-- Right Side -->
             <div class="video-list col-lg-9 col-md-8 tab-content">
                 <!-- Content of All -->
-                <div class="tab-pane active" id="all">
+                <div class = "tab-pane" id="all">
                     <h4>All Tutorials</h4>
                     <div class="sort-video">
                         <ul>
@@ -356,7 +356,7 @@
                 </div><!-- /End Content of All -->
 
                 <!-- Content of Subcription -->
-                <div class="tab-pane" id="subcriptions" ng-if="listCategorySubscription">
+                <div class = "tab-pane" id="subcriptions" >
                     <h4>Subcriptions</h4>
                     <span class="number-media number-subscrip" ng-if="login == 1" ng-bind="totalSubscription"></span>
                     <div id="idCategory" class="sort-video">
@@ -564,7 +564,7 @@
                 </div><!-- /End Content of Subcription -->
 
                 <!-- Content of History -->
-                <div class="tab-pane" id="history">
+                <div class = "tab-pane" id="history">
                     <div ng-hide="!searchItem">
                         <h5>Search Result</h5>
                         <ul>
@@ -671,7 +671,7 @@
                 </div><!-- /End Content of History -->
 
                 <!-- Content of Favourite -->
-                <div class="tab-pane" id="favourite">
+                <div class = "tab-pane" id="favourite">
                     <div ng-hide="!searchItem">
                         <h5>Search Result</h5>
                         <ul>

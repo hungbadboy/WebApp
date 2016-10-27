@@ -103,4 +103,65 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             });
         }
 
+        $scope.updateEssay = function () {
+            var fd = new FormData();
+            if(isEmpty(userId)){
+                $window.location.href = '#/student/signin?continue='+encodeURIComponent($location.absUrl());
+                return;
+            }
+
+            if(fileUpload.size > MAX_SIZE_ESSAY_UPLOAD){
+                $scope.essayErrorMsg='Essay over 10M';
+            }
+            if(isEmpty($scope.txtTitle)){
+                $scope.essayErrorMsg = "Please input title essay";
+                $('#txtTitle').focus();
+                return;
+            }
+            if(isEmpty($scope.txtDesc)){
+                $scope.essayErrorMsg = "Please input description essay";
+                $('#txtDesc').focus();
+                return;
+            }
+
+            if($scope.selectMajor == 0){
+                $scope.essayErrorMsg = "Please select major";
+                $('#listMajors').focus();
+                return;
+            }
+            if($scope.selectSchool == 0){
+                $scope.essayErrorMsg = "Please select school";
+                $('#listSchools').focus();
+                return;
+            }
+            if(!isEmpty(fileUpload)){
+                fd.append('file',fileUpload);
+            }
+            fd.append('desc',$scope.txtDesc);
+            fd.append('userId',userId);
+            fd.append('title',$scope.txtTitle);
+            fd.append('majorId',$scope.selectMajor );
+            fd.append('schoolId',$scope.selectSchool);
+            fd.append('fileName',fileUpload.name);
+            $rootScope.$broadcast('open');
+            uploadEssayService.updateEssayStudent(fd).then(function (data) {
+                if (data.data.status ==  'true') {
+                    $scope.essayErrorMsg = "";
+                    $scope.essaySusscesMsg = "You essay has been submitted for review";
+                    $scope.selectSchool = 0;
+                    $scope.selectMajor = 0;
+                    $scope.fileName = 'Upload your file (word, excel, pdf....)';
+                    fileUpload = null;
+                    $scope.txtDesc = "";
+                    $scope.txtTitle = "";
+                    $scope.$emit('reloadYourEssay', 'load')
+                }
+                else {
+                    $scope.essayErrorMsg = data.data.request_data_result;
+                    $scope.essaySusscesMsg = "";
+                }
+                $rootScope.$broadcast('close');
+            });
+        }
+
     }]);

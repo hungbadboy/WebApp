@@ -289,8 +289,14 @@ brotControllers.controller('PlaylistController',
 
     var file;
     $scope.stepsModel = [];
-    $scope.onFileSelect = function($files){
+    $scope.onFileSelect = function($files, errFile){
+      var errFile = errFile && errFile[0];
+      if (errFile) {
+        $scope.error = "Thumbnail maximum is 5MB.";
+        return;
+      }
       if ($files != null && $files.length > 0) {
+        $scope.error = null;
         file = $files[0];
         var reader = new FileReader();
         reader.onload = $scope.imageIsLoaded;

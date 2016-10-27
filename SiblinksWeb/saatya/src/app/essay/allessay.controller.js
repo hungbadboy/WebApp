@@ -138,6 +138,8 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
         for (var i = result.length - 1; i >= 0; i--) {
+          var fullname = result[i].firstName + ' ' + result[i].lastName;
+          result[i].fullName = fullname != ' ' ? fullname : result[i].userName.substr(0, result[i].userName.indexOf('@'));
           result[i].timestamp = convertUnixTimeToTime(result[i].timestamp);
         }
         $scope.comments = result;        
@@ -449,6 +451,9 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
           $scope.success = "Reply successful.";
           getAllEssay();
           justReplied = true;
+          $scope.error = null;
+          $scope.fileName = null;
+          $scope.fileSize = null;
         } else{
           $scope.error = data.data.request_data_result;
           console.log($scope.error);

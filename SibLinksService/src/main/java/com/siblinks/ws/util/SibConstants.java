@@ -544,6 +544,8 @@ public class SibConstants {
         public static final String SQL_SIB_RATE_UPDATE_VIDEO_ADMISSION = "SIB_RATE_UPDATE_VIDEO_ADMISSION";
         public static final String SQL_SIB_NUM_REPLIES_UPDATE_DELETE = "SIB_NUM_REPLIES_UPDATE_DELETE";
         public static final String SQL_STUDENT_UPLOAD_ESSAY = "STUDENT_UPLOAD_ESSAY";
+        public static final String SQL_STUDENT_UPDATE_ESSAY = "STUDENT_UPDATE_ESSAY";
+        public static final String SQL_STUDENT_UPDATE_ESSAY_NOFILE = "STUDENT_UPDATE_ESSAY_NOFILE";
 
         public static final String SQL_VIDEO_COMMENT_UPDATE = "VIDEO_COMMENT_UPDATE";
         public static final String SQL_VIDEO_DEL_COMMENT_UPDATE = "VIDEO_DEL_COMMENT_UPDATE";
