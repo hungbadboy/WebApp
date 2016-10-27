@@ -47,6 +47,23 @@ brotServices.factory('uploadEssayService', ['$http', function($http) {
         return promise;
     }
 
+    factory.updateEssayStudent = function (fd) {
+        var url = NEW_SERVICE_URL + 'essay/updateEssayStudent';
+        var promise = $http({
+            method: 'POST',
+            url: url,
+            headers: {
+                'Content-Type': undefined
+            },
+            data: fd,
+            transformRequest: function (data, headersGetterFunction) {
+                return data;
+            }
+
+        });
+        return promise;
+    }
+
 
     factory.getMentorEssayByUid = function(uid) {
         var promise = $http({
