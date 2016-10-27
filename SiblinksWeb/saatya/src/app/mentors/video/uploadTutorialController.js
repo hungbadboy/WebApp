@@ -59,6 +59,8 @@ brotControllers.controller('UploadTutorialController',
               $scope.uploadSubjects = arr;
               localStorage.setItem("insertupdateTutorialSubjects", JSON.stringify($scope.uploadSubjects), 2)
               $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
+              if ($scope.editVideo) 
+                displayEdit($scope.editVideo);
            }
        });
       }      
@@ -81,6 +83,8 @@ brotControllers.controller('UploadTutorialController',
             });
             localStorage.setItem("playlists", JSON.stringify($scope.playlists), 2);
             $scope.uploadPlaylist = $scope.playlists[0].plid;
+            if ($scope.editVideo) 
+              displayEdit($scope.editVideo);
           }
         });
       }      
