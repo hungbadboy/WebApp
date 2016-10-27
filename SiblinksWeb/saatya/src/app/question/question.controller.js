@@ -327,14 +327,7 @@ brotControllers
                     $scope.isShowOrder = $scope.isShowOrder === false ? true : false;
                 };
 
-                $timeout(function () {
-                    angular.element(document.getElementsByClassName('bxslider')).bxSlider({
-                        nextText: 'next',
-                        prevText: 'pre',
-                        infiniteLoop: false,
 
-                    });
-                }, 300);
                 $scope.zoomImage = function (img) {
                     // if(img == $scope.currentImage){
                     //    // $(".popup-images").css({"left": 0});
@@ -343,11 +336,12 @@ brotControllers
                     // }
                     $scope.currentImage = img;
                     //$(".popup-images").css({"left": 0});
-
-                    angular.element(document.getElementsByClassName('bxslider')).bxSlider({
-                        nextText: 'next',
-                        prevText: 'pre',
-                        infiniteLoop: false,
+                    // day laf ddoanj code khoi tao bxslide em muon sua ji thif suaw?
+                    angular.element(document.getElementById('bxslider')).bxSlider({
+                        // nextText: 'next',
+                        // prevText: 'pre',
+                        // infiniteLoop: false,
+                        pagerCustom: '#bx-pager'
 
                     });
                     angular.element(document.getElementById('modalImage')).modal();
