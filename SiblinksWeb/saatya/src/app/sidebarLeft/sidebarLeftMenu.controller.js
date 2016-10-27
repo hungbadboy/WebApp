@@ -39,7 +39,7 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
     /**
      * Menu active when click
      */
-    $scope.showSubMenu = function showSubMenu(path, subMenuId) {
+    $scope.showSubMenu = function showSubMenu(subMenuId) {
         if (!angular.element("#" + subMenuId ).hasClass('show')) {
             angular.element("#" + subMenuId +", #menu-video").addClass('show');
             $('#menu-video').attr('data-icon','3');
@@ -47,7 +47,6 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
             angular.element("#" + subMenuId +", #menu-video").removeClass('show');
             $('#menu-video').attr('data-icon','2')
         }
-        $scope.showFullLeftSideBar(path);
     }
     
     /**
@@ -55,6 +54,5 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
      */
     $scope.showFullLeftSideBar = function showFullLeftSideBar(path) {
     	$rootScope.isMiniMenu = false;
-    	window.location.href='#'+path;
     }
 }]);

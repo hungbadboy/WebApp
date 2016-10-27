@@ -15,21 +15,21 @@
             </div>
             <div class="browse"><p>&nbsp;</p></div>
             <ul class="mobimenu nav sidebar-nav">
-                <li ng-class="{active: currentPath=='/mentor/dashboard'}">
-                    <a href="javascript:void(0)" ng-click="showFullLeftSideBar('/mentor/dashboard')">
+                <li ng-class="{active: currentPath=='/mentor/dashboard'}" ng-click="showFullLeftSideBar()">
+                    <a href="#/mentor/dashboard">
                         <span class="fa fa-tachometer"></span>
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
-                <li ng-class="{active: currentPath=='/mentor/managerQA'}">
-                    <a href="javascript:void(0)" ng-click="showFullLeftSideBar('/mentor/managerQA')">
+                <li ng-class="{active: currentPath=='/mentor/managerQA'}"  ng-click="showFullLeftSideBar()">
+                    <a href="#/mentor/managerQA">
                         <span data-icon="&#x77;"></span>
                         <span class="menu-title">Q&A</span>
                         <!-- <span data-icon="&#x34;" class="sub-menu"></span> -->
                     </a>
                 </li>
                 <li ng-class="{active: (currentPath =='/mentor/mentorVideo' || currentPath =='/mentor/videoManager' ||  currentPath == '/mentor/playlistManager')}">
-                    <a href="javascript:void(0)" ng-click="showSubMenu('/mentor/managerQA','sub-menu-video')">
+                    <a href="javascript:void(0)" ng-click="showSubMenu('sub-menu-video')">
                         <span data-icon="&#x49;"></span>
                         <span class="menu-title">Tutorials</span>
                         <span data-icon="&#x32;" class="sub-menu" id="menu-video"
@@ -37,25 +37,25 @@
                     </a>
                     <ul class="menuSubmenu" id="sub-menu-video"
                         ng-class="{show : (currentPath =='/mentor/mentorVideo' || currentPath =='/mentor/videoManager' ||  currentPath == '/mentor/playlistManager')}">
-                        <li ng-class="{active : currentPath == '/mentor/mentorVideo'}">
+                        <li ng-class="{active : currentPath == '/mentor/mentorVideo'}" ng-click="showFullLeftSideBar()">
                             <a href="#/mentor/mentorVideo">
                                 <span class="menu-title">General</span>
                             </a>
                         </li>
-                        <li ng-class="{active : currentPath == '/mentor/videoManager'}">
+                        <li ng-class="{active : currentPath == '/mentor/videoManager'}" ng-click="showFullLeftSideBar()">
                             <a href="#/mentor/videoManager">
                                 <span class="menu-title">Videos</span>
                             </a>
                         </li>
-                        <li ng-class="{active : currentPath == '/mentor/playlistManager'}">
+                        <li ng-class="{active : currentPath == '/mentor/playlistManager'}" ng-click="showFullLeftSideBar()">
                             <a href="#/mentor/playlistManager">
                                 <span class="menu-title">Playlists</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li ng-class="{active: currentPath=='/mentor/essay'}">
-                    <a href="javascript:void(0)" ng-click="showFullLeftSideBar('/mentor/essay')">
+                <li ng-class="{active: currentPath=='/mentor/essay'}" ng-click="showFullLeftSideBar()">
+                    <a href="#/mentor/essay">
                         <span data-icon="&#xe101;"></span>
                         <span class="menu-title">Essay</span>
                         <!-- <span data-icon="&#x34;" class="sub-menu"></span> -->
@@ -68,8 +68,8 @@
                          <span data-icon="&#x34;" class="sub-menu"></span>
                      </a>
                  </li> -->
-                <li ng-class="{active: currentPath=='/mentor/mentorProfile' || currentPath.indexOf('/mentor/studentProfile/')>=0}">
-                    <a href="#/mentor/mentorProfile" ng-click="showFullLeftSideBar()">
+                <li ng-class="{active: currentPath=='/mentor/mentorProfile' || currentPath.indexOf('/mentor/studentProfile/')>=0}" ng-click="showFullLeftSideBar()">
+                    <a href="#/mentor/mentorProfile">
                         <span data-icon="&#xe08a;"></span>
                         <span class="menu-title">Profile</span>
                         <!-- <span data-icon="&#x34;" class="sub-menu"></span> -->
