@@ -552,6 +552,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                                 var subscribe = {};
                                 subscribe.MentorName = element.name;
                                 subscribe.MentorId = element.userid;
+                                subscribe.firstName = element.firstName;
+                                subscribe.lastName = element.lastName;
                                 subscribe.avatar = element.imageUrl;
                                 subscribe.isOnline = element.isOnline;
                                 subscribe.userName = element.userName;
@@ -949,12 +951,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         };
 
 
-        $scope.validateShowName = function (displayName, userName) {
-            if (displayName == null || isEmpty(displayName)) {
-                return userName != null ? userName.substr(0, userName.indexOf('@')) : "Mentor";
-            } else {
-                return displayName.trim();
-            }
+        $scope.validateShowName = function (fistName, lastName, userName) {
+            return displayUserName(fistName, lastName, userName).trim();
         };
 
         $scope.convertUnixTimeToTime = function (time) {
