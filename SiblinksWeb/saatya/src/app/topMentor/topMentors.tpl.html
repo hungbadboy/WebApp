@@ -13,8 +13,9 @@
        <ul>
            <li ng-if="listTopmentors" ng-repeat="mentor in listTopmentors track by $index">
                <div class="top-mentors-img online">
-                  <a href="#/student/mentorProfile/{{mentor.userid}}"><img  ng-src="{{mentor.imageUrl}}">
-     				<span ng-class="{'offline' : !mentor.isOnline, 'online' : mentor.isOnline}">
+                  <a href="#/student/mentorProfile/{{mentor.userid}}">
+                  <img ng-src="{{mentor.imageUrl != null ? mentor.imageUrl : 'assets/images/noavartar.jpg'}}" err-src="assets/images/noavartar.jpg">
+                  <span ng-class="{'offline' : !mentor.isOnline, 'online' : mentor.isOnline}">
          			<img ng-if="mentor.isOnline" src="assets/images/ask question/online.png"/>
      				<img ng-if="!mentor.isOnline" src="assets/images/ask question/offline.png"/></span></a>
                </div>

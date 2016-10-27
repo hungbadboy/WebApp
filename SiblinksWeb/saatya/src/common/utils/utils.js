@@ -548,7 +548,7 @@ function checkNameToTrim(str) {
  
 function displayUserName(firstName, lastName, userName) {
     if (!isEmpty(firstName) && !isEmpty(lastName)) {
-    	return firstName + '' + lastName;
+    	return firstName + ' ' + lastName;
     } else if(isEmpty(firstName) && isEmpty(lastName)) {
     	return capitaliseFirstLetter(userName.substr(0, userName.indexOf('@')));
     } else {
