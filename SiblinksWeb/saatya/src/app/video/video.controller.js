@@ -35,11 +35,13 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         var masterSubjects = JSON.parse(localStorage.getItem('subjects'));
 
         var search = $location.search().search;
+
         $scope.currentTab = $location.search().tab;
 
-        $scope.fillListVideoByDefault = function () {
-
+        function fillListVideoByDefault(){
+            $rootScope.$broadcast('open');
             VideoService.getListCategorySubscription().then(function (data) {
+                $rootScope.$broadcast('close');
                 $scope.listCategorySubscription = data.data.request_data_result;
                 resetAttributes();
                 if ($scope.listCategorySubscription.length > 0) {
@@ -57,10 +59,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 clearSearch();
             });
 
-        };
-
-
-        $scope.fillListVideoByDefault();
+        }
 
         $scope.showVideoWithCategory = function (subjectId) {
             $scope.subjectIdSort = subjectId;
@@ -72,7 +71,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 });
             }
         };
-
 
 
         function resetAttributes() {
@@ -231,7 +229,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         function updateTopMentorSubscribled(item) {
             if (item) {
                 var listNewTopMentor = $scope.listMentorSubscribed;
-                var subjects = myCache.get("subjects");
                 var itemConvert = {};
                 itemConvert.MentorName = item.author;
                 itemConvert.MentorId = item.authorID;
@@ -245,7 +242,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         break;
                     }
                 }
-
                 listNewTopMentor.unshift(itemConvert);
                 $scope.listMentorSubscribed = listNewTopMentor;
             }
@@ -271,6 +267,13 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             SUBCRIPTION: 2,
             HISTORY: 3,
             FAVOURITE: 4
+        };
+
+        var TabName = {
+            ALL: 'all',
+            SUBSCRIPTION: 'sub',
+            HISTORY: 'history',
+            FAVOURITE: 'favourite'
         };
 
 
@@ -305,6 +308,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 getVideoBySubject(-1, -1, limit, 0);
             }
             getAllVideos();
+            fillListVideoByDefault();
             reloadHistory();
             getFavouriteVideosList();
             showTab($scope.currentTab);
@@ -312,14 +316,39 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
 
         function showTab(tabStr) {
-            //TODO : Handle load tab & active
-            if(isEmpty(tabStr)){
-                return;
-            }
             $scope.currentTab = tabStr;
-            if(tabStr == 'history'){
-                angular.element(document.getElementById('history')).show();
-                angular.element(document.getElementById('all')).hide();
+            switch (tabStr){
+                case TabName.ALL :
+                    angular.element(document.getElementById('all')).show();
+                    angular.element(document.getElementById('subcriptions')).hide();
+                    angular.element(document.getElementById('history')).hide();
+                    angular.element(document.getElementById('favourite')).hide();
+                    break;
+                case TabName.SUBSCRIPTION :
+                    console.log($scope.listCategorySubscription);
+                    angular.element(document.getElementById('all')).hide();
+                    angular.element(document.getElementById('subcriptions')).show();
+                    angular.element(document.getElementById('history')).hide();
+                    angular.element(document.getElementById('favourite')).hide();
+                    break;
+                case TabName.HISTORY:
+                    angular.element(document.getElementById('all')).hide();
+                    angular.element(document.getElementById('subcriptions')).hide();
+                    angular.element(document.getElementById('history')).show();
+                    angular.element(document.getElementById('favourite')).hide();
+                    break;
+                case TabName.FAVOURITE :
+                    angular.element(document.getElementById('all')).hide();
+                    angular.element(document.getElementById('subcriptions')).hide();
+                    angular.element(document.getElementById('history')).hide();
+                    angular.element(document.getElementById('favourite')).show();
+                    break;
+                default :
+                    angular.element(document.getElementById('all')).show();
+                    angular.element(document.getElementById('subcriptions')).hide();
+                    angular.element(document.getElementById('history')).hide();
+                    angular.element(document.getElementById('favourite')).hide();
+                    break;
             }
         }
 
@@ -430,7 +459,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             $scope.isSearchAction = true;
         };
 
-        $scope.clearDataSearched = function () {
+        function clearDataSearched () {
             $scope.searchItem = null;
             $scope.selected = null;
             $scope.isSearchAction = false;
@@ -453,30 +482,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             $scope.searchItem = result;
         };
 
-
-        function parseDataVideoSubcribe(data) {
-            if (data) {
-                var listVideosSubcribe = [];
-                for (var i = 0; i < data.length; i++) {
-                    var objVideo = {};
-                    var video = data[i];
-                    objVideo.vid = video.vid;
-                    objVideo.authorID = video.authorID;
-                    objVideo.userName = video.userName;
-                    objVideo.title = video.title;
-                    objVideo.image = video.image;
-                    objVideo.link = video.url;
-                    objVideo.numViews = video.numViews;
-                    objVideo.subjectId = video.subjectId;
-                    objVideo.numRatings = video.numRatings;
-                    objVideo.runningTime = video.runningTime;
-                    objVideo.averageRating = video.averageRating;
-                    objVideo.timeAgo = convertUnixTimeToTime(video.timeStamp);
-                    listVideosSubcribe.push(objVideo);
-                }
-            }
-            return listVideosSubcribe;
-        };
 
         function search(nameKey, myArray) {
             for (var i = 0; i < myArray.length; i++) {
@@ -514,7 +519,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         TeamMentorService.getTopMentorsByType(5, 0, 'subcribe', userId).then(function (data) {
             var data_result = data.data.request_data_result;
-            var subjects = myCache.get("subjects");
             if (data_result) {
                 var listTopMentors = [];
                 for (var i = 0; i < data_result.length; i++) {
@@ -526,7 +530,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         mentor.numsub = data_result[i].numsub;
                         mentor.numvideos = data_result[i].numvideos;
                         mentor.defaultSubjectId = data_result[i].defaultSubjectId;
-                        mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
+                        mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, masterSubjects);
                         mentor.numAnswers = data_result[i].numAnswers;
                         listTopMentors.push(mentor);
                     }
@@ -557,9 +561,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                                 subscribe.avatar = element.imageUrl;
                                 subscribe.isOnline = element.isOnline;
                                 subscribe.userName = element.userName;
-                                if(element.defaultSubjectId === undefined || element.defaultSubjectId == null || isEmpty(element.defaultSubjectId)){
-                                    subscribe.subjects = [{id : -1 , name : "None"}];
-                                }else{
+                                if (element.defaultSubjectId === undefined || element.defaultSubjectId == null || isEmpty(element.defaultSubjectId)) {
+                                    subscribe.subjects = [{id: -1, name: "None"}];
+                                } else {
                                     subscribe.subjects = getSubjectNameById(element.defaultSubjectId, masterSubjects);
                                 }
                                 //console.log(subscribe.subjects);
@@ -582,18 +586,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             });
 
         };
-
-        function getCountAnsSubVideoMentor(mentorId, key) {
-            if (mentorId) {
-                VideoService.getCountFactory(mentorId, key).then(function (response) {
-                    if (response.data.status) {
-                        var result = response.data.request_data_result[0];
-                        $scope.countResult = result;
-                        return result;
-                    }
-                });
-            }
-        }
 
 
         function getCountFactory(type) {
@@ -745,7 +737,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         //MTDU
         var listVideos = '';
-
         function loadHistory() {
             if (myCache.get("listVideos") !== undefined) {
                 $log.info("My cache already exists");
@@ -775,9 +766,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.range = function (num) {
             return new Array(num);
         };
-
-
-        $scope.resetFlagShowMore = reloadHistory();
 
         $scope.deleteHistoryVideo = function (video) {
             if ($scope.listVideos == null || $scope.listVideos.length == 0)
@@ -830,13 +818,13 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 $scope.numberOfFavouriteVideo += 4;
             if ($scope.numberOfFavouriteVideo >= $scope.listVideoFavourite.length)
                 $scope.flagShowMoreFavourite = false;
-        }
+        };
 
         $scope.range = function (num) {
             return new Array(num);
-        }
+        };
 
-        $scope.resetFlagShowMoreFavourite = function () {
+        function resetFlagShowMoreFavourite(){
             if (userId === null || userId === undefined) {
                 return;
             }
@@ -938,7 +926,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         }
                     } else {
                         $scope.isSubscribe = 0;
-                        $("#span_"+mentorId).text('Subscribe');
+                        $("#span_" + mentorId).text('Subscribe');
                         $("#subscribers_" + mentorId).attr("data-icon", "L");
                         $('#subscribers_' + mentorId).removeClass('unsubcrib');
                         var listMentor = $scope.listMentorSubscribed;
@@ -993,6 +981,14 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 $scope.searchItem = null;
                 $scope.isSearchAction = false;
             }
-        }
+        };
 
+
+        $scope.changeCategory = function(tabName){
+            if(isEmpty(tabName)){
+                return;
+            }
+            showTab(tabName);
+            $location.search('tab', tabName);
+        }
     }]);

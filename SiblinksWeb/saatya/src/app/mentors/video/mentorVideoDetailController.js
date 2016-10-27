@@ -56,6 +56,7 @@ brotControllers.controller('MentorVideoDetailController',
             if (result && result != "Found no data") {
                 for (var i = result.length - 1; i >= 0; i--) {
                     result[i].timeStamp = convertUnixTimeToTime(result[i].timeStamp);
+                    result[i].subjectId = result[i].subjectVid;
                 }
                 $scope.videos = result;
                 if (vid && vid > 0) {
@@ -82,7 +83,7 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     function getVideoRelated(){
-        videoDetailService.getVideoRelatedMentor($scope.video.subjectId, userId, 0).then(function(data){
+        videoDetailService.getVideoRelatedMentor($scope.video.vid, $scope.video.subjectId, userId, 0).then(function(data){
             var result = data.data.request_data_result;
             if (result && result != "Found no data") {
                 $scope.videosRelated = result;        
@@ -91,7 +92,7 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     $scope.loadMoreVideoRelated = function(){
-        videoDetailService.getVideoRelatedMentor($scope.video.subjectId, userId, $scope.videosRelated.length).then(function(data){
+        videoDetailService.getVideoRelatedMentor($scope.video.vid, $scope.video.subjectId, userId, $scope.videosRelated.length).then(function(data){
             var result = data.data.request_data_result;
             if (result && result != "Found no data") {
                 var oldData = $scope.videosRelated;
@@ -103,6 +104,7 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     function loadVideoDetail(v){
+        console.log(v);
         $scope.currentId = v.vid;
         $scope.video = v;
         $scope.video.averageRating = parseAvgRating($scope.video.averageRating);
@@ -371,14 +373,22 @@ brotControllers.controller('MentorVideoDetailController',
 
     $scope.$on('addPlaylist', function(e, value){
         window.location.href = '#/mentor/video/detail/'+$scope.video.vid+'/list/'+value+'';
+        window.location.reload();
     });
 
     $scope.$on('passing', function(e, video){
-        if (video.plid != null)
+        if (video.plid != null){
             window.location.href = '#/mentor/video/detail/'+$scope.video.vid+'/list/'+video.plid+'';
+            window.location.reload();
+        }
         else{
             $scope.video.title = video.title;
             $scope.description = video.description;
         }
+    });
+
+    $scope.$on('addPlaylistVideo', function(e, data){
+        window.location.href = '#/mentor/video/detail/'+$scope.video.vid+'/list/'+data.plid+'';
+        window.location.reload();
     });
 }]);
