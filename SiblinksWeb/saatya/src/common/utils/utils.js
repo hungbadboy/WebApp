@@ -530,3 +530,10 @@ function isValidPhoneUSA(p) {
   return (digits.match(phoneRe) !== null);
 }
 
+//Validate input before trim()
+function trimStr(str) {
+    if (!isEmpty(str)) {
+        return str.trim();
+    }
+    return str;
+}
