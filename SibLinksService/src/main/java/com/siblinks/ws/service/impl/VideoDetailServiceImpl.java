@@ -379,7 +379,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
      */
     @Override
     @RequestMapping(value = "/getVideoRelatedMentor", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideoRelatedMentor(final long subjectId, final long uid, final int offset) {
+    public ResponseEntity<Response> getVideoRelatedMentor(final long vid, final long subjectId, final long uid, final int offset) {
         SimpleResponse response = null;
         try {
             List<Object> subjects = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_SUBJECTID_CATEGORY, new Object[] {});
@@ -388,7 +388,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
             String Ids = getAllParentId(subjectId + "", subjects, subIds);
             String whereClause = "";
             if (!StringUtil.isNull(Ids)) {
-                whereClause += String.format(" and A.subjectId IN (%s) limit 10 offset %d", Ids, offset);
+                whereClause += String.format(" and A.subjectId IN (%s) and A.vid != %d limit 10 offset %d", Ids, vid, offset);
             }
 
             List<Object> readObjects = dao.readObjectsWhereClause(
