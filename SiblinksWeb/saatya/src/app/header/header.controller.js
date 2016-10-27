@@ -226,14 +226,11 @@ brotControllers.controller('UserHeaderController',
              */
             $scope.showSmallLeftSideBar = function showSmallLeftSideBar() {
             	$rootScope.isMiniMenu = !$rootScope.isMiniMenu;
-            	//angular.element("#mentor-left-header, #sidebar-menu, #mentor-center-header, #center-content").toggleClass("in");
-                if($scope.currentPath =='/mentor/mentorVideo' || $scope.currentPath =='/mentor/videoManager' ||  $scope.currentPath == '/mentor/playlistManager') {
-                	if(angular.element("#sidebar-menu").hasClass("in")) {
-                		angular.element('.menuSubmenu').removeClass('show');
-                	} else {
-                		angular.element('.menuSubmenu').addClass('show');
-                	}
-                }
+            	if($rootScope.isMiniMenu) {
+        			angular.element('.menuSubmenu').removeClass('show');
+            	} else {
+            		angular.element('.menuSubmenu').addClass('show');
+            	}
             }
             
             /**
