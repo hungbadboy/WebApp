@@ -397,7 +397,7 @@ function timeBackEnd() {
     }
     // Increment time by 1 second
     serverDateTime++;
-    return;
+    return serverDateTime;
     //console.log(serverDateTime);
 }
 
