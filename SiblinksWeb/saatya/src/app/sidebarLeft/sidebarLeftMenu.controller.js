@@ -45,7 +45,7 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
             $('#menu-video').attr('data-icon','3');
         } else {
             angular.element("#" + subMenuId +", #menu-video").removeClass('show');
-            $('#menu-video').attr('data-icon','4')
+            $('#menu-video').attr('data-icon','2')
         }
         $scope.showFullLeftSideBar(path);
     }
