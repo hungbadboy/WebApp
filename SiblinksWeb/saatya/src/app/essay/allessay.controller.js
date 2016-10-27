@@ -73,8 +73,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
           $scope.changeTab(4);
           justReplied = false;          
         }
-      } else
+      } else{
         $scope.repliedEssays = null;
+        repliedEssayCache.length = 0;
+      }
     });
   }
 
@@ -88,8 +90,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       if (result && result != NO_DATA) {
         $scope.ignoredEssays = formatEssay(result);
         ignoredEssayCache = $scope.ignoredEssays.slice(0);
-      } else
+      } else{
         $scope.ignoredEssays = null;
+        ignoredEssayCache.length = 0;
+      }
     });
   }
 
@@ -103,8 +107,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       if (result && result != NO_DATA) {
         $scope.processingEssays = formatEssay(result);
         processingEssayCache = $scope.processingEssays.slice(0);
-      } else
+      } else{
         $scope.processingEssays = null;
+        processingEssayCache.length = 0;
+      }
     });
   }
 
@@ -120,8 +126,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
         newestEssayCache = $scope.newestEssays.slice(0);
         $scope.eid = $scope.newestEssays[0].uploadEssayId;
         getEssayById($scope.eid, userId);
-      } else
+      } else{
         $scope.newestEssays = null;
+        newestEssayCache.length = 0;
+      }
     });
   }
 
