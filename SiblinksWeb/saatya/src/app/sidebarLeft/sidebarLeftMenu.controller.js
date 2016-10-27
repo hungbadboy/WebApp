@@ -39,11 +39,22 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
     /**
      * Menu active when click
      */
-    $scope.showSubMenu = function showSubMenu(subMenuId) {
+    $scope.showSubMenu = function showSubMenu(path, subMenuId) {
         if (!angular.element("#" + subMenuId ).hasClass('show')) {
             angular.element("#" + subMenuId +", #menu-video").addClass('show');
+            $('#menu-video').attr('data-icon','3');
         } else {
             angular.element("#" + subMenuId +", #menu-video").removeClass('show');
+            $('#menu-video').attr('data-icon','4')
         }
+        $scope.showFullLeftSideBar(path);
+    }
+    
+    /**
+     * Show small left side bar
+     */
+    $scope.showFullLeftSideBar = function showFullLeftSideBar(path) {
+    	$rootScope.isMiniMenu = false;
+    	window.location.href='#'+path;
     }
 }]);

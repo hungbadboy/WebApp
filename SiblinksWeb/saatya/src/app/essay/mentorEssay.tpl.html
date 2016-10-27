@@ -1,6 +1,6 @@
-<div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
+<div id="sidebar-menu" ng-class="{in: isMiniMenu}" class="sidebar-left" ng-include="sidebarLeft"></div>
 <div class="content">
-    <div id="center-content" class="center-content">
+    <div id="center-content" class="center-content" ng-class="{in: isMiniMenu}">
         <div class="center-content-wrapper">
             <section id="dashboard">
                 <div class="dashboard-header">    
@@ -65,7 +65,7 @@
                                                         <b>{{pe.nameOfEssay}}</b>
                                                         <p>{{pe.descriptionOfEssay | limitTo : 240 }}{{pe.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                         <div class="clearfix bt-item">
-                                                            <a href=""  ng-click="changeStatus(pe.uploadEssayId,'W')"><span class="essay-reviewing">Cancel</span></a>
+                                                            <a href=""  ng-click="changeStatus(pe.uploadEssayId,'I')"><span class="essay-reviewing">Cancel</span></a>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -2,7 +2,7 @@
 	<body >
 		<table cellspacing=5>
 			<tr>
-				<td colspan=2 style="font-size: 20px;"> Contact us Notification Email</td>
+				<td colspan=2 style="font-size: 20px;"> Contact us</td>
 			</tr>
 			
 		</table>
@@ -16,14 +16,13 @@
 
 <br> <br>
 
-###BODY###
+${BODY}
 
 <br> <br>
 
+Phone: ${PHONE}
 
-
- 
- 
+<br> <br>
  
 
  
@@ -39,7 +38,7 @@
 
 Regards 
 <br>
-###Name###
+${Name}
 
 <br>
 	---------------------------------------------------------------------------------------------------------------------------------

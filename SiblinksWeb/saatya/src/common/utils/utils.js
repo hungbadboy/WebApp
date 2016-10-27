@@ -3,7 +3,7 @@ var SERVICE_URL = 'http://ec2-54-200-200-106.us-west-2.compute.amazonaws.com:808
 var NEW_SERVICE_URL //@webserviceurl
     ;
 
-var serverDateTime= null;
+var serverDateTime = null;
 
 var SUBJECT_MAP_IMG = {
     'maths': {
@@ -127,13 +127,13 @@ function capitaliseFirstLetter(str) {
 }
 
 function convertUnixTimeToTime(time) {
-	
-	if(serverDateTime == null || serverDateTime === undefined) {
-		console.log('serverDateTime is null');
-		timeBackEnd();
-	}
 
-	var _now = Math.floor(serverDateTime);
+    if (serverDateTime == null || serverDateTime === undefined) {
+        console.log('serverDateTime is null');
+        timeBackEnd();
+    }
+
+    var _now = Math.floor(serverDateTime);
     var _space = _now - time;
     var _secondDay = 3600 * 24;
     var _secondMonth = _secondDay * 30;
@@ -342,7 +342,7 @@ var FormatDateTimeType = {
     DD_MM_YY_HH: "dd_mm_yy_hh",
     MM_DD_YY_HH: "mm_dd_yy_hh",
     YY_DD_YY: "yy_dd_yy",
-    MM_YY : "mm_yy"
+    MM_YY: "mm_yy"
 };
 
 /**
@@ -362,7 +362,7 @@ function timeConverter(timeStamp, typeFormat) {
     var hour = a.getHours();
     var min = a.getMinutes();
     var sec = a.getSeconds();
-    switch (String(typeFormat)){
+    switch (String(typeFormat)) {
         case FormatDateTimeType.DD_MM_YY:
             return date + ' ' + month + ', ' + year;
         case FormatDateTimeType.DD_MM_YY_HH:
@@ -385,115 +385,114 @@ function timeConverter(timeStamp, typeFormat) {
  */
 function timeBackEnd() {
     if (!serverDateTime) {
-    	var xmlhttp = new XMLHttpRequest();
-    	try {
-            xmlhttp.open("GET", NEW_SERVICE_URL +"/timeDB", false);
+        var xmlhttp = new XMLHttpRequest();
+        try {
+            xmlhttp.open("GET", NEW_SERVICE_URL + "/timeDB", false);
             xmlhttp.send();
             serverDateTime = JSON.parse(xmlhttp.responseText);
-            return;
     	} catch(e) {
     		console.log("can't connect to server");
     		serverDateTime = (Date.now() / 1000);
     	}
     }
-
     // Increment time by 1 second
     serverDateTime++;
+    return;
     //console.log(serverDateTime);
 }
 
 function resetUI() {
     showToken('loading...');
     messaging.getToken()
-    .then(function(currentToken) {
-      if (currentToken) {
-        sendTokenToServer(currentToken);
-        showToken(currentToken);
-      } else {
-        // Show permission request.
-        console.log('No Instance ID token available. Request permission to generate one.');
-        // Show permission UI.
-        requestPermission();
-        setTokenSentToServer(false);
-      }
-    })
-    .catch(function(err) {
-      console.log('An error occurred while retrieving token. ', err);
-      showToken('Error retrieving Instance ID token. ', err);
-      setTokenSentToServer(false);
-    });
-  }
-  // [END get_token]
-  function showToken(currentToken) {
+        .then(function (currentToken) {
+            if (currentToken) {
+                sendTokenToServer(currentToken);
+                showToken(currentToken);
+            } else {
+                // Show permission request.
+                console.log('No Instance ID token available. Request permission to generate one.');
+                // Show permission UI.
+                requestPermission();
+                setTokenSentToServer(false);
+            }
+        })
+        .catch(function (err) {
+            console.log('An error occurred while retrieving token. ', err);
+            showToken('Error retrieving Instance ID token. ', err);
+            setTokenSentToServer(false);
+        });
+}
+// [END get_token]
+function showToken(currentToken) {
     // Show token in console and UI.
     var tokenElement = document.querySelector('#token');
     tokenElement.textContent = currentToken;
-  }
+}
 
-  function sendTokenToServer(currentToken) {
+function sendTokenToServer(currentToken) {
     if (!isTokenSentToServer()) {
-      console.log('Sending token to server...');
-      setTokenSentToServer(true);
+        console.log('Sending token to server...');
+        setTokenSentToServer(true);
     } else {
-      console.log('Token already sent to server so won\'t send it again ' +
-          'unless it changes');
+        console.log('Token already sent to server so won\'t send it again ' +
+            'unless it changes');
     }
-  }
-  
-  function isTokenSentToServer() {
+}
+
+function isTokenSentToServer() {
     if (window.localStorage.getItem('sentToServer') == 1) {
-          return true;
+        return true;
     }
     return false;
-  }
-  
-  function setTokenSentToServer(sent) {
+}
+
+function setTokenSentToServer(sent) {
     if (sent) {
-      window.localStorage.setItem('sentToServer', 1);
+        window.localStorage.setItem('sentToServer', 1);
     } else {
-      window.localStorage.setItem('sentToServer', 0);
+        window.localStorage.setItem('sentToServer', 0);
     }
-  }
-  
-  function requestPermission() {
+}
+
+function requestPermission() {
     console.log('Requesting permission...');
     // [START request_permission]
     messaging.requestPermission()
-    .then(function() {
-      console.log('Notification permission granted.');
-      resetUI();
-    })
-    .catch(function(err) {
-      console.log('Unable to get permission to notify. ', err);
-    });
+        .then(function () {
+            console.log('Notification permission granted.');
+            resetUI();
+        })
+        .catch(function (err) {
+            console.log('Unable to get permission to notify. ', err);
+        });
     // [END request_permission]
-  }
-  function deleteToken() {
+}
+function deleteToken() {
     // Delete Instance ID token.
     // [START delete_token]
     messaging.getToken()
-    .then(function(currentToken) {
-      messaging.deleteToken(currentToken)
-      .then(function() {
-        console.log('Token deleted.');
-        setTokenSentToServer(false);
-        // [START_EXCLUDE]
-        // Once token is deleted update UI.
-        resetUI();
-        // [END_EXCLUDE]
-      })
-      .catch(function(err) {
-        console.log('Unable to delete token. ', err);
-      });
-      // [END delete_token]
-    })
-    .catch(function(err) {
-      console.log('Error retrieving Instance ID token. ', err);
-      showToken('Error retrieving Instance ID token. ', err);
-    });
-  }
-  // Add a message to the messages element.
-  function appendMessage(payload) {
+        .then(function (currentToken) {
+            messaging.deleteToken(currentToken)
+                .then(function () {
+                    console.log('Token deleted.');
+                    setTokenSentToServer(false);
+                    // [START_EXCLUDE]
+                    // Once token is deleted update UI.
+                    resetUI();
+                    // [END_EXCLUDE]
+                })
+                .catch(function (err) {
+                    console.log('Unable to delete token. ', err);
+                });
+            // [END delete_token]
+        })
+        .catch(function (err) {
+            console.log('Error retrieving Instance ID token. ', err);
+            showToken('Error retrieving Instance ID token. ', err);
+        });
+}
+// Add a message to the messages element.
+function appendMessage(payload) {
     const messagesElement = document.querySelector('#messages');
     const dataHeaderELement = document.createElement('h5');
     const dataElement = document.createElement('pre');
@@ -502,25 +501,39 @@ function resetUI() {
     dataElement.textContent = JSON.stringify(payload, null, 2);
     messagesElement.appendChild(dataHeaderELement);
     messagesElement.appendChild(dataElement);
-  }
-  // Clear the messages element of all children.
-  function clearMessages() {
+}
+// Clear the messages element of all children.
+function clearMessages() {
     const messagesElement = document.querySelector('#messages');
     while (messagesElement.hasChildNodes()) {
-      messagesElement.removeChild(messagesElement.lastChild);
+        messagesElement.removeChild(messagesElement.lastChild);
     }
-  }
-  function updateUIForPushEnabled(currentToken) {
+}
+function updateUIForPushEnabled(currentToken) {
     showHideDiv(tokenDivId, true);
     showHideDiv(permissionDivId, false);
     showToken(currentToken);
-  }
-  function updateUIForPushPermissionRequired() {
+}
+function updateUIForPushPermissionRequired() {
     showHideDiv(tokenDivId, false);
     showHideDiv(permissionDivId, true);
-  }
+}
 
-  //Check first name or last name had special character
-  function isNotValidName(strName) {
+//Check first name or last name had special character
+function isNotValidName(strName) {
     return /\`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\[|\{|\]|\}|\||\\|\'|\<|\,|\>|\?|\/|\""|\;|\:|[0-9]/.test(strName);
   }
+  
+function isValidPhoneUSA(p) {
+	  var phoneRe = /^[2-9]\d{2}[2-9]\d{2}\d{4}$/;
+  var digits = p.replace(/\D/g, "");
+  return (digits.match(phoneRe) !== null);
+}
+
+//Validate input before trim()
+function checkNameToTrim(str) {
+    if (!isEmpty(str)) {
+        return str.trim();
+    }
+    return str;
+}

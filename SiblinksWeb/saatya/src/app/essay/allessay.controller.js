@@ -311,10 +311,71 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     EssayService.updateStatusEssay(eid, userId, status).then(function (data) {
       if (data.data.request_data_result == "Success") {
         getAllEssay();
+        updateUI();
       } else {
-        console.log(data.data.request_data_result);
+        var result = data.data.request_data_result;
+        console.log(result);
+        if (result == "Processed") {
+          var ModalInstanceCtrl = function($scope, $modalInstance) {
+            $scope.ok = function() {              
+            };
+          };
+          var message =  "This essay has been processing by other mentor.";
+          var modalHtml = ' <div class="modal-body">' + message + '</div>';
+              modalHtml += '<div class="modal-footer"><button class="btn btn-default" ng-click="OK()">Cancel</button></div>';
+
+          var modalInstance = $modal.open({
+              template: modalHtml,
+              size: 'sm',
+              controller: ModalInstanceCtrl
+          });
+        }
+        getAllEssay();
+        updateUI();
       }
     });
+  }
+
+  function updateUI(){
+    if ($scope.tabpane == 1) {
+      $scope.pos = updateScopePos($scope.pos, $scope.newestEssays);
+      if ($scope.pos = -1)
+        getEssayById($scope.pos, userId);
+      else
+        getEssayById($scope.newestEssays[$scope.pos].uploadEssayId, userId);
+    } else if ($scope.tabpane == 2) {
+      $scope.pos = updateScopePos($scope.pos, $scope.processingEssays);
+      if ($scope.pos = -1)
+        // getEssayById($scope.pos, userId);
+        $scope.changeTab(1);
+      else
+        getEssayById($scope.processingEssays[$scope.pos].uploadEssayId, userId);
+    }
+    // else if ($scope.tabpane == 3) {
+    //   $scope.pos = updateScopePos($scope.pos, $scope.ignoredEssays);
+    //   if ($scope.pos = -1)
+    //     getEssayById($scope.pos, userId);
+    //   else
+    //     getEssayById($scope.ignoredEssays[$scope.pos].uploadEssayId, userId);
+    // } else {
+    //   $scope.pos = updateScopePos($scope.pos, $scope.repliedEssays);
+    //   if ($scope.pos = -1)
+    //     getEssayById($scope.pos, userId);
+    //   else
+    //     getEssayById($scope.repliedEssays[$scope.pos].uploadEssayId, userId);
+    // }
+  }
+
+  function updateScopePos(pos, data){
+    if (data && data.length > 0) {
+      if (pos < data.length - 1) {
+        pos += 1;
+      } else {
+        pos -= 1;
+      }
+    } else 
+      pos = -1;
+    return pos;
   }
 
   $scope.detailEssay = function(eid){

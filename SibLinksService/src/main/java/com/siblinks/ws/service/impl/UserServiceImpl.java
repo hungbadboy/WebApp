@@ -505,7 +505,10 @@ public class UserServiceImpl implements UserService {
                         notify.setMailSender(mailSender);
                         notify.setVelocityEngine(velocityEngine);
                         notify.sendHmtlTemplateEmail(
+                            null,
                             userName,
+                            null,
+                            null,
                             environment.getProperty("app.subject-email.registration-mentor"),
                             "MAIL_Notify_5.vm",
                             map);

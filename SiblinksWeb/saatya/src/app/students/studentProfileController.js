@@ -35,7 +35,6 @@ brotControllers.controller('StudentProfileController',
             var bod = "";
 
             init();
-            // var subjects = myCache.get("subjects");
             function init() {
                 getMentorSubscribedInfo();
                 if (mentorId != undefined) {
@@ -99,7 +98,6 @@ brotControllers.controller('StudentProfileController',
             function getInfoMentorProfile() {
                 MentorService.getStudentMentorProfile(mentorId).then(function (data) {
                     if (data.data.status == "true") {
-                        var subjects = myCache.get("subjects");
                         if (data.data.request_data_result) {
                             var result_data = data.data.request_data_result;
                             $scope.studentMentorProfile = result_data;

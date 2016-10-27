@@ -1,9 +1,9 @@
 <!-- Sidebar left menu -->
-<div id="sidebar-menu" class="sidebar-left" ng-include="sidebarLeft"></div>
+<div id="sidebar-menu" class="sidebar-left" ng-class="{in: isMiniMenu}" ng-include="sidebarLeft"></div>
 <!-- /End Sidebar left menu -->
 <!-- Main center content -->
 <div class="content">
-    <div class="center-content">
+    <div class="center-content" id="center-content" ng-class="{in: isMiniMenu}">
         <div class="center-content-wrapper">
             <section id="dashboard">
                 <!-- Content header -->
@@ -59,7 +59,7 @@
                                                 <div class="col-md-9 bx-dt-qa">
                                                     <h5>{{convertName(question.firstName+' '+question.lastName,question.userName)}}</h5><span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span>
                                                     <p class="in-subj"><span>in</span> <b>{{question.subject}}</b></p>
-                                                    <p class="q-cont">{{ question.content | limitTo: 185 }}{{question.content.length > 185 ? '...' : ''}}</p>
+                                                    <p class="q-cont">{{ question.content | limitTo: 100 }}{{question.content.length > 100 ? '...' : ''}}</p>
                                                     <div class="clearfix bt-item">
                                                         <div class="col-md-8 replied" ng-if="question.timeanswer"><h6>Replied
                                                             <span>&nbsp;{{convertUnixTimeToTime(question.timeanswer)}} ago</span></h6></div>
@@ -107,7 +107,7 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            <p class =" pre-wrap">{{ questionDetail.question_text | limitTo: 185 }}{{questionDetail.question_text.length > 185 ? '...' : ''}}</p>
+                                            <p class =" pre-wrap" ng-click="showAnswer(0)">{{ questionDetail.question_text | limitTo: 150 }}{{questionDetail.question_text.length > 150 ? '...' : ''}}</p>
                                             <div class="images-question">
                                                 <ul>
                                                     <li class="item" ng-repeat="image in questionDetail.imagePath">
@@ -203,7 +203,7 @@
                                                                         <span class="time pull-left" >&nbsp;Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago &nbsp; </span>{{answer.numlike}}
                                                                         <span  id="heart{{answer.aid}}" class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                                     </div>
-                                                                    <p class="pre-wrap" ng-click="showAnswer($index)">{{answer.content}}</p>
+                                                                    <p class="pre-wrap" ng-click="showAnswer($index)">{{ answer.content | limitTo: 100 }}{{answer.content.length > 100 ? '...' : ''}}</p>
                                                                     <div class="images-question" >
                                                                         <ul>
                                                                             <li class="item" ng-repeat="image in convertToArrayImage(answer.imageAnswer) track by $index">

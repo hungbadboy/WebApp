@@ -18,6 +18,15 @@ public class RequestData{
 	private AboutMentor request_data_aboutMentor;
     private Menu request_data_menu;
     private Playlist request_playlist;
+    private Contact contact_data;
+
+    public Contact getContact_data() {
+        return contact_data;
+    }
+
+    public void setContact_data(final Contact contact_data) {
+        this.contact_data = contact_data;
+    }
 
     private Subscribe request_subscribe;
     private User request_user;

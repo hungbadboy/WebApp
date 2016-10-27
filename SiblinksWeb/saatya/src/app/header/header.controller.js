@@ -36,20 +36,6 @@ brotControllers.controller('UserHeaderController',
             if (localStorage.getItem('userType') !== undefined || localStorage.getItem('userType') != 'undefined') {
                 userType = localStorage.getItem('userType');
             }
-            //	  $('.icon_search').on('click', function () {
-            //	    $('.form_search').removeClass('hide').find('input').focus();
-            //	    hideNotification();
-            //	    hideProfileSetting();
-            //	  });
-            //
-            //	  $(document).on('click', function (e) {
-            //	    if(e.target != $('.form_search') && e.target.id != 'img-search' && !$('.form_search').find(e.target).length) {
-            //	      $('.form_search').addClass('hide');
-            //	      $('#header .w975').find('.search-text').val('');
-            //	      $('.form_search').find('.dropdown').removeClass('open');
-            //	      $(".check-search").prop('checked', false);
-            //	    }
-            //	  });
 
             $scope.profile = function () {
 //                $('.user-setting-wrapper span.current').trigger('click');
@@ -60,34 +46,11 @@ brotControllers.controller('UserHeaderController',
                 $location.path('/editStudent/basic');
             };
 
-//            $scope.admission = function () {
-//                if (userId == null) {
-//                    // brot.signin.signin();
-//                    $('#popSignIn').modal('show');
-//                } else {
-//                    $location.path('/admission');
-//                }
-//            };
-
             $scope.popupNotification = function () {
                showNotification($(this));
             };
 
             function init() {
-                //
-                // show or hide notification panel
-                if (myCache.get("subjects") !== undefined) {
-                    $log.info("My cache already exists");
-                    $scope.subjects = myCache.get("subjects");
-                } else {
-                    HomeService.getAllCategory().then(function (data) {
-                        if (data.data.status) {
-                            $log.info("Get service subject with category");
-                            $scope.subjects = data.data.request_data_result;
-                            myCache.put("subjects", data.data.request_data_result);
-                        }
-                    });
-                }
                 if (userId != null) {
                 	// get Notification not read by user
                 	NotificationService.getNotificationByUserId(userId).then(function (data) {
@@ -237,15 +200,6 @@ brotControllers.controller('UserHeaderController',
 //                }
 //            });
 
-            $scope.showItemSearch = function () {
-//                if ($('.form_search .dropdown').hasClass('open')) {
-//                    $('.form_search').find('.dropdown').removeClass('open');
-//                } else {
-//                    $('.form_search').find('.dropdown').addClass('open');
-//                }
-            };
-
-
             // Toggle user information
             $scope.isShowHideUserInfo = true;
             $scope.toggleUserInfo = function () {
@@ -271,7 +225,8 @@ brotControllers.controller('UserHeaderController',
              * Show small left side bar
              */
             $scope.showSmallLeftSideBar = function showSmallLeftSideBar() {
-            	angular.element(".mentor-left-header, #sidebar-menu, .mentor-center-header, .center-content").toggleClass("in");
+            	$rootScope.isMiniMenu = !$rootScope.isMiniMenu;
+            	//angular.element("#mentor-left-header, #sidebar-menu, #mentor-center-header, #center-content").toggleClass("in");
                 if($scope.currentPath =='/mentor/mentorVideo' || $scope.currentPath =='/mentor/videoManager' ||  $scope.currentPath == '/mentor/playlistManager') {
                 	if(angular.element("#sidebar-menu").hasClass("in")) {
                 		angular.element('.menuSubmenu').removeClass('show');

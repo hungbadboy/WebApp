@@ -83,6 +83,7 @@ brotControllers.controller('MentorPlaylistDetailController',
         $rootScope.$broadcast('open');
         PlaylistService.deleteVideoInPlaylist(selectedVideos).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
+            loadPlaylistDetail();
             getVideosInPlaylist();
           }
           $rootScope.$broadcast('close');
@@ -132,6 +133,7 @@ brotControllers.controller('MentorPlaylistDetailController',
                     PlaylistService.deleteVideoInPlaylist(selectedVideos).then(function(data){
                       if (data.data.request_data_result != null && data.data.request_data_result.length > 0) {
                         $scope.selectedAll = false;
+                        loadPlaylistDetail();
                         getVideosInPlaylist();
                       }
                       $rootScope.$broadcast('close');
@@ -199,6 +201,7 @@ brotControllers.controller('MentorPlaylistDetailController',
         //     $scope.videos[index].description = a.description;
 
         // }
+        loadPlaylistDetail();
         getVideosInPlaylist();
     });
 
