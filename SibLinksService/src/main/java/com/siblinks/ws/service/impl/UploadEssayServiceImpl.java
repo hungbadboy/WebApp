@@ -355,80 +355,69 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/postDiscussion", method = RequestMethod.POST)
-    public ResponseEntity<Response> postDiscussion(@RequestBody final RequestData request) {
+    @RequestMapping(value = "/updateEssayStudent", method = RequestMethod.POST)
+    public ResponseEntity<Response> updateEssayStudent(@RequestParam("essayId") final String essayId,
+            @RequestParam("desc") final String desc,
+            @RequestParam("userId") final String userId, @RequestParam("fileName") final String fileName,
+            @RequestParam("title") final String title, @RequestParam("schoolId") final String schoolId,
+            @RequestParam("majorId") final String majorId, @RequestParam("file") final MultipartFile file) {
         SimpleResponse simpleResponse = null;
+        String statusMessage = "";
+        boolean status = true;
         try {
-            String msg = request.getRequest_data().getMessage();
-            // msg = msg.replace("(", "\\(");
-            // msg = msg.replace(")", "\\)");
-            Object[] queryParams = { request.getRequest_data().getUid(), msg };
 
-            boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_POST_DISCUSSION, queryParams);
-            String message = null;
-            if (status) {
-                message = "Done";
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+
+            statusMessage = validateEssay(file);
+            if (StringUtil.isNull(desc)) {
+                statusMessage = "Essay description can't blank!";
             } else {
-                message = "Fail";
+                if (desc.length() > 1000) {
+                    statusMessage = "Essay description can't over 1000 characters!";
+                }
             }
 
-            simpleResponse = new SimpleResponse(
-                                                "" + status,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                message);
-        } catch (Exception e) {
-            e.printStackTrace();
-            simpleResponse = new SimpleResponse(
-                                                SibConstants.FAILURE,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                e.getMessage());
-        }
-        return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @RequestMapping(value = "/getDiscussion", method = RequestMethod.POST)
-    public ResponseEntity<Response> getDiscussion(@RequestBody final RequestData request) {
-        SimpleResponse simpleResponse = null;
-        try {
-            String entityName = null;
-
-            CommonUtil util = CommonUtil.getInstance();
-
-            Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
-
-            Object[] queryParams = { request.getRequest_data().getUid(), map.get("from"), map.get("to") };
-
-            entityName = SibConstants.SqlMapper.SQL_GET_DISCUSSION;
-
-            List<Object> readObject = null;
-            readObject = dao.readObjects(entityName, queryParams);
-
-            String count = null;
-            if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
-                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_DISCUSSION, queryParams);
+            if (StringUtil.isNull(title)) {
+                statusMessage = "Essay title can't blank!";
+            } else {
+                if (title.length() > 1000) {
+                    statusMessage = "Essay title can't over 250 characters!";
+                }
             }
+            if (StringUtil.isNull(essayId)) {
+                statusMessage = "EssayId null!";
+            }
+            boolean msgs = true;
+            if (StringUtil.isNull(statusMessage)) {
+                Object[] queryParams = { file.getInputStream(), desc, file.getContentType(), fileName, title, file
+                    .getSize(), schoolId, majorId, essayId };
+                msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_STUDENT_UPDATE_ESSAY, queryParams);
+                if (msgs) {
+                    statusMessage = "Done";
+                } else {
+                    status = false;
+                    statusMessage = "You failed to upload ";
+                }
 
-            simpleResponse = new SimpleResponse(
-                                                "" + true,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                readObject,
-                                                count);
+            } else {
+                status = false;
+                if (statusMessage.equals("File is empty")) {
+                    Object[] queryParams = { desc, title, schoolId, majorId, essayId };
+                    msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_STUDENT_UPDATE_ESSAY_NOFILE, queryParams);
+                }
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            simpleResponse = new SimpleResponse(
-                                                SibConstants.FAILURE,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                e.getMessage());
+            status = false;
+            statusMessage = "You failed to upload " + file.getOriginalFilename() + " => " + e.getMessage();
             logger.error(e.getMessage(), e.getCause());
         }
+
+        simpleResponse = new SimpleResponse("" + status, "essay", "upload", statusMessage);
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 

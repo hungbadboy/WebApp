@@ -29,10 +29,6 @@ public interface UploadEssayService {
 
 	public ResponseEntity<Response> removeEssay(RequestData video);
 
-	public ResponseEntity<Response> postDiscussion(RequestData video);
-
-	public ResponseEntity<Response> getDiscussion(RequestData video);
-
     public ResponseEntity<Response> getEssaybByStudentId(RequestData request);
 
     public ResponseEntity<Response> getEssayById(RequestData request);
@@ -83,4 +79,8 @@ public interface UploadEssayService {
     public ResponseEntity<Response> getSuggestionEssay(Integer schoolId);
 
     public ResponseEntity<Response> searchEssay(RequestData request);
+
+    public ResponseEntity<Response> updateEssayStudent(String essayId, String desc, String userId, String fileName, String title,
+            String schoolId,
+            String majorId, MultipartFile file);
 }
