@@ -62,6 +62,7 @@ brotControllers.controller('StudentProfileController',
                         for (var i = 0; i < data_result.length; i++) {
                             var mentor = {};
                             mentor.userid = data_result[i].userid;
+                            mentor.fullName = data_result[i].name;
                             mentor.userName = data_result[i].userName;
                             mentor.imageUrl = data_result[i].imageUrl;
                             mentor.isOnline = data_result[i].isOnline;
@@ -688,5 +689,18 @@ brotControllers.controller('StudentProfileController',
                     angular.element("#" + id).addClass('hidden');
                 }
             }
+
+            /**
+             * @param displayName
+             * @param userName
+             * @returns {*}
+             */
+            $scope.validateShowName = function (displayName, userName) {
+                if (displayName == null || isEmpty(displayName)) {
+                    return userName != null ? userName.substr(0, userName.indexOf('@')) : "Mentor";
+                } else {
+                    return displayName.trim();
+                }
+            };
 
         }]);
