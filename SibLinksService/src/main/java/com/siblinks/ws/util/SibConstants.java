@@ -41,7 +41,7 @@ public class SibConstants {
         public static final int THREE = 3;
         public static final int NINE = 9;
     }
-
+    
 
     public static final String URL_SEND_NOTIFICATION_FIREBASE = "https://fcm.googleapis.com/fcm/send";
     public static final String NOTIFICATION_ICON = "siblinks.icon";
@@ -358,11 +358,7 @@ public class SibConstants {
         public static final String SQL_GET_POLICY = "GET_POLICY";
         public static final String SQL_GET_TERMS = "GET_TERMS";
         // Notification
-        public static final String SQL_CREATE_NOTIFICATION_QUESTION = "CREATE_NOTIFICATION_QUESTION";
-        public static final String SQL_CREATE_NOTIFICATION_VIDEO = "CREATE_NOTIFICATION_VIDEO";
-        public static final String SQL_CREATE_NOTIFICATION_VIDEO_ADMISSION = "CREATE_NOTIFICATION_VIDEO_ADMISSION";
-        public static final String SQL_CREATE_NOTIFICATION_ARTICLE = "CREATE_NOTIFICATION_ARTICLE";
-        public static final String SQL_CREATE_NOTIFICATION_ESSAY = "CREATE_NOTIFICATION_ESSAY";
+        public static final String SQL_CREATE_NOTIFICATION = "CREATE_NOTIFICATION";
         public static final String SQL_GET_NOTIFICATION_NOT_READED = "GET_NOTIFICATION_NOT_READED";
         public static final String SQL_GET_NOTIFICATION_NOT_READED_COUNT = "GET_NOTIFICATION_NOT_READED_COUNT";
         public static final String SQL_GET_NOTIFICATION_READED = "GET_NOTIFICATION_READED";
@@ -702,4 +698,11 @@ public class SibConstants {
         public static final String SQL_SIB_DELETE_ACTIVITY_LOG = "SIB_DELETE_ACTIVITY_LOG";
         public static final String SQL_SIB_DELETE_ACTIVITY_LOG_BY_ID = "SIB_DELETE_ACTIVITY_LOG_BY_ID";
     }
+    
+        public static final String TYPE_QUENSION_ANSWER = "1";
+        public static final String TYPE_VIDEO = "2";
+        public static final String TYPE_ESSAY = "3";
+        public static final String TYPE_VIDEO_ADMISSION = "4";
+        public static final String TYPE_ATICAL = "5";
+        
 }

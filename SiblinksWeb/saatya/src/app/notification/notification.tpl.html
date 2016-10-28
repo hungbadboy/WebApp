@@ -1,27 +1,27 @@
-    <div class="notification-wrapper">
-        <div class="ntf-header">
-            <div class="ntf-left">{{countAll > 1 ? (countAll + " notifications") : (countAll + " notification")}} </div>
-            <div class="ntf-right">
-                <button>See more</button>
-            </div>
-        </div>
-        <div ng-if="countAll == null">
-        	<span>{{errorData}}</span>
-      	</div>
-        <div class="nft-body">
-            <ul>
-                <li  ng-repeat="n in notificationsAll">
-                	<a href="javascript:void(0)" ng-click="notificationDetail(n.id, n.subjectId, n.topicId, n.videoId, n.questionId, n.articleId, n.idSubAdmission, n.idTopicSubAdmission, n.idEssay)">
-	                    <div class="nft-type nft-qa">
-	                        <img src="assets/images/AskAQuestion.png">
-	                    </div>
-	                    <div class="nft-info" ng-if="n.type == 'answerQuestion'">Your question has been answered by 
-	                    	<span class="nft-name">{{n.firstName}} {{n.lastName}}</span>
-	                    </div>
-	                    <div class="nft-time">{{convertUnixTimeToTime(n.timestamp)}} ago</div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="top-border"></div>
+ <div class="notification-wrapper">
+     <div class="ntf-header">
+         <div class="ntf-left">{{countAll > 1 ? (countAll + " notifications") : (countAll + " notification")}} </div>
+         <div class="ntf-right">
+             <button>See more</button>
+         </div>
+     </div>
+     <div ng-if="countAll == null">
+     	<span>{{errorData}}</span>
+   	</div>
+     <div class="nft-body">
+         <ul>
+             <li  ng-repeat="n in notificationsAll">
+             	<a href="javascript:void(0)" ng-click="notificationDetail(n.id, n.linkId, n.type)">
+                  <div class="nft-type nft-qa">
+                      <img src="assets/images/AskAQuestion.png">
+                  </div>
+                  <div class="nft-info">{{n.type == '1' ? 'Your question has been answered by' : n.type == '2' ? 'Your video has been commented by' : n.type == '3' ? 'Your video admission has been commented by' : n.type == '4' ? 'Your essay has been replied by' : ''}} 
+                  	<span class="nft-name">{{n.firstName}} {{n.lastName}}</span>
+                  </div>
+                  <div class="nft-time">{{convertUnixTimeToTime(n.timestamp)}} ago</div>
+                 </a>
+             </li>
+         </ul>
+     </div>
+ </div>
+ <div class="top-border"></div>

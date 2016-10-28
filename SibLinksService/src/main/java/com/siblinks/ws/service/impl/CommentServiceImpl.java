@@ -56,9 +56,11 @@ import com.siblinks.ws.Notification.Helper.FireBaseNotification;
 import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
+import com.siblinks.ws.model.ActivityLogData;
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
+import com.siblinks.ws.service.ActivityLogService;
 import com.siblinks.ws.service.CommentsService;
 import com.siblinks.ws.service.UserService;
 import com.siblinks.ws.util.Parameters;
@@ -97,6 +99,9 @@ public class CommentServiceImpl implements CommentsService {
 
     @Autowired
     private FireBaseNotification fireBaseNotification;
+    
+    @Autowired
+    private ActivityLogService activityLogSerservice;
 
     /**
      * {@inheritDoc}
@@ -193,8 +198,8 @@ public class CommentServiceImpl implements CommentsService {
                         .getVid() });
                 }
                 status = status && statusUpdateCmtVideo ? true : false;
-                // Insert notification table
 
+                // Insert notification table
                 if (userId != null && Long.parseLong(userId) > 0) {
                     String subjectId = request.getRequest_data().getSubjectId();
                     String contentNofi = content;
@@ -202,19 +207,23 @@ public class CommentServiceImpl implements CommentsService {
                         contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
                     }
                     Object[] queryParamsIns3 = { userId, authorId, SibConstants.NOTIFICATION_TYPE_COMMENT_VIDEO, SibConstants.NOTIFICATION_TITLE_COMMENT_VIDEO, contentNofi, subjectId, vid };
-                    status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
+                    status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns3);
+
+                    // send message fire base 
                     String toTokenId = userservice.getTokenUser(userId);
                     if (!StringUtil.isNull(toTokenId)) {
 
                         fireBaseNotification.sendMessage(
                             toTokenId,
                             SibConstants.NOTIFICATION_TITLE_COMMENT_VIDEO,
-                            "3",
+                            SibConstants.TYPE_VIDEO,
                             vid,
                             contentNofi,
                             SibConstants.NOTIFICATION_ICON,
                             SibConstants.NOTIFICATION_PRIPORITY_HIGH);
                     }
+                    // log activity
+                    activityLogSerservice.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "C", "Commented video", userId, vid));
                 }
             }
 
@@ -357,7 +366,7 @@ public class CommentServiceImpl implements CommentsService {
                                                                                                                                                                                                                   "title")
                                                                                                                                                                                                               .toString() };
                 if (!((Map) readObject.get(0)).get("authorId").toString().equalsIgnoreCase(request.getRequest_data_article().getAuthorId())) {
-                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ARTICLE, queryParamsIns1);
+                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns1);
                 }
 
                 if (flag) {
@@ -407,14 +416,15 @@ public class CommentServiceImpl implements CommentsService {
                     .getRequest_data()
                     .getVid() });
                 Map userPostVideoMap = (Map) readObject.get(0);
-                Object[] queryParamsIns3 = { userPostVideoMap.get("userid"), request.getRequest_data().getAuthorID(), "commentVideoAdmssion", "New comment of video", "commented video : " +
-                                                                                                                                                                      userPostVideoMap
-                                                                                                                                                                          .get(
-                                                                                                                                                                              "title")
-                                                                                                                                                                          .toString(), userPostVideoMap
-                    .get("idAdmission"), request.getRequest_data().getVid() };
+                Object[] queryParamsIns3 = { userPostVideoMap.get("userid"),
+                		request.getRequest_data().getAuthorID(),
+                		"commentVideoAdmssion",
+                		"New comment of video",
+                		"commented video : " +userPostVideoMap.get( "title").toString(),
+                		userPostVideoMap.get("idAdmission"),
+                		request.getRequest_data().getVid() };
                 if (!userPostVideoMap.get("userid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
+                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns3);
                 }
 
             }
@@ -688,26 +698,50 @@ public class CommentServiceImpl implements CommentsService {
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
 
+            String uid = request.getRequest_data().getUid();
+            String essayId = request.getRequest_data().getEssayId();
             String content = request.getRequest_data().getContent().replace("'", "\\\\'");
             content = content.replace("(", "\\\\(");
             content = content.replace(")", "\\\\)");
 
-            Object[] queryParams = { request.getRequest_data().getAuthorID(), content, request.getRequest_data().getEssayId() };
+            Object[] queryParams = { request.getRequest_data().getAuthorID(), content, essayId };
             int cid = 0;
             boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
             if (status) {
                 List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams);
                 cid = Integer.valueOf(((Map) readObject.get(0)).get("cid").toString());
-
-                Object[] queryParamsIns = { ((Map) readObject.get(0)).get("cid").toString(), request.getRequest_data().getEssayId() };
+                
+                Object[] queryParamsIns = { ((Map) readObject.get(0)).get("cid").toString(), essayId };
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_ESSAY_COMMENT, queryParamsIns);
 
                 readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_INFO_ESSAY, queryParamsIns);
                 ((Map) readObject.get(0)).get("userId").toString();
                 request.getRequest_data().getAuthorID();
                 ((Map) readObject.get(0)).get("nameOfEssay").toString();
+                 
+                //Add reply essay
                 if (!((Map) readObject.get(0)).get("userId").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-                    dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_ESSAY, queryParamsIns);
+                	queryParamsIns = new Object[]{uid,request.getRequest_data().getAuthorID(),
+                			SibConstants.TYPE_ESSAY, SibConstants.NOTIFICATION_TITLE_REPLY_ESSAY,
+                			content, essayId};
+                    boolean isSuccess =dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns);
+                    if(isSuccess) {
+                    	// Send message fire base
+                        String toTokenId = userservice.getTokenUser(uid);
+                        if (!StringUtil.isNull(toTokenId)) {
+
+                            fireBaseNotification.sendMessage(
+                                toTokenId,
+                                SibConstants.NOTIFICATION_TITLE_REPLY_ESSAY,
+                                SibConstants.TYPE_ESSAY,
+                                essayId,
+                                content,
+                                SibConstants.NOTIFICATION_ICON,
+                                SibConstants.NOTIFICATION_PRIPORITY_HIGH);
+                        }
+                        // Log activity
+                        activityLogSerservice.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "C", "Reply essay", uid, essayId));
+                    }
                 }
 
                 // if(flag) {

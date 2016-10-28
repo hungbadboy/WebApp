@@ -58,9 +58,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.siblinks.ws.Notification.Helper.FireBaseNotification;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
+import com.siblinks.ws.model.ActivityLogData;
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
+import com.siblinks.ws.service.ActivityLogService;
 import com.siblinks.ws.service.PostService;
 import com.siblinks.ws.service.UserService;
 import com.siblinks.ws.util.CommonUtil;
@@ -99,6 +101,9 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private FireBaseNotification fireBaseNotification;
 
+    @Autowired
+    private ActivityLogService activityLogSerservice;
+    
     /**
      * {@inheritDoc}
      */
@@ -213,11 +218,13 @@ public class PostServiceImpl implements PostService {
                 contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
             }
             id = dao.insertObject(SibConstants.SqlMapper.SQL_CREATE_ANSWER, queryParamsAnswer);
-            Object[] queryParams = { mentorId, studentId, SibConstants.NOTIFICATION_TYPE_ANSWER_QUESTION, SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION, "answered a question: " +
-                                                                                                                                                           contentNofi, subjectId, pid };
+            Object[] queryParams = { mentorId, studentId,
+            		SibConstants.NOTIFICATION_TYPE_ANSWER_QUESTION, 
+            		SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION,
+            		contentNofi, subjectId, pid };
             dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_NUMREPLIES_QUESTION, new Object[] { pid });
 
-            status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION, queryParams);
+            status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParams);
             // Push message notification
             String toTokenId = userservice.getTokenUser(studentId);
             if (!StringUtil.isNull(toTokenId)) {
@@ -225,7 +232,7 @@ public class PostServiceImpl implements PostService {
                 fireBaseNotification.sendMessage(
                     toTokenId,
                     SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION,
-                    "1",
+                    SibConstants.TYPE_QUENSION_ANSWER,
                     pid,
                     content,
                     SibConstants.NOTIFICATION_ICON,
@@ -234,6 +241,7 @@ public class PostServiceImpl implements PostService {
             if (id > 0 && status == true) {
                 status = true;
             }
+            activityLogSerservice.insertActivityLog(new ActivityLogData(SibConstants.TYPE_QUENSION_ANSWER, "C", "You has been answered question", studentId, pid));
             transactionManager.commit(statusBD);
             logger.info("Insert Menu success " + new Date());
             simpleResponse = new SimpleResponse("" + status, "POST", "createAnswer", status);
@@ -306,6 +314,9 @@ public class PostServiceImpl implements PostService {
             dao.insertUpdateObject(
                 SibConstants.SqlMapper.SQL_POST_EDIT,
                 new Object[] { fixFilePath(filePathEdited + filePath), content, subjectId, qid });
+            
+            // TODO can add user edit
+            // activityLogSerservice.insertActivityLog(new ActivityLogData(SibConstants.TYPE_QUENSION_ANSWER, "C", "You has been answered question", studentId, qid));
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "post", "editPost", "");
         } catch (Exception e) {
             e.printStackTrace();

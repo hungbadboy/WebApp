@@ -161,19 +161,16 @@ public class NotificationUserServiceImpl implements NotificationUserService {
             }
 
             CommonUtil util = CommonUtil.getInstance();
-
             Map<String, String> map = util.getLimit(pageno, limit);
-
             Object[] queryParams = { uid, Integer.parseInt(map.get(Parameters.FROM)), Integer.parseInt(map.get(Parameters.TO)) };
-
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_NOTIFICATION, queryParams);
-
-            String count = null;
             if (readObject.size() > 0) {
-                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_NOTIFICATION_COUNT, new Object[] { uid });
+                String count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_NOTIFICATION_COUNT, new Object[] { uid });
+                simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "notification", "getAllNotification", readObject, count);
+            } else {
+            	simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "notification", "getAllNotification", readObject, "0");
             }
 
-            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "notification", "getAllNotification", readObject, count);
         } catch (Exception e) {
             logger.error(e);
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getAllNotification", e.getMessage());
