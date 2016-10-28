@@ -71,7 +71,7 @@
                                         <div class="images-question"  ng-if="question.image">
                                             <ul>
                                              <li class="item" ng-repeat="image in question.image track by $index">
-                                               <div class="item-img" ng-if="image" ng-mouseover="imageHoverIn(question.id +''+$index)" ng-mouseleave="imageHoverOut(question.id +''+$index)" ng-click="zoomImage(question.image)">
+                                               <div class="item-img" ng-if="image" ng-mouseover="imageHoverIn(question.id +''+$index)" ng-mouseleave="imageHoverOut(question.id +''+$index)" ng-click="zoomImage(question.image,$index)">
                                                    <img ng-src="{{image}}">
                                                    <div class="item-hover" id="{{question.id}}{{$index}}">
                                                      <img src="assets/images/ask question/look-img.png">
@@ -164,15 +164,40 @@
                     <!-- Modal Content (The Image) -->
 
                     <!--<div class="popup-images-wrapper">-->
-                        <ul id="bxslider">
-                            <li ng-repeat="img in currentImage"><img ng-src="{{img}}"  /></li>
-                        </ul>
+                        <!--<ul id="bxslider" class="bxslider">-->
+                            <!--<li ng-repeat="img in currentImage"><img ng-src="{{img}}"  /></li>-->
+                        <!--</ul>-->
                         <!-- The thumbnails -->
-                        <div id="bx-pager">
-                            <a ng-repeat="img in currentImage track by $index"  data-slideIndex="{{$index}}"><img ng-src="{{img}}"  /></a>
+                        <!--<div id="bx-pager">-->
+                            <!--<a ng-repeat="img in currentImage track by $index"  data-slideIndex="{{$index}}"><img ng-src="{{img}}"  /></a>-->
 
-                        </div>
+                        <!--</div>-->
                     <!--</div>-->
+                    <div id="myCarousel" class="carousel slide" >
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <li ng-class="{'active':currentIndexImage == $index}" ng-repeat="img in currentImage track by $index" data-target="#myCarousel" data-slide-to="{{$index}}" class="active"></li>
+
+                        </ol>
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item" ng-class="{'active':currentIndexImage == $index}" ng-repeat="img in currentImage track by $index">
+                                <img  ng-src="{{img}}" style="margin: auto;"  width="800" height="600">
+                            </div>
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <a ng-non-bindable  class="left carousel-control" role="button" data-slide="prev">
+                            <span  data-target="#myCarousel"  class="glyphicon glyphicon-chevron-left"  aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a ng-non-bindable class="right carousel-control" role="button" data-slide="next">
+                            <!--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
+                            <span  data-target="#myCarousel" class="glyphicon glyphicon-chevron-right"  aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
 
                 </div>
                 <!-- /End POPUP of images's question -->

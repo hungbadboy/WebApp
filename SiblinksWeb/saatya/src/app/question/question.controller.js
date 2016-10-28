@@ -332,23 +332,10 @@ brotControllers
                     $scope.isShowOrder = $scope.isShowOrder === false ? true : false;
                 };
 
-
-                $scope.zoomImage = function (img) {
-                    // if(img == $scope.currentImage){
-                    //    // $(".popup-images").css({"left": 0});
-                    //     angular.element(document.getElementById('essay-detail')).modal();
-                    //     return;
-                    // }
+                $scope.currentIndexImage = 0;
+                $scope.zoomImage = function (img, index) {
+                    $scope.currentIndexImage = index;
                     $scope.currentImage = img;
-                    //$(".popup-images").css({"left": 0});
-                    // day laf ddoanj code khoi tao bxslide em muon sua ji thif suaw?
-                    angular.element(document.getElementById('bxslider')).bxSlider({
-                        // nextText: 'next',
-                        // prevText: 'pre',
-                        // infiniteLoop: false,
-                        pagerCustom: '#bx-pager'
-
-                    });
                     angular.element(document.getElementById('modalImage')).modal();
                 }
 
