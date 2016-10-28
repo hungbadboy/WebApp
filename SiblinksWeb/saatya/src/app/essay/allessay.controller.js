@@ -22,11 +22,11 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
         var qa_scroll = $(window).scrollTop();
         if (qa_scroll > 75) {
           $(".mentor-manage-qa-content .left-qa").css({"top":"108px", "height":"85%"});
-          $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"70vh"});
+          $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"67vh"});
         }
         else {
           $(".mentor-manage-qa-content .left-qa").css({"top":"auto"});
-          $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"70vh"});
+          $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"59vh"});
         }
       })
       getAllEssay();
