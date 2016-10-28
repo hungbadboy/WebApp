@@ -2,6 +2,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
   var userType = localStorage.getItem('userType');
   var userId = localStorage.getItem('userId');
   var schoolId = localStorage.getItem('school');
+  var eid = $location.search().eid;
   var NO_DATA = "Found no data";
   var newestEssayCache = [];
   var processingEssayCache = [];
@@ -144,7 +145,18 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
       if (result && result != NO_DATA) {
         $scope.newestEssays = formatEssay(result);
         newestEssayCache = $scope.newestEssays.slice(0);
-        $scope.eid = $scope.newestEssays[0].uploadEssayId;
+        if (eid != null && eid > 0) {
+          var result = $.grep($scope.newestEssays, function(e){
+            return e.uploadEssayId == eid;
+          });
+
+          var index = $scope.newestEssays.indexOf(result[0]);
+          if (index != -1) {
+            $scope.eid = $scope.newestEssays[index].uploadEssayId;
+          }
+        } else{
+          $scope.eid = $scope.newestEssays[0].uploadEssayId;
+        }        
         getEssayById($scope.eid, userId);
       } else{
         $scope.newestEssays = null;
@@ -289,10 +301,6 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
           $scope.repliedEssays = newEss;
         repliedEssayCache.length = 0;
         repliedEssayCache = $scope.repliedEssays.slice(0);
-        // if (justReplied) {
-        //   $scope.changeTab(4);
-        //   justReplied = false;          
-        // }
       }
     });
   }

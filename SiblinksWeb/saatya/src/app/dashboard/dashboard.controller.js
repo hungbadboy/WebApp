@@ -149,6 +149,10 @@ brotControllers.controller('DashboardController',['$rootScope','$scope','$http',
     });
   }
   
+  $scope.goToEssayDetail = function(essayId){
+    window.location.href = '#/mentor/essay?eid='+essayId+'';
+  }
+
   var player;
   function onYouTubeIframeAPIReady(youtubeId) {
     player = new YT.Player('player', {
