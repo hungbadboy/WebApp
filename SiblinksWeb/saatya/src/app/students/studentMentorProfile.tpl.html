@@ -19,7 +19,7 @@
                 </div>
                 <div class="top-mentors-info">
                     <p class="top-mentors-name">
-                    <h4 ng-if="!isEmptyNameMentor">{{studentMentorProfile.firstname.trim()}} {studentMentorProfile.lastName.trim()}}</h4>
+                    <h4 ng-if="!isEmptyNameMentor">{{studentMentorProfile.firstname.trim()}} {{studentMentorProfile.lastName.trim()}}</h4>
                     <h4 ng-if="isEmptyNameMentor">{{studentMentorProfile.fullNameMentor}}</h4>
                     </p>
                     <p><strong>Education:</strong> {{studentMentorProfile.schoolName != null && studentMentorProfile.schoolName != ""?
