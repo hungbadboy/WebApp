@@ -1,4 +1,4 @@
-brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService', function ($scope, $location, EssayService) {
+brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'EssayService', function ($scope, $location, $window, EssayService) {
   var userType = localStorage.getItem('userType');
   var userId = localStorage.getItem('userId');
   var schoolId = localStorage.getItem('school');
@@ -18,7 +18,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
 
   function init(){
     if (userId && userId > 0) {
-      $(window).scroll(function(){    
+      $(window).scroll(function(){ 
         var qa_scroll = $(window).scrollTop();
         if (qa_scroll > 75) {
           $(".mentor-manage-qa-content .left-qa").css({"top":"108px", "height":"85%"});
@@ -27,6 +27,9 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
         else {
           $(".mentor-manage-qa-content .left-qa").css({"top":"auto"});
           $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"59vh"});
+        }
+        if($window.innerWidth < 1601){
+          $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"55vh"});
         }
       })
       getAllEssay();
