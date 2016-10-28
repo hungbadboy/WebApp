@@ -115,11 +115,10 @@ brotControllers
                                 objPosted.subject = questionData.SUBJECT;
                                 objPosted.subjectid = questionData.SUBJECTID;
                                 objPosted.name = questionData.FIRSTNAME;
-                                objPosted.firstName = questionData.FIRSTNAME;
+                                objPosted.firstName = displayUserName(questionData.FIRSTNAME, null, questionData.userName);
                                 objPosted.lastName = questionData.LASTNAME;
                                 objPosted.content = questionData.CONTENT;
                                 objPosted.count_answer = questionData.NUMREPLIES;
-
                                 objPosted.numviews = questionData.NUMVIEWS == null ? 0 : questionData.NUMVIEWS;
                                 objPosted.time = convertUnixTimeToTime(questionData.TIMESTAMP);
                                 objPosted.image = detectMultiImage(questionData.IMAGEPATH);
@@ -137,7 +136,9 @@ brotControllers
                                             objAnswer.authorID = answer_result[y].authorID;
                                             objAnswer.aid = answer_result[y].aid;
                                             objAnswer.pid = answer_result[y].pid;
-                                            objAnswer.name = answer_result[y].firstName + " " + answer_result[y].lastName;
+                                            objAnswer.name = displayUserName(answer_result[y].firstName, answer_result[y].lastName, answer_result[y].userName);
+                                            objAnswer.firstName = answer_result[y].firstName;
+                                            objAnswer.lastName = answer_result[y].lastName;
                                             objAnswer.content = answer_result[y].content;
                                             objAnswer.avatar = answer_result[y].imageUrl;
                                             objAnswer.countLike = answer_result[y].numlike;

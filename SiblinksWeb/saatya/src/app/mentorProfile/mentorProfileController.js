@@ -66,7 +66,6 @@ brotControllers.controller('MentorProfileController',
                 });
             }
 
-
             function getMentorProfile() {
                 if (userId == undefined) {
                     return;
@@ -77,11 +76,8 @@ brotControllers.controller('MentorProfileController',
                             $scope.mentorInfo = null;
                             return;
                         }
-                        // var subjects = myCache.get("subjects");
                         $scope.mentorInfo = dataResponse.data.request_data_result;
                         $scope.mentorInfo.imageUrl = $scope.mentorInfo.imageUrl != null ? $scope.mentorInfo.imageUrl : "assets/images/noavartar.jpg";
-                        // var gender = $scope.mentorInfo.gender;
-                        // $scope.gender = validateGender(gender);
                         if ($scope.mentorInfo.school != null && !isEmpty($scope.mentorInfo.school)) {
                             $scope.schoolSelect = {
                                 id: parseInt($scope.mentorInfo.school, 10),
@@ -94,11 +90,9 @@ brotControllers.controller('MentorProfileController',
                         $scope.sinceDay = timeConverter(registrationTime, FormatDateTimeType.MM_YY);
                         $scope.isLoginViaFBOrGoogle = $scope.mentorInfo.idFacebook != null || $scope.mentorInfo.idGoogle != null;
                         $scope.isEmptyName = false;
-                        if (($scope.mentorInfo.firstname == null || isEmpty($scope.mentorInfo.firstname))
-                            && ($scope.mentorInfo.lastName == null || isEmpty($scope.mentorInfo.lastName))) {
+                        if (isNameEmpty($scope.mentorInfo.firstname,  $scope.mentorInfo.lastName)) {
                             $scope.isEmptyName = true;
-                            $scope.mentorInfo.fullName = $scope.mentorInfo.username.indexOf('@') != -1 ?
-                                $scope.mentorInfo.username.substr(0, $scope.mentorInfo.username.indexOf('@')) : $scope.mentorInfo.username;
+                            $scope.mentorInfo.fullName = splitUserName($scope.mentorInfo.username);
                         }
                         $scope.masterSubjects = putMasterSubjectSelected(subjects, $scope.mentorInfo.defaultSubjectId, false);
                         $scope.masterFavourite = putMasterSubjectSelected(subjects, $scope.mentorInfo.favorite, true);
@@ -143,42 +137,8 @@ brotControllers.controller('MentorProfileController',
                             break;
                     }
                 }
-
-                // if ($scope.mentorInfo.favorite != null && $scope.mentorInfo.favorite !== undefined) {
-                //     var favorite = $scope.mentorInfo.favorite.split(',');
-                //     for (var i = 0; i < favorite.length; i++) {
-                //         if (favorite[i] == 'Music') {
-                //             $('input[name="music"][value="Music"]').prop('checked', true);
-                //         }
-                //         if (favorite[i] == 'Art') {
-                //             $('input[name="art"][value="Art"]').prop('checked', true);
-                //         }
-                //         if (favorite[i] == 'Sport') {
-                //             $('input[name="sport"][value="Sport"]').prop('checked', true);
-                //         }
-                //     }
-                // }
             }
 
-            // function getNewestAnswer() {
-            //     MentorService.getNewestAnswer(userId).then(function (data) {
-            //         $scope.answers = formatData(data.data.request_data_result);
-            //     });
-            // }
-
-            // function getVideosRecently() {
-            //     VideoService.getVideosRecently(userId).then(function (data) {
-            //         $scope.videos = data.data.request_data_result;
-            //     });
-            // }
-
-            // function formatData(data) {
-            //     for (var i = 0; i < data.length; i++) {
-            //         data[i].numLike = data[i].numLike == null ? 0 : data[i].numLike;
-            //         data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
-            //     }
-            //     return data;
-            // }
 
             function getStudentSubscribed(userId, defaultLimit, offset) {
                 MentorService.getStudentSubscribed(userId, defaultLimit, offset).then(function (data) {
@@ -315,7 +275,7 @@ brotControllers.controller('MentorProfileController',
             };
 
             /**
-             *
+             * event changing tab switch profile and password
              */
             $scope.changeTab = function () {
                 $scope.msgError = "";
@@ -324,7 +284,7 @@ brotControllers.controller('MentorProfileController',
             };
 
             /**
-             *
+             * event perform button reset in profile
              */
             $scope.reset = function () {
                 if ($scope.mentorInfo) {
@@ -373,7 +333,7 @@ brotControllers.controller('MentorProfileController',
             };
 
             /**
-             *
+             * perform button reset in change password
              */
             $scope.resetFormPwd = function () {
                 resetFormPwd();
@@ -387,7 +347,7 @@ brotControllers.controller('MentorProfileController',
             }
 
             /**
-             *
+             * perform action change password
              */
             $scope.changePassword = function () {
                 $scope.msgError = "";
@@ -449,6 +409,11 @@ brotControllers.controller('MentorProfileController',
                         $scope.gender = validateGender(gender);
                         var bioTimeStamp = $scope.studentInfo.birthDay;
                         var registrationTime = $scope.studentInfo.registrationTime;
+                        $scope.isStudentEmptyName = false;
+                        if(isNameEmpty($scope.studentInfo.firstname, $scope.studentInfo.lastName)){
+                            $scope.isStudentEmptyName = true;
+                            $scope.studentInfo.fullName = splitUserName($scope.studentInfo.username);
+                        }
                         $scope.birthDay = timeConverter(bioTimeStamp, FormatDateTimeType.DD_MM_YY);
                         $scope.sinceDay = timeConverter(registrationTime, FormatDateTimeType.MM_YY);
                         if (subjects) {
@@ -481,13 +446,11 @@ brotControllers.controller('MentorProfileController',
                         for (var i = 0; i < data_result.length; i++) {
                             var mentor = {};
                             mentor.userid = data_result[i].userid;
-                            if ((data_result[i].firstName == null || isEmpty(data_result[i].firstName))
-                                && (data_result[i].lastName == null || isEmpty(data_result[i].lastName))) {
-                                mentor.firstName = data_result[i].loginName.indexOf('@') != -1 ?
-                                    data_result[i].loginName.substr(0, data_result[i].loginName.indexOf('@')) : data_result[i].loginName;
+                            if (isNameEmpty(data_result[i].firstName,  data_result[i].lastName)) {
+                                mentor.firstName = splitUserName(data_result[i].loginName);
                             }else{
-                                mentor.lastName = (data_result[i].lastName == null || data_result[i].lastName === undefined) ? "" : data_result[i].lastName;
-                                mentor.firstName = (data_result[i].firstName == null || data_result[i].firstName === undefined) ? "" : data_result[i].firstName;
+                                mentor.lastName = data_result[i].lastName;
+                                mentor.firstName = data_result[i].firstName;
                             }
                             mentor.accomplishments = (data_result[i].accomplishments == null || data_result[i].accomplishments === undefined) ? "" : data_result[i].accomplishments;
                             mentor.bio = data_result[i].bio;
@@ -524,52 +487,6 @@ brotControllers.controller('MentorProfileController',
                         $scope.listMentorSubsSize = $scope.listMentorSubs.length;
                     }
                 });
-            }
-
-
-            function getMentorSubscribedByCurrentId(userId, studentId, limit, offset) {
-                if (userId && studentId) {
-                    MentorService.getSubscribedMentorViewStudent(userId, studentId, limit, offset).then(function (response) {
-                            if (response.data.request_data_result == StatusError.MSG_DATA_NOT_FOUND) {
-                                $scope.listMentorSubs = null;
-                                return;
-                            }
-                            var data_result = response.data.request_data_result;
-                            var listMentorSubscribed = [];
-                            // var subjects = myCache.get("subjects");
-                            for (var i = 0; i < data_result.length; i++) {
-                                var mentor = {};
-                                mentor.userid = data_result[i].userid;
-                                mentor.lastName = (data_result[i].lastName == null || data_result[i].lastName === undefined) ? "" : data_result[i].lastName;
-                                mentor.firstName = (data_result[i].firstName == null || data_result[i].firstName === undefined) ? "" : data_result[i].firstName;
-                                mentor.accomplishments = (data_result[i].accomplishments == null || data_result[i].accomplishments === undefined) ? "" : data_result[i].accomplishments;
-                                mentor.bio = data_result[i].bio;
-                                mentor.numsub = data_result[i].numsub;
-                                mentor.imageUrl = data_result[i].imageUrl;
-                                mentor.numlike = data_result[i].numlike;
-                                mentor.numvideos = data_result[i].numvideos;
-                                mentor.numAnswers = data_result[i].numAnswers;
-                                mentor.points = data_result[i].avgrate != null ? data_result[i].avgrate : 0;
-                                mentor.school = data_result[i].accomplishments;
-                                mentor.isSubs = data_result[i].isSubs;
-                                mentor.defaultSubjectId = data_result[i].defaultSubjectId;
-                                var listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
-                                var strSubject = "";
-                                if (listSubject != null && listSubject !== undefined) {
-                                    var listSubjectName = [];
-                                    for (var j = 0; j < listSubject.length; j++) {
-                                        listSubjectName.push(listSubject[j].name);
-                                    }
-                                    strSubject = listSubjectName.join(", ");
-                                }
-                                mentor.listSubject = strSubject;
-                                listMentorSubscribed.push(mentor);
-                            }
-                            $scope.isReadyLoadPointSubscribed = true;
-                            $scope.listMentorSubs = listMentorSubscribed;
-                        }
-                    );
-                }
             }
 
             $scope.hoverProfileMentor = function (mentorId) {
@@ -747,7 +664,23 @@ brotControllers.controller('MentorProfileController',
                 if($scope.offset == 0 && $scope.newLimit <= $scope.defaultLimit){
                     return true;
                 }
+            };
+
+            /**
+             * @param firstName
+             * @param lastName
+             * @returns {boolean} true or false
+             */
+            function isNameEmpty(firstName, lastName){
+                return !!(isEmpty(firstName) && isEmpty(lastName));
             }
 
+            /**
+             * @param userName
+             * @returns {string} name of user after split @ character
+             */
+            function splitUserName(userName) {
+                return userName.indexOf('@') > -1 ? capitaliseFirstLetter(userName.substr(0, userName.indexOf('@'))) : userName;
+            }
 
         }]);

@@ -19,17 +19,13 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
 
         if ($rootScope.fullName == undefined) {
             var firstname = localStorage.getItem('firstName');
-            var lastname = localStorage.getItem('lastname');
             var isEmptyName = false;
-            if (firstname == null || firstname === undefined || firstname.length == 0 || firstname == "null") {
-                isEmptyName = true;
-            }
-            if (lastname == null || lastname === undefined || lastname.length == 0 || lastname == "null") {
+            if (isEmpty(firstname)) {
                 isEmptyName = true;
             }
             if(isEmptyName){
                 var userName =  localStorage.getItem('userName');
-                $rootScope.firstName = userName.indexOf('@') != -1 ? userName.substr(0, userName.indexOf('@')) : userName;
+                $rootScope.firstName = userName.indexOf('@') != -1 ? capitaliseFirstLetter(userName.substr(0, userName.indexOf('@'))) : userName;
             }else{
                 $rootScope.firstName = firstname;
             }

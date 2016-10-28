@@ -63,6 +63,8 @@ brotControllers.controller('StudentProfileController',
                             var mentor = {};
                             mentor.userid = data_result[i].userid;
                             mentor.fullName = data_result[i].name;
+                            mentor.firstName = data_result[i].firstName;
+                            mentor.lastName = data_result[i].lastName;
                             mentor.userName = data_result[i].userName;
                             mentor.imageUrl = data_result[i].imageUrl;
                             mentor.isOnline = data_result[i].isOnline;
@@ -107,11 +109,9 @@ brotControllers.controller('StudentProfileController',
                             var birthDay = calculateBirthDay(result_data.birthDay);
                             $scope.bod = birthDay;
                             $scope.isEmptyNameMentor = false;
-                            if (($scope.studentMentorProfile.firstname == null || isEmpty($scope.studentMentorProfile.firstname))
-                                && ($scope.studentMentorProfile.lastName == null || isEmpty($scope.studentMentorProfile.lastName))) {
+                            if (isNameEmpty($scope.studentMentorProfile.firstname,$scope.studentMentorProfile.lastName)){
                                 $scope.isEmptyNameMentor = true;
-                                $scope.studentMentorProfile.fullNameMentor = $scope.studentMentorProfile.username.indexOf('@') != -1 ?
-                                    $scope.studentMentorProfile.username.substr(0, $scope.studentMentorProfile.username.indexOf('@')) : $scope.studentMentorProfile.username;
+                                $scope.studentMentorProfile.fullNameMentor = splitUserName($scope.studentMentorProfile.username);
                             }
                             if (result_data.defaultSubjectId && (subjects !== undefined || subjects != null)) {
                                 var subs = getSubjectNameById(result_data.defaultSubjectId, subjects);
@@ -129,6 +129,13 @@ brotControllers.controller('StudentProfileController',
                 });
             }
 
+            function isNameEmpty(firstName, lastName){
+                return !!(isEmpty(firstName) && isEmpty(lastName));
+            }
+            
+            function splitUserName(userName) {
+                return userName.indexOf('@') > -1 ? capitaliseFirstLetter(userName.substr(0, userName.indexOf('@'))) : userName;
+            }
 
             $scope.hoverVideo = function (vid) {
                 $("#"+vid+" .hover-video").show();
@@ -209,7 +216,7 @@ brotControllers.controller('StudentProfileController',
                 var errFile = errFiles && errFiles[0];
                 if(!isEmpty(errFile)){
                     if(errFile.$error == "maxSize"){
-                        $scope.errorMessage = 'File over 5 MB';
+                        $scope.errorMessage = 'File must not exceed 5 MB';
                         return;
                     }
                     $scope.errorMessage = 'File wrong format. Please select file image!';
@@ -489,6 +496,7 @@ brotControllers.controller('StudentProfileController',
                             objPosted.subject = questionData.SUBJECT;
                             objPosted.subjectid = questionData.SUBJECTID;
                             objPosted.name = questionData.FIRSTNAME;
+                            objPosted.userName = questionData.userName;
                             objPosted.content = questionData.CONTENT;
                             objPosted.numviews = questionData.NUMVIEWS == null ? 0 : questionData.NUMVIEWS;
                             objPosted.time = convertUnixTimeToTime(questionData.TIMESTAMP);
@@ -506,7 +514,14 @@ brotControllers.controller('StudentProfileController',
                                         objAnswer.authorID = answer_result[y].authorID;
                                         objAnswer.aid = answer_result[y].aid;
                                         objAnswer.pid = answer_result[y].pid;
-                                        objAnswer.name = answer_result[y].firstName + " " + answer_result[y].lastName;
+                                        if(isNameEmpty(answer_result[y].firstName, answer_result[y].lastName)){
+                                            objAnswer.name = splitUserName(answer_result[y].userName);
+                                        }else{
+                                            objAnswer.name = answer_result[y].firstName.trim() + " " + answer_result[y].lastName.trim();
+                                        }
+                                        objAnswer.firstName = answer_result[y].firstName;
+                                        objAnswer.lastName = answer_result[y].lastName;
+                                        objAnswer.userName = answer_result[y].userName;
                                         objAnswer.content = answer_result[y].content;
                                         objAnswer.avatar = answer_result[y].imageUrl;
                                         objAnswer.countLike = answer_result[y].countLike;
@@ -627,11 +642,9 @@ brotControllers.controller('StudentProfileController',
                             $scope.schoolSelect = {id : parseInt($scope.studentInfo.school, 10)};
                         }
                         $scope.isEmptyName = false;
-                        if (($scope.studentInfo.firstname == null || isEmpty($scope.studentInfo.firstname))
-                            && ($scope.studentInfo.lastName == null || isEmpty($scope.studentInfo.lastName))) {
+                        if (isNameEmpty($scope.studentInfo.firstname,$scope.studentInfo.lastName)){
                             $scope.isEmptyName = true;
-                            $scope.studentInfo.fullName = $scope.studentInfo.username.indexOf('@') != -1 ?
-                                $scope.studentInfo.username.substr(0, $scope.studentInfo.username.indexOf('@')) : $scope.studentInfo.username;
+                            $scope.studentInfo.fullName = splitUserName($scope.studentInfo.username);
                         }
                         $scope.studentInfo.imageUrl = $scope.studentInfo.imageUrl != null ? $scope.studentInfo.imageUrl : "assets/images/noavartar.jpg";
                         $scope.birthDay = timeConverter($scope.studentInfo.birthDay, FormatDateTimeType.DD_MM_YY);
@@ -701,17 +714,8 @@ brotControllers.controller('StudentProfileController',
                 }
             }
 
-            /**
-             * @param displayName
-             * @param userName
-             * @returns {*}
-             */
-            $scope.validateShowName = function (displayName, userName) {
-                if (displayName == null || isEmpty(displayName)) {
-                    return userName != null ? userName.substr(0, userName.indexOf('@')) : "Mentor";
-                } else {
-                    return displayName.trim();
-                }
-            };
+            $scope.displayUserName = function (firstName, lastName, userName) {
+                return displayUserName(firstName, lastName, userName);
+            }
 
         }]);

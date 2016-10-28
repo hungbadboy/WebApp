@@ -14,9 +14,8 @@
                                         <img ng-src="{{studentInfo.imageUrl != null ? studentInfo.imageUrl : 'assets/images/noavartar.jpg'}}"
                                              err-src="assets/images/noavartar.jpg">
                                     </div>
-                                    <h4 ng-if="!isEmptyName">{{studentInfo.firstname != null ? studentInfo.firstname : ''}}
-                                        {{studentInfo.lastName != null ? studentInfo.lastName : ''}}</h4>
-                                    <h4 ng-if="isEmptyName">{{studentInfo.fullName}}</h4>
+                                    <h4 ng-if="!isStudentEmptyName">{{studentInfo.firstname.trim()}} {{studentInfo.lastName.trim()}}</h4>
+                                    <h4 ng-if="isStudentEmptyName">{{studentInfo.fullName}}</h4>
                                 </div>
                                 <div class="count-qt">
                                     <ul>
