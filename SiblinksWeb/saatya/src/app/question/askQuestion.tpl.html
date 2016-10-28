@@ -156,10 +156,7 @@
                 <!--</div>-->
                 <div id="modalImage" class="modal face">
 
-                    <!-- The Close Button -->
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" data-icon="&#x51;"></span>
-                    </button>
+                    
 
                     <!-- Modal Content (The Image) -->
 
@@ -173,7 +170,7 @@
 
                         <!--</div>-->
                     <!--</div>-->
-                    <div id="myCarousel" class="carousel slide" >
+                    <div id="myCarousel" class="carousel slide container" >
                         <!-- Indicators -->
                         <ol class="carousel-indicators">
                             <li ng-class="{'active':currentIndexImage == $index}" ng-repeat="img in currentImage track by $index" data-target="#myCarousel" data-slide-to="{{$index}}" class="active"></li>
@@ -181,6 +178,10 @@
                         </ol>
 
                         <!-- Wrapper for slides -->
+                        <!-- The Close Button -->
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" data-icon="&#x4d;"></span>
+                        </button>
                         <div class="carousel-inner" role="listbox">
                             <div class="item" ng-class="{'active':currentIndexImage == $index}" ng-repeat="img in currentImage track by $index">
                                 <img  ng-src="{{img}}" style="margin: auto;"  width="800" height="600">
@@ -189,14 +190,15 @@
 
                         <!-- Left and right controls -->
                         <a ng-non-bindable  class="left carousel-control" role="button" data-slide="prev">
-                            <span  data-target="#myCarousel"  class="glyphicon glyphicon-chevron-left"  aria-hidden="true"></span>
+                            <span  data-target="#myCarousel" aria-hidden="true" data-icon="&#x34;"></span>
                             <span class="sr-only">Previous</span>
                         </a>
                         <a ng-non-bindable class="right carousel-control" role="button" data-slide="next">
                             <!--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
-                            <span  data-target="#myCarousel" class="glyphicon glyphicon-chevron-right"  aria-hidden="true"></span>
+                            <span  data-target="#myCarousel" aria-hidden="true" data-icon="&#x35;"></span>
                             <span class="sr-only">Next</span>
                         </a>
+
                     </div>
 
                 </div>
