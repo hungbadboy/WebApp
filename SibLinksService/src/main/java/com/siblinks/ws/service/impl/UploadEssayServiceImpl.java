@@ -320,7 +320,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             if (StringUtil.isNull(title)) {
                 statusMessage = "Essay title can't blank!";
             } else {
-                if (title.length() > 1000) {
+                if (title.length() > 250) {
                     statusMessage = "Essay title can't over 250 characters!";
                 }
             }
@@ -358,9 +358,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     @RequestMapping(value = "/updateEssayStudent", method = RequestMethod.POST)
     public ResponseEntity<Response> updateEssayStudent(@RequestParam("essayId") final String essayId,
             @RequestParam("desc") final String desc,
-            @RequestParam("userId") final String userId, @RequestParam("fileName") final String fileName,
+            @RequestParam("userId") final String userId, @RequestParam(required = false) final String fileName,
             @RequestParam("title") final String title, @RequestParam("schoolId") final String schoolId,
-            @RequestParam("majorId") final String majorId, @RequestParam("file") final MultipartFile file) {
+            @RequestParam("majorId") final String majorId, @RequestParam(required = false) final MultipartFile file) {
         SimpleResponse simpleResponse = null;
         String statusMessage = "";
         boolean status = true;
@@ -371,7 +371,6 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
 
-            statusMessage = validateEssay(file);
             if (StringUtil.isNull(desc)) {
                 statusMessage = "Essay description can't blank!";
             } else {
@@ -383,13 +382,14 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             if (StringUtil.isNull(title)) {
                 statusMessage = "Essay title can't blank!";
             } else {
-                if (title.length() > 1000) {
+                if (title.length() > 250) {
                     statusMessage = "Essay title can't over 250 characters!";
                 }
             }
             if (StringUtil.isNull(essayId)) {
                 statusMessage = "EssayId null!";
             }
+            statusMessage = validateEssay(file);
             boolean msgs = true;
             if (StringUtil.isNull(statusMessage)) {
                 Object[] queryParams = { file.getInputStream(), desc, file.getContentType(), fileName, title, file
@@ -405,6 +405,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             } else {
                 status = false;
                 if (statusMessage.equals("File is empty")) {
+                    status = true;
+                    statusMessage = "";
                     Object[] queryParams = { desc, title, schoolId, majorId, essayId };
                     msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_STUDENT_UPDATE_ESSAY_NOFILE, queryParams);
                 }
@@ -413,7 +415,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         } catch (Exception e) {
             e.printStackTrace();
             status = false;
-            statusMessage = "You failed to upload " + file.getOriginalFilename() + " => " + e.getMessage();
+            statusMessage = "You failed to upload " + e.getMessage();
             logger.error(e.getMessage(), e.getCause());
         }
 
