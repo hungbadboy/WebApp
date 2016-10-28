@@ -86,7 +86,9 @@ brotControllers
                                 return;
                             }
                         } else {
-                            window.location.href = '/#/ask_a_question/-1';
+                            if($location.absUrl().indexOf('first-ask') > -1){
+                                window.location.href = '/#/ask_a_question/-1';
+                            }
                         }
                     });
                 }
