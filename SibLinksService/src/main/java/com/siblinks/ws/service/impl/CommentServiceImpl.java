@@ -201,14 +201,14 @@ public class CommentServiceImpl implements CommentsService {
                     if (!StringUtil.isNull(content) && content.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
                         contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
                     }
-                    Object[] queryParamsIns3 = { userId, authorId, "commentVideo", SibConstants.NOTIFICATION_TITLE_REPLY_VIDEO, contentNofi, subjectId, vid };
+                    Object[] queryParamsIns3 = { userId, authorId, SibConstants.NOTIFICATION_TYPE_COMMENT_VIDEO, SibConstants.NOTIFICATION_TITLE_COMMENT_VIDEO, contentNofi, subjectId, vid };
                     status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_VIDEO, queryParamsIns3);
                     String toTokenId = userservice.getTokenUser(userId);
                     if (!StringUtil.isNull(toTokenId)) {
 
                         fireBaseNotification.sendMessage(
                             toTokenId,
-                            SibConstants.NOTIFICATION_TITLE_REPLY_VIDEO,
+                            SibConstants.NOTIFICATION_TITLE_COMMENT_VIDEO,
                             "3",
                             vid,
                             contentNofi,

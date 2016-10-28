@@ -213,8 +213,8 @@ public class PostServiceImpl implements PostService {
                 contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
             }
             id = dao.insertObject(SibConstants.SqlMapper.SQL_CREATE_ANSWER, queryParamsAnswer);
-            Object[] queryParams = { mentorId, studentId, "answerQuestion", SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION, "answered a question: " +
-                                                                                                                             contentNofi, subjectId, pid };
+            Object[] queryParams = { mentorId, studentId, SibConstants.NOTIFICATION_TYPE_ANSWER_QUESTION, SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION, "answered a question: " +
+                                                                                                                                                           contentNofi, subjectId, pid };
             dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_NUMREPLIES_QUESTION, new Object[] { pid });
 
             status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION_QUESTION, queryParams);
@@ -268,11 +268,7 @@ public class PostServiceImpl implements PostService {
             }
             if (StringUtil.isNull(content) || content.length() > 4000) {
                 // Return is not exist image
-                simpleResponse = new SimpleResponse(
-                                                    SibConstants.FAILURE,
-                                                    "post",
-                                                    "editPost",
-                                                    "Content over 4000 or content null");
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editPost", "Content over 4000 or content null");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
             String error = validateFileImage(files);
@@ -896,11 +892,7 @@ public class PostServiceImpl implements PostService {
             }
 
             if (StringUtil.isNull(content) || content.length() > 4000) {
-                simpleResponse = new SimpleResponse(
-                                                    SibConstants.FAILURE,
-                                                    "post",
-                                                    "editAnswer",
-                                                    "Answer over 4000 or answer null");
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editAnswer", "Answer over 4000 or answer null");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
 

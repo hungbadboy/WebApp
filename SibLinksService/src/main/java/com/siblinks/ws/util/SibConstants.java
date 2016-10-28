@@ -47,7 +47,14 @@ public class SibConstants {
     public static final String NOTIFICATION_ICON = "siblinks.icon";
     public static final String NOTIFICATION_PRIPORITY_HIGH = "high";
     public static final String NOTIFICATION_TITLE_ANSWER_QUESTION = "Answer to question";
-    public static final String NOTIFICATION_TITLE_REPLY_VIDEO = "New comment of video";
+    public static final String NOTIFICATION_TITLE_COMMENT_VIDEO = "Comment video";
+    public static final String NOTIFICATION_TITLE_COMMENT_VIDEO_ADMISSION = "Comment video admission";
+    public static final String NOTIFICATION_TITLE_REPLY_ESSAY = "Reply essay";
+
+    public static final String NOTIFICATION_TYPE_ANSWER_QUESTION = "1";
+    public static final String NOTIFICATION_TYPE_COMMENT_VIDEO = "2";
+    public static final String NOTIFICATION_TYPE_COMMENT_VIDEO_ADMISSION = "3";
+    public static final String NOTIFICATION_TYPE_REPLY_ESSAY = "4";
 
     public static final String DOMAIN = "domain";
     public static final String DELETE = "DELETE";
@@ -685,5 +692,14 @@ public class SibConstants {
         public static final String SQL_SEARCH_PROCESSING_ESSAY = "SEARCH_PROCESSING_ESSAY";
         public static final String SQL_SEARCH_IGNORED_ESSAY = "SEARCH_IGNORED_ESSAY";
         public static final String SQL_GET_STATUS_ESSAY = "GET_STATUS_ESSAY";
+    }
+
+    public class SqlMapperActivityLog {
+        public static final String SQL_SIB_GET_ACTIVITY_LOG_ALL = "SIB_GET_ACTIVITY_LOG_ALL";
+        public static final String SQL_SIB_GET_ACTIVITY_LOG_BY_USERID = "SIB_GET_ACTIVITY_LOG_BY_USERID";
+        public static final String SQL_SIB_INSERT_ACTIVITY_LOG = "SIB_INSERT_ACTIVITY_LOG";
+        public static final String SQL_SIB_UPDATE_ACTIVITY_LOG = "SIB_UPDATE_ACTIVITY_LOG";
+        public static final String SQL_SIB_DELETE_ACTIVITY_LOG = "SIB_DELETE_ACTIVITY_LOG";
+        public static final String SQL_SIB_DELETE_ACTIVITY_LOG_BY_ID = "SIB_DELETE_ACTIVITY_LOG_BY_ID";
     }
 }
