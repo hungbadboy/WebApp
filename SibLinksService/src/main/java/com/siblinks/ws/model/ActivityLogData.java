@@ -24,8 +24,11 @@ package com.siblinks.ws.model;
  * @version 1.0
  */
 public class ActivityLogData {
+
+    private String id, type, action, log, logDate, logBy, link;
+
     /**
-     * 
+     *
      */
     public ActivityLogData() {
         super();
@@ -38,14 +41,14 @@ public class ActivityLogData {
      * @param logDate
      * @param logBy
      */
-    public ActivityLogData(final String type, final String action, final String log, final String logBy) {
+    public ActivityLogData(final String type, final String action, final String log, final String logBy, final String link) {
         this.type = type;
         this.action = action;
         this.log = log;
         this.logBy = logBy;
+        this.link = link;
     }
 
-    private String id, type, action, log, logDate, logBy;
 
     public String getId() {
         return id;
@@ -94,4 +97,20 @@ public class ActivityLogData {
     public void setLogBy(final String logBy) {
         this.logBy = logBy;
     }
+
+    /**
+     * @return the link
+     */
+    public String getLink() {
+        return link;
+    }
+
+    /**
+     * @param link
+     *            the link to set
+     */
+    public void setLink(final String link) {
+        this.link = link;
+    }
+
 }

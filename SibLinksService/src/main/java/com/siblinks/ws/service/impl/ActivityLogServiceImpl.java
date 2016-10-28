@@ -54,14 +54,15 @@ public class ActivityLogServiceImpl implements ActivityLogService {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @throws Exception
      */
     @Override
     public boolean insertActivityLog(final ActivityLogData activityLog) throws Exception {
         logger.info("Insert activity log " + new Date());
         try {
-            Object[] params = { activityLog.getType(), activityLog.getAction(), activityLog.getLog(), activityLog.getLogBy() };
+            Object[] params = { activityLog.getType(), activityLog.getAction(), activityLog.getLog(), activityLog
+                .getLogBy(), activityLog.getLink() };
             return dao.insertUpdateObject(SibConstants.SqlMapperActivityLog.SQL_SIB_INSERT_ACTIVITY_LOG, params);
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,7 +77,8 @@ public class ActivityLogServiceImpl implements ActivityLogService {
     public boolean updateActivityLogById(final ActivityLogData activityLog) {
         logger.info("update activity log by id " + new Date());
         try {
-            Object[] params = { activityLog.getType(), activityLog.getAction(), activityLog.getLog(), activityLog.getLogBy(), activityLog
+            Object[] params = { activityLog.getType(), activityLog.getAction(), activityLog.getLog(), activityLog
+                .getLogBy(), activityLog.getLink(), activityLog
                 .getId() };
             dao.insertUpdateObject(SibConstants.SqlMapperActivityLog.SQL_SIB_UPDATE_ACTIVITY_LOG, params);
             return true;
@@ -94,8 +96,7 @@ public class ActivityLogServiceImpl implements ActivityLogService {
         logger.info("delete activity log by id " + new Date());
         try {
             Object[] params = {id};
-            return dao.insertUpdateObject(SibConstants.SqlMapperActivityLog.SQL_SIB_UPDATE_ACTIVITY_LOG, params);
-            
+            return dao.insertUpdateObject(SibConstants.SqlMapperActivityLog.SQL_SIB_DELETE_ACTIVITY_LOG_BY_ID, params);
         } catch (Exception e) {
             e.printStackTrace();
         }
