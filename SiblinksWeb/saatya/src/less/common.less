@@ -1321,21 +1321,46 @@ iframe#video {
     height: 0;
 }
 .essay-detail-right-content {
-  border: none;
+    border: none;
+    width: 100%;
+    float: left;
 }
 .modal-essay .modal-content {
-  height: 55vh;
+    height: 55vh;
 }
 .modal-essay .left-question {
-  padding-top: 15px;
+    padding-top: 15px;
 }
 .modal-essay .left-question h4,
 .modal-article.modal-essay.modal-add-video .right-answer h4 {
-  font-weight: 600;
-  font-size: 18px;
+    font-weight: 600;
+    font-size: 18px;
 }
 .modal-article.modal-essay.modal-add-video .right-answer h3 {
-  font-weight: 400;
+    font-weight: 400;
+}
+.modal-article.modal-essay.modal-add-video .right-answer .answer-by p {
+    width: 190px;
+    background: #ffcc00;
+    padding: 10px 20px;
+    position: relative;
+    top: -20px;
+}
+.modal-article.modal-essay.modal-add-video .right-answer .post-time{
+  color: #909090;
+}
+.modal-article.modal-essay.modal-add-video .right-answer .answer-by p:before {
+  height: 0;
+}
+.modal-article.modal-essay.modal-add-video .right-answer .attrach-file {
+    float: right;
+}
+.modal-article.modal-essay.modal-add-video .right-answer .answer-by {
+    border-bottom: 1px solid #ffcc00;
+    height: 1px;
+    margin-bottom: 30px;
+    width: 100%;
+    float: left;
 }
 /**** End HongTTT *****/
 
@@ -1566,10 +1591,13 @@ output.up-thumb.up-thumb-sec img {
 }
 
 /*Student.Terms of use*/
+.bx-dt-qa .txt-essay{
+    margin-bottom: 16px;
+}
 .content-terms-of-use {
     width: 66.666666%;
     float: left;
-    padding-right: 15px;
+    padding: 0 15px;
 }
 .content-terms-of-use-wrapper .term {
     margin-bottom: 20px;
@@ -1592,6 +1620,7 @@ p.star-admission.videos-start {
     width: 390px;
     margin-top: 44px;
 }
+
 /* Hien thi playlist video*/
 
 .videos-thumnail .box-all-vd {
