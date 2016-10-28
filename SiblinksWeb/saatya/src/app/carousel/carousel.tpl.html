@@ -2,7 +2,7 @@
     <div class="carousel-inner" ng-repeat="link in links">
         <div class="item" ng-repeat="link in links">
             <div class="col-md-3 col-sm-6 col-xs-12">
-                <a href="#">
+                <a href="#/mentor/studentProfile/{{link.userid}}">
                     <img ng-src="{{link.imageUrl}}" class="img-responsive imp-carousel">
                     <p class="student-name">{{link.name}}</p>
                 </a>

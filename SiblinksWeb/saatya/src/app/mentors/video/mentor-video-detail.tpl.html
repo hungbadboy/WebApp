@@ -80,12 +80,12 @@
                                     </div>
                                     <div class="form-commnent">
                                         <h4 ng-if="comments">{{comments.length}} Comments</h4>
-                                        <h4 ng-if="!comments">No comment</h4>
+                                        <h4 ng-if="!comments">0 Comments</h4>
                                         <form action="">
                                             <div class="box-chat-onl clearfix">
                                                 <a href="#" class="col-md-1"><img src="{{avatar}}" alt=""></a>
                                                 <div class="texta col-md-11">
-                                                    <textarea id="txtComment" ng-click="showButton()" name="" placeholder="Add your reply here"></textarea>
+                                                    <textarea id="txtComment" ng-click="showButton()" name="" placeholder="Add a comment"></textarea>
                                                     <div class="comment-action">
                                                         <button ng-click="cancelComment()" class="cancel">Cancel</button>
                                                         <button ng-click="addComment()" class="add-comment">Add comment</button>
