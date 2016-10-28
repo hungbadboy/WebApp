@@ -23,11 +23,11 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
         var qa_scroll = $(window).scrollTop();
         if (qa_scroll > 75) {
           $(".mentor-manage-qa-content .left-qa").css({"top":"108px", "height":"85%"});
-          $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"71vh"});
+          $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"69vh"});
         }
         else {
           $(".mentor-manage-qa-content .left-qa").css({"top":"auto"});
-          $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"65vh"});
+          $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"64vh"});
         }
         if($window.innerWidth < 1601){
           if (qa_scroll > 75) {
