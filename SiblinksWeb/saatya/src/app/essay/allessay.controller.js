@@ -372,24 +372,10 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     } else if ($scope.tabpane == 2) {
       $scope.pos = updateScopePos($scope.pos, $scope.processingEssays);
       if ($scope.pos = -1)
-        // getEssayById($scope.pos, userId);
         $scope.changeTab(1);
       else
         getEssayById($scope.processingEssays[$scope.pos].uploadEssayId, userId);
     }
-    // else if ($scope.tabpane == 3) {
-    //   $scope.pos = updateScopePos($scope.pos, $scope.ignoredEssays);
-    //   if ($scope.pos = -1)
-    //     getEssayById($scope.pos, userId);
-    //   else
-    //     getEssayById($scope.ignoredEssays[$scope.pos].uploadEssayId, userId);
-    // } else {
-    //   $scope.pos = updateScopePos($scope.pos, $scope.repliedEssays);
-    //   if ($scope.pos = -1)
-    //     getEssayById($scope.pos, userId);
-    //   else
-    //     getEssayById($scope.repliedEssays[$scope.pos].uploadEssayId, userId);
-    // }
   }
 
   function updateScopePos(pos, data){
@@ -410,11 +396,11 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
   }
 
   $scope.goToProfile = function(id){
-      if (id == userId) {
-          window.location.href = '#/mentor/mentorProfile';
-      } else{
-          window.location.href = '#/mentor/studentProfile/'+id+'';
-      }
+    if (id == userId) {
+        window.location.href = '#/mentor/mentorProfile';
+    } else{
+        window.location.href = '#/mentor/studentProfile/'+id+'';
+    }
   }
 
   var file;
@@ -422,7 +408,6 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
     if ($files && $files.length > 0) {
       file = $files[0];
       if (file == undefined){
-        // alert('Only accept document file..');
         $scope.error = "Only accept document file.";
       } else{
         $scope.fileName = file.name;
@@ -477,7 +462,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
 
   $scope.onSelect = function(selected){
     if (selected != undefined)
-      searchEssay(status, selected.nameOfEssay, schoolId, 0);
+      searchEssay(status, selected.title, schoolId, 0);
   }
 
   $scope.textChanged = function(str){
@@ -501,25 +486,25 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', 'EssayService
       if (result.status == 'true') {
         var collection = result.request_data_result;
         if (collection.newestEssay != NO_DATA) {
-          $scope.newestEssays = collection.newestEssay;
+          $scope.newestEssays = formatEssay(collection.newestEssay);
         } else {
           $scope.newestEssays = null;
         }
 
         if (collection.processingEssay != NO_DATA) {
-          $scope.processingEssays = collection.processingEssay;
+          $scope.processingEssays = formatEssay(collection.processingEssay);
         } else {
           $scope.processingEssays = null;
         }
 
         if (collection.ignoredEssay != NO_DATA) {
-          $scope.ignoredEssays = collection.ignoredEssay;
+          $scope.ignoredEssays = formatEssay(collection.ignoredEssay);
         } else {
           $scope.ignoredEssays = null;
         }
 
         if (collection.repliedEssay != NO_DATA) {
-          $scope.repliedEssays = collection.repliedEssay;
+          $scope.repliedEssays = formatEssay(collection.repliedEssay);
         } else {
           $scope.repliedEssays = null;
         }
