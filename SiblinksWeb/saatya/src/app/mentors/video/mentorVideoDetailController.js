@@ -104,13 +104,11 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     function loadVideoDetail(v){
-        console.log(v);
         $scope.currentId = v.vid;
         $scope.video = v;
         $scope.video.averageRating = parseAvgRating($scope.video.averageRating);
         $scope.averageRating = $scope.video.averageRating;
         $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
-        // $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
         initYoutubePlayer($scope.video.url);
         getCommentVideoDetail(v.vid);
         getVideoRelated();
