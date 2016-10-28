@@ -15,7 +15,7 @@
                       <h3>We help to make your essay stand out among the crowd</h3>
                       <div class="step">
                           <ul>
-                          	<li ng-repeat="lstAdmission in listAdmission track by $index" id="admission{{$index+1}}" ng-class="$first? 'active': ''">
+                          	<li ng-repeat="lstAdmission in listAdmission track by $index" id="admission{{$index+1}}" ng-class="{'active':indexAdmission == $index}">
                                   <div style="cursor: pointer" class="step-apply" ng-click="viewStepAdmission($index + 1)">
                                       <h2>{{$index + 1}}</h2>
                                       <p>{{lstAdmission.name}}</p>

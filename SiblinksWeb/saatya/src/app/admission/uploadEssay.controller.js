@@ -10,6 +10,9 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
         $scope.txtDesc = "";
         $scope.txtTitle = "";
         $scope.essaySusscesMsg = "";
+        $scope.isUpdate = false;
+        var idEssay;
+
         var MAX_SIZE_ESSAY_UPLOAD = 5242880;
         init();
 
@@ -24,7 +27,17 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
                     $scope.listSchools = data.data.request_data_result;
                 }
             });
+
         }
+
+        $timeout(function () {
+            var objectEdit = JSON.parse(localStorage.getItem('currentEssay'));
+            if(!isEmpty(objectEdit)){
+                setValueEdit(objectEdit);
+                localStorage.removeItem('currentEssay');
+            }
+        }, 300);
+
 
         // $scope.onFileSelect = function ($files) {
         //     $scope.essayErrorMsg = "";
@@ -39,6 +52,16 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             fileUpload = $scope.files;
             $scope.fileName = fileUpload.name;
         });
+
+        function setValueEdit(object) {
+            $scope.selectMajor = object.majorId;
+            $scope.selectSchool = object.schoolId;
+            $scope.txtDesc = object.descriptionOfEssay;
+            $scope.txtTitle = object.nameOfEssay;
+            $scope.fileName = object.urlFile;
+            $scope.isUpdate = true;
+            idEssay = object.uploadEssayId;
+        }
 
         $scope.uploadEssay = function () {
             var fd = new FormData();
@@ -89,11 +112,11 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
                      $scope.essaySusscesMsg = "Your essay has been submitted for review";
                      $scope.selectSchool = 0;
                      $scope.selectMajor = 0;
-                     $scope.fileName = 'Upload your file (word, excel, pdf....)';
+                     $scope.fileName = "Drop file (word, excel, pdf....) here or click to upload";
                      fileUpload = null;
                      $scope.txtDesc = "";
                      $scope.txtTitle = "";
-                     $scope.$emit('reloadYourEssay', 'load')
+                     $scope.$emit('reloadYourEssay', 'load');
                 }
                 else {
                      $scope.essayErrorMsg = data.data.request_data_result;
@@ -110,7 +133,7 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
                 return;
             }
 
-            if(fileUpload.size > MAX_SIZE_ESSAY_UPLOAD){
+            if(fileUpload != null&&fileUpload.size > MAX_SIZE_ESSAY_UPLOAD){
                 $scope.essayErrorMsg='Essay over 10M';
             }
             if(isEmpty($scope.txtTitle)){
@@ -136,25 +159,27 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             }
             if(!isEmpty(fileUpload)){
                 fd.append('file',fileUpload);
+                fd.append('fileName',fileUpload.name);
             }
+
             fd.append('desc',$scope.txtDesc);
             fd.append('userId',userId);
             fd.append('title',$scope.txtTitle);
             fd.append('majorId',$scope.selectMajor );
             fd.append('schoolId',$scope.selectSchool);
-            fd.append('fileName',fileUpload.name);
+            fd.append('essayId',idEssay);
             $rootScope.$broadcast('open');
             uploadEssayService.updateEssayStudent(fd).then(function (data) {
                 if (data.data.status ==  'true') {
                     $scope.essayErrorMsg = "";
-                    $scope.essaySusscesMsg = "You essay has been submitted for review";
+                    $scope.essaySusscesMsg = "You essay has been updated for review";
                     $scope.selectSchool = 0;
                     $scope.selectMajor = 0;
-                    $scope.fileName = 'Upload your file (word, excel, pdf....)';
+                    $scope.fileName = "Drop file (word, excel, pdf....) here or click to upload";
                     fileUpload = null;
                     $scope.txtDesc = "";
                     $scope.txtTitle = "";
-                    $scope.$emit('reloadYourEssay', 'load')
+                    $scope.$emit('reloadYourEssay', 'load');
                 }
                 else {
                     $scope.essayErrorMsg = data.data.request_data_result;

@@ -23,6 +23,14 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
             }
         });
 
+        $scope.editEssay = function () {
+            //$scope.$emit('editYourEssay', $scope.currentEssay);
+            localStorage.setItem('currentEssay',JSON.stringify($scope.currentEssay));
+            angular.element(document.getElementById('essay-detail')).modal('hide');
+            window.location.href = '/#/college_admission?tab=3';
+            window.location.reload();
+        }
+        
         $scope.showModal = function (index) {
             var uploadEssayId = $scope.listEssays[index].uploadEssayId;
             if(isEmpty(uploadEssayId)){
@@ -34,7 +42,7 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
                     if(!isEmpty($scope.currentEssay.status == 'P')){
                         uploadEssayService.getMentorEssayByUid($scope.currentEssay.mentorId).then(function (data) {
                         $scope.currentMentor = data.data.request_data_result[0];
-                            $scope.currentMentor.defaultSubject = getSubjectNameById($scope.currentMentor.defaultSubjectId, subjects);
+                            // $scope.currentMentor.defaultSubject = getSubjectNameById($scope.currentMentor.defaultSubjectId, subjects);
                         });
                     }
                     angular.element(document.getElementById('essay-detail')).modal();

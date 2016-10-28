@@ -137,7 +137,8 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	}).
 	when('/college_admission', {
 		templateUrl: 'src/app/admission/admission.tpl.html',
-		controller: 'AdmissionCtrl'
+		controller: 'AdmissionCtrl',
+		reloadOnSearch: false
 	}).
 	when('/college_admission/videoadmission/:idSubAdmission', {
 		templateUrl: 'src/app/videoAdmission.tpl.html',

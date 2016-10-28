@@ -29,209 +29,185 @@
         </li>
 
     </ul>
-    </div><!-- /End Your essay Content -->
-   <!--<div class="modal fade" id="essay-detail">-->
-    <!--<div scroller="essay-detail" class="modal-dialog modal-add-video modal-qa modal-article modal-essay">-->
-        <!--<div class="modal-content clearfix">-->
-            <!--<div class="col-md-3 left-question">-->
-                <!--<h3>Essay detail</h3>-->
-                <!--<div class="essay-detail-top">-->
-                    <!--<h5>{{currentEssay.nameOfEssay}}</h5>-->
-                    <!--<span class="post-time"> submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago</span>-->
-                <!--</div>-->
-                <!--<div class="essay-thumb">-->
-                    <!--<div class="essay-thumb-left">-->
-                        <!--<p ng-if="currentEssay.mentorId">Mentor:</p>-->
-                        <!--<p ng-if="currentEssay.mentorId" class="name-mentor"><a href="#/mentorProfile/{{currentEssay.mentorId}}">-->
-                            <!--{{currentEssay.mfirstName+' '+currentEssay.mlastName}}</a></p>-->
-                        <!--<p ng-if="currentEssay.status =='W'"><span class="essay-wait-review">Waiting for review</span></p>-->
-                        <!--<p ng-if="currentEssay.status !='W'"><span class="essay-{{currentEssay.status=='P'?'reviewing':'answers'}}">{{currentEssay.status=='P'?'Reviewing':'Answered'}}</span></p>-->
-                        <!--<br>-->
-                    <!--</div>-->
-                     <!--<div ng-if="currentEssay.mentorId" class="essay-thumb-right">-->
-                        <!--<a href="#/mentorProfile/{{currentEssay.mentorId}}"><img ng-src="{{currentEssay.mavatar}}"></a>-->
-                    <!--</div>-->
-                    <!---->
-                <!--</div>-->
-                <!--<div class="essay-infor">-->
-                    <!--<p class="rate-video">-->
-                        <!--<span>Rate this reply</span>-->
-                        <!--<span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>-->
-                         <!--&lt;!&ndash;<button class="share">Share</button> &ndash;&gt;-->
-                    <!--</p>-->
-                <!--</div>-->
-                <!--&lt;!&ndash;<button class="share">Share</button>-->
-                <!--<div class="action-essay">-->
-                  <!--<button class="edit">Edit</button>-->
-                  <!--<button class="delete">Delete</button> -->
-                <!--</div>&ndash;&gt;-->
-            <!--</div>-->
-            <!--<div class="col-md-9 right-answer clearfix">-->
-                <!--<h4>Desciption</h4>-->
-                <!--<button type="button" class="close close-popup-detail" data-dismiss="modal" aria-label="Close">-->
-                    <!--<span aria-hidden="true" data-icon="&#x51;"></span>-->
-                <!--</button>-->
-                <!--<div class="essay-detail-right-content-wrapper">-->
-
-                    <!--<div class="essay-detail-right-content">-->
-                        <!--<p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>-->
-                        <!--<div class="attrach-file">-->
-                            <!--<a href="{{currentEssay.downloadLinkS}}"><label><span data-icon="&#xe092;"> Attached file</span></label></a>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="essay-detail-right-header">-->
-                    	<!--<p>Answered by mentor</p>-->
-                    <!--</div>-->
-                    <!--<div class="essay-detail-right-content">-->
-                        <!--<h5>Desciption</h5>-->
-                        <!--<p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>-->
-                        <!--<p class="pre-wrap" ng-if="!currentEssay.mentorComment" >No content</p>-->
-                        <!--<div ng-if="currentEssay.downloadLinkM" class="attrach-file">-->
-                            <!--<a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Download file</span></label></a>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <div class="modal fade" id="essay-detail" class="waitReviewing">
-        <div class="modal-dialog modal-add-video essay-popup">
+    </div>
+    <!-- Essay popup -->
+    <div class="modal fade" id="essay-detail">
+        <div class="modal-dialog modal-add-video modal-qa modal-article modal-essay">
             <div class="modal-content clearfix">
-                <div class="btn-sl-qa">
-                    <a class="prev-qa" href="#"><span data-icon="&#x34;"></span></a>
-                    <a class="next-qa" href="#"><span data-icon="&#x35;"></span></a>
-                </div>
-                <div class="col-md-6 left-question">
-                    <h5><span data-icon="&#x69;"></span>Essay Detail</h5>
-                    <div class="top-user clearfix">
-                        <div class="col-md-2 img-avarta">
-                            <img ng-src="{{currentEssay.imageUrl}}" alt="Avatar">
-                        </div>
-                        <div class="col-md-10">
-                            <h6>{{currentEssay.firstName + ' ' + currentEssay.lastName}}</h6>
-                            <span class="time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago</span>
-                        </div>
+                <div class="col-md-3 left-question">
+                    <h3>Essay detail</h3>
+                    <div class="essay-detail-top">
+                        <h4 ng-bind="currentEssay.nameOfEssay"></h4>
+                        <span class="post-time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago</span>
                     </div>
-                    <div class="dt-txt-question" scroller="detailEssay">
+                    <div class="essay-thumb">
+                        <p><span ng-if="currentEssay.status =='W'" class="essay-wait-review">Waiting for review</span></p><br>
+                    </div>
+
+                    <div class="action-essay">
+                        <button ng-click="editEssay()" ng-if="currentEssay.status !='R'" class="edit">Edit</button>
+                        <button ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteEssay(question.question_id)" ng-if="currentEssay.status !='R'" class="delete">Delete</button>
+                    </div>
+                </div>
+                <div class="col-md-9 right-answer clearfix">
+                    <h4>Desciption</h4>
+                    <button type="button" class="close close-popup-detail" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" data-icon="&#x51;"></span>
+                    </button>
+                    <div class="essay-detail-right-content-wrapper">
                         <p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>
-                    </div>
-                    <div class="bottom-ctg">
-                        <div class="attrach-file">
-                            <a href="{{currentEssay.downloadLinkS}}"><label>
-                                <span data-icon="&#xe092;"> Attached file</span></label></a>
-                        </div>
-                    </div>
-                </div>
-                <div ng-if="currentEssay.status =='P'" class="col-md-6 right-answer clearfix">
-                    <div class="top-title clearfix">
-                        <p class="pull-right">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true" data-icon="&#x51;"></span>
-                            </button>
-                        </p>
-                    </div>
-                    <div class="essay-status">
-                        <span data-icon="&#xe101;"></span>
-                        <div class="essay-status-title">Reviewing By</div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="mentors-infor-img">
-                            <div class="mentors-infor-img-wrapper">
-                                <a href="#"><img ng-src="{{currentMentor.imageUrl}}"></a>
-                                <div class="mentors-img-hover">
-                                    <a href="#"><span data-icon="&#x4c;"></span></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mentors-infor-details">
-                            <div class="mentors-name">
-                                <a href="#/student/mentorProfile/{{currentEssay.mentorId}}">{{currentMentor.firstName + ' ' + currentMentor.lastName}}</a>
-                                <!--<span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span>-->
-                                <span  ng-if="currentMentor" star-rating stars="5"
-                                       outer-star-selection="stars"
-                                       readonly="true"
-                                       outer-percent="rating"
-                                       rating-define="star"
-                                       rating-stars="{{currentMentor.avgrate}}"
-                                       star-radius="8" sel-color="gold"
-                                       back-color="#edf1f2" style="width:auto;">
-	                            </span>
-                            </div>
-                            <div class="mentors-edu">
-                                <span>{{currentMentor.accomplishments}}</span>
-                            </div>
-                            <div class="mentors-skill">
-                                <span ng-repeat="sub in defaultSubject track by $index">{{sub.name}}{{$index < defaultSubject.length ? ',' : ''}}</span>
-                            </div>
-                            <div class="mentors-rate clearfix">
-                                <button class="subscribers" data-icon="&#x4e;">
-                                    <span>subscrible</span>
-                                    <span class="number-subscribers">{{currentMentor.numsub}}</span>
-                                </button>
-                                <p class="likes">
-                                    <span class="number-likes"><strong>{{currentMentor.numlike}}</strong></span><br>
-                                    <span class="title-likes">likes</span>
-                                </p>
-                                <p class="videos">
-                                    <span class="number-videos"><strong>{{currentMentor.numvideos}}</strong></span><br>
-                                    <span class="title-videos">videos</span>
-                                </p>
-                                <p class="answers">
-                                    <span class="number-answers"><strong>{{currentMentor.numAnswer}}</strong></span><br>
-                                    <span class="title-answers">answers</span>
-                                </p>
+                        <div class="essay-detail-right-content">
+                            <p></p>
+                            <div class=""></div>
+                            <div class="attrach-file">
+                                <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;"> Attached file</span></label>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div ng-if="currentEssay.status =='W'" class="col-md-6 right-answer clearfix">
-                    <div class="top-title clearfix">
-                        <p class="pull-right">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true" data-icon="&#x51;"></span>
-                            </button>
-                        </p>
-                    </div>
-                    <div class="essay-status">
-                        <span data-icon="&#xe0e1;"></span>
-                        <div class="essay-status-title">Waiting for review</div>
-                    </div>
-                </div>
-
-                <div ng-if="currentEssay.status =='R'" class="col-md-6 right-answer clearfix">
-                <div class="top-title clearfix">
-                    <h5 class="pull-left"><span><img src="assets/images/icon-h5-r-qa.png" alt=""></span>Answer</h5>
-                    <p class="pull-right">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" data-icon="&#x51;"></span>
-                        </button>
-                    </p>
-                </div>
-                <div class="top-user clearfix">
-                    <div class="col-md-2 img-avarta">
-                        <img ng-src="{{currentEssay.mavatar}}" alt="avatar">
-                    </div>
-                    <div class="col-md-6">
-                        <h6><a href="#/student/mentorProfile/{{currentEssay.mentorId}}"> {{currentEssay.mfirstName+' '+currentEssay.mlastName}}</a></h6>
-                        <span class="time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago</span>
-                    </div>
-
-                </div>
-                <div class="dt-txt-question" scroller="detailEssayAnswer">
-                    <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
-                </div>
-                <div class="pgt-right-ans clearfix">
-                    <div class="attrach-file">
-                        <div ng-if="currentEssay.downloadLinkM" class="attrach-file">
-                        <a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Download file</span></label></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
             </div>
         </div>
     </div>
+    <!-- /End Essay popup -->
+
+
+
+    <!--<div class="modal fade" id="essay-detail" class="waitReviewing">-->
+        <!--<div class="modal-dialog modal-add-video essay-popup">-->
+            <!--<div class="modal-content clearfix">-->
+                <!--<div class="btn-sl-qa">-->
+                    <!--<a class="prev-qa" href="#"><span data-icon="&#x34;"></span></a>-->
+                    <!--<a class="next-qa" href="#"><span data-icon="&#x35;"></span></a>-->
+                <!--</div>-->
+                <!--<div class="col-md-6 left-question">-->
+                    <!--<h5><span data-icon="&#x69;"></span>Essay Detail</h5>-->
+                    <!--<div class="top-user clearfix">-->
+                        <!--<div class="col-md-2 img-avarta">-->
+                            <!--<img ng-src="{{currentEssay.imageUrl}}" alt="Avatar">-->
+                        <!--</div>-->
+                        <!--<div class="col-md-10">-->
+                            <!--<h6>{{currentEssay.firstName + ' ' + currentEssay.lastName}}</h6>-->
+                            <!--<span class="time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="dt-txt-question" scroller="detailEssay">-->
+                        <!--<p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>-->
+                    <!--</div>-->
+                    <!--<div class="bottom-ctg">-->
+                        <!--<div class="attrach-file">-->
+                            <!--<a href="{{currentEssay.downloadLinkS}}"><label>-->
+                                <!--<span data-icon="&#xe092;"> Attached file</span></label></a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div ng-if="currentEssay.status =='P'" class="col-md-6 right-answer clearfix">-->
+                    <!--<div class="top-title clearfix">-->
+                        <!--<p class="pull-right">-->
+                            <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                                <!--<span aria-hidden="true" data-icon="&#x51;"></span>-->
+                            <!--</button>-->
+                        <!--</p>-->
+                    <!--</div>-->
+                    <!--<div class="essay-status">-->
+                        <!--<span data-icon="&#xe101;"></span>-->
+                        <!--<div class="essay-status-title">Reviewing By</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-12">-->
+                        <!--<div class="mentors-infor-img">-->
+                            <!--<div class="mentors-infor-img-wrapper">-->
+                                <!--<a href="#"><img ng-src="{{currentMentor.imageUrl}}"></a>-->
+                                <!--<div class="mentors-img-hover">-->
+                                    <!--<a href="#"><span data-icon="&#x4c;"></span></a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="mentors-infor-details">-->
+                            <!--<div class="mentors-name">-->
+                                <!--<a href="#/student/mentorProfile/{{currentEssay.mentorId}}">{{currentMentor.firstName + ' ' + currentMentor.lastName}}</a>-->
+                                <!--&lt;!&ndash;<span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span>&ndash;&gt;-->
+                                <!--<span  ng-if="currentMentor" star-rating stars="5"-->
+                                       <!--outer-star-selection="stars"-->
+                                       <!--readonly="true"-->
+                                       <!--outer-percent="rating"-->
+                                       <!--rating-define="star"-->
+                                       <!--rating-stars="{{currentMentor.avgrate}}"-->
+                                       <!--star-radius="8" sel-color="gold"-->
+                                       <!--back-color="#edf1f2" style="width:auto;">-->
+	                            <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="mentors-edu">-->
+                                <!--<span>{{currentMentor.accomplishments}}</span>-->
+                            <!--</div>-->
+                            <!--<div class="mentors-skill">-->
+                                <!--<span ng-repeat="sub in defaultSubject track by $index">{{sub.name}}{{$index < defaultSubject.length ? ',' : ''}}</span>-->
+                            <!--</div>-->
+                            <!--<div class="mentors-rate clearfix">-->
+                                <!--<button class="subscribers" data-icon="&#x4e;">-->
+                                    <!--<span>subscrible</span>-->
+                                    <!--<span class="number-subscribers">{{currentMentor.numsub}}</span>-->
+                                <!--</button>-->
+                                <!--<p class="likes">-->
+                                    <!--<span class="number-likes"><strong>{{currentMentor.numlike}}</strong></span><br>-->
+                                    <!--<span class="title-likes">likes</span>-->
+                                <!--</p>-->
+                                <!--<p class="videos">-->
+                                    <!--<span class="number-videos"><strong>{{currentMentor.numvideos}}</strong></span><br>-->
+                                    <!--<span class="title-videos">videos</span>-->
+                                <!--</p>-->
+                                <!--<p class="answers">-->
+                                    <!--<span class="number-answers"><strong>{{currentMentor.numAnswer}}</strong></span><br>-->
+                                    <!--<span class="title-answers">answers</span>-->
+                                <!--</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div ng-if="currentEssay.status =='W'" class="col-md-6 right-answer clearfix">-->
+                    <!--<div class="top-title clearfix">-->
+                        <!--<p class="pull-right">-->
+                            <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                                <!--<span aria-hidden="true" data-icon="&#x51;"></span>-->
+                            <!--</button>-->
+                        <!--</p>-->
+                    <!--</div>-->
+                    <!--<div class="essay-status">-->
+                        <!--<span data-icon="&#xe0e1;"></span>-->
+                        <!--<div class="essay-status-title">Waiting for review</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div ng-if="currentEssay.status =='R'" class="col-md-6 right-answer clearfix">-->
+                <!--<div class="top-title clearfix">-->
+                    <!--<h5 class="pull-left"><span><img src="assets/images/icon-h5-r-qa.png" alt=""></span>Answer</h5>-->
+                    <!--<p class="pull-right">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                            <!--<span aria-hidden="true" data-icon="&#x51;"></span>-->
+                        <!--</button>-->
+                    <!--</p>-->
+                <!--</div>-->
+                <!--<div class="top-user clearfix">-->
+                    <!--<div class="col-md-2 img-avarta">-->
+                        <!--<img ng-src="{{currentEssay.mavatar}}" alt="avatar">-->
+                    <!--</div>-->
+                    <!--<div class="col-md-6">-->
+                        <!--<h6><a href="#/student/mentorProfile/{{currentEssay.mentorId}}"> {{currentEssay.mfirstName+' '+currentEssay.mlastName}}</a></h6>-->
+                        <!--<span class="time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago</span>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+                <!--<div class="dt-txt-question" scroller="detailEssayAnswer">-->
+                    <!--<p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>-->
+                <!--</div>-->
+                <!--<div class="pgt-right-ans clearfix">-->
+                    <!--<div class="attrach-file">-->
+                        <!--<div ng-if="currentEssay.downloadLinkM" class="attrach-file">-->
+                        <!--<a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Download file</span></label></a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->

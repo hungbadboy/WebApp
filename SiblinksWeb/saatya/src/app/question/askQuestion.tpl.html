@@ -184,18 +184,18 @@
                         </button>
                         <div class="carousel-inner" role="listbox">
                             <div class="item" ng-class="{'active':currentIndexImage == $index}" ng-repeat="img in currentImage track by $index">
-                                <img  ng-src="{{img}}" style="margin: auto;"  width="800" height="600">
+                                <img  ng-src="{{img}}" style="margin: auto;"  width="800px" height="600px">
                             </div>
                         </div>
 
                         <!-- Left and right controls -->
-                        <a ng-non-bindable  class="left carousel-control" role="button" data-slide="prev">
-                            <span  data-target="#myCarousel" aria-hidden="true" data-icon="&#x34;"></span>
+                        <a ng-non-bindable data-target="#myCarousel" class="left carousel-control" role="button" data-slide="prev">
+                            <span   aria-hidden="true" data-icon="&#x34;"></span>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a ng-non-bindable class="right carousel-control" role="button" data-slide="next">
+                        <a ng-non-bindable data-target="#myCarousel" class="right carousel-control" role="button" data-slide="next">
                             <!--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
-                            <span  data-target="#myCarousel" aria-hidden="true" data-icon="&#x35;"></span>
+                            <span   aria-hidden="true" data-icon="&#x35;"></span>
                             <span class="sr-only">Next</span>
                         </a>
 

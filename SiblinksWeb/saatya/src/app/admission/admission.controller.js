@@ -24,40 +24,13 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 	$scope.countNext = 0;
 	$scope.indexAdmission = 0;
 	$scope.isShowUploadEssay = false;
+	var tab = $location.search().tab;
 	
 	init();
 	function init() {
 		// Get Admission content
 		fillAdmissionContent();
-		
-		// Get Top Mentor
-		MentorService.getTopMentorsByLikeRateSubcrible(LIMIT_TOP_MENTORS, offset, 'subcribe', userId).then(function (data) {
-            var data_result = data.data.request_data_result;
-            var subjects = myCache.get("subjects");
-            if (data_result) {
-                var listTopMentors = [];
-                for (var i = 0; i < data_result.length; i++) {
-                    var mentor = {};
-                    mentor.userid = data_result[i].userid;
-                    mentor.userName = data_result[i].userName;
-                    mentor.lastName = data_result[i].lastName != null ? data_result[i].lastName : '';
-                    mentor.firstName = data_result[i].firstName != null ? data_result[i].firstName : '';
-					mentor.fullName = mentor.firstName + ' ' +mentor.lastName;
-                    mentor.imageUrl = data_result[i].imageUrl;
-                    mentor.numlike = data_result[i].numlike;
-                    mentor.numsub = data_result[i].numsub;
-                    mentor.numvideos = data_result[i].numvideos;
-                    mentor.isOnline = data_result[i].isOnline;
-                    mentor.defaultSubjectId = data_result[i].defaultSubjectId;
-                    if(data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
-                    	mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
-                    }
-                    mentor.numAnswers = data_result[i].numAnswers;
-                    listTopMentors.push(mentor);
-                }
-            }
-            $scope.listTopmentors = listTopMentors;
-        });
+
 	}
 	
 	$scope.rangeAdmission = function(count){
@@ -107,22 +80,18 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 	/**
 	 * Next step Admission
 	 */
-	
+
 	 $scope.viewStepAdmission = function(step){
+		 nextStep(step);
+         $location.search('tab',step);
+	 }
+
+	 function  nextStep(step) {
 		 resetAtributes();
 		 $scope.stepAdmission = step;
 		 $scope.indexAdmission = step-1;
-		 if($scope.listAdmission.length != step){
-			 fillAdmissionContent();
-			 $scope.isShowUploadEssay = false;
-		 }
-		 else {
-			 $scope.isShowUploadEssay = true;
-		 }
-
-		 angular.element('.step li').removeClass('active');
-		 angular.element('#admission' + step).addClass('active');
-
+         tab = step;
+		 fillAdmissionContent();
 	 }
 	 
 	 /**
@@ -262,6 +231,21 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 			
 	    	$scope.listAdmission = data.data.request_data_result;
 	    	if($scope.listAdmission.length > 0){
+				if(!isEmpty(tab)){
+					$scope.stepAdmission = tab;
+					$scope.indexAdmission = tab-1;
+					if($scope.listAdmission.length != tab){
+						//fillAdmissionContent();
+						$scope.isShowUploadEssay = false;
+					}
+					else {
+						$scope.isShowUploadEssay = true;
+					}
+
+				}
+				if($scope.isShowUploadEssay == true){
+					return;
+				}
 	    		// Get Tutorial
 	    		AdmissionService.getVideoTuttorialAdmission($scope.listAdmission[$scope.indexAdmission].id).then(function(data) {
 	    	    	$scope.listVideoTuttorialAdmission = data.data.request_data_result;
