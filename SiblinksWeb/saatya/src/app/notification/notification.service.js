@@ -5,7 +5,7 @@ brotServices.factory('NotificationService', ['$http', function($http) {
   factory.getNotificationByUserId = function(userId) {
     var promise = $http({
       method: 'GET',
-      url: NEW_SERVICE_URL + 'notification/getNotificationNotReaded?uid='+userId+'&status=N'
+      url: NEW_SERVICE_URL + 'notification/getNotificationNotReaded?uid='+userId
     });
     return promise;
   };

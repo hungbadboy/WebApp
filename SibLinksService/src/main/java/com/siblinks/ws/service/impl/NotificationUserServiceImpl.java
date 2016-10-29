@@ -72,7 +72,7 @@ public class NotificationUserServiceImpl implements NotificationUserService {
      */
     @Override
     @RequestMapping(value = "/getNotificationNotReaded", method = RequestMethod.GET)
-    public ResponseEntity<Response> getNotificationNotReaded(@RequestParam final String uid, @RequestParam final String status) {
+    public ResponseEntity<Response> getNotificationNotReaded(@RequestParam final String uid) {
 
         SimpleResponse simpleResponse = null;
         try {
@@ -81,9 +81,7 @@ public class NotificationUserServiceImpl implements NotificationUserService {
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
 
-            String count = dao.getCount(
-                SibConstants.SqlMapper.SQL_GET_NOTIFICATION_NOT_READED_COUNT,
-                new Object[] { status, uid });
+            String count = dao.getCount(SibConstants.SqlMapper.SQL_GET_NOTIFICATION_NOT_READED_COUNT, new Object[] { "N", uid });
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "notification", "getNotificationNotReaded", "", count);
         } catch (DAOException e) {
             logger.error(e);

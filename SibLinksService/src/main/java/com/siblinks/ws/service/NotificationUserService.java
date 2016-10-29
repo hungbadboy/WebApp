@@ -38,7 +38,7 @@ public interface NotificationUserService {
      * @param status
      * @return
      */
-    public ResponseEntity<Response> getNotificationNotReaded(@RequestParam final String uId, @RequestParam final String status);
+    public ResponseEntity<Response> getNotificationNotReaded(@RequestParam final String uId);
 
     /**
      * 
