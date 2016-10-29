@@ -152,6 +152,7 @@ brotControllers.controller('UploadTutorialController',
       }
 
       var request = {
+        "authorID": userId,
         "vid": $scope.editVideo.vid,
         "title": title,
         "description": description,

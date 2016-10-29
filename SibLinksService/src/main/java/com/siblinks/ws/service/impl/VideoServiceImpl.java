@@ -62,12 +62,14 @@ import com.google.gson.JsonParser;
 import com.siblinks.ws.common.LoggedInChecker;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
+import com.siblinks.ws.model.ActivityLogData;
 import com.siblinks.ws.model.ManageVideoModel;
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.model.SubCategoryModel;
 import com.siblinks.ws.model.Tag;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
+import com.siblinks.ws.service.ActivityLogService;
 import com.siblinks.ws.service.VideoService;
 import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.Parameters;
@@ -100,6 +102,9 @@ public class VideoServiceImpl implements VideoService {
     VideoServiceImpl(final LoggedInChecker loggedInChecker) {
         this.loggedInChecker = loggedInChecker;
     }
+
+    @Autowired
+    ActivityLogService activiLogService;
 
     /**
      * {@inheritDoc}
@@ -538,6 +543,7 @@ public class VideoServiceImpl implements VideoService {
             if (vid != null && vid.length() > 0 && authorId != null && authorId.length() > 0) {
                 boolean status = deleteVideo(vid, authorId);
                 if (status) {
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "D", "You have been deleted video", authorId, null));
                     msg = "Delete video success";
                     response = new SimpleResponse(
                                                   SibConstants.SUCCESS,
@@ -2247,6 +2253,9 @@ public class VideoServiceImpl implements VideoService {
                     }
                 }
                 if (status) {
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "U", "You have been updated video", request
+                        .getRequest_data()
+                        .getAuthorID(), String.valueOf(vid)));
                     transactionManager.commit(statusDao);
                     message = "Success";
                 } else {
@@ -3053,6 +3062,8 @@ public class VideoServiceImpl implements VideoService {
                             dao.insertUpdateObject(entityName, queryParams);
                         }
                     }
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "C", "You have been created new video", String
+                        .valueOf(authorId), String.valueOf(vid)));
                     transactionManager.commit(status);
                     response = new SimpleResponse(SibConstants.SUCCESS, "videos", "insertVideo", "Success");
                 } catch (Exception e) {
@@ -3463,7 +3474,7 @@ public class VideoServiceImpl implements VideoService {
                         countFailed++;
                     }
                 }
-
+                activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "D", "You have been deleted video", authorId, null));
                 String msg = String.format("Deleted success %d videos and fail %d videos", countSuccess, countFailed);
                 response = new SimpleResponse(
                                               SibConstants.SUCCESS,

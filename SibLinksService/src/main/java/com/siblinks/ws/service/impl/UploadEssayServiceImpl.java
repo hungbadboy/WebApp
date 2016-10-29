@@ -60,10 +60,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
+import com.siblinks.ws.model.ActivityLogData;
 import com.siblinks.ws.model.Download;
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
+import com.siblinks.ws.service.ActivityLogService;
 import com.siblinks.ws.service.UploadEssayService;
 import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.Parameters;
@@ -95,6 +97,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
     @Autowired
     private PlatformTransactionManager transactionManager;
+
+    @Autowired
+    ActivityLogService activiLogService;
 
     /**
      * {@inheritDoc}
@@ -996,6 +1001,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     }
                 }
                 if (flag) {
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You have been updated essay", mentorId, essayId));
                     reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Success");
                 } else {
                     reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", "Failed");
@@ -1056,6 +1062,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     }
 
                     if (flag) {
+                        activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "C", "You have been replied essay", String
+                            .valueOf(mentorId), String.valueOf(essayId)));
                         transactionManager.commit(status);
                         reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "insertCommentEssay", "Success");
                     } else {

@@ -173,7 +173,7 @@
                                                        <img src="assets/images/img-attacfile.png" alt=""><span> {{fileName}} - {{fileSize}}</span>
                                                     </div>
                                                     
-                                                    <div class="clearfix" ng-if="!comments && essay.status == 'P'">
+                                                    <div class="clearfix" ng-if="!comments && essay.status == 'P' && tabpane != 3">
                                                         <div class="btnreply pull-right">
                                                             <input type="button" name="reply"  value="Reply" ng-click="reply()">
                                                         </div>

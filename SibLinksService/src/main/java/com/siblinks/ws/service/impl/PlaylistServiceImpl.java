@@ -53,9 +53,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
+import com.siblinks.ws.model.ActivityLogData;
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
+import com.siblinks.ws.service.ActivityLogService;
 import com.siblinks.ws.service.PlaylistService;
 import com.siblinks.ws.util.RandomString;
 import com.siblinks.ws.util.SibConstants;
@@ -82,6 +84,9 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Autowired
     private PlatformTransactionManager transactionManager;
+
+    @Autowired
+    ActivityLogService activiLogService;
 
     /**
      * {@inheritDoc}
@@ -164,6 +169,8 @@ public class PlaylistServiceImpl implements PlaylistService {
                             dao.insertUpdateObject(SibConstants.SqlMapperBROT126.SQL_ADD_VIDEOS_PLAYLIST, queryParams);
                         }
                     }
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "C", "You have been created new playlist", String
+                        .valueOf(createBy), String.valueOf(plid)));
                     map.put("message", "success");
                     reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", map);
                 } else {
@@ -242,6 +249,10 @@ public class PlaylistServiceImpl implements PlaylistService {
         try {
             boolean status = deletePlaylist(request.getRequest_playlist().getPlid(), request.getRequest_playlist().getCreateBy());
             if (status) {
+                activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "D", "You have been deleted playlist", request
+                    .getRequest_playlist()
+                    .getCreateBy(), null));
+
                 reponse = new SimpleResponse("" + true, "playlist", "deletePlaylist", "success");
             } else {
                 reponse = new SimpleResponse("" + true, "playlist", "deletePlaylist", "failed");
@@ -384,6 +395,12 @@ public class PlaylistServiceImpl implements PlaylistService {
                 countFail++;
             }
         }
+        try {
+            activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "D", "You have been deleted playlist", uid, null));
+        } catch (Exception e) {
+            logger.debug(e.getCause());
+            e.printStackTrace();
+        }
         String msg = String.format("Delete success %d playlist and failed %d playlist", countSuccess, countFail);
         reponse = new SimpleResponse("" + true, "playlist", "deleteMultiplePlaylist", msg);
 
@@ -451,6 +468,9 @@ public class PlaylistServiceImpl implements PlaylistService {
                     } else {
                         map.put("newImage", oldImage);
                     }
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "U", "You have been updated playlist", String
+                        .valueOf(createBy), String.valueOf(plid)));
+
                     reponse = new SimpleResponse("" + true, "playlist", "updatePlaylist", map);
 
                     if (newImage != null && !"".equals(newImage) && oldImage != null && !"".equals(oldImage)) {

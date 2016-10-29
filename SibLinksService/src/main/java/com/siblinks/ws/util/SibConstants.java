@@ -704,5 +704,6 @@ public class SibConstants {
         public static final String TYPE_ESSAY = "3";
         public static final String TYPE_VIDEO_ADMISSION = "4";
         public static final String TYPE_ATICAL = "5";
+    public static final String TYPE_PLAYLIST = "6";
         
 }
