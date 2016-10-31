@@ -165,6 +165,37 @@ brotControllers
                         }
                     });
                 }
+                $scope.currentIndexImage = 0;
+                $scope.zoomImage = function (img, index) {
+                    $scope.currentIndexImage = index;
+                    $scope.currentImage = img;
+                    angular.element(document.getElementById('modalImage')).modal();
+                }
+                $scope.setCurrentIndex = function (index) {
+                    $scope.currentIndexImage = index;
+                }
+                $scope.nextImageSlide = function (str) {
+                    if (isEmpty($scope.currentImage) || $scope.currentImage.length == 1) {
+                        return;
+                    }
+                    var len = $scope.currentImage.length;
+                    if (str == 'next') {
+                        if ($scope.currentIndexImage == len - 1) {
+                            $scope.currentIndexImage = 0;
+                        }
+                        else {
+                            $scope.currentIndexImage = $scope.currentIndexImage + 1;
+                        }
+                    } else {
+                        if ($scope.currentIndexImage == 0) {
+                            $scope.currentIndexImage = len - 1;
+                        }
+                        else {
+                            $scope.currentIndexImage = $scope.currentIndexImage - 1;
+                        }
+                    }
+                }
+
 
                 function detectMultiImage(imagePath) {
                     if (isEmpty(imagePath)) {
@@ -332,12 +363,7 @@ brotControllers
                     $scope.isShowOrder = $scope.isShowOrder === false ? true : false;
                 };
 
-                $scope.currentIndexImage = 0;
-                $scope.zoomImage = function (img, index) {
-                    $scope.currentIndexImage = index;
-                    $scope.currentImage = img;
-                    angular.element(document.getElementById('modalImage')).modal();
-                }
+
 
                 $scope.closeImage = function () {
                     $(".popup-images, .form-ask-question").css({"left": "100%"});
@@ -456,27 +482,17 @@ brotControllers
                     if (isEmpty(userId) ||userId=='-1') {
                         $scope.askErrorMsg='Please login before you ask a question';
                         $rootScope.myVarU = !$scope.myVarU;
-                        $timeout(function () {
-                            $rootScope.myVarU = false;
-                        }, 2500);
                         return;
                     }
                     // get question of student of ask question
-                    if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
+                    if ($scope.selectedSubject == null || $scope.selectedSubject === undefined
+                        || $scope.selectedSubject.originalObject == null ) {
                         $scope.askErrorMsg='Please choose category';
-                        $("#autocompleteCate_value").focus();
-                        $rootScope.myVarC = !$scope.myVarC;
-                        $timeout(function () {
-                            $rootScope.myVarC = false;
-                        }, 2500);
                         return;
                     }
                     var questions = $('#autocompleteQuest_value').val();
                     if (!questions) {
                         $rootScope.myVarQ = !$scope.myVarQ;
-                        $timeout(function () {
-                            $rootScope.myVarQ = false;
-                        }, 2500);
                         $scope.askErrorMsg='Please enter your question';
                         $("#autocompleteQuest_value").focus();
                         return;
@@ -484,10 +500,7 @@ brotControllers
 
                     if (isEmpty(userId) ||userId=='-1') {
                         $scope.askErrorMsg='Please login before you ask a question';
-                        $rootScope.myVarU = !$scope.myVarU;
-                        $timeout(function () {
-                            $rootScope.myVarU = false;
-                        }, 2500);
+
                         return;
                     }
                     fd = new FormData();
@@ -541,21 +554,15 @@ brotControllers
 
                 $scope.updateQuestion = function () {
                     // get question of student
-                    if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
+                    if ($scope.selectedSubject == null || $scope.selectedSubject === undefined
+                        || $scope.selectedSubject.originalObject == null ) {
                         $scope.askErrorMsg='Please choose category';
                         $("#autocompleteCate_value").focus();
-                        $rootScope.myVarC = !$scope.myVarC;
-                        $timeout(function () {
-                            $rootScope.myVarC = false;
-                        }, 2500);
                         return;
                     }
                     var questions = $('#autocompleteQuest_value').val();
                     if (!questions) {
-                        $rootScope.myVarQ = !$scope.myVarQ;
-                        $timeout(function () {
-                            $rootScope.myVarQ = false;
-                        }, 2500);
+
                         $scope.askErrorMsg='You enter your question';
                         $("#autocompleteQuest_value").focus();
                         return;
@@ -563,10 +570,6 @@ brotControllers
 
                     if (isEmpty(userId) ||userId=='-1') {
                         $scope.askErrorMsg='Please login before edit a question';
-                        $rootScope.myVarU = !$scope.myVarU;
-                        $timeout(function () {
-                            $rootScope.myVarU = false;
-                        }, 2500);
                         return;
                     }
                     fd = new FormData();

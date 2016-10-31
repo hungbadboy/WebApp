@@ -848,6 +848,10 @@ brotControllers.directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '
                 showAll();
             }
 
+            if(scope.searchStr == null||scope.searchStr == ''){
+                scope.selectedObject = null;
+            }
+
             if (scope.inputChanged) {
                 str = scope.inputChanged(str);
             }

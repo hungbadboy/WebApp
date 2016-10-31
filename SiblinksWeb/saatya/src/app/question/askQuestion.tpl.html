@@ -110,7 +110,7 @@
                                                                         <li class="item" ng-repeat="aimage in answer.imageAnswer track by $index">
                                                                             <div ng-mouseover="imageHoverIn('aimg_'+answer.aid +''+$index)"
                                                                                  ng-mouseleave="imageHoverOut('aimg_'+answer.aid +''+$index)" class="item-img">
-                                                                                <img   ng-click="zoomImage(image)" ng-src="{{aimage}}">
+                                                                                <img ng-click="zoomImage(answer.imageAnswer,$index)" ng-src="{{aimage}}">
                                                                                 <div id="aimg_{{+answer.aid +''+$index}}" class="item-hover">
                                                                                     <img src="assets/images/ask question/look-img.png">
                                                                                 </div>
@@ -156,26 +156,14 @@
                 <!--</div>-->
                 <div id="modalImage" class="modal face">
 
-                    
+                    <div id="myCarousel" class="carousel slide container"  data-interval="false" >
+                        <!--&lt;!&ndash; Indicators &ndash;&gt;-->
+                        <!--<ol class="carousel-indicators">-->
+                            <!--<li ng-class="{'active':currentIndexImage == $index}" ng-repeat="img in currentImage track by $index" data-target="#myCarousel">-->
+                                <!--<img  data-slide-to="{{$index}}" ng-src="{{img}}" class="thumb">-->
+                            <!--</li>-->
 
-                    <!-- Modal Content (The Image) -->
-
-                    <!--<div class="popup-images-wrapper">-->
-                        <!--<ul id="bxslider" class="bxslider">-->
-                            <!--<li ng-repeat="img in currentImage"><img ng-src="{{img}}"  /></li>-->
-                        <!--</ul>-->
-                        <!-- The thumbnails -->
-                        <!--<div id="bx-pager">-->
-                            <!--<a ng-repeat="img in currentImage track by $index"  data-slideIndex="{{$index}}"><img ng-src="{{img}}"  /></a>-->
-
-                        <!--</div>-->
-                    <!--</div>-->
-                    <div id="myCarousel" class="carousel slide container" >
-                        <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                            <li ng-class="{'active':currentIndexImage == $index}" ng-repeat="img in currentImage track by $index" data-target="#myCarousel" data-slide-to="{{$index}}" class="active"></li>
-
-                        </ol>
+                        <!--</ol>-->
 
                         <!-- Wrapper for slides -->
                         <!-- The Close Button -->
@@ -184,20 +172,30 @@
                         </button>
                         <div class="carousel-inner" role="listbox">
                             <div class="item" ng-class="{'active':currentIndexImage == $index}" ng-repeat="img in currentImage track by $index">
-                                <img  ng-src="{{img}}" style="margin: auto;"  width="800px" height="600px">
+                                <img  ng-src="{{img}}" style="margin: auto;"  width="500px" height="300px">
                             </div>
                         </div>
 
                         <!-- Left and right controls -->
-                        <a ng-non-bindable data-target="#myCarousel" class="left carousel-control" role="button" data-slide="prev">
-                            <span   aria-hidden="true" data-icon="&#x34;"></span>
+                        <a   ng-click="nextImageSlide('prev')" class="left carousel-control" role="button" >
+                            <span aria-hidden="true" data-icon="&#x34;"></span>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a ng-non-bindable data-target="#myCarousel" class="right carousel-control" role="button" data-slide="next">
+                        <a  ng-click="nextImageSlide('next')" class="right carousel-control" role="button" >
                             <!--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
-                            <span   aria-hidden="true" data-icon="&#x35;"></span>
+                            <span aria-hidden="true" data-icon="&#x35;"></span>
                             <span class="sr-only">Next</span>
                         </a>
+
+                        <!-- Thumbnails -->
+                        <ul class="thumbnails-carousel clearfix">
+                            <div id="ulthumbnails-carouselcenter" class="center clearfix">
+                                <li id="ulthumbnails-carouselli" ng-click="setCurrentIndex($index)" ng-repeat="imgThumb in currentImage track by $index">
+                                    {{currentIndexImage +'=='+ $index}}
+                                    <img data-target="#myCarousel" style="height: 80px;width: 80px" class="{{currentIndexImage == $index ? 'active-thumbnail':''}}" data-slide-to="{{$index}}"  ng-src="{{imgThumb}}">
+                                </li>
+                            </div>
+                        </ul>
 
                     </div>
 
@@ -229,7 +227,7 @@
                      selected-object="selectedSubject"
                      local-data="subjects" search-fields="subject" title-field="subject"
                      image-field="image" minlength="0" input-class="form-control form-control-small"
-                     match-class="highlight"/>
+                     match-class="highlight" />
                 </p>
                 <p><textarea id="autocompleteQuest_value" placeholder="{{questionIndex}}"></textarea></p>
                 <output style="width: auto;float: left;" class="upload-image " id="list">
