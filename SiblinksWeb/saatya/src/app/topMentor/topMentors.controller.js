@@ -2,6 +2,7 @@ brotControllers.controller('TopMentorCtrl', ['$scope', '$http', 'MentorService',
 	var LIMIT_TOP_MENTORS = 5;
 	var OFFSET = 0;
 	var userId = localStorage.getItem('userId') || '-1';
+	var subjects = JSON.parse(localStorage.getItem('subjects'));
 	init();
 	function init() {
         //get top mentors by subcribe
@@ -22,7 +23,7 @@ brotControllers.controller('TopMentorCtrl', ['$scope', '$http', 'MentorService',
 	                mentor.isOnline = data_result[i].isOnline;
 	                mentor.defaultSubjectId = data_result[i].defaultSubjectId;
 	                if(data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
-	                    mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, $scope.subjects);
+	                    mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
 	                }
 	                mentor.numAnswers = data_result[i].numAnswers;
 	                listTopMentors.push(mentor);
