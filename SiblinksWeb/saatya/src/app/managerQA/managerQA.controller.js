@@ -600,13 +600,18 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         };
 
         $scope.transferPage = function (path, id) {
+            angular.element(document.getElementById('answer-detail')).modal('toggle');
             if(id+'' == userId){
-                $window.location.href ='#/mentor/mentorProfile';
-                $window.location.reload();
+                $timeout(function () {
+                    $window.location.href ='#/mentor/mentorProfile';
+                }, 300);
+
                 return;
             }
-            $window.location.href ='#'+path+id;
-            $window.location.reload();
+            $timeout(function () {
+                $window.location.href ='#'+path+id;
+            }, 300);
+
         }
 
         // show confirm when click other page
