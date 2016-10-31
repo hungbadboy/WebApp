@@ -79,7 +79,7 @@
                             <span class="post-time">Replied {{convertUnixTimeToTime(currentEssay.docReviewedDate)}} ago</span>
                             <p scroller="detailEssay2" class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
                             <div class=""></div>
-                            <div class="attrach-file {{currentEssay.status =='R'?'q-answered':''}}">
+                            <div class="attrach-file q-answered">
                                 <a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Download file</span></label></a>
                             </div>
                         </div>
