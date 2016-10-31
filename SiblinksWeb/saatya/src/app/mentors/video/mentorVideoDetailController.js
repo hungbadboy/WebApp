@@ -1,6 +1,6 @@
 brotControllers.controller('MentorVideoDetailController', 
-  ['$rootScope','$scope', '$modal', '$routeParams', '$http', '$location', 'videoDetailService','PlaylistService', 'VideoService', 'CommentService',
-                                       function ($rootScope,$scope, $modal, $routeParams, $http, $location, videoDetailService, PlaylistService, VideoService, CommentService) {
+  ['$rootScope','$scope', '$modal', '$routeParams', '$location', 'videoDetailService','PlaylistService', 'VideoService', 'CommentService',
+                                       function ($rootScope,$scope, $modal, $routeParams, $location, videoDetailService, PlaylistService, VideoService, CommentService) {
 
 
     var vid = $routeParams.vid;
@@ -71,14 +71,14 @@ brotControllers.controller('MentorVideoDetailController',
                             $scope.pos = index;
                         }
                     } else {
-                        window.location.href = '#/mentor/video/detail/'+$scope.videos[0].vid+'/list/'+plid+'';
+                        $location.path('/mentor/video/detail/'+$scope.videos[0].vid+'/list/'+plid);
                     }                    
                 } else{
                     loadVideoDetail($scope.videos[0]);
                     $scope.pos = 0;
                 }
             } else
-                window.location.href = '#/mentor/playlist/detail/'+plid+'';
+                $location.path('/mentor/playlist/detail/'+plid);
         });
     }
 
