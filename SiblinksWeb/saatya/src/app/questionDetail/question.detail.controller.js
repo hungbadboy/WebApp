@@ -16,19 +16,18 @@ brotControllers
             'HomeService',
             'CommentService',
             'StudentService',
-            'myCache','$document',
+            'myCache', '$document',
             function ($sce, $http, $scope, $rootScope, $routeParams,
                       $location, $timeout, $log, $window,
                       QuestionsService, AnswerService,
-
                       HomeService, CommentService, StudentService,
-                      myCache,$document) {
+                      myCache, $document) {
                 var userId = localStorage.getItem('userId');
                 $scope.userId = userId;
                 var question_id = $routeParams.question_id;
                 $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
-                var oldImagePath="";
-                var oldImagePathEdited="";
+                var oldImagePath = "";
+                var oldImagePathEdited = "";
                 var qidEdit;
                 var imagePathOld_BK;
 
@@ -38,7 +37,7 @@ brotControllers
                 $scope.isShowEdit = false;
                 $scope.propertyName = 'TIMESTAMP';
                 $scope.reverse = true;
-                var bodyRef = angular.element( $document[0].body );
+                var bodyRef = angular.element($document[0].body);
                 $scope.subjects = JSON.parse(localStorage.getItem('subjects'));
                 init();
 
@@ -49,9 +48,9 @@ brotControllers
 
                     QuestionsService.getQuestionById(question_id).then(function (data) {
                         var obj = data.data.request_data_result;
-                        if(obj.length == 0){
+                        if (obj.length == 0) {
                             $scope.errorMessage = "Not found question";
-                            return ;
+                            return;
                         }
                         var viewNew = parseInt(obj[0].numViews, 10) + 1;
                         $scope.initCategory = {subject: obj[0].subject, subjectId: obj[0].subjectId};
@@ -85,7 +84,7 @@ brotControllers
                     });
 
                     var listAnswer = [];
-                    QuestionsService.getAnswerByQid(question_id, type, "", "",userId).then(function (data) {
+                    QuestionsService.getAnswerByQid(question_id, type, "", "", userId).then(function (data) {
 
                         var answers = data.data.request_data_result;
                         $scope.countAnswer = answers.length;
@@ -112,7 +111,7 @@ brotControllers
                 }
 
                 $scope.removeImgOld = function (index) {
-                    if(!isEmpty($scope.imagePathOld)){
+                    if (!isEmpty($scope.imagePathOld)) {
                         oldImagePathEdited += $scope.imagePathOld[index];
                     }
                     $scope.imagePathOld.splice(index, 1);
@@ -125,14 +124,14 @@ brotControllers
                 }
 
                 function detectMultiImage(imagePath) {
-                    if(isEmpty(imagePath)){
+                    if (isEmpty(imagePath)) {
                         return null;
                     }
-                    var result=[];
+                    var result = [];
                     if (imagePath != null && imagePath.indexOf(";") != -1) {
-                        for(var i = 0;i<imagePath.split(";").length; i++){
+                        for (var i = 0; i < imagePath.split(";").length; i++) {
                             var str = imagePath.split(";")[i];
-                            if(!isEmpty(str)){
+                            if (!isEmpty(str)) {
                                 result.push(str);
                             }
 
@@ -151,10 +150,10 @@ brotControllers
                         AnswerService.likeAnswer(userId, aid + "").then(function (data) {
                             if (data.data.status == 'true') {
                                 if (data.data.request_data_type == "like") {
-                                    $('.heart'+aid).attr('id','heart');
+                                    $('.heart' + aid).attr('id', 'heart');
                                 }
                                 else {
-                                    $('.heart'+aid).attr('id','');
+                                    $('.heart' + aid).attr('id', '');
                                 }
                             }
                         });
@@ -168,22 +167,22 @@ brotControllers
                     qidEdit = qid;
                     $scope.imagePathOld = imagePathOld_BK;
                     $scope.initCategory = {subject: $scope.question.subject, subjectId: $scope.question.subjectId};
-                    $scope.$broadcast('angucomplete-alt:changeInput',"autocompleteCate", $scope.initCategory);
+                    $scope.$broadcast('angucomplete-alt:changeInput', "autocompleteCate", $scope.initCategory);
                     $('#autocompleteQuest_value').val($scope.question.question_text);
                     $(".form-ask-question").css({"left": 0});
 
                 }
                 $scope.deleteQuestion = function (qid) {
                     $rootScope.$broadcast('open');
-                        QuestionsService.removePost(qid).then(function (data) {
-                            if (data.data.status == "true") {
-                                window.location.href = '#/ask_a_question/-1';
-                            }
-                            else {
-                               $scope.errorMessage = "Can't delete question";
-                            }
-                            $rootScope.$broadcast('close');
-                        });
+                    QuestionsService.removePost(qid).then(function (data) {
+                        if (data.data.status == "true") {
+                            window.location.href = '#/ask_a_question/-1';
+                        }
+                        else {
+                            $scope.errorMessage = "Can't delete question";
+                        }
+                        $rootScope.$broadcast('close');
+                    });
 
                 }
                 $scope.filesArray = [];
@@ -198,7 +197,7 @@ brotControllers
                 $scope.updateQuestion = function () {
                     // detail question
                     if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
-                        $scope.askErrorMsg='Please choose category';
+                        $scope.askErrorMsg = 'Please choose category';
                         $("#autocompleteCate_value").focus();
                         $rootScope.myVarC = !$scope.myVarC;
                         $timeout(function () {
@@ -212,13 +211,13 @@ brotControllers
                         $timeout(function () {
                             $rootScope.myVarQ = false;
                         }, 2500);
-                        $scope.askErrorMsg='Please input your question';
+                        $scope.askErrorMsg = 'Please input your question';
                         $("#autocompleteQuest_value").focus();
                         return;
                     }
 
-                    if (isEmpty(userId) ||userId=='-1') {
-                        $scope.askErrorMsg='Please login before edit a question';
+                    if (isEmpty(userId) || userId == '-1') {
+                        $scope.askErrorMsg = 'Please login before edit a question';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;
@@ -236,13 +235,13 @@ brotControllers
                     }
 
                     var totalLenth = $scope.filesArray.length;
-                    if(isEmpty(oldImagePathEdited)){
-                        oldImagePathEdited = oldImagePathEdited.substr(0,oldImagePathEdited.length-1);
+                    if (isEmpty(oldImagePathEdited)) {
+                        oldImagePathEdited = oldImagePathEdited.substr(0, oldImagePathEdited.length - 1);
                         totalLenth += oldImagePathEdited.split(";");
                     }
 
                     if (totalLenth > MAX_IMAGE) {
-                        $scope.askErrorMsg='You only upload ' + MAX_IMAGE +' image';
+                        $scope.askErrorMsg = 'You only upload ' + MAX_IMAGE + ' image';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;
@@ -250,8 +249,8 @@ brotControllers
                         return;
                     }
 
-                    if(totalSize > MAX_SIZE_IMG_UPLOAD){
-                        $scope.askErrorMsg='Image over 5Mb';
+                    if (totalSize > MAX_SIZE_IMG_UPLOAD) {
+                        $scope.askErrorMsg = 'Image over 5Mb';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;
@@ -269,27 +268,27 @@ brotControllers
                     QuestionsService.updateQuestion(fd).then(function (data) {
                         if (data.data.status == "true") {
                             $(".popup-images, .form-ask-question").css({"left": "100%"});
-                           // window.location.href = '/#/ask_a_question';
+                            // window.location.href = '/#/ask_a_question';
                             window.location.reload();
                         }
                         else {
-                            $scope.askErrorMsg =data.data.request_data_result;
+                            $scope.askErrorMsg = data.data.request_data_result;
                         }
                         $rootScope.$broadcast('close');
                     });
 
 
                 };
-                $scope.onFileSelect = function ($files,errFiles) {
-                    $scope.askErrorMsg= "";
+                $scope.onFileSelect = function ($files, errFiles) {
+                    $scope.askErrorMsg = "";
                     var errFile = errFiles && errFiles[0];
-                    if(!isEmpty(errFile)){
+                    if (!isEmpty(errFile)) {
                         $scope.askErrorMsg = 'File wrong format. Please select file image!';
                         return;
                     }
-                    if ($files!=null && $files.length > MAX_IMAGE){
-                        $scope.askErrorMsg = 'You only upload ' + MAX_IMAGE +' image';
-                        return ;
+                    if ($files != null && $files.length > MAX_IMAGE) {
+                        $scope.askErrorMsg = 'You only upload ' + MAX_IMAGE + ' image';
+                        return;
                     }
                     if ($files != null) {
                         for (var i = 0; i < $files.length; i++) {
@@ -300,8 +299,8 @@ brotControllers
                 };
 
                 $scope.redirectForum = function () {
-                    if (isEmpty(userId) ||userId=='-1') {
-                        $scope.askErrorMsg='Please login before you ask a question';
+                    if (isEmpty(userId) || userId == '-1') {
+                        $scope.askErrorMsg = 'Please login before you ask a question';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;
@@ -310,7 +309,7 @@ brotControllers
                     }
                     // add question detail
                     if ($scope.selectedSubject == null || $scope.selectedSubject === undefined || $scope.selectedSubject.originalObject == null) {
-                        $scope.askErrorMsg='Please choose category';
+                        $scope.askErrorMsg = 'Please choose category';
                         $("#autocompleteCate_value").focus();
                         $rootScope.myVarC = !$scope.myVarC;
                         $timeout(function () {
@@ -324,14 +323,14 @@ brotControllers
                         $timeout(function () {
                             $rootScope.myVarQ = false;
                         }, 2500);
-                        $scope.askErrorMsg='Please input your question';
+                        $scope.askErrorMsg = 'Please input your question';
                         $("#autocompleteQuest_value").focus();
                         return;
                     }
 
 
                     if ($scope.filesArray.length > MAX_IMAGE) {
-                        $scope.askErrorMsg='You only upload ' + MAX_IMAGE +' image';
+                        $scope.askErrorMsg = 'You only upload ' + MAX_IMAGE + ' image';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;
@@ -349,8 +348,8 @@ brotControllers
                         }
                     }
 
-                    if(totalSize > MAX_SIZE_IMG_UPLOAD){
-                        $scope.askErrorMsg='Image over 5Mb';
+                    if (totalSize > MAX_SIZE_IMG_UPLOAD) {
+                        $scope.askErrorMsg = 'Image over 5Mb';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;
@@ -361,7 +360,7 @@ brotControllers
                     fd.append('userId', userId);
                     fd.append('content', questions);
 
-                    fd.append('subjectId',$scope.selectedSubject.originalObject .subjectId);
+                    fd.append('subjectId', $scope.selectedSubject.originalObject.subjectId);
                     $rootScope.$broadcast('open');
                     HomeService.addQuestion(fd).then(function (data) {
                         if (data.data.status == "true") {
@@ -370,7 +369,7 @@ brotControllers
                             window.location.reload();
                         }
                         else {
-                            $scope.askErrorMsg =data.data.request_data_result;
+                            $scope.askErrorMsg = data.data.request_data_result;
                         }
                         $rootScope.$broadcast('close');
                     });
@@ -391,31 +390,31 @@ brotControllers
                     $('#autocompleteQuest_value').val("");
                     $(".form-ask-question").css({"left": 0});
                     $scope.filesArray = [];
-                }
-                
+                };
+
                 $scope.closePopupAskQuestion = function () {
                     bodyRef.removeClass('disableScroll');
                     $(".popup-images, .form-ask-question").css({"left": "100%"});
                     $scope.askErrorMsg = '';
-                }
-                
+                };
+
                 $scope.imageHoverIn = function (eId) {
-                	angular.element("#"+eId).addClass('show');
-                }
-                
+                    angular.element("#" + eId).addClass('show');
+                };
+
                 $scope.imageHoverOut = function (eId) {
-                	angular.element("#"+eId).removeClass('show');
-                }
+                    angular.element("#" + eId).removeClass('show');
+                };
 
                 $scope.currentIndexImage = 0;
                 $scope.zoomImage = function (img, index) {
                     $scope.currentIndexImage = index;
                     $scope.currentImage = img;
                     angular.element(document.getElementById('modalImage')).modal();
-                }
+                };
                 $scope.setCurrentIndex = function (index) {
                     $scope.currentIndexImage = index;
-                }
+                };
                 $scope.nextImageSlide = function (str) {
                     if (isEmpty($scope.currentImage) || $scope.currentImage.length == 1) {
                         return;
@@ -436,5 +435,10 @@ brotControllers
                             $scope.currentIndexImage = $scope.currentIndexImage - 1;
                         }
                     }
-                }
+                };
+
+                $scope.validateShowName = function (fistName, lastName, userName) {
+                    return displayUserName(fistName, lastName, userName).trim();
+                };
+
             }]);

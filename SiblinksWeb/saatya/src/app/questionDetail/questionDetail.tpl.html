@@ -97,7 +97,7 @@
                                                     <div class="detail-mentor-answer">
                                                         <div class="mentor-name">
                                                             <a href="#/student/mentorProfile/{{answer.authorID}}">
-                                                                <strong>{{answer.firstName+""+ answer.lastName}}</strong>&nbsp;</a>
+                                                                <strong>{{validateShowName(answer.firstName,answer.lastName,answer.userName)}}</strong>&nbsp;</a>
                                                             &nbsp;&nbsp;<span>answered {{answer.timeStamp}} ago</span>
                                                             <span>{{answer.numlike}} <span
                                                                     data-icon="&#xe089;" class="heart{{answer.aid}}" id="{{answer.like=='1'?'heart':''}}"
