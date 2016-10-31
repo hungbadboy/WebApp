@@ -31,7 +31,7 @@
     </ul>
     </div>
     <!-- Essay popup -->
-    <div class="modal fade" id="essay-detail">
+    <div class="modal fade" id="essay-detail"> 
         <div class="modal-dialog modal-add-video modal-qa modal-article modal-essay">
             <div class="modal-content clearfix">
                 <div class="col-md-3 left-question">
@@ -65,11 +65,11 @@
                     <button type="button" class="close close-popup-detail" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" data-icon="&#x51;"></span>
                     </button>
-                    <div class="essay-detail-right-content-wrapper">
+                    <div class="essay-detail-right-content-wrapper" ng-if="currentEssay.status !='R'">
                         <div class="essay-detail-right-content">
                             <p class="pre-wrap" scroller="detailEssay1">{{currentEssay.descriptionOfEssay}}</p>
                             <div class=""></div>
-                            <div class="attrach-file">
+                            <div class="attrach-file"> 
                                 <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;">  Download file</span></label>
                                 </a>
                             </div>
@@ -82,7 +82,7 @@
                         <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
                         </div>
                         <div class=""></div>
-                        <div class="attrach-file">
+                        <div class="attrach-file {{currentEssay.status =='R'?'q-answered':''}}">
                             <a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Download file</span></label></a>
                         </div>
                     </div>

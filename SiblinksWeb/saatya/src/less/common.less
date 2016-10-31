@@ -238,6 +238,7 @@
     margin-left: -51px;
     width: 100%;
 }
+
 /*Student. ModalImage*/
 div#modalImage #myCarousel {
     margin-top: 20px;
@@ -1225,12 +1226,26 @@ footer#footer {
 }
 
 /*Mentor.menu*/
+#sidebar-menu .navigation .nav > li > a span.sub-menu{
+    -webkit-transform: rotate(180deg) ;   
+    -moz-transform: rotate(180deg) ;   
+    -ms-transform: rotate(180deg) ;   
+    -o-transform: rotate(180deg) ;   
+    transform: rotate(180deg) ;   
+}
 #sidebar-menu .navigation .nav > .active > a span.sub-menu {
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    transform: rotate(-90deg);
+    -webkit-transform: rotate(360deg) !important;   
+    -moz-transform: rotate(360deg) !important;   
+    -ms-transform: rotate(360deg) !important;   
+    -o-transform: rotate(360deg) !important;   
+    transform: rotate(360deg) !important;   
+}
+#sidebar-menu .navigation .nav > .active > a span.sub-menu.show{
+    -webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    -o-transform: rotate(-180deg);
+    transform: rotate(-180deg);   
 }
 
 /*Mentor.QA*/
@@ -1390,7 +1405,10 @@ iframe#video {
 .modal-article.modal-essay.modal-add-video .right-answer .answer-by p:before {
   height: 0;
 }
-.modal-article.modal-essay.modal-add-video .right-answer .attrach-file {
+#essay-detail .attrach-file label {
+  float: none; 
+}
+.modal-article.modal-essay.modal-add-video .right-answer .attrach-file.q-answered {
     float: right;
 }
 .modal-article.modal-essay.modal-add-video .right-answer .answer-by {
@@ -1399,6 +1417,20 @@ iframe#video {
     margin-bottom: 30px;
     width: 100%;
     float: left;
+}
+#essay-detail .modal-add-video .right-answer .dt-txt-question {
+    max-height: 103px;
+    height: auto;
+}
+
+#terms-of-use .top-videos-header-title span{
+    margin-right: 12px;
+}
+#videos-details ul#series-video-list{
+    height: 285px;
+}
+.manager-detail-video .play-video .group-video-pl .item-pl-video .list-videp-w li{
+    padding-top: 5px;
 }
 /**** End HongTTT *****/
 
@@ -1563,7 +1595,7 @@ output.up-thumb.up-thumb-sec img {
     float: left;
 }
 .map-contact {
-    margin-right: 15px;
+    padding : 0 15px;
 }
 .content-contact-wrapper button[type="button"] {
     background: #909090;
