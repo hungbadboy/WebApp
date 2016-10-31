@@ -216,6 +216,10 @@ brotControllers.controller('MentorProfileController',
                     check = false;
                     error += "First name or last name contains special characters or number,";
                 }
+                if(bio.length > 500){
+                    check = false;
+                    error += "About me must not exceed 500 characters, ";
+                }
                 if (check) {
                     var mentor = {
                         'role': "M",

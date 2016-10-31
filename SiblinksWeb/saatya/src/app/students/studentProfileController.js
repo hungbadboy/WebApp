@@ -353,9 +353,14 @@ brotControllers.controller('StudentProfileController',
                 var school = $scope.schoolSelect != null && !isEmpty($scope.schoolSelect) ? $scope.schoolSelect.id : null;
                 var firstName = $('input[name="firstname"]').val();
                 var lastName = $('input[name="lastname"]').val();
+                var bio = $('#about').val();
                 if (isNotValidName(firstName) || isNotValidName(lastName)) {
                     check = false;
                     error += "First name or last name contains special characters or number,";
+                }
+                if(bio.length > 500){
+                    check = false;
+                    error += "About me must not exceed 500 characters, ";
                 }
                 if (check) {
                     var student = {
@@ -367,7 +372,7 @@ brotControllers.controller('StudentProfileController',
                         'gender': gender,
                         'school': school,
                         'bod': $('#bod').val(),
-                        'bio': $('#about').val(),
+                        'bio': bio,
                         'favorite': favorite,
                         'defaultSubjectId': strSubs
                     };
@@ -400,16 +405,18 @@ brotControllers.controller('StudentProfileController',
                                 }
                             }
                             $scope.msgSuccess = "Update Profile Successful !";
-                        }
-                        else {
+                        }else {
                             if (error != '') {
-                                $scope.msgError = error;
+                                $scope.msgError = error.substr(0, error.lastIndexOf(','));
                             } else {
-                                $scope.msgError = "Update Profile Failure";
+                                $scope.msgError = "Failed to update your profile";
                             }
                         }
                     });
+                }else {
+                    $scope.msgError = error.substr(0, error.lastIndexOf(','));
                 }
+
             };
             
             /**
