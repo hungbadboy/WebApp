@@ -27,7 +27,7 @@ import com.siblinks.ws.model.ActivityLogData;
 
 /**
  * This is a service for crud activity log
- * 
+ *
  * @author hungpd
  * @version 1.0
  */
@@ -36,17 +36,17 @@ import com.siblinks.ws.model.ActivityLogData;
 public interface ActivityLogService {
     /**
      * Insert active log
-     * 
+     *
      * @param activityLog
      *            Activity data insert in to activity log
      * @return
-     * 
+     *
      */
     public boolean insertActivityLog(ActivityLogData activityLog) throws Exception;
 
     /**
      * Update active log
-     * 
+     *
      * @param type
      *            Type:
      * @param action
@@ -60,21 +60,32 @@ public interface ActivityLogService {
 
     /**
      * delete active log by id
-     * 
+     *
      * @param id
      *            Id auto generate
      * @return
-     * 
+     *
      */
     public boolean deleteActivityLogById(int id) throws Exception;
 
     /**
      * Get active log by user id
-     * 
+     *
      * @param uid
      *            User ID
      * @return
-     * 
+     *
      */
     public List getAllActivityLogByUserId(int uid) throws Exception;
+
+    /**
+     * Get activity log by user id with limit offset
+     * 
+     * @param userId
+     * @param limit
+     * @param offset
+     * @return List activity
+     * @throws Exception
+     */
+    public List<Object> getActivityLogByUserId(int userId, String limit, String offset) throws Exception;
 }
