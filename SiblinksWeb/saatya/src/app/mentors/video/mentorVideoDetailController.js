@@ -180,7 +180,7 @@ brotControllers.controller('MentorVideoDetailController',
         if (player === undefined)
             onYouTubeIframeAPIReady($scope.vid);             
         else
-            player.cueVideoById($scope.vid);
+            player.loadVideoById($scope.vid);
         }
     }
 
