@@ -103,6 +103,8 @@ brotControllers.controller('UploadTutorialController',
       $scope.title = $scope.editVideo.title;
       $scope.duration = $scope.editVideo.runningTime;
       $scope.description = $scope.editVideo.description;
+      $('#txtTutorialTitle').val($scope.title);
+      $('#txtTutorialDescription').val($scope.description);
       checkLink($scope.editVideo.url);
 
       var subId = $scope.editVideo.subjectId;
@@ -312,6 +314,7 @@ brotControllers.controller('UploadTutorialController',
     }
 
     $scope.validateLink = function(link){
+      $scope.success = null;
       if (link.length == 0)
         clearContent();
       checkLink(link);
@@ -345,6 +348,8 @@ brotControllers.controller('UploadTutorialController',
             
             $scope.title = result[0].snippet.title;
             $scope.description = result[0].snippet.description;
+            $('#txtTutorialTitle').val($scope.title);
+            $('#txtTutorialDescription').val($scope.description);
           } else{
             $scope.error = "Please input valid link.";
             angular.element('#txtUploadLink').trigger('focus');

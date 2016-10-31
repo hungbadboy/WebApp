@@ -41,7 +41,6 @@ public class SibConstants {
         public static final int THREE = 3;
         public static final int NINE = 9;
     }
-    
 
     public static final String URL_SEND_NOTIFICATION_FIREBASE = "https://fcm.googleapis.com/fcm/send";
     public static final String NOTIFICATION_ICON = "siblinks.icon";
@@ -66,6 +65,7 @@ public class SibConstants {
     public static final String USER_NOT_EXISTS = "User is not exists";
     public static final String DEFAULT_PWD = "@123Abc";
     public static final String DOMAIN_NAME_ADMIN = "domainAdmin";
+
     public class MessageKey {
         public static final String REQUEST_DATA_RESUTL = "request_data_result";
     }
@@ -692,18 +692,20 @@ public class SibConstants {
 
     public class SqlMapperActivityLog {
         public static final String SQL_SIB_GET_ACTIVITY_LOG_ALL = "SIB_GET_ACTIVITY_LOG_ALL";
+        public static final String SQL_SIB_GET_ALL_ACTIVITY_LOG_BY_USERID = "SIB_GET_ALL_ACTIVITY_LOG_BY_USERID";
         public static final String SQL_SIB_GET_ACTIVITY_LOG_BY_USERID = "SIB_GET_ACTIVITY_LOG_BY_USERID";
         public static final String SQL_SIB_INSERT_ACTIVITY_LOG = "SIB_INSERT_ACTIVITY_LOG";
         public static final String SQL_SIB_UPDATE_ACTIVITY_LOG = "SIB_UPDATE_ACTIVITY_LOG";
         public static final String SQL_SIB_DELETE_ACTIVITY_LOG = "SIB_DELETE_ACTIVITY_LOG";
         public static final String SQL_SIB_DELETE_ACTIVITY_LOG_BY_ID = "SIB_DELETE_ACTIVITY_LOG_BY_ID";
     }
-    
-        public static final String TYPE_QUENSION_ANSWER = "1";
-        public static final String TYPE_VIDEO = "2";
-        public static final String TYPE_ESSAY = "3";
-        public static final String TYPE_VIDEO_ADMISSION = "4";
-        public static final String TYPE_ATICAL = "5";
+
+    public static final String TYPE_QUENSION_ANSWER = "1";
+    public static final String TYPE_VIDEO = "2";
+    public static final String TYPE_ESSAY = "3";
+    public static final String TYPE_VIDEO_ADMISSION = "4";
+    public static final String TYPE_ATICAL = "5";
     public static final String TYPE_PLAYLIST = "6";
-        
+    public static final String TYPE_PROFILE = "7";
+
 }

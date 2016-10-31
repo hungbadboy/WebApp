@@ -109,6 +109,8 @@ brotControllers.controller('AddUpdatePlaylistController',
               'name': title,
               'vid': $scope.vids[0]
             }
+            localStorage.removeItem("selectPlaylistSubjects");
+            localStorage.removeItem("playlists");
             $rootScope.$broadcast('addPlaylistVideo', playlist);
             $modalInstance.dismiss('cancel');
           } else{
@@ -144,6 +146,8 @@ brotControllers.controller('AddUpdatePlaylistController',
                 'subject': subject.subject,
                 'newImage' : result.newImage
               }
+              localStorage.removeItem("selectPlaylistSubjects");
+              localStorage.removeItem("playlists");
               $rootScope.$broadcast('updatePlaylist', pl);     
               $modalInstance.dismiss('cancel');   
             }

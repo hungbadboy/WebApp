@@ -21,6 +21,7 @@ package com.siblinks.ws.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.model.ActivityLogData;
 import com.siblinks.ws.service.ActivityLogService;
+import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.SibConstants;
 
 /**
@@ -107,11 +109,29 @@ public class ActivityLogServiceImpl implements ActivityLogService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping("/getActivityByuId")
+    @RequestMapping("/getAllActivityByuId")
     public List getAllActivityLogByUserId(@RequestParam final int uid) {
         logger.info("get all activity log by userId " + new Date());
         try {
             Object[] params = { uid };
+            return dao.readObjects(SibConstants.SqlMapperActivityLog.SQL_SIB_GET_ALL_ACTIVITY_LOG_BY_USERID, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping("/getActivityByUserId")
+    public List<Object> getActivityLogByUserId(final int userId, final String limit, final String offset) {
+        logger.info("get activity log by userId with limit - offset" + new Date());
+        Map<String, String> limitActivity = CommonUtil.getInstance().getOffset(limit, offset);
+        try {
+            Object[] params = { userId, Integer.parseInt(limitActivity.get("limit")), Integer
+                .parseInt(limitActivity.get("offset")) };
             return dao.readObjects(SibConstants.SqlMapperActivityLog.SQL_SIB_GET_ACTIVITY_LOG_BY_USERID, params);
         } catch (Exception e) {
             e.printStackTrace();
