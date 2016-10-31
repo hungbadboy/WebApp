@@ -17,9 +17,9 @@
             <div class="detail-essay col-xs-offset-1">
                 <div class="infor-of-essay">
                     <p><span class="essay-time">Uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}} ago </span></p>
-                    <p class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 185 ? '...' : ''}}</p>
+                    <p class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 100 ? '...' : ''}}</p>
                     <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
-                    <p ng-if="essay.STATUS =='R'"><span class="essay-answers">Answered </span>
+                    <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span>
                         <span>by mentor: </span><span style="line-height: 25px;" class="mentor-review">{{convertName(essay.firstName+' '+essay.lastName,essay.userName)}}</span></p>
                 </div>
             </div>
@@ -40,15 +40,15 @@
                         <h4 ng-bind="currentEssay.nameOfEssay"></h4>
                         <span class="post-time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago</span>
                     </div>
-                    <div class="essay-thumb"  ng-if="currentEssay.status !='R' ">
+                    <div class="essay-thumb"  ng-if="currentEssay.status =='W' ">
                         <p><span class="essay-wait-review">Waiting for review</span></p><br>
                     </div>
-                    <div class="essay-thumb"  ng-if="currentEssay.status =='R'">
+                    <div class="essay-thumb"  ng-if="currentEssay.status !='W'">
                         <div class="essay-thumb-left">
                             <p>Mentor:</p>
                             <p class="name-mentor"><a data-dismiss="modal" href="#/student/mentorProfile/{{currentEssay.mentorId}}">{{convertName(currentEssay.mfirstName + ' ' + currentEssay.mlastName,currentEssay.muserName)}}</a>
                             </p>
-                            <p><span class="essay-answers">Answered</span></p><br>
+                            <p><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</p><br>
                         </div>
                         <div class="essay-thumb-right">
                             <a data-dismiss="modal" href="#/student/mentorProfile/{{currentEssay.mentorId}}"><img ng-src="{{currentEssay.mavatar}}"></a>
