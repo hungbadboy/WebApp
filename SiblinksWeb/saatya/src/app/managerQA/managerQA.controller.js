@@ -89,11 +89,11 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 height = '67vh';
                 if ($window.scrollY > 70) {
                     $(".mentor-manage-qa-content .left-qa").css({"top":"105px", "height":"88%"});
-                    $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"78vh"});
+                    $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"77vh"});
                 }
                 else {
                     $(".mentor-manage-qa-content .left-qa").css("top","auto");
-                    $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"70vh"});
+                    $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"68vh"});
                 }
                 
             }
