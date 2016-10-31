@@ -57,4 +57,11 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
             });
         }
 
+        $scope.transferPage = function (path) {
+            angular.element(document.getElementById('essay-detail')).modal('toggle');
+            $timeout(function () {
+                $window.location.href = '#/mentor/mentorProfile';
+            }, 300);
+        }
+
     }]);
