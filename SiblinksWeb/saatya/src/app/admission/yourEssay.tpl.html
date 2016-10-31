@@ -19,8 +19,8 @@
                     <p><span class="essay-time">Uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}} ago </span></p>
                     <p class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 185 ? '...' : ''}}</p>
                     <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
-                    <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span>
-                        <span>by mentor: </span><span style="line-height: 25px;" class="mentor-review">{{essay.firstName+' '+essay.lastName}}</span></p>
+                    <p ng-if="essay.STATUS =='R'"><span class="essay-answers">Answered </span>
+                        <span>by mentor: </span><span style="line-height: 25px;" class="mentor-review">{{convertName(essay.firstName+' '+essay.lastName,essay.userName)}}</span></p>
                 </div>
             </div>
             <div ng-if="$last" class="number-essay" style=" margin-top: 10px;">
@@ -40,8 +40,19 @@
                         <h4 ng-bind="currentEssay.nameOfEssay"></h4>
                         <span class="post-time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago</span>
                     </div>
-                    <div class="essay-thumb">
-                        <p><span ng-if="currentEssay.status =='W'" class="essay-wait-review">Waiting for review</span></p><br>
+                    <div class="essay-thumb"  ng-if="currentEssay.status !='R' ">
+                        <p><span class="essay-wait-review">Waiting for review</span></p><br>
+                    </div>
+                    <div class="essay-thumb"  ng-if="currentEssay.status =='R'">
+                        <div class="essay-thumb-left">
+                            <p>Mentor:</p>
+                            <p class="name-mentor"><a data-dismiss="modal" href="#/student/mentorProfile/{{currentEssay.mentorId}}">{{convertName(currentEssay.mfirstName + ' ' + currentEssay.mlastName,currentEssay.muserName)}}</a>
+                            </p>
+                            <p><span class="essay-answers">Answered</span></p><br>
+                        </div>
+                        <div class="essay-thumb-right">
+                            <a data-dismiss="modal" href="#/student/mentorProfile/{{currentEssay.mentorId}}"><img ng-src="{{currentEssay.mavatar}}"></a>
+                        </div>
                     </div>
 
                     <div class="action-essay">
@@ -55,14 +66,24 @@
                         <span aria-hidden="true" data-icon="&#x51;"></span>
                     </button>
                     <div class="essay-detail-right-content-wrapper">
-                        <p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>
                         <div class="essay-detail-right-content">
-                            <p></p>
+                            <p class="pre-wrap" scroller="detailEssay1">{{currentEssay.descriptionOfEssay}}</p>
                             <div class=""></div>
                             <div class="attrach-file">
-                                <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;"> Attached file</span></label>
+                                <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;">  Download file</span></label>
                                 </a>
                             </div>
+                            <div ng-if="currentEssay.status =='R'" class="answer-by"><p>Answered by mentor</p></div>
+                        </div>
+                    </div>
+                    <div ng-if="currentEssay.status =='R'" class="essay-detail-right-content">
+                        <span class="post-time">{{convertUnixTimeToTime(currentEssay.docReviewedDate)}} </span>
+                        <div class="dt-txt-question" scroller="detailEssay2">
+                        <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
+                        </div>
+                        <div class=""></div>
+                        <div class="attrach-file">
+                            <a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Download file</span></label></a>
                         </div>
                     </div>
                 </div>
