@@ -103,7 +103,7 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private ActivityLogService activityLogSerservice;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -219,7 +219,7 @@ public class PostServiceImpl implements PostService {
             }
             id = dao.insertObject(SibConstants.SqlMapper.SQL_CREATE_ANSWER, queryParamsAnswer);
             Object[] queryParams = { mentorId, studentId,
-            		SibConstants.NOTIFICATION_TYPE_ANSWER_QUESTION, 
+            		SibConstants.NOTIFICATION_TYPE_ANSWER_QUESTION,
             		SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION,
             		contentNofi, subjectId, pid };
             dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_NUMREPLIES_QUESTION, new Object[] { pid });
@@ -241,7 +241,8 @@ public class PostServiceImpl implements PostService {
             if (id > 0 && status == true) {
                 status = true;
             }
-            activityLogSerservice.insertActivityLog(new ActivityLogData(SibConstants.TYPE_QUENSION_ANSWER, "C", "You has been answered question", studentId, pid));
+            activityLogSerservice.insertActivityLog(
+                new ActivityLogData(SibConstants.TYPE_QUENSION_ANSWER, "C", "You has been answered question", mentorId, pid));
             transactionManager.commit(statusBD);
             logger.info("Insert Menu success " + new Date());
             simpleResponse = new SimpleResponse("" + status, "POST", "createAnswer", status);
@@ -314,7 +315,7 @@ public class PostServiceImpl implements PostService {
             dao.insertUpdateObject(
                 SibConstants.SqlMapper.SQL_POST_EDIT,
                 new Object[] { fixFilePath(filePathEdited + filePath), content, subjectId, qid });
-            
+
             // TODO can add user edit
             // activityLogSerservice.insertActivityLog(new ActivityLogData(SibConstants.TYPE_QUENSION_ANSWER, "C", "You has been answered question", studentId, qid));
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "post", "editPost", "");
