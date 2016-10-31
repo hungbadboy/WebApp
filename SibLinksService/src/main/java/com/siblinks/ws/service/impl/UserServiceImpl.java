@@ -68,10 +68,12 @@ import com.siblinks.ws.Notification.Helper.NotifyByEmail;
 import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
+import com.siblinks.ws.model.ActivityLogData;
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.model.User;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
+import com.siblinks.ws.service.ActivityLogService;
 import com.siblinks.ws.service.UserService;
 import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.Parameters;
@@ -106,6 +108,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private VelocityEngine velocityEngine;
+
+    @Autowired
+    private ActivityLogService activityLogService;
 
     /**
      * {@inheritDoc}
@@ -1679,7 +1684,7 @@ public class UserServiceImpl implements UserService {
             new ArrayList<String>(Arrays.asList(request.getRequest_data().getActivityid().split(",")));
             /*
              * String userId = request.getRequest_data().getUid();
-             * 
+             *
              * insertNotResource(myListActivityId, userId,
              * SibConstants.SqlMapper.SQL_INSERT_SIB_USER_ACTIVITY);
              */
@@ -2000,7 +2005,8 @@ public class UserServiceImpl implements UserService {
                 }
                 // Successful return path image avatar
                 response = new SimpleResponse(SibConstants.SUCCESS, service + filename);
-
+                activityLogService.insertActivityLog(
+                    new ActivityLogData(SibConstants.TYPE_PROFILE, "U", "You has been updated your avatar", userid, null));
             } else {
                 response = new SimpleResponse(SibConstants.FAILURE, "Not found path or file is not exist");
             }
@@ -2116,6 +2122,12 @@ public class UserServiceImpl implements UserService {
             String msg;
             if (status) {
                 msg = "Success";
+                activityLogService.insertActivityLog(new ActivityLogData(
+                                                                         SibConstants.TYPE_PROFILE,
+                                                                         "U",
+                                                                         "You has been updated your profile",
+                                                                         user.getUserid(),
+                                                                         null));
             } else {
                 msg = "Failed";
             }
