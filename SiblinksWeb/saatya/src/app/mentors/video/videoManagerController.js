@@ -272,14 +272,6 @@ brotControllers.controller('VideoManagerController',
       });
     }
 
-    $scope.goToDetail = function(v){
-      if (v.plid && v.plid > 0) {
-        window.location.href = '#/mentor/video/detail/'+v.vid+'/list/'+v.plid+'';
-      } else{
-        window.location.href = '#/mentor/video/detail/'+v.vid+'';
-      }
-    }
-
     function getIndex(vid){
       var result = $.grep($scope.videos, function(v){
         return v.vid == vid;

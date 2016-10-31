@@ -118,7 +118,6 @@ brotControllers.controller('MentorPlaylistDetailController',
     }
 
     $scope.playAll = function(){
-        console.log(plid);
         window.location.href = '#/mentor/video/detail/'+$scope.videos[0].vid+'/list/'+plid+'';
     }
 
@@ -186,21 +185,7 @@ brotControllers.controller('MentorPlaylistDetailController',
       return selectedVideos;
     }
 
-    $scope.goToDetail = function(v){
-        window.location.href = '#/mentor/video/detail/'+v.vid+'/list/'+plid+'';
-    }
-
     $scope.$on('passing', function(e,a){
-        // var result = $.grep($scope.videos, function(v){
-        //     return v.vid == a.vid;
-        // });
-
-        // var index = $scope.videos.indexOf(result[0]);
-        // if (index != -1) {
-        //     $scope.videos[index].title = a.title;
-        //     $scope.videos[index].description = a.description;
-
-        // }
         loadPlaylistDetail();
         getVideosInPlaylist();
     });
