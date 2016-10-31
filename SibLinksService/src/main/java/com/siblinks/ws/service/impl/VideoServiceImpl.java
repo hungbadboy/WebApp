@@ -543,7 +543,7 @@ public class VideoServiceImpl implements VideoService {
             if (vid != null && vid.length() > 0 && authorId != null && authorId.length() > 0) {
                 boolean status = deleteVideo(vid, authorId);
                 if (status) {
-                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "D", "You have been deleted video", authorId, null));
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "D", "You have deleted video", authorId, null));
                     msg = "Delete video success";
                     response = new SimpleResponse(
                                                   SibConstants.SUCCESS,
@@ -2253,7 +2253,7 @@ public class VideoServiceImpl implements VideoService {
                     }
                 }
                 if (status) {
-                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "U", "You have been updated video", request
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "U", "You have updated video", request
                         .getRequest_data()
                         .getAuthorID(), String.valueOf(vid)));
                     transactionManager.commit(statusDao);
@@ -3062,7 +3062,7 @@ public class VideoServiceImpl implements VideoService {
                             dao.insertUpdateObject(entityName, queryParams);
                         }
                     }
-                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "C", "You have been created new video", String
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "C", "You have created new video", String
                         .valueOf(authorId), String.valueOf(vid)));
                     transactionManager.commit(status);
                     response = new SimpleResponse(SibConstants.SUCCESS, "videos", "insertVideo", "Success");
@@ -3474,7 +3474,7 @@ public class VideoServiceImpl implements VideoService {
                         countFailed++;
                     }
                 }
-                activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "D", "You have been deleted video", authorId, null));
+                activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "D", "You have deleted video", authorId, null));
                 String msg = String.format("Deleted success %d videos and fail %d videos", countSuccess, countFailed);
                 response = new SimpleResponse(
                                               SibConstants.SUCCESS,

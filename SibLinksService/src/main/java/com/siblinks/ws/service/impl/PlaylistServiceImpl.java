@@ -169,7 +169,7 @@ public class PlaylistServiceImpl implements PlaylistService {
                             dao.insertUpdateObject(SibConstants.SqlMapperBROT126.SQL_ADD_VIDEOS_PLAYLIST, queryParams);
                         }
                     }
-                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "C", "You have been created new playlist", String
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "C", "You have created new playlist", String
                         .valueOf(createBy), String.valueOf(plid)));
                     map.put("message", "success");
                     reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", map);
@@ -249,7 +249,7 @@ public class PlaylistServiceImpl implements PlaylistService {
         try {
             boolean status = deletePlaylist(request.getRequest_playlist().getPlid(), request.getRequest_playlist().getCreateBy());
             if (status) {
-                activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "D", "You have been deleted playlist", request
+                activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "D", "You have deleted playlist", request
                     .getRequest_playlist()
                     .getCreateBy(), null));
 
@@ -396,7 +396,7 @@ public class PlaylistServiceImpl implements PlaylistService {
             }
         }
         try {
-            activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "D", "You have been deleted playlist", uid, null));
+            activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "D", "You have deleted playlist", uid, null));
         } catch (Exception e) {
             logger.debug(e.getCause());
             e.printStackTrace();
@@ -468,7 +468,7 @@ public class PlaylistServiceImpl implements PlaylistService {
                     } else {
                         map.put("newImage", oldImage);
                     }
-                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "U", "You have been updated playlist", String
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "U", "You have updated playlist", String
                         .valueOf(createBy), String.valueOf(plid)));
 
                     reponse = new SimpleResponse("" + true, "playlist", "updatePlaylist", map);

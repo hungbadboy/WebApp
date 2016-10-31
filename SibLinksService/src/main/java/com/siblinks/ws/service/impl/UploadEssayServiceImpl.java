@@ -1001,7 +1001,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     }
                 }
                 if (flag) {
-                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You have been updated essay", mentorId, essayId));
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You have updated essay", mentorId, essayId));
                     reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Success");
                 } else {
                     reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", "Failed");
@@ -1062,7 +1062,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     }
 
                     if (flag) {
-                        activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "C", "You have been replied essay", String
+                        activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "C", "You have replied essay", String
                             .valueOf(mentorId), String.valueOf(essayId)));
                         transactionManager.commit(status);
                         reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "insertCommentEssay", "Success");
