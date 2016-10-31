@@ -48,7 +48,7 @@
                             <p>Mentor:</p>
                             <p class="name-mentor"><a data-dismiss="modal" href="#/student/mentorProfile/{{currentEssay.mentorId}}">{{convertName(currentEssay.mfirstName + ' ' + currentEssay.mlastName,currentEssay.muserName)}}</a>
                             </p>
-                            <p><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</p><br>
+                            <p><span class="essay-{{currentEssay.status=='P'?'reviewing':'answers'}}">{{currentEssay.status=='P'?'Reviewing':'Answered'}}</p><br>
                         </div>
                         <div class="essay-thumb-right">
                             <a data-dismiss="modal" href="#/student/mentorProfile/{{currentEssay.mentorId}}"><img ng-src="{{currentEssay.mavatar}}"></a>
@@ -65,27 +65,26 @@
                     <button type="button" class="close close-popup-detail" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" data-icon="&#x51;"></span>
                     </button>
-                    <div class="essay-detail-right-content-wrapper" ng-if="currentEssay.status !='R'">
+                    <div class="essay-detail-right-content-wrapper" >
                         <div class="essay-detail-right-content">
                             <p class="pre-wrap" scroller="detailEssay1">{{currentEssay.descriptionOfEssay}}</p>
                             <div class=""></div>
                             <div class="attrach-file"> 
-                                <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;">  Download file</span></label>
+                                <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;"> Download file</span></label>
                                 </a>
                             </div>
                             <div ng-if="currentEssay.status =='R'" class="answer-by"><p>Answered by mentor</p></div>
                         </div>
-                    </div>
-                    <div ng-if="currentEssay.status =='R'" class="essay-detail-right-content">
-                        <span class="post-time">{{convertUnixTimeToTime(currentEssay.docReviewedDate)}} </span>
-                        <div class="dt-txt-question" scroller="detailEssay2">
-                        <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
-                        </div>
-                        <div class=""></div>
-                        <div class="attrach-file {{currentEssay.status =='R'?'q-answered':''}}">
-                            <a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Download file</span></label></a>
+                        <div ng-if="currentEssay.status =='R'" class="essay-detail-right-content">
+                            <span class="post-time">Replied {{convertUnixTimeToTime(currentEssay.docReviewedDate)}} ago</span>
+                            <p scroller="detailEssay2" class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
+                            <div class=""></div>
+                            <div class="attrach-file {{currentEssay.status =='R'?'q-answered':''}}">
+                                <a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Download file</span></label></a>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
