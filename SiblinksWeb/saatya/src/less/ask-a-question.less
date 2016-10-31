@@ -421,6 +421,10 @@ p.video-rate>span:nth-child(2) {
     right: 0;
     background: #fff;
     z-index: 1;
+    display: none;
+}
+.open .sort-answer {
+  display: block;
 }
 .sort-answer ul {
     margin: 0;
@@ -546,6 +550,10 @@ section.download {
     width: 125px;
     box-shadow: 5px 5px 12px #ccc;
     z-index: 2;
+    display: none;
+}
+.open>.edit-question {
+    display: block;
 }
 .edit-details-question:before {
     font-size: 18px;    
@@ -579,7 +587,7 @@ section.download {
 .total-answer span:before {
     font-size: 18px;
 }
-.total-answer .sort-answer {
+.sort-answerDetail {
     width: 100px;
     float: right;
     border: 1px solid #ccc;
@@ -590,7 +598,18 @@ section.download {
     background: #fff;
     z-index: 1;
     margin-top: 5px;
+    display: none;
 }
+.sort-answerDetail li {
+     padding: 5px 10px;
+     cursor: pointer;
+     color: #909090;
+}
+.open .sort-answerDetail {
+  display: block;
+}
+
+
 .top-mentors-videos.col-lg-4 {
     overflow: hidden;
     margin-bottom: 80px;

@@ -38,9 +38,9 @@
                                             <span>asked {{question.timeStamp}} ago </span><br>
                                             <p>in <a href="#/ask_a_question/{{question.subjectId}}">{{question.subject}}</a></p>
                                         </div>
-                                        <div class="edit-details-question" data-icon="&#xe037;" click-anywhere-but-here="isShowEdit = false"
-                                             ng-click="isShowEdit = isShowEdit ? false : true" ng-if="question.authorId == userId">
-                                            <div class="edit-question" ng-show="isShowEdit">
+                                        <div class="edit-details-question" data-icon="&#xe037;"
+                                             dropdown dropdown-toggle ng-if="question.authorId == userId">
+                                            <div class="edit-question" >
                                                 <ul>
                                                     <li class="edit" ng-click="editQuestion(question.question_id)">  <a href="javascript:void(0)"><span data-icon="&#xe08a;"></span>Edit</a></li>
                                                     <li class="delete" ng-if="countAnswer == 0" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteQuestion(question.question_id)">
@@ -72,11 +72,11 @@
                                     <!-- Answer of question -->
                                     <div class="answer-question col-xs-12">
                                         <div class="number-answer">
-                                            <div class="total-number-answer">
-                                                <div class="total-answer">{{countAnswer}} answer <i ng-show="countAnswer != '0'" ng-click="isShowOrder = isShowOrder ? false : true"
-                                                                                                    click-anywhere-but-here="isShowOrder = false" class="fa fa-angle-down" aria-hidden="true"></i>
+                                            <div class="total-number-answer" dropdown >
+                                                <div class="total-answer">{{countAnswer}} answer{{countAnswer>1?'s':''}} <i ng-show="countAnswer != '0'"  dropdown-toggle
+                                                                                                    class="fa fa-angle-down" aria-hidden="true"></i>
                                                     <!-- <div class="sort">answered</div>  -->
-                                                    <div class="sort-answer" ng-show="isShowOrder">
+                                                    <div class="sort-answerDetail">
                                                         <ul>
                                                             <li class="newest" ng-click="propertyName = 'TIMESTAMP';reverse=true">Newest</li>
                                                             <li class="answered" ng-click="propertyName = 'numlike';reverse=true">Top liked</li>
@@ -97,7 +97,7 @@
                                                     <div class="detail-mentor-answer">
                                                         <div class="mentor-name">
                                                             <a href="#/student/mentorProfile/{{answer.authorID}}">
-                                                                <strong>{{answer.firstName+""+ answer.lastName}}</strong>&nbsp;</a>
+                                                                <strong>{{validateShowName(answer.firstName,answer.lastName,answer.userName)}}</strong>&nbsp;</a>
                                                             &nbsp;&nbsp;<span>answered {{answer.timeStamp}} ago</span>
                                                             <span>{{answer.numlike}} <span
                                                                     data-icon="&#xe089;" class="heart{{answer.aid}}" id="{{answer.like=='1'?'heart':''}}"

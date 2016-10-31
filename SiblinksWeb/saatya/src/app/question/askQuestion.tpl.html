@@ -16,12 +16,12 @@
                         <!-- head of question -->
                         <div class="head-question">
                             <!-- Questions user have -->
-                            <div class="total-question col-xs-6">
+                            <div dropdown  class="total-question col-xs-6">
                                 <h4> You have <strong>{{totalQuestion}}</strong> {{totalQuestion > 1 ? 'questions':'question'}}
-                                    <i ng-click="toggleShowOrder()" class="fa fa-angle-down"
-                                       aria-hidden="true" click-anywhere-but-here="isShowOrder = false"></i></h4>
+                                    <i  class="fa fa-angle-down"
+                                       aria-hidden="true" dropdown-toggle></i></h4>
                                 <div class="sort">{{displayOrder}}</div>
-                                <div ng-show="isShowOrder" class="sort-answer ">
+                                <div class="sort-answer">
                                     <ul>
                                         <li class="newest" ng-click="orderQuestions('newest');displayOrder ='Newest'">Newest</li>
                                         <li class="answered" ng-click="orderQuestions('answered');displayOrder ='Answered'">Answered</li>
@@ -52,8 +52,8 @@
                                             <span >asked {{question.time}} ago </span><br>
                                             <p>in <a href="#/ask_a_question/{{question.subjectid}}">{{question.subject}}</a></p>
                                         </div>
-                                        <div  class="edit-details-question" data-icon="&#xe037;"  ng-click="showEditQuestion(question.id)" ng-if="question.authorId == userId">
-                                            <div class="edit-question" id="qid{{question.id}}" ng-show="question.id == showEditQuestionId">
+                                        <div  class="edit-details-question" data-icon="&#xe037;" dropdown dropdown-toggle ng-if="question.authorId == userId">
+                                            <div class="edit-question" id="qid{{question.id}}" >
                                                 <ul>
                                                     <li class="edit" ng-click="editQuestion(question.id,question.image,question.imagepath,question.content,question.subjectid,question.subject)">
                                                         <a href="javascript:void(0)"><span data-icon="&#xe08a;"></span>Edit</a></li>
