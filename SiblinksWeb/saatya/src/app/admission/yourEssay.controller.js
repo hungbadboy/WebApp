@@ -14,6 +14,13 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
                 }
             });
         }
+        $scope.convertName= function (name,userName) {
+            var result = name;
+            if(isEmpty(name)){
+                result =  userName.split('@')[0];
+            }
+            return result;
+        }
         $scope.convertUnixTimeToTime = function (datetime) {
             return convertUnixTimeToTime(datetime);
         }
