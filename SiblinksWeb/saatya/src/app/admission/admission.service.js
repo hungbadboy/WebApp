@@ -413,7 +413,15 @@ brotServices.factory('AdmissionService', ['$http', function($http) {
     });
     return promise;
   };*/
-
+  
+  factory.updateViewArticalAdmission = function(articalId) {
+	    var promise = $http({
+	      method: 'POST',
+	      url: NEW_SERVICE_URL + 'article/updateViewArticle',
+	      data: {"arId": articalId}
+	    });
+	    return promise;
+	  };
   return factory;
 }]);
 //===========================================END ADMINSSION.SERVICES.JS==============
