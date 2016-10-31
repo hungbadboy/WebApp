@@ -1,7 +1,7 @@
 <div class="content ask-a-question " id="videos-details">
     <div class="breadcrum">
         <div class="container">
-            <h5><a href="#/"> SibLinks</a> / <a href="#/videos">Tutorials<a> <span>/ {{videoInfo.firstName +" " + videoInfo.lastName}}</span></h5>
+            <h5><a href="#/"> SibLinks</a> / <a href="#/videos">Tutorials<a> <span>/ {{displayName(videoInfo.firstName,videoInfo.lastName,videoInfo.userName)}}</span></h5>
             <div class="search">
                 <form class="navbar-form" role="search">
                     <div class="input-group">
@@ -25,7 +25,7 @@
                         <div class="related-video" title="{{videoPlaylistInfo.playlistname}}">
                             <h5>{{ videoPlaylistInfo.playlistname | limitTo: 73 }}{{videoPlaylistInfo.playlistname.length > 73 ? '...' : ''}}</h5>
                             <p class="owner-sum-vidoe">
-                                <a href="#/student/mentorProfile/{{videoPlaylistInfo.userid}}"><span class="owner-video">{{videoPlaylistInfo.firstName + "" +videoPlaylistInfo.lastName}}</span></a>
+                                <a href="#/student/mentorProfile/{{videoPlaylistInfo.userid}}"><span class="owner-video">{{displayName(videoPlaylistInfo.firstName,videoPlaylistInfo.lastName,videoPlaylistInfo.userName)}}</span></a>
                                 <span class="video-count">{{index+1}} of {{videosList.length}} videos</span>
                             </p>
                             <ul scroller="videosPlayList" on-init="loadTo"  class="series-video-list" id="series-video-list">
@@ -65,7 +65,7 @@
                                 {{ videoInfo.title | limitTo: 73 }}{{videoInfo.title.length > 73 ? '...' : ''}}</h3>
                             <span>from </span>
                             <a href="#/student/mentorProfile/{{videoInfo.userid}}">
-                            <span class="own-video">{{videoInfo.firstName +" " + videoInfo.lastName}}
+                            <span class="own-video">{{displayName(videoInfo.firstName,videoInfo.lastName,videoInfo.userName)}}
                             </span></a><span class="video-time-add"> {{convertTime(videoInfo.timeStamp)}} ago</span>
                             <div class="video-mentor-details">
                                 <div class="videos-rate">
@@ -128,7 +128,7 @@
                                         </a>
                                         <div class="comment-body">
                                             <div class="comment-heading">
-                                                <h4 class="user">{{comment.firstName+" "+ comment.lastName}}</h4>
+                                                <h4 class="user">{{displayName(comment.firstName,comment.lastName,comment.userName)}}</h4>
                                                 <h5 class="time">{{convertTime(comment.timestamp)}}</h5>
                                             </div>
                                             <p class="pre-wrap">{{comment.content}}</p>
@@ -144,7 +144,6 @@
                     <ul class="related-video-list" ng-repeat="videoRelate in videosRelated">
                         <li class="video-list-item">
                             <div class="content-warpper">
-
                                 <div class="thumb-video">
                                     <a href="#/videos/detailVideo/{{videoRelate.vid}}">
                                     <img ng-src="{{videoRelate.image}}"></a>
@@ -152,17 +151,14 @@
                                 <div class="detail-video">
                                     <p class="title-video">
                                         <a title="{{videoRelate.title}}" href="#/videos/detailVideo/{{videoRelate.vid}}">
-
                                             {{ videoRelate.title | limitTo: 50 }}{{videoRelate.title.length > 50 ? '...' : ''}}
                                         </a>
                                     </p>
-                                    <span class="owner-video">
-                                                        from
-                                          <a href="#/student/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
-                                                   </a> </span><br>
-                                    <span class="view-count">
-                                                        view: <span>{{videoRelate.numViews}}</span>
-                                                    </span>
+                                    <span class="owner-video">from
+                                          <a href="#/student/mentorProfile/{{videoRelate.userid}}">
+                                          	<span class="own-video"> {{displayName(videoRelate.firstName,videoRelate.lastName,videoRelate.userName)}}</span>
+                                          </a> </span><br>
+                                    <span class="view-count">view: <span>{{videoRelate.numViews}}</span></span>
                                 </div>
                             </div>
                         </li>
