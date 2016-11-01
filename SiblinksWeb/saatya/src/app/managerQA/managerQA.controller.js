@@ -84,41 +84,20 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
         $document.on('scroll', function() {
             // do your things like logging the Y-axis
-            var height = '73vh';
-            if($window.innerWidth < 1601){
-                height = '67vh';
+            // var height = '73vh';
+            var heighttab = $(window).height() - 305;
+                heighttab_scroll = $(window).height() - 365;
+            console.log(heighttab);
+            // if($window.innerWidth < 1601){
+                // height = '67vh';
                 if ($window.scrollY > 70) {
-                    $(".mentor-manage-qa-content .left-qa").css({"top":"105px", "height":"88%"});
-                    $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"77vh"});
+                    $(".mentor-manage-qa-content .left-qa").css({"top":"105px"});
+                    $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content .tab-answered-tab").css({"height":+ heighttab + "px"});
                 }
                 else {
-                    $(".mentor-manage-qa-content .left-qa").css("top","auto");
-                    $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"68vh"});
-                }
-                
-            }
-            if($window.innerWidth < 1441){
-                height = '67vh';
-                if ($window.scrollY > 70) {
-                    $(".mentor-manage-qa-content .left-qa").css({"top":"105px", "height":"88%"});
-                    $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"76vh"});
-                }
-                else {
-                    $(".mentor-manage-qa-content .left-qa").css("top","auto");
-                    $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"66vh"});
-                }
-                
-            }
-            if($window.innerWidth > 1601) {
-                if ($window.scrollY > 70) {
-                    $(".mentor-manage-qa-content .left-qa").css({"top":"105px", "height":"100%"});
-                    $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"84vh"});
-                }
-                else {
-                    $(".mentor-manage-qa-content .left-qa").css("top","auto");
-                    $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"76vh"});
-                }
-            }
+                    $(".mentor-manage-qa-content .left-qa").css({"top":"auto"});
+                    $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content .tab-answered-tab").css({"height":+ heighttab_scroll + "px"});
+                }         
             
         });
 
