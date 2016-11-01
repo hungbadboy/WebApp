@@ -20,7 +20,7 @@
                     <p class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 100 ? '...' : ''}}</p>
                     <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
                     <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span>
-                        <span>by mentor: </span><span style="line-height: 25px;" class="mentor-review">{{convertName(essay.firstName+' '+essay.lastName,essay.userName)}}</span></p>
+                        <span>by mentor: </span><span style="line-height: 25px;" class="mentor-review">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</span></p>
                 </div>
             </div>
             <div ng-if="$last" class="number-essay" style=" margin-top: 10px;">

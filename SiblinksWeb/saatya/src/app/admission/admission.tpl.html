@@ -43,7 +43,7 @@
                                           </div>
                                           
                                           <div class="videos-time-add">
-                                              <span class="video-poster" id="{{lstVideoTutAdmission.authorId}}" ng-click="showProfile($event)"> {{(lstVideoTutAdmission.firstName=='null'? lstVideoTutAdmission.firstName:'') + ' ' + (lstVideoTutAdmission.lastName=='null'?lstVideoTutAdmission.lastName:'')}}</span>
+                                              <span class="video-poster" id="{{lstVideoTutAdmission.authorId}}" ng-click="showProfile($event)"> {{displayName(lstVideoTutAdmission.firstName,lstVideoTutAdmission.lastName,lstVideoTutAdmission.userName)}}</span>
                                               <span> added {{caculateTimeElapsed(lstVideoTutAdmission.creationDate)}}</span>
                                           </div>
                                           <div class="videos-rate">
@@ -82,7 +82,7 @@
                                                   <a href="javascript:void(0)">{{lstArticleAdmission.title}}</a>
                                               </div>
                                               <div class="videos-time-add">
-                                                  <span class="video-poster" id="{{lstArticleAdmission.authorId}}" ng-click="showProfile($event);$event.stopPropagation()">{{lstArticleAdmission.firstName + ' ' + lstArticleAdmission.lastName}}</span>
+                                                  <span class="video-poster" id="{{lstArticleAdmission.authorId}}" ng-click="showProfile($event);$event.stopPropagation()">{{displayName(lstArticleAdmission.firstName,lstArticleAdmission.lastName,lstArticleAdmission.userName)}}</span>
                                                   <span> added {{caculateTimeElapsed(lstArticleAdmission.createDate)}}</span>
                                               </div>
                                           </div>
