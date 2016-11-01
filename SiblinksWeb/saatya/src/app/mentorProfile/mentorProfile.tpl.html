@@ -181,7 +181,7 @@
                                                 src="{{s.avatar}}" alt=""></a></span>
                                         <div class="txt-ifm pull-left">
                                             <a href="#/mentor/studentProfile/{{s.userId}}"><h5>{{s.userName}}</h5></a>
-                                            <p>High school: {{s.schoolName}}</p>
+                                            <p>High school: {{s.schoolName ? s.schoolName : 'Unknown'}}</p>
                                         </div>
                                     </li>
                                 </ul>
