@@ -37,15 +37,15 @@
                                             <div class="group-item-qa">
                                                 <div class="item-qa clearfix" ng-repeat="e in newestEssays track by $index" ng-click="detailEssay(e.uploadEssayId)">
                                                     <div class="studentAvt">
-                                                        <a href="" ng-click="goToProfile(e.userId)"><img src="{{e.imageUrl}}" alt=""></a>
+                                                        <a href="javascript:void(0)" ng-click="goToProfile(e.userId)"><img src="{{e.imageUrl}}" alt=""></a>
                                                     </div>
                                                     <div class="studentDetails bx-dt-qa">
-                                                        <h5><a href="" ng-click="goToProfile(e.userId)">{{e.fullName}} </a><span class="time">{{e.timeStamp}} ago</span></h5>
+                                                        <h5><a href="javascript:void(0)" ng-click="goToProfile(e.userId)">{{e.fullName}} </a><span class="time">{{e.timeStamp}} ago</span></h5>
                                                         <b>{{e.nameOfEssay}}</b>
                                                         <p>{{e.descriptionOfEssay | limitTo : 240 }}{{e.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                         <div class="clearfix bt-item">
-                                                            <a href="" ng-click="changeStatus(e.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
-                                                            <a href="" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                            <a href="javascript:void(0)" ng-click="changeStatus(e.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
+                                                            <a href="javascript:void(0)" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -58,14 +58,14 @@
                                             <div class="group-item-qa">
                                                 <div class="item-qa clearfix" ng-repeat="pe in processingEssays track by $index" ng-click="detailEssay(pe.uploadEssayId)">
                                                     <div class="studentAvt">
-                                                        <a href="" ng-click="goToProfile(pe.userId)"><img src="{{pe.imageUrl}}" alt=""></a>
+                                                        <a href="javascript:void(0)" ng-click="goToProfile(pe.userId)"><img src="{{pe.imageUrl}}" alt=""></a>
                                                     </div>
                                                     <div class="studentDetails bx-dt-qa">
-                                                        <h5><a href="" ng-click="goToProfile(pe.userId)">{{pe.fullName}} </a><span class="time">{{pe.timeStamp}} ago</span></h5>
+                                                        <h5><a href="javascript:void(0)" ng-click="goToProfile(pe.userId)">{{pe.fullName}} </a><span class="time">{{pe.timeStamp}} ago</span></h5>
                                                         <b>{{pe.nameOfEssay}}</b>
                                                         <p>{{pe.descriptionOfEssay | limitTo : 240 }}{{pe.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                         <div class="clearfix bt-item">
-                                                            <a href=""  ng-click="changeStatus(pe.uploadEssayId,'I')"><span class="essay-reviewing">Cancel</span></a>
+                                                            <a href="javascript:void(0)"  ng-click="changeStatus(pe.uploadEssayId,'I')"><span class="essay-reviewing">Cancel</span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -78,10 +78,10 @@
                                             <div class="group-item-qa">
                                                 <div class="item-qa clearfix" ng-repeat="ie in ignoredEssays track by $index" ng-click="detailEssay(ie.uploadEssayId)">
                                                     <div class="studentAvt">
-                                                        <a href="" ng-click="goToProfile(ie.userId)"><img src="{{ie.imageUrl}}" alt=""></a>
+                                                        <a href="javascript:void(0)" ng-click="goToProfile(ie.userId)"><img src="{{ie.imageUrl}}" alt=""></a>
                                                     </div>
                                                     <div class="studentDetails bx-dt-qa">
-                                                        <h5><a href="" ng-click="goToProfile(ie.userId)">{{ie.fullName}} </a><span class="time">{{ie.timeStamp}} ago</span></h5>
+                                                        <h5><a href="javascript:void(0)" ng-click="goToProfile(ie.userId)">{{ie.fullName}} </a><span class="time">{{ie.timeStamp}} ago</span></h5>
                                                         <b>{{ie.nameOfEssay}}</b>
                                                         <p>{{ie.descriptionOfEssay | limitTo : 240 }}{{ie.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                     </div>
@@ -95,10 +95,10 @@
                                             <div class="group-item-qa">
                                                 <div class="item-qa clearfix" ng-repeat="re in repliedEssays track by $index" ng-click="detailEssay(re.uploadEssayId)">
                                                     <div class="studentAvt">
-                                                        <a href="" ng-click="goToProfile(re.userId)"><img src="{{re.imageUrl}}" alt=""></a>
+                                                        <a href="javascript:void(0)" ng-click="goToProfile(re.userId)"><img src="{{re.imageUrl}}" alt=""></a>
                                                     </div>
                                                     <div class="studentDetails bx-dt-qa">
-                                                        <h5><a href="" ng-click="goToProfile(re.userId)">{{re.fullName}} </a><span class="time">{{re.timeStamp}} ago</span></h5>
+                                                        <h5><a href="javascript:void(0)" ng-click="goToProfile(re.userId)">{{re.fullName}} </a><span class="time">{{re.timeStamp}} ago</span></h5>
                                                         <b>{{re.nameOfEssay}}</b>
                                                         <p>{{re.descriptionOfEssay | limitTo : 240 }}{{re.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                     </div>
@@ -113,8 +113,8 @@
                         <div class="box-main-replied" >
                             <div class="slider-rpl" ng-if="essay">
                                 <div class="box-btn-sl clearfix">
-                                    <a href="" class="btn-prev" ng-click="prevEssay(pos)"><span data-icon="&#x34;"></span></a>
-                                    <a href="" class="btn-next" ng-click="nextEssay(pos)"><span data-icon="&#x35;"></span></a>
+                                    <a href="javascript:void(0)" class="btn-prev" ng-click="prevEssay(pos)"><span data-icon="&#x34;"></span></a>
+                                    <a href="javascript:void(0)" class="btn-next" ng-click="nextEssay(pos)"><span data-icon="&#x35;"></span></a>
                                 </div>
                                 <div class="group-item-sl">
                                     <div class="item-sl-rpl">
@@ -124,21 +124,21 @@
                                                
                                                 <div class="col-md-12 bx-dt-qa">
                                                     <div class="studentAvt">
-                                                    <a href="" ng-click="goToProfile(userId)"><img src="{{essay.imageUrl}}" alt=""></a>
+                                                    <a href="javascript:void(0)" ng-click="goToProfile(essay.userId)"><img src="{{essay.imageUrl}}" alt=""></a>
                                                     </div>
                                                     <div class="studentDetails">
-                                                    <a href="" ng-click="goToProfile(userId)"><h5>{{essay.fullName}}</h5></a>
+                                                    <a href="javascript:void(0)" ng-click="goToProfile(essay.userId)"><h5>{{essay.fullName}}</h5></a>
                                                     <span class="time">{{essay.timeStamp}} ago</span>
                                                     <div class="bt-item-r" ng-if="essay.status == 'W' && !ignored">
-                                                        <a href="" ng-click="changeStatus(essay.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
-                                                        <a href="" ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                        <a href="javascript:void(0)" ng-click="changeStatus(essay.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
+                                                        <a href="javascript:void(0)" ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
                                                     </div>
                                                     <p class="txt-essay"><b>{{essay.nameOfEssay}}</b></p>
                                                     </div>
                                                 </div>
                                                 
                                                 <div class="bt-item-r col-md-4" ng-if="essay.status == 'P'">
-                                                    <a href=""  ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-reviewing">Cancel</span></a>
+                                                    <a href="javascript:void(0)"  ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-reviewing">Cancel</span></a>
                                                 </div>
                                             </div>
                                             <p class="text-rpl-2 pre-wap">
@@ -150,15 +150,13 @@
                                             <div class="form-chat form-chat-essay">
                                                 <form action="">
                                                     <div class="box-chat-onl clearfix" ng-if="!comments && essay.status == 'P' && tabpane != 3">
-                                                        <a href="" class="col-md-1"><img src="{{avatar}}" alt=""></a>
+                                                        <a href="javascript:void(0)" class="col-md-1"><img src="{{avatar}}" alt=""></a>
                                                         <div class="texta">
                                                             <textarea id="comment" name="" class="col-md-11" placeholder="Add your reply here" maxlength="1000"></textarea>
                                                             <div class="left-border"></div>
                                                         </div>
                                                         <div class="icon-upload">
-                                                            <button class="label-1" ngf-select="onFileSelect($files)"
-                                                                    ngf-accept="'application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'"
-                                                                    ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xlsx'" ngf-max-size="5MB">
+                                                            <button class="label-1" ngf-select="onFileSelect($files)" ngf-accept="'application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'" ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xlsx'" ngf-max-size="5MB">
                                                             <label class="label-1">
                                                                 <span data-icon="&#xe016;"></span>
                                                             </label>
