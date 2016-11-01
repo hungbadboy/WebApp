@@ -458,6 +458,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
       fd.append('comment', comment);
       fd.append('essayId', $scope.essay.uploadEssayId);
       fd.append('mentorId', userId);
+      fd.append('studentId', $scope.essay.userId);
 
       EssayService.insertCommentEssay(fd).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result == "Success") {
@@ -469,7 +470,6 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
           $scope.fileSize = null;
         } else{
           $scope.error = data.request_data_result;
-          console.log($scope.error);
         }
       });
     }

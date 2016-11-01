@@ -64,7 +64,7 @@ public interface UploadEssayService {
 
     public ResponseEntity<Response> updateStatusEssay(RequestData request);
 
-    public ResponseEntity<Response> insertCommentEssay(MultipartFile file, long essayId, long mentorId, String comment);
+    public ResponseEntity<Response> insertCommentEssay(MultipartFile file, long essayId, long mentorId, long studentId, String comment);
 
     public ResponseEntity<Response> getCommentEssay(long essayId, long mentorId);
 
