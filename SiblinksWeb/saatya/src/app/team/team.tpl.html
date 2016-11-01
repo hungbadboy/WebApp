@@ -44,7 +44,7 @@
                               </div>
                               <div class="mentors-infor-details">
                                   <div class="mentors-name">
-                                      <a href="#/student/mentorProfile/{{mentor.userid}}" >{{mentor.firstName + '&nbsp;' + mentor.lastName}}</a>
+                                      <a href="#/student/mentorProfile/{{mentor.userid}}" >{{displayName(mentor.firstName,mentor.lastName,mentor.userName)}}</a>
                                       <!--<span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span>-->
                                       <span  ng-if="mentor" star-rating stars="5"
                                              outer-star-selection="stars"

@@ -113,6 +113,21 @@ brotServices.factory('uploadEssayService', ['$http', function($http) {
         return promise;
     };
 
+    factory.removeEssay = function(essayId) {
+        var promise = $http({
+            method: 'POST',
+            url: NEW_SERVICE_URL + 'essay/removeEssay',
+            data: {
+                "request_data_type": "POST",
+                "request_data_method": "removeEssay",
+                "request_data": {
+                    "essayId": essayId
+                }
+            }
+        });
+        return promise;
+    };
+
 
     return factory;
 }]);

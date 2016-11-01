@@ -18,9 +18,7 @@
                         <div class="student-img">
                             <img ng-src="{{studentInfo.imageUrl != null ? studentInfo.imageUrl : 'assets/images/noavartar.jpg'}}"
                                  err-src="assets/images/noavartar.jpg">
-                            <h3 ng-if="!isEmptyName" class="student-name" style="font-size: 20px; margin-top: 13px">{{studentInfo.firstname
-                                != null ? studentInfo.firstname : ''}} {{studentInfo.lastName != null ?
-                                studentInfo.lastName : ''}}</h3>
+                            <h3 ng-if="!isEmptyName" class="student-name" style="font-size: 20px; margin-top: 13px">{{displayName(studentInfo.firstName,studentInfo.lastName,studentInfo.userName)}}</h3>
                             <h3 ng-if="isEmptyName" class="student-name" style="font-size: 20px; margin-top: 13px">{{studentInfo.fullName}}</h3>
                             <span class="changeImg" ng-hide="isLoginViaFBOrGoogle">
                                 <button ngf-select="onFileSelect($files, $invalidFiles)" multiple ngf-pattern="'image/*'"
@@ -238,7 +236,7 @@
                                             <p><span>uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}} ago </span></p>
                                             <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
                                             <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span><span>by mentor: </span>
-                                                <span class="mentor-review">{{essay.firstName+' '+essay.lastName}}</span></p>
+                                                <span class="mentor-review">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</span></p>
                                         </div>
                                     </div>
                                 </div><!-- End Essay 01 -->

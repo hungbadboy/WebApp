@@ -123,7 +123,7 @@
                                             </a></span>
                                             <div class="sub-vd-right pull-left">
                                                 <h5><a href="" ng-click="loadVideo(v)">{{ v.title | limitTo: 20 }}{{v.title.length > 20 ? '...' : ''}}</a></h5>
-                                                <p>from <b><a href="" ng-click="goToProfile(v.userId)">{{v.firstName + ' ' + v.lastName}}</a></b></p>
+                                                <p>from <b><a href="" ng-click="goToProfile(v.userId)">{{displayName(v.firstName,v.lastName,v.userName)}}</a></b></p>
                                                 <p>View: <span>{{v.numViews}}</span></p>
                                             </div> 
                                         </li>                                    

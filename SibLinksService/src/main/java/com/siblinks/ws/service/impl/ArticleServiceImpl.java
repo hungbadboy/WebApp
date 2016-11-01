@@ -60,6 +60,7 @@ import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.RandomString;
 import com.siblinks.ws.util.ReadProperties;
 import com.siblinks.ws.util.SibConstants;
+import com.siblinks.ws.util.StringUtil;
 
 /**
  *
@@ -107,16 +108,15 @@ public class ArticleServiceImpl implements ArticleService {
                                          request.getRequest_data_method(),
                                          readObject,
                                          count);
-        } catch (DAOException e) {
-            logger.debug(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
             reponse = new SimpleResponse(
                                          SibConstants.FAILURE,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          e.getMessage());
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
     /**
@@ -137,16 +137,15 @@ public class ArticleServiceImpl implements ArticleService {
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          readObject);
-        } catch (DAOException e) {
-            logger.debug(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
             reponse = new SimpleResponse(
                                          SibConstants.FAILURE,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          e.getMessage());
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
     /**
@@ -171,13 +170,13 @@ public class ArticleServiceImpl implements ArticleService {
             String count = dao.getCount(SibConstants.SqlMapper.SQL_SIB_GET_ARTICLE_COMMENTS_PN_COUNT, queryParams);
 
             reponse = new SimpleResponse(
-                                         "" + Boolean.TRUE,
+                                         SibConstants.SUCCESS,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          readObject,
                                          count);
-        } catch (DAOException e) {
-            logger.debug(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
             reponse = new SimpleResponse(
                                          SibConstants.FAILURE,
                                          request.getRequest_data_type(),
@@ -205,8 +204,7 @@ public class ArticleServiceImpl implements ArticleService {
             logger.debug(e.getMessage());
             reponse = new SimpleResponse(SibConstants.FAILURE, "ArticleServiceImpl", "getAllArticles", e.getMessage());
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
     /**
@@ -234,15 +232,14 @@ public class ArticleServiceImpl implements ArticleService {
                                          request.getRequest_data_method(),
                                          flag);
         } catch (DAOException e) {
-            logger.debug(e.getMessage());
+            e.printStackTrace();
             reponse = new SimpleResponse(
                                          SibConstants.FAILURE,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          e.getMessage());
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
     /**
@@ -282,20 +279,53 @@ public class ArticleServiceImpl implements ArticleService {
             }
 
             reponse = new SimpleResponse(
-                                         "" + Boolean.TRUE,
+                                         SibConstants.SUCCESS,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          flag);
-        } catch (DAOException e) {
-            logger.debug(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
             reponse = new SimpleResponse(
                                          SibConstants.FAILURE,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          e.getMessage());
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     */
+    @Override
+    @RequestMapping(value = "/updateViewArticle", method = RequestMethod.POST)
+    public ResponseEntity<Response> updateViewArticle(@RequestBody final Article article) {
+        SimpleResponse reponse = null;
+        try {
+            if (article != null && !StringUtil.isNull(article.getArId())) {
+                Object[] params = { article.getArId() };
+                boolean updateSuccess = dao.insertUpdateObject(
+                    SibConstants.SqlMapper.SQL_SIB_UPDATE_NUMVIEW_ARTICLE_ADMISSION,
+                    params);
+                if (updateSuccess) {
+                    List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ARTICLE_DETAIL, params);
+                    reponse = new SimpleResponse(SibConstants.SUCCESS, "article", "updateViewArticle", readObject);
+                } else {
+                    reponse = new SimpleResponse(
+                                                 SibConstants.FAILURE,
+                                                 "article",
+                                                 "updateViewArticle",
+                                                 "Update number view artical failure");
+                }
+            } else {
+                reponse = new SimpleResponse(SibConstants.FAILURE, "article", "updateViewArticle", "Artical Id is not exists");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            reponse = new SimpleResponse(SibConstants.FAILURE, "article", "updateViewArticle", e.getMessage());
+        }
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
     /**
@@ -306,38 +336,35 @@ public class ArticleServiceImpl implements ArticleService {
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Response> uploadFile(@RequestParam("uploadfile") final MultipartFile uploadfile) throws IOException {
-        String filename;
-        String name;
-        String filepath;
-        String directory = ReadProperties.getProperties("directoryImageArticle");
         SimpleResponse reponse = null;
-        name = uploadfile.getContentType();
-        boolean status = name.contains("image");
-        if (directory != null && status) {
-            try {
+        BufferedOutputStream stream = null;
+        try {
+            String directory = ReadProperties.getProperties("directoryImageArticle");
+            String name = uploadfile.getContentType();
+            boolean status = name.contains("image");
+            if (directory != null && status) {
                 RandomString randomName = new RandomString();
-
-                filename = randomName.random();
-                filepath = Paths.get(directory, filename + ".png").toString();
+                String filename = randomName.random();
+                String filepath = Paths.get(directory, filename + ".png").toString();
                 // Save the file locally
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+                stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
                 stream.write(uploadfile.getBytes());
+                reponse = new SimpleResponse(SibConstants.SUCCESS, filepath);
+
+            } else {
+                reponse = new SimpleResponse(
+                                             SibConstants.FAILURE,
+                                             "Your photos couldn't be uploaded. Photos should be saved as JPG, PNG, GIF or BMP files.");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            reponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
+        } finally {
+            if (stream != null) {
                 stream.close();
             }
-
-            catch (Exception e) {
-                logger.error(e.getMessage());
-                return new ResponseEntity<Response>(HttpStatus.BAD_REQUEST);
-            }
-
-            reponse = new SimpleResponse("" + Boolean.TRUE, filepath);
-            return new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        } else {
-            reponse = new SimpleResponse(
-                                         "" + Boolean.FALSE,
-                                         "Your photos couldn't be uploaded. Photos should be saved as JPG, PNG, GIF or BMP files.");
-            return new ResponseEntity<Response>(reponse, HttpStatus.OK);
         }
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }// method uploadFile
 
     /**
@@ -365,20 +392,19 @@ public class ArticleServiceImpl implements ArticleService {
             boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_ARTICLE, queryParams);
 
             reponse = new SimpleResponse(
-                                         "" + Boolean.TRUE,
+                                         SibConstants.SUCCESS,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          flag);
-        } catch (DAOException e) {
-            logger.debug(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
             reponse = new SimpleResponse(
                                          SibConstants.FAILURE,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          e.getMessage());
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
     /**
@@ -414,8 +440,9 @@ public class ArticleServiceImpl implements ArticleService {
             } else {
                 responseEntity = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
             }
-        } catch (DAOException e) {
-            logger.debug(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
         } finally {
             if (t != null) {
                 t.close();
@@ -432,16 +459,12 @@ public class ArticleServiceImpl implements ArticleService {
     @RequestMapping(value = "/getArticleByUserPN", method = RequestMethod.POST)
     public ResponseEntity<Response> getArticleByUserPN(@RequestBody final RequestData request) {
 
-        if (!AuthenticationFilter.isAuthed(context)) {
-            ResponseEntity<Response> entity = new ResponseEntity<Response>(
-                                                                           new SimpleResponse(
-                                                                                              "" + Boolean.TRUE,
-                                                                                              "Authentication required."),
-                                                                           HttpStatus.FORBIDDEN);
-            return entity;
-        }
         SimpleResponse reponse = null;
         try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                reponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(reponse, HttpStatus.FORBIDDEN);
+            }
             CommonUtil util = CommonUtil.getInstance();
 
             Map<String, String> map = util.getLimit(request.getRequest_data_article().getPageno(), request
@@ -456,21 +479,20 @@ public class ArticleServiceImpl implements ArticleService {
             String count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ARTICLE_BY_USER_PN_COUNT, queryParams);
 
             reponse = new SimpleResponse(
-                                         "" + Boolean.TRUE,
+                                         SibConstants.SUCCESS,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          readObject,
                                          count);
-        } catch (DAOException e) {
-            logger.debug(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
             reponse = new SimpleResponse(
                                          SibConstants.FAILURE,
                                          request.getRequest_data_type(),
                                          request.getRequest_data_method(),
                                          e.getMessage());
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
     /**
@@ -490,15 +512,12 @@ public class ArticleServiceImpl implements ArticleService {
 
             List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-            reponse = new SimpleResponse("true", readObject);
+            reponse = new SimpleResponse(SibConstants.SUCCESS, readObject);
 
-        } catch (DAOException e) {
-            logger.debug(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
             reponse = new SimpleResponse(SibConstants.FAILURE, "ArticleServiceImpl", "getArticleAdmission", e.getMessage());
         }
-        ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-
-        logger.debug(method + " end");
-        return entity;
+        return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 }

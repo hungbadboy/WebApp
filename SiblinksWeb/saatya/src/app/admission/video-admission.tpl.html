@@ -51,7 +51,7 @@
                         <div class="video-details-description">
                             <h3>{{videoInfo.title}}</h3>
                             <span>from </span>
-                            <a href="#/mentorProfile/{{videoInfo.userid}}"><span class="own-video">{{videoInfo.firstName +" " + videoInfo.lastName}}
+                            <a href="#/mentorProfile/{{videoInfo.userid}}"><span class="own-video">{{displayName(videoInfo.firstName,videoInfo.lastName,videoInfo.userName)}}
                             </span></a>
                             <span class="video-time-add"> {{convertTime(videoInfo.creationDate)}} ago</span>
                             <div class="video-mentor-details">
@@ -86,7 +86,8 @@
                                           rating-define="star"
                                           rating-stars="{{rateNum}}"
                                           star-radius="10" sel-color="gold"
-                                          back-color="white"></div>
+                                          back-color="white"
+                                          readonly="true"></div>
                                 </span>
 
                             </div>
@@ -127,7 +128,7 @@
                                         </a>
                                         <div class="comment-body">
                                             <div class="comment-heading">
-                                                <h4 class="user">{{comment.firstName+" "+ comment.lastName}}</h4>
+                                                <h4 class="user">{{displayName(comment.firstName,comment.lastName,comment.userName)}}</h4>
                                                 <h5 class="time">{{convertTime(comment.timestamp)}}</h5>
                                             </div>
                                             <p class="pre-wrap">{{comment.content}}</p>
@@ -146,7 +147,6 @@
                     <ul class="related-video-list" ng-repeat="videoRelate in videosRelated">
                         <li class="video-list-item">
                             <div class="content-warpper">
-
                                 <div class="thumb-video" >
                                     <a href="#/video_admission/{{videoRelate.vid}}"><img ng-src="{{videoRelate.image}}"></a>
                                 </div>
@@ -154,23 +154,16 @@
                                     <a href="#/video_admission/{{videoRelate.vid}}"><p class="title-video">
                                         {{videoRelate.title}}
                                     </p></a>
-                                    <span class="owner-video">
-                                                        from
-                                            <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
-                                                    </a></span><br>
-                                    <span class="view-count">
-                                                        view: <span>{{videoRelate.numViews}}</span>
-                                                    </span>
+                                    <span class="owner-video">from
+                                        <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{displayName(videoRelate.firstName,videoRelate.lastName,comment.userName}}</span></a></span><br>
+                                    	<span class="view-count">view: <span>{{videoRelate.numViews}}</span>
+                                    </span>
                                 </div>
-
                             </div>
                         </li>
-
                     </ul>
                 </div>
             </div><!-- /End Video details content -->
-
         </section><!-- /End content -->
     </div><!-- End container -->
-
 </div>

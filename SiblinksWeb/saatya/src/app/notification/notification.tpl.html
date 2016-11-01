@@ -16,7 +16,7 @@
                       <img src="assets/images/AskAQuestion.png">
                   </div>
                   <div class="nft-info">{{n.type == '1' ? 'Your question has been answered by' : n.type == '2' ? 'Your video has been commented by' : n.type == '3' ? 'Your video admission has been commented by' : n.type == '4' ? 'Your essay has been replied by' : ''}} 
-                  	<span class="nft-name">{{n.firstName}} {{n.lastName}}</span>
+                  	<span class="nft-name">{{displayName(n.firstName,n.lastName,n.userName)}}</span>
                   </div>
                   <div class="nft-time">{{convertUnixTimeToTime(n.timestamp)}} ago</div>
                  </a>

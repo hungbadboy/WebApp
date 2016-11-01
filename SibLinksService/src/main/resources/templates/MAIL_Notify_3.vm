@@ -15,9 +15,9 @@
 
 
 <br> <br>
-
+<div style="white-space: pre-wrap;word-wrap:break-word">
 ${BODY}
-
+</div>
 <br> <br>
 
 Phone: ${PHONE}

@@ -319,8 +319,7 @@ brotControllers
                                                     objAnswer.authorID = answer_result[y].authorID;
                                                     objAnswer.aid = answer_result[y].aid;
                                                     objAnswer.pid = answer_result[y].pid;
-                                                    objAnswer.name = answer_result[y].firstName + " " + answer_result[y].lastName;
-                                                    objAnswer.content = answer_result[y].content;
+                                                    objAnswer.name = displayUserName(answer_result[y].firstName, answer_result[y].lastName, answer_result[y].userName);
                                                     objAnswer.avatar = answer_result[y].imageUrl;
                                                     objAnswer.countLike = answer_result[y].numlike;
                                                     objAnswer.imageAnswer = detectMultiImage(answer_result[y].imageAnswer);

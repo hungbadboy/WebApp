@@ -140,8 +140,31 @@ public class SibConstants {
         public static final String SQL_SIB_GET_COMMENTS_PN_COUNT = "SIB_GET_COMMENTS_PN_COUNT";
         public static final String SQL_SIB_GET_VIDEO_ADMISSION_COMMENTS_PN = "SIB_GET_VIDEO_ADMISSION_COMMENTS_PN";
         public static final String SQL_SIB_GET_VIDEO_ADMISSION_COMMENTS_PN_COUNT = "SIB_GET_VIDEO_ADMISSION_COMMENTS_PN_COUNT";
+        // Artical
         public static final String SQL_SIB_GET_ARTICLE_COMMENTS_PN = "SIB_GET_ARTICLE_COMMENTS_PN";
         public static final String SQL_SIB_GET_ARTICLE_COMMENTS_PN_COUNT = "SIB_GET_ARTICLE_COMMENTS_PN_COUNT";
+        public static final String SQL_SIB_INSERT_ARTICLE_COMMENT = "SIB_INSERT_ARTICLE_COMMENT";
+        public static final String SQL_SIB_UPDATE_ARTICLE_COMMENT = "SIB_UPDATE_ARTICLE_COMMENT";
+        public static final String SQL_GET_INFO_ARTICLE = "GET_INFO_ARTICLE";
+        public static final String SQL_GET_ARTICLEID_OF_COMMENT = "GET_ARTICLEID_OF_COMMENT";
+        public static final String SQL_GET_ARTICLE_WITH_ARTICLEID = "GET_ARTICLE_WITH_ARTICLEID";
+        public static final String SQL_GET_ARTICLES_PN = "GET_ARTICLES_PN";
+        public static final String SQL_GET_ARTICLES_COUNT = "GET_ARTICLES_COUNT";
+        public static final String SQL_ANSWER_ARTICLE = "ANSWER_ARTICLE";
+        public static final String SQL_GET_ANSWERS_ARTICLE_PN = "GET_ANSWERS_ARTICLE_PN";
+        public static final String SQL_GET_ANSWERS_ARTICLE_COUNT = "GET_ANSWERS_ARTICLE_COUNT";
+        public static final String SQL_GET_ARTICLE_DETAIL = "GET_ARTICLE_DETAIL";
+        public static final String SQL_GET_ARTICLE_BY_USER_PN = "GET_ARTICLE_BY_USER_PN";
+        public static final String SQL_GET_ARTICLE_BY_USER_PN_COUNT = "GET_ARTICLE_BY_USER_PN_COUNT";
+        public static final String SQL_GET_ALL_ARTICLE = "GET_ALL_ARTICLE";
+        public static final String SQL_DELETE_ARTICLE = "DELETE_ARTICLE";
+        public static final String SQL_GET_IMAGE_ARTICLE = "GET_IMAGE_ARTICLE";
+        public static final String SQL_UPDATE_ARTICLE = "UPDATE_ARTICLE";
+        public static final String SQL_UPDATE_ARTICLE_NOT_IMAGE = "UPDATE_ARTICLE_NOT_IMAGE";
+        public static final String SQL_CREATE_ARTICLE = "CREATE_ARTICLE";
+        public static final String SQL_SIB_GET_LIST_ARTICLE_ADMISSION = "SIB_GET_LIST_ARTICLE_ADMISSION";
+        public static final String SQL_SIB_UPDATE_NUMVIEW_ARTICLE_ADMISSION = "SIB_UPDATE_NUMVIEW_ARTICLE_ADMISSION";
+
         public static final String SQL_SIB_GET_ESSAY_COMMENTS_PN = "SIB_GET_ESSAY_COMMENTS_PN";
         public static final String SQL_SIB_GET_ESSAY_COMMENTS_PN_COUNT = "SIB_GET_ESSAY_COMMENTS_PN_COUNT";
         public static final String SQL_SIB_EDIT_VIDEO = "SIB_EDIT_VIDEO";
@@ -194,12 +217,12 @@ public class SibConstants {
         public static final String SQL_SIB_INSERT_VIDEO_COMMENT = "SIB_INSERT_VIDEO_COMMENT";
         public static final String SQL_SIB_INSERT_VIDEO_ADMISSION_COMMENT = "SIB_INSERT_VIDEO_ADMISSION_COMMENT";
         public static final String SQL_SIB_INSERT_ESSAY_COMMENT = "SIB_INSERT_ESSAY_COMMENT";
-        public static final String SQL_SIB_INSERT_ARTICLE_COMMENT = "SIB_INSERT_ARTICLE_COMMENT";
+
         public static final String SQL_SIB_INSERT_ANSWER_COMMENT = "SIB_INSERT_ANSWER_COMMENT";
         public static final String SQL_SEARCH_POST_ANSWERS = "SEARCH_POST_ANSWERS";
         public static final String SQL_SEARCH_ANSWER_COMMENTS = "SEARCH_ANSWER_COMMENTS";
         public static final String SQL_SIB_UPDATE_VIDEO_COMMENT = "SIB_UPDATE_VIDEO_COMMENT";
-        public static final String SQL_SIB_UPDATE_ARTICLE_COMMENT = "SIB_UPDATE_ARTICLE_COMMENT";
+
         public static final String SQL_SIB_GET_NESTED_COMMENTS = "SIB_GET_NESTED_COMMENTS";
         public static final String SQL_SIB_INSERT_NESTED_COMMENT = "SIB_INSERT_NESTED_COMMENT";
         public static final String SQL_SIB_GET_NESTED_CID = "SIB_GET_NESTED_CID";
@@ -370,16 +393,16 @@ public class SibConstants {
         // End notification
         public static final String SQL_GET_LIKE_POST_BY_USER = "GET_LIKE_POST_BY_USER";
         public static final String SQL_GET_USER_POST_VIDEO = "GET_USER_POST_VIDEO";
-        public static final String SQL_GET_INFO_ARTICLE = "GET_INFO_ARTICLE";
+
         public static final String SQL_GET_INFO_ESSAY = "GET_INFO_ESSAY";
         public static final String SQL_GET_INFO_VIDEO_ADMISSION = "GET_INFO_VIDEO_ADMISSION";
         public static final String SQL_GET_VIDEOID_OF_COMMENT = "GET_VIDEOID_OF_COMMENT";
         public static final String SQL_GET_VIDEO_ADMISSION_ID_OF_COMMENT = "GET_VIDEO_ADMISSION_ID_OF_COMMENT";
-        public static final String SQL_GET_ARTICLEID_OF_COMMENT = "GET_ARTICLEID_OF_COMMENT";
+
         public static final String SQL_GET_ESSAYID_OF_COMMENT = "GET_ESSAYID_OF_COMMENT";
         public static final String SQL_GET_VIDEO_WITH_VIDEOID = "GET_VIDEO_WITH_VIDEOID";
         public static final String SQL_GET_VIDEO_ADMISSION_WITH_VIDEOID = "GET_VIDEO_ADMISSION_WITH_VIDEOID";
-        public static final String SQL_GET_ARTICLE_WITH_ARTICLEID = "GET_ARTICLE_WITH_ARTICLEID";
+
         public static final String SQL_GET_ESSAY_WITH_ESSAYID = "GET_ESSAY_WITH_ESSAYID";
         public static final String SQL_GET_AUTHOR_COMMENT = "GET_AUTHOR_COMMENT";
         public static final String SQL_GET_POST_WITH_POSTID = "GET_POST_WITH_POSTID";
@@ -397,27 +420,14 @@ public class SibConstants {
         public static final String SQL_GET_VIDEO_ADMISSION_PN = "GET_VIDEO_ADMISSION_PN";
         public static final String SQL_GET_VIDEO_ADMISSION = "GET_VIDEO_ADMISSION";
         public static final String SQL_GET_VIDEO_ADMISSION_COUNT = "GET_VIDEO_ADMISSION_COUNT";
-        public static final String SQL_GET_ARTICLES_PN = "GET_ARTICLES_PN";
-        public static final String SQL_GET_ARTICLES_COUNT = "GET_ARTICLES_COUNT";
-        public static final String SQL_ANSWER_ARTICLE = "ANSWER_ARTICLE";
-        public static final String SQL_GET_ANSWERS_ARTICLE_PN = "GET_ANSWERS_ARTICLE_PN";
-        public static final String SQL_GET_ANSWERS_ARTICLE_COUNT = "GET_ANSWERS_ARTICLE_COUNT";
-        public static final String SQL_GET_ARTICLE_DETAIL = "GET_ARTICLE_DETAIL";
+
         public static final String SQL_GET_VIDEO_ADMISSION_WITH_TOPIC = "GET_VIDEO_ADMISSION_WITH_TOPIC";
         public static final String SQL_GET_VIDEO_ADMISSION_DETAIL = "GET_VIDEO_ADMISSION_DETAIL";
         public static final String SQL_GET_VIDEO_ADMISSION_VIEW_PN = "GET_VIDEO_ADMISSION_VIEW_PN";
         public static final String SQL_UPDATE_VIEW_VIDEO_ADMISSION = "UPDATE_VIEW_VIDEO_ADMISSION";
         public static final String SQL_UPDATE_AVARTAR_USER = "UPDATE_AVARTAR_USER";
         public static final String SQL_GET_AVATAR_USER = "GET_AVATAR_USER";
-        public static final String SQL_GET_ARTICLE_BY_USER_PN = "GET_ARTICLE_BY_USER_PN";
-        public static final String SQL_GET_ARTICLE_BY_USER_PN_COUNT = "GET_ARTICLE_BY_USER_PN_COUNT";
-        public static final String SQL_GET_ALL_ARTICLE = "GET_ALL_ARTICLE";
-        public static final String SQL_DELETE_ARTICLE = "DELETE_ARTICLE";
-        public static final String SQL_GET_IMAGE_ARTICLE = "GET_IMAGE_ARTICLE";
         public static final String SQL_GET_IMAGE_UPLOAD_ESSAY = "GET_IMAGE_UPLOAD_ESSAY";
-        public static final String SQL_UPDATE_ARTICLE = "UPDATE_ARTICLE";
-        public static final String SQL_UPDATE_ARTICLE_NOT_IMAGE = "UPDATE_ARTICLE_NOT_IMAGE";
-        public static final String SQL_CREATE_ARTICLE = "CREATE_ARTICLE";
         public static final String SQL_GET_ALL_TOPIC_SUB_ADMISSION = "GET_ALL_TOPIC_SUB_ADMISSION";
         public static final String SQL_DELETE_VIDEO_ADMISSION = "DELETE_VIDEO_ADMISSION";
         public static final String SQL_GET_IMAGE_VIDEO_ADMISSION = "GET_IMAGE_VIDEO_ADMISSION";
@@ -513,7 +523,7 @@ public class SibConstants {
         public static final String SQL_CHECK_USER_HISTORY_VIDEO = "CHECK_USER_HISTORY_VIDEO";
         public static final String SQL_INSERT_HISTORY_VIDEO = "INSERT_HISTORY_VIDEO";
         public static final String SQL_SIB_GET_LIST_VIDEO_TUTTORIAL_ADMISSION = "SIB_GET_LIST_VIDEO_TUTTORIAL_ADMISSION";
-        public static final String SQL_SIB_GET_LIST_ARTICLE_ADMISSION = "SIB_GET_LIST_ARTICLE_ADMISSION";
+
         public static final String SQL_GET_VIDEO_BY_SUBJECTID = "GET_VIDEO_BY_SUBJECTID";
         public static final String SQL_CHECK_SUBSCRIBE = "CHECK_SUBSCRIBE";
         public static final String SQL_UPDATE_AVG_RATE = "UPDATE_AVG_RATE";

@@ -20,7 +20,7 @@
                     <p class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 100 ? '...' : ''}}</p>
                     <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
                     <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span>
-                        <span>by mentor: </span><span style="line-height: 25px;" class="mentor-review">{{convertName(essay.firstName+' '+essay.lastName,essay.userName)}}</span></p>
+                        <span>by mentor: </span><span style="line-height: 25px;" class="mentor-review">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</span></p>
                 </div>
             </div>
             <div ng-if="$last" class="number-essay" style=" margin-top: 10px;">
@@ -46,7 +46,7 @@
                     <div class="essay-thumb"  ng-if="currentEssay.status !='W'">
                         <div class="essay-thumb-left">
                             <p>Mentor:</p>
-                            <p class="name-mentor"><a data-dismiss="modal" ng-click="transferPage('/student/mentorProfile/{{currentEssay.mentorId}}')">{{convertName(currentEssay.mfirstName + ' ' + currentEssay.mlastName,currentEssay.muserName)}}</a>
+                            <p class="name-mentor"><a data-dismiss="modal" ng-click="transferPage('/student/mentorProfile/{{currentEssay.mentorId}}')">{{displayUserName(currentEssay.mfirstName,currentEssay.mlastName,currentEssay.muserName)}}</a>
                             </p>
                             <p><span class="essay-{{currentEssay.status=='P'?'reviewing':'answers'}}">{{currentEssay.status=='P'?'Reviewing':'Answered'}}</p><br>
                         </div>
@@ -57,7 +57,7 @@
 
                     <div class="action-essay">
                         <button ng-click="editEssay()" ng-if="currentEssay.status !='R'" class="edit">Edit</button>
-                        <button ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteEssay(question.question_id)" ng-if="currentEssay.status !='R'" class="delete">Delete</button>
+                        <button ng-really-message="Are you sure you want to delete?" ng-really-click ="removeEssay(currentEssay.uploadEssayId)" ng-if="currentEssay.status !='R'" class="delete">Delete</button>
                     </div>
                 </div>
                 <div class="col-md-9 right-answer clearfix">
@@ -66,8 +66,8 @@
                         <span aria-hidden="true" data-icon="&#x51;"></span>
                     </button>
                     <div class="essay-detail-right-content-wrapper" >
-                        <div class="essay-detail-right-content">
-                            <p class="pre-wrap" scroller="detailEssay1">{{currentEssay.descriptionOfEssay}}</p>
+                        <div class="essay-detail-right-content" scroller="detailEssay1">
+                            <p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>
                             <div class=""></div>
                             <div class="attrach-file"> 
                                 <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;"> Download file</span></label>

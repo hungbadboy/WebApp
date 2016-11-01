@@ -550,7 +550,11 @@ function displayUserName(firstName, lastName, userName) {
     if (!isEmpty(firstName) && !isEmpty(lastName)) {
     	return firstName + ' ' + lastName;
     } else if(isEmpty(firstName) && isEmpty(lastName)) {
-    	return capitaliseFirstLetter(userName.substr(0, userName.indexOf('@')));
+    	if(isEmpty(userName)) {
+    		return 'No name';
+    	} else {
+    		return capitaliseFirstLetter(userName.substr(0, userName.indexOf('@')));
+    	}
     } else {
     	return  !isEmpty(firstName)?firstName:lastName;
     }
