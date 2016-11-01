@@ -32,26 +32,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
               $(".mentor-manage-essay .left-qa").css({"top":"auto"});
               $(".mentor-manage-essay .left-qa .tab-content .tab-pane").css({"height":+ heighttab_scroll + "px"});
           } 
-        // if($window.innerWidth < 1601){
-        //   if (qa_scroll > 75) {
-        //     $(".mentor-manage-qa-content .left-qa").css({"top":"108px", "height":"85%"});
-        //     $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"70vh"});
-        //   }
-        //   else {
-        //     $(".mentor-manage-qa-content .left-qa").css({"top":"auto"});
-        //     $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"63vh"});
-        //   }
-        // }
-        // if($window.innerWidth < 1441){
-        //   if (qa_scroll > 75) {
-        //     $(".mentor-manage-qa-content .left-qa").css({"top":"108px", "height":"84%"});
-        //     $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"67vh"});
-        //   }
-        //   else {
-        //     $(".mentor-manage-qa-content .left-qa").css({"top":"auto", "height":"74%"});
-        //     $(".mentor-manage-qa-content .left-qa .tab-content").css({"height":"65vh"});
-        //   }
-        // }
+
       })
       getAllEssay();
     } else {
