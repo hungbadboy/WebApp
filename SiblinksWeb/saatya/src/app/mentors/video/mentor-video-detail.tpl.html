@@ -50,7 +50,7 @@
                             <div class="col-md-7 col-md-offset-1 info-video">
                                 <div class="main-cm-detail">
                                     <div class="top-cm">
-                                        <h3>{{video.title}}</h3>
+                                        <h3 class="word-wrap">{{video.title}}</h3>
                                         <span class="time">{{video.timeStamp}} ago</span>
                                         <div class="btn-count clearfix">
                                             <div class="bx-btn pull-left">
@@ -106,7 +106,7 @@
                                                                 <a href="" ng-click="goToProfile(c.userid)"><strong class="primary-font">{{c.fullName}}</strong></a><span class="time">{{c.timestamp}} ago</span>
                                                                 <a href="" class="txt-dlt pull-right" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteComment(c.cid, video.vid)">Delete</a>
                                                             </div>
-                                                            <p class="pre-wap">{{c.content}}</p>
+                                                            <p class="pre-wap word-wrap">{{c.content}}</p>
                                                         </div>
                                                     </li>
                                                 </ul>

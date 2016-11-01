@@ -219,7 +219,7 @@ public class CommentServiceImpl implements CommentsService {
                         status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns3);
 
                         // send message fire base
-                        String toTokenId = userservice.getTokenUser(userId);
+                        String toTokenId = userservice.getTokenUser(authorId);
                         if (!StringUtil.isNull(toTokenId)) {
 
                             fireBaseNotification.sendMessage(

@@ -58,6 +58,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.siblinks.ws.Notification.Helper.FireBaseNotification;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.ActivityLogData;
@@ -67,6 +68,7 @@ import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.ActivityLogService;
 import com.siblinks.ws.service.UploadEssayService;
+import com.siblinks.ws.service.UserService;
 import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.RandomString;
@@ -100,6 +102,12 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
     @Autowired
     ActivityLogService activiLogService;
+
+    @Autowired
+    private UserService userservice;
+
+    @Autowired
+    private FireBaseNotification fireBaseNotification;
 
     /**
      * {@inheritDoc}
@@ -909,7 +917,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     @Override
     @RequestMapping(value = "/insertCommentEssay", method = RequestMethod.POST)
     public ResponseEntity<Response> insertCommentEssay(@RequestParam(required = false) final MultipartFile file, @RequestParam final long essayId,
-            @RequestParam final long mentorId, @RequestParam final String comment) {
+            @RequestParam final long mentorId, @RequestParam final long studentId, @RequestParam final String comment) {
         SimpleResponse reponse = null;
         TransactionStatus status = null;
         try {
@@ -941,6 +949,26 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     }
 
                     if (flag) {
+                        String contentNofi = comment;
+                        if (!StringUtil.isNull(comment) && comment.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
+                            contentNofi = comment.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
+                        }
+                        Object[] queryParamsIns3 = { mentorId, studentId, SibConstants.NOTIFICATION_TYPE_REPLY_ESSAY, SibConstants.NOTIFICATION_TITLE_REPLY_ESSAY, contentNofi, null, essayId };
+                        dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns3);
+
+                        // send message fire base
+                        String toTokenId = userservice.getTokenUser(String.valueOf(studentId));
+                        if (!StringUtil.isNull(toTokenId)) {
+
+                            fireBaseNotification.sendMessage(
+                                toTokenId,
+                                SibConstants.NOTIFICATION_TITLE_REPLY_ESSAY,
+                                SibConstants.TYPE_VIDEO,
+                                String.valueOf(essayId),
+                                contentNofi,
+                                SibConstants.NOTIFICATION_ICON,
+                                SibConstants.NOTIFICATION_PRIPORITY_HIGH);
+                        }
                         activiLogService.insertActivityLog(new ActivityLogData(
                                                                                SibConstants.TYPE_ESSAY,
                                                                                "C",
