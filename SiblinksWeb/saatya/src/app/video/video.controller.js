@@ -1,6 +1,13 @@
 /**
  * Created by Tavv on 06/09/2016.
  */
+
+brotControllers.filter('slice', function () {
+    return function (arr, start, end) {
+        if (!arr || !arr.length) { return; }
+        return arr.slice(start, end);
+    };
+});
 brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootScope', '$timeout', '$log', 'HomeService', 'MentorService', 'TeamMentorService',
     'StudentService', 'VideoService', 'myCache', 'QuestionsService',
     function ($scope, $http, $location, $rootScope, $timeout, $log, HomeService, MentorService, TeamMentorService, StudentService, VideoService, myCache, QuestionsService) {
@@ -38,7 +45,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         $scope.currentTab = $location.search().tab;
 
-        function fillListVideoByDefault(){
+        function fillListVideoByDefault() {
             $rootScope.$broadcast('open');
             VideoService.getListCategorySubscription().then(function (data) {
                 $rootScope.$broadcast('close');
@@ -131,7 +138,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     if (!checkExist) {
                         $scope.listMentorOlder.push({
                             "authorID": $scope.listOlderVideo[i].authorID,
-                            "authorName": $scope.listOlderVideo[i].author,
+                            "authorName": displayUserName($scope.listOlderVideo[i].firstName, $scope.listOlderVideo[i].lastName, $scope.listOlderVideo[i].userName).trim(),
                             "vid": $scope.listOlderVideo[i].vid,
                             "image": $scope.listOlderVideo[i].image,
                             "title": $scope.listOlderVideo[i].title,
@@ -294,11 +301,15 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.isShowMoreRecently = true;
         $scope.subsWithIndex = -1;
         var hasLoadMore = false;
-
+        $scope.isMoreSubject = false;
+        $scope.longNumberLimit = 9;
+        $scope.listSubjectsSize = 0;
+        var listSubs = [];
 
         init();
 
         function init() {
+            getSubjects();
             if (userId !== null) {
                 $scope.login = 1;
                 getMentorSubscribe(userId);
@@ -317,7 +328,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         function showTab(tabStr) {
             $scope.currentTab = tabStr;
-            switch (tabStr){
+            switch (tabStr) {
                 case TabName.ALL :
                     angular.element(document.getElementById('all')).show();
                     angular.element(document.getElementById('subcriptions')).hide();
@@ -325,7 +336,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     angular.element(document.getElementById('favourite')).hide();
                     break;
                 case TabName.SUBSCRIPTION :
-                    console.log($scope.listCategorySubscription);
                     angular.element(document.getElementById('all')).hide();
                     angular.element(document.getElementById('subcriptions')).show();
                     angular.element(document.getElementById('history')).hide();
@@ -372,15 +382,19 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         }
 
 
-        VideoService.getSubjects().then(function (response) {
-            if (response.data.status) {
-                var subjects = response.data.request_data_result;
-                if (subjects) {
-                    $scope.listSubjects = subjects;
+        function getSubjects() {
+            VideoService.getSubjects().then(function (response) {
+                if (response.data.status) {
+                    var subjects = response.data.request_data_result;
+                    if (subjects) {
+                        $scope.listSubjects = subjects;
+                        listSubs = $scope.listSubjects;
+                        $scope.listSubjectsSize = listSubs.length;
+                        $scope.isMoreSubject = listSubs.length > $scope.longNumberLimit;
+                    }
                 }
-            }
-        });
-
+            });
+        }
 
         $rootScope.subjectId = $rootScope.subjectId || -1;
         $rootScope.sortBySubject = function (subjectId) {
@@ -459,7 +473,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             $scope.isSearchAction = true;
         };
 
-        function clearDataSearched () {
+        function clearDataSearched() {
             $scope.searchItem = null;
             $scope.selected = null;
             $scope.isSearchAction = false;
@@ -737,6 +751,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         //MTDU
         var listVideos = '';
+
         function loadHistory() {
             if (myCache.get("listVideos") !== undefined) {
                 $log.info("My cache already exists");
@@ -824,7 +839,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             return new Array(num);
         };
 
-        function resetFlagShowMoreFavourite(){
+        function resetFlagShowMoreFavourite() {
             if (userId === null || userId === undefined) {
                 return;
             }
@@ -984,11 +999,49 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         };
 
 
-        $scope.changeCategory = function(tabName){
-            if(isEmpty(tabName)){
+        $scope.changeCategory = function (tabName) {
+            if (isEmpty(tabName)) {
                 return;
             }
             showTab(tabName);
             $location.search('tab', tabName);
-        }
+        };
+
+        var currentSubject = 0;
+        $scope.isNextPage = false;
+        $scope.offsetSubs = 0;
+        $scope.newLimitSubs = $scope.longNumberLimit;
+        var newOffset = 0;
+        $scope.nextSubject = function () {
+            if (!$scope.listSubjects) {
+                return;
+            }
+            if ($scope.listSubjects.length != listSubs.length) {
+                $scope.listSubjects = listSubs;
+            }
+            currentSubject++;
+            newOffset = $scope.longNumberLimit * currentSubject;
+            if (newOffset > $scope.listSubjects.length) {
+                newOffset = listSubs.length;
+                $scope.newLimitSubs = newOffset;
+            } else {
+                $scope.newLimitSubs = newOffset + $scope.longNumberLimit;
+            }
+            $scope.isNextPage = true;
+            $scope.offsetSubs = newOffset;
+        };
+
+        $scope.prevSubject = function () {
+            if (currentSubject < 0) {
+                return;
+            }
+            if ($scope.listSubjects.length != listSubs.length) {
+                $scope.listSubjects = listSubs;
+            }
+            currentSubject--;
+            $scope.offsetSubs = $scope.offsetSubs - $scope.longNumberLimit;
+            newOffset = $scope.offsetSubs;
+            $scope.newLimitSubs = $scope.newLimitSubs - $scope.longNumberLimit;
+        };
+
     }]);
