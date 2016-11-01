@@ -6,7 +6,7 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
 
         var userId = localStorage.getItem('userId');
         //data test
-        $scope.defaultLimit = 10;
+        $scope.defaultLimit = 30;
         var defaultOffset = 0;
 
         var BASE_URL = {
@@ -51,8 +51,6 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
 
         function init() {
             getActivityLogByUser(userId, $scope.defaultLimit, defaultOffset);
-            // loadStudentSubscribed();
-            // getActivityStudent();
         }
 
 
@@ -69,40 +67,6 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
         }
 
 
-        function loadStudentSubscribed() {
-            MentorService.getStudentSubscribed(userId, 6, 0).then(function (data) {
-                if (data.data.status) {
-                    var response = data.data.request_data_result;
-                    if (response != null && response != "Found no data") {
-                        var students = [];
-                        for (var i = 0; i < response.length; i++) {
-                            var obj = {};
-                            obj.userId = response[i].userid;
-                            obj.userName = response[i].userName;
-                            obj.avatar = response[i].imageUrl;
-                            obj.defaultSubjectId = response[i].defaultSubjectId;
-                            obj.isOnline = response[i].isOnline;
-                            students.push(obj);
-                        }
-                        $scope.listStudentSubscribed = students;
-                    } else {
-                        $scope.listStudentSubscribed = [];
-                    }
-
-                }
-            });
-        }
-
-        function getActivityStudent() {
-            SideBarRightService.getStudentActivity(userId, defaultLimit, defaultOffset).then(function (response) {
-                if (response.data.status) {
-                    var result = response.data.request_data_result;
-                    if (result) {
-                        $scope.listStudentActivity = result;
-                    }
-                }
-            });
-        }
 
         /**
          * @param time is TIME_STAMP
