@@ -318,8 +318,9 @@ brotControllers.controller('UploadTutorialController',
       $rootScope.$broadcast('close');
     }
 
-    $scope.validateLink = function(link){
+    $scope.validateLink = function(){
       $scope.success = null;
+      var link = $('#txtTutorialUrl').val();
       if (link == null || link.length == 0){
         clearContent();
         return;
