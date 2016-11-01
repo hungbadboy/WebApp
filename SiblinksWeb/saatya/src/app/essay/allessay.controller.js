@@ -471,7 +471,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
           $scope.fileName = null;
           $scope.fileSize = null;
         } else{
-          $scope.error = data.data.request_data_result;
+          $scope.error = data.request_data_result;
           console.log($scope.error);
         }
       });

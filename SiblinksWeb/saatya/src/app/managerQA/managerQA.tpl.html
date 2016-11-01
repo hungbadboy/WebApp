@@ -57,7 +57,7 @@
                                                     <a><img class="avatar-fix-max-size60" ng-src="{{question.imageUrl}}" alt="avatar"></a>
                                                 </div>
                                                 <div class="col-md-9 bx-dt-qa">
-                                                    <h5>{{convertName(question.firstName+' '+question.lastName,question.userName)}}</h5><span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span>
+                                                    <h5>{{displayName(question.firstName,question.lastName,question.userName+'abc')}}</h5><span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span>
                                                     <p class="in-subj"><span>in</span> <b>{{question.subject}}</b></p>
                                                     <p class="q-cont">{{ question.content | limitTo: 100 }}{{question.content.length > 100 ? '...' : ''}}</p>
                                                     <div class="clearfix bt-item">
@@ -97,7 +97,7 @@
                                                     <a href="#/mentor/studentProfile/{{questionDetail.authorId}}"><img class="avatar-fix-max-size60" ng-src="{{questionDetail.avatar}}" alt="avatar"></a>
                                                 </div>
                                                 <div class="col-md-6 bx-dt-qa">
-                                                    <h5> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{questionDetail.firstName +" "+ questionDetail.lastName}}</a></h5>
+                                                    <h5> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{displayName(questionDetail.firstName,questionDetail.lastName,questionDetail.userName)}}</a></h5>
                                                     <span class="time">asked {{questionDetail.timeStamp}} ago</span>
                                                     <p class="txt-category"><b style="cursor: pointer;" ng-click="clickSubject(questionDetail.subjectId,questionDetail.subject)">{{questionDetail.subject}}</b></p>
                                                 </div>
@@ -199,7 +199,7 @@
                                                                         <span class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                                     </div>
                                                                     <div class="header" ng-if="userId != answer.authorID">
-                                                                        <strong class="primary-font pull-left"><a href="#/student/mentorProfile/{{answer.authorID}}">{{answer.firstName +" " +answer.lastName}}</a></strong>
+                                                                        <strong class="primary-font pull-left"><a href="#/student/mentorProfile/{{answer.authorID}}">{{displayName(answer.firstName,answer.lastName,answer.userName)}}</a></strong>
                                                                         <span class="time pull-left" >&nbsp;Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago &nbsp; </span>{{answer.numlike}}
                                                                         <span  id="heart{{answer.aid}}" class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                                     </div>
@@ -261,7 +261,7 @@
                         <a ng-click="transferPage('/mentor/studentProfile/',questionDetail.authorId)"><img ng-src="{{questionDetail.avatar}}" alt=""></a>
                     </div>
                     <div class="col-md-10">
-                        <h6> <a ng-click="transferPage('/mentor/studentProfile/',questionDetail.authorId)">{{questionDetail.firstName +' '+questionDetail.lastName}}</a></h6>
+                        <h6> <a ng-click="transferPage('/mentor/studentProfile/',questionDetail.authorId)">{{displayName(questionDetail.firstName,questionDetail.lastName,question.userName)}}</a></h6>
                         <span class="time">asked {{questionDetail.timeStamp}} ago</span>
                         <p class="list-view">
                             {{questionDetail.numReplies}} <span data-icon="w"></span>&nbsp;&nbsp;
@@ -293,7 +293,7 @@
                         <img  ng-click="transferPage('/student/mentorProfile/',currentAnswer.authorID)" ng-src="{{currentAnswer.imageUrl}}" alt="avatar">
                     </div>
                     <div class="col-md-6">
-                        <h6><a  ng-click="transferPage('/student/mentorProfile/',currentAnswer.authorID)" >{{currentAnswer.firstName +" " +currentAnswer.lastName}}</a></h6>
+                        <h6><a  ng-click="transferPage('/student/mentorProfile/',currentAnswer.authorID)" >{{displayName(currentAnswer.firstName,currentAnswer.lastName,currentAnswer.userName)}}</a></h6>
                         <span class="time">Replied {{convertUnixTimeToTime(currentAnswer.TIMESTAMP)}} mins ago</span>
                         <p class="list-view">
                             {{currentAnswer.numlike}} <span class="like-h" data-icon=""></span>

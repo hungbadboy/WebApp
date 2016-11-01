@@ -5,7 +5,6 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
     var userId = localStorage.getItem('userId');
     $scope.fullName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastname');
     $scope.avatar = localStorage.getItem('imageUrl');
-    $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
 
     $scope.video_subject = [0];
     $scope.video_playlist = [0];

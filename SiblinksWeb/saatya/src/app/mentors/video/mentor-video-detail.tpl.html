@@ -5,7 +5,7 @@
             <section id="dashboard">
                 <div class="dashboard-wrapper">
                     <div class="dashboard-header">
-                    <h4><a href="#/"> SibLinks</a> / <a href="#/mentor/videoManager">Manage Videos</a> / Detail Information</h4> 
+                    <h4><a href="#/mentor/dashboard"> SibLinks</a> / <a href="#/mentor/videoManager">Manage Videos</a> / Detail Information</h4> 
                     </div>
                     <div class="manager-detail-video">
                         <div class="play-video">
@@ -85,7 +85,10 @@
                                             <div class="box-chat-onl clearfix">
                                                 <a href="#" class="col-md-1"><img src="{{avatar}}" alt=""></a>
                                                 <div class="texta col-md-11">
-                                                    <textarea id="txtComment" ng-click="showButton()" name="" placeholder="Add a comment"></textarea>
+                                                    <textarea id="txtComment" maxlength="1024" ng-change="validateText()" ng-click="showButton()" ng-model="contentText" placeholder="Add a comment"></textarea>
+                                                    <div ng-if="error" style="margin-top: 10px; margin-bottom: 5px; margin-left: 10px;">
+                                                       <span style="color: red;">{{error}}</span>
+                                                    </div>
                                                     <div class="comment-action">
                                                         <button ng-click="cancelComment()" class="cancel">Cancel</button>
                                                         <button ng-click="addComment()" class="add-comment">Add comment</button>
@@ -103,9 +106,7 @@
                                                                 <a href="" ng-click="goToProfile(c.userid)"><strong class="primary-font">{{c.fullName}}</strong></a><span class="time">{{c.timestamp}} ago</span>
                                                                 <a href="" class="txt-dlt pull-right" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteComment(c.cid, video.vid)">Delete</a>
                                                             </div>
-                                                            <p>
-                                                                {{c.content}}
-                                                            </p>
+                                                            <p class="pre-wap">{{c.content}}</p>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -123,7 +124,7 @@
                                             </a></span>
                                             <div class="sub-vd-right pull-left">
                                                 <h5><a href="" ng-click="loadVideo(v)">{{ v.title | limitTo: 20 }}{{v.title.length > 20 ? '...' : ''}}</a></h5>
-                                                <p>from <b><a href="" ng-click="goToProfile(v.userId)">{{v.firstName + ' ' + v.lastName}}</a></b></p>
+                                                <p>from <b><a href="" ng-click="goToProfile(v.userId)">{{displayName(v.firstName,v.lastName,v.userName)}}</a></b></p>
                                                 <p>View: <span>{{v.numViews}}</span></p>
                                             </div> 
                                         </li>                                    

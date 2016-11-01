@@ -1,6 +1,7 @@
 //=========================================== NOTIFICATION.CONTROLLER.JS==============
 brotControllers.controller('NotificationCtrl', ['$sce','$scope', '$rootScope', '$location', '$log', '$routeParams', 'NotificationService', function ($sce, $scope, $rootScope, $location, $log, $routeParams, NotificationService) {
 var userId = localStorage.getItem('userId');
+$scope.userType = localStorage.getItem('userType');
 var totalPageNotification;
 var listPage = [];
 var listReaded = [];
@@ -124,10 +125,26 @@ $scope.addClassActive = function(page) {
   }
   return '';
 };
-
-$scope.convertUnixTimeToTime = function (time) {
-    return convertUnixTimeToTime(time);
-};
-
+$scope.linkRedirect= function(type,linkToId) {
+	var linkRedirectTo ='#';
+	switch (type) {
+	case "1":
+		linkRedirectTo +='/question_detail/'+linkToId;
+		break;
+	case "2":
+		linkRedirectTo+='/mentor/video/detail/'+linkToId;
+		break;
+	case "3":
+		linkRedirectTo+='/video_admission/'+linkToId;
+		break;
+	case "4":
+		linkRedirectTo+='/college_admission?tab=3&eid='+linkToId;
+		break;
+	default:
+		break;
+	}
+	$('.notification-content').hide();
+	window.location.href = linkRedirectTo;
+}
 }]);
 //=========================================== NOTIFICATION.CONTROLLER.JS==============

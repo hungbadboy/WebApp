@@ -51,7 +51,7 @@
                         <div class="video-details-description">
                             <h3>{{videoInfo.title}}</h3>
                             <span>from </span>
-                            <a href="#/mentorProfile/{{videoInfo.userid}}"><span class="own-video">{{videoInfo.firstName +" " + videoInfo.lastName}}
+                            <a href="#/mentorProfile/{{videoInfo.userid}}"><span class="own-video">{{displayName(videoInfo.firstName,videoInfo.lastName,videoInfo.userName)}}
                             </span></a>
                             <span class="video-time-add"> {{convertTime(videoInfo.creationDate)}} ago</span>
                             <div class="video-mentor-details">
@@ -128,7 +128,7 @@
                                         </a>
                                         <div class="comment-body">
                                             <div class="comment-heading">
-                                                <h4 class="user">{{comment.firstName+" "+ comment.lastName}}</h4>
+                                                <h4 class="user">{{displayName(comment.firstName,comment.lastName,comment.userName)}}</h4>
                                                 <h5 class="time">{{convertTime(comment.timestamp)}}</h5>
                                             </div>
                                             <p class="pre-wrap">{{comment.content}}</p>
@@ -155,7 +155,7 @@
                                         {{videoRelate.title}}
                                     </p></a>
                                     <span class="owner-video">from
-                                        <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span></a></span><br>
+                                        <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{displayName(videoRelate.firstName,videoRelate.lastName,comment.userName)}}</span></a></span><br>
                                     	<span class="view-count">view: <span>{{videoRelate.numViews}}</span>
                                     </span>
                                 </div>

@@ -102,13 +102,13 @@
                                 <input type="text" class="form-control input-custom-link" id="txtTutLink" placeholder="Youtube Link or ID" ng-blur="validateLink()" ng-enter="validateLink()" maxlength="99">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="txtTutTitle" value="{{title}}" placeholder="Tutorial Title" maxlength="100">
+                                <input type="text" class="form-control" id="txtTutTitle" ng-model="title" placeholder="Tutorial Title" maxlength="100">
                             </div>                
                             <div class="form-group">
-                                <input type="text" id="txtTutDuration" class="form-control box-duration" value="{{duration}}" placeholder="Tutorial Duration" readonly="true" tabindex="-1">
+                                <input type="text" id="txtTutDuration" class="form-control box-duration" ng-model="duration" placeholder="Tutorial Duration" readonly="true" tabindex="-1">
                             </div>                
                             <div class="form-group">
-                                <textarea name="desciptions" id="txtTutDescription" rows="8" cols="5" class="form-control textarea-custom" placeholder="Description" maxlength="1024">{{description}}</textarea>
+                                <textarea name="desciptions" id="txtTutDescription" rows="8" cols="5" ng-model="description" class="form-control textarea-custom" placeholder="Description" maxlength="1024">{{description}}</textarea>
                             </div>
                             <div class="form-group">
                                 <select  id="insertSubject" class="form-control" data-ng-model="addSubject" ng-change="changeValue(addSubject)" class="form-control" data-ng-options='subject.subjectId as subject.subject for subject in subjects'>                                        

@@ -113,15 +113,15 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
         };
 
         /**
-         * @param type in {@enum ACTIVITY_ACTION}
-         * @param rule in {@enum ACTIVITY_TYPE}
+         * @param action in {@enum ACTIVITY_ACTION}
+         * @param type in {@enum ACTIVITY_TYPE}
          * @returns {boolean} true or false
          */
         $scope.isEmptyLink = function (action, type) {
             if (isEmpty(action) || isEmpty(type)) {
                 return true;
             }
-            return action == ACTIVITY_ACTION.DELETE || type == ACTIVITY_TYPE.PROFILE || type == ACTIVITY_TYPE.ARTICLE || type == ACTIVITY_TYPE.ADMISSION;
+            return action == ACTIVITY_ACTION.DELETE || type == ACTIVITY_TYPE.ARTICLE || type == ACTIVITY_TYPE.ADMISSION;
         };
 
         /**
@@ -180,7 +180,10 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
         // }
 
 
-        $scope.validateLogContent = function (strLog, type, id) {
+        $scope.validateLogContent = function (strLog, action, type, id) {
+            if(action == ACTIVITY_ACTION.DELETE){
+                return $sce.trustAsHtml(strLog);
+            }
             var absHref = $scope.getLink(type, id);
             if(!isEmpty(strLog)) {
                 if (strLog.indexOf(KEY_WORD_LINK.Question) != -1) {
@@ -189,11 +192,12 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
                     return $sce.trustAsHtml(strLog.replace('video', '<a class = "text-under-line" href='+absHref+'>video</a>'));
                 }else if (strLog.indexOf(KEY_WORD_LINK.Essay) != -1) {
                     return $sce.trustAsHtml(strLog.replace('essay', '<a class = "text-under-line" href='+absHref+'>essay</a>'));
-                }else if (strLog.indexOf(KEY_WORD_LINK.Playlist) != -1) {
+                }else if (strLog.indexOf(KEY_WORD_LINK.Playlist) != -1 ) {
                     return $sce.trustAsHtml(strLog.replace('playlist', '<a class = "text-under-line" href='+absHref+'>playlist</a>'));
                 }else if (strLog.indexOf(KEY_WORD_LINK.Profile) != -1) {
                     return $sce.trustAsHtml(strLog.replace('profile', '<a class = "text-under-line" href=' + absHref + '>profile</a>'));
                 }
+
             }
         }
 

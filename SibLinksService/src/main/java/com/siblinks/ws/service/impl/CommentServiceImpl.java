@@ -93,7 +93,6 @@ public class CommentServiceImpl implements CommentsService {
     @Autowired
     private Environment environment;
 
-
     @Autowired
     private UserService userservice;
 
@@ -168,80 +167,85 @@ public class CommentServiceImpl implements CommentsService {
     @RequestMapping(value = "/addComment", method = RequestMethod.POST)
     public ResponseEntity<Response> addComment(@RequestBody final RequestData request) {
         SimpleResponse simpleResponse = null;
-        TransactionStatus statusDB = null;
-        try {
+        String content = request.getRequest_data().getContent();
+        if (content != null && content.length() > 1024) {
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Comment can not longer than 1024 characters.");
+        } else {
+            TransactionStatus statusDB = null;
+            try {
 
-            if (!AuthenticationFilter.isAuthed(context)) {
-                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
-                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
-            }
-            TransactionDefinition def = new DefaultTransactionDefinition();
-            statusDB = transactionManager.getTransaction(def);
-            // Get request data
-            String content = request.getRequest_data().getContent();
-            String userName = request.getRequest_data().getAuthor();
-            String authorId = request.getRequest_data().getAuthorID();
-            String userId = request.getRequest_data().getUid();
-            boolean status = true, statusUpdateCmtVideo = false;
-            int cid = 0;
-            boolean isCeateNofi = true;
-            String userIdTemp = userId;
-            if (StringUtil.isNull(userId)) {
-                userIdTemp = authorId;
-                isCeateNofi = false;
-            }
-
-            Object[] queryParams = { userName, userIdTemp, content };
-            long idComent = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
-            if (idComent > 0) {
-                // Insert comment video table
-                String vid = request.getRequest_data().getVid();
-                Object[] queryParamsIns2 = { idComent, vid };
-                status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_COMMENT, queryParamsIns2);
-                if (status) {
-                    statusUpdateCmtVideo = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_VIDEO_COMMENT_UPDATE, new Object[] { request
-                        .getRequest_data()
-                        .getVid() });
+                if (!AuthenticationFilter.isAuthed(context)) {
+                    simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                    return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
                 }
-                status = status && statusUpdateCmtVideo ? true : false;
+                TransactionDefinition def = new DefaultTransactionDefinition();
+                statusDB = transactionManager.getTransaction(def);
+                // Get request data
 
-                // Insert notification table
-                if ( isCeateNofi) {
-                    String subjectId = request.getRequest_data().getSubjectId();
-                    String contentNofi = content;
-                    if (!StringUtil.isNull(content) && content.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
-                        contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
-                    }
-                    Object[] queryParamsIns3 = { userId, authorId, SibConstants.NOTIFICATION_TYPE_COMMENT_VIDEO, SibConstants.NOTIFICATION_TITLE_COMMENT_VIDEO, contentNofi, subjectId, vid };
-                    status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns3);
-
-                    // send message fire base
-                    String toTokenId = userservice.getTokenUser(userId);
-                    if (!StringUtil.isNull(toTokenId)) {
-
-                        fireBaseNotification.sendMessage(
-                            toTokenId,
-                            SibConstants.NOTIFICATION_TITLE_COMMENT_VIDEO,
-                            SibConstants.TYPE_VIDEO,
-                            vid,
-                            contentNofi,
-                            SibConstants.NOTIFICATION_ICON,
-                            SibConstants.NOTIFICATION_PRIPORITY_HIGH);
-                    }
-                    // log activity
-                    activityLogSerservice.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "C", "Commented video", userId, vid));
+                String userName = request.getRequest_data().getAuthor();
+                String authorId = request.getRequest_data().getAuthorID();
+                String userId = request.getRequest_data().getUid();
+                boolean status = true, statusUpdateCmtVideo = false;
+                int cid = 0;
+                boolean isCeateNofi = true;
+                String userIdTemp = userId;
+                if (StringUtil.isNull(userId)) {
+                    userIdTemp = authorId;
+                    isCeateNofi = false;
                 }
-            }
 
-            transactionManager.commit(statusDB);
+                Object[] queryParams = { userName, userIdTemp, content };
+                long idComent = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
+                if (idComent > 0) {
+                    // Insert comment video table
+                    String vid = request.getRequest_data().getVid();
+                    Object[] queryParamsIns2 = { idComent, vid };
+                    status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_COMMENT, queryParamsIns2);
+                    if (status) {
+                        statusUpdateCmtVideo = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_VIDEO_COMMENT_UPDATE, new Object[] { request
+                            .getRequest_data()
+                            .getVid() });
+                    }
+                    status = status && statusUpdateCmtVideo ? true : false;
 
-            simpleResponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), cid);
-        } catch (Exception e) {
-            if (statusDB != null) {
-                transactionManager.rollback(statusDB);
+                    // Insert notification table
+                    if (isCeateNofi) {
+                        String subjectId = request.getRequest_data().getSubjectId();
+                        String contentNofi = content;
+                        if (!StringUtil.isNull(content) && content.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
+                            contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
+                        }
+                        Object[] queryParamsIns3 = { userId, authorId, SibConstants.NOTIFICATION_TYPE_COMMENT_VIDEO, SibConstants.NOTIFICATION_TITLE_COMMENT_VIDEO, contentNofi, subjectId, vid };
+                        status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns3);
+
+                        // send message fire base
+                        String toTokenId = userservice.getTokenUser(userId);
+                        if (!StringUtil.isNull(toTokenId)) {
+
+                            fireBaseNotification.sendMessage(
+                                toTokenId,
+                                SibConstants.NOTIFICATION_TITLE_COMMENT_VIDEO,
+                                SibConstants.TYPE_VIDEO,
+                                vid,
+                                contentNofi,
+                                SibConstants.NOTIFICATION_ICON,
+                                SibConstants.NOTIFICATION_PRIPORITY_HIGH);
+                        }
+                        // log activity
+                        activityLogSerservice.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "C", "Commented video", userId, vid));
+                    }
+                }
+
+                transactionManager.commit(statusDB);
+
+                simpleResponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), cid);
+            } catch (Exception e) {
+                if (statusDB != null) {
+                    transactionManager.rollback(statusDB);
+                }
+                e.printStackTrace();
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
             }
-            e.printStackTrace();
-            simpleResponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
@@ -422,13 +426,12 @@ public class CommentServiceImpl implements CommentsService {
                     .getRequest_data()
                     .getVid() });
                 Map userPostVideoMap = (Map) readObject.get(0);
-                Object[] queryParamsIns3 = { userPostVideoMap.get("userid"),
-                		request.getRequest_data().getAuthorID(),
-                		"commentVideoAdmssion",
-                		"New comment of video",
-                		"commented video : " +userPostVideoMap.get( "title").toString(),
-                		userPostVideoMap.get("idAdmission"),
-                		request.getRequest_data().getVid() };
+                Object[] queryParamsIns3 = { userPostVideoMap.get("userid"), request.getRequest_data().getAuthorID(), "commentVideoAdmssion", "New comment of video", "commented video : " +
+                                                                                                                                                                      userPostVideoMap
+                                                                                                                                                                          .get(
+                                                                                                                                                                              "title")
+                                                                                                                                                                          .toString(), userPostVideoMap
+                    .get("idAdmission"), request.getRequest_data().getVid() };
                 if (!userPostVideoMap.get("userid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
                     dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns3);
                 }
@@ -725,14 +728,12 @@ public class CommentServiceImpl implements CommentsService {
                 request.getRequest_data().getAuthorID();
                 ((Map) readObject.get(0)).get("nameOfEssay").toString();
 
-                //Add reply essay
+                // Add reply essay
                 if (!((Map) readObject.get(0)).get("userId").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
-                	queryParamsIns = new Object[]{uid,request.getRequest_data().getAuthorID(),
-                			SibConstants.TYPE_ESSAY, SibConstants.NOTIFICATION_TITLE_REPLY_ESSAY,
-                			content, essayId};
-                    boolean isSuccess =dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns);
-                    if(isSuccess) {
-                    	// Send message fire base
+                    queryParamsIns = new Object[] { uid, request.getRequest_data().getAuthorID(), SibConstants.TYPE_ESSAY, SibConstants.NOTIFICATION_TITLE_REPLY_ESSAY, content, essayId };
+                    boolean isSuccess = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns);
+                    if (isSuccess) {
+                        // Send message fire base
                         String toTokenId = userservice.getTokenUser(uid);
                         if (!StringUtil.isNull(toTokenId)) {
 

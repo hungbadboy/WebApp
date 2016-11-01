@@ -1,14 +1,14 @@
-brotControllers.filter('filterSub', function() {
-    return function(items, name) {
+brotControllers.filter('filterSub', function () {
+    return function (items, name) {
         var filtered = [];
         var fullName = "";
         var nameSearch = name;
-        if(!isEmpty(name)){
+        if (!isEmpty(name)) {
             nameSearch = name.toLowerCase();
         }
-        angular.forEach(items, function(el) {
-            fullName =  checkNameToTrim(el.firstName)+ ' ' + checkNameToTrim(el.lastName);
-            if((!isEmpty(fullName) && fullName.toLowerCase().indexOf(nameSearch)>-1)
+        angular.forEach(items, function (el) {
+            fullName = checkNameToTrim(el.firstName) + ' ' + checkNameToTrim(el.lastName);
+            if ((!isEmpty(fullName) && fullName.toLowerCase().indexOf(nameSearch) > -1)
                 || isEmpty(name)) {
                 filtered.push(el);
             }
@@ -49,7 +49,7 @@ brotControllers.controller('MentorProfileController',
             var hasLoadMore = false;
             $scope.listMentorSubsSize = 0;
             $scope.disableNext = true;
-            var LIMIT_SUBJECT = 4;
+            var LIMIT_SUBJECT = 3;
             init();
 
             function init() {
@@ -90,7 +90,7 @@ brotControllers.controller('MentorProfileController',
                         $scope.sinceDay = timeConverter(registrationTime, FormatDateTimeType.MM_YY);
                         $scope.isLoginViaFBOrGoogle = $scope.mentorInfo.idFacebook != null || $scope.mentorInfo.idGoogle != null;
                         $scope.isEmptyName = false;
-                        if (isNameEmpty($scope.mentorInfo.firstname,  $scope.mentorInfo.lastName)) {
+                        if (isNameEmpty($scope.mentorInfo.firstname, $scope.mentorInfo.lastName)) {
                             $scope.isEmptyName = true;
                             $scope.mentorInfo.fullName = splitUserName($scope.mentorInfo.username);
                         }
@@ -149,7 +149,7 @@ brotControllers.controller('MentorProfileController',
                             for (var i = 0; i < response.length; i++) {
                                 var obj = {};
                                 obj.userId = response[i].userid;
-                                obj.userName = response[i].userName != null ? response[i].userName : ' ';
+                                obj.userName = displayUserName(response[i].firstName, response[i].lastName, response[i].userName);
                                 obj.avatar = response[i].imageUrl;
                                 obj.defaultSubjectId = response[i].defaultSubjectId;
                                 obj.schoolId = response[i].school;
@@ -216,7 +216,7 @@ brotControllers.controller('MentorProfileController',
                     check = false;
                     error += "First name or last name contains special characters or number,";
                 }
-                if(bio.length > 500){
+                if (bio.length > 500) {
                     check = false;
                     error += "About me must not exceed 500 characters, ";
                 }
@@ -414,7 +414,7 @@ brotControllers.controller('MentorProfileController',
                         var bioTimeStamp = $scope.studentInfo.birthDay;
                         var registrationTime = $scope.studentInfo.registrationTime;
                         $scope.isStudentEmptyName = false;
-                        if(isNameEmpty($scope.studentInfo.firstname, $scope.studentInfo.lastName)){
+                        if (isNameEmpty($scope.studentInfo.firstname, $scope.studentInfo.lastName)) {
                             $scope.isStudentEmptyName = true;
                             $scope.studentInfo.fullName = splitUserName($scope.studentInfo.username);
                         }
@@ -450,9 +450,9 @@ brotControllers.controller('MentorProfileController',
                         for (var i = 0; i < data_result.length; i++) {
                             var mentor = {};
                             mentor.userid = data_result[i].userid;
-                            if (isNameEmpty(data_result[i].firstName,  data_result[i].lastName)) {
+                            if (isNameEmpty(data_result[i].firstName, data_result[i].lastName)) {
                                 mentor.firstName = splitUserName(data_result[i].loginName);
-                            }else{
+                            } else {
                                 mentor.lastName = data_result[i].lastName;
                                 mentor.firstName = data_result[i].firstName;
                             }
@@ -469,20 +469,18 @@ brotControllers.controller('MentorProfileController',
                             var listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
                             if (listSubject != null && listSubject !== undefined) {
                                 var listSubjectName = [];
-                                var len =listSubject.length;
                                 var isMax = false;
-                                if(len > LIMIT_SUBJECT){
+                                var len = listSubject.length;
+                                if (len > LIMIT_SUBJECT) {
                                     len = LIMIT_SUBJECT;
                                     isMax = true;
                                 }
-                                for (var j = 0; j < listSubject.length; j++) {
+                                for (var j = 0; j < len; j++) {
                                     listSubjectName.push(listSubject[j].name);
                                 }
-                                strSubject = listSubjectName.join(", ");
-                                if(isMax){
-                                    strSubject = strSubject + '...';
-                                }
+                                strSubject = isMax ? listSubjectName.join(", ") + '...' : listSubjectName.join(", ");
                             }
+
                             mentor.listSubject = strSubject;
                             listMentorSubscribed.push(mentor);
                         }
@@ -551,8 +549,8 @@ brotControllers.controller('MentorProfileController',
             $scope.onFileSelect = function ($files, errFiles) {
                 $scope.errorMessage = "";
                 var errFile = errFiles && errFiles[0];
-                if(!isEmpty(errFile)){
-                    if(errFile.$error == "maxSize"){
+                if (!isEmpty(errFile)) {
+                    if (errFile.$error == "maxSize") {
                         $scope.errorMessage = 'File must not exceed 5 MB';
                         return;
                     }
@@ -654,7 +652,7 @@ brotControllers.controller('MentorProfileController',
 
             $scope.prevPageMentorSubs = function () {
                 currentMentorSubPage--;
-                if(currentMentorSubPage < 0){
+                if (currentMentorSubPage < 0) {
                     return;
                 }
                 $scope.listMentorSubs.splice(newOffset, $scope.newLimit);
@@ -665,7 +663,7 @@ brotControllers.controller('MentorProfileController',
             };
 
             $scope.disabledNextPrev = function () {
-                if($scope.offset == 0 && $scope.newLimit <= $scope.defaultLimit){
+                if ($scope.offset == 0 && $scope.newLimit <= $scope.defaultLimit) {
                     return true;
                 }
             };
@@ -675,7 +673,7 @@ brotControllers.controller('MentorProfileController',
              * @param lastName
              * @returns {boolean} true or false
              */
-            function isNameEmpty(firstName, lastName){
+            function isNameEmpty(firstName, lastName) {
                 return !!(isEmpty(firstName) && isEmpty(lastName));
             }
 

@@ -5,15 +5,16 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
         var LIMIT = "";
         var OFFSET = "";
         var subjects = JSON.parse(localStorage.getItem('subjects'));
+        var eid = $location.search().eid;
         init();
 
         function init() {
-            uploadEssayService.getEssaybByStudentId(userId,LIMIT,OFFSET).then(function (data) {
+        	uploadEssayService.getEssaybByStudentId(userId,LIMIT,OFFSET).then(function (data) {
                 if (data.data.status) {
                     $scope.listEssays = data.data.request_data_result;
                 }
             });
-        }
+         }
         
         $scope.convertUnixTimeToTime = function (datetime) {
             return convertUnixTimeToTime(datetime);
@@ -33,22 +34,29 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
         }
         
         $scope.showModal = function (index) {
-            var uploadEssayId = $scope.listEssays[index].uploadEssayId;
-            if(isEmpty(uploadEssayId)){
-                $scope.currentEssay = null;
-            }
-            uploadEssayService.getEssayById(uploadEssayId).then(function (data) {
-                if (data.data.status) {
-                    $scope.currentEssay  = data.data.request_data_result[0];
-                    if(!isEmpty($scope.currentEssay.status == 'P')){
-                        uploadEssayService.getMentorEssayByUid($scope.currentEssay.mentorId).then(function (data) {
-                        $scope.currentMentor = data.data.request_data_result[0];
-                            // $scope.currentMentor.defaultSubject = getSubjectNameById($scope.currentMentor.defaultSubjectId, subjects);
-                        });
-                    }
-                    angular.element(document.getElementById('essay-detail')).modal();
-                }
-            });
+        	if(isEmpty(index)) {
+        		return;
+        	} else {
+        		var uploadEssayId = eid; 
+        		if(index != -1) {
+        			uploadEssayId = $scope.listEssays[index].uploadEssayId;
+        		}
+	            if(isEmpty(uploadEssayId)){
+	                $scope.currentEssay = null;
+	            }
+	            uploadEssayService.getEssayById(uploadEssayId).then(function (data) {
+	                if (data.data.status) {
+	                    $scope.currentEssay  = data.data.request_data_result[0];
+	                    if(!isEmpty($scope.currentEssay.status == 'P')){
+	                        uploadEssayService.getMentorEssayByUid($scope.currentEssay.mentorId).then(function (data) {
+	                        $scope.currentMentor = data.data.request_data_result[0];
+	                            // $scope.currentMentor.defaultSubject = getSubjectNameById($scope.currentMentor.defaultSubjectId, subjects);
+	                        });
+	                    }
+	                    angular.element(document.getElementById('essay-detail')).modal();
+	                }
+	            });
+        	}
         }
 
         $scope.transferPage = function (path) {
@@ -66,5 +74,9 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
                 }
             });
         }
-
+        
+        // Notification view essay
+        if(!isEmpty(eid)) {
+        	$scope.showModal(-1);
+        }
     }]);
