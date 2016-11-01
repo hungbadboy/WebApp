@@ -287,6 +287,11 @@ brotControllers.controller('MentorVideoDetailController',
         $(".comment-action").hide();
     }
 
+    $scope.validateText = function(){
+        if ($scope.contentText && $scope.contentText.length < 1024) 
+            $scope.error = null;
+    }
+
     $scope.addComment = function(){
         var content = $('#txtComment').val();
         if (isEmpty(content)) {
@@ -309,6 +314,9 @@ brotControllers.controller('MentorVideoDetailController',
                 $("#txtComment").val('');
                 $(".comment-action").hide();
                 getCommentVideoDetail($scope.video.vid);
+            } else{
+                $scope.error = data.request_data_result;
+                console.log($scope.error);
             }
         });
 
