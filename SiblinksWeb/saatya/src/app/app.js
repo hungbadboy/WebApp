@@ -32,8 +32,8 @@ brotControllers.run(['$route', '$rootScope', '$modalStack', '$location', functio
 		return original.apply($location, [path]);
 	};
 	// diplay name user
-	 $rootScope.displayUserName = function(firstName, lastName, userName) {
-		 displayUserName(firstName, lastName, userName);
+	 $rootScope.displayName = function(firstName, lastName, userName) {
+		 return displayUserName(firstName, lastName, userName);
      };
      
 }])

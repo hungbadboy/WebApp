@@ -46,7 +46,7 @@
                     <div class="essay-thumb"  ng-if="currentEssay.status !='W'">
                         <div class="essay-thumb-left">
                             <p>Mentor:</p>
-                            <p class="name-mentor"><a data-dismiss="modal" ng-click="transferPage('/student/mentorProfile/{{currentEssay.mentorId}}')">{{displayUserName(currentEssay.mfirstName,currentEssay.mlastName,currentEssay.muserName)}}</a>
+                            <p class="name-mentor"><a data-dismiss="modal" ng-click="transferPage('/student/mentorProfile/{{currentEssay.mentorId}}')">{{displayName(currentEssay.mfirstName,currentEssay.mlastName,currentEssay.muserName)}}</a>
                             </p>
                             <p><span class="essay-{{currentEssay.status=='P'?'reviewing':'answers'}}">{{currentEssay.status=='P'?'Reviewing':'Answered'}}</p><br>
                         </div>

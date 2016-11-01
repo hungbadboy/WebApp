@@ -57,7 +57,7 @@
                                                     <a><img class="avatar-fix-max-size60" ng-src="{{question.imageUrl}}" alt="avatar"></a>
                                                 </div>
                                                 <div class="col-md-9 bx-dt-qa">
-                                                    <h5>{{displayName(question.firstName,question.lastName,question.userName)}}</h5><span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span>
+                                                    <h5>{{displayName(question.firstName,question.lastName,question.userName+'abc')}}</h5><span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span>
                                                     <p class="in-subj"><span>in</span> <b>{{question.subject}}</b></p>
                                                     <p class="q-cont">{{ question.content | limitTo: 100 }}{{question.content.length > 100 ? '...' : ''}}</p>
                                                     <div class="clearfix bt-item">
@@ -97,7 +97,7 @@
                                                     <a href="#/mentor/studentProfile/{{questionDetail.authorId}}"><img class="avatar-fix-max-size60" ng-src="{{questionDetail.avatar}}" alt="avatar"></a>
                                                 </div>
                                                 <div class="col-md-6 bx-dt-qa">
-                                                    <h5> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{disPlayName(questionDetail.firstName,questionDetail.lastName,questionDetail.userName)}}</a></h5>
+                                                    <h5> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{displayName(questionDetail.firstName,questionDetail.lastName,questionDetail.userName)}}</a></h5>
                                                     <span class="time">asked {{questionDetail.timeStamp}} ago</span>
                                                     <p class="txt-category"><b style="cursor: pointer;" ng-click="clickSubject(questionDetail.subjectId,questionDetail.subject)">{{questionDetail.subject}}</b></p>
                                                 </div>
