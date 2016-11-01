@@ -99,7 +99,7 @@ public class CommentServiceImpl implements CommentsService {
 
     @Autowired
     private FireBaseNotification fireBaseNotification;
-    
+
     @Autowired
     private ActivityLogService activityLogSerservice;
 
@@ -184,8 +184,14 @@ public class CommentServiceImpl implements CommentsService {
             String userId = request.getRequest_data().getUid();
             boolean status = true, statusUpdateCmtVideo = false;
             int cid = 0;
-            // insert comment table
-            Object[] queryParams = { userName, userId, content };
+            boolean isCeateNofi = true;
+            String userIdTemp = userId;
+            if (StringUtil.isNull(userId)) {
+                userIdTemp = authorId;
+                isCeateNofi = false;
+            }
+
+            Object[] queryParams = { userName, userIdTemp, content };
             long idComent = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
             if (idComent > 0) {
                 // Insert comment video table
@@ -200,7 +206,7 @@ public class CommentServiceImpl implements CommentsService {
                 status = status && statusUpdateCmtVideo ? true : false;
 
                 // Insert notification table
-                if (userId != null && Long.parseLong(userId) > 0) {
+                if ( isCeateNofi) {
                     String subjectId = request.getRequest_data().getSubjectId();
                     String contentNofi = content;
                     if (!StringUtil.isNull(content) && content.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
@@ -209,7 +215,7 @@ public class CommentServiceImpl implements CommentsService {
                     Object[] queryParamsIns3 = { userId, authorId, SibConstants.NOTIFICATION_TYPE_COMMENT_VIDEO, SibConstants.NOTIFICATION_TITLE_COMMENT_VIDEO, contentNofi, subjectId, vid };
                     status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns3);
 
-                    // send message fire base 
+                    // send message fire base
                     String toTokenId = userservice.getTokenUser(userId);
                     if (!StringUtil.isNull(toTokenId)) {
 
@@ -710,7 +716,7 @@ public class CommentServiceImpl implements CommentsService {
             if (status) {
                 List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_LAST_INSERTED_COMMENT, queryParams);
                 cid = Integer.valueOf(((Map) readObject.get(0)).get("cid").toString());
-                
+
                 Object[] queryParamsIns = { ((Map) readObject.get(0)).get("cid").toString(), essayId };
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_ESSAY_COMMENT, queryParamsIns);
 
@@ -718,7 +724,7 @@ public class CommentServiceImpl implements CommentsService {
                 ((Map) readObject.get(0)).get("userId").toString();
                 request.getRequest_data().getAuthorID();
                 ((Map) readObject.get(0)).get("nameOfEssay").toString();
-                 
+
                 //Add reply essay
                 if (!((Map) readObject.get(0)).get("userId").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID())) {
                 	queryParamsIns = new Object[]{uid,request.getRequest_data().getAuthorID(),

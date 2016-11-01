@@ -55,7 +55,8 @@
 				                                          rating-define="star"
 				                                          rating-stars="{{lstVideoTutAdmission.averageRating}}"
 				                                          star-radius="6" sel-color="gold"
-				                                          back-color="white">
+				                                          back-color="white"
+				                                          readonly="true">
 				    	                            </span>
                                               </p>
                                               <p class="videos-rate-infor">
@@ -71,7 +72,7 @@
                               <h5>Articles</h5>
                               <ul>
                               	<div ng-repeat="lstArticleAdmission in listArticleAdmission track by $index" ng-if="$index < displayNumberOfArticle">
-                              	<li data-toggle="modal" href="#article-detail{{$index}}">
+                              	<li ng-click="showArticleDetail(lstArticleAdmission.arId)" data-toggle="modal" href="#article-detail">
                                       <div class="video-wrapper">
                                           <div class="videos-thumnail">
                                               <a href="javascript:void(0)"><img ng-src="{{lstArticleAdmission.image}}"></a>
@@ -86,11 +87,20 @@
                                               </div>
                                           </div>
                                           <div class="videos-rate">
-                                              <p class="videos-start">
-                                              <!-- <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span> -->
+                                              <p class="videos-start star-artical">
+                                             		<span star-rating stars="5"
+				                                          outer-star-selection="stars"
+				                                          ng-click="rateFunction(stars)"
+				                                          outer-percent="rating"
+				                                          rating-define="star"
+				                                          rating-stars="{{lstVideoTutAdmission.averageRating}}"
+				                                          star-radius="6" sel-color="gold"
+				                                          back-color="white"
+				                                          readonly="true">
+				    	                            </span>
                                               </p>
                                               <p class="videos-rate-infor">
-                                                  <span data-icon="&#xe066;">{{lstArticleAdmission.numComments}}</span>
+                                                  	<span class="fa fa-eye">{{lstArticleAdmission.numView}}</span>
                                               </p>
                                           </div>
                                           <div class="video-description">
@@ -98,52 +108,6 @@
                                           </div>
                                       </div>
                                   </li>
-                                  <!-- Article popup -->
-							        <div class="modal fade" id="article-detail{{$index}}">
-							            <div class="modal-dialog modal-add-video modal-qa modal-article">
-							                <div class="modal-content clearfix">
-							                    <div class="col-md-3 left-question">
-							                        <div class="article-detail-top">
-							                            <a href="javascript:void(0)">
-							                                <span class="article-detail-img">
-							                                	<img  ng-src="{{lstArticleAdmission.imageUrl}}"/>
-							                                </span>
-							                                <span class="article-detail-title"><p>{{lstArticleAdmission.title}}</p></span>
-							                            </a>
-							                        </div>
-							                        <div class="article-thumb">
-							                            <a href="javascript:void(0)"><img ng-src="{{lstArticleAdmission.image}}"></a>
-							                        </div>
-							                        <div class="article-infor">
-							                            <p>from <span class="name-mentor">{{lstArticleAdmission.firstName + ' ' + lstArticleAdmission.lastName}}</span> <span class="post-time">add {{caculateTimeElapsed(lstArticleAdmission.createDate)}} ago</span></p>
-							                            <p class="video-view">
-							                            	<span data-icon="&#xe066;">{{lstArticleAdmission.numComments}}</span>
-							                                <!-- <span class="fa fa-eye">434</span> 
-							                                <span data-icon="&#xe089;" class="heart">12</span> -->
-							                            </p>
-							                            <!-- <p class="rate-video">
-							                                <span>Rate this article</span>
-							                                <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
-							                            </p> -->
-							                        </div>
-							                        <!-- <button class="share">Share</button> -->
-							                   </div>
-							                   <div class="col-md-9 right-answer clearfix">
-							
-							                        <div class="article-detail-right-content-wrapper">
-							                            <div scroller class="article-detail-right-content" data-ng-bind-html="comvertToDisplay(lstArticleAdmission.content)">
-							                                <!-- <p data-ng-bind-html="comvertToDisplay(lstArticleAdmission.content)"></p> -->
-							                            </div>
-							                            <!-- <button class=read-more>Read more <span data-icon="&#x33;"></span></button> -->
-							                        </div>
-							                        <button type="button" class="close close-popup-detail" data-dismiss="modal" aria-label="Close">
-							                            <span aria-hidden="true" data-icon="&#x51;"></span>
-							                        </button>
-							                   </div>
-							                </div>
-							            </div>
-							        </div>
-							        <!-- /End Article popup -->
                                   </div>
                               </ul>
                               <div class="see-more" ng-click="showMoreArticle()" ng-show="flagShowMoreArticle"><span>Show more</span></div>
@@ -167,3 +131,53 @@
           </section><!-- /End content -->
       </div><!-- End container -->   
       </div>
+      <!-- Article popup -->
+      <div class="modal fade" id="article-detail">
+	      <div class="modal-dialog modal-add-video modal-qa modal-article" ng-repeat="articalDetail in articleAdmissionDetail">
+	          <div class="modal-content clearfix">
+	              <div class="col-md-3 left-question">
+	                  <div class="article-detail-top">
+	                      <a href="javascript:void(0)">
+	                          <span class="article-detail-img">
+	                          	<img  ng-src="{{articalDetail.imageUser}}"/>
+	                          </span>
+	                          <span class="article-detail-title"><p>{{articalDetail.title}}</p></span>
+	                      </a>
+	                  </div>
+	                  <div class="article-thumb">
+	                      <a href="javascript:void(0)"><img ng-src="{{articalDetail.image}}"></a>
+	                  </div>
+	                  <div class="article-infor">
+	                      <p>from <span class="name-mentor">{{displayName(articalDetail.firstName, articalDetail.lastName, articalDetail.userName)}}</span> 
+	                      <span class="post-time">add {{caculateTimeElapsed(articalDetail.createDate)}}</span></p>
+	                      <p class="video-view">
+	                      	<!-- <span data-icon="&#xe066;">{{lstArticleAdmission.numComments}}</span> -->
+	                          <span class="fa fa-eye">{{articalDetail.numView}}</span>
+	                      </p>
+	                      <p>
+	                     	<span>Rate this article</span>
+	                     	<span star-rating stars="5" id="rateArtical"
+	                                 outer-star-selection="stars"
+	                                 ng-click="rateFunction(stars)"
+	                                 outer-percent="rating"
+	                                 rating-define="star"
+	                                 rating-stars="{{articalDetail.averageRating}}"
+	                                 star-radius="6" sel-color="gold"
+	                                 back-color="white">
+	                        	</span>
+	                     </p>
+	                  </div>
+	                  <!-- <button class="share">Share</button> -->
+	             </div>
+	             <div class="col-md-9 right-answer clearfix">
+	                  <div class="article-detail-right-content-wrapper">
+	                      <div scroller class="article-detail-right-content" data-ng-bind-html="comvertToDisplay(articalDetail.content)"></div>
+	                  </div>
+	                  <button type="button" class="close close-popup-detail" data-dismiss="modal" aria-label="Close">
+	                      <span aria-hidden="true" data-icon="&#x51;"></span>
+	                  </button>
+	             </div>
+	          </div>
+	      </div>
+	  </div>
+	  <!-- /End Article popup -->

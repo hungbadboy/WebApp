@@ -14,5 +14,12 @@ brotServices.factory('SideBarRightService', ['$http', '$log', function($http) {
         });
         return promise;
     };
+
+    factory.getActivityLogById = function (userId, limit, offset) {
+        return $http({
+            method: 'GET',
+            url: NEW_SERVICE_URL + 'activityLogService/getActivityByUserId?userId=' + userId+'&limit='+limit+'&offset='+offset
+        });
+    };
     return factory;
 }]);

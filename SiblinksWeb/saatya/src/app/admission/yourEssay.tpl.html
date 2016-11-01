@@ -46,18 +46,18 @@
                     <div class="essay-thumb"  ng-if="currentEssay.status !='W'">
                         <div class="essay-thumb-left">
                             <p>Mentor:</p>
-                            <p class="name-mentor"><a data-dismiss="modal" href="#/student/mentorProfile/{{currentEssay.mentorId}}">{{convertName(currentEssay.mfirstName + ' ' + currentEssay.mlastName,currentEssay.muserName)}}</a>
+                            <p class="name-mentor"><a data-dismiss="modal" ng-click="transferPage('/student/mentorProfile/{{currentEssay.mentorId}}')">{{displayUserName(currentEssay.mfirstName,currentEssay.mlastName,currentEssay.muserName)}}</a>
                             </p>
                             <p><span class="essay-{{currentEssay.status=='P'?'reviewing':'answers'}}">{{currentEssay.status=='P'?'Reviewing':'Answered'}}</p><br>
                         </div>
                         <div class="essay-thumb-right">
-                            <a data-dismiss="modal" href="#/student/mentorProfile/{{currentEssay.mentorId}}"><img ng-src="{{currentEssay.mavatar}}"></a>
+                            <a data-dismiss="modal"  ng-click="transferPage('/student/mentorProfile/{{currentEssay.mentorId}}')"><img ng-src="{{currentEssay.mavatar}}"></a>
                         </div>
                     </div>
 
                     <div class="action-essay">
                         <button ng-click="editEssay()" ng-if="currentEssay.status !='R'" class="edit">Edit</button>
-                        <button ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteEssay(question.question_id)" ng-if="currentEssay.status !='R'" class="delete">Delete</button>
+                        <button ng-really-message="Are you sure you want to delete?" ng-really-click ="removeEssay(currentEssay.uploadEssayId)" ng-if="currentEssay.status !='R'" class="delete">Delete</button>
                     </div>
                 </div>
                 <div class="col-md-9 right-answer clearfix">

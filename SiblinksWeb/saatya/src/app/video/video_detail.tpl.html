@@ -2,7 +2,7 @@
     <!-- Breadcrum -->
     <div class="breadcrum">
         <div class="container">
-            <h5><a href="#/"> SibLinks</a> / <a href="#/videos">Tutorials<a> <span> {{'/'+videoInfo.firstName +" " + videoInfo.lastName}}</span></h5>
+            <h5><a href="#/"> SibLinks</a> / <a href="#/videos">Tutorials<a> <span> {{'/'+displayName(videoInfo.firstName, videoInfo.lastName, videoInfo.userName)}}</span></h5>
             <!-- Search form -->
             <div class="search searchbrecrum">
                 <form class="navbar-form" role="search">
@@ -53,7 +53,7 @@
                             <h3 title="{{videoInfo.title}}">
                                 {{ videoInfo.title | limitTo: 73 }}{{videoInfo.title.length > 73 ? '...' : ''}}</h3>
                             <span>from </span>
-                            <a href="#/mentorProfile/{{videoInfo.userid}}"><span class="own-video">{{videoInfo.firstName +" " + videoInfo.lastName}}
+                            <a href="#/mentorProfile/{{videoInfo.userid}}"><span class="own-video">{{displayName(videoInfo.firstName, videoInfo.lastName, videoInfo.userName)}}
                             </span></a>
                             <span class="video-time-add"> {{convertTime(videoInfo.timeStamp)}} ago</span>
                             <div class="video-mentor-details">
@@ -127,7 +127,7 @@
                                         </a>
                                         <div class="comment-body">
                                             <div class="comment-heading">
-                                                <h4 class="user">{{comment.firstName+" "+ comment.lastName}}</h4>
+                                                <h4 class="user">{{displayName(comment.firstName, comment.lastName, comment.userName)}}</h4>
                                                 <h5 class="time">{{convertTime(comment.timestamp)}}</h5>
                                             </div>
                                             <p class="pre-wrap">{{decodeContent(comment.content)}}</p>
@@ -158,7 +158,7 @@
                                     </p>
                                     <span class="owner-video">
                                                         from
-                                            <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
+                                            <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{displayName(videoRelate.firstName, videoRelate.lastName, videoRelate.userName)}}</span>
                                                     </a></span><br>
                                     <span class="view-count">
                                                         view: <span>{{videoRelate.numViews}}</span>

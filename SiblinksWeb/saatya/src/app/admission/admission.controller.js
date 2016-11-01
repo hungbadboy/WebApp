@@ -20,6 +20,7 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 	$scope.listVideoTuttorialAdmission = {};
 	$scope.listArticleAdmission = {};
 	$scope.listAdmission = {};
+	$scope.articleAdmissionDetail={};
 	$scope.stepAdmission = 0;
 	$scope.countNext = 0;
 	$scope.indexAdmission = 0;
@@ -230,45 +231,51 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 		AdmissionService.getAdmission().then(function(data) {
 			
 	    	$scope.listAdmission = data.data.request_data_result;
-	    	if($scope.listAdmission.length > 0){
-				if(!isEmpty(tab)){
-					$scope.stepAdmission = tab;
-					$scope.indexAdmission = tab-1;
-					if($scope.listAdmission.length != tab){
-						//fillAdmissionContent();
-						$scope.isShowUploadEssay = false;
+	    	if(data.data.status == 'true') {
+		    	if($scope.listAdmission.length > 0){
+					if(!isEmpty(tab)){
+						$scope.stepAdmission = tab;
+						$scope.indexAdmission = tab-1;
+						if($scope.listAdmission.length != tab){
+							//fillAdmissionContent();
+							$scope.isShowUploadEssay = false;
+						}
+						else {
+							$scope.isShowUploadEssay = true;
+						}
+	
 					}
-					else {
-						$scope.isShowUploadEssay = true;
+					if($scope.isShowUploadEssay == true){
+						return;
 					}
-
-				}
-				if($scope.isShowUploadEssay == true){
-					return;
-				}
-	    		// Get Tutorial
-	    		AdmissionService.getVideoTuttorialAdmission($scope.listAdmission[$scope.indexAdmission].id).then(function(data) {
-	    	    	$scope.listVideoTuttorialAdmission = data.data.request_data_result;
-	    	    	if($scope.listVideoTuttorialAdmission.length > 0) {
-	    	    		$scope.flagShowDivTuttorial = true;
-//	    	    		$scope.showBackNextButton = true;
-	    	    	}
-	    	    	if($scope.listVideoTuttorialAdmission.length <= 3) {
-	    	    		$scope.flagShowMoreTutVideo = false;
-	    	    	}
-	    		});
-	    		
-	    		// Get Article by 
-	    		AdmissionService.getArticleAdmission($scope.listAdmission[$scope.indexAdmission].id).then(function(data) {
-	    	    	$scope.listArticleAdmission = data.data.request_data_result;
-	    	    	if($scope.listArticleAdmission.length > 0) {
-	    	    		$scope.flagShowDivArticle = true;
-//	    	    		$scope.showBackNextButton = true;
-	    	    	}
-	    	    	if($scope.listArticleAdmission.length <= 3) {
-	    	        	$scope.flagShowMoreArticle = false;
-	    	    	}
-	    		});
+		    		// Get Tutorial
+		    		AdmissionService.getVideoTuttorialAdmission($scope.listAdmission[$scope.indexAdmission].id).then(function(data) {
+		    	    	$scope.listVideoTuttorialAdmission = data.data.request_data_result;
+		    	    	if(data.data.status == 'true') {
+			    	    	if($scope.listVideoTuttorialAdmission.length > 0) {
+			    	    		$scope.flagShowDivTuttorial = true;
+		//	    	    		$scope.showBackNextButton = true;
+			    	    	}
+			    	    	if($scope.listVideoTuttorialAdmission.length <= 3) {
+			    	    		$scope.flagShowMoreTutVideo = false;
+			    	    	}
+		    	    	}
+		    		});
+		    		
+		    		// Get Article by 
+		    		AdmissionService.getArticleAdmission($scope.listAdmission[$scope.indexAdmission].id).then(function(data) {
+		    	    	$scope.listArticleAdmission = data.data.request_data_result;
+		    	    	if(data.data.status == 'true') {
+			    	    	if($scope.listArticleAdmission.length > 0) {
+			    	    		$scope.flagShowDivArticle = true;
+		//	    	    		$scope.showBackNextButton = true;
+			    	    	}
+			    	    	if($scope.listArticleAdmission.length <= 3) {
+			    	        	$scope.flagShowMoreArticle = false;
+			    	    	}
+		    	    	}
+		    		});
+		    	}
 	    	}
 		});
 	}
@@ -300,7 +307,14 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
   };
 
   $scope.showArticleDetail = function(idArtilce) {
-    $location.url('/admission/article/articledetail/' + idArtilce);
+	// Update view
+	  AdmissionService.updateViewArticalAdmission(idArtilce).then(function(data) {
+	    	if(data.data.status == 'true') {
+	    		$scope.articleAdmissionDetail = data.data.request_data_result;
+	    	} else {
+	    		console.log(data.data.request_data_result);
+	    	}
+	  });
   };
 
 }]);

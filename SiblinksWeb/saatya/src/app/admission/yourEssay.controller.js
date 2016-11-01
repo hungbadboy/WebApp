@@ -14,13 +14,7 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
                 }
             });
         }
-        $scope.convertName= function (name,userName) {
-            var result = name;
-            if(isEmpty(name)){
-                result =  userName.split('@')[0];
-            }
-            return result;
-        }
+        
         $scope.convertUnixTimeToTime = function (datetime) {
             return convertUnixTimeToTime(datetime);
         }
@@ -34,8 +28,8 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
             //$scope.$emit('editYourEssay', $scope.currentEssay);
             localStorage.setItem('currentEssay',JSON.stringify($scope.currentEssay));
             angular.element(document.getElementById('essay-detail')).modal('hide');
-            window.location.href = '/#/college_admission?tab=3';
-            window.location.reload();
+            $window.location.href = '/#/college_admission?tab=3';
+            $window.location.reload();
         }
         
         $scope.showModal = function (index) {
@@ -53,6 +47,22 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
                         });
                     }
                     angular.element(document.getElementById('essay-detail')).modal();
+                }
+            });
+        }
+
+        $scope.transferPage = function (path) {
+            angular.element(document.getElementById('essay-detail')).modal('toggle');
+            $timeout(function () {
+                $window.location.href = '#/mentor/mentorProfile';
+            }, 300);
+        }
+
+        $scope.removeEssay = function (essayId) {
+            uploadEssayService.removeEssay(essayId).then(function (data) {
+                if(data.data.status =='true'){
+                    angular.element(document.getElementById('essay-detail')).modal('toggle');
+                    init();
                 }
             });
         }

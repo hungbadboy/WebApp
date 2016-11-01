@@ -437,17 +437,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         SimpleResponse simpleResponse = null;
         try {
             Object[] queryParams = { request.getRequest_data().getEssayId() };
-
-            List<Object> readObject = null;
-            readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_URL_FILE_ESSAY, queryParams);
-
-            File file = new File((String) ((Map) readObject.get(0)).get("urlFile"));
-
             boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_REMOVE_ESAY, queryParams);
-
             String message = null;
             if (status) {
-                file.delete();
                 message = "Done";
             } else {
                 message = "Fail";

@@ -86,7 +86,8 @@
                                           rating-define="star"
                                           rating-stars="{{rateNum}}"
                                           star-radius="10" sel-color="gold"
-                                          back-color="white"></div>
+                                          back-color="white"
+                                          readonly="true"></div>
                                 </span>
 
                             </div>
@@ -146,7 +147,6 @@
                     <ul class="related-video-list" ng-repeat="videoRelate in videosRelated">
                         <li class="video-list-item">
                             <div class="content-warpper">
-
                                 <div class="thumb-video" >
                                     <a href="#/video_admission/{{videoRelate.vid}}"><img ng-src="{{videoRelate.image}}"></a>
                                 </div>
@@ -154,23 +154,16 @@
                                     <a href="#/video_admission/{{videoRelate.vid}}"><p class="title-video">
                                         {{videoRelate.title}}
                                     </p></a>
-                                    <span class="owner-video">
-                                                        from
-                                            <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span>
-                                                    </a></span><br>
-                                    <span class="view-count">
-                                                        view: <span>{{videoRelate.numViews}}</span>
-                                                    </span>
+                                    <span class="owner-video">from
+                                        <a href="#/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{videoRelate.firstName +" " + videoRelate.lastName}}</span></a></span><br>
+                                    	<span class="view-count">view: <span>{{videoRelate.numViews}}</span>
+                                    </span>
                                 </div>
-
                             </div>
                         </li>
-
                     </ul>
                 </div>
             </div><!-- /End Video details content -->
-
         </section><!-- /End content -->
     </div><!-- End container -->
-
 </div>
