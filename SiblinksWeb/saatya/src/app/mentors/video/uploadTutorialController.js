@@ -1,6 +1,6 @@
 brotControllers.controller('UploadTutorialController', 
-  ['$rootScope','$scope', '$modal', '$modalInstance', '$routeParams', '$http', '$location', 'VideoService', 'videoDetailService', 'HomeService', 'myCache', 'u_id' , 'v_id',
-                                       function ($rootScope, $scope, $modal, $modalInstance, $routeParams, $http, $location, VideoService, videoDetailService, HomeService, myCache, u_id, v_id) {
+  ['$rootScope','$scope', '$modal', '$modalInstance', '$routeParams', '$window', '$location', 'VideoService', 'videoDetailService', 'HomeService', 'myCache', 'u_id' , 'v_id',
+                                       function ($rootScope, $scope, $modal, $modalInstance, $routeParams, $window, $location, VideoService, videoDetailService, HomeService, myCache, u_id, v_id) {
 
     var userId = localStorage.getItem('userId');
     $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
@@ -69,11 +69,9 @@ brotControllers.controller('UploadTutorialController',
     function initPlaylist(){
       var playlists = localStorage.getItem("playlists");
       if (playlists !== null) {
-        console.log("get Playlist in cache");
         $scope.playlists = JSON.parse(playlists);
         $scope.uploadPlaylist = $scope.playlists[0].plid;
       } else{
-        console.log("get Playlist on server");
         VideoService.getPlaylist(u_id).then(function(data){
           if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
             $scope.playlists = data.data.request_data_result;
@@ -143,9 +141,11 @@ brotControllers.controller('UploadTutorialController',
     $scope.update = function(title, description){
       var plPos = $('#uploadPlaylist').val();
       var subjectPos = $('#uploadSubject').val();
+      var title = $('#txtTutorialTitle').val();
+      var description = $('#txtTutorialDescription').val();
       if (title == null || title.length == 0) {
         $scope.error = "Please input Title. \n";
-        angular.element('#txtUploadTitle').trigger('focus');
+        angular.element('#txtTutorialTitle').trigger('focus');
         return;
       } else if (subjectPos == 0) {
         $scope.error = "Please select a Subject. \n";
@@ -202,29 +202,35 @@ brotControllers.controller('UploadTutorialController',
       return name;
     }
 
-    $scope.upload = function(link, title, description){
-      $scope.error = '';
+    $scope.upload = function(){
+      $scope.success = null;
+      var link = $('#txtTutorialUrl').val();
+      var title = $('#txtTutorialTitle').val();
+      var description = $('#txtTutorialDescription').val();
+      var duration = $('#txtTutorialDuration').val();
+      
       if (link == null || link.length == 0) {
         $scope.error = "Please input Link. \n";
-        angular.element('#txtUploadLink').trigger('focus');
+        angular.element('#txtTutorialUrl').trigger('focus');
+        return;
+      } else if ($scope.error != undefined && $scope.error == "Please input valid link.") {
+        $scope.error = "Please input valid link.";
+        angular.element('#txtTutorialUrl').trigger('focus');
         return;
       } else if (title == null || title.length == 0) {
         $scope.error = "Please input Title. \n";
-        angular.element('#txtUploadTitle').trigger('focus');
-        return;
-      } else if (!$scope.vid) {
-        $scope.error = "Please input valid link. \n";
-        angular.element('#txtUploadLink').trigger('focus');
+        angular.element('#txtTutorialTitle').trigger('focus');
         return;
       } else if (description && description.length > 1024) {
         $scope.error = "Description cannot longer than 1024 characters. \n";
-        angular.element('#txtUploadDescription').trigger('focus');        
+        angular.element('#txtTutorialDescription').trigger('focus');        
         return;
       } else if ($scope.uploadSubject == 0) {
         $scope.error = "Please select subject. \n";
         angular.element('#uploadSubject').trigger('focus');        
         return;
-      }
+      } else
+        $scope.error = null;
 
       if ($scope.error == null || $scope.error == '') {
         var thumbnail = 'http://img.youtube.com/vi/'+$scope.vid+'/hqdefault.jpg'
@@ -232,7 +238,7 @@ brotControllers.controller('UploadTutorialController',
           "authorID": u_id,
           "title": title,
           "url": link,
-          "runningTime": $scope.duration,
+          "runningTime": duration,
           "image": thumbnail,
           "description": description,
           "subjectId": $scope.uploadSubject,
@@ -249,7 +255,6 @@ brotControllers.controller('UploadTutorialController',
           } else{
             $scope.error = result;
           }
-          console.log(result);
           $rootScope.$broadcast('close');
         });
       }
@@ -296,9 +301,9 @@ brotControllers.controller('UploadTutorialController',
       $('#txtTutorialTitle').val('');
       $('#txtTutorialDescription').val('');
       $scope.uploadLink = null;
-      $scope.title = '';
-      $scope.duration = '';
-      $scope.description = '';
+      $scope.title = null;
+      $scope.duration = null;
+      $scope.description = null;
 
       $scope.uploadSubject = 0;
       $('#uploadSubject').val(0);
@@ -315,8 +320,10 @@ brotControllers.controller('UploadTutorialController',
 
     $scope.validateLink = function(link){
       $scope.success = null;
-      if (link.length == 0)
+      if (link == null || link.length == 0){
         clearContent();
+        return;
+      }
       checkLink(link);
       $scope.uploadLink = link;
     }
@@ -335,7 +342,7 @@ brotControllers.controller('UploadTutorialController',
           player.cueVideoById($scope.vid);
       } else{
         $scope.error = "Please input valid link.";
-        angular.element('#txtUploadLink').trigger('focus');
+        angular.element('#txtTutorialUrl').trigger('focus');
       }
     }
 
@@ -352,7 +359,7 @@ brotControllers.controller('UploadTutorialController',
             $('#txtTutorialDescription').val($scope.description);
           } else{
             $scope.error = "Please input valid link.";
-            angular.element('#txtUploadLink').trigger('focus');
+            angular.element('#txtTutorialUrl').trigger('focus');
           }
        });
     }

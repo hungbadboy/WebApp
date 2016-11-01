@@ -22,7 +22,7 @@
                         <input type="text" class="form-control" id="txtTutorialTitle" ng-model="title" placeholder="Tutorial Title" maxlength="100">
                     </div>                    
                     <div class="form-group">
-                        <input type="text" class="form-control box-duration" ng-model="duration" placeholder="Tutorial Duration" readonly="true" tabindex="-1">
+                        <input type="text" id="txtTutorialDuration" class="form-control box-duration" ng-model="duration" placeholder="Tutorial Duration" readonly="true" tabindex="-1">
                     </div>
                     <div class="form-group">
                         <textarea name="desciption" id="txtTutorialDescription" rows="4" cols="5" ng-model="description" class="form-control textarea-custom" placeholder="Description" maxlength="1024"></textarea>
@@ -46,8 +46,8 @@
     </div>
     <div class="clearfix">
         <div class="bx-btn pull-right">
-            <button class="btn-play active" ng-click="upload(uploadLink, title, description)" ng-if="!editVideo"><b>Upload</b></button>
-            <button class="btn-play active" ng-click="update(title, description)" ng-show="editVideo"><b>Update</b></button>
+            <button class="btn-play active" ng-click="upload()" ng-if="!editVideo"><b>Upload</b></button>
+            <button class="btn-play active" ng-click="update()" ng-show="editVideo"><b>Update</b></button>
             <button class="btn-edit" ng-click="cancel()"><b>Cancel</b></button>
         </div>
     </div>

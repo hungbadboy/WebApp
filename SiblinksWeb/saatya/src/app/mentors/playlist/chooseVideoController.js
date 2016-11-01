@@ -317,9 +317,8 @@ brotControllers.controller('ChooseVideoController',
 
     $scope.validateLink = function(){
       if ($('#txtTutLink').val() == '') {
-        $('#txtTutTitle').val('');
-        $('#txtTutDescription').val('');
-        $('#txtTutDuration').val('');        
+        clearContent();
+        return;    
       }
       checkLink($('#txtTutLink').val());
     }
@@ -333,22 +332,32 @@ brotControllers.controller('ChooseVideoController',
         else
           player.cueVideoById($scope.vid);
         getVideoInfo($scope.vid);
+      } else{
+        $scope.error = "Please input valid link.";
+        angular.element('#txtTutLink').trigger('focus');
       }
     }
 
     function getVideoInfo(vid){
        VideoService.getVideoInfoFromYoutube(vid).then(function(data){
           var result = data.data.items;
-          var contentDetails = result[0].contentDetails;
-          $scope.duration = convertTime(contentDetails.duration);
-          
-          if ($('#txtTutTitle').val() == null || $('#txtTutTitle').val().length == 0)
-              $scope.title = result[0].snippet.title;
-          if ($('#txtTutDescription').val() == null || $('#txtTutDescription').val().length == 0)
-              $scope.description = result[0].snippet.description;
+          if (result && result.length > 0) {            
+            var contentDetails = result[0].contentDetails;
+            $scope.duration = convertTime(contentDetails.duration);
+            $scope.title = result[0].snippet.title;
+            $scope.description = result[0].snippet.description;
+          } else{
+            $scope.error = "Please input valid link. ";
+            angular.element('#txtTutLink').trigger('focus');
+          }
        });
     }
 
+    function clearContent() {
+      $('#txtTutTitle').val('');
+      $('#txtTutDescription').val('');
+      $('#txtTutDuration').val('');    
+    }
     function convertTime(duration) {
         var a = duration.match(/\d+/g);
 
