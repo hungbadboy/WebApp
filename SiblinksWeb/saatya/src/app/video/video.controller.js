@@ -354,6 +354,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     angular.element(document.getElementById('favourite')).show();
                     break;
                 default :
+                    $scope.currentTab = 'all';
                     angular.element(document.getElementById('all')).show();
                     angular.element(document.getElementById('subcriptions')).hide();
                     angular.element(document.getElementById('history')).hide();
