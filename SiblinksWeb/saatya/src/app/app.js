@@ -31,11 +31,15 @@ brotControllers.run(['$route', '$rootScope', '$modalStack', '$location', functio
 		}
 		return original.apply($location, [path]);
 	};
-	// diplay name user
+	
+	// Display name
 	 $rootScope.displayName = function(firstName, lastName, userName) {
 		 return displayUserName(firstName, lastName, userName);
      };
-     
+     // Display time post
+     $rootScope.convertUnixTimeToTime = function (time) {
+    	return convertUnixTimeToTime(time);
+     };
 }])
 
 var brotServices = angular.module('brotServices', ['ngResource']);

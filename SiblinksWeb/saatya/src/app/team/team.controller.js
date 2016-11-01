@@ -120,9 +120,7 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
                             mentor.isSubs= data_result[i].isSubs;
                             mentor.defaultSubjectId = data_result[i].defaultSubjectId;
                             mentor.avgrate = data_result[i].avgrate;
-                            if(isEmpty(mentor.lastName+mentor.firstName)){
-                                mentor.firstName = data_result[i].loginName;
-                            }
+                            mentor.userName = data_result[i].loginName;
                             var listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
                             var strSubject="";
                             if (listSubject != null && listSubject !== undefined) {
