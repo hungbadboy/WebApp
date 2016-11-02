@@ -428,9 +428,9 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
 
   $scope.goToProfile = function(id){
     if (id == userId) {
-        window.location.href = '#/mentor/mentorProfile';
+      window.location.href = '#/mentor/mentorProfile';
     } else{
-        window.location.href = '#/mentor/studentProfile/'+id+'';
+      window.location.href = '#/mentor/studentProfile/'+id+'';
     }
   }
 
