@@ -59,7 +59,7 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
                 return ;
             }
             $("#subscribers_"+userid).attr("data-icon","N");
-            $("#span_"+userid).text("Subscribe");
+            $("#span_"+userid).text("Subscribed");
 
         };
 
