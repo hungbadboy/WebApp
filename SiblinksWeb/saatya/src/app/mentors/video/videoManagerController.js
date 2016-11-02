@@ -26,13 +26,6 @@ brotControllers.controller('VideoManagerController',
     function initSubject(){
       var videoMgrSubjects = localStorage.getItem("videoManagerSubjects");
       if (videoMgrSubjects != null) {
-        // var arr = angular.copy(sub);
-        //  if (arr[0].subjectId != 0) {
-        //     arr.splice(0, 0, {
-        //       'subjectId': 0,
-        //       'subject' : 'All'
-        //     });
-        //  }
          $scope.videoMgrSubjects = JSON.parse(videoMgrSubjects);
          $scope.subject = $scope.videoMgrSubjects[0].subjectId;        
       } else{
@@ -299,7 +292,7 @@ brotControllers.controller('VideoManagerController',
     $scope.$on('addPlaylistVideo', function(e,a){
       var index = getIndex(a.vid);
       if (index != -1) {
-        if (a.plid && plid > 0){
+        if (a.plid && a.plid > 0){
           $scope.videos[index].plid = a.plid;
           $scope.videos[index].playlistname = a.name;
         }

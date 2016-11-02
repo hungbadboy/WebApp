@@ -9,7 +9,6 @@
                 <div class="manager-video mentor-manage-qa-content mentor-manage-essay">
                     <div class="row top-mag">
                         <div class="col-md-12">
-                            
                         </div>
                     </div>
                     <div class="main-qa clearfix">
@@ -45,7 +44,7 @@
                                                         <p class="word-wrap">{{e.descriptionOfEssay | limitTo : 240 }}{{e.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                         <div class="clearfix bt-item">
                                                             <a href="javascript:void(0)" ng-click="changeStatus(e.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
-                                                            <a href="javascript:void(0)" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                            <a href="javascript:void(0)" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-cancel"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -65,7 +64,7 @@
                                                         <b class="word-wrap">{{pe.nameOfEssay}}</b>
                                                         <p class="word-wrap">{{pe.descriptionOfEssay | limitTo : 240 }}{{pe.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                         <div class="clearfix bt-item">
-                                                            <a href="javascript:void(0)"  ng-click="changeStatus(pe.uploadEssayId,'I')"><span class="essay-reviewing">Cancel</span></a>
+                                                            <a href="javascript:void(0)" ng-click="changeStatus(pe.uploadEssayId,'I')"><span class="essay-cancel"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -121,7 +120,6 @@
                                         <p class="text-rpl">{{comments ? comments.length : 0}} replies</p>
                                         <div class="bx-detail-rpl">
                                             <div class="top-rpl clearfix">
-                                               
                                                 <div class="col-md-12 bx-dt-qa">
                                                     <div class="studentAvt">
                                                     <a href="javascript:void(0)" ng-click="goToProfile(essay.userId)"><img src="{{essay.imageUrl}}" alt=""></a>
@@ -131,19 +129,16 @@
                                                     <span class="time">{{essay.timeStamp}} ago</span>
                                                     <div class="bt-item-r" ng-if="essay.status == 'W' && !ignored">
                                                         <a href="javascript:void(0)" ng-click="changeStatus(essay.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
-                                                        <a href="javascript:void(0)" ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-answers"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                        <a href="javascript:void(0)" ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-cancel"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                    </div>
+                                                    <div class="bt-item-r col-md-4" ng-if="essay.status == 'P'">
+                                                        <a href="javascript:void(0)" ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-cancel"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
                                                     </div>
                                                     <p class="txt-essay word-wrap"><b>{{essay.nameOfEssay}}</b></p>
                                                     </div>
-                                                </div>
-                                                
-                                                <div class="bt-item-r col-md-4" ng-if="essay.status == 'P'">
-                                                    <a href="javascript:void(0)"  ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-reviewing">Cancel</span></a>
-                                                </div>
+                                                </div>                                                
                                             </div>
-                                            <p class="text-rpl-2 pre-wap word-wrap">
-                                               {{essay.descriptionOfEssay}}
-                                            </p>
+                                            <p class="text-rpl-2 pre-wrap">{{essay.descriptionOfEssay}}</p>
                                             <div class="bx-dowfile clearfix">
                                                 <p class="pull-left"><a href="{{essay.downloadLinkS}}"><img src="assets/images/img-attacfile.png" alt=""></a><span>{{essay.urlFile}} - {{essay.odFilesize}}</span></p>
                                             </div>
@@ -156,24 +151,23 @@
                                                             <div class="left-border"></div>
                                                         </div>
                                                         <div class="icon-upload">
-                                                            <button class="label-1" ngf-select="onFileSelect($files)" ngf-accept="'application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'" ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xlsx'" ngf-max-size="5MB">
+                                                            <button class="label-1" ngf-select="onFileSelect($files, $invalidFiles)" ngf-accept="'application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'" ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xlsx'" ngf-max-size="10MB">
                                                             <label class="label-1">
                                                                 <span data-icon="&#xe016;"></span>
                                                             </label>
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    
                                                     <div ng-if="error" style="margin-top: 10px; margin-bottom: 10px; margin-left: 75px;">
                                                        <span style="color: red;">{{error}}</span>
                                                     </div>
                                                     <div ng-if="fileName" style="margin-top: 10px; margin-bottom: -8px; margin-left: 75px;">
                                                        <img src="assets/images/img-attacfile.png" alt=""><span> {{fileName}} - {{fileSize}}</span>
                                                     </div>
-                                                    
                                                     <div class="clearfix" ng-if="!comments && essay.status == 'P' && tabpane != 3">
                                                         <div class="btnreply pull-right">
-                                                            <input type="button" name="reply"  value="Reply" ng-click="reply()">
+                                                            <button class="cancel" ng-hide="checked" ng-click="clearAnswer()">Cancel</button>
+                                                            <input type="button" name="reply" ng-hide="checked" value="Reply" ng-click="reply()">
                                                         </div>
                                                     </div>
                                                     <div class="detail-chat">
@@ -186,9 +180,7 @@
                                                                     <div class="header">
                                                                         <a href="#/mentor/mentorProfile"><strong class="primary-font">{{c.fullName}} </strong></a><span class="time">{{c.timestamp}} ago</span>
                                                                     </div>
-                                                                    <p class="pre-wap word-wrap">
-                                                                        {{c.content}}
-                                                                    </p>
+                                                                    <p class="pre-wrap">{{c.content}}</p>
                                                                     <p class="attaced-file" ng-if="essay.downloadLinkM"><a href="{{essay.downloadLinkM}}"><img src="assets/images/img-attacfile.png" alt=""></a><span>{{essay.urlReview}} - {{essay.rdFilesize}}</span></p>
                                                                 </div>
                                                             </li>

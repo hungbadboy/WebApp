@@ -54,9 +54,10 @@
                                                 <div class="check-box"><input type="checkbox" ng-model="v.selected" class="check-input" name="checkall"/></div>
                                                 <div class="box-detail-play clearfix">
                                                 <a href="#/mentor/video/detail/{{v.vid}}">
-                                                    <span class="item-thumbnail">
+                                                    <div class="item-thumbnail">
                                                         <img class="item-fix-size" src="{{v.image}}" alt="">
-                                                    </span></a>
+                                                        <span class="video-time">{{v.runningTime}}</span>
+                                                    </div></a>
                                                     <div class="detail-pl-inner">
                                                         <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
                                                         <span class="add-time">added {{v.timeStamp}} ago</span>
@@ -95,9 +96,10 @@
                                                 <div class="check-box"><input type="checkbox" ng-model="v.selected" class="check-input" name="checkall"/></div>
                                                 <div class="box-detail-play clearfix">
                                                 <a href="#/mentor/video/detail/{{v.vid}}">
-                                                    <span class="item-thumbnail">
+                                                    <div class="item-thumbnail">
                                                         <img class="item-fix-size" src="{{v.image}}" alt="">
-                                                    </span></a>
+                                                        <span class="video-time">{{v.runningTime}}</span>
+                                                    </div></a>
                                                     <div class="detail-pl-inner">
                                                         <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
                                                         <span class="add-time">added {{v.timeStamp}} ago</span>

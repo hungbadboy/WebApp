@@ -167,6 +167,9 @@ brotControllers.controller('AddUpdatePlaylistController',
         $scope.error = 'Please input playlist Title. \n'; 
         angular.element('#txtUpdateTitle').trigger('focus');
         return;
+      } else if($scope.image == null && file == null){
+        $scope.error = 'Please choose playlist thumbnail. \n'; 
+        return;
       }
       
       $scope.error = null;
@@ -195,7 +198,12 @@ brotControllers.controller('AddUpdatePlaylistController',
 
     var file;
     $scope.stepsModel = [];
-    $scope.onFileSelect = function($files){
+    $scope.onFileSelect = function($files, errFiles){
+      var errFile = errFiles && errFiles[0];
+      if (errFile) {
+        $scope.error = "Thumbnail maximum is 5MB.";
+        return;
+      }
       if ($files && $files.length > 0) {
         file = $files[0];
         var reader = new FileReader();

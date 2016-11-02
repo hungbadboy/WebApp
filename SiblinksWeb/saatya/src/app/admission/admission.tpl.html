@@ -37,6 +37,7 @@
                                               <a href="#/video_admission/{{lstVideoTutAdmission.vId}}">
                                                   <img ng-src="{{lstVideoTutAdmission.image}}">
                                               </a>
+                                              <span class="video-time bottom-16" ng-if="lstVideoTutAdmission.runningTime">{{lstVideoTutAdmission.runningTime}}</span>
                                           </div>
                                           <div class="videos-title">
                                               <a href="#/video_admission/{{lstVideoTutAdmission.vId}}" title="{{lstVideoTutAdmission.title}}">{{lstVideoTutAdmission.title}}</a>
@@ -44,7 +45,7 @@
                                           
                                           <div class="videos-time-add">
                                               <span class="video-poster" id="{{lstVideoTutAdmission.authorId}}" ng-click="showProfile($event)"> {{displayName(lstVideoTutAdmission.firstName,lstVideoTutAdmission.lastName,lstVideoTutAdmission.userName)}}</span>
-                                              <span> added {{caculateTimeElapsed(lstVideoTutAdmission.creationDate)}}</span>
+                                              <span> added {{convertUnixTimeToTime(lstVideoTutAdmission.creationDate)}}</span>
                                           </div>
                                           <div class="videos-rate">
                                            	<p class="videos-start star-admission">
@@ -83,7 +84,7 @@
                                               </div>
                                               <div class="videos-time-add">
                                                   <span class="video-poster" id="{{lstArticleAdmission.authorId}}" ng-click="showProfile($event);$event.stopPropagation()">{{displayName(lstArticleAdmission.firstName,lstArticleAdmission.lastName,lstArticleAdmission.userName)}}</span>
-                                                  <span> added {{caculateTimeElapsed(lstArticleAdmission.createDate)}}</span>
+                                                  <span> added {{convertUnixTimeToTime(lstArticleAdmission.createDate)}}</span>
                                               </div>
                                           </div>
                                           <div class="videos-rate">
@@ -149,7 +150,7 @@
 	                  </div>
 	                  <div class="article-infor">
 	                      <p>from <span class="name-mentor">{{displayName(articalDetail.firstName, articalDetail.lastName, articalDetail.userName)}}</span> 
-	                      <span class="post-time">add {{caculateTimeElapsed(articalDetail.createDate)}}</span></p>
+	                      <span class="post-time">add {{convertUnixTimeToTime(articalDetail.createDate)}}</span></p>
 	                      <p class="video-view">
 	                      	<!-- <span data-icon="&#xe066;">{{lstArticleAdmission.numComments}}</span> -->
 	                          <span class="fa fa-eye">{{articalDetail.numView}}</span>

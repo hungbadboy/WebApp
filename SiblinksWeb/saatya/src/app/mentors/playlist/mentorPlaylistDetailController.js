@@ -201,4 +201,9 @@ brotControllers.controller('MentorPlaylistDetailController',
         if (a.newImage && a.newImage.length > 0) {}
           $scope.playlist.image = a.newImage;
     })
+
+    $scope.$on('addVideoFromPlaylist', function(){
+        loadPlaylistDetail();
+        getVideosInPlaylist();
+    })
 }]);

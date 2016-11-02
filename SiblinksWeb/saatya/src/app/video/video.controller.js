@@ -143,6 +143,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                             "image": $scope.listOlderVideo[i].image,
                             "title": $scope.listOlderVideo[i].title,
                             "timeStamp": $scope.listOlderVideo[i].timeStamp,
+                            "runningTime": $scope.listOlderVideo[i].runningTime,
                             "numComments": $scope.listOlderVideo[i].numComments,
                             "numViews": $scope.listOlderVideo[i].numViews,
                             "averageRating": $scope.listOlderVideo[i].averageRating

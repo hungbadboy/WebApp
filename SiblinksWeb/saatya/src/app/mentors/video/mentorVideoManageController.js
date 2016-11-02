@@ -100,7 +100,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
             $scope.videosTopRated = formatData(data.data.request_data_result);
             $scope.vTopRated = $scope.videosTopRated[0];
             $scope.topRatedPos = 0;
-            $scope.topRatedAverageRating = $scope.videosTopRated.averageRating;
+            $scope.topRatedAverageRating = $scope.videosTopRated.averageRating != null ? $scope.videosTopRated.averageRating : 0.1;
           } else
             $scope.videosTopRated = null;
         });
@@ -110,7 +110,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
             $scope.videosTopViewed = formatData(data.data.request_data_result);
             $scope.vTopViewed = $scope.videosTopViewed[0];
             $scope.topViewedPos = 0;
-            $scope.topViewedAverageRating = $scope.videosTopViewed.averageRating;
+            $scope.topViewedAverageRating = $scope.videosTopViewed.averageRating != null ? $scope.videosTopViewed.averageRating : 0.1;
           } else
             $scope.videosTopViewed = null;
         });
@@ -122,7 +122,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
           $scope.videos = formatData(data.data.request_data_result);
           $scope.v = $scope.videos[0];
           $scope.newestPos = 0;
-          $scope.newestAverageRating = $scope.v.averageRating;
+          $scope.newestAverageRating = $scope.v.averageRating != null ? $scope.v.averageRating : 0.1;
         } else
           $scope.videos = null;
       });
