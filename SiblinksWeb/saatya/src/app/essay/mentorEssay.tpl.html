@@ -170,8 +170,8 @@
                                                     
                                                     <div class="clearfix" ng-if="!comments && essay.status == 'P' && tabpane != 3">
                                                         <div class="btnreply pull-right">
-                                                            <button class="cancel" ng-click="clearAnswer()">Cancel</button>
-                                                            <input type="button" name="reply"  value="Reply" ng-click="reply()">
+                                                            <button class="cancel" ng-hide="checked" ng-click="clearAnswer()">Cancel</button>
+                                                            <input type="button" name="reply" ng-hide="checked" value="Reply" ng-click="reply()">
 
                                                         </div>
                                                     </div>

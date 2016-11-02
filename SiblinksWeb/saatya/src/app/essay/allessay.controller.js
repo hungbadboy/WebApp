@@ -1,4 +1,5 @@
-brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'EssayService', function ($scope, $location, $window, EssayService) {
+brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', '$window', '$timeout', 'EssayService', 
+  function ($rootScope, $scope, $location, $window, $timeout, EssayService) {
   var userType = localStorage.getItem('userType');
   var userId = localStorage.getItem('userId');
   var schoolId = localStorage.getItem('school');
@@ -440,6 +441,7 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
       $scope.error = "Please input your comment.";
       return;
     } else{
+      $scope.checked = true;
       $scope.error = null;
       var fd = new FormData();
 
@@ -448,20 +450,23 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
       fd.append('essayId', $scope.essay.uploadEssayId);
       fd.append('mentorId', userId);
       fd.append('studentId', $scope.essay.userId);
-      $scope.$broadcast('open');
-      EssayService.insertCommentEssay(fd).then(function(data){
-        if (data.data.request_data_result != null && data.data.request_data_result == "Success") {
-          $scope.success = "Reply successful.";
-          getAllEssay();
-          justReplied = true;
-          $scope.error = null;
-          $scope.fileName = null;
-          $scope.fileSize = null;
-        } else{
-          $scope.error = data.request_data_result;
-        }
-        $scope.$broadcast('close');
-      });
+      $rootScope.$broadcast('open');
+      $timeout(function(){        
+        EssayService.insertCommentEssay(fd).then(function(data){
+          if (data.data.request_data_result != null && data.data.request_data_result == "Success") {
+            $scope.success = "Reply successful.";
+            getAllEssay();
+            justReplied = true;
+            $scope.error = null;
+            $scope.fileName = null;
+            $scope.fileSize = null;
+          } else{
+            $scope.error = data.request_data_result;
+          }
+          $scope.checked = false;
+          $rootScope.$broadcast('close');
+        });
+      }, 2000);
     }
   }
 
@@ -527,7 +532,6 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
           $scope.repliedEssays = null;
         }
       } else {
-        console.log(result.request_data_result);
         $scope.newestEssays = null;
         $scope.processingEssays = null;
         $scope.ignoredEssays = null;
@@ -535,7 +539,6 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
         $scope.essay = null;
       }
       $scope.$broadcast('close');
-
       switchTab($scope.tabpane);
     });
   }
