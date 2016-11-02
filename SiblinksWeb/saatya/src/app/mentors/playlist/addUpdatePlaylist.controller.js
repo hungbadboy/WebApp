@@ -167,6 +167,9 @@ brotControllers.controller('AddUpdatePlaylistController',
         $scope.error = 'Please input playlist Title. \n'; 
         angular.element('#txtUpdateTitle').trigger('focus');
         return;
+      } else if($scope.image == null && file == null){
+        $scope.error = 'Please choose playlist thumbnail. \n'; 
+        return;
       }
       
       $scope.error = null;
