@@ -122,7 +122,6 @@
                                         <p class="text-rpl">{{comments ? comments.length : 0}} replies</p>
                                         <div class="bx-detail-rpl">
                                             <div class="top-rpl clearfix">
-                                               
                                                 <div class="col-md-12 bx-dt-qa">
                                                     <div class="studentAvt">
                                                     <a href="javascript:void(0)" ng-click="goToProfile(essay.userId)"><img src="{{essay.imageUrl}}" alt=""></a>
@@ -141,9 +140,7 @@
                                                     </div>
                                                 </div>                                                
                                             </div>
-                                            <p class="text-rpl-2 pre-wap word-wrap">
-                                               {{essay.descriptionOfEssay}}
-                                            </p>
+                                            <p class="text-rpl-2 pre-wrap">{{essay.descriptionOfEssay}}</p>
                                             <div class="bx-dowfile clearfix">
                                                 <p class="pull-left"><a href="{{essay.downloadLinkS}}"><img src="assets/images/img-attacfile.png" alt=""></a><span>{{essay.urlFile}} - {{essay.odFilesize}}</span></p>
                                             </div>
@@ -188,9 +185,7 @@
                                                                     <div class="header">
                                                                         <a href="#/mentor/mentorProfile"><strong class="primary-font">{{c.fullName}} </strong></a><span class="time">{{c.timestamp}} ago</span>
                                                                     </div>
-                                                                    <p class="pre-wap word-wrap">
-                                                                        {{c.content}}
-                                                                    </p>
+                                                                    <p class="pre-wrap">{{c.content}}</p>
                                                                     <p class="attaced-file" ng-if="essay.downloadLinkM"><a href="{{essay.downloadLinkM}}"><img src="assets/images/img-attacfile.png" alt=""></a><span>{{essay.urlReview}} - {{essay.rdFilesize}}</span></p>
                                                                 </div>
                                                             </li>
