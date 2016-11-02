@@ -1349,7 +1349,7 @@ brotControllers.directive('loadingDialog', ['$timeout', function($timeout) {
     }
 }]);
 
-brotControllers.directive('setHeightActivity', function($window) {
+brotControllers.directive('autoHeightRecentActivity', function($window) {
     return {
         link: function(scope, element) {
             var w = angular.element($window);
