@@ -668,7 +668,7 @@
                                                     <span data-icon="&#x49;">{{video.numViews}}</span>
                                                     <span data-icon="&#xe066;">{{video.numComments}}</span>
                                                 </p>
-                                                <p class="video-description" title="{{video.description}}">{{ video.description | limitTo: 205 }}{{video.description.length >205 ?'...' :''}}</p>
+                                                <p class="video-description pre-wrap" title="{{video.description}}">{{ video.description | limitTo: 100 }}{{video.description.length >100 ?'...' :''}}</p>
                                                 
                                             </div>
                                         </div>
@@ -788,10 +788,7 @@
                                                     <!--class="like">{{videoFavourite.numFavourite}}</span>-->
                                                     <span data-icon="&#xe066;">{{videoFavourite.numComments}}</span>
                                                 </p>
-                                                <p class="video-description">
-                                                    {{videoFavourite.description}}
-                                                </p>
-                                                
+                                                <p class="video-description pre-wrap" title="{{videoFavourite.description}}">{{ videoFavourite.description | limitTo: 100 }}{{videoFavourite.description.length >100 ?'...' :''}}</p>
                                             </div>
 
                                         </div>

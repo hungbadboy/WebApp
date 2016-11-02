@@ -9,7 +9,6 @@
                 <div class="manager-video mentor-manage-qa-content mentor-manage-essay">
                     <div class="row top-mag">
                         <div class="col-md-12">
-                            
                         </div>
                     </div>
                     <div class="main-qa clearfix">
@@ -65,8 +64,7 @@
                                                         <b class="word-wrap">{{pe.nameOfEssay}}</b>
                                                         <p class="word-wrap">{{pe.descriptionOfEssay | limitTo : 240 }}{{pe.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                         <div class="clearfix bt-item">
-                                                            <a href="javascript:void(0)" ng-click="changeStatus(e.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
-                                                            <a href="javascript:void(0)" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-cancel"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                            <a href="javascript:void(0)" ng-click="changeStatus(pe.uploadEssayId,'I')"><span class="essay-cancel"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -160,19 +158,16 @@
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    
                                                     <div ng-if="error" style="margin-top: 10px; margin-bottom: 10px; margin-left: 75px;">
                                                        <span style="color: red;">{{error}}</span>
                                                     </div>
                                                     <div ng-if="fileName" style="margin-top: 10px; margin-bottom: -8px; margin-left: 75px;">
                                                        <img src="assets/images/img-attacfile.png" alt=""><span> {{fileName}} - {{fileSize}}</span>
                                                     </div>
-                                                    
                                                     <div class="clearfix" ng-if="!comments && essay.status == 'P' && tabpane != 3">
                                                         <div class="btnreply pull-right">
                                                             <button class="cancel" ng-hide="checked" ng-click="clearAnswer()">Cancel</button>
                                                             <input type="button" name="reply" ng-hide="checked" value="Reply" ng-click="reply()">
-
                                                         </div>
                                                     </div>
                                                     <div class="detail-chat">
