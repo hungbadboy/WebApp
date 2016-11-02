@@ -131,7 +131,7 @@
                                                           back-color="white"></div>
                                                      </span>
                                                 </div>
-                                                <p>video <a href="#/mentor/video/detail/{{r.vid}}"><span>{{r.title}}</span></a></p>
+                                                <p>video <a href="#/mentor/video/detail/{{r.vid}}"><span>{{r.title | limitTo : 60}}{{r.title.length > 60 ? '...' : ''}}</span></a></p>
                                             </div>
                                         </li>                                           
                                     </ul>
@@ -151,13 +151,13 @@
                                                     <li><span class="time">{{c.timestamp}} ago on</span></li>
                                                     <li><span class="">{{c.title | limitTo : 25}} {{c.title.length > 25 ? '...' : ''}}</span></li>
                                                 </ul>
-                                                <p>{{c.content}}</p>
+                                                <p>{{c.content | limitTo: 135}}{{c.content.length > 135 ? '...' : ''}}</p>
                                             </div>
                                             <a class="pull-right btn-reply" href="" ng-click="goVideoDetail(c.vid, c.plid)">reply</a>
                                         </div>   
                                     </div>
                                                                         
-                                    <div ng-show="!comments">No data</div>
+                                    <div ng-show="!comments">No comments</div>
                                 </div>                                    
                             </div>
                         </div>
