@@ -299,9 +299,7 @@ brotControllers.controller('UploadTutorialController',
       $scope.duration = null;
       $scope.description = null;
 
-      // $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
       $('#uploadSubject').val(0);
-      // $scope.uploadPlaylist = $scope.playlists[0].plid;
       $('#uploadPlaylist').val(0);  
       $scope.vid = null;
       $scope.link = null;
@@ -396,6 +394,7 @@ brotControllers.controller('UploadTutorialController',
     }
 
     $scope.$on('addPlaylistVideo', function(){
+      initPlaylist();
       loadVideoRecently();
     });
 

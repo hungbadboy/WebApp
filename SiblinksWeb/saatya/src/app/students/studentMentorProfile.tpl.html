@@ -129,10 +129,10 @@
                             <div class="top-videos-list">
                                 <ul ng-show="videosRecently && videosRecently.length > 1">
                                     <li ng-repeat="video in videosRecently track by $index" ng-if="$index > 0">
-                                        <div class="video-thumnail" id="{{video.vid}}" ng-mouseover="hoverVideo(video.vid)"
+                                        <div ng-class="{'videos-thumnail profile-recent-video': video.type == 2, 'video-thumnail': video.type == 1}" id="{{video.vid}}" ng-mouseover="hoverVideo(video.vid)"
                                              ng-mouseleave="unHoverVideo(video.vid)">
                                             <a ng-href="{{video.type == 2 ? '#/videos/detailPlaylist/' + video.vid + '/0' : '#/videos/detailVideo/'+video.vid }}">
-                                                <img ng-src="{{video.image != null ? video.image : 'assets/images/image-not-available.png'}}">
+                                                <img ng-src="{{video.image != null ? video.image : 'assets/images/image-not-available.png'}}" width="90px">
                                             </a>
                                             <a ng-href="{{video.type == 2 ? '#/videos/detailPlaylist/' + video.vid + '/0' : '#/videos/detailVideo/'+video.vid }}">
                                                 <div class="hover-video recently">
@@ -140,8 +140,15 @@
                                                 </div>
                                             </a>
                                             <span class="video-time" ng-if="video.type ==1">{{video.runningTime}}</span>
+                                            <div class="box-all-vd" ng-if="video.type == 2">
+                                                 <p>
+                                                     <b>{{video.countvid}}</b>
+                                                     <span>videos</span>
+                                                     <img src="assets/images/img-all-video.png" alt="">
+                                                 </p>
+                                             </div>
                                         </div>
-                                        <div class="video-info">
+                                        <div class="video-info" ng-class="{'pad-l65': video.type == 2}">
                                             <p class="video title">
                                                 <a ng-href="{{video.type == 2 ? '#/videos/detailPlaylist/' + video.vid + '/0' : '#/videos/detailVideo/'+video.vid }}">{{ video.title | limitTo: 50 }}{{video.title.length > 50 ? '...' : ''}}</a>
                                             </p>
@@ -162,7 +169,7 @@
                                                       back-color="white">
                                                  </span>
                                             </p>
-                                            <p class="video-view">
+                                            <p class="video-view" ng-if="video.type == 1">
                                                 <span data-icon="&#x49;">{{video.numViews == null || video.numViews == "" ? 0 : video.numViews}}</span>
                                             </p>
                                         </div>
