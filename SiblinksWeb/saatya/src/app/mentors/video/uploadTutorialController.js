@@ -208,6 +208,8 @@ brotControllers.controller('UploadTutorialController',
       var title = $('#txtTutorialTitle').val();
       var description = $('#txtTutorialDescription').val();
       var duration = $('#txtTutorialDuration').val();
+      var plPos = $('#uploadPlaylist').val();
+      var subjectPos = $('#uploadSubject').val();
       
       if (link == null || link.length == 0) {
         $scope.error = "Please input Link. \n";
@@ -225,7 +227,7 @@ brotControllers.controller('UploadTutorialController',
         $scope.error = "Description cannot longer than 1024 characters. \n";
         angular.element('#txtTutorialDescription').trigger('focus');        
         return;
-      } else if ($scope.uploadSubject == 0) {
+      } else if (subjectPos == 0) {
         $scope.error = "Please select subject. \n";
         angular.element('#uploadSubject').trigger('focus');        
         return;
@@ -241,8 +243,8 @@ brotControllers.controller('UploadTutorialController',
           "runningTime": duration,
           "image": thumbnail,
           "description": description,
-          "subjectId": $scope.uploadSubject,
-          "plid": $scope.uploadPlaylist > 0 ? $scope.uploadPlaylist : null
+          "subjectId": $scope.uploadSubjects[subjectPos].subjectId,
+          "plid": plPos > 0 ? $scope.playlists[plPos].plid : null
         }
         $rootScope.$broadcast('open');
         VideoService.uploadTutorial(request).then(function(data){
@@ -258,14 +260,6 @@ brotControllers.controller('UploadTutorialController',
           $rootScope.$broadcast('close');
         });
       }
-    }
-
-    $scope.changeSubject = function(e){
-      $scope.uploadSubject = e;
-    }
-
-    $scope.changPlaylist = function(e){
-      $scope.uploadPlaylist = e;
     }
 
     $scope.delete = function(vid){
@@ -305,9 +299,9 @@ brotControllers.controller('UploadTutorialController',
       $scope.duration = null;
       $scope.description = null;
 
-      $scope.uploadSubject = 0;
+      // $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
       $('#uploadSubject').val(0);
-      $scope.uploadPlaylist = 0;
+      // $scope.uploadPlaylist = $scope.playlists[0].plid;
       $('#uploadPlaylist').val(0);  
       $scope.vid = null;
       $scope.link = null;

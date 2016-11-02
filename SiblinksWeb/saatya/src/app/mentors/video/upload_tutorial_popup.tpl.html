@@ -28,11 +28,11 @@
                         <textarea name="desciption" id="txtTutorialDescription" rows="4" cols="5" ng-model="description" class="form-control textarea-custom" placeholder="Description" maxlength="1024"></textarea>
                     </div>
                     <div class="form-group">
-                        <select class="select-sbj form-control" id="uploadSubject" data-ng-model="uploadSubject" ng-change="changeSubject(uploadSubject)" class="form-control" data-ng-options='subject.subjectId as subject.subject for subject in uploadSubjects'>
+                        <select class="select-sbj form-control" id="uploadSubject" data-ng-model="uploadSubject" class="form-control" data-ng-options='subject.subjectId as subject.subject for subject in uploadSubjects'>
                         </select>
                     </div>
                     <div class="form-group">
-                        <select class="select-sbj form-control" id="uploadPlaylist" data-ng-model="uploadPlaylist" ng-change="changPlaylist(uploadPlaylist)" class="form-control" data-ng-options='p.plid as p.name for p in playlists'>
+                        <select class="select-sbj form-control" id="uploadPlaylist" data-ng-model="uploadPlaylist" class="form-control" data-ng-options='p.plid as p.name for p in playlists'>
                         </select>
                     </div>
                 </form>
