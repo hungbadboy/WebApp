@@ -65,11 +65,11 @@
                     <button type="button" class="close close-popup-detail" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" data-icon="&#x51;"></span>
                     </button>
-                    <div class="essay-detail-right-content-wrapper" >
-                        <div class="essay-detail-right-content" scroller="detailEssay1">
+                    <div class="essay-detail-right-content-wrapper" scroller="detailEssay1">
+                        <div class="essay-detail-right-content">
                             <p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>
                             <div class=""></div>
-                            <div class="attrach-file"> 
+                            <div class="attrach-file" ng-if="currentEssay.status =='R'"> 
                                 <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;"> Download file</span></label>
                                 </a>
                             </div>
@@ -77,9 +77,9 @@
                         </div>
                         <div ng-if="currentEssay.status =='R'" class="essay-detail-right-content">
                             <span class="post-time">Replied {{convertUnixTimeToTime(currentEssay.docReviewedDate)}} ago</span>
-                            <p scroller="detailEssay2" class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
+                            <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
                             <div class=""></div>
-                            <div class="attrach-file q-answered">
+                            <div class="attrach-file">
                                 <a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Download file</span></label></a>
                             </div>
                         </div>
