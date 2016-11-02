@@ -163,7 +163,6 @@ jQuery(document).ready(function($) {
 
     $(window).scroll(function(){    
       var qa_scroll = $(window).scrollTop();
-      console.log(qa_scroll);
       if (qa_scroll > 90) {
         $(".mentor-manage-qa-content .left-qa").css({"top":"112px", "height":"90%"});
         $(".mentor-manage-qa-content .left-qa .tab-answered .tab-content").css({"height":"80vh"});

@@ -34,6 +34,9 @@ brotControllers.controller('StudentProfileController',
             var defaultFavouriteChecked = [];
             var bod = "";
 
+            $scope.currentTab = $location.search().tab;
+
+
             init();
             function init() {
                 getMentorSubscribedInfo();
@@ -51,6 +54,7 @@ brotControllers.controller('StudentProfileController',
                         $scope.listSchools = data.data.request_data_result;
                     }
                 });
+                showTabContent($scope.currentTab);
             }
 
 
@@ -76,8 +80,8 @@ brotControllers.controller('StudentProfileController',
                                 if (data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
                                     mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
                                 }
-                            }else{
-                                mentor.listSubject.push([{id : 1, subject : "None"}])
+                            } else {
+                                mentor.listSubject.push([{id: 1, subject: "None"}])
                             }
                             listTopMentors.push(mentor);
                         }
@@ -109,7 +113,7 @@ brotControllers.controller('StudentProfileController',
                             var birthDay = calculateBirthDay(result_data.birthDay);
                             $scope.bod = birthDay;
                             $scope.isEmptyNameMentor = false;
-                            if (isNameEmpty($scope.studentMentorProfile.firstname,$scope.studentMentorProfile.lastName)){
+                            if (isNameEmpty($scope.studentMentorProfile.firstname, $scope.studentMentorProfile.lastName)) {
                                 $scope.isEmptyNameMentor = true;
                                 $scope.studentMentorProfile.fullNameMentor = splitUserName($scope.studentMentorProfile.username);
                             }
@@ -129,20 +133,20 @@ brotControllers.controller('StudentProfileController',
                 });
             }
 
-            function isNameEmpty(firstName, lastName){
+            function isNameEmpty(firstName, lastName) {
                 return !!(isEmpty(firstName) && isEmpty(lastName));
             }
-            
+
             function splitUserName(userName) {
                 return userName.indexOf('@') > -1 ? capitaliseFirstLetter(userName.substr(0, userName.indexOf('@'))) : userName;
             }
 
             $scope.hoverVideo = function (vid) {
-                $("#"+vid+" .hover-video").show();
+                $("#" + vid + " .hover-video").show();
             };
 
             $scope.unHoverVideo = function (vid) {
-                $("#"+vid+" .hover-video").hide();
+                $("#" + vid + " .hover-video").hide();
             };
 
             function getVideosRecently() {
@@ -184,7 +188,7 @@ brotControllers.controller('StudentProfileController',
                     }
                 });
             }
-            
+
             /**
              * Calculator old from birth day.
              */
@@ -211,11 +215,11 @@ brotControllers.controller('StudentProfileController',
                 return listImage;
             }
 
-            $scope.onFileSelect = function ($files,errFiles) {
+            $scope.onFileSelect = function ($files, errFiles) {
                 $scope.errorMessage = "";
                 var errFile = errFiles && errFiles[0];
-                if(!isEmpty(errFile)){
-                    if(errFile.$error == "maxSize"){
+                if (!isEmpty(errFile)) {
+                    if (errFile.$error == "maxSize") {
                         $scope.errorMessage = 'File must not exceed 5 MB';
                         return;
                     }
@@ -244,9 +248,9 @@ brotControllers.controller('StudentProfileController',
 
             $scope.changePassword = function () {
                 //get value input
-            	$scope.msgError = "";
-            	$scope.msgSuccess = "";
-            	
+                $scope.msgError = "";
+                $scope.msgSuccess = "";
+
                 var oldPwd = $('#password').val();
                 var newPwd = $('#pass').val();
                 var confirmPwd = $('#confirm').val();
@@ -274,7 +278,7 @@ brotControllers.controller('StudentProfileController',
                     };
                     $rootScope.$broadcast('open');
                     StudentService.changePassword(user).then(function (data) {
-                    	$rootScope.$broadcast('close');
+                        $rootScope.$broadcast('close');
                         if (data.data.status == "true") {
                             resetFormPwd();
                             $scope.msgSuccess = "Changed password successfully.";
@@ -291,14 +295,14 @@ brotControllers.controller('StudentProfileController',
                 $('#pass').val('');
                 $('#confirm').val('');
             }
-            
+
             /**
              * Click button reset in the change password form
              */
             $scope.resetFormPwd = function () {
                 resetFormPwd();
             };
-            
+
             /**
              * Update profile information of user
              */
@@ -358,7 +362,7 @@ brotControllers.controller('StudentProfileController',
                     check = false;
                     error += "First name or last name contains special characters or number,";
                 }
-                if(bio.length > 500){
+                if (bio.length > 500) {
                     check = false;
                     error += "About me must not exceed 500 characters, ";
                 }
@@ -378,7 +382,6 @@ brotControllers.controller('StudentProfileController',
                     };
                     $rootScope.$broadcast('open');
                     StudentService.updateUserProfile(student).then(function (data) {
-                    	$rootScope.$broadcast('close');
                         if (data.data.request_data_result == "Success") {
                             if (student) {
                                 if ($scope.isEmptyName) {
@@ -395,7 +398,7 @@ brotControllers.controller('StudentProfileController',
                                 $scope.studentInfo.school = school;
                                 $scope.studentInfo.email = student.email;
                                 $scope.studentInfo.bio = student.bio;
-                                $scope.studentInfo.schoolName = $scope.schoolSelect != null ?  $scope.schoolSelect.name : null;
+                                $scope.studentInfo.schoolName = $scope.schoolSelect != null ? $scope.schoolSelect.name : null;
                                 localStorage.setItem('defaultSubjectId', strSubs);
                                 localStorage.setItem('firstName', student.firstName);
                                 localStorage.setItem('lastname', student.lastName);
@@ -405,65 +408,81 @@ brotControllers.controller('StudentProfileController',
                                 }
                             }
                             $scope.msgSuccess = "Update Profile Successful !";
-                        }else {
+                        } else {
                             if (error != '') {
                                 $scope.msgError = error.substr(0, error.lastIndexOf(','));
                             } else {
                                 $scope.msgError = "Failed to update your profile";
                             }
                         }
+                        $rootScope.$broadcast('close');
                     });
-                }else {
+                } else {
                     $scope.msgError = error.substr(0, error.lastIndexOf(','));
                 }
 
             };
-            
+
+
+            function updateListDefaultSubjects(listSubjectIds) {
+                return defaultSubjectChecked.filter(function (elements, index) {
+                    if (listSubjectIds) {
+                        elements.subjectId = "0";
+                        for (var i = 0; i < listSubjectIds.length; i++) {
+                            if (elements.subjectId == listSubjectIds[i]) {
+                                elements.selected = "1";
+                            }
+                        }
+                        return elements;
+                    }
+                });
+            }
+
             /**
-             * function Change Tab setting profile 
+             * function Change Tab setting profile
              */
             $scope.changeTab = function () {
-            	// Clear message
-            	$scope.msgError = "";
-            	$scope.msgSuccess = "";
+                // Clear message
+                $scope.msgError = "";
+                $scope.msgSuccess = "";
                 // Clear input change password
                 $('#password').val("");
                 $('#pass').val("");
                 $('#confirm').val("");
             };
-            
+
             /**
-             * function click button reset in the setting profile form 
+             * function click button reset in the setting profile form
              */
             $scope.resetProfile = function () {
-                if($scope.studentInfo){
+                if ($scope.studentInfo) {
                     angular.element('#firstName').val($scope.studentInfo.firstname);
                     angular.element('#lastName').val($scope.studentInfo.lastName);
                     angular.element('#email').val($scope.studentInfo.email);
-                    $scope.schoolSelect = $scope.studentInfo.school != null ? {id : parseInt($scope.studentInfo.school, 10)} : null;
+                    $scope.schoolSelect = $scope.studentInfo.school != null ? {id: parseInt($scope.studentInfo.school, 10)} : null;
                     angular.element('#bod').val(bod);
                     angular.element('#about').val($scope.studentInfo.bio);
-                    var  subjectChecked = angular.element('.masterSubject:checked');
-                    for(var i = 0 ; i<subjectChecked.length;i++){
-                       subjectChecked[i].checked = false;
-                     }
-                     var allCheckboxSubs = angular.element('.masterSubject');
-                     for(var i = 0; i < allCheckboxSubs.length ; i++){
-                        if(defaultSubjectChecked[i].selected == "1"){
-                         allCheckboxSubs[i].checked = true;
+                    var subjectChecked = angular.element('.masterSubject:checked');
+                    for (var i = 0; i < subjectChecked.length; i++) {
+                        subjectChecked[i].checked = false;
+                    }
+                    var allCheckboxSubs = angular.element('.masterSubject');
+                    for (var i = 0; i < allCheckboxSubs.length; i++) {
+                        if (defaultSubjectChecked[i].selected == "1") {
+                            allCheckboxSubs[i].checked = true;
                         }
-                     }
-                     var  favouriteChecked = angular.element('.masterFavourite:checked');
-                     for(var i = 0 ; i<favouriteChecked.length;i++){
+                    }
+                    var favouriteChecked = angular.element('.masterFavourite:checked');
+                    for (var i = 0; i < favouriteChecked.length; i++) {
                         favouriteChecked[i].checked = false;
-                     }
-                     var allCheckboxFavs = angular.element('.masterFavourite');
-                     for(var i = 0; i < allCheckboxFavs.length ; i++){
-                        if(defaultFavouriteChecked[i].selected == "1"){
-                         allCheckboxFavs[i].checked = true;
+                    }
+                    var allCheckboxFavs = angular.element('.masterFavourite');
+                    for (var i = 0; i < allCheckboxFavs.length; i++) {
+                        if (defaultFavouriteChecked[i].selected == "1") {
+                            allCheckboxFavs[i].checked = true;
                         }
-                     }
-                    switch ($scope.studentInfo.gender){
+                    }
+                    switch ($scope.studentInfo.gender) {
                         case "M":
                             angular.element('#male').prop('checked', true);
                             break;
@@ -521,9 +540,9 @@ brotControllers.controller('StudentProfileController',
                                         objAnswer.authorID = answer_result[y].authorID;
                                         objAnswer.aid = answer_result[y].aid;
                                         objAnswer.pid = answer_result[y].pid;
-                                        if(isNameEmpty(answer_result[y].firstName, answer_result[y].lastName)){
+                                        if (isNameEmpty(answer_result[y].firstName, answer_result[y].lastName)) {
                                             objAnswer.name = splitUserName(answer_result[y].userName);
-                                        }else{
+                                        } else {
                                             objAnswer.name = answer_result[y].firstName.trim() + " " + answer_result[y].lastName.trim();
                                         }
                                         objAnswer.firstName = answer_result[y].firstName;
@@ -645,11 +664,11 @@ brotControllers.controller('StudentProfileController',
                         $scope.studentInfo = dataResponse.data.request_data_result;
                         $scope.studentInfo.count_essay = $scope.studentInfo.count_essay != null && $scope.studentInfo.count_essay != "" ? $scope.studentInfo.count_essay : 0;
                         $scope.studentInfo.count_subscribe = $scope.studentInfo.count_subscribe != null && $scope.studentInfo.count_subscribe != "" ? $scope.studentInfo.count_subscribe : 0;
-                        if($scope.studentInfo.school != null && !isEmpty($scope.studentInfo.school)){
-                            $scope.schoolSelect = {id : parseInt($scope.studentInfo.school, 10)};
+                        if ($scope.studentInfo.school != null && !isEmpty($scope.studentInfo.school)) {
+                            $scope.schoolSelect = {id: parseInt($scope.studentInfo.school, 10)};
                         }
                         $scope.isEmptyName = false;
-                        if (isNameEmpty($scope.studentInfo.firstname,$scope.studentInfo.lastName)){
+                        if (isNameEmpty($scope.studentInfo.firstname, $scope.studentInfo.lastName)) {
                             $scope.isEmptyName = true;
                             $scope.studentInfo.fullName = splitUserName($scope.studentInfo.username);
                         }
@@ -664,7 +683,7 @@ brotControllers.controller('StudentProfileController',
                     $scope.masterSubjects = putMasterSubjectSelected(subjects, $scope.studentInfo.defaultSubjectId, false);
                     $scope.masterFavourite = putMasterSubjectSelected(subjects, $scope.studentInfo.favorite, true);
                     defaultSubjectChecked = $scope.masterSubjects;
-                    defaultFavouriteChecked  = $scope.masterFavourite;
+                    defaultFavouriteChecked = $scope.masterFavourite;
                     bod = $scope.birthDay;
                 });
 
@@ -723,6 +742,23 @@ brotControllers.controller('StudentProfileController',
 
             $scope.displayUserName = function (firstName, lastName, userName) {
                 return displayUserName(firstName, lastName, userName);
-            }
+            };
 
+            /**
+             * event change tab
+             */
+            $scope.changeTabMenu = function (tabName) {
+                showTabContent(tabName);
+            };
+
+
+            function showTabContent(tabName) {
+                if(isEmpty(tabName)){
+                    $scope.currentTab = 'question';
+                    $location.search('tab', 'question');
+                    return;
+                }
+                $scope.currentTab = tabName;
+                $location.search('tab', tabName);
+            }
         }]);

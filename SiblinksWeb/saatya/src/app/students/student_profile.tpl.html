@@ -37,11 +37,11 @@
                                     <span>Questions</span>
                                 </li>
                                 <li class="student-question">
-                                    <h3>{{studentInfo.count_essay}}</h3>
+                                    <h3>{{studentInfo.count_essay != null && studentInfo.count_essay == '' ? studentInfo.count_essay : 0 }}</h3>
                                     <span>Essay</span>
                                 </li>
                                 <li class="student-question">
-                                    <h3>{{studentInfo.count_subscribe}}</h3>
+                                    <h3>{{studentInfo.count_subscribe && studentInfo.count_subscribe == '' ? studentInfo.count_subscribe : 0}}</h3>
                                     <span>Subscriptions</span>
                                 </li>
                             </ul>
@@ -81,17 +81,17 @@
                     <!-- head of question -->
                     <div class="head-question">
                         <ul class="nav nav-tabs">
-                            <li class="active">
+                            <li ng-class="{active : currentTab == 'question'}" ng-click="changeTabMenu('question')">
                                 <a data-toggle="tab" href="/student/studentProfile/#my-questions">
                                     <h5><span data-icon="&#x74;"></span>My questions</h5>
                                 </a>
                             </li>
-                            <li>
+                            <li ng-class="{active : currentTab == 'essay'}" ng-click="changeTabMenu('essay')">
                                 <a data-toggle="tab" href="/student/studentProfile/#essay">
                                     <h5><span data-icon="&#xe101;"></span>Essays</h5>
                                 </a>
                             </li>
-                            <li>
+                            <li ng-class="{active : currentTab == 'setting'}" ng-click="changeTabMenu('setting')">
                                 <a data-toggle="tab" href="/student/studentProfile/#setting">
                                     <h5><span data-icon="&#xe037;"></span>Settings</h5>
                                 </a>
@@ -103,7 +103,7 @@
                     <!-- Content of question -->
                     <div class="tab-content">
                         <!-- Content Of My Question -->
-                        <div class="content-question col-md-12 tab-pane active" id="my-questions">
+                        <div class="content-question col-md-12 tab-pane" id="my-questions" ng-class="{active : currentTab == 'question'}">
                             <div class="content-question-block">
                                 <div class="content-question-wrapper" data-on-total-scroll="loadMorePost"
                                      scroller="askQuestion">
@@ -222,7 +222,7 @@
                         </div><!-- /End content of My Question -->
 
                         <!-- Content Of Essay -->
-                        <div ng-controller="yourEssayController" class="content-question col-md-12 tab-pane" id="essay">
+                        <div ng-controller="yourEssayController" class="content-question col-md-12 tab-pane" id="essay"  ng-class="{active : currentTab == 'essay'}">
                         <div class="content-essay-block" scroller="yourEssay">
                             <div class="content-question-wrapper">
                                 <!-- Essay 01 -->
@@ -232,11 +232,10 @@
                                     </div>
                                     <div class="detail-question col-xs-offset-1">
                                         <div class="infor-of-question col-xs-12">
-                                            <a href=""><h5 class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 185 ? '...' : ''}}</h5></a>
+                                            <h5 class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 185 ? '...' : ''}}</h5>
                                             <p><span>uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}} ago </span></p>
                                             <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
-                                            <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span><span>by mentor: </span>
-                                                <span class="mentor-review">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</span></p>
+                                            <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span><span>by mentor: </span><a href="#/student/mentorProfile/{{essay.mentorID}}"><span class="mentor-review">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</span></a>
                                         </div>
                                     </div>
                                 </div><!-- End Essay 01 -->
@@ -253,7 +252,7 @@
                     </div><!-- /End content of Essay -->
 
                         <!-- Content Of Setting -->
-                        <div class="content-question col-md-12 tab-pane" id="setting">
+                        <div class="content-question col-md-12 tab-pane" id="setting"  ng-class="{active : currentTab == 'setting'}">
                             <div class="user-profile-setting">
                                 <ul class="nav nav-tabs">
                                     <li class="active" ng-click="changeTab()">
