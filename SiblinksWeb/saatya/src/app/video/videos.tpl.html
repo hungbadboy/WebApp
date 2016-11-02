@@ -186,6 +186,7 @@
                                             <a href="#/videos/detailVideo/{{recommend.vid}}">
                                                 <img ng-src="{{recommend.image}}">
                                             </a>
+                                            <span class="video-time">{{recommend.runningTime}}</span>
                                         </div>
                                         <div class="videos-title">
                                             <a href="#/videos/detailVideo/{{recommend.vid}}"
@@ -230,11 +231,11 @@
                              ng-show="listVideoRecently.length > 0 && !searchItem && !isSearchAction">
                             <h5>Recently Uploaded</h5>
                             <ul>
-
                                 <li ng-repeat="videoRecently in listVideoRecently | unique:'vid'">
                                     <div class="video-wrapper"><a ng-href="{{videoRecently.type == 2 ? '#/videos/detailPlaylist/' + videoRecently.vid + '/0' : '#/videos/detailVideo/'+videoRecently.vid }}">
                                     	<div class="videos-thumnail">
                                             <img ng-src="{{videoRecently.image}}" err-src="assets/images/image-not-available.png">
+                                            <span class="video-time" ng-if="videoRecently.type == 1">{{videoRecently.runningTime}}</span>
                                             <div class="box-all-vd" ng-if="videoRecently.countvid != null">
                                                  <p>
                                                      <b>{{videoRecently.countvid}}</b>
@@ -318,6 +319,7 @@
                                         <div class="video-wrapper"><a href="#/videos/detailVideo/{{detailVideo.vid}}">
                                             <div class="videos-thumnail">
                                                 <img ng-src="{{detailVideo.image}}">
+                                            	<span class="video-time">{{detailVideo.runningTime}}</span>
                                             </div>
                                             <div class="videos-title">
                                                 <a href="#/videos/detailVideo/{{detailVideo.vid}}" title="{{detailVideo.title}}">
@@ -393,6 +395,7 @@
                                     	<a href="#/videos/detailVideo/{{lstRecentVideo.vid}}">
 	                                        <div class="videos-thumnail">
 	                                            <img ng-src="{{lstRecentVideo.image}}"/>
+	                                        	<span class="video-time">{{lstRecentVideo.runningTime}}</span>
 	                                        </div>
 	                                        <div class="videos-title">
                                             	<a href="#/videos/detailVideo/{{lstRecentVideo.vid}}" title="{{lstRecentVideo.title}}">{{lstRecentVideo.title}}</a>
@@ -440,6 +443,7 @@
                                     <div class="video-wrapper"><a href="#/videos/detailVideo/{{lstWeekVideo.vid}}">
                                         <div class="videos-thumnail">
                                             <img src="{{lstWeekVideo.image}}">
+                                            <span class="video-time">{{lstWeekVideo.runningTime}}</span>
                                         </div>
                                         <div class="videos-title">
                                             <a href="#/videos/detailVideo/{{lstWeekVideo.vid}}" title="{{lstRecentVideo.title}}">{{lstWeekVideo.title}}</a>
@@ -487,6 +491,7 @@
                                                 <a href="#/videos/detailVideo/{{search.vid}}">
                                                     <img ng-src="{{search.image}}">
                                                 </a>
+                                                <span class="video-time">{{search.runningTime}}</span>
                                             </div>
                                             <div class="videos-title">
                                                 <a href="#/videos/detailVideo/{{search.vid}}" title="{{search.title}}">{{ search.title | limitTo: 40 }}{{search.title.length > 40 ?'...' :''}}</a>
@@ -530,6 +535,7 @@
                                            title="{{lstMentorOlder.title}}">
                                             <div class="videos-thumnail">
                                                 <img ng-src="{{lstMentorOlder.image}}">
+                                                <span class="video-time">{{lstMentorOlder.runningTime}}</span>
                                             </div>
                                             <div class="videos-title">
                                                 <a href="#/videos/detailVideo/{{lstMentorOlder.vid}}" title="{{lstMentorOlder.title}}">{{lstMentorOlder.title}}</a>
@@ -582,6 +588,7 @@
                                         <a href="#/videos/detailVideo/{{search.vid}}">
                                             <img ng-src="{{search.image}}">
                                         </a>
+                                        <span class="video-time">{{search.runningTime}}</span>
                                     </div>
                                     <div class="videos-title">
                                         <a href="#/videos/detailVideo/{{search.vid}}"
@@ -633,6 +640,7 @@
                                             <a href="#/videos/detailVideo/{{video.vid}}">
                                                 <img style="margin-top: 14px" ng-src="{{video.image}}">
                                             </a>
+                                            <span class="video-time">{{video.runningTime}}</span>
                                         </div>
                                         <div class="video-details">
                                             <div class="videos-title">
@@ -688,6 +696,7 @@
                                         <a href="#/videos/detailVideo/{{search.vid}}">
                                             <img ng-src="{{search.image}}">
                                         </a>
+                                        <span class="video-time">{{search.runningTime}}</span>
                                     </div>
                                     <div class="videos-title">
                                         <a href="#/videos/detailVideo/{{search.vid}}"
@@ -742,6 +751,7 @@
                                     <div class="video-wrapper">
                                         <div class="videos-thumnail">
                                             <a href="#/videos/detailVideo/{{videoFavourite.vid}}"><img src="{{videoFavourite.image}}"></a>
+                                            <span class="video-time">{{videoFavourite.runningTime}}</span>
                                         </div>
                                         <div class="video-details">
                                             <div class="videos-title" style="margin: 0px 0px 2px 0px">
@@ -752,8 +762,7 @@
                                                 <a href="#/student/mentorProfile/{{videoFavourite.authorID}}">
                                                 <span class="video-poster" video-author
                                                       id="{{videoFavourite.authorID}}"
-                                                      ng-click="showProfile($event)">{{videoFavourite.firstName + ' ' +
-                                                videoFavourite.lastName}}
+                                                      ng-click="showProfile($event)">{{videoFavourite.firstName + ' ' +videoFavourite.lastName}}
                                                 </span>
                                                 </a>
                                                 <span> &#8226; {{videoFavourite.timeStamp}}</span>
