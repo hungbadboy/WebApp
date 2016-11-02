@@ -143,8 +143,13 @@ $scope.linkRedirect= function(type,linkToId) {
 	default:
 		break;
 	}
+	
 	$('.notification-content').hide();
 	window.location.href = linkRedirectTo;
+}
+$scope.linkToProfile = function(userType, senderId) {
+	$('.notification-content').hide();
+	window.location.href = ((userType=='S')? '#/student/mentorProfile/':'#mentor/studentProfile/') +senderId;
 }
 }]);
 //=========================================== NOTIFICATION.CONTROLLER.JS==============
