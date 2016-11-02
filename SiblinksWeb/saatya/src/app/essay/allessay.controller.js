@@ -207,20 +207,33 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
 
   $scope.loadMoreEssay = function(){
     var offset = 0;
+    var keyword = $('input#essay-term').val();
     if ($scope.tabpane == 1) {
       offset = getOffset($scope.newestEssays);
       if (offset == undefined || offset == null)
         offset = 0;
-      loadMoreNewestEssay(offset);
+      if (keyword && keyword.length > 0)
+        loadMoreSearch(keyword, offset);
+      else
+        loadMoreNewestEssay(offset);
     } else if ($scope.tabpane == 2) {
       offset = getOffset($scope.processingEssays);
-      loadMoreProcessingEssay(offset);
+      if (keyword && keyword.length > 0)
+        loadMoreSearch(keyword, offset);
+      else
+        loadMoreProcessingEssay(offset);
     } else if ($scope.tabpane == 3) {
       offset = getOffset($scope.ignoredEssays);
-      loadMoreIgnoredEssay(offset);
+      if (keyword && keyword.length > 0)
+        loadMoreSearch(keyword, offset);
+      else
+        loadMoreIgnoredEssay(offset);
     } else {
       offset = getOffset($scope.repliedEssays);
-      loadMoreRepliedEssay(offset);
+      if (keyword && keyword.length > 0)
+        loadMoreSearch(keyword, offset);
+      else
+        loadMoreRepliedEssay(offset);
     }
   }
 
@@ -301,7 +314,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
       if (alreadySearch == true) {
         switchTab(val);
       } else {
-        searchEssay(status, keyword, schoolId, 0);
+        searchEssay(keyword, 0);
       }
     } else {
       $scope.newestEssays = newestEssayCache.slice(0);
@@ -353,7 +366,6 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         updateUI();
       } else {
         var result = data.data.request_data_result;
-        console.log(result);
         if (result == "Processed") {
           var ModalInstanceCtrl = function($scope, $modalInstance) {
             $scope.ok = function() {              
@@ -451,29 +463,27 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
       fd.append('mentorId', userId);
       fd.append('studentId', $scope.essay.userId);
       $rootScope.$broadcast('open');
-      $timeout(function(){        
-        EssayService.insertCommentEssay(fd).then(function(data){
-          if (data.data.request_data_result != null && data.data.request_data_result == "Success") {
-            $scope.success = "Reply successful.";
-            getAllEssay();
-            justReplied = true;
-            $scope.error = null;
-            $scope.fileName = null;
-            $scope.fileSize = null;
-          } else{
-            $scope.error = data.request_data_result;
-          }
-          $scope.checked = false;
-          $rootScope.$broadcast('close');
-        });
-      }, 2000);
+      EssayService.insertCommentEssay(fd).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result == "Success") {
+          $scope.success = "Reply successful.";
+          getAllEssay();
+          justReplied = true;
+          $scope.error = null;
+          $scope.fileName = null;
+          $scope.fileSize = null;
+        } else{
+          $scope.error = data.request_data_result;
+        }
+        $scope.checked = false;
+        $rootScope.$broadcast('close');
+      });
     }
   }
 
   $scope.search = function(){
     var keyword = $('input#essay-term').val();
     if (keyword && keyword.length > 0)
-      searchEssay(status, keyword, schoolId, 0);
+      searchEssay(keyword, 0);
     else{
       $scope.newestEssays = newestEssayCache.slice(0);
       $scope.processingEssays = processingEssayCache.slice(0);
@@ -485,7 +495,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
 
   $scope.onSelect = function(selected){
     if (selected != undefined)
-      searchEssay(status, selected.title, schoolId, 0);
+      searchEssay(selected.title, 0);
   }
 
   $scope.textChanged = function(str){
@@ -493,7 +503,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
       alreadySearch = false;
   }
 
-  function searchEssay(status, keyword, schoolId, offset){
+  function searchEssay(keyword, offset){
     console.log('searchEssay');
     var request = {
       "keySearch": keyword,
@@ -502,7 +512,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
       "offset": offset,
       "mentorId": userId
     }
-    $scope.$broadcast('open');
+    $rootScope.$broadcast('open');
     EssayService.search(request).then(function(data){
       alreadySearch = true;
       var result = data.data;
@@ -538,8 +548,39 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         $scope.repliedEssays = null;
         $scope.essay = null;
       }
-      $scope.$broadcast('close');
+      $rootScope.$broadcast('close');
       switchTab($scope.tabpane);
+    });
+  }
+
+  function loadMoreSearch(keyword, offset){
+    var request = {
+      "keySearch": keyword,
+      "schoolId": schoolId,
+      "limit": 10,
+      "offset": offset,
+      "mentorId": userId
+    }
+    $rootScope.$broadcast('open');
+    EssayService.search(request).then(function(data){
+      alreadySearch = true;
+      var result = data.data;
+      if (result.status == 'true') {
+        var collection = result.request_data_result;
+        if (collection.newestEssay != NO_DATA) {
+          $scope.newestEssays = formatEssay(collection.newestEssay);
+        }
+        if (collection.processingEssay != NO_DATA) {
+          $scope.processingEssays = formatEssay(collection.processingEssay);
+        }
+        if (collection.ignoredEssay != NO_DATA) {
+          $scope.ignoredEssays = formatEssay(collection.ignoredEssay);
+        }
+        if (collection.repliedEssay != NO_DATA) {
+          $scope.repliedEssays = formatEssay(collection.repliedEssay);
+        }
+      }
+      $rootScope.$broadcast('close');
     });
   }
 
