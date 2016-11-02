@@ -664,11 +664,12 @@
                                                            back-color="white">
                                                  </span>
                                                 </p>
-                                                <p class="video-description" title="{{video.description}}">{{ video.description | limitTo: 205 }}{{video.description.length >205 ?'...' :''}}</p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{video.numViews}}</span>
                                                     <span data-icon="&#xe066;">{{video.numComments}}</span>
                                                 </p>
+                                                <p class="video-description" title="{{video.description}}">{{ video.description | limitTo: 205 }}{{video.description.length >205 ?'...' :''}}</p>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -781,16 +782,18 @@
                                                       back-color="white">
                                                  </span>
                                                 </p>
-                                                <p class="video-description">
-                                                    {{videoFavourite.description}}
-                                                </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{videoFavourite.numViews}}</span>
                                                     <!--<span data-icon="&#xe089;"-->
                                                     <!--class="like">{{videoFavourite.numFavourite}}</span>-->
                                                     <span data-icon="&#xe066;">{{videoFavourite.numComments}}</span>
                                                 </p>
+                                                <p class="video-description">
+                                                    {{videoFavourite.description}}
+                                                </p>
+                                                
                                             </div>
+
                                         </div>
                                     </div>
                                     <div class="number-video" ng-click="deleteFavouriteVideo(videoFavourite)">
