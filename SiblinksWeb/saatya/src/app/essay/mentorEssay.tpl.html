@@ -134,13 +134,12 @@
                                                         <a href="javascript:void(0)" ng-click="changeStatus(essay.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
                                                         <a href="javascript:void(0)" ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-cancel"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
                                                     </div>
+                                                    <div class="bt-item-r col-md-4" ng-if="essay.status == 'P'">
+                                                        <a href="javascript:void(0)" ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-cancel"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
+                                                    </div>
                                                     <p class="txt-essay word-wrap"><b>{{essay.nameOfEssay}}</b></p>
                                                     </div>
-                                                </div>
-                                                
-                                                <!-- <div class="bt-item-r col-md-4" ng-if="essay.status == 'P'">
-                                                    <a href="javascript:void(0)"  ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-reviewing">Cancel</span></a>
-                                                </div> -->
+                                                </div>                                                
                                             </div>
                                             <p class="text-rpl-2 pre-wap word-wrap">
                                                {{essay.descriptionOfEssay}}
@@ -174,7 +173,7 @@
                                                     
                                                     <div class="clearfix" ng-if="!comments && essay.status == 'P' && tabpane != 3">
                                                         <div class="btnreply pull-right">
-                                                            <button class="cancel" ng-click="cleanAnswer()">Cancel</button>
+                                                            <button class="cancel" ng-click="clearAnswer()">Cancel</button>
                                                             <input type="button" name="reply"  value="Reply" ng-click="reply()">
 
                                                         </div>

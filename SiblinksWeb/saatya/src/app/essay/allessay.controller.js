@@ -534,6 +534,13 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
     });
   }
 
+  $scope.clearAnswer = function(){
+    $('#comment').val('');
+    $scope.fileName = null;
+    $scope.fileSize = null;
+    file = null;
+  }
+
   $scope.prevEssay = function(pos){
     if ($scope.tabpane == 1) {
       if ($scope.newestEssays && $scope.newestEssays.length > 0) {

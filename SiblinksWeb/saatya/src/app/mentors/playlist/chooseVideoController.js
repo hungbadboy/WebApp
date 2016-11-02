@@ -346,6 +346,9 @@ brotControllers.controller('ChooseVideoController',
             $scope.duration = convertTime(contentDetails.duration);
             $scope.title = result[0].snippet.title;
             $scope.description = result[0].snippet.description;
+            $('#txtTutTitle').val($scope.title);
+            $('#txtTutDescription').val($scope.description);
+            $('#txtTutDuration').val($scope.duration); 
           } else{
             $scope.error = "Please input valid link. ";
             angular.element('#txtTutLink').trigger('focus');
@@ -356,8 +359,12 @@ brotControllers.controller('ChooseVideoController',
     function clearContent() {
       $('#txtTutTitle').val('');
       $('#txtTutDescription').val('');
-      $('#txtTutDuration').val('');    
+      $('#txtTutDuration').val('');
+      $scope.duration = null;
+      $scope.description = null;
+      $scope.title = null;
     }
+
     function convertTime(duration) {
         var a = duration.match(/\d+/g);
 
