@@ -416,7 +416,12 @@ brotControllers.controller('AllEssayCtrl', ['$scope', '$location', '$window', 'E
   }
 
   var file;
-  $scope.onFileSelect = function($files){
+  $scope.onFileSelect = function($files, errFile){
+    var errFile = errFile && errFile[0];
+    if (errFile) {
+      $scope.error = "File maximum is 10MB.";
+      return;
+    }
     if ($files && $files.length > 0) {
       file = $files[0];
       if (file == undefined){
