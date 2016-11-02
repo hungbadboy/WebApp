@@ -22,13 +22,12 @@
                         <div class="recently-activity-content" scroller="scroll-activity-log" data-on-total-scroll="loadMoreActivity">
                             <ul class="activity-log">
                                 <li ng-repeat="activity in listActivitiesLog track by $index">
-                                    <div class="number-content" ng-if="activity">
+                                    <div class="number-content">
                                         <p></p>
                                     </div>
                                     <div class="recently-activity-info">
                                         <p class="recently-activity-time">
-											<span>{{convertUnixTimeToTime(activity.logDate)}}
-												ago</span>
+											<span>{{convertUnixTimeToTime(activity.logDate)}} ago</span>
                                         </p>
                                         <div class="recently-activity-status">
 											<span class="recently-activity-name">

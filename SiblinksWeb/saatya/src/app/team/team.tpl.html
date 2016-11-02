@@ -68,9 +68,9 @@
                                   <div class="mentors-rate clearfix">
                                       <button class="subscribers active" data-icon="{{mentor.isSubs =='1'?'&#x4e;':'&#x4c;'}}" id="subscribers_{{mentor.userid}}"
                                       ng-click="setSubscribeMentor(mentor.userid)" ng-class="{'unsubcrib':mentor.isSubs =='1'}"
-   					ng-Mouseover="hoverSubcribe(mentor.isSubs,mentor.userid)" 
-   					ng-mouseleave="unHoverSubcribe(mentor.isSubs,mentor.userid)">
-                                          <span id="span_{{mentor.userid}}">Subscribe</span>
+                                        ng-Mouseover="hoverSubcribe(mentor.isSubs,mentor.userid)"
+                                        ng-mouseleave="unHoverSubcribe(mentor.isSubs,mentor.userid)">
+                                          <span id="span_{{mentor.userid}}">{{mentor.isSubs == '1' ? 'Subscribed' : 'Subscribe'}}</span>
                                           <span class="number-subscribers">{{mentor.numsub}}</span>
                                       </button>
                                       <p class="likes">

@@ -1348,3 +1348,18 @@ brotControllers.directive('loadingDialog', ['$timeout', function($timeout) {
         }
     }
 }]);
+
+brotControllers.directive('autoHeightRecentActivity', function($window) {
+    return {
+        link: function(scope, element) {
+            var w = angular.element($window);
+            var headerRightHeight = angular.element('.mentor-right-header')[0].offsetHeight;
+            var screenHeight =  screen.height;
+            var changeHeight = function() {element.css('height', (screenHeight - headerRightHeight) + 'px' );};
+            w.bind('resize', function () {
+                changeHeight();   // when window size gets changed
+            });
+            changeHeight();
+        }
+    }
+});
