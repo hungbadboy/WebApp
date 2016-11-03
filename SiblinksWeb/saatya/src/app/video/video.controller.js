@@ -4,7 +4,9 @@
 
 brotControllers.filter('slice', function () {
     return function (arr, start, end) {
-        if (!arr || !arr.length) { return; }
+        if (!arr || !arr.length) {
+            return;
+        }
         return arr.slice(start, end);
     };
 });
@@ -390,9 +392,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     var subjects = response.data.request_data_result;
                     if (subjects) {
                         $scope.listSubjects = subjects;
-                        listSubs = $scope.listSubjects;
-                        $scope.listSubjectsSize = listSubs.length;
-                        $scope.isMoreSubject = listSubs.length > $scope.longNumberLimit;
+                        $scope.listSubjectsSize = $scope.listSubjects.length;
+                        $scope.isMoreSubject = $scope.listSubjects.length > $scope.longNumberLimit;
                     }
                 }
             });
@@ -1009,41 +1010,27 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             $location.search('tab', tabName);
         };
 
-        var currentSubject = 0;
-        $scope.isNextPage = false;
-        $scope.offsetSubs = 0;
-        $scope.newLimitSubs = $scope.longNumberLimit;
-        var newOffset = 0;
+        $scope.fromSubIndex = 0;
+        $scope.toSubIndex = $scope.longNumberLimit;
         $scope.nextSubject = function () {
-            if (!$scope.listSubjects) {
-                return;
+            var currentIndex = 0;
+            if ($scope.isMoreSubject) {
+                currentIndex += 1;
+                if ($scope.toSubIndex > $scope.listSubjects.length) {
+                    return;
+                }
+                $scope.fromSubIndex += currentIndex;
+                $scope.toSubIndex += currentIndex;
             }
-            if ($scope.listSubjects.length != listSubs.length) {
-                $scope.listSubjects = listSubs;
-            }
-            currentSubject++;
-            newOffset = $scope.longNumberLimit * currentSubject;
-            if (newOffset > $scope.listSubjects.length) {
-                newOffset = listSubs.length;
-                $scope.newLimitSubs = newOffset;
-            } else {
-                $scope.newLimitSubs = newOffset + $scope.longNumberLimit;
-            }
-            $scope.isNextPage = true;
-            $scope.offsetSubs = newOffset;
         };
 
         $scope.prevSubject = function () {
-            if (currentSubject < 0) {
-                return;
+            var currentIndex = $scope.fromSubIndex;
+            currentIndex -= 1;
+            if (currentIndex >= 0 && $scope.toSubIndex - 1 >= 9) {
+                $scope.fromSubIndex -= 1;
+                $scope.toSubIndex -= 1;
             }
-            if ($scope.listSubjects.length != listSubs.length) {
-                $scope.listSubjects = listSubs;
-            }
-            currentSubject--;
-            $scope.offsetSubs = $scope.offsetSubs - $scope.longNumberLimit;
-            newOffset = $scope.offsetSubs;
-            $scope.newLimitSubs = $scope.newLimitSubs - $scope.longNumberLimit;
         };
 
     }]);

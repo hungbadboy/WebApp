@@ -151,15 +151,15 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
             var absHref = $scope.getLink(type, id);
             if(!isEmpty(strLog)) {
                 if (strLog.indexOf(KEY_WORD_LINK.Question) != -1) {
-                    return $sce.trustAsHtml(strLog.replace('question', '<a class = "text-under-line" href='+absHref+'>question</a>'));
+                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Question, '<a class = "text-under-line" href='+absHref+'>question</a>'));
                 } else if (strLog.indexOf(KEY_WORD_LINK.Video) != -1) {
-                    return $sce.trustAsHtml(strLog.replace('video', '<a class = "text-under-line" href='+absHref+'>video</a>'));
+                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Video, '<a class = "text-under-line" href='+absHref+'>video</a>'));
                 }else if (strLog.indexOf(KEY_WORD_LINK.Essay) != -1) {
-                    return $sce.trustAsHtml(strLog.replace('essay', '<a class = "text-under-line" href='+absHref+'>essay</a>'));
+                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Essay, '<a class = "text-under-line" href='+absHref+'>essay</a>'));
                 }else if (strLog.indexOf(KEY_WORD_LINK.Playlist) != -1 ) {
-                    return $sce.trustAsHtml(strLog.replace('playlist', '<a class = "text-under-line" href='+absHref+'>playlist</a>'));
+                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Playlist, '<a class = "text-under-line" href='+absHref+'>playlist</a>'));
                 }else if (strLog.indexOf(KEY_WORD_LINK.Profile) != -1) {
-                    return $sce.trustAsHtml(strLog.replace('profile', '<a class = "text-under-line" href=' + absHref + '>profile</a>'));
+                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Profile, '<a class = "text-under-line" href=' + absHref + '>profile</a>'));
                 }
 
             }
