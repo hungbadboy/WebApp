@@ -111,7 +111,7 @@
                 <!-- Content of All -->
                 <div class = "tab-pane" id="all">
                     <h4>All Tutorials</h4>
-                    <div class="sort-video">
+                    <div class="sort-video subject">
                         <ul>
                             <li ng-click="sortBySubject(-1)" ng-class="{'active': subjectId == -1}" id="-1">All</li>
                             <li ng-repeat="subject in listSubjects | slice:fromSubIndex:toSubIndex" ng-click="sortBySubject(subject.subjectId)"
@@ -368,11 +368,11 @@
                 <div class = "tab-pane" id="subcriptions" >
                     <h4>Subcriptions</h4>
                     <span class="number-media number-subscrip" ng-if="login == 1" ng-bind="totalSubscription"></span>
-                    <div id="idCategory" class="sort-video">
+                    <div id="idCategory" class="sort-video subject">
                         <!-- <span>Sort</span> -->
                         <ul>
                             <li ng-class="{'active': subjectIdSort == -2}" id="-2" ng-click="showVideoWithCategory(-2)">All</li>
-                            <li ng-repeat="lstCategory in listCategorySubscription | slice:offsetSubs:newLimitSubs"
+                            <li ng-repeat="lstCategory in listCategorySubscription | slice:fromSubIndex:toSubIndex"
                                 ng-class="subjectIdSort==lstCategory.subjectId ? 'active':''"
                                 id="{{lstCategory.subjectId}}"
                                 data-ng-click="showVideoWithCategory(lstCategory.subjectId)">
@@ -380,8 +380,8 @@
                             </li>
                             <div class="manager-profile-std" style="margin-right: 5px">
                                 <div class="slide-broswer subject" ng-if="isMoreSubject">
-                                    <a class="btn-prev" ng-click="prevSubject()" ng-class="{disabledNextPrev : offsetSubs >=0 &&  newLimitSubs <= longNumberLimit}"><span data-icon="&#x34;"></span></a>
-                                    <a class="btn-next" ng-click="nextSubject()" ng-class="{disabledNextPrev : newLimitSubs > listSubjectsSize}"><span data-icon="&#x35;"></span></a>
+                                    <a class="btn-prev" ng-click="prevSubject()" ng-class="{disabledNextPrev : fromSubIndex == 0}"><span data-icon="&#x34;"></span></a>
+                                    <a class="btn-next" ng-click="nextSubject()" ng-class="{disabledNextPrev : toSubIndex == listSubjectsSize}"><span data-icon="&#x35;"></span></a>
                                 </div>
                             </div>
                         </ul>
