@@ -76,19 +76,9 @@ brotControllers
 
                     QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
                         $scope.totalQuestion = data.data.request_data_result[0].numquestion;
-                        if (userId == "-1") {
+                        if (userId == "-1" || isEmpty($scope.totalQuestion) || $scope.totalQuestion == 0) {
                             window.location.href = '/#/first-ask';
                             return;
-                        }
-                        if ($scope.totalQuestion == 0 && $location.path().indexOf('question')>=0) {
-                            if (subjectid == -1) {
-                                window.location.href = '/#/first-ask';
-                                return;
-                            }
-                        } else {
-                            if($location.absUrl().indexOf('first-ask') > -1){
-                                window.location.href = '/#/ask_a_question/-1';
-                            }
                         }
                     });
                 }
@@ -169,7 +159,7 @@ brotControllers
                 $scope.zoomImage = function (img, index) {
                     $scope.currentIndexImage = index;
                     $scope.currentImage = img;
-                    angular.element(document.getElementById('modalImage')).modal();
+                    //angular.element(document.getElementById('modalImage')).modal();
                 }
                 $scope.setCurrentIndex = function (index) {
                     $scope.currentIndexImage = index;
@@ -537,12 +527,10 @@ brotControllers
                     HomeService.addQuestion(fd).then(function (data) {
                         if (data.data.status == "true") {
                             $(".popup-images, .form-ask-question").css({"left": "100%"});
-                            //window.location.href = '/#/ask_a_question/-1';
-                           // window.location.reload();
+                            $location.path('/ask_a_question/-1');
                             isLoadMore = false;
                             init();
-                        }
-                        else {
+                        } else {
                             $scope.askErrorMsg =data.data.request_data_result;
                         }
                         $rootScope.$broadcast('close');
