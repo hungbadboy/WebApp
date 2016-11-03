@@ -69,7 +69,7 @@
                         <div class="essay-detail-right-content">
                             <p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>
                             <div class=""></div>
-                            <div class="attrach-file" ng-if="currentEssay.status =='R'?'reviewing':'answers'"> 
+                            <div class="attrach-file" ng-class="{'pull-right' : currentEssay.status =='R'}">
                                 <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;"> Download file</span></label>
                                 </a>
                             </div>
