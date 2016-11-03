@@ -9,6 +9,8 @@ brotControllers.controller('VideoManagerController',
     $scope.subject = [0];
 
     var cacheVideos = [];
+    var cacheTopRatedVideos = [];
+    var cacheTopViewedVideos = [];
     var sub = myCache.get("subjects");
     init();
 
@@ -45,7 +47,13 @@ brotControllers.controller('VideoManagerController',
     }
 
     function loadVideos(){
-      VideoService.getVideos(userId, 0).then(function(data){
+      loadNewestVideos(0);
+      loadTopRatedVideos(0); 
+      loadTopViewedVideos(0);
+    }
+
+    function loadNewestVideos(offset){
+      VideoService.getVideos(userId, offset).then(function(data){
         var result = data.data.request_data_result;
         if (result && result != "Found no data") {
           $scope.videos = formatData(result);
@@ -53,7 +61,29 @@ brotControllers.controller('VideoManagerController',
         } else
           $scope.videos = null;
       });
-    }    
+    }
+
+    function loadTopRatedVideos(offset){
+      VideoService.getVideosTopRated(userId, offset).then(function(data){
+        var result = data.data.request_data_result;
+        if (result && result != "Found no data") {
+          $scope.topRatedVideos = formatData(result);
+          cacheTopRatedVideos = $scope.topRatedVideos.slice(0);
+        } else
+          $scope.topRatedVideos = null;
+      });
+    }
+
+    function loadTopViewedVideos(offset){
+      VideoService.getVideosTopViewed(userId, offset).then(function(data){
+        var result = data.data.request_data_result;
+        if (result && result != "Found no data") {
+          $scope.topViewedVideos = formatData(result);
+          cacheTopViewedVideos = $scope.topViewedVideos.slice(0);
+        } else
+          $scope.topViewedVideos = null;
+      });
+    }
 
     function formatData(data){
       for (var i = 0; i < data.length; i++) {    
@@ -66,28 +96,76 @@ brotControllers.controller('VideoManagerController',
     }
     
     $scope.loadMoreVideos = function(){
+      var keyword = $('input#srch-term').val();
       var offset = 0;
       if ($scope.videos && $scope.videos.length > 0) 
         offset = $scope.videos.length;
-
-      var oldArr = $scope.videos;
-      var newArr = [];
+      
       if ($scope.subject == 0) {
-        VideoService.getVideos(userId, offset).then(function(data){        
-          if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-            newArr = formatData(data.data.request_data_result);
-            $scope.videos = oldArr.concat(newArr);
-            cacheVideos.length = 0;
-            cacheVideos = $scope.videos.slice(0);
-          }
-        });
+        if (keyword && keyword.length > 0)
+          searchMoreNewestVideos(keyword, $scope.subject, offset);
+        else
+          loadMoreNewestVideos(offset);
       } else {
-        VideoService.getVideosBySubject(userId, $scope.subject, offset).then(function(data){
-          if(data.data.request_data_result != null && data.data.request_data_result != "Found no data")
-            newArr = formatData(data.data.request_data_result);
-            $scope.videos = oldArr.concat(newArr);
-        });
+        if (keyword && keyword.length > 0)
+          searchMoreNewestVideos(keyword, $scope.subject, offset);
+        else{
+          VideoService.getVideosBySubject(userId, $scope.subject, offset).then(function(data){
+            if(data.data.request_data_result != null && data.data.request_data_result != "Found no data")
+              var oldArr = $scope.videos;
+              var newArr = formatData(data.data.request_data_result);
+              $scope.videos = oldArr.concat(newArr);
+          });
+        }
       }      
+    }
+
+    function searchMoreNewestVideos(keyword, subjectId, offset) {
+       VideoService.searchVideosMentor(userId, keyword, subjectId, offset).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+          var oldArr = $scope.videos;
+          var newArr = formatData(data.data.request_data_result);
+          $scope.videos = oldArr.concat(newArr);
+        }
+      });
+    }
+
+    function loadMoreNewestVideos(offset){
+      VideoService.getVideos(userId, offset).then(function(data){        
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+          var oldArr = $scope.videos;
+          var newArr = formatData(data.data.request_data_result);
+          $scope.videos = oldArr.concat(newArr);
+          cacheVideos.length = 0;
+          cacheVideos = $scope.videos.slice(0);
+        }
+      });
+    }
+
+    function loadMoreTopRatedVideos(offset) {
+      VideoService.getVideosTopRated(userId, offset).then(function(data){
+        var result = data.data.request_data_result;
+        if (result && result != "Found no data") {
+          var oldArr = $scope.topRatedVideos;
+          var newArr = formatData(result);
+          $scope.topRatedVideos = oldArr.concat(newArr);
+          cacheTopRatedVideos.length = 0;
+          cacheTopRatedVideos = $scope.topRatedVideos.slice(0);
+        }
+      });
+    }
+
+    function loadMoreTopViewedVideos(offset) {
+      VideoService.getVideosTopViewed(userId, offset).then(function(data){
+        var result = data.data.request_data_result;
+        if (result && result != "Found no data") {
+          var oldArr = $scope.topViewedVideos;
+          var newArr = formatData(result);
+          $scope.topViewedVideos = oldArr.concat(newArr);
+          cacheTopViewedVideos.length = 0;
+          cacheTopViewedVideos = $scope.topViewedVideos.slice(0);
+        }
+      });
     }
 
     function getVideoBySubject(){
@@ -195,11 +273,11 @@ brotControllers.controller('VideoManagerController',
     }
 
     function getAllVideos() {
-        VideoService.getAllVideos().then(function (response) {
-          if (response.data.status) {
-              $scope.listAllVideos = response.data.request_data_result;
-          }
-        });
+      VideoService.getAllVideos().then(function (response) {
+        if (response.data.status) {
+            $scope.listAllVideos = response.data.request_data_result;
+        }
+      });
     }
 
     $scope.loadVideosBySubject = function(e){
