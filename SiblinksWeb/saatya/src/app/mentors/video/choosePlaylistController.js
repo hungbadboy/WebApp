@@ -14,11 +14,9 @@ brotControllers.controller('ChoosePlaylistController',
       if (userId && userId > 0) {
         var selectPlaylistSubjects = localStorage.getItem('selectPlaylistSubjects');
         if (selectPlaylistSubjects !== null) {
-          console.log("get Playlist in cache");
           $scope.playlists = JSON.parse(selectPlaylistSubjects);
           $scope.playlist = $scope.playlists[0].plid;
         } else{
-          console.log("get Playlist on server");
           VideoService.getPlaylist(u_id).then(function(data){
             if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
               $scope.playlists = data.data.request_data_result;

@@ -1469,8 +1469,6 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> searchVideos(@RequestBody final RequestData request) {
         SimpleResponse response = null;
         try {
-            // String entityName = null;
-
             if (!AuthenticationFilter.isAuthed(context)) {
                 response = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(response, HttpStatus.FORBIDDEN);
@@ -1481,6 +1479,7 @@ public class VideoServiceImpl implements VideoService {
             String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch());
             int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request.getRequest_data().getSubjectId()) : 0;
             int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
+            int type = request.getRequest_data().getType() != null ? Integer.parseInt(request.getRequest_data().getType()) : 0;
 
             if (subjectId == 0) {
                 queryParams = new Object[] { request.getRequest_data().getUid() };
@@ -1489,8 +1488,14 @@ public class VideoServiceImpl implements VideoService {
                 queryParams = new Object[] { request.getRequest_data().getUid(), subjectId };
                 entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_WITH_SUBJECT;
             }
-
-            String whereClause = String.format(" and a.title like '%%%s%%' order by a.timeStamp DESC limit 10 offset %d", term, offset);
+            String whereClause = "";
+            if (type == 1) {
+                whereClause = String.format(" and a.title like '%%%s%%' order by a.vid DESC limit 10 offset %d", term, offset);
+            } else if (type == 2) {
+                whereClause = String.format(" and a.title like '%%%s%%' order by a.numViews DESC limit 10 offset %d", term, offset);
+            } else {
+                whereClause = String.format(" and a.title like '%%%s%%' order by a.averageRating DESC limit 10 offset %d", term, offset);
+            }
 
             List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
             if (readObject != null && readObject.size() > 0) {
@@ -2497,12 +2502,19 @@ public class VideoServiceImpl implements VideoService {
      */
     @Override
     @RequestMapping(value = "/getVideosBySubject", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideosBySubject(@RequestParam final long userid, @RequestParam final long subjectid, @RequestParam final int offset) {
+    public ResponseEntity<Response> getVideosBySubject(@RequestParam final long userid, @RequestParam final int videoType, @RequestParam final long subjectid,
+            @RequestParam final int offset) {
         SimpleResponse response = null;
         try {
             Object[] queryParams = new Object[] { userid, subjectid, offset };
-
-            String entityName = SibConstants.SqlMapperBROT43.SQL_GET_VIDEOS_BY_SUBJECT;
+            String entityName = "";
+            if (videoType == 1) {
+                entityName = SibConstants.SqlMapperBROT43.SQL_GET_NEWEST_VIDEOS_BY_SUBJECT;
+            } else if (videoType == 2) {
+                entityName = SibConstants.SqlMapperBROT43.SQL_GET_TOP_VIEWED_VIDEOS_BY_SUBJECT;
+            } else {
+                entityName = SibConstants.SqlMapperBROT43.SQL_GET_TOP_RATED_VIDEOS_BY_SUBJECT;
+            }
 
             List<Object> readObject = dao.readObjects(entityName, queryParams);
             if (readObject != null && readObject.size() > 0) {

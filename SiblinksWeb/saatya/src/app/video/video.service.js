@@ -540,10 +540,10 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         return promise;
     }
 
-    factory.getVideosBySubject = function(userid, subjectid, offset){
+    factory.getVideosBySubject = function(userid, videoType, subjectid, offset){
        return $http({
           method: 'GET',
-          url: NEW_SERVICE_URL + 'video/getVideosBySubject?userid='+userid + '&subjectid='+subjectid+'&offset='+offset+''
+          url: NEW_SERVICE_URL + 'video/getVideosBySubject?userid='+userid + '$videoType='+videoType+'&subjectid='+subjectid+'&offset='+offset+''
         });
     }
 
@@ -554,19 +554,14 @@ brotServices.factory('VideoService', ['$http', function ($http) {
     //     });
     // }
 
-    factory.searchVideosMentor = function(uid, keyword, subjectId, offset){
+    factory.searchVideosMentor = function(request){
         return $http({
           method: 'POST',
           url: NEW_SERVICE_URL + 'video/searchVideos',
           data: {
               "request_data_type": "video",
               "request_data_method": "deleteVideo",
-              "request_data":{
-                "uid": uid,
-                "keySearch": keyword,
-                "offset": offset,
-                "subjectId": subjectId
-              }            
+              "request_data": request          
             }
         });
     }

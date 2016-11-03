@@ -97,7 +97,7 @@ public interface VideoService {
      /*
       * @author Hoai Nguyen
       */
-     public ResponseEntity<Response> getVideosBySubject(long userid, long subjectid, int offset);
+    public ResponseEntity<Response> getVideosBySubject(long userid, int videoType, long subjectid, int offset);
 
      public ResponseEntity<Response> getVideos(long uid, int offset);
 
