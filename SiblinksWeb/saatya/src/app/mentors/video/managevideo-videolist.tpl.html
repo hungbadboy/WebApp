@@ -313,6 +313,17 @@
                                                 <div class="row clearfix">
                                                     <p class="btn-load-more"><a class="load-more-mng" href="#">load more</a></p>
                                                 </div>
+                                                <div class="filters clearfix">
+                                                    <div class="check-all"><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></div>
+                                                    <div class="text-trf">Tutorial Information</div>
+                                                    <div class="text-play">Playlist</div>
+                                                    <div class="text-des">Description</div>
+                                                    <div class="text-ac">Action</div>
+                                                </div>
+                                                <div class="btn-mg">
+                                                    <button class="btn-delete" ng-click ="deleteMultiple()">Delete</button>
+                                                    <button class="add-play" ng-click="addMultipleToPlaylist()">Add to playlist</button>
+                                                </div>
                                             </div>
                                     </div>
                                     <div class="tab-pane tab-answered-tab" id="tab-2">
@@ -476,7 +487,7 @@
                             </div>
                             <div class="row clearfix">
                             </div>
-                            <div class="filters clearfix">
+                            <!-- <div class="filters clearfix">
                                 <div class="check-all"><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></div>
                                 <div class="text-trf">Tutorial Information</div>
                                 <div class="text-play">Playlist</div>
@@ -486,7 +497,7 @@
                             <div class="btn-mg">
                                 <button class="btn-delete" ng-click ="deleteMultiple()">Delete</button>
                                 <button class="add-play" ng-click="addMultipleToPlaylist()">Add to playlist</button>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
