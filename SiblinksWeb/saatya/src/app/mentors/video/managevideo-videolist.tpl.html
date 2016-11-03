@@ -39,7 +39,7 @@
                                 <div class="text-des">Description</div>
                                 <div class="text-ac">Action</div>
                             </div>
-                            <div class="group-item">
+                            <!-- <div class="group-item">
                                 <div ng-if="videos.length <= 3">
                                     <div class="item" ng-repeat="v in videos track by $index">
                                         <div class="check-box"><input ng-model="v.selected" type="checkbox" class="check-input" name="checkall" ng-click="optionSelected()"/></div>
@@ -123,6 +123,349 @@
                                     </div>
                                 </div>
                                 <div ng-if="!videos" style="margin-top: 15px; margin-left: 58px;"><h5>No Tutorial here</h5></div>
+                            </div> -->
+                            <div role="tabpanel tab-all" class="tab-video-detail">
+                                <div class="t-panel sl-sort">
+                                        <ul>
+                                            <li class="active" href="#tab-1">
+                                            <button class="sl-newwest">
+                                                Newest
+                                                <span data-icon="&#x32;"></span>
+                                                <span data-icon="&#x33;"></span>
+                                            </button>
+                                            </li>
+                                            <li href="#tab-2">
+                                            <button class="sl-mostview">
+                                                Most View
+                                                <span data-icon="&#x32;"></span>
+                                                <span data-icon="&#x33;"></span>
+                                            </button>
+                                            </li>
+                                            <li href="#tab-3">
+                                            <button class="sl-toprate">
+                                                Top Rate
+                                                <span data-icon="&#x32;"></span>
+                                                <span data-icon="&#x33;"></span>
+                                            </button>
+                                            </li>
+                                        </ul>
+                                </div>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active tab-answered-tab" id="tab-1">
+                                            <div class="main-manager-video">
+                                                <div class="group-item">
+                                                    <div class="item">
+                                                        <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
+                                                        <div class="box-detail-play clearfix">
+                                                            <span class="item-thumbnail">
+                                                                <a href="#"><img src="../images/img-item.png" alt=""></a>
+                                                            </span>
+                                                            <div class="detail-pl-inner">
+                                                                <a href="#"><h5>How to learn Physics effectively</h5></a>
+                                                                <span class="add-time">added 1 hour ago</span>
+                                                                <ul class="list-star">
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                </ul>
+                                                                <p class="list-view">
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> 324</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> 16</span>&nbsp;&nbsp;
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <p class="box-playlist">
+                                                            <a href="#">Chemistry</a>
+                                                        </p>
+                                                        <p class="box-description">
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br/>Praesent pretium consequat varius. Integer at semper tortor.<br/> Ut id arcu scelerisque eros elementum congue non eu lectus
+                                                        </p>
+                                                        <div class="box-ac">
+                                                            <ul class="list-ac">
+                                                                <li><a href="#modal-edit-video" data-toggle="modal">Edit</a></li>
+                                                                <li><a href="#">Add playlist</a></li>
+                                                                <li><a href="#">Delete</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
+                                                        <div class="box-detail-play clearfix">
+                                                            <span class="item-thumbnail">
+                                                                <a href="#"><img src="assets/images/img-item.png" alt=""></a>
+                                                            </span>
+                                                            <div class="detail-pl-inner">
+                                                                <a href="#"><h5>How to learn Physics effectively</h5></a>
+                                                                <span class="add-time">added 1 hour ago</span>
+                                                                <ul class="list-star">
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                </ul>
+                                                                <p class="list-view">
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> 324</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> 16</span>&nbsp;&nbsp;
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <p class="box-playlist">
+                                                            <a href="#">Chemistry</a>
+                                                        </p>
+                                                        <p class="box-description">
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br/>Praesent pretium consequat varius. Integer at semper tortor.<br/> Ut id arcu scelerisque eros elementum congue non eu lectus
+                                                        </p>
+                                                        <div class="box-ac">
+                                                            <ul class="list-ac">
+                                                                <li><a href="#modal-edit-video" data-toggle="modal">Edit</a></li>
+                                                                <li><a href="#">Add playlist</a></li>
+                                                                <li><a href="#">Delete</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
+                                                        <div class="box-detail-play clearfix">
+                                                            <span class="item-thumbnail">
+                                                                <a href="#"><img src="assets/images/img-item.png" alt=""></a>
+                                                            </span>
+                                                            <div class="detail-pl-inner">
+                                                                <a href="#"><h5>How to learn Physics effectively</h5></a>
+                                                                <span class="add-time">added 1 hour ago</span>
+                                                                <ul class="list-star">
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                </ul>
+                                                                <p class="list-view">
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> 324</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> 16</span>&nbsp;&nbsp;
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <p class="box-playlist">
+                                                            <a href="#">Chemistry</a>
+                                                        </p>
+                                                        <p class="box-description">
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br/>Praesent pretium consequat varius. Integer at semper tortor.<br/> Ut id arcu scelerisque eros elementum congue non eu lectus
+                                                        </p>
+                                                        <div class="box-ac">
+                                                            <ul class="list-ac">
+                                                                <li><a href="#modal-edit-video" data-toggle="modal">Edit</a></li>
+                                                                <li><a href="#">Add playlist</a></li>
+                                                                <li><a href="#">Delete</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
+                                                        <div class="box-detail-play clearfix">
+                                                            <span class="item-thumbnail">
+                                                                <a href="#"><img src="assets/images/img-item.png" alt=""></a>
+                                                            </span>
+                                                            <div class="detail-pl-inner">
+                                                                <a href="#"><h5>How to learn Physics effectively</h5></a>
+                                                                <span class="add-time">added 1 hour ago</span>
+                                                                <ul class="list-star">
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                </ul>
+                                                                <p class="list-view">
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> 324</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> 16</span>&nbsp;&nbsp;
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <p class="box-playlist">
+                                                            <a href="#">Chemistry</a>
+                                                        </p>
+                                                        <p class="box-description">
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br/>Praesent pretium consequat varius. Integer at semper tortor.<br/> Ut id arcu scelerisque eros elementum congue non eu lectus
+                                                        </p>
+                                                        <div class="box-ac">
+                                                            <ul class="list-ac">
+                                                                <li><a href="#modal-edit-video" data-toggle="modal">Edit</a></li>
+                                                                <li><a href="#">Add playlist</a></li>
+                                                                <li><a href="#">Delete</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row clearfix">
+                                                    <p class="btn-load-more"><a class="load-more-mng" href="#">load more</a></p>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="tab-pane tab-answered-tab" id="tab-2">
+                                            <div class="main-manager-video">
+                                                <div class="group-item">
+                                                    <div class="item">
+                                                        <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
+                                                        <div class="box-detail-play clearfix">
+                                                            <span class="item-thumbnail">
+                                                                <a href="#"><img src="assets/images/img-item.png" alt=""></a>
+                                                            </span>
+                                                            <div class="detail-pl-inner">
+                                                                <a href="#"><h5>How to learn Physics effectively</h5></a>
+                                                                <span class="add-time">added 1 hour ago</span>
+                                                                <ul class="list-star">
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                </ul>
+                                                                <p class="list-view">
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> 324</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> 16</span>&nbsp;&nbsp;
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <p class="box-playlist">
+                                                            <a href="#">Chemistry</a>
+                                                        </p>
+                                                        <p class="box-description">
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br/>Praesent pretium consequat varius. Integer at semper tortor.<br/> Ut id arcu scelerisque eros elementum congue non eu lectus
+                                                        </p>
+                                                        <div class="box-ac">
+                                                            <ul class="list-ac">
+                                                                <li><a href="#modal-edit-video" data-toggle="modal">Edit</a></li>
+                                                                <li><a href="#">Add playlist</a></li>
+                                                                <li><a href="#">Delete</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
+                                                        <div class="box-detail-play clearfix">
+                                                            <span class="item-thumbnail">
+                                                                <a href="#"><img src="assets/images/img-item.png" alt=""></a>
+                                                            </span>
+                                                            <div class="detail-pl-inner">
+                                                                <a href="#"><h5>How to learn Physics effectively</h5></a>
+                                                                <span class="add-time">added 1 hour ago</span>
+                                                                <ul class="list-star">
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                </ul>
+                                                                <p class="list-view">
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> 324</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> 16</span>&nbsp;&nbsp;
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <p class="box-playlist">
+                                                            <a href="#">Chemistry</a>
+                                                        </p>
+                                                        <p class="box-description">
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br/>Praesent pretium consequat varius. Integer at semper tortor.<br/> Ut id arcu scelerisque eros elementum congue non eu lectus
+                                                        </p>
+                                                        <div class="box-ac">
+                                                            <ul class="list-ac">
+                                                                <li><a href="#modal-edit-video" data-toggle="modal">Edit</a></li>
+                                                                <li><a href="#">Add playlist</a></li>
+                                                                <li><a href="#">Delete</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
+                                                        <div class="box-detail-play clearfix">
+                                                            <span class="item-thumbnail">
+                                                                <a href="#"><img src="assets/images/img-item.png" alt=""></a>
+                                                            </span>
+                                                            <div class="detail-pl-inner">
+                                                                <a href="#"><h5>How to learn Physics effectively</h5></a>
+                                                                <span class="add-time">added 1 hour ago</span>
+                                                                <ul class="list-star">
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                </ul>
+                                                                <p class="list-view">
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> 324</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> 16</span>&nbsp;&nbsp;
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <p class="box-playlist">
+                                                            <a href="#">Chemistry</a>
+                                                        </p>
+                                                        <p class="box-description">
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br/>Praesent pretium consequat varius. Integer at semper tortor.<br/> Ut id arcu scelerisque eros elementum congue non eu lectus
+                                                        </p>
+                                                        <div class="box-ac">
+                                                            <ul class="list-ac">
+                                                                <li><a href="#modal-edit-video" data-toggle="modal">Edit</a></li>
+                                                                <li><a href="#">Add playlist</a></li>
+                                                                <li><a href="#">Delete</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <div class="check-box"><input type="checkbox" class="check-input" name="checkall" /></div>
+                                                        <div class="box-detail-play clearfix">
+                                                            <span class="item-thumbnail">
+                                                                <a href="#"><img src="../images/img-item.png" alt=""></a>
+                                                            </span>
+                                                            <div class="detail-pl-inner">
+                                                                <a href="#"><h5>How to learn Physics effectively</h5></a>
+                                                                <span class="add-time">added 1 hour ago</span>
+                                                                <ul class="list-star">
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                    <li><a href="#"><img src="assets/images/icon-s.png" alt=""></a></li>
+                                                                </ul>
+                                                                <p class="list-view">
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> 324</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-view.png" alt=""> 12</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> 16</span>&nbsp;&nbsp;
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <p class="box-playlist">
+                                                            <a href="#">Chemistry</a>
+                                                        </p>
+                                                        <p class="box-description">
+                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br/>Praesent pretium consequat varius. Integer at semper tortor.<br/> Ut id arcu scelerisque eros elementum congue non eu lectus
+                                                        </p>
+                                                        <div class="box-ac">
+                                                            <ul class="list-ac">
+                                                                <li><a href="#modal-edit-video" data-toggle="modal">Edit</a></li>
+                                                                <li><a href="#">Add playlist</a></li>
+                                                                <li><a href="#">Delete</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="tab-pane tab-answered-tab" id="tab-3">
+                                    
+                                    </div>
+                                </div>
                             </div>
                             <div class="row clearfix">
                             </div>
