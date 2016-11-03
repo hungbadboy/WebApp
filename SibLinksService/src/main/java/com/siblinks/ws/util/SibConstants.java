@@ -590,7 +590,9 @@ public class SibConstants {
 
     public class SqlMapperBROT43 {
         public static final String SQL_GET_VIDEOS = "GET_VIDEOS";
-        public static final String SQL_GET_VIDEOS_BY_SUBJECT = "GET_VIDEOS_BY_SUBJECT";
+        public static final String SQL_GET_NEWEST_VIDEOS_BY_SUBJECT = "GET_NEWEST_VIDEOS_BY_SUBJECT";
+        public static final String SQL_GET_TOP_VIEWED_VIDEOS_BY_SUBJECT = "GET_TOP_VIEWED_VIDEOS_BY_SUBJECT";
+        public static final String SQL_GET_TOP_RATED_VIDEOS_BY_SUBJECT = "GET_TOP_RATED_VIDEOS_BY_SUBJECT";
         public static final String SQL_GET_VIDEOS_TOP_VIEWED = "GET_VIDEOS_TOP_VIEWED";
         public static final String SQL_GET_VIDEOS_TOP_RATED = "GET_VIDEOS_TOP_RATED";
         public static final String SQL_GET_VIDEOS_RECENTLY = "GET_VIDEOS_RECENTLY";
