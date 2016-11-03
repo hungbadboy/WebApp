@@ -18,8 +18,8 @@
                         <div class="student-img">
                             <img ng-src="{{studentInfo.imageUrl != null ? studentInfo.imageUrl : 'assets/images/noavartar.jpg'}}"
                                  err-src="assets/images/noavartar.jpg">
-                            <h3 ng-if="!isEmptyName" class="student-name" style="font-size: 20px; margin-top: 13px">{{displayName(studentInfo.firstName,studentInfo.lastName,studentInfo.userName)}}</h3>
-                            <h3 ng-if="isEmptyName" class="student-name" style="font-size: 20px; margin-top: 13px">{{studentInfo.fullName}}</h3>
+                            <h3 ng-if="!isEmptyName" class="student-name" style="font-size: 20px; margin-top: 13px; word-wrap: break-word;">{{displayName(studentInfo.firstname ,studentInfo.lastName,studentInfo.username)}}</h3>
+                            <h3 ng-if="isEmptyName" class="student-name" style="font-size: 20px; margin-top: 13px; word-wrap: break-word;">{{studentInfo.fullName}}</h3>
                             <span class="changeImg" ng-hide="isLoginViaFBOrGoogle">
                                 <button ngf-select="onFileSelect($files, $invalidFiles)" multiple ngf-pattern="'image/*'"
                                         accept="image/*" ngf-max-size="5MB">
@@ -283,7 +283,7 @@
                                                     <div class="essay-detail-right-content">
                                                         <p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>
                                                         <div class=""></div>
-                                                        <div class="attrach-file" ng-if="currentEssay.status =='R'">
+                                                        <div class="attrach-file" ng-class="{'pull-right' : currentEssay.status =='R'}">
                                                             <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;"> Download file</span></label>
                                                             </a>
                                                         </div>
@@ -319,7 +319,7 @@
                                         <a data-toggle="tab" href="/student/studentProfile/#perInfor">Personal Information</a>
                                     </li>
                                     <li ng-show="!isLoginViaFBOrGoogle" ng-click="changeTab()">
-                                        <a data-toggle="tab" href="/student/studentProfile/#changePass">Change password</a>
+                                        <a data-toggle="tab" href="/student/studentProfile/#changPass">Change Password</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
@@ -402,7 +402,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="content-question tab-pane" id="changePass" ng-hide="isLoginViaFBOrGoogle">
+                                    <div class="content-question tab-pane" id="changPass" ng-hide="isLoginViaFBOrGoogle">
                                         <div>
                                             <div ng-if="msgSuccess" class="succesful">
                                                 <span>{{msgSuccess}}</span>

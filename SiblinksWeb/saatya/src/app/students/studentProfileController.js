@@ -359,6 +359,10 @@ brotControllers.controller('StudentProfileController',
                 var school = $scope.schoolSelect != null && !isEmpty($scope.schoolSelect) ? $scope.schoolSelect.id : null;
                 var firstName = $('input[name="firstname"]').val();
                 var lastName = $('input[name="lastname"]').val();
+                if((!isEmpty(firstName) && firstName.length > 50) || (!isEmpty(lastName) && lastName.length > 50)){
+                    check = false;
+                    error += "First name or last name must not exceed 50 characters,";
+                }
                 var bio = $('#about').val();
                 if (isNotValidName(firstName) || isNotValidName(lastName)) {
                     check = false;
@@ -408,6 +412,7 @@ brotControllers.controller('StudentProfileController',
                                 if (subjects != null || subjects !== undefined) {
                                     $scope.objSubs = getSubjectNameById(strSubs, subjects);
                                 }
+                                updateDefaultFavsSubs();
                             }
                             $scope.msgSuccess = "Update Profile Successful !";
                         } else {
@@ -426,18 +431,19 @@ brotControllers.controller('StudentProfileController',
             };
 
 
-            function updateListDefaultSubjects(listSubjectIds) {
-                return defaultSubjectChecked.filter(function (elements, index) {
-                    if (listSubjectIds) {
-                        elements.subjectId = "0";
-                        for (var i = 0; i < listSubjectIds.length; i++) {
-                            if (elements.subjectId == listSubjectIds[i]) {
-                                elements.selected = "1";
-                            }
-                        }
-                        return elements;
+            function updateDefaultFavsSubs() {
+                var allCheckboxSubs = angular.element('.masterSubject');
+                if(defaultSubjectChecked){
+                    for (var i = 0; i < allCheckboxSubs.length; i++) {
+                        defaultSubjectChecked[i].selected = allCheckboxSubs[i].checked ? '1' : '0';
                     }
-                });
+                }
+                if(defaultFavouriteChecked){
+                    var allCheckboxFavs = angular.element('.masterFavourite');
+                    for (var i = 0; i < allCheckboxFavs.length; i++) {
+                        defaultFavouriteChecked[i].selected = allCheckboxFavs[i].checked ? '1' : '0';
+                    }
+                }
             }
 
             /**
