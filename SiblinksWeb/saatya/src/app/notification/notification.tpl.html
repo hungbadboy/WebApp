@@ -16,14 +16,16 @@
                   <div class="nft-type nft-qa">
                       <img src="assets/images/AskAQuestion.png">
                   </div>
-                  <div class="nft-info" ng-if="n.type == '1'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">question</a> has been answered by </div>
-                  <div class="nft-info" ng-if="n.type == '2'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">video</a> has been commented by </div>
-                  <div class="nft-info" ng-if="n.type == '3'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">video admission</a> has been commented by </div>
-                  <div class="nft-info" ng-if="n.type == '4'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">essay</a> has been replied by </div>
-                 </a>
-	           	<span class="nft-name">
-		           	<a href="javascript:void(0)" ng-click="linkToProfile(userType,n.senderId)">{{displayName(n.firstName,n.lastName,n.userName)}}</a>
-	           	</span>
+                  <div class="nft-info">
+                    <div ng-if="n.type == '1'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">question</a> has been answered by </div>
+                    <div ng-if="n.type == '2'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">video</a> has been commented by </div>
+                    <div ng-if="n.type == '3'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">video admission</a> has been commented by </div>
+                    <div ng-if="n.type == '4'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">essay</a> has been replied by </div>
+                   </a>
+  	           	   <span class="nft-name">
+                    <a href="javascript:void(0)" ng-click="linkToProfile(userType,n.senderId)">{{displayName(n.firstName,n.lastName,n.userName)}}</a>
+                  </span>
+                </div>
                 <div class="nft-time">{{convertUnixTimeToTime(n.timestamp)}} ago</div>
              </li>
          </ul>
