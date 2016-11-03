@@ -438,6 +438,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
       return;
     }
     if ($files && $files.length > 0) {
+      $scope.error = null;
       file = $files[0];
       if (file == undefined){
         $scope.error = "Only accept document file.";

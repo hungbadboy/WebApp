@@ -339,21 +339,22 @@ brotControllers.controller('ChooseVideoController',
     }
 
     function getVideoInfo(vid){
-       VideoService.getVideoInfoFromYoutube(vid).then(function(data){
-          var result = data.data.items;
-          if (result && result.length > 0) {            
-            var contentDetails = result[0].contentDetails;
-            $scope.duration = convertTime(contentDetails.duration);
-            $scope.title = result[0].snippet.title;
-            $scope.description = result[0].snippet.description;
-            $('#txtTutTitle').val($scope.title);
-            $('#txtTutDescription').val($scope.description);
-            $('#txtTutDuration').val($scope.duration); 
-          } else{
-            $scope.error = "Please input valid link. ";
-            angular.element('#txtTutLink').trigger('focus');
-          }
-       });
+      VideoService.getVideoInfoFromYoutube(vid).then(function(data){
+        var result = data.data.items;
+        if (result && result.length > 0) {            
+          var contentDetails = result[0].contentDetails;
+          $scope.duration = convertTime(contentDetails.duration);
+          $scope.title = result[0].snippet.title;
+          $scope.description = result[0].snippet.description;
+          $('#txtTutTitle').val($scope.title);
+          $('#txtTutDescription').val($scope.description);
+          $('#txtTutDuration').val($scope.duration); 
+        } else{
+          clearContent();
+          $scope.error = "Please input valid link. ";
+          angular.element('#txtTutLink').trigger('focus');
+        }
+      });
     }
 
     function clearContent() {
