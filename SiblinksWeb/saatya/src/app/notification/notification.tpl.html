@@ -8,7 +8,7 @@
      <div ng-if="countAll == null">
      	<span>{{errorData}}</span>
    	</div>
-     <div class="nft-body">
+     <div class="nft-body" scroller="detailEssay1">
          <ul>
              <li  ng-repeat="n in notificationsAll">
              	<a href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">
