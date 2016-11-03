@@ -114,14 +114,15 @@
                     <div class="sort-video">
                         <ul>
                             <li ng-click="sortBySubject(-1)" ng-class="{'active': subjectId == -1}" id="-1">All</li>
-                            <li ng-repeat="subject in listSubjects | slice:offsetSubs:newLimitSubs" ng-click="sortBySubject(subject.subjectId)"
+                            <li ng-repeat="subject in listSubjects | slice:fromSubIndex:toSubIndex" ng-click="sortBySubject(subject.subjectId)"
                                 ng-class="subjectId==subject.subjectId ? 'active':''" id="{{subject.subjectId}}">
                                 {{subject.subject}}
+                                <!--{{subject.subject | limitTo : 12}}{{subject.subject.length > 12 ? '...' : ''}}-->
                             </li>
                             <div class="manager-profile-std" style="margin-right: 5px">
                                 <div class="slide-broswer subject" ng-if="isMoreSubject">
-                                    <a class="btn-prev" ng-click="prevSubject()" ng-class="{disabledNextPrev : offsetSubs >=0 &&  newLimitSubs <= longNumberLimit}"><span data-icon="&#x34;"></span></a>
-                                    <a class="btn-next" ng-click="nextSubject()" ng-class="{disabledNextPrev : newLimitSubs > listSubjectsSize}"><span data-icon="&#x35;"></span></a>
+                                    <a class="btn-prev" ng-click="prevSubject()" ng-class="{disabledNextPrev : fromSubIndex == 0}"><span data-icon="&#x34;"></span></a>
+                                    <a class="btn-next" ng-click="nextSubject()" ng-class="{disabledNextPrev : toSubIndex == listSubjectsSize}"><span data-icon="&#x35;"></span></a>
                                 </div>
                             </div>
                         </ul>
