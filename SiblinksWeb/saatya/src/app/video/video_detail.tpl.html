@@ -143,12 +143,14 @@
                 <!-- Right side -->
                 <div class="related-video col-md-4">
                     <h3>Related videos</h3>
-                    <ul class="related-video-list" ng-repeat="videoRelate in videosRelated">
-                        <li class="video-list-item">
+                    <ul class="related-video-list">
+                        <li class="video-list-item" ng-repeat="videoRelate in videosRelated">
                             <div class="content-warpper">
-
                                 <div class="thumb-video" >
-                                    <a href="#/videos/detailVideo/{{videoRelate.vid}}"><img ng-src="{{videoRelate.image}}"></a>
+                                    <a href="#/videos/detailVideo/{{videoRelate.vid}}">
+                                    	<img ng-src="{{videoRelate.image}}">
+                                    </a>
+                                    <span class="video-time">{{videoRelate.runningTime}}</span>
                                 </div>
                                 <div class="detail-video">
                                     <p class="title-video">
