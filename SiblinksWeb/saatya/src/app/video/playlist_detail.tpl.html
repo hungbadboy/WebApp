@@ -35,6 +35,7 @@
                                         <div>
                                             <div class="thumb-video">
                                                 <img ng-src="{{video.image}}">
+                                                <span class="video-time ">{{video.runningTime}}</span>
                                             </div>
                                             <div class="detail-video">
                                                 <p class="title-video" title="{{video.title}}">
@@ -147,6 +148,7 @@
                                 <div class="thumb-video">
                                     <a href="#/videos/detailVideo/{{videoRelate.vid}}">
                                     <img ng-src="{{videoRelate.image}}"></a>
+                                    <span class="video-time">{{videoRelate.runningTime}}</span>
                                 </div>
                                 <div class="detail-video">
                                     <p class="title-video">

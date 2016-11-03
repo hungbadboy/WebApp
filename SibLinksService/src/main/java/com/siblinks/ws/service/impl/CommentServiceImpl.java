@@ -335,6 +335,7 @@ public class CommentServiceImpl implements CommentsService {
             transactionManager.commit(status);
             reponse = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), "Success");
         } catch (Exception e) {
+            e.printStackTrace();
             transactionManager.rollback(status);
             reponse = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), "Failed");
         }
@@ -440,7 +441,7 @@ public class CommentServiceImpl implements CommentsService {
             transactionManager.commit(statusDB);
             simpleResponse = new SimpleResponse("" + flag, request.getRequest_data_type(), request.getRequest_data_method(), "" + id);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            e.printStackTrace();
             if (statusDB != null) {
                 transactionManager.rollback(statusDB);
             }
@@ -494,6 +495,7 @@ public class CommentServiceImpl implements CommentsService {
             transactionManager.commit(status);
             reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), "Success");
         } catch (Exception e) {
+            e.printStackTrace();
             transactionManager.rollback(status);
             reponse = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), "Failed");
         }
@@ -536,7 +538,7 @@ public class CommentServiceImpl implements CommentsService {
 
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            e.printStackTrace();
             reponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
 
         }
@@ -567,7 +569,7 @@ public class CommentServiceImpl implements CommentsService {
             }
             reponse = new SimpleResponse(SibConstants.SUCCESS, filePath);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            e.printStackTrace();
             reponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
         }
 
@@ -606,7 +608,7 @@ public class CommentServiceImpl implements CommentsService {
 
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            e.printStackTrace();
         } finally {
             try {
                 if (stream != null) {
@@ -682,7 +684,7 @@ public class CommentServiceImpl implements CommentsService {
                 responseEntity = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
-            // e.printStackTrace();
+            e.printStackTrace();
             logger.error(e.getMessage());
         } finally {
             try {
