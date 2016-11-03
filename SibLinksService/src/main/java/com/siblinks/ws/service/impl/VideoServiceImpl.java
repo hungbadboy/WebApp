@@ -2864,8 +2864,14 @@ public class VideoServiceImpl implements VideoService {
                 params = new Object[] { childSubjectId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
                 List<Object> resultDataRecommended = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_VIEW_BY_SUBJECT, params);
                 map.put("recommended", resultDataRecommended);
-                params = new Object[] { childSubjectId, childSubjectId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
-                List<Object> resultRecently = dao.readObjects(SibConstants.SqlMapper.VIDEO_PLAYLIST_NEWEST_BY_SUBJECT, params);
+                String clauseWhere = formatQueryGetVideoPlaylist("bySubjectNotLogin", userId, childSubjectId, limit, offset);
+                // params = new Object[] { childSubjectId, childSubjectId,
+                // Integer.parseInt(pageLimit.get("limit")),
+                // Integer.parseInt(pageLimit.get("offset")) };
+                List<Object> resultRecently = dao.readObjectsWhereClause(
+                    SibConstants.SqlMapper.VIDEO_PLAYLIST_NEWEST_BY_SUBJECT,
+                    clauseWhere,
+                    new Object[] {});
                 map.put("recently", resultRecently);
             }
         } else if (subjectId.equals("-1")) {
@@ -2940,8 +2946,11 @@ public class VideoServiceImpl implements VideoService {
                     // 'Y' AND V.subjectId IN (" +
                     // subId +
                     // ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ? ";
-
-                    List<Object> resultRecently = dao.readObjects(SibConstants.SqlMapper.SQL_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB, params);
+                    String clauseWhere = formatQueryGetVideoPlaylist("bySubjectLogin", userId, childSubjectId, limit, offset);
+                    List<Object> resultRecently = dao.readObjectsWhereClause(
+                        SibConstants.SqlMapper.SQL_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB,
+                        clauseWhere,
+                        new Object[] {});
                     map.put("recently", resultRecently != null ? resultRecently : null);
 
                     String entityName = SibConstants.SqlMapper.SQL_VIDEO_RECOMMENDED_FOR_YOU_WITH_SUB_ID;
@@ -3337,6 +3346,48 @@ public class VideoServiceImpl implements VideoService {
             response = new SimpleResponse(SibConstants.FAILURE, "video", "getVideoPlaylistRecently", SibConstants.NO_DATA, "0");
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
+    }
+
+    private String formatQueryGetVideoPlaylist(final String type, final long userId, final String subjectId, final String limit,
+            final String offset) {
+        String query = null;
+        switch (type) {
+            case "bySubjectLogin":
+                query = "WHERE StudentId = " +
+                        userId +
+                        " AND Subcribe = 'Y' ) AND sv.subjectId IN(" +
+                        subjectId +
+                        ") UNION ALL SELECT sp.plid, sp.`CreateBy` authorID, sp.Image, sp.url, su.firstName, su.lastName, su.userName, sp.`Name` title, " +
+                        "NULL numRatings, NULL numComments, sp.subjectId, NULL averageRating, NULL numViews, UNIX_TIMESTAMP(CreateDate) `timeStamp`, " +
+                        "NULL runningTime, '2' type, count(spv.vid) countvid FROM Sib_PlayList sp, Sib_PlayList_Videos spv, Sib_Users su " +
+                        "WHERE sp.plid = spv.plid AND sp.CreateBy = su.userid AND EXISTS ( SELECT 1 FROM Sib_PlayList_Videos spv WHERE sp.plid = spv.plid ) " +
+                        "AND sp.`Status` = 'A' AND su.userid IN ( SELECT MentorId FROM Sib_Student_Subcribe WHERE StudentId = " +
+                        userId +
+                        " AND Subcribe = 'Y' ) " +
+                        "AND sp.subjectId IN(" +
+                        subjectId +
+                        ") GROUP BY sp.plid ORDER BY TIMESTAMP DESC LIMIT " +
+                        limit +
+                        " OFFSET " +
+                        offset;
+                break;
+            case "bySubjectNotLogin":
+                query = "sv.subjectId IN(" +
+                        subjectId +
+                        ") UNION ALL SELECT sp.plid, sp.`CreateBy` authorID, sp.Image, sp.url, su.firstName, su.lastName, su.userName, sp.`Name` title, " +
+                        "NULL numRatings, NULL numComments, sp.subjectId, NULL averageRating, NULL numViews, UNIX_TIMESTAMP(CreateDate) `timeStamp`, " +
+                        "NULL runningTime, '2' type, count(spv.vid) countvid FROM Sib_PlayList sp, Sib_PlayList_Videos spv, Sib_Users su " +
+                        "WHERE sp.plid=spv.plid AND sp.CreateBy = su.userid AND EXISTS ( SELECT 1 FROM Sib_PlayList_Videos spv WHERE sp.plid = spv.plid ) " +
+                        "AND sp.`Status` = 'A' AND sp.subjectId IN(" +
+                        subjectId +
+                        ") GROUP BY sp.plid ORDER BY TIMESTAMP DESC LIMIT " +
+                        limit +
+                        " OFFSET " +
+                        offset;
+                break;
+        }
+        return query;
+
     }
 
 }
