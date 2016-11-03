@@ -13,9 +13,22 @@
              <li  ng-repeat="n in notificationsAll">
              	<a href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">
              	<!-- ng-click="notificationDetail(n.id, n.linkToId, n.type)" -->
-                  <div class="nft-type nft-qa">
+                  <!-- <div class="nft-type nft-qa">
                       <img src="assets/images/AskAQuestion.png">
+                  </div> -->
+                  <div ng-if="n.type == '1'" class="nft-type nft-qa nft-answered-qt">
+                      <i class="fa fa-bookmark" aria-hidden="true"></i>
                   </div>
+                  <div ng-if="n.type == '2'" class="nft-type nft-qa nft-commented-qt">
+                      <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  </div>
+                  <div ng-if="n.type == '3'" class="nft-type nft-qa nft-commented-qt">
+                      <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  </div>
+                  <div ng-if="n.type == '4'" class="nft-type nft-qa nft-replied-qt">
+                      <i class="fa fa-share" aria-hidden="true"></i>
+                  </div>
+                  
                   <div class="nft-info">
                     <div ng-if="n.type == '1'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">question</a> has been answered by </div>
                     <div ng-if="n.type == '2'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">video</a> has been commented by </div>
