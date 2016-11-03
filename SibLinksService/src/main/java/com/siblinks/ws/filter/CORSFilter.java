@@ -51,7 +51,9 @@ public class CORSFilter implements Filter {
         "http://localhost:9000",
         "http://127.0.0.1:9000",
         "http://192.168.50.64:9000",
-        "http://192.168.50.64:8080");
+        "http://192.168.50.64:8080",
+        "http://192.168.53.52:9000",
+        "http://192.168.53.52:8080");
 
     @Override
     public void destroy() {

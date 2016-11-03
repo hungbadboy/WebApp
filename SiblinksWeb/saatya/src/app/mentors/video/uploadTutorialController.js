@@ -351,6 +351,12 @@ brotControllers.controller('UploadTutorialController',
             $('#txtTutorialTitle').val($scope.title);
             $('#txtTutorialDescription').val($scope.description);
           } else{
+            $scope.title = null;
+            $scope.duration = null;
+            $scope.description = null;
+            $('#txtTutorialTitle').val('');
+            $('#txtTutorialDescription').val('');
+            $('#txtTutorialDuration').val('');
             $scope.error = "Please input valid link.";
             angular.element('#txtTutorialUrl').trigger('focus');
           }
