@@ -54,13 +54,13 @@
                             <a data-dismiss="modal"  ng-click="transferPage('/student/mentorProfile/{{currentEssay.mentorId}}')"><img ng-src="{{currentEssay.mavatar}}"></a>
                         </div>
                     </div>
-                    <div class="essay-infor">
+                    <div class="essay-infor" ng-if="currentEssay.status =='R'">
                         <p class="rate-video">
                             <span>Rate this reply</span>
-                            <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
-                            <button class="share">Share</button>
+                            <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>                            
                         </p>
                     </div>
+                    <button class="share">Share</button>
 
                     <div class="action-essay">
                         <button ng-click="editEssay()" ng-if="currentEssay.status !='R'" class="edit">Edit</button>
