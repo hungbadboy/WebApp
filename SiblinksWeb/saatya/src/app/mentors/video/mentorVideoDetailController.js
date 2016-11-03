@@ -387,8 +387,10 @@ brotControllers.controller('MentorVideoDetailController',
             window.location.reload();
         }
         else{
-            $scope.video.title = video.title;
-            $scope.description = video.description;
+            // $scope.video.title = video.title;
+            // $scope.description = video.description;
+            window.location.href = '#/mentor/video/detail/'+$scope.video.vid;
+            window.location.reload();
         }
     });
 
