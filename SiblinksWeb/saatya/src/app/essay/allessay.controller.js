@@ -15,6 +15,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   $scope.mentorName = localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastname');
   $scope.tabpane = 1;
   $scope.pos = 0;
+  $scope.currentId = 0;
 
   init();
 
@@ -141,7 +142,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
           }
         } else{
           $scope.eid = $scope.newestEssays[0].uploadEssayId;
-        }        
+        }
         getEssayById($scope.eid, userId);
       } else{
         $scope.newestEssays = null;
@@ -179,6 +180,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
             result[i].fullName = fullname != ' ' ? fullname : result[i].userName.substr(0, result[i].userName.indexOf('@'));
           }
           $scope.essay = result[0];
+          $scope.currentId = $scope.essay.uploadEssayId;
           getRepliedByEssay($scope.essay.uploadEssayId, userId);
         } else {
           $scope.essay = null;
@@ -591,6 +593,17 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     file = null;
   }
 
+  $scope.loadTo = function(){
+    if ($scope.tabpane == 1)
+      angular.element(document.getElementById('newestEssaysTab')).mCustomScrollbar('scrollTo','#newestEssaysList' + $scope.currentId);
+    else if ($scope.tabpane == 2)
+      angular.element(document.getElementById('processingEssaysTab')).mCustomScrollbar('scrollTo','#processingEssaysList' + $scope.currentId);
+    else if ($scope.tabpane == 3)
+      angular.element(document.getElementById('ignoredEssaysTab')).mCustomScrollbar('scrollTo','#ignoredEssaysList' + $scope.currentId);
+    else
+      angular.element(document.getElementById('repliedEssaysTab')).mCustomScrollbar('scrollTo','#repliedEssaysList' + $scope.currentId);
+  }
+
   $scope.prevEssay = function(pos){
     if ($scope.tabpane == 1) {
       if ($scope.newestEssays && $scope.newestEssays.length > 0) {
@@ -599,7 +612,9 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         } else {
           $scope.pos = pos-1;
         }
+        $scope.currentId = $scope.newestEssays[$scope.pos].uploadEssayId;
         getEssayById($scope.newestEssays[$scope.pos].uploadEssayId, userId);
+        angular.element(document.getElementById('newestEssaysTab')).mCustomScrollbar('scrollTo','#newestEssaysList' + $scope.currentId);
       }
     } else if ($scope.tabpane == 2) {
       if ($scope.processingEssays && $scope.processingEssays.length > 0) {
@@ -608,7 +623,9 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         } else {
           $scope.pos = pos-1;
         }
+        $scope.currentId = $scope.processingEssays[$scope.pos].uploadEssayId;
         getEssayById($scope.processingEssays[$scope.pos].uploadEssayId, userId);
+        angular.element(document.getElementById('processingEssaysTab')).mCustomScrollbar('scrollTo','#processingEssaysList' + $scope.currentId);
       }
     } else if ($scope.tabpane == 3) {
       if ($scope.ignoredEssays && $scope.ignoredEssays.length > 0) {
@@ -617,7 +634,9 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         } else {
           $scope.pos = pos-1;
         }
+        $scope.currentId = $scope.ignoredEssays[$scope.pos].uploadEssayId;
         getEssayById($scope.ignoredEssays[$scope.pos].uploadEssayId, userId);
+        angular.element(document.getElementById('ignoredEssaysTab')).mCustomScrollbar('scrollTo','#ignoredEssaysList' + $scope.currentId);
       }
     } else {
       if ($scope.repliedEssays && $scope.repliedEssays.length > 0) {
@@ -626,7 +645,9 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         } else {
           $scope.pos = pos-1;
         }
+        $scope.currentId = $scope.repliedEssays[$scope.pos].uploadEssayId;
         getEssayById($scope.repliedEssays[$scope.pos].uploadEssayId, userId);
+        angular.element(document.getElementById('repliedEssaysTab')).mCustomScrollbar('scrollTo','#repliedEssaysList' + $scope.currentId);
       }
     }
   }
@@ -639,7 +660,9 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         } else {
           $scope.pos = pos+1;
         }
+        $scope.currentId = $scope.newestEssays[$scope.pos].uploadEssayId;
         getEssayById($scope.newestEssays[$scope.pos].uploadEssayId, userId);
+        angular.element(document.getElementById('newestEssaysTab')).mCustomScrollbar('scrollTo','#newestEssaysList' + $scope.currentId);
       }
     } else if ($scope.tabpane == 2) {
       if ($scope.processingEssays && $scope.processingEssays.length > 0) {
@@ -648,7 +671,9 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         } else {
           $scope.pos = pos+1;
         }
+        $scope.currentId = $scope.processingEssays[$scope.pos].uploadEssayId;
         getEssayById($scope.processingEssays[$scope.pos].uploadEssayId, userId);
+        angular.element(document.getElementById('processingEssaysTab')).mCustomScrollbar('scrollTo','#processingEssaysList' + $scope.currentId);
       }
     } else if ($scope.tabpane == 3) {
       if ($scope.ignoredEssays && $scope.ignoredEssays.length > 0) {
@@ -657,7 +682,9 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         } else {
           $scope.pos = pos+1;
         }
+        $scope.currentId = $scope.ignoredEssays[$scope.pos].uploadEssayId;
         getEssayById($scope.ignoredEssays[$scope.pos].uploadEssayId, userId);
+        angular.element(document.getElementById('ignoredEssaysTab')).mCustomScrollbar('scrollTo','#ignoredEssaysList' + $scope.currentId);
       }
     } else {
       if ($scope.repliedEssays && $scope.repliedEssays.length > 0) {
@@ -666,7 +693,9 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         } else {
           $scope.pos = pos+1;
         }
+        $scope.currentId = $scope.repliedEssays[$scope.pos].uploadEssayId;
         getEssayById($scope.repliedEssays[$scope.pos].uploadEssayId, userId);
+        angular.element(document.getElementById('repliedEssaysTab')).mCustomScrollbar('scrollTo','#repliedEssaysList' + $scope.currentId);
       }
     }
   }
