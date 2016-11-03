@@ -54,7 +54,9 @@ brotControllers.controller('StudentProfileController',
                         $scope.listSchools = data.data.request_data_result;
                     }
                 });
-                showTabContent($scope.currentTab);
+                if(mentorId === undefined){
+                    showTabContent($scope.currentTab);
+                }
             }
 
 

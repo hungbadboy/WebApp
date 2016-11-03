@@ -54,6 +54,13 @@
                             <a data-dismiss="modal"  ng-click="transferPage('/student/mentorProfile/{{currentEssay.mentorId}}')"><img ng-src="{{currentEssay.mavatar}}"></a>
                         </div>
                     </div>
+                    <div class="essay-infor">
+                        <p class="rate-video">
+                            <span>Rate this reply</span>
+                            <span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;"></span>
+                            <button class="share">Share</button>
+                        </p>
+                    </div>
 
                     <div class="action-essay">
                         <button ng-click="editEssay()" ng-if="currentEssay.status !='R'" class="edit">Edit</button>
@@ -69,18 +76,29 @@
                         <div class="essay-detail-right-content">
                             <p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>
                             <div class=""></div>
-                            <div class="attrach-file" ng-if="currentEssay.status =='R'"> 
+                            <!-- <div class="attrach-file">
                                 <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;"> Download file</span></label>
                                 </a>
+                            </div> -->
+                            <div class="attrach-file">
+                                <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                <input type="file" id="attached" name="attached[]" />
                             </div>
-                            <div ng-if="currentEssay.status =='R'" class="answer-by"><p>Answered by mentor</p></div>
+                            
                         </div>
                         <div ng-if="currentEssay.status =='R'" class="essay-detail-right-content">
-                            <span class="post-time">Replied {{convertUnixTimeToTime(currentEssay.docReviewedDate)}} ago</span>
+                            <div ng-if="currentEssay.status =='R'" class="answer-by">
+                                <span class="mentor-answer">Answered by mentor</span>
+                                <span class="post-time"> {{convertUnixTimeToTime(currentEssay.docReviewedDate)}} ago</span>
+                            </div>                            
                             <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
                             <div class=""></div>
-                            <div class="attrach-file">
+                            <!-- <div class="attrach-file">
                                 <a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Download file</span></label></a>
+                            </div> -->
+                            <div class="attrach-file">
+                                <label for="attached"><span data-icon="&#xe092;"> Attached file</span></label>
+                                <input type="file" id="attached" name="attached[]" />
                             </div>
                         </div>
                     </div>

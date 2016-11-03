@@ -109,6 +109,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         }
 
         function getCommentVideo(videoid) {
+        	$scope.comments = {};
             if (!isEmpty($scope.userId)) {
                 videoDetailService.updateVideoHistory(videoid, $scope.userId).then(function (data) {
                     if (data.status == 'false') {
@@ -258,6 +259,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 if (data.data.status == 'true') {
                     if (data.data.request_data_result.length == 0) {
                         $scope.nocommentInfo = "Have no comment";
+                        $scope.comments={};
                     }
                     else {
                         $scope.comments = data.data.request_data_result;
@@ -347,6 +349,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 if (data.data.status == 'true') {
                     if (data.data.request_data_result.length == 0) {
                         $scope.nocommentInfo = "Have no comment";
+                        $scope.comments = {};
                     }
                     else {
                         $scope.comments = data.data.request_data_result;
