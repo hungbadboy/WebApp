@@ -41,7 +41,7 @@
                                             <li id="listPlaylist{{v.vid}}" class="video-list-item" ng-repeat="v in videos track by $index" ng-click="selectIndex($index)" ng-class="{'active':currentId==v.vid}" >
                                                 <span class="pull-left">
                                                     <a href="javascript:void(0)" ng-click="loadVideo(v)">
-                                                        <img style="width: 150px; height: 84px;" src="{{v.image}}" alt="">
+                                                        <img src="{{v.image}}" alt="">
                                                     </a>
                                                     <span class="video-time">{{v.runningTime}}</span>
                                                 </span>
