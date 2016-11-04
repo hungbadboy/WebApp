@@ -209,6 +209,14 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/mentors/video/mentor-video-detail.tpl.html',
 		controller: 'MentorVideoDetailController'
 	}).
+	when('/mentor/video/view/detail/:authorId/:vid', {
+		templateUrl: 'src/app/mentors/video/mentor-video-detail-video-only.tpl.html',
+		controller: 'MentorVideoDetailViewOnlyController'
+	}).
+	when('/mentor/video/view/detail/:authorId/:vid/:plid', {
+		templateUrl: 'src/app/mentors/video/mentor-video-detail-video-only.tpl.html',
+		controller: 'MentorVideoDetailViewOnlyController'
+	}).
 	when('/video_admission/:videoid', {
 		templateUrl: 'src/app/admission/video-admission.tpl.html',
 		controller: 'VideoAdmissionController'

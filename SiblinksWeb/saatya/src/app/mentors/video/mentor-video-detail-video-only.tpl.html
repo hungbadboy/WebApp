@@ -1,0 +1,126 @@
+<div id="sidebar-menu" ng-class="{in: isMiniMenu}" class="sidebar-left" ng-include="sidebarLeft"></div>
+<div class="content" ng-cloak>
+    <div id="center-content" class="center-content" ng-class="{in: isMiniMenu}">
+        <div class="center-content-wrapper">
+            <section id="dashboard">
+                <div class="dashboard-wrapper">
+                    <div class="dashboard-header">
+                    <h4><a href="#/mentor/dashboard"> SibLinks</a> / <a href="#/mentor/videoManager">Manage Videos</a> / Detail Information</h4> 
+                    </div>
+                    <div class="manager-detail-video">
+                        <div class="play-video">
+                            <div class="box-btn-sl clearfix" ng-if="plid">
+                                <a href="" class="btn-prev" ng-click="preVideo(pos)" data-icon="&#x34;"></a>
+                                <a href="" class="btn-next" ng-click="nextVideo(pos)" data-icon="&#x35;"></a>
+                            </div>
+                            <div class="group-video-pl">
+                                <div class="item-pl-video clearfix" ng-if="plid">
+                                    <div class="col-md-1"></div>
+                                    <div class="video-play col-md-7" id="detailPlayer">
+                                    </div>                                    
+                                    <div class="video-wait col-md-3">
+                                        <div class="top-w clearfix">
+                                            <h5 class="pull-left">{{ playlist.name | limitTo: 20 }}{{playlist.name.length > 20 ? '...' : ''}}</h5>
+                                            <a href="#/mentor/playlist/detail/{{playlist.plid}}"><span class="pull-right" data-icon="&#xe037;"></span></a>
+                                        </div>
+                                        <div class="top-nav-w clearfix">
+                                            <span class="pull-left">{{playlist.fullName}}</span>
+                                            <span class="pull-right">{{pos+1}} of {{videos.length}} videos</span>
+                                        </div>
+                                        <ul class="list-videp-w" scroller="videosPlayList" on-init="loadTo" id="videos-in-list">
+                                            <li id="listPlaylist{{v.vid}}" class="video-list-item" ng-repeat="v in videos track by $index" ng-click="selectIndex($index)" ng-class="{'active':currentId==v.vid}" >
+                                                <span class="pull-left">
+                                                    <a href="javascript:void(0)" ng-click="loadVideo(v)">
+                                                    	<img style="width: 116px; height: 65px;" src="{{v.image}}" alt="">
+                                                    </a>
+                                                    <span class="video-time">{{v.runningTime}}</span>                                                    
+                                                    <h6 class="">{{ v.title | limitTo: 15 }}{{v.name.title > 15 ? '...' : ''}}</h6>
+                                                </span>
+                                                <div class="clearfix"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                                <div class="item-pl-video clearfix" ng-if="!plid">
+                                    <div class="col-md-2"></div>
+                                    <div class="video-play col-md-8" id="detailPlayer">
+                                    </div>                       
+                                    <div class="col-md-1"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ctn-main col-md-12">
+                            <div class="col-md-7 col-md-offset-1 info-video">
+                                <div class="main-cm-detail">
+                                    <div class="top-cm">
+                                        <h3 class="word-wrap">{{video.title}}</h3>
+                                        <span class="time">{{video.timeStamp}} ago</span>
+                                        <div class="txt-dg clearfix">
+                                            <span><p class="pull-left" style="margin-top: 4px;">Rating
+                                                <div class="average">
+                                                    <average-star-rating ng-model="averageRating" max="5"><average-star-rating>    
+                                                </div> 
+                                            </p></span>
+                                        </div>
+                                    </div>
+                                    <div class="show-about">
+                                        <p ng-if="video" read-more ng-model="video.description" words="false" length="250"></p>
+                                        <p ng-class="class" ng-hide="video.description.length > 0">No Description</p>
+                                    </div>
+                                    <div class="catego clearfix">
+                                        <p class="pull-right"><span>Subject:</span>&nbsp;&nbsp;<b>{{video.subject}}</b></p>
+                                    </div>
+                                    <div class="form-commnent">
+                                        <h4 ng-if="comments">{{comments.length}} Comments</h4>
+                                        <h4 ng-if="!comments">0 Comments</h4>
+                                        <form action="">
+                                            <div class="detail-commnet">
+                                                <ul>
+                                                    <li class="clearfix" ng-repeat="c in comments track by $index">
+                                                        <span class="chat-img col-md-1">
+                                                            <a href="" ng-click="goToProfile(c.userid)"><img class="avatar-fix-size" src="{{c.imageUrl}}" alt="User Avatar"></a>
+                                                        </span>
+                                                        <div class="chat-body col-md-11">
+                                                            <div class="header">
+                                                                <a href="" ng-click="goToProfile(c.userid)"><strong class="primary-font">{{c.fullName}}</strong></a><span class="time">{{c.timestamp}} ago</span>
+                                                                <a href="" class="txt-dlt pull-right" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteComment(c.cid, video.vid)">Delete</a>
+                                                            </div>
+                                                            <p class="pre-wrap">{{c.content}}</p>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </form>
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div class="col-md-4 right-sub-video">
+                                <h4>Related Videos</h4>
+                                <div id="videosRelated" ng-if="videosRelated" scroller="sc-related" data-on-total-scroll="loadMoreVideoRelated">
+                                    <ul class="list-sub-video">
+                                        <li class="clearfix" ng-repeat="v in videosRelated track by $index">
+                                            <span class="pull-left">
+                                            	<a href="javascript:void(0)" ng-click="loadVideo(v)">
+                                            		<img style="width: 150px; height: 84px;" src="{{v.image}}" alt="">
+                                                </a>
+                                                <span class="video-time">{{v.runningTime}}</span>
+                                            </span>
+                                            <div class="sub-vd-right pull-left">
+                                                <h5><a href="" ng-click="loadVideo(v)">{{ v.title | limitTo: 20 }}{{v.title.length > 20 ? '...' : ''}}</a></h5>
+                                                <p>from <b><a href="" ng-click="goToProfile(v.userId)">{{displayName(v.firstName,v.lastName,v.userName)}}</a></b></p>
+                                                <p>View: <span>{{v.numViews}}</span></p>
+                                            </div> 
+                                        </li>                                    
+                                    </ul>
+                                </div> 
+                                <div ng-if="!videosRelated"><h5>No video related</h5></div>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>                
+</div>
+<div id="sidebar-right" ng-include="sidebarRight" auto-height-recent-activity></div>
