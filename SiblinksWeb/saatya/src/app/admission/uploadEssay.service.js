@@ -81,22 +81,11 @@ brotServices.factory('uploadEssayService', ['$http', function($http) {
     };
 
 
-    factory.getEssaybByStudentId = function (userId, limit,offset) {
-        var promise = $http({
-            method: 'POST',
-            url: NEW_SERVICE_URL + 'essay/getEssaybByStudentId',
-            data: {
-                "request_data_type": "essay",
-                "request_data_method": "getEssayByUserId",
-                "request_data": {
-                    "uid": userId,
-                    "limit": limit,
-                    "offset": offset,
-                    "totalCountFlag": true
-                }
-            }
+    factory.getEssayByStudentId = function (userId, limit, offset) {
+        return $http({
+            method: 'GET',
+            url: NEW_SERVICE_URL + 'essay/getEssayByStudentId?userId=' + userId + '&limit=' + limit + '&offset=' + offset + '&totalCountFlag=true'
         });
-        return promise;
     };
     factory.getEssayById = function(essayId) {
         var promise = $http({
@@ -106,7 +95,7 @@ brotServices.factory('uploadEssayService', ['$http', function($http) {
                 "request_data_type": "essay",
                 "request_data_method": "getEssayById",
                 "request_data": {
-                    "essayId": essayId,
+                    "essayId": essayId
                 }
             }
         });

@@ -29,7 +29,8 @@ public interface UploadEssayService {
 
 	public ResponseEntity<Response> removeEssay(RequestData video);
 
-    public ResponseEntity<Response> getEssaybByStudentId(RequestData request);
+    public ResponseEntity<Response> getEssayByStudentId(final String userId, final String limit, final String offset,
+            final String totalCountFlag);
 
     public ResponseEntity<Response> getEssayById(RequestData request);
 

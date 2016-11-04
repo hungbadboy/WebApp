@@ -2,81 +2,110 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
     function ($scope, $rootScope, $log, $location, $http, $timeout, AdmissionService, myCache, $sce, uploadEssayService, $window) {
 
         var userId = localStorage.getItem('userId');
-        var LIMIT = "";
-        var OFFSET = "";
+        var LIMIT = 6;
+        var OFFSET = 0;
         var subjects = JSON.parse(localStorage.getItem('subjects'));
         var eid = $location.search().eid;
+        $scope.listEssaysSize = 0;
+        $scope.defaultLimitEssay = 6;
+        var isHasLoadMoreEssay = false;
+        $scope.listEssays = [];
         init();
 
         function init() {
-        	uploadEssayService.getEssaybByStudentId(userId,LIMIT,OFFSET).then(function (data) {
+            getEssays(userId, LIMIT, OFFSET);
+        }
+
+
+        function getEssays(userId, LIMIT, OFFSET) {
+            if(!userId){
+                return;
+            }
+            uploadEssayService.getEssayByStudentId(userId, LIMIT, OFFSET).then(function (data) {
                 if (data.data.status) {
-                    $scope.listEssays = data.data.request_data_result;
+                    if(data.data.request_data_result){
+                        var result = data.data.request_data_result;
+                        $scope.listEssays = isHasLoadMoreEssay ? $scope.listEssays.concat(result) : result;
+                        $scope.listEssaysSize =  $scope.listEssays.length;
+                    }
                 }
             });
-         }
-        
+        }
+
+
         $scope.convertUnixTimeToTime = function (datetime) {
             return convertUnixTimeToTime(datetime);
-        }
-        $rootScope.$on('reloadYourEssay', function(event, message) {
-            if(message == 'load'){
+        };
+        $rootScope.$on('reloadYourEssay', function (event, message) {
+            if (message == 'load') {
                 init();
             }
         });
 
         $scope.editEssay = function () {
             //$scope.$emit('editYourEssay', $scope.currentEssay);
-            localStorage.setItem('currentEssay',JSON.stringify($scope.currentEssay));
+            localStorage.setItem('currentEssay', JSON.stringify($scope.currentEssay));
             angular.element(document.getElementById('essay-detail')).modal('hide');
             $window.location.href = '/#/college_admission?tab=3';
             $window.location.reload();
-        }
-        
+        };
+
         $scope.showModal = function (index) {
-        	if(isEmpty(index)) {
-        		return;
-        	} else {
-        		var uploadEssayId = eid; 
-        		if(index != -1) {
-        			uploadEssayId = $scope.listEssays[index].uploadEssayId;
-        		}
-	            if(isEmpty(uploadEssayId)){
-	                $scope.currentEssay = null;
-	            }
-	            uploadEssayService.getEssayById(uploadEssayId).then(function (data) {
-	                if (data.data.status) {
-	                    $scope.currentEssay  = data.data.request_data_result[0];
-	                    if(!isEmpty($scope.currentEssay.status == 'P')){
-	                        uploadEssayService.getMentorEssayByUid($scope.currentEssay.mentorId).then(function (data) {
-	                        $scope.currentMentor = data.data.request_data_result[0];
-	                            // $scope.currentMentor.defaultSubject = getSubjectNameById($scope.currentMentor.defaultSubjectId, subjects);
-	                        });
-	                    }
-	                    angular.element(document.getElementById('essay-detail')).modal();
-	                }
-	            });
-        	}
-        }
+            if (isEmpty(index)) {
+                return;
+            }
+            var uploadEssayId = eid;
+            if (index != -1) {
+                uploadEssayId = $scope.listEssays[index].uploadEssayId;
+            }
+            if (isEmpty(uploadEssayId)) {
+                $scope.currentEssay = null;
+            }
+            uploadEssayService.getEssayById(uploadEssayId).then(function (data) {
+                if (data.data.status) {
+                    $scope.currentEssay = data.data.request_data_result[0];
+                    if (!isEmpty($scope.currentEssay.status == 'P')) {
+                        uploadEssayService.getMentorEssayByUid($scope.currentEssay.mentorId).then(function (data) {
+                            $scope.currentMentor = data.data.request_data_result[0];
+                            // $scope.currentMentor.defaultSubject = getSubjectNameById($scope.currentMentor.defaultSubjectId, subjects);
+                        });
+                    }
+                    angular.element(document.getElementById('essay-detail')).modal();
+                }
+            });
+        };
 
         $scope.transferPage = function (path) {
             angular.element(document.getElementById('essay-detail')).modal('toggle');
             $timeout(function () {
                 $window.location.href = '#/mentor/mentorProfile';
             }, 300);
-        }
+        };
 
         $scope.removeEssay = function (essayId) {
             uploadEssayService.removeEssay(essayId).then(function (data) {
-                if(data.data.status =='true'){
+                if (data.data.status == 'true') {
                     angular.element(document.getElementById('essay-detail')).modal('toggle');
                     init();
                 }
             });
-        }
-        
+        };
+
         // Notification view essay
-        if(!isEmpty(eid)) {
-        	$scope.showModal(-1);
+        if (!isEmpty(eid)) {
+            $scope.showModal(-1);
         }
+
+        var currentPage = 0;
+        $scope.loadMoreEssay = function () {
+            currentPage++;
+            var newOffset = $scope.defaultLimitEssay * currentPage;
+            if(newOffset > $scope.listEssaysSize){
+                return;
+            }
+            isHasLoadMoreEssay = true;
+            if(userId){
+                getEssays(userId, $scope.defaultLimitEssay, newOffset);
+            }
+        };
     }]);
