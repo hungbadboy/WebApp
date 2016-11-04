@@ -24,8 +24,9 @@ brotControllers.controller('MentorProfileController',
             var userType = localStorage.getItem('userType');
             var userName = localStorage.getItem('userName');
 
-            var isInit = true;
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
+
+            var mentorId = $routeParams.mentorId;
 
             var studentId = $routeParams.studentId;
 
@@ -57,6 +58,11 @@ brotControllers.controller('MentorProfileController',
                     getStudentInfo();
                     getMentorSubscribed(studentId, $scope.defaultLimit, 0);
                 }
+                if (mentorId != undefined) {
+                    getVideosRecently();
+                    isSubscribed();
+                    getInfoAnotherMentor();
+                }
                 getStudentSubscribed(userId, $scope.defaultLimit, 0);
                 getMentorProfile();
                 uploadEssayService.collegesOrUniversities().then(function (data) {
@@ -65,6 +71,64 @@ brotControllers.controller('MentorProfileController',
                     }
                 });
             }
+
+            /* Start Functions Mentor View Mentor Profile*/
+            function getVideosRecently() {
+                VideoService.getVideoPlaylistRecently(mentorId, 6, 0).then(function (data) {
+                    if (data.data.status) {
+                        if (data.data.request_data_result == StatusError.MSG_DATA_NOT_FOUND) {
+                            $scope.videosMentorRecently = null;
+                            return;
+                        }
+                        $scope.videosMentorRecently = data.data.request_data_result;
+                        $scope.isReadyLoadMentorRatingRecently = true;
+                    }
+                });
+            }
+
+            function isSubscribed() {
+                StudentService.checkSubscribe(userId, mentorId).then(function (dataResponse) {
+                    if (dataResponse.data.status == "false" || dataResponse.data.request_data_result == false
+                        || dataResponse.data.request_data_result == StatusError.MSG_USER_ID_NOT_EXIST) {
+                        $scope.isSubscribe = false;
+                    } else {
+                        $scope.isSubscribe = dataResponse.data.request_data_result;
+                    }
+                });
+            }
+
+
+            function getInfoAnotherMentor() {
+                MentorService.getStudentMentorProfile(mentorId).then(function (data) {
+                    if (data.data.status == "true") {
+                        if (data.data.request_data_result) {
+                            var result_data = data.data.request_data_result;
+                            $scope.mentorMentorProfile = result_data;
+                            var gender = $scope.mentorMentorProfile.gender;
+                            $scope.GenderMentor = validateGender(gender);
+                            var birthDay = calculateBirthDay(result_data.birthDay);
+                            $scope.bod = birthDay;
+                            $scope.isEmptyNameMentor = false;
+                            if (isNameEmpty($scope.mentorMentorProfile.firstname,$scope.mentorMentorProfile.lastName)){
+                                $scope.isEmptyNameMentor = true;
+                                $scope.mentorMentorProfile.fullNameMentor = splitUserName($scope.mentorMentorProfile.username);
+                            }
+                            if (result_data.defaultSubjectId && (subjects !== undefined || subjects != null)) {
+                                var subs = getSubjectNameById(result_data.defaultSubjectId, subjects);
+                                $scope.mentorSubs = subs;
+                            } else {
+                                var skillNull = [{id: -1, name: "None"}];
+                                $scope.mentorSubs = skillNull;
+                            }
+                        } else {
+                            $scope.mentorMentorProfile = null;
+                        }
+                        $scope.isReadyLoadPoint = true;
+
+                    }
+                });
+            }
+            /* End Functions Mentor View Mentor Profile*/
 
             function getMentorProfile() {
                 if (userId == undefined) {
@@ -115,6 +179,20 @@ brotControllers.controller('MentorProfileController',
                     }
                 });
 
+            }
+
+            /**
+             * Calculator old from birth day.
+             */
+            function calculateBirthDay(timeStamp) {
+                if (!timeStamp) {
+                    return null;
+                }
+                var _now = Math.floor(Date.now() / 1000);
+                var d = new Date();
+                d.setTime(587795857);
+                var secondElapsed = parseInt(Math.floor((_now - timeStamp)));
+                return Math.floor(secondElapsed / (3600 * 24 * 12 * 30));
             }
 
             function displayInformation() {
@@ -212,6 +290,10 @@ brotControllers.controller('MentorProfileController',
                 var bio = $('textarea[name="aboutme"]').val();
                 var firstName = $('input[name="firstname"]').val();
                 var lastName = $('input[name="lastname"]').val();
+                if((!isEmpty(firstName) && firstName.length > 50) || (!isEmpty(lastName) && lastName.length > 50)){
+                    check = false;
+                    error += "First name or last name must not exceed 50 characters,";
+                }
                 if (isNotValidName(firstName) || isNotValidName(lastName)) {
                     check = false;
                     error += "First name or last name contains special characters or number,";
@@ -237,7 +319,6 @@ brotControllers.controller('MentorProfileController',
                     };
                     $rootScope.$broadcast('open');
                     StudentService.updateUserProfile(mentor).then(function (data) {
-                        $rootScope.$broadcast('close');
                         if (data.data.request_data_result == "Success") {
                             if (mentor) {
                                 if ($scope.isEmptyName) {
@@ -261,22 +342,38 @@ brotControllers.controller('MentorProfileController',
                                 localStorage.setItem('lastname', mentor.lastName);
                                 localStorage.setItem('school', $scope.schoolSelect.id);
                                 $rootScope.firstName = mentor.firstName;
+                                updateDefaultFavsSubs();
                             }
                             $scope.msgSuccess = "Your profile has been updated successfully!";
-                        }
-                        else {
+                        }else {
                             if (error != '') {
                                 $scope.msgError = error.substr(0, error.lastIndexOf(','));
                             } else {
                                 $scope.msgError = "Failed to update your profile";
                             }
                         }
+                        $rootScope.$broadcast('close');
                     });
                 }
                 else {
                     $scope.msgError = error.substr(0, error.lastIndexOf(','));
                 }
             };
+
+            function updateDefaultFavsSubs() {
+                var allCheckboxSubs = angular.element('.masterSubject');
+                if(defaultSubjectChecked){
+                    for (var i = 0; i < allCheckboxSubs.length; i++) {
+                        defaultSubjectChecked[i].selected = allCheckboxSubs[i].checked ? '1' : '0';
+                    }
+                }
+                if(defaultFavouriteChecked){
+                    var allCheckboxFavs = angular.element('.masterFavourite');
+                    for (var i = 0; i < allCheckboxFavs.length; i++) {
+                        defaultFavouriteChecked[i].selected = allCheckboxFavs[i].checked ? '1' : '0';
+                    }
+                }
+            }
 
             /**
              * event changing tab switch profile and password
@@ -444,52 +541,32 @@ brotControllers.controller('MentorProfileController',
             function getMentorSubscribed(studentId, limit, offset) {
                 StudentService.getInfoMentorSubscribed(studentId, limit, offset).then(function (data) {
                     if (data.data.status = "true" && data.data.request_data_result != StatusError.MSG_DATA_NOT_FOUND) {
-                        var strSubject;
-                        var listMentorSubscribed = [];
-                        var data_result = data.data.request_data_result;
-                        for (var i = 0; i < data_result.length; i++) {
-                            var mentor = {};
-                            mentor.userid = data_result[i].userid;
-                            if (isNameEmpty(data_result[i].firstName, data_result[i].lastName)) {
-                                mentor.firstName = splitUserName(data_result[i].loginName);
-                            } else {
-                                mentor.lastName = data_result[i].lastName;
-                                mentor.firstName = data_result[i].firstName;
-                            }
-                            mentor.accomplishments = (data_result[i].accomplishments == null || data_result[i].accomplishments === undefined) ? "" : data_result[i].accomplishments;
-                            mentor.bio = data_result[i].bio;
-                            mentor.numsub = data_result[i].numsub;
-                            mentor.imageUrl = data_result[i].imageUrl;
-                            mentor.numlike = data_result[i].numlike;
-                            mentor.numvideos = data_result[i].numvideos;
-                            mentor.numAnswers = data_result[i].numAnswers;
-                            mentor.avgrate = data_result[i].avgrate != null ? data_result[i].avgrate : 0;
-                            mentor.isSubs = data_result[i].isSubs;
-                            mentor.defaultSubjectId = data_result[i].defaultSubjectId;
-                            var listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
-                            if (listSubject != null && listSubject !== undefined) {
-                                var listSubjectName = [];
-                                var isMax = false;
-                                var len = listSubject.length;
-                                if (len > LIMIT_SUBJECT) {
-                                    len = LIMIT_SUBJECT;
-                                    isMax = true;
-                                }
-                                for (var j = 0; j < len; j++) {
-                                    listSubjectName.push(listSubject[j].name);
-                                }
-                                strSubject = isMax ? listSubjectName.join(", ") + '...' : listSubjectName.join(", ");
-                            }
-
-                            mentor.listSubject = strSubject;
-                            listMentorSubscribed.push(mentor);
-                        }
+                        var result = data.data.request_data_result;
                         $scope.isReadyLoadPointSubscribed = true;
-                        $scope.listMentorSubs = $scope.isNextPage ? $scope.listMentorSubs.concat(listMentorSubscribed) : listMentorSubscribed;
+                        $scope.listMentorSubs = $scope.isNextPage ? $scope.listMentorSubs.concat(result) : result;
                         $scope.listMentorSubsSize = $scope.listMentorSubs.length;
                     }
                 });
             }
+
+
+            $scope.convertListSubsToString = function (defaultSubjectId) {
+                var listSubject = getSubjectNameById(defaultSubjectId, subjects);
+                if (listSubject != null && listSubject !== undefined) {
+                    var listSubjectName = [];
+                    var isMax = false;
+                    var len = listSubject.length;
+                    if (len > LIMIT_SUBJECT) {
+                        len = LIMIT_SUBJECT;
+                        isMax = true;
+                    }
+                    for (var j = 0; j < len; j++) {
+                        listSubjectName.push(listSubject[j].name);
+                    }
+                    return isMax ? listSubjectName.join(", ") + '...' : listSubjectName.join(", ");
+                }
+            };
+
 
             $scope.hoverProfileMentor = function (mentorId) {
                 $("#" + mentorId + " .mentors-img-hover").show();
@@ -497,6 +574,15 @@ brotControllers.controller('MentorProfileController',
 
             $scope.unHoverProfileMentor = function (mentorId) {
                 $("#" + mentorId + " .mentors-img-hover").hide();
+            };
+
+
+            $scope.hoverVideo = function (vid) {
+                $("#"+vid+" .hover-video").show();
+            };
+
+            $scope.unHoverVideo = function (vid) {
+                $("#"+vid+" .hover-video").hide();
             };
 
 
@@ -684,5 +770,9 @@ brotControllers.controller('MentorProfileController',
             function splitUserName(userName) {
                 return userName.indexOf('@') > -1 ? capitaliseFirstLetter(userName.substr(0, userName.indexOf('@'))) : userName;
             }
+
+            $scope.displayName = function (firstName, lastName, userName) {
+                return displayUserName(firstName,lastName, userName).trim();
+            };
 
         }]);
