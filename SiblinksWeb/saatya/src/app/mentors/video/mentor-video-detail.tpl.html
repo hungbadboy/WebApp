@@ -30,7 +30,10 @@
                                         <ul class="list-videp-w" scroller="videosPlayList" on-init="loadTo" id="videos-in-list">
                                             <li id="listPlaylist{{v.vid}}" class="video-list-item" ng-repeat="v in videos track by $index" ng-click="selectIndex($index)" ng-class="{'active':currentId==v.vid}" >
                                                 <a class="clearfix" href="">
-                                                    <span class="pull-left"><img style="width: 116px; height: 65px;" src="{{v.image}}" alt=""></span>
+                                                    <span class="pull-left">
+                                                    	<img style="width: 116px; height: 65px;" src="{{v.image}}" alt="">
+                                                    </span>
+                                                    <span class="video-time">{{v.runningTime}}</span>
                                                     <h6 class="pull-left">{{ v.title | limitTo: 15 }}{{v.name.title > 15 ? '...' : ''}}</h6>
                                                 </a>
                                             </li>
@@ -117,11 +120,15 @@
                             </div>
                             <div class="col-md-4 right-sub-video">
                                 <h4>Related Videos</h4>
-                                <div ng-if="videosRelated" scroller="sc-related" data-on-total-scroll="loadMoreVideoRelated">
+                                <div id="videosRelated" ng-if="videosRelated" scroller="sc-related" data-on-total-scroll="loadMoreVideoRelated">
                                     <ul class="list-sub-video">
                                         <li class="clearfix" ng-repeat="v in videosRelated track by $index">
-                                            <span class="pull-left"><a href="" ng-click="loadVideo(v)"><img style="width: 150px; height: 84px;" src="{{v.image}}" alt="">
-                                            </a></span>
+                                            <span class="pull-left">
+                                            	<a href="" ng-click="loadVideo(v)">
+                                            		<img style="width: 150px; height: 84px;" src="{{v.image}}" alt="">
+                                            	</a>
+                                            </span>
+                                            <span class="video-time">{{v.runningTime}}</span>
                                             <div class="sub-vd-right pull-left">
                                                 <h5><a href="" ng-click="loadVideo(v)">{{ v.title | limitTo: 20 }}{{v.title.length > 20 ? '...' : ''}}</a></h5>
                                                 <p>from <b><a href="" ng-click="goToProfile(v.userId)">{{displayName(v.firstName,v.lastName,v.userName)}}</a></b></p>

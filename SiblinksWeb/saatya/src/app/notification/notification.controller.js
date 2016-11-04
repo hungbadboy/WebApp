@@ -6,7 +6,8 @@ var totalPageNotification;
 var listPage = [];
 var listReaded = [];
 $rootScope.page = 1;
-
+$scope.defaultLimit = 7;
+$scope.notificationsAll = [];
 init();
 
 function init() {
@@ -32,25 +33,31 @@ function init() {
     }
   });
   
+  	getAllNotification();
+    $scope.showItem = true;
+  
+}
+
 /**
  * Get all notification of user
  */
-  NotificationService.getAllNotification(userId, $rootScope.page).then(function(data) {
-    $scope.notificationsAll = data.data.request_data_result;
-    $scope.countAll = data.data.count;
+  function getAllNotification() {
+  	NotificationService.getAllNotification(userId, $rootScope.page, $scope.defaultLimit).then(function(data) {
+  	if(data.data.status == 'true' && (data.data.request_data_result != null && data.data.request_data_result.length > 0)) {
+  		$scope.notificationsAll = $scope.notificationsAll.concat(data.data.request_data_result);
+  	}
+	$scope.countAll = data.data.count;
+	// Calculate page
     if($scope.countAll == null) {
       $scope.errorData = DATA_ERROR_NOTIFICATION.noNewNotification;
     } else {
-      totalPageNotification = Math.ceil($scope.countAll / 7);
+      totalPageNotification = Math.ceil($scope.countAll / $scope.defaultLimit);
       showPage(totalPageNotification, $rootScope.page, function(response) {
         $scope.listPage = response;
       });
     }
-
-    $scope.showItem = true;
-  });
+  	});
 }
-
 /**
  * Get Detail
  */
@@ -151,5 +158,16 @@ $scope.linkToProfile = function(userType, senderId) {
 	$('.notification-content').hide();
 	window.location.href = ((userType=='S')? '#/student/mentorProfile/':'#mentor/studentProfile/') +senderId;
 }
+
+$scope.loadMoreNotification = function () {
+	$rootScope.page = $rootScope.page + 1;
+	var newOffset = $scope.defaultLimit * $rootScope.page;
+	if ($rootScope.page > totalPageNotification) {
+		return;
+	}
+	// loadmore
+	getAllNotification();
+};
 }]);
+
 //=========================================== NOTIFICATION.CONTROLLER.JS==============
