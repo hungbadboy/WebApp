@@ -16,6 +16,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   $scope.tabpane = 1;
   $scope.pos = 0;
   $scope.currentId = 0;
+  $scope.averageRating = 5;
 
   init();
 
@@ -310,6 +311,8 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   }
 
   $scope.changeTab = function(val){
+    $scope.fileName = null;
+    $scope.fileSize = null;
     $scope.tabpane = val;
     var keyword = $('input#essay-term').val();
     if (keyword && keyword.length > 0) {
@@ -465,8 +468,9 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
       fd.append('essayId', $scope.essay.uploadEssayId);
       fd.append('mentorId', userId);
       fd.append('studentId', $scope.essay.userId);
+      fd.append('isUpdate', false);
       $rootScope.$broadcast('open');
-      EssayService.insertCommentEssay(fd).then(function(data){
+      EssayService.insertUpdateCommentEssay(fd).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result == "Success") {
           $scope.success = "Reply successful.";
           getAllEssay();
@@ -583,6 +587,52 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
           $scope.repliedEssays = formatEssay(collection.repliedEssay);
         }
       }
+      $rootScope.$broadcast('close');
+    });
+  }
+
+  $scope.openEdit = function(cid, content){
+    $scope.edit = true;
+    $scope.editEssay ={
+      'content' : content,
+      'cid': cid
+    };
+  }
+
+  $scope.clearEdit = function(){
+    $scope.edit = false;
+  }
+
+  $scope.updateComment = function(comment){
+    if (comment == null || comment.trim().length == 0) {
+      $scope.error = "Please input your comment.";
+      return;
+    }
+    $scope.error = null;
+    var fd = new FormData();
+
+    fd.append('file', file);
+    fd.append('comment', comment);
+    fd.append('essayId', $scope.essay.uploadEssayId);
+    fd.append('mentorId', userId);
+    fd.append('isUpdate', true);
+    fd.append('commentId', $scope.editEssay.cid);
+
+    $rootScope.$broadcast('open');
+    EssayService.insertUpdateCommentEssay(fd).then(function(data){
+      if (data.data.request_data_result != null && data.data.request_data_result == "Success") {
+        $scope.success = "Reply successful.";
+        getEssayById($scope.essay.uploadEssayId, userId);        
+        $scope.edit= false;
+        $scope.editEssay = null;
+        $scope.error = null;
+        $scope.file = null;
+        $scope.fileName = null;
+        $scope.fileSize = null;
+      } else{
+        $scope.error = data.data.request_data_result;
+      }
+      $scope.checked = false;
       $rootScope.$broadcast('close');
     });
   }
