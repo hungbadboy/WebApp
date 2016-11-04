@@ -81,16 +81,14 @@
                                                 <!--<div class="mentors-infor-img-wrapper" id="{{mentor.userid}}">-->
                                                     <img ng-src="{{mentor.imageUrl != null ? mentor.imageUrl : 'assets/images/noavartar.jpg'}}">
                                                     <div class="mentors-img-hover">
-                                                        <a ng-href="{{userId == mentor.userid ?  '#/mentor/mentorProfile' : '#/student/mentorProfile/'+mentor.userid}}"><span
+                                                        <a ng-href="{{userId == mentor.userid ?  '#/mentor/mentorProfile' : '#/mentor/mentorProfile/'+mentor.userid}}"><span
                                                                 data-icon="&#x4c;"></span></a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mentors-infor-details">
                                                 <div class="mentors-name">
-                                                    <a href="#/student/mentorProfile/{{mentor.userid}}">{{mentor.firstName!=
-                                                        null ? mentor.firstName : ''}} {{mentor.lastName != null ?
-                                                        mentor.lastName : ''}}</a>
+                                                    <a href="#/mentor/mentorProfile/{{mentor.userid}}">{{displayName(mentor.firstName, mentor.lastName, mentor.loginName)}}</a>
                                                     <span id="rate-studentMentorProfile"
                                                           ng-if="isReadyLoadPointSubscribed"
                                                           star-rating stars="5"
@@ -103,10 +101,10 @@
                                                           back-color="white"></span>
                                                 </div>
                                                 <div class="mentors-edu">
-                                                    <span>{{mentor.accomplishments != null ? mentor.accomplishments : EMPTY_DATA}}</span>
+                                                    <span>{{mentor.schoolName != null ? mentor.schoolName : EMPTY_DATA}}</span>
                                                 </div>
                                                 <div class="mentors-skill">
-                                                    <span>{{mentor.listSubject != null ? mentor.listSubject : 'None'}}</span>
+                                                    <span>{{convertListSubsToString(mentor.defaultSubjectId) != null ? convertListSubsToString(mentor.defaultSubjectId) : 'None'}}</span>
                                                 </div>
                                                 <div class="mentors-rate clearfix" style="width : 230px; margin : 0 auto">
                                                     <p class="num-subs">
