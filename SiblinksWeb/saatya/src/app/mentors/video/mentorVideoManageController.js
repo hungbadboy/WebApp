@@ -227,7 +227,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
 
   $scope.goVideoDetail = function(vid, plid){
     if (plid && plid > 0) {
-      window.location.href = '#/mentor/video/detail/'+vid+'/list/'+plid+'';
+      window.location.href = '#/mentor/video/detail/'+vid+'/'+plid+'';
     } else {
       window.location.href = '#/mentor/video/detail/'+vid+'';
     }
@@ -235,7 +235,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
 
   $scope.goToDetail = function(v){
     if (v.plid && v.plid > 0) {
-      window.location.href = '#/mentor/video/detail/'+v.vid+'/list/'+v.plid+'';
+      window.location.href = '#/mentor/video/detail/'+v.vid+'/'+v.plid+'';
     } else{
       localStorage.removeItem('vidInPlaylist');
       window.location.href = '#/mentor/video/detail/'+v.vid+'';

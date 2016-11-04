@@ -118,7 +118,7 @@ brotControllers.controller('MentorPlaylistDetailController',
     }
 
     $scope.playAll = function(){
-        window.location.href = '#/mentor/video/detail/'+$scope.videos[0].vid+'/list/'+plid+'';
+        window.location.href = '#/mentor/video/detail/'+$scope.videos[0].vid+'/'+plid+'';
     }
 
     $scope.removeAll = function(){
