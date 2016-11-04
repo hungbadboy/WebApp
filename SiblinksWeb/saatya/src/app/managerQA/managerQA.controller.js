@@ -578,6 +578,37 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
         };
 
+        $scope.currentIndexImage = 0;
+        $scope.zoomImage = function (img, index) {
+            $scope.currentIndexImage = index;
+            $scope.currentImage = img;
+            angular.element(document.getElementById('modalImage')).modal();
+        };
+        $scope.setCurrentIndex = function (index) {
+            $scope.currentIndexImage = index;
+        };
+        $scope.nextImageSlide = function (str) {
+            if (isEmpty($scope.currentImage) || $scope.currentImage.length == 1) {
+                return;
+            }
+            var len = $scope.currentImage.length;
+            if (str == 'next') {
+                if ($scope.currentIndexImage == len - 1) {
+                    $scope.currentIndexImage = 0;
+                }
+                else {
+                    $scope.currentIndexImage = $scope.currentIndexImage + 1;
+                }
+            } else {
+                if ($scope.currentIndexImage == 0) {
+                    $scope.currentIndexImage = len - 1;
+                }
+                else {
+                    $scope.currentIndexImage = $scope.currentIndexImage - 1;
+                }
+            }
+        };
+
         $scope.transferPage = function (path, id) {
             angular.element(document.getElementById('answer-detail')).modal('toggle');
             if(id+'' == userId){
@@ -642,10 +673,6 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
         }
 
-        $scope.zoomImage = function (img) {
-            $scope.currentImage = ( img + "");
-            $(".popup-images").css({"left": 0});
-        }
         $scope.imageHoverIn = function (eId) {
             $("#"+eId).addClass('show');
         }

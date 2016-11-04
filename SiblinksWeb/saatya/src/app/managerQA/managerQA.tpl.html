@@ -111,22 +111,60 @@
                                             <div class="images-question">
                                                 <ul>
                                                     <li class="item" ng-repeat="image in questionDetail.imagePath">
-                                                        <div class="item-img"  ng-mouseover="imageHoverIn(questionDetail.question_id +''+$index)" ng-mouseleave="imageHoverOut(questionDetail.question_id +''+$index)" ng-click="zoomImage(image)">
+                                                        <div class="item-img"  ng-mouseover="imageHoverIn(questionDetail.question_id +''+$index)"
+                                                             ng-mouseleave="imageHoverOut(questionDetail.question_id +''+$index)" ng-click="zoomImage(questionDetail.imagePath,$index)">
                                                             <img ng-src="{{image}}">
                                                             <div class="item-hover" id="{{questionDetail.question_id}}{{$index}}">
-                                                                <img src="assets/images/ask question/look-img.png" ng-click="zoomImage(image)">
+                                                                <img src="assets/images/ask question/look-img.png">
                                                             </div>
                                                         </div>
                                                     </li>
                                                 </ul>
                                             </div>
 
-                                            <div class="popup-images">
-                                                <div class="popup-images-wrapper">
-                                                    <img ng-src="{{currentImage}}" width="800px" height="600px">
+                                            <!--<div class="popup-images">-->
+                                                <!--<div class="popup-images-wrapper">-->
+                                                    <!--<img ng-src="{{currentImage}}" width="800px" height="600px">-->
+                                                <!--</div>-->
+                                                <!--<div class="close-popup-images" ng-click="closePopupAskQuestion()">-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <div id="modalImage" class="modal face">
+                                                <div id="myCarousel" class="carousel slide container"  data-interval="false" >
+                                                    <!-- Wrapper for slides -->
+                                                    <!-- The Close Button -->
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true" data-icon="&#x4d;"></span>
+                                                    </button>
+                                                    <div class="carousel-inner" role="listbox">
+                                                        <div class="item" ng-class="{'active':currentIndexImage == $index}" ng-repeat="img in currentImage track by $index">
+                                                            <img  ng-src="{{img}}" style="margin: auto; width:600px ;height:400px">
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Left and right controls -->
+                                                    <a   ng-click="nextImageSlide('prev')" class="left carousel-control" role="button" >
+                                                        <span aria-hidden="true" data-icon="&#x34;"></span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                    <a  ng-click="nextImageSlide('next')" class="right carousel-control" role="button" >
+                                                        <!--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
+                                                        <span aria-hidden="true" data-icon="&#x35;"></span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+
+                                                    <!-- Thumbnails -->
+                                                    <ul class="thumbnails-carousel clearfix">
+                                                        <div id="ulthumbnails-carouselcenter" class="center clearfix">
+                                                            <li id="ulthumbnails-carouselli" ng-click="setCurrentIndex($index)" ng-repeat="imgThumb in currentImage track by $index">
+                                                                {{currentIndexImage +'=='+ $index}}
+                                                                <img data-target="#myCarousel" style="height: 80px;width: 80px" class="{{currentIndexImage == $index ? 'active-thumbnail':''}}" data-slide-to="{{$index}}"  ng-src="{{imgThumb}}">
+                                                            </li>
+                                                        </div>
+                                                    </ul>
+
                                                 </div>
-                                                <div class="close-popup-images" ng-click="closePopupAskQuestion()">
-                                                </div>
+
                                             </div>
                                             <!-- /End POPUP of images's question -->
                                             <!-- /End Images of question -->
@@ -210,11 +248,10 @@
                                                                                 <div class="item-img"
                                                                                      ng-mouseover="imageHoverIn(answer.aid +''+$index)"
                                                                                      ng-mouseleave="imageHoverOut(answer.aid +''+$index)"
-                                                                                     ng-click="zoomImage(image)">
+                                                                                     ng-click="zoomImage(convertToArrayImage(answer.imageAnswer),$index)">
                                                                                     <img ng-src="{{image}}">
                                                                                     <div class="item-hover" id="{{answer.aid}}{{$index}}">
-                                                                                        <img src="assets/images/ask question/look-img.png"
-                                                                                             ng-click="zoomImage(image)">
+                                                                                        <img src="assets/images/ask question/look-img.png">
                                                                                     </div>
                                                                                 </div>
                                                                             </li>
