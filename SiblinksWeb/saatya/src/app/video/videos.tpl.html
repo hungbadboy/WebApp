@@ -406,7 +406,7 @@
                                             <a href="#/student/mentorProfile/{{lstRecentVideo.authorID}}">
                                                 <span class="video-poster" id="{{lstRecentVideo.authorID}}">{{validateShowName(lstRecentVideo.firstName, lstRecentVideo.lastName, lstRecentVideo.userName)}}</span>
                                             </a>
-                                            <span>&#8226; {{caculateTimeElapsed(lstRecentVideo.timeStamp)}}</span>
+                                            <span>&#8226; {{convertUnixTimeToTime(lstRecentVideo.timeStamp)}}</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
@@ -453,7 +453,7 @@
                                         <div class="videos-time-add">
                                             <a href="#/student/mentorProfile/{{lstWeekVideo.authorID}}"><span
                                                     class="video-poster" id="{{lstWeekVideo.authorID}}"
-                                                    ng-click="showProfile($event)"> {{validateShowName(lstWeekVideo.firstName,lstWeekVideo.lastName, lstWeekVideo.userName)}}</span></a><span> &#8226; {{caculateTimeElapsed(lstWeekVideo.timeStamp)}}</span>
+                                                    ng-click="showProfile($event)"> {{validateShowName(lstWeekVideo.firstName,lstWeekVideo.lastName, lstWeekVideo.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(lstWeekVideo.timeStamp)}}</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
@@ -544,7 +544,7 @@
                                         </a>
                                         <div class="videos-time-add">
                                             <span class="video-poster"> <a href="#/videos/detailVideo/{{lstMentorOlder.vid}}" title="{{lstMentorOlder.title}}">{{lstMentorOlder.authorName}}</a></span>
-                                            <span> &#8226; {{caculateTimeElapsed(lstMentorOlder.timeStamp)}}</span>
+                                            <span> &#8226; {{convertUnixTimeToTime(lstMentorOlder.timeStamp)}}</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
