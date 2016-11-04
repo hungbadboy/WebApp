@@ -27,6 +27,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
@@ -716,10 +722,14 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         if (file != null) {
             name = file.getOriginalFilename();
             if (!StringUtil.isNull(name)) {
-                String nameExt = FilenameUtils.getExtension(name.toLowerCase());
-                boolean status = sample.contains(nameExt);
-                if (!status) {
-                    return "Error Format";
+                if (isUTF8MisInterpreted(name, "Windows-1252")) {
+                    String nameExt = FilenameUtils.getExtension(name.toLowerCase());
+                    boolean status = sample.contains(nameExt);
+                    if (!status) {
+                        return "Error Format";
+                    }
+                } else {
+                    error = "File name is not valid";
                 }
             }
             if (file.getSize() > Long.parseLong(limitSize)) {
@@ -729,6 +739,23 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             error = "File is empty";
         }
         return error;
+    }
+
+    private boolean isUTF8MisInterpreted(final String input, final String encoding) {
+        CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
+        CharsetEncoder encoder = Charset.forName(encoding).newEncoder();
+        ByteBuffer tmp;
+        try {
+            tmp = encoder.encode(CharBuffer.wrap(input));
+        } catch (CharacterCodingException e) {
+            return false;
+        }
+        try {
+            decoder.decode(tmp);
+            return true;
+        } catch (CharacterCodingException e) {
+            return false;
+        }
     }
 
     /**
@@ -934,6 +961,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Your file is not valid.");
                 } else if (statusMsg.equals("File over 10M")) {
                     reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Your file is lager than 10MB.");
+                } else if (statusMsg.equals("File name is not valid")) {
+                    reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "File name is not valid.");
                 } else {
                     params = new Object[] { "", mentorId, comment };
                     long cid = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, params);
