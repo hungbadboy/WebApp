@@ -27,11 +27,11 @@ brotControllers.controller('MentorVideoDetailController',
                     getCommentVideoDetail(vid); 
                 }
             } else {
-                window.location.href = '#/mentor/dashboard';
+                $location.path('/mentor/dashboard');
             }
         } else {
             window.localStorage.clear();
-            window.location.href = '/';
+            $location.path('/');
         }
     }
     
@@ -71,7 +71,7 @@ brotControllers.controller('MentorVideoDetailController',
                             $scope.pos = index;
                         }
                     } else {
-                        $location.path('/mentor/video/detail/'+$scope.videos[0].vid+'/list/'+plid);
+                        $location.path('/mentor/video/detail/'+$scope.videos[0].vid+'/'+plid);
                     }                    
                 } else{
                     loadVideoDetail($scope.videos[0]);
@@ -112,7 +112,7 @@ brotControllers.controller('MentorVideoDetailController',
         initYoutubePlayer($scope.video.url);
         getCommentVideoDetail(v.vid);
         getVideoRelated();
-        $location.path('/mentor/video/detail/'+v.vid+'/list/'+plid+'',false);
+        $location.path('/mentor/video/detail/'+v.vid+'/'+plid);
     }
 
     function getVideoDetail(id, userId){
@@ -124,7 +124,7 @@ brotControllers.controller('MentorVideoDetailController',
                 $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
                 $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
                 if ($scope.video.plid && $scope.video.plid > 0) {
-                    window.location.href = '#/mentor/video/detail/'+id+'/list/'+$scope.video.plid+'';
+                    $location.path('/mentor/video/detail/'+id+'/'+$scope.video.plid);
                 } else{
                     initYoutubePlayer($scope.video.url);
                     getCommentVideoDetail($scope.video.vid);
@@ -189,17 +189,17 @@ brotControllers.controller('MentorVideoDetailController',
 
     function loadData(v){
         if (v.plid && v.plid > 0) {
-            window.location.href = '#/mentor/video/detail/'+v.vid+'/list/'+v.plid+'';
+        	$location.path('/mentor/video/detail/'+v.vid+'/'+v.plid);
         } else{
-            window.location.href = '#/mentor/video/detail/'+v.vid+'';
+        	$location.path('/mentor/video/detail/'+v.vid);
         }
     }
 
     $scope.goToProfile = function(id){
         if (id == userId) {
-            window.location.href = '#/mentor/mentorProfile';
+        	$location.path('/mentor/mentorProfile');
         } else{
-            window.location.href = '#/mentor/studentProfile/'+id+'';
+        	$location.path('/mentor/studentProfile/'+id);
         }
     }
 
@@ -248,7 +248,7 @@ brotControllers.controller('MentorVideoDetailController',
                 if ($scope.videos) {
                     $scope.videos.splice($scope.pos, 1);
                     if ($scope.videos.length == 0) {
-                        window.location.href = '#/mentor/mentorVideo';
+                        $location.path('/mentor/mentorVideo');
                     } else{
                         $scope.currentId = $scope.videos[$scope.pos].vid;
                         loadVideoDetail($scope.videos[$scope.pos]); 
@@ -257,7 +257,7 @@ brotControllers.controller('MentorVideoDetailController',
                     if ($scope.videosRelated) {
                         loadData($scope.videosRelated[0]);
                     } else{
-                        window.location.href = '#/mentor/mentorVideo';
+                        $location.path('/mentor/mentorVideo');
                     }
                 }
            }
@@ -377,25 +377,25 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     $scope.$on('addPlaylist', function(e, value){
-        window.location.href = '#/mentor/video/detail/'+$scope.video.vid+'/list/'+value+'';
-        window.location.reload();
+        $location.path('/mentor/video/detail/'+$scope.video.vid+'/'+value);
+        //window.location.reload();
     });
 
     $scope.$on('passing', function(e, video){
         if (video.plid != null){
-            window.location.href = '#/mentor/video/detail/'+$scope.video.vid+'/list/'+video.plid+'';
-            window.location.reload();
+            $location.path('/mentor/video/detail/'+$scope.video.vid+'/'+video.plid);
+            //window.location.reload();
         }
         else{
             // $scope.video.title = video.title;
             // $scope.description = video.description;
-            window.location.href = '#/mentor/video/detail/'+$scope.video.vid;
-            window.location.reload();
+     $location.path('/mentor/video/detail/'+$scope.video.vid);
+            //window.location.reload();
         }
     });
 
     $scope.$on('addPlaylistVideo', function(e, data){
-        window.location.href = '#/mentor/video/detail/'+$scope.video.vid+'/list/'+data.plid+'';
-        window.location.reload();
+        $location.path('/mentor/video/detail/'+$scope.video.vid+'/'+data.plid);
+        //window.location.reload();
     });
 }]);

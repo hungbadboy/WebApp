@@ -132,8 +132,7 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	}).
 	when('/college_admission', {
 		templateUrl: 'src/app/admission/admission.tpl.html',
-		controller: 'AdmissionCtrl',
-		reloadOnSearch: false
+		controller: 'AdmissionCtrl'
 	}).
 	when('/college_admission/videoadmission/:idSubAdmission', {
 		templateUrl: 'src/app/videoAdmission.tpl.html',
@@ -195,23 +194,20 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 	// Videos Mentor
 	when('/mentor/videoManager', {
 		templateUrl: 'src/app/mentors/video/managevideo-videolist.tpl.html',
-		controller: 'VideoManagerController',
-		reloadOnSearch: false
+		controller: 'VideoManagerController'
 	}).
 	when('/mentor/video/detail/:vid', {
 		templateUrl: 'src/app/mentors/video/mentor-video-detail.tpl.html',
-		controller: 'MentorVideoDetailController',
-		reloadOnSearch: false
+		controller: 'MentorVideoDetailController'
 	}).
 	when('/mentor/playlist/detail/:plid', {
 		templateUrl: 'src/app/mentors/playlist/mentor-playlist-detail.tpl.html',
 		controller: 'MentorPlaylistDetailController',
 		reloadOnSearch: false
 	}).
-	when('/mentor/video/detail/:vid/list/:plid', {
+	when('/mentor/video/detail/:vid/:plid', {
 		templateUrl: 'src/app/mentors/video/mentor-video-detail.tpl.html',
-		controller: 'MentorVideoDetailController',
-		reloadOnSearch: false
+		controller: 'MentorVideoDetailController'
 	}).
 	when('/video_admission/:videoid', {
 		templateUrl: 'src/app/admission/video-admission.tpl.html',

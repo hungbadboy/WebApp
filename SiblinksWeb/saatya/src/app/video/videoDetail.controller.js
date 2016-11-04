@@ -289,7 +289,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                 }
             });
 
-        }
+        };
         $scope.range = function (min, max, step) {
             step = step || 1;
             var input = [];
@@ -316,7 +316,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             });
 
 
-        }
+        };
 
         function onYouTubeIframeAPIReady(youtubeId) {
             player = new YT.Player('video', {
@@ -419,9 +419,11 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                 if (data.data.status == "true") {
                     if (data.data.request_data_type == "subs") {
                         $scope.isSubscribe = 1;
+                        angular.element('#spansubs').text('Subscribed');
                     }
                     else {
                         $scope.isSubscribe = 0;
+                        angular.element('#spansubs').text('Subscribe');
                     }
                 }
                 $rootScope.$broadcast('close');
@@ -437,5 +439,21 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                     }
                 }
             });
+        };
+
+        $scope.hoverSubscribe = function (isSub) {
+            if(isSub != '1' || isEmpty(isSub)){
+                return;
+            }
+            angular.element('.subscribers').attr('data-icon', 'M');
+            angular.element('#spansubs').text('Unsubscribe');
+        };
+
+        $scope.unHoverSubscribe = function (isSub) {
+            if(isSub != 1 || isEmpty(isSub)){
+                return;
+            }
+            angular.element('.subscribers').attr('data-icon', 'N');
+            angular.element('#spansubs').text('Subscribed');
         };
     }]);
