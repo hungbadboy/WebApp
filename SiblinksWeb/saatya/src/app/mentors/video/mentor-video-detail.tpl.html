@@ -121,6 +121,7 @@
                                     <ul class="list-sub-video">
                                         <li class="clearfix" ng-repeat="v in videosRelated track by $index">
                                             <span class="pull-left"><a href="" ng-click="loadVideo(v)"><img style="width: 150px; height: 84px;" src="{{v.image}}" alt="">
+                                            <span >{{v.runningTime}}</span>
                                             </a></span>
                                             <div class="sub-vd-right pull-left">
                                                 <h5><a href="" ng-click="loadVideo(v)">{{ v.title | limitTo: 20 }}{{v.title.length > 20 ? '...' : ''}}</a></h5>
