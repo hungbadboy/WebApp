@@ -500,11 +500,11 @@ brotControllers.controller('VideoManagerController',
       var keyword = $('input#srch-term').val();
       if (keyword && keyword.length > 0) {
         if ($scope.videoTab == 1)
-          searchNewestVideos(selected.title, $scope.subject);
+          searchNewestVideos(keyword, $scope.subject);
         else if ($scope.videoTab == 2)
-          searchTopViewedVideos(selected.title, $scope.subject);
+          searchTopViewedVideos(keyword, $scope.subject);
         else
-          searchTopRatedVideos(selected.title, $scope.subject);
+          searchTopRatedVideos(keyword, $scope.subject);
       } else if(!keyword && $scope.subject > 0){
         if ($scope.videoTab == 1)
           getNewestVideoBySubject();
@@ -513,9 +513,18 @@ brotControllers.controller('VideoManagerController',
         else
           getTopRatedVideoBySubject();
       } else{
-        $scope.videos = cacheVideos;
-        $scope.topViewedVideos = cacheTopViewedVideos;
-        $scope.topRatedVideos = cacheTopRatedVideos;
+        if ($scope.subject > 0) {
+          if ($scope.videoTab == 1) 
+            getNewestVideoBySubject();
+          else if ($scope.videoTab == 2)
+            getTopViewedVideoBySubject();
+          else
+            getTopRatedVideoBySubject();
+        } else{
+          $scope.videos = cacheVideos;
+          $scope.topViewedVideos = cacheTopViewedVideos;
+          $scope.topRatedVideos = cacheTopRatedVideos;
+        }
       }
     }
 

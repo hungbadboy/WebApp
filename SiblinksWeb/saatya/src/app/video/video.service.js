@@ -543,16 +543,9 @@ brotServices.factory('VideoService', ['$http', function ($http) {
     factory.getVideosBySubject = function(userid, videoType, subjectid, offset){
        return $http({
           method: 'GET',
-          url: NEW_SERVICE_URL + 'video/getVideosBySubject?userid='+userid + '$videoType='+videoType+'&subjectid='+subjectid+'&offset='+offset+''
+          url: NEW_SERVICE_URL + 'video/getVideosBySubject?userid='+userid + '&videoType='+videoType+'&subjectid='+subjectid+'&offset='+offset+''
         });
     }
-
-    // factory.searchVideosMentor = function(uid, keyword, offset){
-    //     return $http({
-    //       method: 'GET',
-    //       url: NEW_SERVICE_URL + 'video/searchVideos?uid='+uid+'&keyword='+keyword+'&offset='+offset+''
-    //     });
-    // }
 
     factory.searchVideosMentor = function(request){
         return $http({
