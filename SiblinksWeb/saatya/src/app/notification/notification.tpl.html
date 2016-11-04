@@ -8,7 +8,7 @@
      <div ng-if="countAll == null">
      	<span>{{errorData}}</span>
    	</div>
-     <div class="nft-body" scroller="detailEssay1">
+     <div class="nft-body" scroller="scroll-notification" data-on-total-scroll="loadMoreNotification">
          <ul>
              <li  ng-repeat="n in notificationsAll">
              	<a href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">
@@ -28,17 +28,16 @@
                   <div ng-if="n.type == '4'" class="nft-type nft-qa nft-replied-qt">
                       <i class="fa fa-share" aria-hidden="true"></i>
                   </div>
-                  
-                  <div class="nft-info">
-                    <div ng-if="n.type == '1'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">question</a> has been answered by </div>
-                    <div ng-if="n.type == '2'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">video</a> has been commented by </div>
-                    <div ng-if="n.type == '3'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">video admission</a> has been commented by </div>
-                    <div ng-if="n.type == '4'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">essay</a> has been replied by </div>
-                   </a>
-  	           	   <span class="nft-name">
-                    <a href="javascript:void(0)" ng-click="linkToProfile(userType,n.senderId)">{{displayName(n.firstName,n.lastName,n.userName)}}</a>
-                  </span>
-                </div>
+                  </a>
+	                  <div class="nft-info">
+	                    <div ng-if="n.type == '1'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">question</a> has been answered by </div>
+	                    <div ng-if="n.type == '2'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">video</a> has been commented by </div>
+	                    <div ng-if="n.type == '3'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">video admission</a> has been commented by </div>
+	                    <div ng-if="n.type == '4'">Your <a class="text-under-line" href="javascript:void(0)" ng-click="linkRedirect(n.type,n.linkToId)">essay</a> has been replied by </div>
+	                   <span class="nft-name">
+	                    <a href="javascript:void(0)" ng-click="linkToProfile(userType,n.senderId)">{{displayName(n.firstName,n.lastName,n.userName)}}</a>
+	                  </span>
+                  </div>
                 <div class="nft-time">{{convertUnixTimeToTime(n.timestamp)}} ago</div>
              </li>
          </ul>

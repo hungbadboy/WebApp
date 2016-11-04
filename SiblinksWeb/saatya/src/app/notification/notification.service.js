@@ -26,10 +26,10 @@ brotServices.factory('NotificationService', ['$http', function($http) {
     return promise;
   };
 
-  factory.getAllNotification = function(userId, pageno) {
+  factory.getAllNotification = function(userId, pageno, limit) {
     var promise = $http({
       method: 'GET',
-      url: NEW_SERVICE_URL + 'notification/getAllNotification?uid='+userId+'&pageno='+pageno+'&limit=7'
+      url: NEW_SERVICE_URL + 'notification/getAllNotification?uid='+userId+'&pageno='+pageno+'&limit='+limit
     });
     return promise;
   };
