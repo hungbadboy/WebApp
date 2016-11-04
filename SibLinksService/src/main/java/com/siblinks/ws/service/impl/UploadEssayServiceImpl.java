@@ -921,15 +921,14 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     } else {
                         params = new Object[] { status, mentorId, essayId };
                         flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
+                        if (flag) {
+                            activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You have updated essay", mentorId, essayId));
+                            reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Success");
+                        } else {
+                            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", "Failed");
+                        }
                     }
                 }
-                if (flag) {
-                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You have updated essay", mentorId, essayId));
-                    reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Success");
-                } else {
-                    reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", "Failed");
-                }
-
             }
         } catch (Exception e) {
             logger.debug(e.getMessage(), e.getCause());

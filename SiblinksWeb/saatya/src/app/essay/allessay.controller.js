@@ -1,5 +1,5 @@
-brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', '$window', '$timeout', 'EssayService', 
-  function ($rootScope, $scope, $location, $window, $timeout, EssayService) {
+brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', '$window', '$modal', 'EssayService', 
+  function ($rootScope, $scope, $location, $window, $modal, EssayService) {
   var userType = localStorage.getItem('userType');
   var userId = localStorage.getItem('userId');
   var schoolId = localStorage.getItem('school');
@@ -373,12 +373,13 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         var result = data.data.request_data_result;
         if (result == "Processed") {
           var ModalInstanceCtrl = function($scope, $modalInstance) {
-            $scope.ok = function() {              
+            $scope.ok = function() {
+              $modalInstance.dismiss('cancel');
             };
           };
           var message =  "This essay has been processing by other mentor.";
           var modalHtml = ' <div class="modal-body">' + message + '</div>';
-              modalHtml += '<div class="modal-footer"><button class="btn btn-default" ng-click="OK()">Cancel</button></div>';
+              modalHtml += '<div class="modal-footer"><button class="btn btn-danger" ng-click="ok()">OK</button></div>';
 
           var modalInstance = $modal.open({
               template: modalHtml,
