@@ -144,30 +144,60 @@
                                             </div>
                                             <div class="form-chat form-chat-essay">
                                                 <form action="">
-                                                    <div class="box-chat-onl clearfix" ng-if="!comments && essay.status == 'P' && tabpane != 3">
-                                                        <a href="javascript:void(0)" class="col-md-1"><img src="{{avatar}}" alt=""></a>
-                                                        <div class="texta">
-                                                            <textarea id="comment" name="" class="col-md-11" placeholder="Add your reply here" maxlength="1000"></textarea>
-                                                            <div class="left-border"></div>
+                                                    <div ng-if="!comments && essay.status == 'P' && tabpane != 3">
+                                                        <div class="box-chat-onl clearfix" >
+                                                            <a href="javascript:void(0)" class="col-md-1"><img src="{{avatar}}" alt=""></a>
+                                                            <div class="texta">
+                                                                <textarea id="comment" name="" class="col-md-11" placeholder="Add your reply here" maxlength="1000"></textarea>
+                                                                <div class="left-border"></div>
+                                                            </div>
+                                                            <div class="icon-upload">
+                                                                <button class="label-1" ngf-select="onFileSelect($files, $invalidFiles)" ngf-accept="'application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'" ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xlsx'" ngf-max-size="10MB">
+                                                                <label class="label-1">
+                                                                    <span data-icon="&#xe016;"></span>
+                                                                </label>
+                                                                </button>
+                                                            </div>
                                                         </div>
-                                                        <div class="icon-upload">
-                                                            <button class="label-1" ngf-select="onFileSelect($files, $invalidFiles)" ngf-accept="'application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'" ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xlsx'" ngf-max-size="10MB">
-                                                            <label class="label-1">
-                                                                <span data-icon="&#xe016;"></span>
-                                                            </label>
-                                                            </button>
+                                                        <div ng-if="error" style="margin-top: 10px; margin-bottom: 10px; margin-left: 75px;">
+                                                           <span style="color: red;">{{error}}</span>
+                                                        </div>
+                                                        <div ng-if="fileName" style="margin-top: 10px; margin-bottom: -8px; margin-left: 75px;">
+                                                           <img src="assets/images/img-attacfile.png" alt=""><span> {{fileName}} - {{fileSize}}</span>
+                                                        </div>
+                                                        <div class="clearfix">
+                                                            <div class="btnreply pull-right">
+                                                                <button class="cancel" ng-hide="checked" ng-click="clearAnswer()">Cancel</button>
+                                                                <input type="button" name="reply" ng-hide="checked" value="Reply" ng-click="reply()">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div ng-if="error" style="margin-top: 10px; margin-bottom: 10px; margin-left: 75px;">
-                                                       <span style="color: red;">{{error}}</span>
-                                                    </div>
-                                                    <div ng-if="fileName" style="margin-top: 10px; margin-bottom: -8px; margin-left: 75px;">
-                                                       <img src="assets/images/img-attacfile.png" alt=""><span> {{fileName}} - {{fileSize}}</span>
-                                                    </div>
-                                                    <div class="clearfix" ng-if="!comments && essay.status == 'P' && tabpane != 3">
-                                                        <div class="btnreply pull-right">
-                                                            <button class="cancel" ng-hide="checked" ng-click="clearAnswer()">Cancel</button>
-                                                            <input type="button" name="reply" ng-hide="checked" value="Reply" ng-click="reply()">
+                                                    <div id="openEdit" ng-if="edit">
+                                                        <div class="box-chat-onl clearfix" >
+                                                            <a href="javascript:void(0)" class="col-md-1"><img src="{{avatar}}" alt=""></a>
+                                                            <div class="texta">
+                                                                <textarea ng-model="editEssay.content" class="col-md-11" placeholder="Add your reply here" maxlength="1000"></textarea>
+                                                                <div class="left-border"></div>
+                                                            </div>
+                                                            <div class="icon-upload">
+                                                                <button class="label-1" ngf-select="onFileSelect($files, $invalidFiles)" ngf-accept="'application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'" ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xlsx'" ngf-max-size="10MB">
+                                                                <label class="label-1">
+                                                                    <span data-icon="&#xe016;"></span>
+                                                                </label>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div ng-if="error" style="margin-top: 10px; margin-bottom: 10px; margin-left: 75px;">
+                                                           <span style="color: red;">{{error}}</span>
+                                                        </div>
+                                                        <div ng-if="fileName" style="margin-top: 10px; margin-bottom: -8px; margin-left: 75px;">
+                                                           <img src="assets/images/img-attacfile.png" alt=""><span> {{fileName}} - {{fileSize}}</span>
+                                                        </div>
+                                                        <div class="clearfix">
+                                                            <div class="btnreply pull-right">
+                                                                <button class="cancel" ng-hide="checked" ng-click="clearEdit()">Cancel</button>
+                                                                <input type="button" ng-hide="checked" value="Reply" ng-click="updateComment(editEssay.content)">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="detail-chat">
@@ -178,7 +208,9 @@
                                                                 </span>
                                                                 <div class="chat-body clearfix">
                                                                     <div class="header">
-                                                                        <a href="#/mentor/mentorProfile"><strong class="primary-font">{{c.fullName}} </strong></a><span class="time">{{c.timestamp}} ago</span>
+                                                                        <a href="#/mentor/mentorProfile"><strong class="primary-font">{{c.fullName}} </strong></a><span class="time">{{c.timestamp}} ago </span>
+                                                                        <span star-rating stars="5" outer-star-selection="stars" readonly="true" outer-percent="rating" rating-define="star" rating-stars="5" star-radius="7" sel-color="gold" back-color="white"></span>
+                                                                         <span title="Edit" ng-click="openEdit(c.cid, c.content)" class="edit-answer" data-icon="&#x6c;"></span>
                                                                     </div>
                                                                     <p class="pre-wrap">{{c.content}}</p>
                                                                     <p class="attaced-file" ng-if="essay.downloadLinkM"><a href="{{essay.downloadLinkM}}"><img src="assets/images/img-attacfile.png" alt=""></a><span>{{essay.urlReview}} - {{essay.rdFilesize}}</span></p>

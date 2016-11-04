@@ -176,10 +176,10 @@ brotServices.factory('EssayService', ['$http', function($http) {
       }
     });
   }
-  factory.insertCommentEssay = function(fd){
+  factory.insertUpdateCommentEssay = function(fd){
     return $http({
       method: 'POST',
-      url: NEW_SERVICE_URL +'essay/insertCommentEssay',
+      url: NEW_SERVICE_URL +'essay/insertUpdateCommentEssay',
       headers:{
         'Content-Type': undefined
       },

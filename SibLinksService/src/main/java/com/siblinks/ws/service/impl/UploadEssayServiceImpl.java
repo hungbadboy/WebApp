@@ -27,6 +27,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
@@ -716,10 +722,14 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         if (file != null) {
             name = file.getOriginalFilename();
             if (!StringUtil.isNull(name)) {
-                String nameExt = FilenameUtils.getExtension(name.toLowerCase());
-                boolean status = sample.contains(nameExt);
-                if (!status) {
-                    return "Error Format";
+                if (isUTF8MisInterpreted(name, "Windows-1252")) {
+                    String nameExt = FilenameUtils.getExtension(name.toLowerCase());
+                    boolean status = sample.contains(nameExt);
+                    if (!status) {
+                        return "Error Format";
+                    }
+                } else {
+                    error = "File name is not valid";
                 }
             }
             if (file.getSize() > Long.parseLong(limitSize)) {
@@ -729,6 +739,23 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             error = "File is empty";
         }
         return error;
+    }
+
+    private boolean isUTF8MisInterpreted(final String input, final String encoding) {
+        CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
+        CharsetEncoder encoder = Charset.forName(encoding).newEncoder();
+        ByteBuffer tmp;
+        try {
+            tmp = encoder.encode(CharBuffer.wrap(input));
+        } catch (CharacterCodingException e) {
+            return false;
+        }
+        try {
+            decoder.decode(tmp);
+            return true;
+        } catch (CharacterCodingException e) {
+            return false;
+        }
     }
 
     /**
@@ -915,16 +942,16 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/insertCommentEssay", method = RequestMethod.POST)
-    public ResponseEntity<Response> insertCommentEssay(@RequestParam(required = false) final MultipartFile file, @RequestParam final long essayId,
-            @RequestParam final long mentorId, @RequestParam final long studentId, @RequestParam final String comment) {
+    @RequestMapping(value = "/insertUpdateCommentEssay", method = RequestMethod.POST)
+    public ResponseEntity<Response> insertUpdateCommentEssay(@RequestParam(required = false) final MultipartFile file, @RequestParam final long essayId,
+            @RequestParam final long mentorId, @RequestParam(required = false) final Long studentId, @RequestParam final String comment, @RequestParam(
+                    required = false) final Long commentId, final boolean isUpdate) {
         SimpleResponse reponse = null;
         TransactionStatus status = null;
         try {
             if (comment != null && comment.length() > 1000) {
                 reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Content can not longer than 1000 characters");
             } else {
-
                 boolean flag = false;
                 Object[] params = null;
                 TransactionDefinition def = new DefaultTransactionDefinition();
@@ -934,55 +961,60 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Your file is not valid.");
                 } else if (statusMsg.equals("File over 10M")) {
                     reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Your file is lager than 10MB.");
+                } else if (statusMsg.equals("File name is not valid")) {
+                    reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "File name is not valid.");
                 } else {
-                    params = new Object[] { "", mentorId, comment };
-                    long cid = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, params);
-                    params = new Object[] { essayId, cid };
-                    flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_FK, params);
-
-                    if (StringUtil.isNull(statusMsg)) {
-                        params = new Object[] { mentorId, file.getInputStream(), file.getSize(), file.getOriginalFilename(), essayId };
-                        flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITH_FILE, params);
-                    } else {
-                        params = new Object[] { mentorId, essayId };
-                        flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITHOUT_FILE, params);
-                    }
-
-                    if (flag) {
-                        String contentNofi = comment;
-                        if (!StringUtil.isNull(comment) && comment.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
-                            contentNofi = comment.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
+                    if (!isUpdate) {
+                        params = new Object[] { "", mentorId, comment };
+                        long cid = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, params);
+                        params = new Object[] { essayId, cid };
+                        flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_FK, params);
+                        if (StringUtil.isNull(statusMsg)) {
+                            params = new Object[] { mentorId, file.getInputStream(), file.getSize(), file.getOriginalFilename(), essayId };
+                            flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITH_FILE, params);
+                        } else {
+                            params = new Object[] { mentorId, essayId };
+                            flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITHOUT_FILE, params);
                         }
-                        Object[] queryParamsIns3 = { mentorId, studentId, SibConstants.NOTIFICATION_TYPE_REPLY_ESSAY, SibConstants.NOTIFICATION_TITLE_REPLY_ESSAY, contentNofi, null, essayId };
-                        dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns3);
+                        if (flag) {
+                            String contentNofi = comment;
+                            if (!StringUtil.isNull(comment) && comment.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
+                                contentNofi = comment.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
+                            }
+                            Object[] queryParamsIns3 = { mentorId, studentId, SibConstants.NOTIFICATION_TYPE_REPLY_ESSAY, SibConstants.NOTIFICATION_TITLE_REPLY_ESSAY, contentNofi, null, essayId };
+                            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns3);
 
-                        // send message fire base
-                        String toTokenId = userservice.getTokenUser(String.valueOf(studentId));
-                        if (!StringUtil.isNull(toTokenId)) {
+                            // send message fire base
+                            String toTokenId = userservice.getTokenUser(String.valueOf(studentId));
+                            if (!StringUtil.isNull(toTokenId)) {
 
-                            fireBaseNotification.sendMessage(
-                                toTokenId,
-                                SibConstants.NOTIFICATION_TITLE_REPLY_ESSAY,
-                                SibConstants.TYPE_VIDEO,
-                                String.valueOf(essayId),
-                                contentNofi,
-                                SibConstants.NOTIFICATION_ICON,
-                                SibConstants.NOTIFICATION_PRIPORITY_HIGH);
+                                fireBaseNotification.sendMessage(
+                                    toTokenId,
+                                    SibConstants.NOTIFICATION_TITLE_REPLY_ESSAY,
+                                    SibConstants.TYPE_VIDEO,
+                                    String.valueOf(essayId),
+                                    contentNofi,
+                                    SibConstants.NOTIFICATION_ICON,
+                                    SibConstants.NOTIFICATION_PRIPORITY_HIGH);
+                            }
+                            activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "C", "You have replied essay", String
+                                .valueOf(mentorId), String.valueOf(essayId)));
+                        } else {
+                            transactionManager.rollback(status);
+                            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Failed");
                         }
-                        activiLogService.insertActivityLog(new ActivityLogData(
-                                                                               SibConstants.TYPE_ESSAY,
-                                                                               "C",
-                                                                               "You have replied essay",
-                                                                               String.valueOf(mentorId),
-                                                                               String.valueOf(essayId)));
-                        transactionManager.commit(status);
-                        reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "insertCommentEssay", "Success");
                     } else {
-                        transactionManager.rollback(status);
-                        reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Failed");
+                        params = new Object[] { comment, commentId };
+                        dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_EDIT_COMMENT, params);
+
+                        if (StringUtil.isNull(statusMsg)) {
+                            params = new Object[] { mentorId, file.getInputStream(), file.getSize(), file.getOriginalFilename(), essayId };
+                            dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITH_FILE, params);
+                        }
                     }
+                    transactionManager.commit(status);
+                    reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "insertCommentEssay", "Success");
                 }
-
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e.getCause());
