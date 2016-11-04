@@ -432,7 +432,7 @@
                                 </li>
 
                             </ul>
-                            <div class="see-more" ng-click="showMoreVideoRecent()" ng-show="flagShowMoreRecent"><span>show more</span></div>
+                            <div class="see-more" ng-click="showMoreVideoRecent()" ng-show="flagShowMoreRecent"><span>Show more</span></div>
                         </div>
                         <div class="this-week" ng-show="showDivWeek">
                             <h5>This week</h5>
@@ -478,7 +478,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <div ng-click="showMoreVideoWeek()" class="see-more" ng-show="flagShowMoreWeek"><span>show more</span></div>
+                            <div ng-click="showMoreVideoWeek()" class="see-more" ng-show="flagShowMoreWeek"><span>Show more</span></div>
                         </div>
                         <div class="older" ng-show="showDivOlder">
 
@@ -561,19 +561,13 @@
                                             </p>
                                             <p class="videos-rate-infor">
                                                 <span data-icon="&#x49;">{{lstMentorOlder.numViews}}</span>
-                                                <!--<span data-icon="&#xe089;"-->
-                                                <!--class="favourite">{{lstOlderVideo.numLike}}</span>-->
                                                 <span data-icon="&#xe066;">{{lstMentorOlder.numComments}}</span>
                                             </p>
                                         </div>
                                     </div>
                                 </li>
-
                             </ul>
-                        </div>
-                        <div class="scroll-load-more" ng-if="login == 1" ng-click="showMoreVideoOlder()"
-                             ng-show="flagShowMoreOlder">
-                            <p ng-if="totalSubscription != 0">Scroll to load more</p>
+                            <div ng-click="showMoreVideoOlder()" class="see-more" ng-show="flagShowMoreOlder"><span>Show more</span></div>
                         </div>
                     </div>
                 </div><!-- /End Content of Subcription -->
@@ -681,7 +675,7 @@
                                 </li>
                             </ul>
                             <div class="see-more" ng-click="showMore()" ng-show="flagShowMoreButton && listVideos.length > numberOfHistoryVideo">
-                            	<span>show more</span>
+                            	<span>Show more</span>
                             </div>
                         </div>
                     </div>

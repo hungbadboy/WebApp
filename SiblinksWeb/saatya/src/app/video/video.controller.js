@@ -16,9 +16,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         /* Video Subscription begin */
         $scope.listCategorySubscription = null;
         $scope.totalSubscription = 0;
-        $scope.displayNumberOfVideoRecent = 6;
-        $scope.displayNumberOfVideoWeek = 6;
-        $scope.displayNumberOfVideoOlder = 6;
+        $scope.displayNumberOfVideoRecent = 8;
+        $scope.displayNumberOfVideoWeek = 8;
+        $scope.displayNumberOfVideoOlder = 8;
         $scope.coutWeek = 0;
 
         $scope.listRecentVideo = {};
@@ -83,9 +83,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
 
         function resetAttributes() {
-            $scope.displayNumberOfVideoRecent = 6;
-            $scope.displayNumberOfVideoWeek = 6;
-            $scope.displayNumberOfVideoOlder = 6;
+            $scope.displayNumberOfVideoRecent = 8;
+            $scope.displayNumberOfVideoWeek = 8;
+            $scope.displayNumberOfVideoOlder = 8;
             $scope.totalSubscription = 0;
             $scope.listRecentVideo = {};
             $scope.listWeekVideo = {};
@@ -125,10 +125,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 $scope.listOlderVideo = allVideo[3];
                 $scope.totalSubscription += $scope.listOlderVideo.length;
                 $scope.showDivOlder = true;
-                if ($scope.listOlderVideo.length <= 6) {
-                    $scope.flagShowMoreOlder = false;
-                }
-
                 for (var i = 0; i < $scope.listOlderVideo.length; i++) {
                     checkExist = false;
                     for (var j = 0; j < $scope.listMentorOlder.length; j++) {
@@ -152,13 +148,16 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         });
                     }
                 }
+                if ($scope.listMentorOlder.length < 8) {
+                    $scope.flagShowMoreOlder = false;
+                }
                 $scope.loadRateSubscription = true;
             }
         }
 
         $scope.showMoreVideoRecent = function () {
             if ($scope.listRecentVideo.length > 0 && $scope.displayNumberOfVideoRecent <= $scope.listRecentVideo.length) {
-                $scope.displayNumberOfVideoRecent += 6;
+                $scope.displayNumberOfVideoRecent += 8;
             }
 
             if ($scope.displayNumberOfVideoRecent > $scope.listRecentVideo.length) {
@@ -168,7 +167,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         $scope.showMoreVideoWeek = function () {
             if ($scope.listWeekVideo.length > 0 && $scope.displayNumberOfVideoWeek <= $scope.listWeekVideo.length) {
-                $scope.displayNumberOfVideoWeek += 6;
+                $scope.displayNumberOfVideoWeek += 8;
             }
 
             if ($scope.displayNumberOfVideoWeek > $scope.listWeekVideo.length) {
@@ -178,7 +177,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         $scope.showMoreVideoOlder = function () {
             if ($scope.listOlderVideo.length > 0 && $scope.displayNumberOfVideoOlder <= $scope.listOlderVideo.length) {
-                $scope.displayNumberOfVideoOlder += 6;
+                $scope.displayNumberOfVideoOlder += 8;
             }
 
             if ($scope.displayNumberOfVideoOlder > $scope.listOlderVideo.length) {
