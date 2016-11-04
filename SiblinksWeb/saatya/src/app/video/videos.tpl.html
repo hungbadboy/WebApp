@@ -436,11 +436,8 @@
                         </div>
                         <div class="this-week" ng-show="showDivWeek">
                             <h5>This week</h5>
-                            <ul ng-init="countWeek=0" class="videos-img"
-                                ng-repeat="lstWeekVideo in listWeekVideo track by $index"
-                                ng-if="$index < displayNumberOfVideoWeek">
-
-                                <li>
+                            <ul ng-init="countWeek=0" class="videos-img">
+                                <li ng-repeat="lstWeekVideo in listWeekVideo track by $index" ng-if="$index < displayNumberOfVideoWeek">
                                     <div class="video-wrapper"><a href="#/videos/detailVideo/{{lstWeekVideo.vid}}">
                                         <div class="videos-thumnail">
                                             <img src="{{lstWeekVideo.image}}">
@@ -481,7 +478,6 @@
                             <div ng-click="showMoreVideoWeek()" class="see-more" ng-show="flagShowMoreWeek"><span>Show more</span></div>
                         </div>
                         <div class="older" ng-show="showDivOlder">
-
                             <div ng-hide="!searchItem">
                                 <h5>Search Result</h5>
                                 <ul>
