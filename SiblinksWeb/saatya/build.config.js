@@ -15,8 +15,8 @@ module.exports = {
     webservice_url : {
         variable_pattern : /\/\/@webserviceurl/ig,
         //pro : ' = \'http://ec2-52-34-250-166.us-west-2.compute.amazonaws.com:8181/siblinks/services/\'',
-        pro : ' = \'http://192.168.53.52:8070/siblinks/services/\'',
-        dev: ' = \'http://192.168.53.52:8070/siblinks/services/\''
+        pro : ' = \'http://localhost:8070/siblinks/services/\'',
+        dev: ' = \'http://localhost:8070/siblinks/services/\''
         //dev: ' = \'http://ec2-54-200-200-106.us-west-2.compute.amazonaws.com:8181/siblinks/services/\''
     },
     /**
