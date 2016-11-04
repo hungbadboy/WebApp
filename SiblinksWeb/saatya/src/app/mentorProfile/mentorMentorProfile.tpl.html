@@ -1,0 +1,211 @@
+<div id="sidebar-menu" class="sidebar-left"  ng-class="{in: isMiniMenu}" ng-include="sidebarLeft"></div>
+<div class="content">
+    <div class="center-content mentor-view-mentor">
+        <div class="center-content-wrapper">
+            <div class="content ask-a-question">
+                <!-- Breadcrum -->
+                <div class="breadcrum">
+                    <div class="container">
+                        <h5 ng-if="!isEmptyNameMentor"><a href="#/">SibLinks </a>/<a href="#/team"> Mentor </a><span>/ {{displayName(mentorMentorProfile.firstname,studentMentorProfile.lastName,studentMentorProfile.userName)}}</span>
+                        </h5>
+                        <h5 ng-if="isEmptyNameMentor"><a href="#/">SibLinks </a>/<a href="#/team"> Mentor </a>/ {{mentorMentorProfile.fullNameMentor}}</span>
+                        </h5>
+                    </div>
+                </div><!-- /End Breadcrum -->
+                <!-- Mentors profile header -->
+                <div class="mentors-profile-headers">
+                    <div class="container">
+                        <div class="mentor-profile col-md-5">
+                            <div class="top-mentors-img">
+                                <img style="width: 100%;   border-radius: 50%;    height: 120px; min-height: 100px"
+                                     ng-src="{{mentorMentorProfile.imageUrl != null ? mentorMentorProfile.imageUrl : 'assets/images/noavartar.jpg'}}"
+                                     err-src="assets/images/noavartar.jpg">
+                            </div>
+                            <div class="top-mentors-info">
+                                <p class="top-mentors-name">
+                                <h4 ng-if="!isEmptyNameMentor">{{mentorMentorProfile.firstname.trim()}} {{mentorMentorProfile.lastName.trim()}}</h4>
+                                <h4 ng-if="isEmptyNameMentor">{{mentorMentorProfile.fullNameMentor}}</h4>
+                                </p>
+                                <p><strong>Education:</strong> {{mentorMentorProfile.schoolName != null && mentorMentorProfile.schoolName != ""?
+                                    mentorMentorProfile.schoolName :
+                                    EMPTY_DATA}}</p>
+                                <p id="starPoint" star-rating stars="5" outer-star-selection="stars" outer-percent="rating"
+                                   rating-define="star"
+                                   ng-if="isReadyLoadPoint"
+                                   rating-stars="{{mentorMentorProfile.avgrate != null ? mentorMentorProfile.avgrate : 0}}"
+                                   star-radius="8" sel-color="gold" readonly="true"
+                                   back-color="#cecfcf" empty-back-color="white">
+                                </p>
+                            </div>
+                            <div class="top-mentors-info-detail">
+                                <div class="top-mentors-info-detail-wrapper">
+                                    <p>{{GenderMentor}}, {{bod != null ? bod : EMPTY_DATA}} year old</p>
+                                    <p class="skilled">
+                                        <strong>Skilled at</strong><br>
+                                        <span ng-if="mentorSubs" ng-repeat="skill in mentorSubs track by $index" id="{{skill.id}}">{{skill.name}}{{$last ? '' : ', '}}</span>
+                                    </p>
+                                    <div class="about-mentor">
+                                        <strong>About me</strong><br>
+                                        <span class="pre-wrap">{{mentorMentorProfile.bio != null ? mentorMentorProfile.bio: EMPTY_DATA}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="summary-rate col-md-7">
+                            <ul>
+                                <li class="subcribers">
+                                    <span data-icon="&#x50;"></span>
+                                    <span class="number-rate">{{mentorMentorProfile.count_subscribers != null ? mentorMentorProfile.count_subscribers :0 }}</span>
+                                    <h4>Subscribers</h4>
+                                </li>
+                                <li class="answers">
+                                    <span data-icon="&#x77;"></span>
+                                    <span class="number-rate">{{mentorMentorProfile.count_answers != null ? mentorMentorProfile.count_answers :0}}</span>
+                                    <h4>Answers</h4>
+                                </li>
+                                <li class="likes">
+                                    <span data-icon="&#xe030;"></span>
+                                    <span class="number-rate">{{mentorMentorProfile.count_likes != null ? mentorMentorProfile.count_likes :0}}</span>
+                                    <h4>Likes</h4>
+                                </li>
+                                <li class="videos">
+                                    <span data-icon="&#x49;"></span>
+                                    <span class="number-rate">{{mentorMentorProfile.count_videos != null ? mentorMentorProfile.count_videos :0}}</span>
+                                    <h4>Videos</h4>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- /End Mentors profile header -->
+                <!-- Container -->
+                <div class="container">
+                    <!-- Content -->
+                    <section class="{{videosMentorRecently.length > 0 ? 'content mentors-profile-content' : 'content mentors-profile-content-nodata'}}">
+                        <div class="mentors-video-recently col-md-6 col-md-offset-3">
+                            <h4 ng-show="!videosMentorRecently">Sorry, found no data</h4>
+                            <div ng-show="videosMentorRecently" class="feature-video">
+                                <div class="feature-thumnail" id="{{videosMentorRecently[0].vid}}" ng-mouseover="hoverVideo(videosMentorRecently[0].vid)"
+                                     ng-mouseleave="unHoverVideo(videosMentorRecently[0].vid)">
+                                    <a href="#/videos/detailVideo/{{videosMentorRecently[0].vid}}">
+                                        <img ng-src="{{videosMentorRecently[0].image != null ? videosMentorRecently[0].image : 'assets/images/image-not-available.png'}}">
+                                    </a>
+                                    <a ng-href="{{videosMentorRecently[0].type == 2 ? '#/videos/detailPlaylist/' + videosMentorRecently[0].vid + '/0' : '#/videos/detailVideo/'+videosMentorRecently[0].vid }}"><div class="hover-video">
+                                        <span data-icon="&#x45;"></span>
+                                    </div></a>
+                                </div>
+                                <div class="feature-detail">
+                                    <a ng-href="{{videosMentorRecently[0].type == 2 ? '#/videos/detailPlaylist/' + videosMentorRecently[0].vid + '/0' : '#/videos/detailVideo/'+videosMentorRecently[0].vid }}"><h5>{{videosMentorRecently[0].title}}</h5>
+                                    </a>
+                                    <p>Newest video uploaded</p>
+                                </div>
+                            </div>
+                            <!-- Recently videos -->
+                            <div class="video-recently">
+                                <!-- Top videos -->
+                                <div class="top-videos">
+                                    <div class="top-videos-wrapper col-xs-12">
+                                        <!-- top-mentor-header -->
+                                        <div class="top-videos-header">
+                                            <div class="top-videos-header-title">
+                                                <h4>Recently uploaded tutorials</h4>
+                                            </div>
+                                            <div class="see-more">
+                                                <a href="/#/videos"><p>See more</p></a>
+                                            </div>
+                                        </div><!-- /End top-mentor-header -->
+                                        <!-- List of top mentors -->
+                                        <div class="top-videos-list">
+                                            <ul ng-show="videosMentorRecently && videosMentorRecently.length > 1">
+                                                <li ng-repeat="video in videosMentorRecently track by $index" ng-if="$index > 0">
+                                                    <div class="video-thumnail" id="{{video.vid}}" ng-mouseover="hoverVideo(video.vid)"
+                                                         ng-mouseleave="unHoverVideo(video.vid)">
+                                                        <a ng-href="{{video.type == 2 ? '' + video.vid + '/0' : ''+video.vid }}">
+                                                            <img ng-src="{{video.image != null ? video.image : 'assets/images/image-not-available.png'}}">
+                                                        </a>
+                                                        <a ng-href="{{video.type == 2 ? '' + video.vid + '/0' : ''+video.vid }}">
+                                                            <div class="hover-video recently">
+                                                                <span data-icon="&#x45;"></span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    <div class="video-info">
+                                                        <p class="video title">
+                                                            <a ng-href="{{video.type == 2 ? '' + video.vid + '/0' : ''+video.vid }}">{{ video.title | limitTo: 50 }}{{video.title.length > 50 ? '...' : ''}}</a>
+                                                        </p>
+                                                        <p class="video-time">
+                                                            <span>{{convertUnixTimeToTime(video.timeStamp)}} ago</span>
+                                                        </p>
+                                                        <p class="video-rate">
+                                                            <!--<span>Rate: {{video.averageRating != null ? video.averageRating : 0}} ({{video.numRatings}} votes)</span>-->
+                                                            <span>Rate:</span>
+                                                            <span id="rate-studentMentorProfile" ng-if="isReadyLoadMentorRatingRecently"
+                                                                  star-rating stars="5"
+                                                                  outer-star-selection="stars"
+                                                                  outer-percent="rating"
+                                                                  rating-define="star"
+                                                                  rating-stars="{{video.averageRating != null || video.averageRating != '' ? video.averageRating : 0}}"
+                                                                  star-radius="7" sel-color="gold"
+                                                                  readonly="true"
+                                                                  back-color="white">
+                                                 </span>
+                                                        </p>
+                                                        <p class="video-view">
+                                                            <span>View: {{video.numViews == null || video.numViews == "" ? 0 : video.numViews}}</span>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div><!-- /End list of top mentors -->
+                                    </div>
+                                </div><!-- /End top memtor -->
+                            </div>
+                        </div>
+                        <div class="newest-answer col-md-3">
+                            <div class="mentors-newest-answer">
+                                <div class="mentors-newest-answerr-wrapper">
+                                    <!-- top-mentor-header -->
+                                    <div class="mentors-newest-answer-header">
+                                        <div class="mentors-newest-answer-title">
+                                            <span data-icon="&#x5c;"></span><h4>Newest Answers</h4>
+                                        </div>
+                                        <div class="see-more">
+                                            <p>See more</p>
+                                        </div>
+                                    </div><!-- /End top-mentor-header -->
+                                    <!-- List of answered mentors -->
+                                    <div class="mentor-profile-answered">
+                                        <ul ng-show="!listNewestAnswers">
+                                            <li>No recent answer</li>
+                                        </ul>
+                                        <ul ng-show="listNewestAnswers">
+                                            <li class="answered" ng-repeat="answer in listNewestAnswers">
+                                                <div class="number-answered">
+                                                    <p></p>
+                                                </div>
+                                                <div class="detail-answered">
+                                                    <p class="answered-time">
+                                                        Answered {{convertUnixTimeToTime(answer.timeStamp)}} ago
+                                                    </p>
+                                                    <p class="answered-content"> {{ answer.content | limitTo: 250 }}{{answer.content.length > 250 ? '...' : ''}}</p>
+                                                    <p class="answered-rate">{{answer.numlikes}}
+                                                        <span data-icon="&#xe089;" id="heart"></span>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Content -->
+
+                                </div><!-- /End top memtor -->
+                            </div>
+                        </div>
+                    </section><!-- /End content -->
+                </div><!-- End container -->
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="sidebar-right" ng-include="sidebarRight" auto-height-recent-activity></div>
