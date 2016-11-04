@@ -212,11 +212,21 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ESAY_COUNT, queryParams);
             }
 
-            simpleResponse = new SimpleResponse("" + true, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            simpleResponse = new SimpleResponse(
+                                                "" +
+                                                true,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                readObject,
+                                                count);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage(), e.getCause());
-            simpleResponse = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                request.getRequest_data_type(),
+                                                request.getRequest_data_method(),
+                                                e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
@@ -504,13 +514,12 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/getEssaybByStudentId", method = RequestMethod.POST)
-    public ResponseEntity<Response> getEssaybByStudentId(@RequestBody final RequestData request) {
+    @RequestMapping(value = "/getEssayByStudentId", method = RequestMethod.GET)
+    public ResponseEntity<Response> getEssayByStudentId(final String userId, final String limit, final String offset,
+            final String totalCountFlag) {
         SimpleResponse simpleResponse = null;
         try {
-            String limit = request.getRequest_data().getLimit();
-            String offset = request.getRequest_data().getOffset();
-            Object[] queryParams = { request.getRequest_data().getUid() };
+            Object[] queryParams = { userId };
             String whereClause = "";
             if (!StringUtil.isNull(limit)) {
                 whereClause += " LIMIT " + limit;
@@ -528,7 +537,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
                     String status = dataMap.get("status").toString();
                     String uploadEssayId = dataMap.get("uploadEssayId").toString();
-                    String uid = request.getRequest_data().getUid();
+                    String uid = userId;
                     dataMap.put("downloadYourEssay", directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=W");
                     if (!"W".equalsIgnoreCase(status)) {
                         dataMap.put("downloadYourReview", directory + "?userId=" + uid + "&essayId=" + uploadEssayId + "&status=A");
@@ -537,15 +546,15 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             }
 
             String count = null;
-            if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
+            if ("true".equalsIgnoreCase(totalCountFlag)) {
                 count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT_COUNT, queryParams);
             }
 
-            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "getEssayByStudentId", readObject, count);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage(), e.getCause());
-            simpleResponse = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "essay", "getEssayByStudentId", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }

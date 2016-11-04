@@ -37,11 +37,11 @@
                                     <span>Questions</span>
                                 </li>
                                 <li class="student-question">
-                                    <h3>{{studentInfo.count_essay != null && studentInfo.count_essay == '' ? studentInfo.count_essay : 0 }}</h3>
+                                    <h3>{{studentInfo.count_essay != null && studentInfo.count_essay ? studentInfo.count_essay : 0 }}</h3>
                                     <span>Essay</span>
                                 </li>
                                 <li class="student-question">
-                                    <h3>{{studentInfo.count_subscribe && studentInfo.count_subscribe == '' ? studentInfo.count_subscribe : 0}}</h3>
+                                    <h3>{{studentInfo.count_subscribe && studentInfo.count_subscribe ? studentInfo.count_subscribe : 0}}</h3>
                                     <span>Subscriptions</span>
                                 </li>
                             </ul>
@@ -235,7 +235,7 @@
                                                 <h5 class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 185 ? '...' : ''}}</h5>
                                                 <p><span>uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}} ago </span></p>
                                                 <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
-                                                <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span><span>by mentor: </span><a href="#/student/mentorProfile/{{essay.mentorID}}"><span class="mentor-review">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</span></a>
+                                                <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span><span>by : </span><span class="mentor-review"><a href="#/student/mentorProfile/{{essay.mentorID}}">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</a></span>
                                             </div>
                                         </div>
                                     </div><!-- End Essay 01 -->
@@ -283,7 +283,7 @@
                                                     <div class="essay-detail-right-content">
                                                         <p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>
                                                         <div class=""></div>
-                                                        <div class="attrach-file" ng-class="{'pull-right' : currentEssay.status =='R'}">
+                                                        <div class="attrach-file">
                                                             <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;"> Download file</span></label>
                                                             </a>
                                                         </div>

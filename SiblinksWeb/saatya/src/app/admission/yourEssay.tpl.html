@@ -8,27 +8,26 @@
         <!--</div>-->
     </div><!-- /End Your essay header -->
     <!-- Your essay Content -->
-    <div class="your-essay-content" >
-    <ul>
-        <li class="essay essay-01"  ng-repeat="essay in listEssays track by $index" ng-click="showModal($index)">
-            <div class="number-essay">
-                <p></p>
-            </div>
-            <div class="detail-essay col-xs-offset-1">
-                <div class="infor-of-essay">
-                    <p><span class="essay-time">Uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}} ago </span></p>
-                    <p class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 100 ? '...' : ''}}</p>
-                    <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
-                    <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span>
-                        <span>by mentor: </span><span style="line-height: 25px;" class="mentor-review">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</span></p>
+    <div class="your-essay-content" scroller="scroll-essay" data-on-total-scroll="loadMoreEssay">
+        <ul>
+            <li class="essay essay-01"  ng-repeat="essay in listEssays  track by $index" ng-click="showModal($index)">
+                <div class="number-essay">
+                    <p></p>
                 </div>
-            </div>
-            <div ng-if="$last" class="number-essay" style=" margin-top: 10px;">
-                <p></p>
-            </div>
-        </li>
-
-    </ul>
+                <div class="detail-essay col-xs-offset-1">
+                    <div class="infor-of-essay">
+                        <p><span class="essay-time">Uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}} ago </span></p>
+                        <p class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 100 ? '...' : ''}}</p>
+                        <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
+                        <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span>
+                            <span>by </span><span style="line-height: 25px;" class="mentor-review"><a href="#/student/mentorProfile/{{essay.mentorID}}">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</a></span></p>
+                    </div>
+                </div>
+                <div ng-if="$last" class="number-essay" style=" margin-top: 10px;">
+                    <p></p>
+                </div>
+            </li>
+        </ul>
     </div>
     <!-- Essay popup -->
     <div class="modal fade" id="essay-detail"> 
