@@ -7,9 +7,9 @@
                 </div>
                 <div class="mentor-infor-name">
                     <p>Welcome</p>
-                    <p>
+                    <p title="{{firstName}}">
                         <strong ng-if="firstName == ' '">&nbsp;</strong>
-                        <strong ng-if="firstName != ' '">{{firstName}}</strong>
+                        <strong ng-if="firstName != ' '">{{firstName | limitTo : 17}}{{firstName.length > 17 ? '...' : ''}}</strong>
                     </p>
                 </div>
             </div>

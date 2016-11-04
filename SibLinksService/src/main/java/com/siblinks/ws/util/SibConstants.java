@@ -466,7 +466,8 @@ public class SibConstants {
         public static final String SQL_GET_VIDEO_VIEW_BY_SUBJECT = "GET_VIDEO_VIEW_BY_SUBJECT";
         public static final String VIDEO_PLAYLIST_NEWEST_BY_SUBJECT = "GET_VIDEO_PLAYLIST_NEWEST_BY_SUBJECT";
         public static final String SQL_GET_NEWEST_VIDEO_SUBJECT = "GET_NEWEST_VIDEO_BY_SUBJECT";
-        public static final String VIDEO_PLAYLIST_NEWEST_BY_USER_SUBS = "GET_VIDEO_PLAYLIST_NEWEST_BY_USER_SUBS";
+        // public static final String VIDEO_PLAYLIST_NEWEST_BY_USER_SUBS =
+        // "GET_VIDEO_PLAYLIST_NEWEST_BY_USER_SUBS";
         public static final String SQL_GET_VIDEO_BY_SUBJECT = "GET_VIDEO_BY_SUBJECT";
         public static final String SQL_GET_VIDEO_PLAYLIST_NEWEST = "GET_VIDEO_PLAYLIST_NEWEST";
         public static final String SQL_GET_VIDEO_PLAYLIST_RECENTLY = "GET_VIDEO_PLAYLIST_RECENTLY_UPLOAD";

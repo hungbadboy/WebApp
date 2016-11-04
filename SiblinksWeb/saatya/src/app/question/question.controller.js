@@ -76,9 +76,11 @@ brotControllers
 
                     QuestionsService.countQuestions(userId, $scope.curentOrderType, subjectid).then(function (data) {
                         $scope.totalQuestion = data.data.request_data_result[0].numquestion;
+
                         if (userId == "-1" || isEmpty($scope.totalQuestion) || $scope.totalQuestion == 0) {
-                            window.location.href = '/#/first-ask';
-                            return;
+                            if($location.path() != "/student/studentProfile"){
+                                window.location.href = '/#/first-ask';
+                            }
                         }
                     });
                 }
