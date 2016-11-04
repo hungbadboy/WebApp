@@ -1601,9 +1601,20 @@ button.close {
 }
 #videos-in-list li span.pull-left {
     position: relative;
-    width: 116px;
-    height: 65px;
+    border: 2px solid #2f2f2f;
+    margin-right: 10px;
 }
+
+#videos-in-list li:hover .pull-left,
+#videos-in-list li.active .pull-left {
+    border: 2px solid #ffcc00;
+}
+#videos-in-list li:hover .pull-left span,
+#videos-in-list li.active .pull-left span{
+    border: none;
+}
+
+
 /*Student.Video*/
 iframe#video {
   padding: 0;
