@@ -90,7 +90,7 @@ brotServices.factory('uploadEssayService', ['$http', function($http) {
     
     factory.getEssayById = function(essayId) {
         var promise = $http({
-            method: 'POST',
+            method: 'GET',
             url: NEW_SERVICE_URL + 'essay/getEssayById?essayId='+essayId
         	});
         return promise;
