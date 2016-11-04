@@ -1,103 +1,102 @@
 // =========================================== ADMINSSION.CONTROLLER.JS==============
-brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$location', '$http', '$timeout', 'AdmissionService', 'StudentService','MentorService','myCache', '$sce',
-	function ($scope, $rootScope, $log, $location, $http, $timeout, AdmissionService, StudentService, MentorService, myCache, $sce) {
+brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$location', '$http', '$timeout', 'AdmissionService', 'StudentService', 'MentorService', 'myCache', '$sce',
+    function ($scope, $rootScope, $log, $location, $http, $timeout, AdmissionService, StudentService, MentorService, myCache, $sce) {
 
-	var userId = localStorage.getItem('userId');
-	var userType = localStorage.getItem('userType');
-	
-	var LIMIT_TOP_MENTORS = 5;
-	var limit = 10;
-    var offset = 0;
-    
-	/* College Admission begin */
-	$scope.displayNumberOfTutVideo = 3;
-	$scope.displayNumberOfArticle = 3;
-	$scope.flagShowMoreTutVideo = true;
-	$scope.flagShowMoreArticle = true;
-	$scope.flagShowDivTuttorial = false;
-	$scope.flagShowDivArticle = false;
-	$scope.showBackNextButton = false;
-	$scope.listVideoTuttorialAdmission = {};
-	$scope.listArticleAdmission = {};
-	$scope.listAdmission = {};
-	$scope.articleAdmissionDetail={};
-	$scope.stepAdmission = 0;
-	$scope.countNext = 0;
-	$scope.indexAdmission = 0;
-	$scope.isShowUploadEssay = false;
-	var tab = $location.search().tab;
-	
-	init();
-	function init() {
-		// Get Admission content
-		fillAdmissionContent();
+        var userId = localStorage.getItem('userId');
+        var userType = localStorage.getItem('userType');
 
-	}
-	
-	$scope.rangeAdmission = function(count){
-		var ratings = []; 
-		for (var i = 0; i < count; i++) { 
-			ratings.push(i) 
-		} 
-		return ratings;
-	}
-    
-    $scope.caculateTimeElapsed = function (time){
-		return caculateTimeElapsed(time);
-	}	
-    
-    function resetAtributes() {
-    	$scope.displayNumberOfTutVideo = 3;
-    	$scope.displayNumberOfArticle = 3;
-    	$scope.flagShowMoreTutVideo = true;
-    	$scope.flagShowMoreArticle = true;
-    	$scope.flagShowDivTuttorial = false;
-    	$scope.flagShowDivArticle = false;
-    	$scope.showBackNextButton = false;
-    	$scope.listVideoTuttorialAdmission = {};
-    	$scope.listArticleAdmission = {};
-    }
-    
-	$scope.showMoreTutVideo = function(){
-		if ($scope.listVideoTuttorialAdmission.length > 0 && $scope.displayNumberOfTutVideo <= $scope.listVideoTuttorialAdmission.length) {
-			$scope.displayNumberOfTutVideo += 3;
-		}
-		
-		if($scope.displayNumberOfTutVideo > $scope.listVideoTuttorialAdmission.length) {
-			$scope.flagShowMoreTutVideo = false;
-		}
-	}
-	
-	$scope.showMoreArticle = function(){
-		if ($scope.listArticleAdmission.length > 0 && $scope.displayNumberOfArticle <= $scope.listArticleAdmission.length) {
-			$scope.displayNumberOfArticle += 3;
-		}
-		
-		if($scope.displayNumberOfArticle > $scope.listArticleAdmission.length) {
-			$scope.flagShowMoreArticle = false;
-		}
-		
-	}
-	/**
-	 * Next step Admission
-	 */
+        var LIMIT_TOP_MENTORS = 5;
+        var limit = 10;
+        var offset = 0;
 
-	 $scope.viewStepAdmission = function(step){
-		 nextStep(step);
-         $location.search('tab',step);
-	 }
+        /* College Admission begin */
+        $scope.displayNumberOfTutVideo = 3;
+        $scope.displayNumberOfArticle = 3;
+        $scope.flagShowMoreTutVideo = true;
+        $scope.flagShowMoreArticle = true;
+        $scope.flagShowDivTuttorial = false;
+        $scope.flagShowDivArticle = false;
+        $scope.showBackNextButton = false;
+        $scope.listVideoTuttorialAdmission = {};
+        $scope.listArticleAdmission = {};
+        $scope.listAdmission = {};
+        $scope.articleAdmissionDetail = {};
+        $scope.stepAdmission = 0;
+        $scope.countNext = 0;
+        $scope.indexAdmission = 0;
+        $scope.isShowUploadEssay = false;
+        var tab = $location.search().tab;
 
-	 function  nextStep(step) {
-		 resetAtributes();
-		 $scope.stepAdmission = step;
-		 $scope.indexAdmission = step-1;
-         tab = step;
-		 fillAdmissionContent();
-	 }
-	 
-	 /**
-	  * Next step Admission
-	  */
+        init();
+        function init() {
+            // Get Admission content
+            fillAdmissionContent();
+        }
+
+        $scope.rangeAdmission = function (count) {
+            var ratings = [];
+            for (var i = 0; i < count; i++) {
+                ratings.push(i)
+            }
+            return ratings;
+        };
+
+        $scope.caculateTimeElapsed = function (time) {
+            return caculateTimeElapsed(time);
+        };
+
+        function resetAtributes() {
+            $scope.displayNumberOfTutVideo = 3;
+            $scope.displayNumberOfArticle = 3;
+            $scope.flagShowMoreTutVideo = true;
+            $scope.flagShowMoreArticle = true;
+            $scope.flagShowDivTuttorial = false;
+            $scope.flagShowDivArticle = false;
+            $scope.showBackNextButton = false;
+            $scope.listVideoTuttorialAdmission = {};
+            $scope.listArticleAdmission = {};
+        }
+
+        $scope.showMoreTutVideo = function () {
+            if ($scope.listVideoTuttorialAdmission.length > 0 && $scope.displayNumberOfTutVideo <= $scope.listVideoTuttorialAdmission.length) {
+                $scope.displayNumberOfTutVideo += 3;
+            }
+
+            if ($scope.displayNumberOfTutVideo > $scope.listVideoTuttorialAdmission.length) {
+                $scope.flagShowMoreTutVideo = false;
+            }
+        };
+
+        $scope.showMoreArticle = function () {
+            if ($scope.listArticleAdmission.length > 0 && $scope.displayNumberOfArticle <= $scope.listArticleAdmission.length) {
+                $scope.displayNumberOfArticle += 3;
+            }
+
+            if ($scope.displayNumberOfArticle > $scope.listArticleAdmission.length) {
+                $scope.flagShowMoreArticle = false;
+            }
+
+        };
+        /**
+         * Next step Admission
+         */
+
+        $scope.viewStepAdmission = function (step) {
+            nextStep(step);
+            $location.search('tab', step);
+        };
+
+        function nextStep(step) {
+            resetAtributes();
+            $scope.stepAdmission = step;
+            $scope.indexAdmission = step - 1;
+            tab = step;
+            fillAdmissionContent();
+        }
+
+        /**
+         * Next step Admission
+         */
 //	 function nextStepAdmission() {
 //		if($scope.indexAdmission != $scope.listAdmission.length - 1) {
 //			resetAtributes();
@@ -148,16 +147,16 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 //			$('#admission' + id2).addClass('active');
 //		}
 //	}
-	 /**
-	  * Convert content CKEditor to html
-	  */
-	$scope.comvertToDisplay  = function(str){
-		 return $sce.trustAsHtml(decodeURIComponent(str));
-	}
-	
-	/**
-	 * Back step admission
-	 */
+        /**
+         * Convert content CKEditor to html
+         */
+        $scope.comvertToDisplay = function (str) {
+            return $sce.trustAsHtml(decodeURIComponent(str));
+        };
+
+        /**
+         * Back step admission
+         */
 //	function backStepAdmission() {
 //		if($scope.indexAdmission != 0) {
 //			resetAtributes();
@@ -215,7 +214,7 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 //			},10);
 //		}
 //	}
-	
+
 //	$scope.fillAdmissionContentByDefault = function () {
 //		fillAdmissionContent();
 //	}
@@ -225,97 +224,91 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
 //	function fillAdmissionContentByAdmission() {
 //		fillAdmissionContent();
 //	}
-	
-	function fillAdmissionContent() {
-		// Get Admission
-		AdmissionService.getAdmission().then(function(data) {
-			
-	    	$scope.listAdmission = data.data.request_data_result;
-	    	if(data.data.status == 'true') {
-		    	if($scope.listAdmission.length > 0){
-					if(!isEmpty(tab)){
-						$scope.stepAdmission = tab;
-						$scope.indexAdmission = tab-1;
-						if($scope.listAdmission.length != tab){
-							//fillAdmissionContent();
-							$scope.isShowUploadEssay = false;
-						}
-						else {
-							$scope.isShowUploadEssay = true;
-						}
-	
-					}
-					if($scope.isShowUploadEssay == true){
-						return;
-					}
-		    		// Get Tutorial
-		    		AdmissionService.getVideoTuttorialAdmission($scope.listAdmission[$scope.indexAdmission].id).then(function(data) {
-		    	    	$scope.listVideoTuttorialAdmission = data.data.request_data_result;
-		    	    	if(data.data.status == 'true') {
-			    	    	if($scope.listVideoTuttorialAdmission.length > 0) {
-			    	    		$scope.flagShowDivTuttorial = true;
-		//	    	    		$scope.showBackNextButton = true;
-			    	    	}
-			    	    	if($scope.listVideoTuttorialAdmission.length <= 3) {
-			    	    		$scope.flagShowMoreTutVideo = false;
-			    	    	}
-		    	    	}
-		    		});
-		    		
-		    		// Get Article by 
-		    		AdmissionService.getArticleAdmission($scope.listAdmission[$scope.indexAdmission].id).then(function(data) {
-		    	    	$scope.listArticleAdmission = data.data.request_data_result;
-		    	    	if(data.data.status == 'true') {
-			    	    	if($scope.listArticleAdmission.length > 0) {
-			    	    		$scope.flagShowDivArticle = true;
-		//	    	    		$scope.showBackNextButton = true;
-			    	    	}
-			    	    	if($scope.listArticleAdmission.length <= 3) {
-			    	        	$scope.flagShowMoreArticle = false;
-			    	    	}
-		    	    	}
-		    		});
-		    	}
-	    	}
-		});
-	}
-	
-	$scope.showProfile = function(event) {
-		window.location.href = '#/student/mentorProfile/' + event.currentTarget.getAttribute("id");
-	}
-	
-   $scope.beforeApplying = function(idSubAdmission, idTopicSubAdmission) {
-    $location.url('/admission/videoadmission/listvideoadmission/' + idSubAdmission + '/' + idTopicSubAdmission);
-  };
 
-  $scope.application = function(idSubAdmission) {
-    $location.url('/admission/videoadmission/listvideoadmission/' + idSubAdmission + '/3');
-  };
+        function fillAdmissionContent() {
+            // Get Admission
+            AdmissionService.getAdmission().then(function (data) {
 
-  $scope.uploadEssay = function() {
-    if(userType == 'S') {
-      window.location.href = '#/upload_essay';
-    }
-  };
+                $scope.listAdmission = data.data.request_data_result;
+                if (data.data.status == 'true') {
+                    if ($scope.listAdmission.length > 0) {
+                        if (!isEmpty(tab)) {
+                            $scope.stepAdmission = tab;
+                            $scope.indexAdmission = tab - 1;
+                            $scope.isShowUploadEssay = $scope.listAdmission.length == tab;
 
-  $scope.afterApplying = function(idSubAdmission) {
-    $location.url('/admission/videoadmission/listvideoadmission/' + idSubAdmission + '/6');
-  };
+                        }
+                        if ($scope.isShowUploadEssay == true) {
+                            return;
+                        }
+                        // Get Tutorial
+                        AdmissionService.getVideoTuttorialAdmission($scope.listAdmission[$scope.indexAdmission].id).then(function (data) {
+                            $scope.listVideoTuttorialAdmission = data.data.request_data_result;
+                            if (data.data.status == 'true') {
+                                if ($scope.listVideoTuttorialAdmission.length > 0) {
+                                    $scope.flagShowDivTuttorial = true;
+                                    //	    	    		$scope.showBackNextButton = true;
+                                }
+                                if ($scope.listVideoTuttorialAdmission.length <= 3) {
+                                    $scope.flagShowMoreTutVideo = false;
+                                }
+                            }
+                        });
 
-  $scope.showArticle = function() {
-    $location.path('/admission/article');
-  };
+                        // Get Article by
+                        AdmissionService.getArticleAdmission($scope.listAdmission[$scope.indexAdmission].id).then(function (data) {
+                            $scope.listArticleAdmission = data.data.request_data_result;
+                            if (data.data.status == 'true') {
+                                if ($scope.listArticleAdmission.length > 0) {
+                                    $scope.flagShowDivArticle = true;
+                                    //	    	    		$scope.showBackNextButton = true;
+                                }
+                                if ($scope.listArticleAdmission.length <= 3) {
+                                    $scope.flagShowMoreArticle = false;
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
 
-  $scope.showArticleDetail = function(idArtilce) {
-	// Update view
-	  AdmissionService.updateViewArticalAdmission(idArtilce).then(function(data) {
-	    	if(data.data.status == 'true') {
-	    		$scope.articleAdmissionDetail = data.data.request_data_result;
-	    	} else {
-	    		console.log(data.data.request_data_result);
-	    	}
-	  });
-  };
+        $scope.showProfile = function (event) {
+            window.location.href = '#/student/mentorProfile/' + event.currentTarget.getAttribute("id");
+        };
 
-}]);
+        $scope.beforeApplying = function (idSubAdmission, idTopicSubAdmission) {
+            $location.url('/admission/videoadmission/listvideoadmission/' + idSubAdmission + '/' + idTopicSubAdmission);
+        };
+
+        $scope.application = function (idSubAdmission) {
+            $location.url('/admission/videoadmission/listvideoadmission/' + idSubAdmission + '/3');
+        };
+
+        $scope.uploadEssay = function () {
+            if (userType == 'S') {
+                window.location.href = '#/upload_essay';
+            }
+        };
+
+        $scope.afterApplying = function (idSubAdmission) {
+            $location.url('/admission/videoadmission/listvideoadmission/' + idSubAdmission + '/6');
+        };
+
+        $scope.showArticle = function () {
+            $location.path('/admission/article');
+        };
+
+        $scope.showArticleDetail = function (idArtilce) {
+            // Update view
+            AdmissionService.updateViewArticalAdmission(idArtilce).then(function (data) {
+                if (data.data.status == 'true') {
+                    $scope.articleAdmissionDetail = data.data.request_data_result;
+                } else {
+                    console.log(data.data.request_data_result);
+                }
+            });
+        };
+
+    }]);
 //===========================================END ADMINSSION.CONTROLLER.JS==============
