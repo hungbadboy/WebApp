@@ -45,7 +45,7 @@ brotControllers.controller('MentorVideoDetailController',
                 data.timeStamp = convertUnixTimeToTime(data.timeStamp);
                 var fullname = data.firstName + ' ' + data.lastName;
                 data.fullName = fullname != ' ' ? fullname : data.userName.substr(0, data.userName.indexOf('@'));
-                $scope.playlist = data;    
+                $scope.playlist = data;
             }
         });
     }
