@@ -161,7 +161,7 @@ brotControllers
                 $scope.zoomImage = function (img, index) {
                     $scope.currentIndexImage = index;
                     $scope.currentImage = img;
-                    //angular.element(document.getElementById('modalImage')).modal();
+                    angular.element(document.getElementById('modalImage')).modal();
                 }
                 $scope.setCurrentIndex = function (index) {
                     $scope.currentIndexImage = index;

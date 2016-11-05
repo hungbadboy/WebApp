@@ -21,18 +21,8 @@ brotServices.factory('TeamMentorService', ['$http', function($http) {
   };
   factory.getTopMentorsByType=function (limit, offset,type,id) {
     var promise = $http({
-      method: 'POST',
-      url: NEW_SERVICE_URL + 'mentor/getTopMentorsByLikeRateSubcrible',
-      data: {
-        "request_data_type": "mentor",
-        "request_data_method": "getTopMentorsByLikeRateSubcrible",
-        "request_data": {
-          "limit":limit,
-          "offset":offset,
-          "type":type,
-          "uid":id
-        }
-      }
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'mentor/getTopMentorsByLikeRateSubcrible?subjectId=&content=&uid='+id+'&type='+type+'&limit='+limit+'&offset='+offset
     });
     return promise;
   };

@@ -44,7 +44,7 @@
                               </div>
                               <div class="mentors-infor-details">
                                   <div class="mentors-name">
-                                      <a href="#/student/mentorProfile/{{mentor.userid}}" >{{displayName(mentor.firstName,mentor.lastName,mentor.userName)}}</a>
+                                      <a href="#/student/mentorProfile/{{mentor.userid}}" >{{displayName(mentor.firstName,mentor.lastName,mentor.loginName)}}</a>
                                       <!--<span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span>-->
                                       <span  ng-if="mentor" star-rating stars="5"
                                              outer-star-selection="stars"
@@ -58,12 +58,12 @@
 
                                   </div>
                                   <div class="mentors-edu">
-                                  	<span ng-if="(mentor.accomplishments) == ''">&nbsp;</span>
-                                  	<span ng-if="(mentor.accomplishments) != ''">{{mentor.accomplishments}}</span>
+                                  	<span ng-if="(mentor.schoolName) == ''">&nbsp;</span>
+                                  	<span ng-if="(mentor.schoolName) != ''">{{mentor.schoolName}}</span>
                                   </div>
                                   <div class="mentors-skill">
                                   	<span ng-if="mentor.listSubject ==''">&nbsp;</span>
-                                  	<span ng-if="mentor.listSubject !=''">{{mentor.listSubject}}</span>
+                                  	<span ng-if="mentor.listSubject !=''" title="{{mentor.listSubject}}">{{mentor.subjectLimit}}</span>
                                   </div>
                                   <div class="mentors-rate clearfix">
                                       <button class="subscribers active" data-icon="{{mentor.isSubs =='1'?'&#x4e;':'&#x4c;'}}" id="subscribers_{{mentor.userid}}"

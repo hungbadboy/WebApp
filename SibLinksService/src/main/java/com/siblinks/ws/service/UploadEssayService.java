@@ -32,7 +32,7 @@ public interface UploadEssayService {
     public ResponseEntity<Response> getEssayByStudentId(final String userId, final String limit, final String offset,
             final String totalCountFlag);
 
-    public ResponseEntity<Response> getEssayById(RequestData request);
+    public ResponseEntity<Response> getEssayById(String eid);
 
 	public ResponseEntity<Response> getEssayCommentsPN(RequestData request);
 

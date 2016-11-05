@@ -118,11 +118,6 @@ brotControllers
 
                 }
 
-                $scope.zoomImage = function (img) {
-                    $scope.currentImage = ( img + "");
-                    $(".popup-images").css({"left": 0});
-                }
-
                 function detectMultiImage(imagePath) {
                     if (isEmpty(imagePath)) {
                         return null;
