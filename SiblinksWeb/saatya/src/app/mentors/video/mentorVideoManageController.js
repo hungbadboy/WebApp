@@ -92,7 +92,6 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
     }
 
     function loadVideos(){
-        // clearContent();
         getNewestVideos();
 
         VideoService.getVideosTopRated(userId, 0).then(function(data){
@@ -100,7 +99,8 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
             $scope.videosTopRated = formatData(data.data.request_data_result);
             $scope.vTopRated = $scope.videosTopRated[0];
             $scope.topRatedPos = 0;
-            $scope.topRatedAverageRating = $scope.videosTopRated.averageRating != null ? $scope.videosTopRated.averageRating : 0.1;
+            var rating = parseFloat(Math.round($scope.vTopRated.averageRating * 100) / 100).toFixed(1);
+            $scope.topRatedAverageRating = rating != null ? rating : 0.1;
           } else
             $scope.videosTopRated = null;
         });
@@ -110,7 +110,8 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
             $scope.videosTopViewed = formatData(data.data.request_data_result);
             $scope.vTopViewed = $scope.videosTopViewed[0];
             $scope.topViewedPos = 0;
-            $scope.topViewedAverageRating = $scope.videosTopViewed.averageRating != null ? $scope.videosTopViewed.averageRating : 0.1;
+            var rating = parseFloat(Math.round($scope.vTopViewed.averageRating * 100) / 100).toFixed(1);
+            $scope.topViewedAverageRating = rating != null ? rating : 0.1;
           } else
             $scope.videosTopViewed = null;
         });
@@ -122,7 +123,8 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
           $scope.videos = formatData(data.data.request_data_result);
           $scope.v = $scope.videos[0];
           $scope.newestPos = 0;
-          $scope.newestAverageRating = $scope.v.averageRating != null ? $scope.v.averageRating : 0.1;
+          var rating = parseFloat(Math.round($scope.v.averageRating * 100) / 100).toFixed(1);
+          $scope.newestAverageRating = rating != null ? rating : 0.1;
         } else
           $scope.videos = null;
       });

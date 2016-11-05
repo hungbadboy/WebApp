@@ -6,8 +6,6 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
     var vid = $routeParams.vid;
     var plid = $routeParams.plid;
     var userId = $routeParams.authorId;
-    // $scope.avatar = localStorage.getItem('imageUrl');
-    // var userName = localStorage.getItem('nameHome') != null ?  localStorage.getItem('nameHome') : "";
 
     $scope.averageRating = 0.1;
 
