@@ -438,7 +438,12 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   $scope.onFileSelect = function($files, errFile){
     var errFile = errFile && errFile[0];
     if (errFile) {
-      $scope.error = "File maximum is 5MB.";
+      $scope.fileName = null;
+      $scope.fileSize = null;
+      if (errFile.size > 5000000) {
+        $scope.error = "File maximum is 5MB.";
+      } else
+        $scope.error = "File is not valid.";
       return;
     }
     if ($files && $files.length > 0) {
