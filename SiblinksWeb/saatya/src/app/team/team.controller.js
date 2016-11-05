@@ -7,7 +7,7 @@ brotControllers.filter('fillterTeam', function() {
             nameSearch = name.toLowerCase();
         }
         angular.forEach(items, function(el) {
-            fullName =  checkNameToTrim(el.firstName)+ ' ' + checkNameToTrim(el.lastName);
+            fullName =  displayUserName(el.firstName,el.lastName,el.userName);
             if((!isEmpty(fullName) && fullName.toLowerCase().indexOf(nameSearch)>-1)
                 || (!isEmpty(el.accomplishments) && el.accomplishments.toLowerCase().indexOf(nameSearch)>-1) || isEmpty(name)) {
                 filtered.push(el);
@@ -25,7 +25,8 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
         brot.signin.statusStorageHtml();
         var LIMIT_SUBJECT = 4;
         $scope.login = 0;
-
+        $scope.listTopmentors = [];
+        var subjects = JSON.parse(localStorage.getItem('subjects'));
         var userId = localStorage.getItem('userId');
         init();
 
@@ -92,61 +93,38 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
 
 
         function selectMentorTop(limit, offset, type) {
+        	$scope.listTopmentors = [];
             TeamMentorService.getTopMentorsByType(limit, offset, type,userId).then(function (data) {
-                var listTopMentors =[];
-
-                var subjects = myCache.get("subjects");
-                if (data.data.status) {
-                    $scope.countAll = data.data.request_data_result.length;
-
-                    if ($scope.countAll == null) {
+                if (data.data.status == 'true') {
+                    if (data.data.request_data_result == null) {
                         $scope.errorData = DATA_ERROR.noDataFound;
-                    }
-                    else {
+                    } else {
                         var data_result = data.data.request_data_result;
                         for (var i = 0; i < data_result.length; i++) {
-
-                            var mentor = {};
-                            mentor.userid = data_result[i].userid;
-                            mentor.lastName = data_result[i].lastName;
-                            mentor.firstName= data_result[i].firstName;
-                            mentor.accomplishments = (isEmpty(data_result[i].accomplishments) ? "" : data_result[i].accomplishments);
-                            mentor.bio= data_result[i].bio;
-                            mentor.numsub= data_result[i].numsub;
-                            mentor.imageUrl = data_result[i].imageUrl;
-                            mentor.numlike= data_result[i].numlike;
-                            mentor.numvideos= data_result[i].numvideos;
-                            mentor.numAnswers= data_result[i].numAnswers;
-                            mentor.isSubs= data_result[i].isSubs;
-                            mentor.defaultSubjectId = data_result[i].defaultSubjectId;
-                            mentor.avgrate = data_result[i].avgrate;
-                            mentor.userName = data_result[i].loginName;
                             var listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
                             var strSubject="";
+                            var strSubjectLimit ="";
                             if (listSubject != null && listSubject !== undefined) {
-                            	var listSubjectName =[];
-                                var len =listSubject.length;
-                                var isMax = false;
-                                if(len > LIMIT_SUBJECT){
-                                    len = LIMIT_SUBJECT;
-                                    isMax = true;
-                                }
-                            	for (var j = 0; j < len; j++) {
+                            	var listSubjectName= [];
+                            	var listSubjectNameLimit= [];
+                            	for (var j = 0; j < listSubject.length; j++) {
                             		listSubjectName.push(listSubject[j].name);
+                            		if(j < LIMIT_SUBJECT){
+                            			listSubjectNameLimit.push(listSubject[j].name);
+                            		} else if (j == LIMIT_SUBJECT) {
+                            			listSubjectNameLimit.push(listSubject[j].name +'...');
+                            		}
                             	}
+                            	strSubjectLimit = listSubjectNameLimit.join(", ");
                             	strSubject = listSubjectName.join(", ");
-                                if(isMax){
-                                    strSubject = strSubject + '...';
-                                }
                             }
-                            mentor.listSubject =strSubject;
-                            listTopMentors.push(mentor);
+                            data_result[i].listSubject = strSubject;
+                            data_result[i].subjectLimit =strSubjectLimit;
+                            $scope.listTopmentors.push(data_result[i]);
                         }
-                        $scope.listTopmentors = listTopMentors;
+                        $scope.countAll = data_result.length;
                         $scope.showItem = true;
                     }
-
-
                 }
             });
         }

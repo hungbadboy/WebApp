@@ -76,7 +76,8 @@ public interface MentorService {
       * @return
       */
 
-     ResponseEntity<Response> getTopMentorsByLikeRateSubcrible(RequestData video);
+    ResponseEntity<Response> getTopMentorsByLikeRateSubcrible(String subjectId, String content, String userId, String type,
+            String limit, String offset);
 
      ResponseEntity<Response> checkStudentSubcribe(long mentorid, long studentid);
 

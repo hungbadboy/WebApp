@@ -406,7 +406,7 @@
                                             <a href="#/student/mentorProfile/{{lstRecentVideo.authorID}}">
                                                 <span class="video-poster" id="{{lstRecentVideo.authorID}}">{{validateShowName(lstRecentVideo.firstName, lstRecentVideo.lastName, lstRecentVideo.userName)}}</span>
                                             </a>
-                                            <span>&#8226; {{caculateTimeElapsed(lstRecentVideo.timeStamp)}}</span>
+                                            <span>&#8226; {{convertUnixTimeToTime(lstRecentVideo.timeStamp)}}</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
@@ -436,11 +436,8 @@
                         </div>
                         <div class="this-week" ng-show="showDivWeek">
                             <h5>This week</h5>
-                            <ul ng-init="countWeek=0" class="videos-img"
-                                ng-repeat="lstWeekVideo in listWeekVideo track by $index"
-                                ng-if="$index < displayNumberOfVideoWeek">
-
-                                <li>
+                            <ul ng-init="countWeek=0" class="videos-img">
+                                <li ng-repeat="lstWeekVideo in listWeekVideo track by $index" ng-if="$index < displayNumberOfVideoWeek">
                                     <div class="video-wrapper"><a href="#/videos/detailVideo/{{lstWeekVideo.vid}}">
                                         <div class="videos-thumnail">
                                             <img src="{{lstWeekVideo.image}}">
@@ -453,7 +450,7 @@
                                         <div class="videos-time-add">
                                             <a href="#/student/mentorProfile/{{lstWeekVideo.authorID}}"><span
                                                     class="video-poster" id="{{lstWeekVideo.authorID}}"
-                                                    ng-click="showProfile($event)"> {{validateShowName(lstWeekVideo.firstName,lstWeekVideo.lastName, lstWeekVideo.userName)}}</span></a><span> &#8226; {{caculateTimeElapsed(lstWeekVideo.timeStamp)}}</span>
+                                                    ng-click="showProfile($event)"> {{validateShowName(lstWeekVideo.firstName,lstWeekVideo.lastName, lstWeekVideo.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(lstWeekVideo.timeStamp)}}</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
@@ -481,7 +478,6 @@
                             <div ng-click="showMoreVideoWeek()" class="see-more" ng-show="flagShowMoreWeek"><span>Show more</span></div>
                         </div>
                         <div class="older" ng-show="showDivOlder">
-
                             <div ng-hide="!searchItem">
                                 <h5>Search Result</h5>
                                 <ul>
@@ -544,7 +540,7 @@
                                         </a>
                                         <div class="videos-time-add">
                                             <span class="video-poster"> <a href="#/videos/detailVideo/{{lstMentorOlder.vid}}" title="{{lstMentorOlder.title}}">{{lstMentorOlder.authorName}}</a></span>
-                                            <span> &#8226; {{caculateTimeElapsed(lstMentorOlder.timeStamp)}}</span>
+                                            <span> &#8226; {{convertUnixTimeToTime(lstMentorOlder.timeStamp)}}</span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">

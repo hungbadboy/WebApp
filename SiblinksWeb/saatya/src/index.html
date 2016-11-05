@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 <link rel="manifest" href="json/manifest.json">
 </head>
-<body id="{{idbody}}" ng-class="{home: idbody =='', 'student-profile': currentPath.indexOf('/mentor/mentorProfile/') >=0}">
+<body id="{{idbody}}" ng-class="{home: idbody =='', 'student-profile': currentPath == '/mentor/mentorProfile/'}">
   	<header id="header" ng-controller="UserHeaderController">
   		<div class="module-navigation" ng-include="headerByUser"></div>
   	</header>

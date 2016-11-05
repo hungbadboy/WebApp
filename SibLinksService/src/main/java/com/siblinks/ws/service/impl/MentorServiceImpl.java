@@ -105,6 +105,7 @@ public class MentorServiceImpl implements MentorService {
                                                 request.getRequest_data_method(),
                                                 readObject);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(
                                                 SibConstants.FAILURE,
                                                 request.getRequest_data_type(),
@@ -152,6 +153,7 @@ public class MentorServiceImpl implements MentorService {
                                                 request.getRequest_data_method(),
                                                 readObject);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(
                                                 SibConstants.FAILURE,
                                                 request.getRequest_data_type(),
@@ -224,6 +226,7 @@ public class MentorServiceImpl implements MentorService {
                                                 request.getRequest_data_method(),
                                                 readObject);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(
                                                 SibConstants.FAILURE,
                                                 request.getRequest_data_type(),
@@ -276,6 +279,7 @@ public class MentorServiceImpl implements MentorService {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             reponse = new SimpleResponse(SibConstants.FAILURE, e.getMessage());
 
@@ -308,6 +312,7 @@ public class MentorServiceImpl implements MentorService {
                                                 aboutMentor.getRequest_data_method(),
                                                 status);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(
                                                 SibConstants.FAILURE,
                                                 aboutMentor.getRequest_data_type(),
@@ -339,6 +344,7 @@ public class MentorServiceImpl implements MentorService {
                                                 aboutMentor.getRequest_data_method(),
                                                 readObject);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(
                                                 SibConstants.FAILURE,
                                                 aboutMentor.getRequest_data_type(),
@@ -377,6 +383,7 @@ public class MentorServiceImpl implements MentorService {
                                                 aboutMentor.getRequest_data_method(),
                                                 flag);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(
                                                 SibConstants.FAILURE,
                                                 aboutMentor.getRequest_data_type(),
@@ -422,6 +429,7 @@ public class MentorServiceImpl implements MentorService {
                                                 aboutMentor.getRequest_data_method(),
                                                 flag);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(
                                                 SibConstants.FAILURE,
                                                 aboutMentor.getRequest_data_type(),
@@ -474,6 +482,7 @@ public class MentorServiceImpl implements MentorService {
                 responseEntity = new ResponseEntity<byte[]>(HttpStatus.NO_CONTENT);
             }
         } catch (DAOException e) {
+            e.printStackTrace();
             new SimpleResponse(SibConstants.FAILURE, "Mentor", "getImageAboutMentor", e.getMessage());
         }
         return responseEntity;
@@ -502,6 +511,7 @@ public class MentorServiceImpl implements MentorService {
                                                 request.getRequest_data_method(),
                                                 readObject);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(
                                                 SibConstants.FAILURE,
                                                 request.getRequest_data_type(),
@@ -525,6 +535,7 @@ public class MentorServiceImpl implements MentorService {
             List<Object> readObjects = dao.readObjects(SibConstants.SqlMapperBROT27.SQL_GET_NEWEST_MENTOR_ANSWER, queryParams);
             simpleResponse = new SimpleResponse("" + Boolean.TRUE, "mentor", "getNewestAnswer", readObjects);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getNewestAnswer", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -564,6 +575,7 @@ public class MentorServiceImpl implements MentorService {
                                                 request.getRequest_data_method(),
                                                 readObject);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(
                                                 SibConstants.FAILURE,
                                                 request.getRequest_data_type(),
@@ -606,6 +618,7 @@ public class MentorServiceImpl implements MentorService {
 
             new SimpleResponse("" + Boolean.TRUE, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(
                                                 SibConstants.FAILURE,
                                                 request.getRequest_data_type(),
@@ -628,6 +641,7 @@ public class MentorServiceImpl implements MentorService {
 
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "Mentor", "getTotalViewLikeViewByMentorId", readObject);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getTotalViewLikeViewByMentorId", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -644,6 +658,7 @@ public class MentorServiceImpl implements MentorService {
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_TOTAL_ANSWERS, new Object[] { "" + id });
             simpleResponse = new SimpleResponse("" + Boolean.TRUE, "Mentor", "getTotalAnswersByMentorId", readObject);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getTotalAnswersByMentorId", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -653,36 +668,33 @@ public class MentorServiceImpl implements MentorService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/getTopMentorsByLikeRateSubcrible", method = RequestMethod.POST)
-    public ResponseEntity<Response> getTopMentorsByLikeRateSubcrible(@RequestBody final RequestData request) {
+    @RequestMapping(value = "/getTopMentorsByLikeRateSubcrible", method = RequestMethod.GET)
+    public ResponseEntity<Response> getTopMentorsByLikeRateSubcrible(@RequestParam final String subjectId,
+            @RequestParam String content, @RequestParam final String uid, @RequestParam final String type,
+            @RequestParam final String limit, @RequestParam final String offset) {
         SimpleResponse simpleResponse = null;
         try {
             if (!AuthenticationFilter.isAuthed(context)) {
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
-            String limit = request.getRequest_data().getLimit();
-            String offset = request.getRequest_data().getOffset();
-            String type = request.getRequest_data().getType();
-            String userId = request.getRequest_data().getUid();
-            String content = request.getRequest_data().getContent();
-            String subjectId = request.getRequest_data().getSubjectId();
-            Object[] queryParams = {};
 
+            Object[] queryParams = {};
+            String tempUserId = uid;
             String entityName = SibConstants.SqlMapper.SQL_GET_TOP_MENTORS_BY_LIKE_RATE_SUBS;
-            if (StringUtil.isNull(userId)) {
-                userId = "-1";
+            if (StringUtil.isNull(tempUserId)) {
+                tempUserId = "-1";
             }
             String whereClause = "";
-            if (!"-1".equalsIgnoreCase(userId)) {
+            if (!"-1".equalsIgnoreCase(tempUserId)) {
                 whereClause += ",(SELECT count(*) isSubs FROM Sib_Student_Subcribe where Subcribe ='Y' AND " +
                                " MentorId = U.userid AND StudentId =" +
-                               userId +
+                               tempUserId +
                                ") isSubs";
             } else {
                 whereClause += ",('-1') as isSubs ";
             }
-            whereClause += " FROM Sib_Users U LEFT JOIN Sib_Videos V ON U.userid = V.authorID "
+            whereClause += " FROM Sib_Users U LEFT JOIN Sib_School_College_Degree SCD ON U.school = SCD.sch_colle_degree_id LEFT JOIN Sib_Videos V ON U.userid = V.authorID "
                            + "WHERE U.userType = 'M' GROUP BY U.userid, U.lastName, U.imageUrl, U.firstName)X ";
             if (!StringUtil.isNull(content)) {
                 content = StringEscapeUtils.escapeJava(content);
@@ -712,16 +724,13 @@ public class MentorServiceImpl implements MentorService {
             // dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY, new
             // Object[] {});
 
-            simpleResponse = new SimpleResponse(
-                                                SibConstants.SUCCESS,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                readObject);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "mentor", "getTopMentorsByLikeRateSubcrible", readObject);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(
                                                 SibConstants.FAILURE,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
+                                                "mentor",
+                                                "getTopMentorsByLikeRateSubcrible",
                                                 e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -756,6 +765,7 @@ public class MentorServiceImpl implements MentorService {
 
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, data_return);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "checkStudentSubcribe", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -782,6 +792,7 @@ public class MentorServiceImpl implements MentorService {
                 simpleResponse = new SimpleResponse("" + true, "mentor", "getStudentSubscribed", SibConstants.NO_DATA);
             }
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getStudentSubscribed", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -911,6 +922,7 @@ public class MentorServiceImpl implements MentorService {
 
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "mentor", "getMainDashboardInfo", result);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getStudentSubscribed", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -968,6 +980,7 @@ public class MentorServiceImpl implements MentorService {
             }
 
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getStudentSubscribed", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -994,6 +1007,7 @@ public class MentorServiceImpl implements MentorService {
             }
 
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getLatestRatings", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -1021,7 +1035,9 @@ public class MentorServiceImpl implements MentorService {
                 Map<String, Object> tmp = new HashMap<String, Object>();
                 for (int i = 0; i < size; i++) {
                     map = (Map<String, Object>) readObject.get(i);
-                    playlist = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_INFO_OF_VIDEO, new Object[] { map.get("vid") });
+                    playlist = dao.readObjects(
+                        SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_INFO_OF_VIDEO,
+                        new Object[] { map.get("vid") });
                     if (playlist != null && playlist.size() > 0) {
                         for (Object object : playlist) {
                             tmp = (Map<String, Object>) object;
@@ -1038,6 +1054,7 @@ public class MentorServiceImpl implements MentorService {
             }
 
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getLatestComments", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -1111,6 +1128,7 @@ public class MentorServiceImpl implements MentorService {
 
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "mentor", "getDashboardInfo", result);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getLatestComments", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -1133,6 +1151,7 @@ public class MentorServiceImpl implements MentorService {
             simpleResponse = new SimpleResponse("" + Boolean.TRUE, "mentor", "getActivityStudent", readObjects);
 
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getActivityStudent", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -1189,6 +1208,7 @@ public class MentorServiceImpl implements MentorService {
             }
 
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getAllSubjects", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -1219,6 +1239,7 @@ public class MentorServiceImpl implements MentorService {
             }
             simpleResponse = new SimpleResponse("" + status, "mentor", "getNewestAnswers", readObjects);
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getNewestAnswers", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -1241,6 +1262,7 @@ public class MentorServiceImpl implements MentorService {
                 simpleResponse = new SimpleResponse("" + true, "mentor", "getAllStudentSubscribed", SibConstants.NO_DATA);
             }
         } catch (DAOException e) {
+            e.printStackTrace();
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Mentor", "getNewestAnswers", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
