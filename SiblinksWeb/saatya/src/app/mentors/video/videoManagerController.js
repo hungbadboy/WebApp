@@ -391,9 +391,18 @@ brotControllers.controller('VideoManagerController',
       if ($scope.videoTab != tab) {
         $scope.videoTab = tab;
         $scope.selectedAll = false;
-        $scope.videos = updateSelectedVideo($scope.videos, $scope.selectedAll);
-        $scope.topViewedVideos = updateSelectedVideo($scope.topViewedVideos, $scope.selectedAll);
-        $scope.topRatedVideos = updateSelectedVideo($scope.topRatedVideos, $scope.selectedAll);
+        if ($scope.subject > 0) {
+          if ($scope.videoTab == 1)
+            getNewestVideoBySubject();
+          else if ($scope.videoTab == 2)
+            getTopViewedVideoBySubject();
+          else
+            getTopRatedVideoBySubject();
+        } else{
+          $scope.videos = updateSelectedVideo($scope.videos, $scope.selectedAll);
+          $scope.topViewedVideos = updateSelectedVideo($scope.topViewedVideos, $scope.selectedAll);
+          $scope.topRatedVideos = updateSelectedVideo($scope.topRatedVideos, $scope.selectedAll);
+        }
       }
     }
 
