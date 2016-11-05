@@ -59,9 +59,10 @@ brotControllers.controller('MentorProfileController',
                     getMentorSubscribed(studentId, $scope.defaultLimit, 0);
                 }
                 if (mentorId != undefined) {
-                    getVideosRecently();
+                    getVideosRecently(mentorId);
                     isSubscribed();
                     getInfoAnotherMentor();
+                    getNewestAnswers(mentorId, 6, 0);
                 }
                 getStudentSubscribed(userId, $scope.defaultLimit, 0);
                 getMentorProfile();
@@ -73,7 +74,7 @@ brotControllers.controller('MentorProfileController',
             }
 
             /* Start Functions Mentor View Mentor Profile*/
-            function getVideosRecently() {
+            function getVideosRecently(mentorId) {
                 VideoService.getVideoPlaylistRecently(mentorId, 6, 0).then(function (data) {
                     if (data.data.status) {
                         if (data.data.request_data_result == StatusError.MSG_DATA_NOT_FOUND) {
@@ -774,5 +775,17 @@ brotControllers.controller('MentorProfileController',
             $scope.displayName = function (firstName, lastName, userName) {
                 return displayUserName(firstName,lastName, userName).trim();
             };
+
+            function getNewestAnswers(authorId, limit, offset) {
+                StudentService.getNewestAnswersById(authorId, limit, offset).then(function (data) {
+                    if (data.data.status) {
+                        if (data.data.request_data_result.length > 0) {
+                            $scope.listNewestAnswers = data.data.request_data_result;
+                        } else {
+                            $scope.listNewestAnswers = null;
+                        }
+                    }
+                });
+            }
 
         }]);

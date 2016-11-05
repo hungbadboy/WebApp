@@ -521,8 +521,8 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      */
     @Override
     @RequestMapping(value = "/getEssayByStudentId", method = RequestMethod.GET)
-    public ResponseEntity<Response> getEssayByStudentId(final String userId, final String limit, final String offset,
-            final String totalCountFlag) {
+    public ResponseEntity<Response> getEssayByStudentId(@RequestParam final String userId, @RequestParam final String limit,
+            @RequestParam final String offset, @RequestParam final String totalCountFlag) {
         SimpleResponse simpleResponse = null;
         try {
             Object[] queryParams = { userId };
@@ -569,11 +569,11 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/getEssayById", method = RequestMethod.POST)
-    public ResponseEntity<Response> getEssayById(@RequestBody final RequestData request) {
+    @RequestMapping(value = "/getEssayById", method = RequestMethod.GET)
+    public ResponseEntity<Response> getEssayById(@RequestParam final String essayId) {
         SimpleResponse simpleResponse = null;
         try {
-            Object[] queryParams = { request.getRequest_data().getEssayId() };
+            Object[] queryParams = { essayId };
 
             List<Object> readObject = null;
             readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ESSAY_BY_ID, queryParams);
@@ -591,11 +591,11 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 }
             }
 
-            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "getEssayById", readObject);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage(), e.getCause());
-            simpleResponse = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "essay", "getEssayById", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }

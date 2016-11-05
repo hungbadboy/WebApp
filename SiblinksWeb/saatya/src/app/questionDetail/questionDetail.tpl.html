@@ -58,10 +58,10 @@
                                     <div class="images-question">
                                         <ul ng-if="question.imagePath">
                                             <li class="item" ng-repeat="image in question.imagePath track by $index">
-                                                <div class="item-img" ng-if="image" ng-mouseover="imageHoverIn(question.id +''+$index)" ng-mouseleave="imageHoverOut(question.id +''+$index)" >
+                                                <div ng-click="zoomImage(question.imagePath,$index)" class="item-img" ng-if="image"  ng-mouseover="imageHoverIn(question.id +''+$index)" ng-mouseleave="imageHoverOut(question.id +''+$index)" >
                                                     <img ng-src="{{image}}">
                                                     <div class="item-hover" id="{{question.id}}{{$index}}">
-                                                        <img src="assets/images/ask question/look-img.png" ng-click="zoomImage(question.imagePath,$index)">
+                                                        <img src="assets/images/ask question/look-img.png" >
                                                     </div>
                                                 </div>
                                             </li>
@@ -109,9 +109,9 @@
                                                             <div class="images-question">
                                                                 <ul>
                                                                     <li class="item" ng-repeat="aimage in answer.imageAnswerPath track by $index">
-                                                                        <div class="item-img"  ng-mouseover="imageHoverIn('aimg_'+answer.aid +''+$index)"
+                                                                        <div class="item-img" ng-click="zoomImage(answer.imageAnswerPath,$index)"  ng-mouseover="imageHoverIn('aimg_'+answer.aid +''+$index)"
                                                                              ng-mouseleave="imageHoverOut('aimg_'+answer.aid +''+$index)">
-                                                                            <img ng-click="zoomImage(answer.imageAnswerPath,$index)" ng-src="{{aimage}}">
+                                                                            <img  ng-src="{{aimage}}">
                                                                             <div id="aimg_{{+answer.aid +''+$index}}" class="item-hover">
                                                                                 <img  src="assets/images/ask question/look-img.png">
                                                                             </div>

@@ -968,30 +968,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             return displayUserName(fistName, lastName, userName).trim();
         };
 
-        $scope.convertUnixTimeToTime = function (time) {
-            if (serverDateTime == null || serverDateTime === undefined) {
-                console.log('serverDateTime is null');
-                timeBackEnd();
-            }
-
-            var _now = Math.floor(serverDateTime);
-            var _space = _now - time;
-            var _secondDay = 3600 * 24;
-            var _secondMonth = _secondDay * 30;
-            if (_space < 60) {
-                return _space + ' seconds';
-            } else if (_space < 3600) {
-                return Math.floor(_space / 60) + ' minutes';
-            } else if (_space < _secondDay) {
-                return Math.floor(_space / 3600) + ' hours';
-            } else if (_space >= _secondDay && _space < _secondMonth) {
-                return Math.floor(_space / _secondDay) + ' days';
-            } else {
-                return Math.floor(_space / _secondMonth) + ' months';
-            }
-        };
-
-
         $scope.textChange = function (str) {
             if (isEmpty(str)) {
                 //TODO : Handle input when clear
