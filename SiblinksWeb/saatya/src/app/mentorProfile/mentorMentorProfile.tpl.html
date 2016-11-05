@@ -42,7 +42,7 @@
                                     <p>{{GenderMentor}}, {{bod != null ? bod : EMPTY_DATA}} year old</p>
                                     <p class="skilled">
                                         <strong>Skilled at</strong><br>
-                                        <span ng-if="mentorSubs" ng-repeat="skill in mentorSubs track by $index" id="{{skill.id}}">{{skill.name}}{{$last ? '' : ', '}}</span>
+                                        <span ng-if="mentorSubs" ng-repeat="skill in listMentorSubs track by $index" id="{{skill.id}}">{{skill.name}}{{$last ? '' : ', '}}</span>
                                     </p>
                                     <div class="about-mentor">
                                         <strong>About me</strong><br>
@@ -144,7 +144,7 @@
                                                         <p class="videos-time-add">
                                                             <span>{{convertUnixTimeToTime(video.timeStamp)}} ago</span>
                                                         </p>
-                                                        <p class="video-rate">
+                                                        <p class="video-rate" ng-if="video.type == 1">
                                                             <!--<span>Rate: {{video.averageRating != null ? video.averageRating : 0}} ({{video.numRatings}} votes)</span>-->
                                                             <span>Rate:</span>
                                                             <span id="rate-studentMentorProfile" ng-if="isReadyLoadMentorRatingRecently"
@@ -156,7 +156,7 @@
                                                                   star-radius="7" sel-color="gold"
                                                                   readonly="true"
                                                                   back-color="white">
-                                                 </span>
+                                                            </span>
                                                         </p>
                                                         <p class="video-view" ng-if="video.type == 1">
                                                             <span data-icon="&#x49;">{{video.numViews == null || video.numViews == "" ? 0 : video.numViews}}</span>

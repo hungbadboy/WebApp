@@ -116,10 +116,10 @@ brotControllers.controller('MentorProfileController',
                             }
                             if (result_data.defaultSubjectId && (subjects !== undefined || subjects != null)) {
                                 var subs = getSubjectNameById(result_data.defaultSubjectId, subjects);
-                                $scope.mentorSubs = subs;
+                                $scope.listMentorSubs = subs;
                             } else {
                                 var skillNull = [{id: -1, name: "None"}];
-                                $scope.mentorSubs = skillNull;
+                                $scope.listMentorSubs = skillNull;
                             }
                         } else {
                             $scope.mentorMentorProfile = null;
