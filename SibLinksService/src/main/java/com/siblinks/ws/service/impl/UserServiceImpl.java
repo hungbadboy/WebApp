@@ -2125,7 +2125,7 @@ public class UserServiceImpl implements UserService {
                 activityLogService.insertActivityLog(new ActivityLogData(
                                                                          SibConstants.TYPE_PROFILE,
                                                                          "U",
-                                                                         "You has been updated your profile",
+                                                           "You updated profile",
                                                                          user.getUserid(),
                                                                          null));
             } else {

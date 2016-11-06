@@ -243,7 +243,7 @@ public class CommentServiceImpl implements CommentsService {
                         activityLogSerservice.insertActivityLog(new ActivityLogData(
                                                                                     SibConstants.TYPE_VIDEO,
                                                                                     "C",
-                                                                                    "Commented video",
+                                                                                    "Someone commented your video",
                                                                                     userId,
                                                                                     vid));
                     }

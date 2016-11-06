@@ -1005,7 +1005,12 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                                     SibConstants.NOTIFICATION_ICON,
                                     SibConstants.NOTIFICATION_PRIPORITY_HIGH);
                             }
-                            activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "C", "You have replied essay", String
+                            activiLogService
+                                .insertActivityLog(new ActivityLogData(
+                                                                       SibConstants.TYPE_ESSAY,
+                                                                       "C",
+                                                                       "You replied an essay",
+                                                                       String
                                 .valueOf(mentorId), String.valueOf(essayId)));
                         } else {
                             transactionManager.rollback(status);

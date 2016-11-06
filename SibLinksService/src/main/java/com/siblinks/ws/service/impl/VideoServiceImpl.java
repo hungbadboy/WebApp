@@ -1951,7 +1951,12 @@ public class VideoServiceImpl implements VideoService {
                     }
                 }
                 if (status) {
-                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "U", "You have updated video", request
+                    activiLogService
+                        .insertActivityLog(new ActivityLogData(
+                                                               SibConstants.TYPE_VIDEO,
+                                                               "U",
+                                                               "You updateded a video",
+                                                               request
                         .getRequest_data()
                         .getAuthorID(), String.valueOf(vid)));
                     transactionManager.commit(statusDao);
@@ -2682,7 +2687,7 @@ public class VideoServiceImpl implements VideoService {
                     activiLogService.insertActivityLog(new ActivityLogData(
                                                                            SibConstants.TYPE_VIDEO,
                                                                            "C",
-                                                                           "You have created new video",
+                                                               "You uploaded a new video",
                                                                            String.valueOf(authorId),
                                                                            String.valueOf(vid)));
                     transactionManager.commit(status);

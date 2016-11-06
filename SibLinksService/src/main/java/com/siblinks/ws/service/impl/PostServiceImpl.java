@@ -242,7 +242,7 @@ public class PostServiceImpl implements PostService {
                 status = true;
             }
             activityLogSerservice.insertActivityLog(
-                new ActivityLogData(SibConstants.TYPE_QUENSION_ANSWER, "C", "You has been answered question", mentorId, pid));
+                new ActivityLogData(SibConstants.TYPE_QUENSION_ANSWER, "C", "You answered a question", mentorId, pid));
             transactionManager.commit(statusBD);
             logger.info("Insert Menu success " + new Date());
             simpleResponse = new SimpleResponse("" + status, "POST", "createAnswer", status);
@@ -317,7 +317,9 @@ public class PostServiceImpl implements PostService {
                 new Object[] { fixFilePath(filePathEdited + filePath), content, subjectId, qid });
 
             // TODO can add user edit
-            // activityLogSerservice.insertActivityLog(new ActivityLogData(SibConstants.TYPE_QUENSION_ANSWER, "C", "You has been answered question", studentId, qid));
+            // activityLogSerservice.insertActivityLog(new
+            // ActivityLogData(SibConstants.TYPE_QUENSION_ANSWER, "C",
+            // "You answered a question", studentId, qid));
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "post", "editPost", "");
         } catch (Exception e) {
             e.printStackTrace();

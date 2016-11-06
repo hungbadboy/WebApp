@@ -349,7 +349,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
 
             if (totalLenth > MAX_IMAGE) {
-                $scope.QAErrorMsg='You only upload ' + MAX_IMAGE +' image';
+                $scope.QAErrorMsg='You cannot attach more than ' + MAX_IMAGE +' images';
                 return;
             }
 
@@ -402,7 +402,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 return;
             }
             if ($scope.filesArray.length > MAX_IMAGE) {
-                $scope.QAErrorMsg='You only upload ' + MAX_IMAGE +' image';
+                $scope.QAErrorMsg='You cannot attach more than ' + MAX_IMAGE +' images';
                 $rootScope.myVarU = !$scope.myVarU;
                 $timeout(function () {
                     $rootScope.myVarU = false;
@@ -567,7 +567,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 return;
             }
             if ($files!=null && $files.length > MAX_IMAGE){
-                $scope.QAErrorMsg = 'You only upload ' + MAX_IMAGE +' image';
+                $scope.QAErrorMsg = 'You cannot attach more than ' + MAX_IMAGE +' images';
                 return ;
             }
             if ($files != null) {
