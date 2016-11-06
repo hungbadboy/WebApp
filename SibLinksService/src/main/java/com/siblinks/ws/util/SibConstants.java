@@ -103,6 +103,7 @@ public class SibConstants {
         public static final String SQL_GET_PROFILE = "GET_PROFILE";
         public static final String SQL_FIND_USER = "FIND_USER";
         public static final String SQL_UPDATELASTONLINETIME = "UPDATELASTONLINETIME";
+        public static final String SQL_UPDATE_USER_LOGOUT = "UPDATE_USER_LOGOUT";
         public static final String SQL_GET_ALL_USERS = "GET_ALL_USERS";
         public static final String SQL_GET_USERS_BY_USER_TYPE = "GET_USERS_BY_USER_TYPE";
         public static final String SQL_GET_USER_BY_ID = "GET_USER_BY_ID";

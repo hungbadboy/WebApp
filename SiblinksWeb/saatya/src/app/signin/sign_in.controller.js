@@ -13,74 +13,12 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
                        {src: 'http://placehold.it/110x110&text=Best%20Deal%2010', title: 'Best Deal 10' }
                      ];
     
-    $scope.login = function () {
-        var userName = angular.element('#userName').val();
-        if (userName == null || userName === '') {
-            $scope.loginMess = 'Your email is required';
-            angular.element('#userName').trigger('focus');
-            return;
-        }
-
-        if (!(/^[a-zA-Z0-9-.-_--]{3,}\@[a-zA-Z0-9--]{2,16}\.[a-zA-Z0-9]{2,8}$/.test(userName))) {
-            $scope.loginMess = 'Your email is invalid';
-            angular.element('#userName').trigger('focus');
-            return;
-        }
-
-        var password = angular.element('#passWord').val();
-        if (password == null || password === '') {
-            $scope.loginMess = 'Password is required';
-            angular.element('#passWord').trigger('focus');
-            return;
-        }
-        
-        var token = angular.element("#token").text();
-        
-        $rootScope.$broadcast('open');
-        StudentService.loginUser(userName, password, token, function (data) {
-        	$rootScope.$broadcast('close');
-            if (data.status == 'true') {
-                var dataUser = data;
-                console.log(dataUser);
-                var firstName = dataUser['firstname'];
-                var lastName = dataUser['lastname'];
-                setStorage('userName', dataUser['username'], 30);
-                setStorage('userId', dataUser['userid'], 30);
-                setStorage('userType', dataUser['userType'], 10);
-                setStorage('imageUrl', dataUser['imageUrl'], 10);
-                setStorage('school', dataUser['school'], 30);
-                setStorage('firstName', (firstName != null && firstName !== undefined)?firstName:'', 30);
-                setStorage('lastname', (lastName != null && lastName !== undefined)?lastName:'', 30);
-                setStorage('defaultSubjectId', dataUser['defaultSubjectId'], 10);
-                var nameHome = '';
-                if (firstName == null || firstName === undefined || lastName == null || lastName === undefined) {
-                    nameHome = capitaliseFirstLetter(dataUser['username'].substring(0, dataUser['username'].indexOf('@')));
-                } else {
-                    nameHome = capitaliseFirstLetter(firstName) + ' ' + capitaliseFirstLetter(lastName);
-                }
-                setStorage('nameHome', nameHome, 30);
-                // Redirect to old link
-                if(redirectToOldLink()) {
-                	$window.location.reload();
-                	return;
-                }
-                
-                // Redirect to home page
-                if (dataUser['userType'] == 'S') { // login student
-                	window.location.href = '/';
-                } else if(dataUser['userType'] == 'M') { // login mentor
-                	window.location.href = '#/mentor/dashboard';
-                	window.location.reload();
-                }
-            } else {
-            	$rootScope.$broadcast('close');
-                $scope.loginMess = "Incorrect email or password";
-                $scope.$apply();
-                angular.element('#userName').trigger('focus');
-                return;
-            }
-        });
-        
+    $scope.login = function() {
+    	login(null);
+    };
+    
+    $scope.loginMentor = function() {
+    	login('M');
     };
 
     init();
@@ -227,5 +165,85 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
     	} else {
     		return false;
     	}
+    }
+    /**
+     * Valid login
+     * 
+     */
+    function validLogin(){
+    	var userName = angular.element('#userName').val();
+    	 if (userName == null || userName === '') {
+             $scope.loginMess = 'Your email is required';
+             angular.element('#userName').trigger('focus');
+             return false;
+         }
+
+         if (!(/^[a-zA-Z0-9-.-_--]{3,}\@[a-zA-Z0-9--]{2,16}\.[a-zA-Z0-9]{2,8}$/.test(userName))) {
+             $scope.loginMess = 'Your email is invalid';
+             angular.element('#userName').trigger('focus');
+             return false;
+         }
+
+         var password = angular.element('#passWord').val();
+         if (password == null || password === '') {
+             $scope.loginMess = 'Password is required';
+             angular.element('#passWord').trigger('focus');
+             return false;
+         }         
+    }
+    
+    function login(userType) {
+    	var userName = angular.element('#userName').val();
+    	var password = angular.element('#passWord').val();
+    	if(validLogin() == false ) {
+    		return;
+    	};
+    	
+        var token = angular.element("#token").text();
+        
+        $rootScope.$broadcast('open');
+        StudentService.loginUser(userName,  password, token, userType, function (data) {
+        	$rootScope.$broadcast('close');
+            if (data.status == 'true') {
+                var dataUser = data;
+                console.log(dataUser);
+                var firstName = dataUser['firstname'];
+                var lastName = dataUser['lastname'];
+                setStorage('userName', dataUser['username'], 30);
+                setStorage('userId', dataUser['userid'], 30);
+                setStorage('userType', dataUser['userType'], 10);
+                setStorage('imageUrl', dataUser['imageUrl'], 10);
+                setStorage('school', dataUser['school'], 30);
+                setStorage('firstName', (firstName != null && firstName !== undefined)?firstName:'', 30);
+                setStorage('lastname', (lastName != null && lastName !== undefined)?lastName:'', 30);
+                setStorage('defaultSubjectId', dataUser['defaultSubjectId'], 10);
+                var nameHome = '';
+                if (firstName == null || firstName === undefined || lastName == null || lastName === undefined) {
+                    nameHome = capitaliseFirstLetter(dataUser['username'].substring(0, dataUser['username'].indexOf('@')));
+                } else {
+                    nameHome = capitaliseFirstLetter(firstName) + ' ' + capitaliseFirstLetter(lastName);
+                }
+                setStorage('nameHome', nameHome, 30);
+                // Redirect to old link
+                if(redirectToOldLink()) {
+                	$window.location.reload();
+                	return;
+                }
+                
+                // Redirect to home page
+                if (dataUser['userType'] == 'S') { // login student
+                	window.location.href = '/';
+                } else if(dataUser['userType'] == 'M') { // login mentor
+                	window.location.href = '#/mentor/dashboard';
+                	window.location.reload();
+                }
+            } else {
+            	$rootScope.$broadcast('close');
+                $scope.loginMess = "Incorrect email or password";
+                $scope.$apply();
+                angular.element('#userName').trigger('focus');
+                return;
+            }
+        });
     }
 });

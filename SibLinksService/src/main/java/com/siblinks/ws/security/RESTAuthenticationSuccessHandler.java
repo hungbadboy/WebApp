@@ -33,6 +33,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -46,60 +48,82 @@ import com.siblinks.ws.util.SibConstants;
 
 /**
  * This class is handling Authentication for use login success.
- *
+ * 
  * @author hungpd
  * @version 1.0
  */
 @Component
-public class RESTAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class RESTAuthenticationSuccessHandler extends
+		SavedRequestAwareAuthenticationSuccessHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RESTAuthenticationSuccessHandler.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RESTAuthenticationSuccessHandler.class);
 
-    private final ObjectMapper mapper;
+	private final ObjectMapper mapper;
 
-    @Autowired
-    private ObjectDao dao;
+	@Autowired
+	private ObjectDao dao;
 
-    @Autowired
-    RESTAuthenticationSuccessHandler(final MappingJackson2HttpMessageConverter messageConverter) {
-        this.mapper = messageConverter.getObjectMapper();
-    }
+	@Autowired
+	RESTAuthenticationFailureHandler failure;
 
-    /**
-     * Handling return user information after user login successful
-     */
-    @Override
-    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
-            final Authentication authentication) throws ServletException, IOException {
+	@Autowired
+	RESTAuthenticationSuccessHandler(
+			final MappingJackson2HttpMessageConverter messageConverter) {
+		this.mapper = messageConverter.getObjectMapper();
+	}
 
-        PrintWriter writer = response.getWriter();
-        try {
+	/**
+	 * Handling return user information after user login successful
+	 */
+	@Override
+	public void onAuthenticationSuccess(final HttpServletRequest request,
+			final HttpServletResponse response,
+			final Authentication authentication) throws ServletException,
+			IOException {
 
-            SibUserDetails userDetails = (SibUserDetails) authentication.getPrincipal();
-            SibUser user = userDetails.getUser();
-            String token = request.getParameter(Parameters.TOKEN);
-            user.setStatus(SibConstants.SUCCESS);
-            user.setPassword(null);
-            userDetails.setUser(user);
-            // Update last online and isonline
-            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATELASTONLINETIME, new Object[] { token, user.getUsername() });
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.setContentType(request.getContentType());
+		PrintWriter writer = null;
+		try {
 
-            LOGGER.info(userDetails.getUsername() + " got is connected ");
-            mapper.writeValue(writer, user);
-            writer.flush();
-        } catch (DAOException e) {
-            e.printStackTrace();
-            Map<String, String> mapError = new HashMap<String, String>();
-            mapError.put(Parameters.STATUS, SibConstants.FAILURE);
-            mapError.put(SibConstants.MessageKey.REQUEST_DATA_RESUTL, e.getMessage());
-            mapper.writeValue(writer, mapError);
-            writer.flush();
-        } finally {
-            if (writer != null) {
-                writer.close();
-            }
-        }
-    }
+			SibUserDetails userDetails = (SibUserDetails) authentication
+					.getPrincipal();
+			SibUser user = userDetails.getUser();
+			String userType = request.getParameter(Parameters.USER_TYPE);
+			if (userType != null && !userType.equals("")
+					&& !userType.equals(user.getUserType())) {
+				SecurityContextHolder.clearContext();
+				failure.onAuthenticationFailure(request, response,
+						new UsernameNotFoundException(user.getUsername()));
+			} else {
+				writer = response.getWriter();
+				String token = request.getParameter(Parameters.TOKEN);
+				user.setStatus(SibConstants.SUCCESS);
+				user.setPassword(null);
+				userDetails.setUser(user);
+				// Update last online and isonline
+				dao.insertUpdateObject(
+						SibConstants.SqlMapper.SQL_UPDATELASTONLINETIME,
+						new Object[] { token, user.getUsername() });
+				response.setStatus(HttpServletResponse.SC_OK);
+				response.setContentType(request.getContentType());
+
+				LOGGER.info(userDetails.getUsername() + " got is connected ");
+				mapper.writeValue(writer, user);
+				writer.flush();
+			}
+		} catch (DAOException e) {
+			e.printStackTrace();
+			writer = response.getWriter();
+			Map<String, String> mapError = new HashMap<String, String>();
+			mapError.put(Parameters.STATUS, SibConstants.FAILURE);
+			mapError.put(SibConstants.MessageKey.REQUEST_DATA_RESUTL,
+					e.getMessage());
+			mapper.writeValue(writer, mapError);
+			writer.flush();
+		} finally {
+			if (writer != null) {
+				writer.close();
+			}
+		}
+	}
 }

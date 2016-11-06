@@ -25,11 +25,15 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.JsonObject;
+import com.siblinks.ws.common.DAOException;
+import com.siblinks.ws.dao.ObjectDao;
+import com.siblinks.ws.util.SibConstants;
 
 /**
  * Handling after user logout success
@@ -39,10 +43,20 @@ import com.google.gson.JsonObject;
  */
 @Component
 public class RESTLogoutSuccessHandler implements LogoutSuccessHandler {
-
+@Autowired
+	ObjectDao dao;
 	@Override
 	public void onLogoutSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication)
             throws IOException {
+		String uid = request.getParameter("uid");
+		if (uid != null && !"".equals(uid)) {
+			// update isonline
+			try {
+				dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_USER_LOGOUT, new Object[] { uid });
+			} catch (DAOException e) {
+				e.printStackTrace();
+			}
+		}
 		response.setStatus(HttpServletResponse.SC_OK);
         PrintWriter writer = response.getWriter();
         JsonObject json = new JsonObject();

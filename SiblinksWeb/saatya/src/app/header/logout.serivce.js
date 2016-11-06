@@ -2,11 +2,10 @@
 brotServices.factory('LogoutService', ['$http', function($http) {
   var factory = {};
 
-  factory.logout = function(username) {
+  factory.logout = function(uid) {
     var promise = $http({
-      method: 'POST',
-      url: NEW_SERVICE_URL + '/user/logout',
-      data:{'username':username},
+      method: 'GET',
+      url: NEW_SERVICE_URL + '/user/logout?uid='+uid,
       success : function(data) { 
           console.log("clicked");
       }, 
