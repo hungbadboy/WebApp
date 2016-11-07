@@ -39,16 +39,8 @@ brotServices.factory('EssayService', ['$http', function($http) {
 
   factory.getEssayById = function(essayId, uid) {
     var promise = $http({
-      method: 'POST',
-      url: NEW_SERVICE_URL + 'essay/getEssayById',
-      data: {
-        "request_data_type": "essay",
-        "request_data_method": "getEssayById",
-        "request_data": {
-          "essayId": essayId,
-          "uid": uid
-        }
-      }
+      method: 'GET',
+      url: NEW_SERVICE_URL + 'essay/getEssayById?essayId='+essayId+'&uid='+uid
     });
     return promise;
   };

@@ -1,7 +1,7 @@
 brotServices.factory('StudentService', ['$http', function ($http) {
     var factory = {};
 
-    factory.loginUser = function (userName, passWord, token, callback) {
+    factory.loginUser = function (userName, passWord, token, userType, callback) {
         $.ajax({
             url: NEW_SERVICE_URL + 'user/login',
             type: 'POST',
@@ -9,6 +9,7 @@ brotServices.factory('StudentService', ['$http', function ($http) {
             data: {
                 username: userName,
                 password: passWord,
+                userType: userType == null ? 'S' : userType,
                 token:token
             }, success: function (data) {
                 callback(data);

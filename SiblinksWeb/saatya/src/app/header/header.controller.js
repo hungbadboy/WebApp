@@ -134,10 +134,12 @@ brotControllers.controller('UserHeaderController',
             init();
 
             $scope.logout = function () {
-                LogoutService.logout(username).then(function (data) {
-                });
-                window.localStorage.clear();
-                window.location.href = '/';
+                LogoutService.logout(userId).then(function (data) {
+                	if(data.data.status == true) {
+                		window.localStorage.clear();
+                		window.location.href ='/';
+                	}
+                });                
             };
 
             $scope.viewAllNotification = function () {

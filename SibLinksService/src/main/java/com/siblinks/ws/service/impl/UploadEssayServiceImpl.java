@@ -742,7 +742,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 }
             }
             if (file.getSize() > Long.parseLong(limitSize)) {
-                error = "File over 10M";
+                error = "File over 5MB";
             }
         } else {
             error = "File is empty";
@@ -871,16 +871,37 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         try {
             Object[] params = null;
             List<Object> readObject = null;
-
-            if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY) || entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY)) {
+            List<Object> readCount = null;
+            if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY)) {
                 params = new Object[] { userid, schoolId, limit, offset };
                 readObject = dao.readObjects(entityName, params);
+                params = new Object[] { userid, schoolId };
+                readCount = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_NEWEST_ESSAY, params);
+
+            } else if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY)) {
+                params = new Object[] { userid, schoolId, limit, offset };
+                readObject = dao.readObjects(entityName, params);
+                params = new Object[] { userid, schoolId };
+                readCount = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_IGNORED_ESSAY, params);
+            } else if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_PROCESSING_ESSAY)) {
+                params = new Object[] { schoolId, userid, limit, offset };
+                readObject = dao.readObjects(entityName, params);
+                params = new Object[] { schoolId, userid };
+                readCount = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_PROCESSING_ESSAY, params);
             } else {
                 params = new Object[] { schoolId, userid, limit, offset };
                 readObject = dao.readObjects(entityName, params);
+                params = new Object[] { schoolId, userid };
+                readCount = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_REPLIED_ESSAY, params);
             }
             if (readObject != null && readObject.size() > 0) {
-                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", from, readObject);
+                Map<String, Object> tmp = null;
+                String count = null;
+                for (Object object : readCount) {
+                    tmp = (Map<String, Object>) object;
+                    count = tmp.get("numEssays").toString();
+                }
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", from, readObject, count);
             } else {
                 reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", from, SibConstants.NO_DATA);
             }
@@ -916,6 +937,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_IGNORE_ESSAY, params);
                     params = new Object[] { "W", essayId };
                     flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_CANCEL_ESSAY, params);
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You ignored essay", mentorId, essayId));
                 } else {
                     List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_STATUS_ESSAY, new Object[] { essayId });
                     String essayStatus = "";
@@ -931,7 +953,11 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                         params = new Object[] { status, mentorId, essayId };
                         flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
                         if (flag) {
-                            activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You have updated essay", mentorId, essayId));
+                            if (status.equals("P")) {
+                                activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You have been processing essay", mentorId, essayId));
+                            } else {
+                                activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You replied essay", mentorId, essayId));
+                            }
                             reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Success");
                         } else {
                             reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", "Failed");
@@ -1005,7 +1031,12 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                                     SibConstants.NOTIFICATION_ICON,
                                     SibConstants.NOTIFICATION_PRIPORITY_HIGH);
                             }
-                            activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "C", "You have replied essay", String
+                            activiLogService
+                                .insertActivityLog(new ActivityLogData(
+                                                                       SibConstants.TYPE_ESSAY,
+                                                                       "C",
+                                                                       "You replied an essay",
+                                                                       String
                                 .valueOf(mentorId), String.valueOf(essayId)));
                         } else {
                             transactionManager.rollback(status);

@@ -1,11 +1,10 @@
 brotControllers.controller('PlaylistController', 
-  ['$rootScope','$scope', '$modal', '$routeParams', '$http', '$location', 'PlaylistService', 'HomeService', 'myCache',
-                                       function ($rootScope, $scope, $modal, $routeParams, $http, $location, PlaylistService, HomeService, myCache) {
+  ['$rootScope','$scope', '$modal', '$location', 'PlaylistService', 'HomeService', 'VideoService',
+                                       function ($rootScope, $scope, $modal, $location, PlaylistService, HomeService, VideoService) {
 
 
     var userId = localStorage.getItem('userId'); 
     var cachePlaylist = [];
-    var sub = myCache.get("subjects");
     init();
 
     function init(){
@@ -146,10 +145,9 @@ brotControllers.controller('PlaylistController',
         $rootScope.$broadcast('open');
         PlaylistService.deletePlaylist(p.plid, userId).then(function(data){
           if (data.data.status) {
-             loadPlaylist();         
+             loadPlaylist();   
+             reloadPlaylistCache();      
           }
-          localStorage.removeItem("selectPlaylistSubjects");
-          localStorage.removeItem("playlists");
           $rootScope.$broadcast('close');
         });
       }      
@@ -164,8 +162,7 @@ brotControllers.controller('PlaylistController',
               $rootScope.$broadcast('open');
               PlaylistService.deleteMultiplePlaylist(selectedPlaylist, userId).then(function(data){
                 loadPlaylist();
-                localStorage.removeItem("selectPlaylistSubjects");
-                localStorage.removeItem("playlists");
+                reloadPlaylistCache();
                 $rootScope.$broadcast('close');
               });
             };
@@ -184,6 +181,20 @@ brotControllers.controller('PlaylistController',
             controller: ModalInstanceCtrl
         });        
       }
+    }
+
+    function reloadPlaylistCache(){
+      VideoService.getPlaylist(userId).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+          var playlists = data.data.request_data_result;
+          playlists.splice(0,0,{
+            'plid':0,
+            'name': "Select a Playlist"
+          });
+          localStorage.removeItem("playlists");
+          localStorage.setItem("playlists", JSON.stringify(playlists), 10);
+        }
+      });
     }
 
     function showModal(message){
@@ -349,8 +360,7 @@ brotControllers.controller('PlaylistController',
         if (result != null && result.message == "success") {
           //reload page
           $scope.success = "Insert playlist successful.";
-          localStorage.removeItem("selectPlaylistSubjects");
-          localStorage.removeItem("playlists");
+          reloadPlaylistCache();
           loadPlaylist();
           clearContent();
         } else{
@@ -397,6 +407,7 @@ brotControllers.controller('PlaylistController',
     }
 
     $scope.$on('updatePlaylist', function(e, a){
+      reloadPlaylistCache();
       var item = $.grep($scope.playlist, function(p){
         return p.plid == a.plid;
       });

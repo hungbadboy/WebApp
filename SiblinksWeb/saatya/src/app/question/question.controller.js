@@ -434,7 +434,7 @@ brotControllers
                         return;
                     }
                     if ($files!=null && $files.length > MAX_IMAGE){
-                        $scope.askErrorMsg = 'You only upload ' + MAX_IMAGE +' image';
+                        $scope.askErrorMsg = 'You cannot attach more than ' + MAX_IMAGE +' images';
                         return ;
                     }
                     if ($files != null) {
@@ -504,7 +504,7 @@ brotControllers
                         }
                     }
                     if ($scope.filesArray.length > MAX_IMAGE) {
-                        $scope.askErrorMsg='You only upload ' + MAX_IMAGE +' image';
+                        $scope.askErrorMsg='You cannot attach more than ' + MAX_IMAGE +' images';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;
@@ -578,7 +578,7 @@ brotControllers
                     }
 
                     if (totalLenth > MAX_IMAGE) {
-                        $scope.askErrorMsg='You only upload ' + MAX_IMAGE +' image';
+                        $scope.askErrorMsg='You cannot attach more than ' + MAX_IMAGE +' images';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;

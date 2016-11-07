@@ -103,6 +103,7 @@ public class SibConstants {
         public static final String SQL_GET_PROFILE = "GET_PROFILE";
         public static final String SQL_FIND_USER = "FIND_USER";
         public static final String SQL_UPDATELASTONLINETIME = "UPDATELASTONLINETIME";
+        public static final String SQL_UPDATE_USER_LOGOUT = "UPDATE_USER_LOGOUT";
         public static final String SQL_GET_ALL_USERS = "GET_ALL_USERS";
         public static final String SQL_GET_USERS_BY_USER_TYPE = "GET_USERS_BY_USER_TYPE";
         public static final String SQL_GET_USER_BY_ID = "GET_USER_BY_ID";
@@ -701,6 +702,10 @@ public class SibConstants {
         public static final String SQL_SEARCH_PROCESSING_ESSAY = "SEARCH_PROCESSING_ESSAY";
         public static final String SQL_SEARCH_IGNORED_ESSAY = "SEARCH_IGNORED_ESSAY";
         public static final String SQL_GET_STATUS_ESSAY = "GET_STATUS_ESSAY";
+        public static final String SQL_GET_COUNT_NEWEST_ESSAY = "GET_COUNT_NEWEST_ESSAY";
+        public static final String SQL_GET_COUNT_PROCESSING_ESSAY = "GET_COUNT_PROCESSING_ESSAY";
+        public static final String SQL_GET_COUNT_IGNORED_ESSAY = "GET_COUNT_IGNORED_ESSAY";
+        public static final String SQL_GET_COUNT_REPLIED_ESSAY = "GET_COUNT_REPLIED_ESSAY";
     }
 
     public class SqlMapperActivityLog {

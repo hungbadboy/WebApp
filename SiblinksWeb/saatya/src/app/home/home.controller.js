@@ -97,7 +97,7 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
                 return;
             }
             if ($files!=null && $files.length > MAX_IMAGE){
-                $scope.askErrorMsg = 'You only upload ' + MAX_IMAGE +' image';
+                $scope.askErrorMsg = 'You cannot attach more than ' + MAX_IMAGE +' images for each question';
                 return ;
             }
             if ($files != null) {
@@ -155,7 +155,7 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
                 }
             }
             if ($scope.filesArray.length > MAX_IMAGE) {
-                $scope.askErrorMsg='You only upload ' + MAX_IMAGE +' image';
+                $scope.askErrorMsg='You cannot attach more than  ' + MAX_IMAGE +' images for each question';
                 $rootScope.myVarU = !$scope.myVarU;
                 $timeout(function () {
                     $rootScope.myVarU = false;

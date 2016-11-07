@@ -4,6 +4,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   var userId = localStorage.getItem('userId');
   var schoolId = localStorage.getItem('school');
   var eid = $location.search().eid;
+  var tab = $location.search().t;
   var NO_DATA = "Found no data";
   var newestEssayCache = [];
   var processingEssayCache = [];
@@ -21,8 +22,13 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   init();
 
   function init(){
-    
-    if (userId && userId > 0) {      
+    // if (isNaN(eid) || eid <= 0) {
+    //   window.location.href = '#/mentor/dashboard';
+    // } 
+    // if (isNaN(tab) || tab <= 0 || tab > 4) {
+    //   window.location.href = '#/mentor/dashboard';
+    // }
+    if (userId && userId > 0) {
       $(window).scroll(function(){ 
         var qa_scroll = $(window).scrollTop();
         var heighttab = $(window).height() - 258;
@@ -35,9 +41,9 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
               $(".mentor-manage-essay .left-qa").css({"top":"auto"});
               $(".mentor-manage-essay .left-qa .tab-content .tab-pane").css({"height":+ heighttab_scroll + "px"});
           } 
-
       })
       getAllEssay();
+      // $scope.tabpane = tab;
     } else {
       window.localStorage.clear();
       window.location.href = '/';
@@ -74,6 +80,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     }
     EssayService.getRepliedEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
+      $scope.notifyReplied = data.data.count != null ? data.data.count : 0;
       if (result && result != NO_DATA) {
         $scope.repliedEssays = formatEssay(result);
         repliedEssayCache = $scope.repliedEssays.slice(0);
@@ -95,6 +102,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     }
     EssayService.getIgnoredEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
+      $scope.notifyIgnored = data.data.count != null ? data.data.count : 0;
       if (result && result != NO_DATA) {
         $scope.ignoredEssays = formatEssay(result);
         ignoredEssayCache = $scope.ignoredEssays.slice(0);
@@ -112,6 +120,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     }
     EssayService.getProcessingEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
+      $scope.notifyProcessing = data.data.count != null ? data.data.count : 0;
       if (result && result != NO_DATA) {
         $scope.processingEssays = formatEssay(result);
         processingEssayCache = $scope.processingEssays.slice(0);
@@ -129,6 +138,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     }
     EssayService.getNewestEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
+      $scope.notifyNewest = data.data.count != null ? data.data.count : 0;
       if (result && result != NO_DATA) {
         $scope.newestEssays = formatEssay(result);
         newestEssayCache = $scope.newestEssays.slice(0);
@@ -438,7 +448,12 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   $scope.onFileSelect = function($files, errFile){
     var errFile = errFile && errFile[0];
     if (errFile) {
-      $scope.error = "File maximum is 10MB.";
+      $scope.fileName = null;
+      $scope.fileSize = null;
+      if (errFile.size > 5000000) {
+        $scope.error = "File maximum is 5MB.";
+      } else
+        $scope.error = "File is not valid.";
       return;
     }
     if ($files && $files.length > 0) {

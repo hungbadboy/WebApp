@@ -1,6 +1,6 @@
 brotControllers.controller('VideoManagerController', 
-  ['$rootScope','$scope', '$modal', '$routeParams', 'VideoService', 'MentorService', 'myCache', 'HomeService',
-                                       function ($rootScope,$scope, $modal, $routeParams, VideoService, MentorService, myCache, HomeService) {
+  ['$rootScope','$scope', '$modal', '$routeParams', 'VideoService', 'MentorService', 'HomeService',
+                                       function ($rootScope,$scope, $modal, $routeParams, VideoService, MentorService, HomeService) {
 
 
     var userId = localStorage.getItem('userId');
@@ -11,7 +11,6 @@ brotControllers.controller('VideoManagerController',
     var cacheVideos = [];
     var cacheTopRatedVideos = [];
     var cacheTopViewedVideos = [];
-    var sub = myCache.get("subjects");
     init();
 
     function init(){
@@ -391,9 +390,18 @@ brotControllers.controller('VideoManagerController',
       if ($scope.videoTab != tab) {
         $scope.videoTab = tab;
         $scope.selectedAll = false;
-        $scope.videos = updateSelectedVideo($scope.videos, $scope.selectedAll);
-        $scope.topViewedVideos = updateSelectedVideo($scope.topViewedVideos, $scope.selectedAll);
-        $scope.topRatedVideos = updateSelectedVideo($scope.topRatedVideos, $scope.selectedAll);
+        if ($scope.subject > 0) {
+          if ($scope.videoTab == 1)
+            getNewestVideoBySubject();
+          else if ($scope.videoTab == 2)
+            getTopViewedVideoBySubject();
+          else
+            getTopRatedVideoBySubject();
+        } else{
+          $scope.videos = updateSelectedVideo($scope.videos, $scope.selectedAll);
+          $scope.topViewedVideos = updateSelectedVideo($scope.topViewedVideos, $scope.selectedAll);
+          $scope.topRatedVideos = updateSelectedVideo($scope.topRatedVideos, $scope.selectedAll);
+        }
       }
     }
 
@@ -650,7 +658,22 @@ brotControllers.controller('VideoManagerController',
       data[index].subjectId = a.subjectId;
     }
 
+    function reloadPlaylistCache(){
+      VideoService.getPlaylist(userId).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+          var playlists = data.data.request_data_result;
+          playlists.splice(0,0,{
+            'plid':0,
+            'name': "Select a Playlist"
+          });
+          localStorage.removeItem("playlists");
+          localStorage.setItem("playlists", JSON.stringify(playlists), 10);
+        }
+      });
+    }
+
     $scope.$on('addPlaylistVideo', function(e,a){
+      reloadPlaylistCache();
       var index = getIndex(a.vid);
       if (index != -1) {
         if ($scope.videoTab == 1)
