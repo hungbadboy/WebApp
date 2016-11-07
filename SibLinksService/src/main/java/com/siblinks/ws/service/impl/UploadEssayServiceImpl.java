@@ -979,7 +979,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
     @RequestMapping(value = "/insertUpdateCommentEssay", method = RequestMethod.POST)
     public ResponseEntity<Response> insertUpdateCommentEssay(@RequestParam(required = false) final MultipartFile file, @RequestParam final long essayId,
             @RequestParam final long mentorId, @RequestParam(required = false) final Long studentId, @RequestParam final String comment, @RequestParam(
-                    required = false) final Long commentId, final boolean isUpdate) {
+                    required = false) final Long commentId, @RequestParam(required = false) final String fileOld, @RequestParam final boolean isUpdate) {
         SimpleResponse reponse = null;
         TransactionStatus status = null;
         try {
@@ -1049,6 +1049,11 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                         if (StringUtil.isNull(statusMsg)) {
                             params = new Object[] { mentorId, file.getInputStream(), file.getSize(), file.getOriginalFilename(), essayId };
                             dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITH_FILE, params);
+                        } else {
+                            if (fileOld == null || fileOld.equals("null")) {
+                                params = new Object[] { mentorId, essayId };
+                                flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITHOUT_FILE, params);
+                            }
                         }
                     }
                     transactionManager.commit(status);

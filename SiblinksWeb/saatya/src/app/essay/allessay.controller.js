@@ -643,16 +643,27 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     });
   }
 
-  $scope.openEdit = function(cid, content){
+  $scope.openEdit = function(cid, content, fileName, fileSize){
     $scope.edit = true;
-    $scope.editEssay ={
+    $scope.editEssay = {
       'content' : content,
       'cid': cid
     };
+    $scope.fileName = fileName;
+    $scope.fileSize = fileSize;
   }
 
   $scope.clearEdit = function(){
     $scope.edit = false;
+    $scope.fileName = null;
+    $scope.fileSize = null;
+    file = null;
+  }
+
+  $scope.removeFile = function(){
+    $scope.fileName = null;
+    $scope.fileSize = null;
+    file = null;
   }
 
   $scope.updateComment = function(comment){
@@ -669,6 +680,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     fd.append('mentorId', userId);
     fd.append('isUpdate', true);
     fd.append('commentId', $scope.editEssay.cid);
+    fd.append('fileOld', $scope.fileName);
 
     $rootScope.$broadcast('open');
     EssayService.insertUpdateCommentEssay(fd).then(function(data){
