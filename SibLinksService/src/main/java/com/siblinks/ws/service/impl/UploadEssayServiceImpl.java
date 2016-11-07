@@ -742,7 +742,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 }
             }
             if (file.getSize() > Long.parseLong(limitSize)) {
-                error = "File over 10M";
+                error = "File over 5MB";
             }
         } else {
             error = "File is empty";
