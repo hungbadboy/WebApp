@@ -4,6 +4,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   var userId = localStorage.getItem('userId');
   var schoolId = localStorage.getItem('school');
   var eid = $location.search().eid;
+  var tab = $location.search().t;
   var NO_DATA = "Found no data";
   var newestEssayCache = [];
   var processingEssayCache = [];
@@ -21,8 +22,13 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   init();
 
   function init(){
-    
-    if (userId && userId > 0) {      
+    // if (isNaN(eid) || eid <= 0) {
+    //   window.location.href = '#/mentor/dashboard';
+    // } 
+    // if (isNaN(tab) || tab <= 0 || tab > 4) {
+    //   window.location.href = '#/mentor/dashboard';
+    // }
+    if (userId && userId > 0) {
       $(window).scroll(function(){ 
         var qa_scroll = $(window).scrollTop();
         var heighttab = $(window).height() - 258;
@@ -35,9 +41,9 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
               $(".mentor-manage-essay .left-qa").css({"top":"auto"});
               $(".mentor-manage-essay .left-qa .tab-content .tab-pane").css({"height":+ heighttab_scroll + "px"});
           } 
-
       })
       getAllEssay();
+      // $scope.tabpane = tab;
     } else {
       window.localStorage.clear();
       window.location.href = '/';

@@ -937,6 +937,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_IGNORE_ESSAY, params);
                     params = new Object[] { "W", essayId };
                     flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_CANCEL_ESSAY, params);
+                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You ignored essay", mentorId, essayId));
                 } else {
                     List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_STATUS_ESSAY, new Object[] { essayId });
                     String essayStatus = "";
@@ -952,7 +953,11 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                         params = new Object[] { status, mentorId, essayId };
                         flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
                         if (flag) {
-                            activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You have updated essay", mentorId, essayId));
+                            if (status.equals("P")) {
+                                activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You have been processing essay", mentorId, essayId));
+                            } else {
+                                activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You replied essay", mentorId, essayId));
+                            }
                             reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "updateStatusEssay", "Success");
                         } else {
                             reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", "Failed");
