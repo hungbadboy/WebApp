@@ -540,7 +540,7 @@ public class PlaylistServiceImpl implements PlaylistService {
      */
     @Override
     @RequestMapping(value = "/getAllPlaylist", method = RequestMethod.GET)
-    public ResponseEntity<Response> getAllPlaylist(final long uid) {
+    public ResponseEntity<Response> getAllPlaylist(@RequestParam final long uid) {
         SimpleResponse reponse = null;
         try {
             List<Object> readObjects = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_ALL_PLAYLIST, new Object[] { uid });
@@ -561,15 +561,15 @@ public class PlaylistServiceImpl implements PlaylistService {
      */
     @Override
     @RequestMapping(value = "/getVideoInPlaylist", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideoInPlaylist(final long plid, final int offset) {
+    public ResponseEntity<Response> getVideoInPlaylist(@RequestParam final long plid, @RequestParam final int offset) {
         Object[] queryParams = { plid, offset };
         SimpleResponse reponse = null;
         try {
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_VIDEOS_IN_PLAYLIST, queryParams);
             if (readObject != null && readObject.size() > 0) {
-                reponse = new SimpleResponse(SibConstants.SUCCESS, "Video", "getVideoInPlaylist", readObject);
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "Playlist", "getVideoInPlaylist", readObject);
             } else {
-                reponse = new SimpleResponse(SibConstants.SUCCESS, "Video", "getVideoInPlaylist", SibConstants.NO_DATA);
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "Playlist", "getVideoInPlaylist", SibConstants.NO_DATA);
             }
 
         } catch (Exception e) {
