@@ -59,6 +59,7 @@ import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.ActivityLogService;
 import com.siblinks.ws.service.PlaylistService;
+import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.RandomString;
 import com.siblinks.ws.util.SibConstants;
 
@@ -99,23 +100,25 @@ public class PlaylistServiceImpl implements PlaylistService {
             Object[] queryParams = { userid, offset };
             String entityName = SibConstants.SqlMapperBROT44.SQL_GET_PLAYLIST;
             List<Object> readObject = dao.readObjects(entityName, queryParams);
-            List<Object> dataReturn = new ArrayList<Object>();
-
             if (readObject != null && readObject.size() > 0) {
-                Map<String, Object> playlistItem = null;
-                for (Object object : readObject) {
-                    playlistItem = (Map<String, Object>) object;
-                    playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
-                    dataReturn.add(playlistItem);
-                }
-                simpleResponse = new SimpleResponse("" + true, "playlist", "getPlaylist", dataReturn);
+                // Get count playlist
+                List<Object> countObject = dao.readObjects(
+                    SibConstants.SqlMapperBROT126.SQL_GET_COUNT_PLAYLIST_BY_USER,
+                    new Object[] { userid });
+                simpleResponse = new SimpleResponse(
+                                                    SibConstants.SUCCESS,
+                                                    "playlist",
+                                                    "getPlaylist",
+                                                    readObject,
+                                                    ((Map<String, Long>) countObject.get(0)).get(Parameters.COUNT).toString());
             } else {
-                simpleResponse = new SimpleResponse("" + true, "playlist", "getPlaylist", SibConstants.NO_DATA);
+                simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "getPlaylist", SibConstants.NO_DATA);
             }
 
         } catch (DAOException e) {
             logger.error(e);
-            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "notification", "getNotificationNotReaded", e.getMessage());
+            e.printStackTrace();
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "getPlaylist", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
@@ -125,17 +128,20 @@ public class PlaylistServiceImpl implements PlaylistService {
      */
     private long getCountVideos(final String plid) throws DAOException {
         long numVideos = 0;
-        Object[] params = new Object[] { plid };
-        List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_VIDEOS_IN_PLAYLIST, params);
-        if (readObject != null && readObject.size() > 0) {
-            for (Object object : readObject) {
-                Map<String, Object> map = (Map<String, Object>) object;
-                numVideos = (long) map.get("numVideos");
+        try {
+            Object[] params = new Object[] { plid };
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_VIDEOS_IN_PLAYLIST, params);
+            if (readObject != null && readObject.size() > 0) {
+                for (Object object : readObject) {
+                    Map<String, Object> map = (Map<String, Object>) object;
+                    numVideos = (long) map.get("numVideos");
+                }
+            } else {
+                numVideos = 0;
             }
-        } else {
-            numVideos = 0;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
         return numVideos;
     }
 
@@ -145,8 +151,8 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Override
     @RequestMapping(value = "/insertPlaylist", method = RequestMethod.POST)
     public ResponseEntity<Response> insertPlaylist(@RequestParam final MultipartFile image, @RequestParam final String title,
-            @RequestParam final String description, @RequestParam final String url, @RequestParam final long subjectId, @RequestParam final long createBy,
-            @RequestParam(required = false) final ArrayList<String> vids) throws Exception {
+            @RequestParam final String description, @RequestParam final String url, @RequestParam final long subjectId,
+            @RequestParam final long createBy, @RequestParam(required = false) final ArrayList<String> vids) throws Exception {
         String entityName = null;
         SimpleResponse reponse = null;
         try {
@@ -169,23 +175,23 @@ public class PlaylistServiceImpl implements PlaylistService {
                             dao.insertUpdateObject(SibConstants.SqlMapperBROT126.SQL_ADD_VIDEOS_PLAYLIST, queryParams);
                         }
                     }
-                    activiLogService
-                        .insertActivityLog(new ActivityLogData(
-                                                               SibConstants.TYPE_PLAYLIST,
-                                                               "C",
-                                                               "You created a new playlist",
-                                                               String
-                        .valueOf(createBy), String.valueOf(plid)));
+                    activiLogService.insertActivityLog(new ActivityLogData(
+                                                                           SibConstants.TYPE_PLAYLIST,
+                                                                           "C",
+                                                                           "You created a new playlist",
+                                                                           String.valueOf(createBy),
+                                                                           String.valueOf(plid)));
                     map.put("message", "success");
-                    reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", map);
+                    reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "insertPlaylist", map);
                 } else {
-                    reponse = new SimpleResponse("" + true, "playlist", "insertPlaylist", "failed");
+                    reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "insertPlaylist", "failed");
                 }
             } else {
-                reponse = new SimpleResponse("" + Boolean.FALSE, "Upload playlist thumbnail failed");
+                reponse = new SimpleResponse(SibConstants.FAILURE, "Upload playlist thumbnail failed");
             }
         } catch (Exception e) {
-            reponse = new SimpleResponse("" + Boolean.FALSE, e.getMessage());
+            e.printStackTrace();
+            reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "insertPlaylist", e.getMessage());
         }
 
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -249,26 +255,25 @@ public class PlaylistServiceImpl implements PlaylistService {
      */
     @Override
     @RequestMapping(value = "/deletePlaylist", method = RequestMethod.POST)
-    public ResponseEntity<Response> deletePlaylist(@RequestBody final RequestData request) throws Exception {
+    public ResponseEntity<Response> deletePlaylist(@RequestBody final RequestData request) {
         SimpleResponse reponse = null;
         try {
             boolean status = deletePlaylist(request.getRequest_playlist().getPlid(), request.getRequest_playlist().getCreateBy());
             if (status) {
-                activiLogService
-                    .insertActivityLog(new ActivityLogData(
-                                                           SibConstants.TYPE_PLAYLIST,
-                                                           "D",
-                                                           "You deleted a playlist",
-                                                           request
-                    .getRequest_playlist()
-                    .getCreateBy(), null));
+                activiLogService.insertActivityLog(new ActivityLogData(
+                                                                       SibConstants.TYPE_PLAYLIST,
+                                                                       "D",
+                                                                       "You deleted a playlist",
+                                                                       request.getRequest_playlist().getCreateBy(),
+                                                                       null));
 
-                reponse = new SimpleResponse("" + true, "playlist", "deletePlaylist", "success");
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "deletePlaylist", "success");
             } else {
-                reponse = new SimpleResponse("" + true, "playlist", "deletePlaylist", "failed");
+                reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "deletePlaylist", "failed");
             }
         } catch (Exception e) {
-            throw e;
+            e.printStackTrace();
+            reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "deletePlaylist", e.getMessage());
         }
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
@@ -289,6 +294,7 @@ public class PlaylistServiceImpl implements PlaylistService {
             transactionManager.commit(status);
             flag = true;
         } catch (Exception e) {
+            e.printStackTrace();
             flag = false;
             transactionManager.rollback(status);
         }
@@ -302,17 +308,21 @@ public class PlaylistServiceImpl implements PlaylistService {
     @RequestMapping(value = "/getPlaylistById/{plid}", method = RequestMethod.GET)
     public ResponseEntity<Response> getPlaylistById(@PathVariable(value = "plid") final long plid) throws Exception {
         String entityName = null;
-
-        Object[] queryParams = { plid };
-        entityName = SibConstants.SqlMapperBROT44.SQL_GET_PLAYLIST_BY_ID;
-        List<Object> readObject = dao.readObjects(entityName, queryParams);
-        Map<String, Object> objectReturn = null;
         SimpleResponse reponse = null;
-        if (readObject != null && readObject.size() > 0) {
-            objectReturn = (Map<String, Object>) readObject.get(0);
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", objectReturn);
-        } else {
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylist", SibConstants.NO_DATA);
+        try {
+            Object[] queryParams = { plid };
+            entityName = SibConstants.SqlMapperBROT44.SQL_GET_PLAYLIST_BY_ID;
+            List<Object> readObject = dao.readObjects(entityName, queryParams);
+            Map<String, Object> objectReturn = null;
+            if (readObject != null && readObject.size() > 0) {
+                objectReturn = (Map<String, Object>) readObject.get(0);
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "getPlaylist", objectReturn);
+            } else {
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "getPlaylist", SibConstants.NO_DATA);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "getPlaylist", e.getMessage());
         }
 
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -326,35 +336,45 @@ public class PlaylistServiceImpl implements PlaylistService {
     public ResponseEntity<Response> searchPlaylist(@RequestBody final RequestData request) throws Exception {
         Object[] queryParams = null;
         String entityName = "";
-        String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch());
-        int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request.getRequest_data().getSubjectId()) : 0;
-        int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
-
-        if (subjectId == 0) {
-            queryParams = new Object[] { request.getRequest_data().getUid() };
-            entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST_MENTOR;
-        } else {
-            queryParams = new Object[] { request.getRequest_data().getUid(), subjectId };
-            entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST_WITH_SUBJECT;
-        }
-        String whereClause = String.format("and p.name like '%%%s%%' order by p.CreateDate DESC limit 10 offset %d", term, offset);
-
-        List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
-
         SimpleResponse reponse = null;
-        List<Object> dataReturn = new ArrayList<Object>();
-        if (readObject != null && readObject.size() > 0) {
-            Map<String, Object> playlistItem = null;
-            for (Object object : readObject) {
-                playlistItem = (Map<String, Object>) object;
-                playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
-                dataReturn.add(playlistItem);
-            }
-            reponse = new SimpleResponse("" + true, "playlist", "searchPlaylist", dataReturn);
-        } else {
-            reponse = new SimpleResponse("" + true, "playlist", "searchPlaylist", SibConstants.NO_DATA);
-        }
 
+        try {
+            String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch());
+            int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request
+                .getRequest_data()
+                .getSubjectId()) : 0;
+            int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
+
+            if (subjectId == 0) {
+                queryParams = new Object[] { request.getRequest_data().getUid() };
+                entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST_MENTOR;
+            } else {
+                queryParams = new Object[] { request.getRequest_data().getUid(), subjectId };
+                entityName = SibConstants.SqlMapperBROT163.SQL_SEARCH_PLAYLIST_WITH_SUBJECT;
+            }
+            String whereClause = String.format(
+                "and p.name like '%%%s%%' order by p.CreateDate DESC limit 10 offset %d",
+                term,
+                offset);
+
+            List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
+
+            List<Object> dataReturn = new ArrayList<Object>();
+            if (readObject != null && readObject.size() > 0) {
+                Map<String, Object> playlistItem = null;
+                for (Object object : readObject) {
+                    playlistItem = (Map<String, Object>) object;
+                    playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
+                    dataReturn.add(playlistItem);
+                }
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "searchPlaylist", dataReturn);
+            } else {
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "searchPlaylist", SibConstants.NO_DATA);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "searchPlaylist", e.getMessage());
+        }
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
@@ -363,25 +383,29 @@ public class PlaylistServiceImpl implements PlaylistService {
      */
     @Override
     @RequestMapping(value = "/getPlaylistBySubject", method = RequestMethod.GET)
-    public ResponseEntity<Response> getPlaylistBySubject(final long uid, final long subjectId, final int offset) throws Exception {
-        Object[] queryParams = { uid, subjectId, offset };
-        String entityName = SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_BY_SUBJECT;
-        List<Object> readObject = dao.readObjects(entityName, queryParams);
+    public ResponseEntity<Response> getPlaylistBySubject(final long uid, final long subjectId, final int offset) {
         SimpleResponse reponse = null;
-        List<Object> dataReturn = new ArrayList<Object>();
+        try {
+            Object[] queryParams = { uid, subjectId, offset };
+            String entityName = SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_BY_SUBJECT;
+            List<Object> readObject = dao.readObjects(entityName, queryParams);
+            List<Object> dataReturn = new ArrayList<Object>();
 
-        if (readObject != null && readObject.size() > 0) {
-            Map<String, Object> playlistItem = null;
-            for (Object object : readObject) {
-                playlistItem = (Map<String, Object>) object;
-                playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
-                dataReturn.add(playlistItem);
+            if (readObject != null && readObject.size() > 0) {
+                Map<String, Object> playlistItem = null;
+                for (Object object : readObject) {
+                    playlistItem = (Map<String, Object>) object;
+                    playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
+                    dataReturn.add(playlistItem);
+                }
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "getPlaylistBySubject", dataReturn);
+            } else {
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "getPlaylistBySubject", SibConstants.NO_DATA);
             }
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylistBySubject", dataReturn);
-        } else {
-            reponse = new SimpleResponse("" + true, "playlist", "getPlaylistBySubject", SibConstants.NO_DATA);
+        } catch (Exception e) {
+            e.printStackTrace();
+            reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "getPlaylistBySubject", e.getMessage());
         }
-
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
 
@@ -406,19 +430,18 @@ public class PlaylistServiceImpl implements PlaylistService {
             }
         }
         try {
-            activiLogService
-                .insertActivityLog(new ActivityLogData(
-                                                       SibConstants.TYPE_PLAYLIST,
-                                                       "D",
-                                                       "You deleted a playlist",
-                                                       uid,
-                                                       null));
+            activiLogService.insertActivityLog(new ActivityLogData(
+                                                                   SibConstants.TYPE_PLAYLIST,
+                                                                   "D",
+                                                                   "You deleted a playlist",
+                                                                   uid,
+                                                                   null));
         } catch (Exception e) {
             logger.debug(e.getCause());
             e.printStackTrace();
         }
         String msg = String.format("Delete success %d playlist and failed %d playlist", countSuccess, countFail);
-        reponse = new SimpleResponse("" + true, "playlist", "deleteMultiplePlaylist", msg);
+        reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "deleteMultiplePlaylist", msg);
 
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
@@ -438,9 +461,10 @@ public class PlaylistServiceImpl implements PlaylistService {
                 params = new Object[] { vid };
                 dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_DELETE_VIDEO_IN_PLAYLIST, params);
             }
-            reponse = new SimpleResponse("" + true, "playlist", "deleteVideoInPlaylist", "Success");
+            reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "deleteVideoInPlaylist", "Success");
         } catch (Exception e) {
-            reponse = new SimpleResponse("" + true, "playlist", "deleteVideoInPlaylist", e.getMessage());
+            e.printStackTrace();
+            reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "deleteVideoInPlaylist", e.getMessage());
         }
 
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -451,9 +475,9 @@ public class PlaylistServiceImpl implements PlaylistService {
      */
     @Override
     @RequestMapping(value = "/updatePlaylist", method = RequestMethod.POST)
-    public ResponseEntity<Response> updatePlaylist(@RequestParam(required = false) final MultipartFile image, @RequestParam final String oldImage,
-            @RequestParam final String title, @RequestParam final String description, @RequestParam final long subjectId, @RequestParam final long createBy,
-            @RequestParam final long plid) {
+    public ResponseEntity<Response> updatePlaylist(@RequestParam(required = false) final MultipartFile image,
+            @RequestParam final String oldImage, @RequestParam final String title, @RequestParam final String description,
+            @RequestParam final long subjectId, @RequestParam final long createBy, @RequestParam final long plid) {
         String entityName = null;
         boolean updateObject;
         SimpleResponse reponse = null;
@@ -484,10 +508,14 @@ public class PlaylistServiceImpl implements PlaylistService {
                     } else {
                         map.put("newImage", oldImage);
                     }
-                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "U", "You have updated playlist", String
-                        .valueOf(createBy), String.valueOf(plid)));
+                    activiLogService.insertActivityLog(new ActivityLogData(
+                                                                           SibConstants.TYPE_PLAYLIST,
+                                                                           "U",
+                                                                           "You have updated playlist",
+                                                                           String.valueOf(createBy),
+                                                                           String.valueOf(plid)));
 
-                    reponse = new SimpleResponse("" + true, "playlist", "updatePlaylist", map);
+                    reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "updatePlaylist", map);
 
                     if (newImage != null && !"".equals(newImage) && oldImage != null && !"".equals(oldImage)) {
                         String fileName = oldImage.substring(oldImage.lastIndexOf("/"), oldImage.length());
@@ -497,10 +525,11 @@ public class PlaylistServiceImpl implements PlaylistService {
                         }
                     }
                 } else {
-                    reponse = new SimpleResponse("" + true, "playlist", "updatePlaylist", "failed");
+                    reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "updatePlaylist", "failed");
                 }
             } catch (Exception e) {
-                reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "updatePlaylist", "failed");
+                e.printStackTrace();
+                reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "updatePlaylist", e.getMessage());
             }
         }
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
@@ -516,12 +545,13 @@ public class PlaylistServiceImpl implements PlaylistService {
         try {
             List<Object> readObjects = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_ALL_PLAYLIST, new Object[] { uid });
             if (readObjects != null && readObjects.size() > 0) {
-                reponse = new SimpleResponse(true + "", "playlist", "getAllPlaylist", readObjects);
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "getAllPlaylist", readObjects);
             } else {
-                reponse = new SimpleResponse(true + "", "playlist", "getAllPlaylist", SibConstants.NO_DATA);
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "getAllPlaylist", SibConstants.NO_DATA);
             }
         } catch (Exception e) {
-            reponse = new SimpleResponse(true + "", "playlist", "getAllPlaylist", e.getMessage());
+            e.printStackTrace();
+            reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "getAllPlaylist", e.getMessage());
         }
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
@@ -537,13 +567,14 @@ public class PlaylistServiceImpl implements PlaylistService {
         try {
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_VIDEOS_IN_PLAYLIST, queryParams);
             if (readObject != null && readObject.size() > 0) {
-                reponse = new SimpleResponse("" + true, "Video", "getVideoInPlaylist", readObject);
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "Video", "getVideoInPlaylist", readObject);
             } else {
-                reponse = new SimpleResponse("" + true, "Video", "getVideoInPlaylist", SibConstants.NO_DATA);
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "Video", "getVideoInPlaylist", SibConstants.NO_DATA);
             }
 
         } catch (Exception e) {
-            reponse = new SimpleResponse(true + "", "playlist", "getAllPlaylist", e.getMessage());
+            e.printStackTrace();
+            reponse = new SimpleResponse(SibConstants.FAILURE, "playlist", "getVideoInPlaylist", e.getMessage());
         }
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
     }
