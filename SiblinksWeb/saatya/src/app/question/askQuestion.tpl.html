@@ -155,7 +155,7 @@
                     <!--</div>-->
                 <!--</div>-->
                 <div id="modalImage" class="modal face">
-
+                    
                     <div id="myCarousel" class="carousel slide container"  data-interval="false" >
                         <!--&lt;!&ndash; Indicators &ndash;&gt;-->
                         <!--<ol class="carousel-indicators">-->
@@ -168,7 +168,7 @@
                         <!-- Wrapper for slides -->
                         <!-- The Close Button -->
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" data-icon="&#x4d;"></span>
+                            <span aria-hidden="true" data-icon="&#x51;"></span>
                         </button>
                         <div class="carousel-inner" role="listbox">
                             <div class="item" ng-class="{'active':currentIndexImage == $index}" ng-repeat="img in currentImage track by $index">
@@ -191,7 +191,7 @@
                         <ul class="thumbnails-carousel clearfix">
                             <div id="ulthumbnails-carouselcenter" class="center clearfix">
                                 <li id="ulthumbnails-carouselli" ng-click="setCurrentIndex($index)" ng-repeat="imgThumb in currentImage track by $index">
-                                    {{currentIndexImage +'=='+ $index}}
+                                    <!-- {{currentIndexImage +'=='+ $index}} -->
                                     <img data-target="#myCarousel" style="height: 80px;width: 80px" class="{{currentIndexImage == $index ? 'active-thumbnail':''}}" data-slide-to="{{$index}}"  ng-src="{{imgThumb}}">
                                 </li>
                             </div>

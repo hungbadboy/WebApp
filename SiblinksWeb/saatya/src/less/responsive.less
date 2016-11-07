@@ -716,8 +716,8 @@
         left: 1.7%;
         padding-right:  0;
     }
-    .modal-add-video {
-        width: 860px !important;
+    .modal .modal-dialog.modal-add-video {
+        width: 825px !important;
     }
     .modal-add-video.modal-sm {
         width: 400px !important;
@@ -836,6 +836,19 @@
         margin-right: 0;
         width: 42%;
     }
+
+    /*Popup image*/
+    div#modalImage a.right.carousel-control {
+        right: -18px;
+        top: 30%;
+    }
+    div#modalImage a.left.carousel-control {
+        left: -18px;
+        top: 30%;
+    }
+    div#modalImage #myCarousel {
+        width: 55%;
+    }
 }
 /***For max screen 1281***/
 @media screen and (max-width: 1281px) { 
@@ -950,6 +963,7 @@
         right: -50px;
         top: 12%;
     }
+
 
     
 }
@@ -1255,6 +1269,8 @@
         border-bottom: 4px solid #ffcc00;
         border-right: none;
     }
+
+    
 
     
 
