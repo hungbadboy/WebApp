@@ -9,7 +9,7 @@ brotServices.factory('StudentService', ['$http', function ($http) {
             data: {
                 username: userName,
                 password: passWord,
-                userType: userType,
+                userType: userType == null ? 'S' : userType,
                 token:token
             }, success: function (data) {
                 callback(data);

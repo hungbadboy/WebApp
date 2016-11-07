@@ -24,7 +24,7 @@ brotApp.controller('ForgotPassword', function($scope, $rootScope, $http) {
           }
       }
     }).success(function(json) {
-        if(json.status === true) {
+        if(json.status == 'true') {
           $scope.showItem = true;
           $scope.sucessmsg ='We have sent a link to reset your password to ' + email + '.';
           
