@@ -23,7 +23,7 @@ brotControllers.controller('AddUpdatePlaylistController',
     }
 
     function initSubject(){
-      var playlistDetaillSubjects = localStorage.getItem("playlistManagerSubjects");
+      var playlistDetaillSubjects = localStorage.getItem("subjects");
       if (playlistDetaillSubjects !== null) {
          $scope.updateSubjects = JSON.parse(playlistDetaillSubjects);
          $scope.updateSubject = $scope.updateSubjects[0].subjectId;
@@ -35,7 +35,6 @@ brotControllers.controller('AddUpdatePlaylistController',
                   'subjectId': 0,
                   'subject' : 'Select a Subject'
                 });
-                localStorage.setItem("playlistManagerSubjects", JSON.stringify($scope.updateSubjects), 2)
                 $scope.updateSubject = $scope.updateSubjects[0].subjectId;
                 if ($scope.playlist)
                   displayPlaylist($scope.playlist);

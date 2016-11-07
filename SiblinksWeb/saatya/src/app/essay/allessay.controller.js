@@ -352,6 +352,8 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   }
 
   $scope.changeTab = function(val){
+    $scope.edit = false;
+    $scope.editEssay = null;
     $scope.fileName = null;
     $scope.fileSize = null;
     $scope.tabpane = val;
@@ -468,6 +470,8 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   }
 
   $scope.detailEssay = function(eid){
+    $scope.edit = false;
+    $scope.editEssay = null;
     $scope.eid = eid;
     getEssayById(eid, userId);
   }

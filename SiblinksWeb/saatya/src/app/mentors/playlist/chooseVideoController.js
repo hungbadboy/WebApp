@@ -1,6 +1,6 @@
 brotControllers.controller('ChooseVideoController', 
-  ['$rootScope','$scope', '$modalInstance', '$routeParams', 'PlaylistService', 'VideoService','HomeService', 'myCache', 'pl_id',
-                                       function ($rootScope, $scope, $modalInstance, $routeParams, PlaylistService, VideoService, HomeService, myCache, pl_id) {
+  ['$rootScope','$scope', '$modalInstance', '$routeParams', 'PlaylistService', 'VideoService','HomeService', 'pl_id',
+                                       function ($rootScope, $scope, $modalInstance, $routeParams, PlaylistService, VideoService, HomeService, pl_id) {
 
     var userId = localStorage.getItem('userId'); 
     $scope.subject = [0];
@@ -73,29 +73,18 @@ brotControllers.controller('ChooseVideoController',
         return data;
     }
 
-    var sub = myCache.get("subjects");
     function initSubject(){
-      if (sub){    
-        var objArr = angular.copy(sub);
-        var objArr2 = angular.copy(sub);
-
-         if (objArr[0].subjectId != 0) {
-            objArr.splice(0, 0, {
-              'subjectId': 0,
-              'subject' : 'Select a Subject'
-            });
-            $scope.subjects = objArr;
-         }
-         $scope.addSubject = $scope.subjects[0].subjectId;    
-
-         if (objArr2[0].subjectId != 0) {
-            objArr2.splice(0, 0, {
-              'subjectId': 0,
-              'subject' : 'All'
-            });
-            $scope.filterSubjects = objArr2;
-         }           
-         $scope.subject = $scope.filterSubjects[0].subjectId;
+      var subjects = localStorage.getItem("subjects");
+      if (subjects != null){    
+        $scope.subjects = JSON.parse(subjects);
+        $scope.addSubject = $scope.subjects[0].subjectId;    
+        $scope.filterSubjects = JSON.parse(subjects);
+        $scope.filterSubjects.slice(0, 1);
+        $scope.filterSubjects.splice(0, 0, {
+          'subjectId': 0,
+          'subject' : 'All'
+        });
+        $scope.subject = $scope.filterSubjects[0].subjectId;
       } else{
         HomeService.getAllCategory().then(function (data) {
            if (data.data.status) {
