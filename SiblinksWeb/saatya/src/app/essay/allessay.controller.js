@@ -74,6 +74,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     }
     EssayService.getRepliedEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
+      $scope.notifyReplied = data.data.count != null ? data.data.count : 0;
       if (result && result != NO_DATA) {
         $scope.repliedEssays = formatEssay(result);
         repliedEssayCache = $scope.repliedEssays.slice(0);
@@ -95,6 +96,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     }
     EssayService.getIgnoredEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
+      $scope.notifyIgnored = data.data.count != null ? data.data.count : 0;
       if (result && result != NO_DATA) {
         $scope.ignoredEssays = formatEssay(result);
         ignoredEssayCache = $scope.ignoredEssays.slice(0);
@@ -112,6 +114,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     }
     EssayService.getProcessingEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
+      $scope.notifyProcessing = data.data.count != null ? data.data.count : 0;
       if (result && result != NO_DATA) {
         $scope.processingEssays = formatEssay(result);
         processingEssayCache = $scope.processingEssays.slice(0);
@@ -129,6 +132,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     }
     EssayService.getNewestEssay(userId, schoolId, 10, 0).then(function(data){
       var result = data.data.request_data_result;
+      $scope.notifyNewest = data.data.count != null ? data.data.count : 0;
       if (result && result != NO_DATA) {
         $scope.newestEssays = formatEssay(result);
         newestEssayCache = $scope.newestEssays.slice(0);

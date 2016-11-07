@@ -702,6 +702,10 @@ public class SibConstants {
         public static final String SQL_SEARCH_PROCESSING_ESSAY = "SEARCH_PROCESSING_ESSAY";
         public static final String SQL_SEARCH_IGNORED_ESSAY = "SEARCH_IGNORED_ESSAY";
         public static final String SQL_GET_STATUS_ESSAY = "GET_STATUS_ESSAY";
+        public static final String SQL_GET_COUNT_NEWEST_ESSAY = "GET_COUNT_NEWEST_ESSAY";
+        public static final String SQL_GET_COUNT_PROCESSING_ESSAY = "GET_COUNT_PROCESSING_ESSAY";
+        public static final String SQL_GET_COUNT_IGNORED_ESSAY = "GET_COUNT_IGNORED_ESSAY";
+        public static final String SQL_GET_COUNT_REPLIED_ESSAY = "GET_COUNT_REPLIED_ESSAY";
     }
 
     public class SqlMapperActivityLog {

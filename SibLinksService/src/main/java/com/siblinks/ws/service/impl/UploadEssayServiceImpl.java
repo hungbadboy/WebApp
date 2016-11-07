@@ -871,16 +871,37 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         try {
             Object[] params = null;
             List<Object> readObject = null;
-
-            if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY) || entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY)) {
+            List<Object> readCount = null;
+            if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_NEWEST_ESSAY)) {
                 params = new Object[] { userid, schoolId, limit, offset };
                 readObject = dao.readObjects(entityName, params);
+                params = new Object[] { userid, schoolId };
+                readCount = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_NEWEST_ESSAY, params);
+
+            } else if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_IGNORED_ESSAY)) {
+                params = new Object[] { userid, schoolId, limit, offset };
+                readObject = dao.readObjects(entityName, params);
+                params = new Object[] { userid, schoolId };
+                readCount = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_IGNORED_ESSAY, params);
+            } else if (entityName.equals(SibConstants.SqlMapperBROT163.SQL_GET_PROCESSING_ESSAY)) {
+                params = new Object[] { schoolId, userid, limit, offset };
+                readObject = dao.readObjects(entityName, params);
+                params = new Object[] { schoolId, userid };
+                readCount = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_PROCESSING_ESSAY, params);
             } else {
                 params = new Object[] { schoolId, userid, limit, offset };
                 readObject = dao.readObjects(entityName, params);
+                params = new Object[] { schoolId, userid };
+                readCount = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_REPLIED_ESSAY, params);
             }
             if (readObject != null && readObject.size() > 0) {
-                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", from, readObject);
+                Map<String, Object> tmp = null;
+                String count = null;
+                for (Object object : readCount) {
+                    tmp = (Map<String, Object>) object;
+                    count = tmp.get("numEssays").toString();
+                }
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", from, readObject, count);
             } else {
                 reponse = new SimpleResponse(SibConstants.SUCCESS, "essay", from, SibConstants.NO_DATA);
             }

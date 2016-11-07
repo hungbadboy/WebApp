@@ -25,10 +25,10 @@
                             </div>
                             <div role="tabpanel tab-all">
                                 <div class="t-panel">
-                                    <p ng-class="{'active': tabpane == 1}" ng-click="changeTab(1)">New<span class="sup1">{{newestEssays.length > 0 ? newestEssays.length : 0}}</span></p>
-                                    <p ng-class="{'active': tabpane== 2}" ng-click="changeTab(2)">Processing<span class="sup2">{{processingEssays.length > 0 ? processingEssays.length : 0}}</span></p>
-                                    <p ng-class="{'active': tabpane== 3}" ng-click="changeTab(3)">Ignored<span class="sup3">{{ignoredEssays.length > 0 ? ignoredEssays.length : 0}}</span></p>
-                                    <p ng-class="{'active': tabpane== 4}" ng-click="changeTab(4)">Replied<span class="sup4">{{repliedEssays.length > 0 ? repliedEssays.length : 0}}</span></p>
+                                    <p ng-class="{'active': tabpane == 1}" ng-click="changeTab(1)">New<span class="sup1">{{notifyNewest}}</span></p>
+                                    <p ng-class="{'active': tabpane== 2}" ng-click="changeTab(2)">Processing<span class="sup2">{{notifyProcessing}}</span></p>
+                                    <p ng-class="{'active': tabpane== 3}" ng-click="changeTab(3)">Ignored<span class="sup3">{{notifyIgnored}}</span></p>
+                                    <p ng-class="{'active': tabpane== 4}" ng-click="changeTab(4)">Replied<span class="sup4">{{notifyReplied}}</span></p>
                                 </div>
                                 <div class="tab-content">
                                     <div class="tab-pane" ng-class="{'active': tabpane == 1}">
