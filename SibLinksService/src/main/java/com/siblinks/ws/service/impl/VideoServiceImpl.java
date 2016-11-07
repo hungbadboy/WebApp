@@ -38,7 +38,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -2071,47 +2070,47 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
         boolean status = false;
         SimpleResponse response = null;
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus statusDao = null;
         try {
             if (!AuthenticationFilter.isAuthed(context)) {
                 response = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(response, HttpStatus.FORBIDDEN);
             }
-            TransactionDefinition def = new DefaultTransactionDefinition();
-            TransactionStatus statusDao = transactionManager.getTransaction(def);
-            try {
+            statusDao = transactionManager.getTransaction(def);
 
-                Object[] queryParams = new Object[] { request.getRequest_data().getUid(), request.getRequest_data().getVid() };
+            Object[] queryParams = new Object[] { request.getRequest_data().getUid(), request.getRequest_data().getVid() };
 
-                entityName = SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO;
+            entityName = SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO;
 
-                List<Object> videoRated = dao.readObjects(entityName, queryParams);
+            List<Object> videoRated = dao.readObjects(entityName, queryParams);
 
-                boolean isRated = videoRated.size() > 0 ? true : false;
-                String rate = request.getRequest_data().getRating();
-                String vid = request.getRequest_data().getVid();
+            boolean isRated = videoRated.size() > 0 ? true : false;
+            String rate = request.getRequest_data().getRating();
+            String vid = request.getRequest_data().getVid();
 
-                if (!isRated) {
-                    entityName = SibConstants.SqlMapper.SQL_SIB_RATE_VIDEO;
-                    queryParams = new Object[] { vid, request.getRequest_data().getUid(), rate };
-                } else {
-                    queryParams = new Object[] { rate, vid, request.getRequest_data().getUid() };
-                    entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO;
-                }
-                Object[] queryUpdateRate = { rate, vid, rate, vid };
-                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE, queryUpdateRate);
-                status = dao.insertUpdateObject(entityName, queryParams);
-
-                transactionManager.commit(statusDao);
-                logger.info("Insert Menu success " + new Date());
-            } catch (NullPointerException | DataAccessException e) {
-                transactionManager.rollback(statusDao);
-                throw e;
+            if (!isRated) {
+                entityName = SibConstants.SqlMapper.SQL_SIB_RATE_VIDEO;
+                queryParams = new Object[] { vid, request.getRequest_data().getUid(), rate };
+            } else {
+                queryParams = new Object[] { rate, vid, request.getRequest_data().getUid() };
+                entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO;
             }
+            Object[] queryUpdateRate = { rate, vid, rate, vid };
+            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE, queryUpdateRate);
+            status = dao.insertUpdateObject(entityName, queryParams);
+
+            transactionManager.commit(statusDao);
+            logger.info("Insert Menu success " + new Date());
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request
                 .getRequest_data()
                 .getVid());
+
         } catch (Exception e) {
             e.printStackTrace();
+            if (transactionManager != null) {
+                transactionManager.rollback(statusDao);
+            }
             response = new SimpleResponse(
                                           SibConstants.FAILURE,
                                           request.getRequest_data_type(),
@@ -2131,34 +2130,42 @@ public class VideoServiceImpl implements VideoService {
         boolean status = false;
         SimpleResponse response = null;
         TransactionStatus statusDao = null;
+        TransactionDefinition def = new DefaultTransactionDefinition();
         try {
             if (!AuthenticationFilter.isAuthed(context)) {
                 response = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(response, HttpStatus.FORBIDDEN);
             }
-            TransactionDefinition def = new DefaultTransactionDefinition();
+
             statusDao = transactionManager.getTransaction(def);
-
+            // Check user rated yet
             Object[] queryParams = new Object[] { request.getRequest_data().getUid(), request.getRequest_data().getVid() };
-
-            entityName = SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO_ADMISSION;
-
-            List<Object> videoRated = dao.readObjects(entityName, queryParams);
+            List<Object> videoRated = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO_ADMISSION, queryParams);
 
             boolean isRated = videoRated.size() > 0 ? true : false;
             String rate = request.getRequest_data().getRating();
             String vid = request.getRequest_data().getVid();
 
             if (!isRated) {
+                // New rating
                 entityName = SibConstants.SqlMapper.SQL_SIB_RATE_VIDEO_ADMISSION;
                 queryParams = new Object[] { vid, request.getRequest_data().getUid(), rate };
+                status = dao.insertUpdateObject(entityName, queryParams);
+
+                Object[] queryUpdateRate = { rate, vid };
+                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_VIDEO_ADMISSION, queryUpdateRate);
             } else {
+                Map<String, Double> object = (Map<String, Double>) videoRated.get(0);
+                // Update rating
                 queryParams = new Object[] { rate, vid, request.getRequest_data().getUid() };
                 entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO_ADMISSION;
+                Double rateOld = object.get("rate");
+                Double rateNew = Double.parseDouble(rate);
+                Object[] queryUpdateRate = { rateNew - rateOld };
+                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_VIDEO_ADMISSION_AGAIN, queryUpdateRate);
             }
-            Object[] queryUpdateRate = { rate, vid, rate, vid };
-            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_VIDEO_ADMISSION, queryUpdateRate);
-            status = dao.insertUpdateObject(entityName, queryParams);
+
+
 
             transactionManager.commit(statusDao);
             logger.info("Insert Menu success " + new Date());
@@ -2535,13 +2542,8 @@ public class VideoServiceImpl implements VideoService {
     public ResponseEntity<Response> checkUserRatingVideoAdmission(@RequestBody final RequestData request) {
         SimpleResponse response = null;
         try {
-            String entityName = null;
             Object[] queryParams = { request.getRequest_data().getUid(), request.getRequest_data().getVid() };
-
-            entityName = SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO_ADMISSION;
-
-            List<Object> readObject = dao.readObjects(entityName, queryParams);
-
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO_ADMISSION, queryParams);
             response = new SimpleResponse(
                                           SibConstants.SUCCESS,
                                           request.getRequest_data_type(),

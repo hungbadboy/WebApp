@@ -94,17 +94,8 @@ brotServices.factory('videoAdmissionService', ['$http', function ($http) {
 
     factory.getVideoByAdmissionId = function( sid,limit,offset) {
         var promise = $http({
-            method: 'POST',
-            url: NEW_SERVICE_URL + 'videodetail/getVideoByAdmissionId',
-            data: {
-                "request_data_type": "video",
-                "request_data_method": "getVideoByAdmissionId",
-                "request_data": {
-                    "subjectId": sid,
-                    "limit":limit,
-                    "offset":offset
-                }
-            }
+            method: 'GET',
+            url: NEW_SERVICE_URL + 'videodetail/getVideoByAdmissionId?aId='+sid
         });
         return promise;
     };
