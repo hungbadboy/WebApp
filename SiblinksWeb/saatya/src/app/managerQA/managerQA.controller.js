@@ -253,6 +253,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                     "author": obj[0].userName,
                     "firstName": obj[0].firstName,
                     "lastName": obj[0].lastName,
+                    "userName": obj[0].userName,
                     "avatar": obj[0].imageUrl,
                     "subject": obj[0].subject,
                     "subjectId": obj[0].subjectId,
