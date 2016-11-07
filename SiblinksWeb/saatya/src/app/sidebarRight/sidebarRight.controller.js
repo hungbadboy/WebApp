@@ -1,7 +1,7 @@
 /**
  * Created by Tavv on 28/09/2016.
  */
-brotControllers.controller('SideBarRightController', ['$scope', '$http', 'MentorService', 'VideoService', 'myCache', 'SideBarRightService','$sce',
+brotControllers.controller('SideBarRightController', ['$scope', '$http', 'MentorService', 'VideoService', 'myCache', 'SideBarRightService', '$sce',
     function ($scope, $http, MentorService, VideoService, myCache, SideBarRightService, $sce) {
 
         var userId = localStorage.getItem('userId');
@@ -10,11 +10,11 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
         var defaultOffset = 0;
 
         var BASE_URL = {
-            URL_QUESTION: '#/mentor/managerQA?pid=',
-            URL_VIDEO: '#/mentor/video/detail/',
-            URL_ESSAY: '#/mentor/essay?eid=',
-            URL_PLAYLIST: '#/mentor/playlist/detail/',
-            URL_PROFILE: '#/mentor/mentorProfile'
+            QUESTION: '#/mentor/managerQA?pid=',
+            VIDEO: '#/mentor/video/detail/',
+            ESSAY: '#/mentor/essay?eid={0}&t={1}',
+            PLAYLIST: '#/mentor/playlist/detail/',
+            PROFILE: '#/mentor/mentorProfile'
         };
 
         var ACTIVITY_ACTION = {
@@ -36,10 +36,17 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
 
         var KEY_WORD_LINK = {
             Question: 'question',
-            Video : 'video',
-            Playlist : 'playlist',
-            Essay : 'essay',
-            Profile : 'profile'
+            Video: 'video',
+            Playlist: 'playlist',
+            Essay: 'essay',
+            Profile: 'profile',
+            Avatar: 'avatar'
+        };
+
+        var KEY_WORD_ESSAY = {
+            processing: 'processing',
+            ignored: 'ignored',
+            replied: 'replied'
         };
 
         var isHasLoadMore = false;
@@ -67,7 +74,6 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
         }
 
 
-
         /**
          * @param time is TIME_STAMP
          * @returns {*} time ago
@@ -88,29 +94,57 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
             return action == ACTIVITY_ACTION.DELETE || type == ACTIVITY_TYPE.ARTICLE || type == ACTIVITY_TYPE.ADMISSION;
         };
 
+
+        /**
+         * Prototype format String
+         */
+        if (!String.prototype.format) {
+            String.prototype.format = function() {
+                var args = arguments;
+                return this.replace(/{(\d+)}/g, function(match, number) {
+                    return typeof args[number] != 'undefined'
+                        ? args[number]
+                        : match
+                        ;
+                });
+            };
+        }
+
         /**
          * @param type in {@enum ACTIVITY_TYPE}
          * @param id
          * @returns {*} link
          */
-        $scope.getLink = function (type, id) {
+        $scope.getLink = function (type, strLog, id) {
             if (isEmpty(id)) {
-                if(type == ACTIVITY_TYPE.PROFILE){
-                    return BASE_URL.URL_PROFILE;
+                if (type == ACTIVITY_TYPE.PROFILE) {
+                    return BASE_URL.PROFILE;
                 }
                 return '';
             }
             switch (type) {
                 case ACTIVITY_TYPE.Q_AND_A:
-                    return BASE_URL.URL_QUESTION + id;
+                    return BASE_URL.QUESTION + id;
                 case ACTIVITY_TYPE.VIDEO:
-                    return BASE_URL.URL_VIDEO + id;
+                    return BASE_URL.VIDEO + id;
                 case ACTIVITY_TYPE.ESSAY:
-                    return BASE_URL.URL_ESSAY + id;
+                    return validateLinkEssay(id, strLog);
                 case ACTIVITY_TYPE.PLAYLIST:
-                    return BASE_URL.URL_PLAYLIST + id;
+                    return BASE_URL.PLAYLIST + id;
             }
         };
+
+        function validateLinkEssay(id, strLog) {
+            if(strLog.indexOf(KEY_WORD_ESSAY.processing) != -1){
+                return BASE_URL.ESSAY.format(id, 2);
+            }else if(strLog.indexOf(KEY_WORD_ESSAY.replied) != -1){
+                return BASE_URL.ESSAY.format(id, 4);
+            }else if(strLog.indexOf(KEY_WORD_ESSAY.ignored) != -1){
+                return BASE_URL.ESSAY.format(id, 3);
+            }else{
+                return BASE_URL.ESSAY.format(id, 1);
+            }
+        }
 
 
         var currentPageLoad = 0;
@@ -145,21 +179,23 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
 
 
         $scope.validateLogContent = function (strLog, action, type, id) {
-            if(action == ACTIVITY_ACTION.DELETE){
+            if (action == ACTIVITY_ACTION.DELETE) {
                 return $sce.trustAsHtml(strLog);
             }
-            var absHref = $scope.getLink(type, id);
-            if(!isEmpty(strLog)) {
+            var absHref = $scope.getLink(type, strLog, id);
+            if (!isEmpty(strLog)) {
                 if (strLog.indexOf(KEY_WORD_LINK.Question) != -1) {
-                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Question, '<a class = "text-under-line" href='+absHref+'>question</a>'));
+                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Question, '<a class = "text-under-line" href=' + absHref + '>question</a>'));
                 } else if (strLog.indexOf(KEY_WORD_LINK.Video) != -1) {
-                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Video, '<a class = "text-under-line" href='+absHref+'>video</a>'));
-                }else if (strLog.indexOf(KEY_WORD_LINK.Essay) != -1) {
-                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Essay, '<a class = "text-under-line" href='+absHref+'>essay</a>'));
-                }else if (strLog.indexOf(KEY_WORD_LINK.Playlist) != -1 ) {
-                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Playlist, '<a class = "text-under-line" href='+absHref+'>playlist</a>'));
-                }else if (strLog.indexOf(KEY_WORD_LINK.Profile) != -1) {
+                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Video, '<a class = "text-under-line" href=' + absHref + '>video</a>'));
+                } else if (strLog.indexOf(KEY_WORD_LINK.Essay) != -1) {
+                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Essay, '<a class = "text-under-line" href=' + absHref + '>essay</a>'));
+                } else if (strLog.indexOf(KEY_WORD_LINK.Playlist) != -1) {
+                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Playlist, '<a class = "text-under-line" href=' + absHref + '>playlist</a>'));
+                } else if (strLog.indexOf(KEY_WORD_LINK.Profile) != -1) {
                     return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Profile, '<a class = "text-under-line" href=' + absHref + '>profile</a>'));
+                } else if (strLog.indexOf(KEY_WORD_LINK.Avatar) != -1) {
+                    return $sce.trustAsHtml(strLog.replace(KEY_WORD_LINK.Avatar, '<a class = "text-under-line" href=' + absHref + '>avatar</a>'));
                 }
 
             }

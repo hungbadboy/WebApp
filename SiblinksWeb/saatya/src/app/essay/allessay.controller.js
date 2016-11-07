@@ -22,12 +22,12 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   init();
 
   function init(){
-    // if (isNaN(eid) || eid <= 0) {
-    //   window.location.href = '#/mentor/dashboard';
-    // } 
-    // if (isNaN(tab) || tab <= 0 || tab > 4) {
-    //   window.location.href = '#/mentor/dashboard';
-    // }
+    if (eid != null && !checkValid(eid)) {
+      window.location.href = '#/mentor/dashboard';
+    } 
+    if (tab != null && !checkValid(tab) || tab > 4) {
+      window.location.href = '#/mentor/dashboard';
+    }
     if (userId && userId > 0) {
       $(window).scroll(function(){ 
         var qa_scroll = $(window).scrollTop();
@@ -43,13 +43,27 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
           } 
       })
       getAllEssay();
-      // $scope.tabpane = tab;
+      if (!tab)
+        $scope.tabpane = 1;
+      else
+        $scope.tabpane = tab;
     } else {
       window.localStorage.clear();
       window.location.href = '/';
     }      
   }
   
+  function checkValid(number){
+    if (number % 1 !== 0) 
+      return false;
+    else if (isNaN(number)) 
+      return false;
+    else if (number <= 0)
+      return false;
+    else
+      return true;
+  }
+
   function getAllEssay(){
     getSuggestionEssay();
     getNewestEssay();
@@ -84,6 +98,10 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
       if (result && result != NO_DATA) {
         $scope.repliedEssays = formatEssay(result);
         repliedEssayCache = $scope.repliedEssays.slice(0);
+        if (tab == 4) {
+          $scope.pos = getIndexEssay(eid, $scope.repliedEssays);
+          getEssayById(eid, userId);
+        }
         if (justReplied) {
           $scope.changeTab(4);
           justReplied = false;          
@@ -106,6 +124,10 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
       if (result && result != NO_DATA) {
         $scope.ignoredEssays = formatEssay(result);
         ignoredEssayCache = $scope.ignoredEssays.slice(0);
+        if (tab == 3) {
+          $scope.pos = getIndexEssay(eid, $scope.ignoredEssays);
+          getEssayById(eid, userId);
+        }
       } else{
         $scope.ignoredEssays = null;
         ignoredEssayCache.length = 0;
@@ -124,6 +146,10 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
       if (result && result != NO_DATA) {
         $scope.processingEssays = formatEssay(result);
         processingEssayCache = $scope.processingEssays.slice(0);
+        if (tab == 2) {
+          $scope.pos = getIndexEssay(eid, $scope.processingEssays);
+          getEssayById(eid, userId);
+        }
       } else{
         $scope.processingEssays = null;
         processingEssayCache.length = 0;
@@ -142,24 +168,29 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
       if (result && result != NO_DATA) {
         $scope.newestEssays = formatEssay(result);
         newestEssayCache = $scope.newestEssays.slice(0);
-        if (eid != null && eid > 0) {
-          var result = $.grep($scope.newestEssays, function(e){
-            return e.uploadEssayId == eid;
-          });
-
-          var index = $scope.newestEssays.indexOf(result[0]);
-          if (index != -1) {
-            $scope.eid = $scope.newestEssays[index].uploadEssayId;
+        if (!tab) {
+          if (eid != null && eid > 0) {
+            $scope.pos = getIndexEssay(eid, $scope.newestEssays);
+            $scope.eid = eid;
+          } else{
+            $scope.eid = $scope.newestEssays[0].uploadEssayId;
           }
-        } else{
-          $scope.eid = $scope.newestEssays[0].uploadEssayId;
+          getEssayById($scope.eid, userId);
         }
-        getEssayById($scope.eid, userId);
       } else{
         $scope.newestEssays = null;
         newestEssayCache.length = 0;
       }
     });
+  }
+
+  function getIndexEssay(eid, data){
+    var result = $.grep($scope.newestEssays, function(e){
+      return e.uploadEssayId == eid;
+    });
+
+    var index = data.indexOf(result[0]) != -1 ? data.indexOf(result[0]) : 0;
+    return index;
   }
 
   function getRepliedByEssay(eid, userId) {
@@ -375,6 +406,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   }
 
   $scope.changeStatus = function (eid,status) {
+    $rootScope.$broadcast('open');
     EssayService.updateStatusEssay(eid, userId, status).then(function (data) {
       if (data.data.request_data_result == "Success") {
         getAllEssay();
@@ -384,7 +416,10 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         if (result == "Processed") {
           var ModalInstanceCtrl = function($scope, $modalInstance) {
             $scope.ok = function() {
+              getAllEssay();
+              updateUI();
               $modalInstance.dismiss('cancel');
+              $rootScope.$broadcast('close');
             };
           };
           var message =  "This essay has been processing by other mentor.";
@@ -400,6 +435,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         getAllEssay();
         updateUI();
       }
+      $rootScope.$broadcast('close');
     });
   }
 

@@ -698,7 +698,13 @@ public class MentorServiceImpl implements MentorService {
                            + "WHERE U.userType = 'M' GROUP BY U.userid, U.lastName, U.imageUrl, U.firstName)X ";
             if (!StringUtil.isNull(content)) {
                 content = StringEscapeUtils.escapeJava(content);
-                whereClause += " WHERE X.userName like '%" + content + "%' ";
+                whereClause += " WHERE (X.loginName LIKE '%" +
+                               content +
+                               "%' or lastName LIKE '%" +
+                               content +
+                               "%' OR firstname like '" +
+                               content +
+                               "%')";
             }
             if (!StringUtil.isNull(subjectId)) {
                 whereClause += " WHERE FIND_IN_SET(" + subjectId + ",X.defaultSubjectId)";
@@ -715,6 +721,7 @@ public class MentorServiceImpl implements MentorService {
             if (!StringUtil.isNull(limit)) {
                 whereClause += " LIMIT " + limit;
             }
+
             if (!StringUtil.isNull(offset)) {
                 whereClause += " OFFSET " + offset;
             }
@@ -723,8 +730,14 @@ public class MentorServiceImpl implements MentorService {
 
             // dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY, new
             // Object[] {});
+            String count = "0";
 
-            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "mentor", "getTopMentorsByLikeRateSubcrible", readObject);
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.SUCCESS,
+                                                "mentor",
+                                                "getTopMentorsByLikeRateSubcrible",
+                                                readObject,
+                                                count);
         } catch (DAOException e) {
             e.printStackTrace();
             simpleResponse = new SimpleResponse(

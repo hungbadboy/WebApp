@@ -121,10 +121,18 @@ public class VideoServiceImpl implements VideoService {
 
             Object[] queryParams = new Object[] { request.getRequest_data().getSubjectId(), request.getRequest_data().getCid() };
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_VIDEO_SUBCATAGERY_READ, queryParams);
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -223,7 +231,11 @@ public class VideoServiceImpl implements VideoService {
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), vid);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -271,10 +283,18 @@ public class VideoServiceImpl implements VideoService {
                 status = dao.insertUpdateObject(entityName, queryParams);
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), status);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          status);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -295,10 +315,18 @@ public class VideoServiceImpl implements VideoService {
             Object[] queryParams = new Object[] { request.getRequest_data().getStringJson() };
             boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SUBJECT_SUB_CATEGORY_DELETE, queryParams);
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), flag);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          flag);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -319,10 +347,18 @@ public class VideoServiceImpl implements VideoService {
             Object[] queryParams = new Object[] { request.getRequest_data().getStringJson() };
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_VIDEO_SUBJECT_MAPPING_DATA_READ, queryParams);
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -343,10 +379,18 @@ public class VideoServiceImpl implements VideoService {
             Object[] queryParams = new Object[] { request.getRequest_data().getSubjectId() };
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_VIDEO_MENTORS_READ, queryParams);
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -377,10 +421,19 @@ public class VideoServiceImpl implements VideoService {
                 count = dao.getCount(SibConstants.SqlMapper.SQL_SIB_MENTOR_REVIEWS_READ_COUNT, queryParams);
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject,
+                                          count);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -409,10 +462,19 @@ public class VideoServiceImpl implements VideoService {
                 count = dao.getCount(SibConstants.SqlMapper.SQL_VIDEO_SUBJECT_MAPPING_DATA_READ_PN_COUNT, queryParams);
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject,
+                                          count);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -445,15 +507,23 @@ public class VideoServiceImpl implements VideoService {
             Object[] queryParams = null;
             boolean insertFlag = false;
             if (manageVideoModel != null) {
-                queryParams = new Object[] { manageVideoModel.getSubject_category_id(), manageVideoModel.getSubject_category_name(), manageVideoModel
-                    .getDescription(), manageVideoModel.getActive() };
+                queryParams = new Object[] { manageVideoModel.getSubject_category_id(), manageVideoModel
+                    .getSubject_category_name(), manageVideoModel.getDescription(), manageVideoModel.getActive() };
                 insertFlag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_VIDEO_SUBJECT_MAPPING_DATA_UPDATE, queryParams);
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), insertFlag);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          insertFlag);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -473,21 +543,42 @@ public class VideoServiceImpl implements VideoService {
             if (vid != null && vid.length() > 0 && authorId != null && authorId.length() > 0) {
                 boolean status = deleteVideo(vid, authorId);
                 if (status) {
-                    activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "D", "You have deleted video", authorId, null));
+                    activiLogService.insertActivityLog(new ActivityLogData(
+                                                                           SibConstants.TYPE_VIDEO,
+                                                                           "D",
+                                                                           "You have deleted video",
+                                                                           authorId,
+                                                                           null));
                     msg = "Delete video success";
-                    response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), msg);
+                    response = new SimpleResponse(
+                                                  SibConstants.SUCCESS,
+                                                  request.getRequest_data_type(),
+                                                  request.getRequest_data_method(),
+                                                  msg);
                 } else {
                     msg = "Delete video fail";
-                    response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), msg);
+                    response = new SimpleResponse(
+                                                  SibConstants.SUCCESS,
+                                                  request.getRequest_data_type(),
+                                                  request.getRequest_data_method(),
+                                                  msg);
                 }
             } else {
                 msg = "Missing vid or authorId. Check it again.";
-                response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), msg);
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              msg);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -579,8 +670,10 @@ public class VideoServiceImpl implements VideoService {
             List<ManageVideoModel> newVideoDetails = new ArrayList<ManageVideoModel>();
             ObjectMapper mapper = new ObjectMapper();
             try {
-                newVideoDetails = mapper.readValue(request.getRequest_data().getStringJson(), new TypeReference<List<ManageVideoModel>>() {
-                });
+                newVideoDetails = mapper.readValue(
+                    request.getRequest_data().getStringJson(),
+                    new TypeReference<List<ManageVideoModel>>() {
+                    });
             } catch (JsonParseException e) {
                 e.printStackTrace();
             } catch (JsonMappingException e) {
@@ -616,10 +709,18 @@ public class VideoServiceImpl implements VideoService {
                 }
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), flag);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          flag);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -693,7 +794,11 @@ public class VideoServiceImpl implements VideoService {
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), vid);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -730,10 +835,18 @@ public class VideoServiceImpl implements VideoService {
 
             readObject.add(mymap);
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -767,10 +880,19 @@ public class VideoServiceImpl implements VideoService {
                 count = dao.getCount(SibConstants.SqlMapper.SQL_SIB_GET_COMMENTS_PN_COUNT, queryParams);
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject,
+                                          count);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -798,10 +920,18 @@ public class VideoServiceImpl implements VideoService {
 
             List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -845,10 +975,16 @@ public class VideoServiceImpl implements VideoService {
                 }
             }
 
-            response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request.getRequest_data().getVid());
+            response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request
+                .getRequest_data()
+                .getVid());
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -868,8 +1004,8 @@ public class VideoServiceImpl implements VideoService {
 
             Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
 
-            Object[] queryParams = { request.getRequest_data().getSubjectId(), request.getRequest_data().getTopicId(), map.get(Parameters.FROM), map
-                .get(Parameters.TO) };
+            Object[] queryParams = { request.getRequest_data().getSubjectId(), request.getRequest_data().getTopicId(), map
+                .get(Parameters.FROM), map.get(Parameters.TO) };
 
             entityName = SibConstants.SqlMapper.SQL_GET_VIDEO_PN;
 
@@ -896,7 +1032,11 @@ public class VideoServiceImpl implements VideoService {
                     e.printStackTrace();
                 }
             } else {
-                response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "No Data Found");
                 ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
                 return entity;
             }
@@ -909,10 +1049,19 @@ public class VideoServiceImpl implements VideoService {
                 count = dao.getCount(SibConstants.SqlMapper.SQL_SIB_GET_VIDEO_WITH_TOPIC_PN_COUNT, queryParams);
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject,
+                                          count);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -957,7 +1106,11 @@ public class VideoServiceImpl implements VideoService {
                     e.printStackTrace();
                 }
             } else {
-                response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "No Data Found");
                 ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
                 return entity;
             }
@@ -967,10 +1120,18 @@ public class VideoServiceImpl implements VideoService {
 
             readObject.add(mymap);
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -992,7 +1153,17 @@ public class VideoServiceImpl implements VideoService {
             // List<Object> readObject1 = null;
             List<Object> readObject = dao.readObjects(entityName, queryParams);
             if (!CollectionUtils.isEmpty(readObject)) {
-                response = new SimpleResponse(SibConstants.SUCCESS, "videos", "getVideos", readObject);
+
+                // Get total count video of user
+                List<Object> countObject = dao.readObjects(
+                    SibConstants.SqlMapperBROT70.SQL_GET_COUNT_VIDEOS,
+                    new Object[] { uid });
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              "videos",
+                                              "getVideos",
+                                              readObject,
+                                              ((Map<String, Long>) countObject.get(0)).get("numVideos").toString());
             } else {
                 response = new SimpleResponse(SibConstants.SUCCESS, "videos", "getVideos", SibConstants.NO_DATA);
             }
@@ -1023,10 +1194,18 @@ public class VideoServiceImpl implements VideoService {
 
             List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1054,7 +1233,8 @@ public class VideoServiceImpl implements VideoService {
      */
     @Override
     @RequestMapping(value = "/clearHistoryVideosList", method = RequestMethod.GET)
-    public ResponseEntity<Response> clearHistoryVideosList(@RequestParam("uid") final String uid, @RequestParam("vid") final String vid) {
+    public ResponseEntity<Response> clearHistoryVideosList(@RequestParam("uid") final String uid,
+            @RequestParam("vid") final String vid) {
         SimpleResponse response = null;
         try {
             String entityName = null;
@@ -1114,10 +1294,19 @@ public class VideoServiceImpl implements VideoService {
                 }
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject,
+                                          count);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1165,17 +1354,29 @@ public class VideoServiceImpl implements VideoService {
                     e.printStackTrace();
                 }
             } else {
-                response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "No Data Found");
                 ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
                 return entity;
             }
 
             Map<String, Object> mymap = new HashMap<String, Object>();
             mymap.put("tags", readObject1);
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1228,7 +1429,11 @@ public class VideoServiceImpl implements VideoService {
                     e.printStackTrace();
                 }
             } else {
-                response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "No Data Found");
                 return new ResponseEntity<Response>(response, HttpStatus.OK);
             }
 
@@ -1239,7 +1444,11 @@ public class VideoServiceImpl implements VideoService {
             response = new SimpleResponse("true", request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1298,7 +1507,11 @@ public class VideoServiceImpl implements VideoService {
                     e.printStackTrace();
                 }
             } else {
-                response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "No Data Found");
                 ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
                 return entity;
             }
@@ -1315,10 +1528,19 @@ public class VideoServiceImpl implements VideoService {
             mymap.put("tags", readObject1);
             readObject.add(mymap);
 
-            response = new SimpleResponse("true", request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            response = new SimpleResponse(
+                                          "true",
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject,
+                                          count);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1374,7 +1596,11 @@ public class VideoServiceImpl implements VideoService {
                     e.printStackTrace();
                 }
             } else {
-                response = new SimpleResponse("true", request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
+                response = new SimpleResponse(
+                                              "true",
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "No Data Found");
                 ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
                 return entity;
             }
@@ -1391,10 +1617,19 @@ public class VideoServiceImpl implements VideoService {
                     .trim() });
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject,
+                                          count);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1444,7 +1679,11 @@ public class VideoServiceImpl implements VideoService {
                     e.printStackTrace();
                 }
             } else {
-                response = new SimpleResponse("true", request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
+                response = new SimpleResponse(
+                                              "true",
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "No Data Found");
                 ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
                 return entity;
             }
@@ -1453,10 +1692,18 @@ public class VideoServiceImpl implements VideoService {
             mymap.put("tags", readObject1);
             readObject.add(mymap);
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1477,7 +1724,9 @@ public class VideoServiceImpl implements VideoService {
             String entityName = "";
             Object[] queryParams = null;
             String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch());
-            int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request.getRequest_data().getSubjectId()) : 0;
+            int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request
+                .getRequest_data()
+                .getSubjectId()) : 0;
             int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
             int type = request.getRequest_data().getType() != null ? Integer.parseInt(request.getRequest_data().getType()) : 0;
 
@@ -1492,9 +1741,15 @@ public class VideoServiceImpl implements VideoService {
             if (type == 1) {
                 whereClause = String.format(" and a.title like '%%%s%%' order by a.vid DESC limit 10 offset %d", term, offset);
             } else if (type == 2) {
-                whereClause = String.format(" and a.title like '%%%s%%' order by a.numViews DESC limit 10 offset %d", term, offset);
+                whereClause = String.format(
+                    " and a.title like '%%%s%%' order by a.numViews DESC limit 10 offset %d",
+                    term,
+                    offset);
             } else {
-                whereClause = String.format(" and a.title like '%%%s%%' order by a.averageRating DESC limit 10 offset %d", term, offset);
+                whereClause = String.format(
+                    " and a.title like '%%%s%%' order by a.averageRating DESC limit 10 offset %d",
+                    term,
+                    offset);
             }
 
             List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
@@ -1505,7 +1760,11 @@ public class VideoServiceImpl implements VideoService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1567,14 +1826,26 @@ public class VideoServiceImpl implements VideoService {
             String count = null;
             if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
                 count = dao.getCount(SibConstants.SqlMapper.SQL_SIB_SEARCH_VIDEOS_PN_COUNT, new Object[] { "%" +
-                                                                                                           request.getRequest_data().getTitle().trim() +
+                                                                                                           request
+                                                                                                               .getRequest_data()
+                                                                                                               .getTitle()
+                                                                                                               .trim() +
                                                                                                            "%" });
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject,
+                                          count);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1636,15 +1907,27 @@ public class VideoServiceImpl implements VideoService {
                     readObject3.add(readObject2);
                 }
             } else {
-                response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "No Data Found");
                 ResponseEntity<Response> entity = new ResponseEntity<Response>(response, HttpStatus.OK);
                 return entity;
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject3);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject3);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1712,21 +1995,35 @@ public class VideoServiceImpl implements VideoService {
                     readObject3.add(readObject2);
                 }
             } else {
-                response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), "No Data Found");
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "No Data Found");
                 return new ResponseEntity<Response>(response, HttpStatus.OK);
             }
 
             String count = null;
             if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
-                count = dao.getCount(
-                    SibConstants.SqlMapper.SQL_SIB_SEARCH_VIDEO_TAG_PN_COUNT,
-                    new Object[] { request.getRequest_data().getTag().trim(), request.getRequest_data().getTag().trim() });
+                count = dao.getCount(SibConstants.SqlMapper.SQL_SIB_SEARCH_VIDEO_TAG_PN_COUNT, new Object[] { request
+                    .getRequest_data()
+                    .getTag()
+                    .trim(), request.getRequest_data().getTag().trim() });
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject3, count);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject3,
+                                          count);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1756,7 +2053,11 @@ public class VideoServiceImpl implements VideoService {
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), status);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1806,10 +2107,16 @@ public class VideoServiceImpl implements VideoService {
                 transactionManager.rollback(statusDao);
                 throw e;
             }
-            response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request.getRequest_data().getVid());
+            response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request
+                .getRequest_data()
+                .getVid());
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1856,13 +2163,19 @@ public class VideoServiceImpl implements VideoService {
             transactionManager.commit(statusDao);
             logger.info("Insert Menu success " + new Date());
 
-            response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request.getRequest_data().getVid());
+            response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request
+                .getRequest_data()
+                .getVid());
         } catch (Exception e) {
             if (statusDao != null) {
                 transactionManager.rollback(statusDao);
             }
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1891,13 +2204,24 @@ public class VideoServiceImpl implements VideoService {
 
             String count = null;
             if ("true".equalsIgnoreCase(request.getRequest_data().getTotalCountFlag())) {
-                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_VIDEOS_LIST_BY_USER_PN_COUNT, new Object[] { request.getRequest_data().getUid() });
+                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_VIDEOS_LIST_BY_USER_PN_COUNT, new Object[] { request
+                    .getRequest_data()
+                    .getUid() });
             }
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject,
+                                          count);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1930,9 +2254,9 @@ public class VideoServiceImpl implements VideoService {
             } else {
 
                 String vid = request.getRequest_data().getVid();
-                Object[] queryParams = new Object[] { request.getRequest_data().getTitle(), request.getRequest_data().getDescription(), request
+                Object[] queryParams = new Object[] { request.getRequest_data().getTitle(), request
                     .getRequest_data()
-                    .getSubjectId(), vid };
+                    .getDescription(), request.getRequest_data().getSubjectId(), vid };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_VIDEO, queryParams);
                 if (status) {
                     String plid = request.getRequest_data().getPlid();
@@ -1951,28 +2275,34 @@ public class VideoServiceImpl implements VideoService {
                     }
                 }
                 if (status) {
-                    activiLogService
-                        .insertActivityLog(new ActivityLogData(
-                                                               SibConstants.TYPE_VIDEO,
-                                                               "U",
-                                                               "You updateded a video",
-                                                               request
-                        .getRequest_data()
-                        .getAuthorID(), String.valueOf(vid)));
+                    activiLogService.insertActivityLog(new ActivityLogData(
+                                                                           SibConstants.TYPE_VIDEO,
+                                                                           "U",
+                                                                           "You updateded a video",
+                                                                           request.getRequest_data().getAuthorID(),
+                                                                           String.valueOf(vid)));
                     transactionManager.commit(statusDao);
                     message = "Success";
                 } else {
                     transactionManager.rollback(statusDao);
                     message = "Fail";
                 }
-                response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), message);
+                response = new SimpleResponse(
+                                              "" + status,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              message);
             }
         } catch (Exception e) {
             if (statusDao != null) {
                 transactionManager.rollback(statusDao);
             }
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -1990,13 +2320,13 @@ public class VideoServiceImpl implements VideoService {
 
             Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
 
-            Object[] queryParams = { request.getRequest_data().getTitle().trim(), request.getRequest_data().getDescription().trim(), request
+            Object[] queryParams = { request.getRequest_data().getTitle().trim(), request
+                .getRequest_data()
+                .getDescription()
+                .trim(), request.getRequest_data().getTitle().trim(), request.getRequest_data().getDescription().trim(), request
                 .getRequest_data()
                 .getTitle()
-                .trim(), request.getRequest_data().getDescription().trim(), request.getRequest_data().getTitle().trim(), request
-                .getRequest_data()
-                .getTitle()
-                .trim(), map.get(Parameters.FROM), map.get(Parameters.TO) };
+                .trim(), request.getRequest_data().getTitle().trim(), map.get(Parameters.FROM), map.get(Parameters.TO) };
 
             entityName = SibConstants.SqlMapper.SQL_SEARCH_ALL_VIDEO;
 
@@ -2004,10 +2334,19 @@ public class VideoServiceImpl implements VideoService {
 
             String count = dao.getCount(SibConstants.SqlMapper.SQL_COUNT_SEARCH_ALL_VIDEO, new Object[] {});
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject,
+                                          count);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -2041,7 +2380,11 @@ public class VideoServiceImpl implements VideoService {
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), message);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -2079,7 +2422,11 @@ public class VideoServiceImpl implements VideoService {
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), message);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -2106,7 +2453,11 @@ public class VideoServiceImpl implements VideoService {
             response = new SimpleResponse("", request.getRequest_data_type(), request.getRequest_data_method(), readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -2129,10 +2480,18 @@ public class VideoServiceImpl implements VideoService {
 
             List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -2152,10 +2511,18 @@ public class VideoServiceImpl implements VideoService {
 
             List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -2175,10 +2542,18 @@ public class VideoServiceImpl implements VideoService {
 
             List<Object> readObject = dao.readObjects(entityName, queryParams);
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -2196,8 +2571,8 @@ public class VideoServiceImpl implements VideoService {
 
             Map<String, String> map = util.getLimit(request.getRequest_data().getPageno(), request.getRequest_data().getLimit());
 
-            Object[] queryParams = { request.getRequest_data().getAuthorID(), request.getRequest_data().getAuthorID(), map.get(Parameters.FROM), map
-                .get(Parameters.TO) };
+            Object[] queryParams = { request.getRequest_data().getAuthorID(), request.getRequest_data().getAuthorID(), map
+                .get(Parameters.FROM), map.get(Parameters.TO) };
 
             entityName = SibConstants.SqlMapper.SQL_SEARCH_ALL_VIDEO_BY_USER;
 
@@ -2205,10 +2580,19 @@ public class VideoServiceImpl implements VideoService {
 
             String count = dao.getCount(SibConstants.SqlMapper.SQL_COUNT_SEARCH_ALL_VIDEO_BY_USER, queryParams);
 
-            response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), readObject, count);
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          readObject,
+                                          count);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -2218,11 +2602,14 @@ public class VideoServiceImpl implements VideoService {
      */
     @RequestMapping(value = "/getVideoByUserSubject", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Response> getVideoByUserSubject(@RequestParam final long uId, @RequestParam final String limit, @RequestParam final String offset) {
+    public ResponseEntity<Response> getVideoByUserSubject(@RequestParam final long uId, @RequestParam final String limit,
+            @RequestParam final String offset) {
         SimpleResponse response = null;
         try {
             Object[] paramQueryGetSubjects = { uId };
-            String subjectIdResult = dao.readObjects(SibConstants.SqlMapper.SQL_GET_SUBJECT_REG, paramQueryGetSubjects).toString();
+            String subjectIdResult = dao
+                .readObjects(SibConstants.SqlMapper.SQL_GET_SUBJECT_REG, paramQueryGetSubjects)
+                .toString();
 
             String subjectIds = subjectIdResult.substring(subjectIdResult.indexOf("=") + 1, subjectIdResult.lastIndexOf("}"));
             if (subjectIds != null) {
@@ -2230,7 +2617,10 @@ public class VideoServiceImpl implements VideoService {
                 Map<String, String> pageLimit = cmUtils.getOffset(limit, offset);
                 Object[] paramsGetVideos = { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
                 String whereClause = "IN(" + subjectIds + ") LIMIT ? OFFSET ?;";
-                List<Object> resultData = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, paramsGetVideos);
+                List<Object> resultData = dao.readObjectsWhereClause(
+                    SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT,
+                    whereClause,
+                    paramsGetVideos);
                 String count = String.valueOf(resultData.size());
                 response = new SimpleResponse(SibConstants.SUCCESS, "GET", "getVideoByUserSubject", resultData, count);
             }
@@ -2309,7 +2699,8 @@ public class VideoServiceImpl implements VideoService {
      */
     @RequestMapping(value = "/getVideoStudentSubcribe", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Response> getVideoStudentSubcribe(@RequestParam final long userId, @RequestParam final String limit, @RequestParam final String offset) {
+    public ResponseEntity<Response> getVideoStudentSubcribe(@RequestParam final long userId, @RequestParam final String limit,
+            @RequestParam final String offset) {
         SimpleResponse response = null;
         try {
             CommonUtil cmUtil = CommonUtil.getInstance();
@@ -2337,7 +2728,9 @@ public class VideoServiceImpl implements VideoService {
                 response = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(response, HttpStatus.FORBIDDEN);
             }
-            Object[] queryParams = new Object[] { request.getRequest_data().getStudentId(), request.getRequest_data().getMentorId() };
+            Object[] queryParams = new Object[] { request.getRequest_data().getStudentId(), request
+                .getRequest_data()
+                .getMentorId() };
             List<Object> readObject = null;
             // SELECT exists row
             String entityName = SibConstants.SqlMapper.SQL_FIND_STUDENT_SUBCRIBE;
@@ -2361,13 +2754,18 @@ public class VideoServiceImpl implements VideoService {
             response = new SimpleResponse("" + status, message, request.getRequest_data_method(), readObject);
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
 
     }
 
-    public Map<String, String> getParamsSubcribe(final String sql, final String sql2, final Object[] queryParams, final RequestData request) throws Exception {
+    public Map<String, String> getParamsSubcribe(final String sql, final String sql2, final Object[] queryParams,
+            final RequestData request) throws Exception {
 
         List<Object> readObject = null;
         Map<String, String> queryParamsIns = new HashMap<String, String>();
@@ -2378,10 +2776,12 @@ public class VideoServiceImpl implements VideoService {
             queryParamsIns.put("authorId", queryParams[1].toString());
             queryParamsIns.put("type", "subcribe");
             queryParamsIns.put("title", "Following You!");
-            queryParamsIns.put("notification", ((Map) readObject.get(0)).get("firstName").toString() +
-                                               " " +
-                                               ((Map) readObject.get(0)).get("lastName").toString() +
-                                               " Watching you.");
+            queryParamsIns.put(
+                "notification",
+                ((Map) readObject.get(0)).get("firstName").toString() +
+                        " " +
+                        ((Map) readObject.get(0)).get("lastName").toString() +
+                        " Watching you.");
             // }
         }
         return queryParamsIns;
@@ -2485,7 +2885,8 @@ public class VideoServiceImpl implements VideoService {
      */
     @RequestMapping(value = "/getMentorSubscribed")
     @ResponseBody
-    public ResponseEntity<Response> getMentorSubscribe(@RequestParam final long userId, @RequestParam final String limit, @RequestParam final String offset) {
+    public ResponseEntity<Response> getMentorSubscribe(@RequestParam final long userId, @RequestParam final String limit,
+            @RequestParam final String offset) {
         SimpleResponse response = null;
         try {
             String entityName = SibConstants.SqlMapper.SQL_GET_ALL_MENTOR_SUBSCRIBED;
@@ -2507,8 +2908,8 @@ public class VideoServiceImpl implements VideoService {
      */
     @Override
     @RequestMapping(value = "/getVideosBySubject", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideosBySubject(@RequestParam final long userid, @RequestParam final int videoType, @RequestParam final long subjectid,
-            @RequestParam final int offset) {
+    public ResponseEntity<Response> getVideosBySubject(@RequestParam final long userid, @RequestParam final int videoType,
+            @RequestParam final long subjectid, @RequestParam final int offset) {
         SimpleResponse response = null;
         try {
             Object[] queryParams = new Object[] { userid, subjectid, offset };
@@ -2530,7 +2931,9 @@ public class VideoServiceImpl implements VideoService {
                 Map<String, Object> tmp = new HashMap<String, Object>();
                 for (Object object : readObject) {
                     map = (Map<String, Object>) object;
-                    playlist = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_INFO_OF_VIDEO, new Object[] { map.get("vid") });
+                    playlist = dao.readObjects(
+                        SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_INFO_OF_VIDEO,
+                        new Object[] { map.get("vid") });
                     if (playlist != null && playlist.size() > 0) {
                         for (Object item : playlist) {
                             tmp = (Map<String, Object>) item;
@@ -2645,7 +3048,11 @@ public class VideoServiceImpl implements VideoService {
             } else if (subjectId == null || subjectId.isEmpty() || Integer.parseInt(subjectId) == 0) {
                 response = new SimpleResponse(SibConstants.FAILURE, "videos", "insertVideo", "Subject is required");
             } else if (description != null && description.length() > 1024) {
-                response = new SimpleResponse(SibConstants.FAILURE, "videos", "insertVideo", "Description can not longer than 1024 characters");
+                response = new SimpleResponse(
+                                              SibConstants.FAILURE,
+                                              "videos",
+                                              "insertVideo",
+                                              "Description can not longer than 1024 characters");
             } else {
                 TransactionDefinition def = new DefaultTransactionDefinition();
                 TransactionStatus status = transactionManager.getTransaction(def);
@@ -2662,7 +3069,9 @@ public class VideoServiceImpl implements VideoService {
                     entityName = SibConstants.SqlMapperBROT43.SQL_INSERT_VIDEO;
                     queryParams = new Object[] { request.getRequest_data().getTitle(), request.getRequest_data().getDescription(), request
                         .getRequest_data()
-                        .getUrl(), request.getRequest_data().getRunningTime(), request.getRequest_data().getImage(), request.getRequest_data().getSubjectId(), authorId };
+                        .getUrl(), request.getRequest_data().getRunningTime(), request.getRequest_data().getImage(), request
+                        .getRequest_data()
+                        .getSubjectId(), authorId };
                     long vid = dao.insertObject(entityName, queryParams);
 
                     if (plid != null && plid.length() > 0) {
@@ -2687,7 +3096,7 @@ public class VideoServiceImpl implements VideoService {
                     activiLogService.insertActivityLog(new ActivityLogData(
                                                                            SibConstants.TYPE_VIDEO,
                                                                            "C",
-                                                               "You uploaded a new video",
+                                                                           "You uploaded a new video",
                                                                            String.valueOf(authorId),
                                                                            String.valueOf(vid)));
                     transactionManager.commit(status);
@@ -2700,7 +3109,11 @@ public class VideoServiceImpl implements VideoService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -2758,7 +3171,8 @@ public class VideoServiceImpl implements VideoService {
      */
     @Override
     @RequestMapping(value = "/getVideoById/{vid}/{type}", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideoById(@PathVariable(value = "vid") final long vid, @PathVariable(value = "type") final String type) {
+    public ResponseEntity<Response> getVideoById(@PathVariable(value = "vid") final long vid,
+            @PathVariable(value = "type") final String type) {
         String entityName = null;
         SimpleResponse response = null;
         try {
@@ -2818,8 +3232,8 @@ public class VideoServiceImpl implements VideoService {
      */
     @Override
     @RequestMapping(value = "/getVideoBySubject", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideoBySubject(@RequestParam final long userId, @RequestParam final String subjectId, @RequestParam final String limit,
-            @RequestParam final String offset) {
+    public ResponseEntity<Response> getVideoBySubject(@RequestParam final long userId, @RequestParam final String subjectId,
+            @RequestParam final String limit, @RequestParam final String offset) {
         SimpleResponse response = null;
         try {
             Object result = getVideosFactory(subjectId, userId, limit, offset);
@@ -2840,7 +3254,8 @@ public class VideoServiceImpl implements VideoService {
      * @return
      * @throws Exception
      */
-    private Map<String, Object> getVideosFactory(final String subjectId, final long userId, final String limit, final String offset) throws Exception {
+    private Map<String, Object> getVideosFactory(final String subjectId, final long userId, final String limit,
+            final String offset) throws Exception {
         Map<String, Object> map = new HashMap<>();
         Object[] params = null;
         params = new Object[] { userId };
@@ -2866,8 +3281,10 @@ public class VideoServiceImpl implements VideoService {
                 map.put("recently", resultRecently);
             } else {
                 String childSubjectId = CommonUtil.getAllChildCategory("" + subjectId, getAllSubjectIdCategory());
-                params = new Object[] { childSubjectId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
-                List<Object> resultDataRecommended = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_VIEW_BY_SUBJECT, params);
+                params = new Object[] { childSubjectId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit
+                    .get("offset")) };
+                List<Object> resultDataRecommended = dao
+                    .readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_VIEW_BY_SUBJECT, params);
                 map.put("recommended", resultDataRecommended);
                 String clauseWhere = formatQueryGetVideoPlaylist("bySubjectNotLogin", userId, childSubjectId, limit, offset);
                 // params = new Object[] { childSubjectId, childSubjectId,
@@ -2883,7 +3300,10 @@ public class VideoServiceImpl implements VideoService {
             if (subjectIds != null && !StringUtils.isEmpty(subjectIds)) {
                 params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
                 String whereClause = "WHERE V.subjectId IN(" + subjectIds + ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
-                List<Object> resultDataRecommended = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
+                List<Object> resultDataRecommended = dao.readObjectsWhereClause(
+                    SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT,
+                    whereClause,
+                    params);
                 map.put("recommended", resultDataRecommended);
             } else {
                 params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
@@ -2940,12 +3360,17 @@ public class VideoServiceImpl implements VideoService {
                     // childSubjectId.lastIndexOf(",")) +
                     // ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
                     // } else {
-                    String whereClause = "WHERE V.subjectId IN (" + childSubjectId + ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
+                    String whereClause = "WHERE V.subjectId IN (" +
+                                         childSubjectId +
+                                         ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
                     // }
-                    List<Object> resultDataRecommended = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
+                    List<Object> resultDataRecommended = dao.readObjectsWhereClause(
+                        SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT,
+                        whereClause,
+                        params);
                     map.put("recommended", resultDataRecommended);
-                    params = new Object[] { userId, childSubjectId, userId, childSubjectId, Integer.parseInt(pageLimit.get("limit")), Integer
-                        .parseInt(pageLimit.get("offset")) };
+                    params = new Object[] { userId, childSubjectId, userId, childSubjectId, Integer.parseInt(pageLimit
+                        .get("limit")), Integer.parseInt(pageLimit.get("offset")) };
                     // String whereClause = "WHERE S.StudentId = ? AND
                     // S.Subcribe =
                     // 'Y' AND V.subjectId IN (" +
@@ -2977,8 +3402,10 @@ public class VideoServiceImpl implements VideoService {
                 }
                 // }
             } else {
-                params = new Object[] { subjectId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
-                List<Object> resultDataRecommended = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_VIEW_BY_SUBJECT, params);
+                params = new Object[] { subjectId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit
+                    .get("offset")) };
+                List<Object> resultDataRecommended = dao
+                    .readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_VIEW_BY_SUBJECT, params);
                 map.put("recommended", resultDataRecommended);
             }
         }
@@ -2990,8 +3417,8 @@ public class VideoServiceImpl implements VideoService {
      * {@inheritDoc}
      */
     @RequestMapping(value = "getNewestVideoBySubject", method = RequestMethod.GET)
-    public ResponseEntity<Response> getNewestVideoBySubject(@RequestParam final String subjectId, @RequestParam final String limit,
-            @RequestParam final String offset) {
+    public ResponseEntity<Response> getNewestVideoBySubject(@RequestParam final String subjectId,
+            @RequestParam final String limit, @RequestParam final String offset) {
         SimpleResponse response = null;
         try {
             Map<String, String> pageLimit = CommonUtil.getInstance().getOffset(limit, offset);
@@ -3006,7 +3433,12 @@ public class VideoServiceImpl implements VideoService {
                     count = String.valueOf(readObjects.size());
                     response = new SimpleResponse(SibConstants.SUCCESS, "video", "getNewestVideoBySubject", readObjects, count);
                 } else {
-                    response = new SimpleResponse(SibConstants.SUCCESS, "video", "getNewestVideoBySubject", SibConstants.NO_DATA, count);
+                    response = new SimpleResponse(
+                                                  SibConstants.SUCCESS,
+                                                  "video",
+                                                  "getNewestVideoBySubject",
+                                                  SibConstants.NO_DATA,
+                                                  count);
                 }
 
             } else if (!StringUtils.isEmpty(subjectId)) {
@@ -3017,7 +3449,12 @@ public class VideoServiceImpl implements VideoService {
                     count = String.valueOf(readObjects.size());
                     response = new SimpleResponse(SibConstants.SUCCESS, "video", "getNewestVideoBySubject", readObjects, count);
                 } else {
-                    response = new SimpleResponse(SibConstants.SUCCESS, "video", "getNewestVideoBySubject", SibConstants.NO_DATA, count);
+                    response = new SimpleResponse(
+                                                  SibConstants.SUCCESS,
+                                                  "video",
+                                                  "getNewestVideoBySubject",
+                                                  SibConstants.NO_DATA,
+                                                  count);
                 }
             } else {
                 response = new SimpleResponse(SibConstants.SUCCESS, "video", "getNewestVideoBySubject", SibConstants.NO_DATA);
@@ -3078,16 +3515,33 @@ public class VideoServiceImpl implements VideoService {
                         countFailed++;
                     }
                 }
-                activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_VIDEO, "D", "You have deleted video", authorId, null));
+                activiLogService.insertActivityLog(new ActivityLogData(
+                                                                       SibConstants.TYPE_VIDEO,
+                                                                       "D",
+                                                                       "You have deleted video",
+                                                                       authorId,
+                                                                       null));
                 String msg = String.format("Deleted success %d videos and fail %d videos", countSuccess, countFailed);
-                response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), msg);
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              msg);
             } else {
-                response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), "Missing authorId.");
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "Missing authorId.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -3157,7 +3611,11 @@ public class VideoServiceImpl implements VideoService {
                     msg = String.format("Insert success %d videos and fail %d videos into playlist", countSuccess, countFail);
                 }
 
-                response = new SimpleResponse(SibConstants.SUCCESS, request.getRequest_data_type(), request.getRequest_data_method(), msg);
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              msg);
             } else {
                 response = new SimpleResponse(
                                               SibConstants.FAILURE,
@@ -3167,7 +3625,11 @@ public class VideoServiceImpl implements VideoService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, request.getRequest_data_type(), request.getRequest_data_method(), e.getMessage());
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -3176,8 +3638,8 @@ public class VideoServiceImpl implements VideoService {
      * {@inheritDoc}
      */
     @RequestMapping(value = "/searchVideo", method = RequestMethod.GET)
-    public ResponseEntity<Response> searchVideo(@RequestParam final String keyword, @RequestParam final String type, @RequestParam final String limit,
-            @RequestParam final String offset) {
+    public ResponseEntity<Response> searchVideo(@RequestParam final String keyword, @RequestParam final String type,
+            @RequestParam final String limit, @RequestParam final String offset) {
         SimpleResponse response = null;
         try {
             Map<String, String> searchLimit = CommonUtil.getInstance().getOffset(limit, offset);
@@ -3186,20 +3648,22 @@ public class VideoServiceImpl implements VideoService {
             if (type != null && !type.isEmpty()) {
                 if (type.equals("playlist")) {
                     strEntity = SibConstants.SqlMapper.SQL_SEARCH_PLAYLIST;
-                    whereClause = String.format(
-                        "WHERE PL.Name LIKE '%%%s%%' OR PL.Description LIKE '%%%s%%' ORDER BY PL.Name, PL.Description LIMIT %d OFFSET %d",
-                        keyword,
-                        keyword,
-                        Integer.valueOf(searchLimit.get("limit")),
-                        Integer.valueOf(searchLimit.get("offset")));
+                    whereClause = String
+                        .format(
+                            "WHERE PL.Name LIKE '%%%s%%' OR PL.Description LIKE '%%%s%%' ORDER BY PL.Name, PL.Description LIMIT %d OFFSET %d",
+                            keyword,
+                            keyword,
+                            Integer.valueOf(searchLimit.get("limit")),
+                            Integer.valueOf(searchLimit.get("offset")));
                 } else if (type.equals("video")) {
                     strEntity = SibConstants.SqlMapper.SQL_SEARCH_VIDEO;
-                    whereClause = String.format(
-                        "WHERE V.title LIKE '%%%s%%' OR V.description LIKE '%%%s%%' ORDER BY V.title, V.description LIMIT %d OFFSET %d",
-                        keyword,
-                        keyword,
-                        Integer.valueOf(searchLimit.get("limit")),
-                        Integer.valueOf(searchLimit.get("offset")));
+                    whereClause = String
+                        .format(
+                            "WHERE V.title LIKE '%%%s%%' OR V.description LIKE '%%%s%%' ORDER BY V.title, V.description LIMIT %d OFFSET %d",
+                            keyword,
+                            keyword,
+                            Integer.valueOf(searchLimit.get("limit")),
+                            Integer.valueOf(searchLimit.get("offset")));
                 }
                 List<Object> searchResult = dao.readObjectsWhereClause(strEntity, whereClause, new Object[] {});
 
@@ -3308,7 +3772,9 @@ public class VideoServiceImpl implements VideoService {
             String strEntity = "";
             Object[] params = null;
             String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch());
-            int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request.getRequest_data().getSubjectId()) : 0;
+            int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request
+                .getRequest_data()
+                .getSubjectId()) : 0;
             int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
 
             if (subjectId > 0) {
@@ -3318,7 +3784,10 @@ public class VideoServiceImpl implements VideoService {
                 params = new Object[] { request.getRequest_data().getUid() };
                 strEntity = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_NONE_PLAYLIST;
             }
-            String whereClause = String.format(" and v.title like '%%%s%%' order by v.timeStamp DESC limit 5 offset %d", term, offset);
+            String whereClause = String.format(
+                " and v.title like '%%%s%%' order by v.timeStamp DESC limit 5 offset %d",
+                term,
+                offset);
             List<Object> readObjects = dao.readObjectsWhereClause(strEntity, whereClause, params);
             if (readObjects != null && !readObjects.isEmpty()) {
                 response = new SimpleResponse(SibConstants.SUCCESS, "video", "searchVideosNonePlaylist", readObjects);
@@ -3339,16 +3808,26 @@ public class VideoServiceImpl implements VideoService {
         try {
             Map<String, String> pageLimit = CommonUtil.getInstance().getOffset(limit, offset);
             if (userId < 1) {
-                response = new SimpleResponse((SibConstants.SUCCESS), "video", "getVideoPlaylistRecently", SibConstants.USER_NOT_EXISTS);
+                response = new SimpleResponse(
+                                              (SibConstants.SUCCESS),
+                                              "video",
+                                              "getVideoPlaylistRecently",
+                                              SibConstants.USER_NOT_EXISTS);
                 return new ResponseEntity<Response>(response, HttpStatus.OK);
             }
-            Object[] params = { userId, userId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
+            Object[] params = { userId, userId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit
+                .get("offset")) };
             List<Object> readObjects = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_PLAYLIST_RECENTLY, params);
             if (!CollectionUtils.isEmpty(readObjects)) {
                 String count = String.valueOf(readObjects.size());
                 response = new SimpleResponse(SibConstants.SUCCESS, "video", "getVideoPlaylistRecently", readObjects, count);
             } else {
-                response = new SimpleResponse(SibConstants.SUCCESS, "video", "getVideoPlaylistRecently", SibConstants.NO_DATA, "0");
+                response = new SimpleResponse(
+                                              SibConstants.SUCCESS,
+                                              "video",
+                                              "getVideoPlaylistRecently",
+                                              SibConstants.NO_DATA,
+                                              "0");
             }
         } catch (Exception e) {
             e.printStackTrace();
