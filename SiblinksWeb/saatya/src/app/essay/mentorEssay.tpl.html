@@ -125,7 +125,7 @@
                                                     <a href="javascript:void(0)" ng-click="goToProfile(essay.userId)"><img src="{{essay.imageUrl}}" alt=""></a>
                                                     </div>
                                                     <div class="studentDetails">
-                                                    <a href="javascript:void(0)" ng-click="goToProfile(essay.userId)"><h5>{{essay.fullName}}</h5></a>
+                                                    <a href="javascript:void(0)" ng-click="goToProfile(essay.userId)" style="font-weight: bold;">{{essay.fullName}}</a>
                                                     <span class="time">{{essay.timeStamp}} ago</span>
                                                     <div class="bt-item-r" ng-if="essay.status == 'W' && !ignored">
                                                         <a href="javascript:void(0)" ng-click="changeStatus(essay.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
@@ -208,7 +208,7 @@
                                                                 </span>
                                                                 <div class="chat-body clearfix">
                                                                     <div class="header">
-                                                                        <a href="#/mentor/mentorProfile"><strong class="primary-font">{{c.fullName}} </strong></a><span class="time">{{c.timestamp}} ago </span>
+                                                                        <a href="#/mentor/mentorProfile" style="font-weight: bold;">{{c.fullName}} </a><span class="time">{{c.timestamp}} ago </span>
                                                                         <span star-rating stars="5" outer-star-selection="stars" readonly="true" outer-percent="rating" rating-define="star" rating-stars="5" star-radius="7" sel-color="gold" back-color="white"></span>
                                                                          <span title="Edit" ng-click="openEdit(c.cid, c.content)" class="edit-answer" data-icon="&#x6c;"></span>
                                                                     </div>
