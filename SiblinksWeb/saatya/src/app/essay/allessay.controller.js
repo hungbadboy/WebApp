@@ -43,7 +43,10 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
           } 
       })
       getAllEssay();
-      $scope.tabpane = tab;
+      if (!tab)
+        $scope.tabpane = 1;
+      else
+        $scope.tabpane = tab;
     } else {
       window.localStorage.clear();
       window.location.href = '/';
@@ -165,8 +168,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
       if (result && result != NO_DATA) {
         $scope.newestEssays = formatEssay(result);
         newestEssayCache = $scope.newestEssays.slice(0);
-        if (tab >= 2) {
-        } else{
+        if (!tab) {
           if (eid != null && eid > 0) {
             $scope.pos = getIndexEssay(eid, $scope.newestEssays);
             $scope.eid = eid;
@@ -404,6 +406,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   }
 
   $scope.changeStatus = function (eid,status) {
+    $rootScope.$broadcast('open');
     EssayService.updateStatusEssay(eid, userId, status).then(function (data) {
       if (data.data.request_data_result == "Success") {
         getAllEssay();
@@ -413,7 +416,10 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         if (result == "Processed") {
           var ModalInstanceCtrl = function($scope, $modalInstance) {
             $scope.ok = function() {
+              getAllEssay();
+              updateUI();
               $modalInstance.dismiss('cancel');
+              $rootScope.$broadcast('close');
             };
           };
           var message =  "This essay has been processing by other mentor.";
@@ -429,6 +435,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         getAllEssay();
         updateUI();
       }
+      $rootScope.$broadcast('close');
     });
   }
 

@@ -947,7 +947,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                             essayStatus = (String) map.get("status");
                         }
                     }
-                    if (essayStatus.equals("P")) {
+                    if (essayStatus.equals("P") || essayStatus.equals("R")) {
                         reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", "Processed");
                     } else {
                         params = new Object[] { status, mentorId, essayId };
