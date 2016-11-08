@@ -5,7 +5,7 @@ brotControllers.controller('StudentProfileController',
             var userName = localStorage.getItem('userName');
             var userType = localStorage.getItem('userType');
             var subjects = JSON.parse(localStorage.getItem('subjects'));
-
+            $scope.isLogged = userId !== undefined && userId != null;
             var limit = 10;
             var offset = 0;
             var isLoadMore = false;
