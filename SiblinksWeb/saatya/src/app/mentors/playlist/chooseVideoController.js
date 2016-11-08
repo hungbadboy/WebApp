@@ -79,7 +79,7 @@ brotControllers.controller('ChooseVideoController',
         $scope.subjects = JSON.parse(subjects);
         $scope.addSubject = $scope.subjects[0].subjectId;    
         $scope.filterSubjects = JSON.parse(subjects);
-        $scope.filterSubjects.slice(0, 1);
+        $scope.filterSubjects.splice(0, 1);
         $scope.filterSubjects.splice(0, 0, {
           'subjectId': 0,
           'subject' : 'All'

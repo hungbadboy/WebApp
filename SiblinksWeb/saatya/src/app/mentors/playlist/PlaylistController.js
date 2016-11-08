@@ -28,7 +28,7 @@ brotControllers.controller('PlaylistController',
         $scope.addSubject = $scope.subjects[0].subjectId;
 
         $scope.filterSubjects = JSON.parse(filterSubjects);
-        $scope.filterSubjects.slice(0, 1);
+        $scope.filterSubjects.splice(0, 1);
         $scope.filterSubjects.splice(0, 0, {
           'subjectId': 0,
           'subject' : 'All'
@@ -144,7 +144,7 @@ brotControllers.controller('PlaylistController',
     }
 
     $scope.delete = function(p){
-      if (p.count_videos > 0) {
+      if (p.numVideos > 0) {
         var message = 'Please remove all videos in the playlist first.';
         showModal(message);
       } else{
