@@ -20,7 +20,7 @@
                                     </div>                                    
                                     <div class="video-wait col-md-3">
                                         <div class="top-w clearfix">
-                                            <h5 class="pull-left">{{ playlist.name | limitTo: 20 }}{{playlist.name.length > 20 ? '...' : ''}}</h5>
+                                            <h5 class="pull-left" title="{{playlist.name}}">{{ playlist.name | limitTo: 20 }}{{playlist.name.length > 20 ? '...' : ''}}</h5>
                                             <a href="#/mentor/playlist/detail/{{playlist.plid}}"><span class="pull-right" data-icon="&#xe037;"></span></a>
                                         </div>
                                         <div class="top-nav-w clearfix">
@@ -28,16 +28,6 @@
                                             <span class="pull-right">{{pos+1}} of {{videos.length}} videos</span>
                                         </div>
                                         <ul class="list-videp-w" scroller="videosPlayList" on-init="loadTo" id="videos-in-list">
-                                            <!-- <li id="listPlaylist{{v.vid}}" class="video-list-item" ng-repeat="v in videos track by $index" ng-click="selectIndex($index)" ng-class="{'active':currentId==v.vid}" >
-                                                <span class="pull-left">
-                                                    <a href="javascript:void(0)" ng-click="loadVideo(v)">
-                                                    	<img style="width: 116px; height: 65px;" src="{{v.image}}" alt="">
-                                                    </a>
-                                                    <span class="video-time">{{v.runningTime}}</span>                                                    
-                                                    
-                                                </span>
-                                                <div class="clearfix"></div>
-                                            </li> -->
                                             <li id="listPlaylist{{v.vid}}" class="video-list-item" ng-repeat="v in videos track by $index" ng-click="selectIndex($index)" ng-class="{'active':currentId==v.vid}" >
                                                 <span class="pull-left">
                                                     <a href="javascript:void(0)" ng-click="loadVideo(v)">
@@ -46,7 +36,7 @@
                                                     <span class="video-time">{{v.runningTime}}</span>
                                                 </span>
                                                 <div class="sub-vd-right">
-                                                    <h6 class="">{{ v.title | limitTo: 15 }}{{v.name.title > 15 ? '...' : ''}}</h6>
+                                                    <h6 class="" title="{{v.title}}">{{ v.title | limitTo: 15 }}{{v.name.title > 15 ? '...' : ''}}</h6>
                                                 </div> 
                                                 <div class="clearfix"></div>
                                             </li> 
@@ -66,7 +56,7 @@
                             <div class="col-md-7 col-md-offset-1 info-video">
                                 <div class="main-cm-detail">
                                     <div class="top-cm">
-                                        <h3 class="word-wrap">{{video.title}}</h3>
+                                        <h3 class="word-wrap" title="{{video.title}}">{{video.title}}</h3>
                                         <span class="time">{{video.timeStamp}} ago</span>
                                         <div class="btn-count clearfix">
                                             <div class="bx-btn pull-left">
@@ -143,7 +133,7 @@
                                                 <span class="video-time">{{v.runningTime}}</span>
                                             </span>
                                             <div class="sub-vd-right pull-left">
-                                                <h5><a href="" ng-click="loadVideo(v)">{{ v.title | limitTo: 20 }}{{v.title.length > 20 ? '...' : ''}}</a></h5>
+                                                <h5 title="{{v.title}}"><a href="" ng-click="loadVideo(v)">{{ v.title | limitTo: 20 }}{{v.title.length > 20 ? '...' : ''}}</a></h5>
                                                 <p>from <b><a href="" ng-click="goToProfile(v.userId)">{{displayName(v.firstName,v.lastName,v.userName)}}</a></b></p>
                                                 <p>View: <span>{{v.numViews}}</span></p>
                                             </div> 
