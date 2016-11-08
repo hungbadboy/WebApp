@@ -724,6 +724,10 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   }
 
   $scope.prevEssay = function(pos){
+    $scope.edit = false;
+    $scope.editEssay = null;
+    $scope.fileName = null;
+    $scope.fileSize = null;
     if ($scope.tabpane == 1) {
       if ($scope.newestEssays && $scope.newestEssays.length > 0) {
         if (pos == 0) {
@@ -772,6 +776,10 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
   }
 
   $scope.nextEssay = function(pos){
+    $scope.edit = false;
+    $scope.editEssay = null;
+    $scope.fileName = null;
+    $scope.fileSize = null;
     if ($scope.tabpane == 1) {
       if ($scope.newestEssays && $scope.newestEssays.length > 0) {
         if (pos == $scope.newestEssays.length - 1) {
