@@ -47,16 +47,17 @@
                                 <span>to upload<br> playlist thumbnail</span>
                             </label>
                         </div>
-                    </span>                    
+                    </span>
+                    <div class="clearfix">
+                        <div class="bx-btn pull-right">
+                            <button class="btn-play active" ng-if="!plid" ng-click="add()"><b>Add</b></button>
+                            <button class="btn-play active" ng-if="plid" ng-click="update()"><b>Update</b></button>
+                            <button class="btn-edit" ng-click="cancel()"><b>Cancel</b></button>
+                        </div>
+                    </div>                    
                 </div>
             </form>
         </div>
-        <div class="clearfix">
-            <div class="bx-btn pull-right">
-                <button class="btn-play active" ng-if="!plid" ng-click="add()"><b>Add</b></button>
-                <button class="btn-play active" ng-if="plid" ng-click="update()"><b>Update</b></button>
-                <button class="btn-edit" ng-click="cancel()"><b>Cancel</b></button>
-            </div>
-        </div>
+        
     </div>
  </div>
