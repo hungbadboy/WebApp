@@ -20,7 +20,6 @@
 package com.siblinks.ws.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -389,33 +388,7 @@ public class VideoDetailServiceImpl implements VideoDetailService {
                 whereClause,
                 new Object[] { uid });
             if (readObjects != null && readObjects.size() > 0) {
-                List<Object> result = new ArrayList<Object>();
-                List<Object> playlist = null;
-
-                // get Playlist information of video
-                Map<String, Object> map = null;
-                Map<String, Object> tmp = new HashMap<String, Object>();
-                for (Object object : readObjects) {
-                    map = (Map<String, Object>) object;
-                    playlist = dao.readObjects(
-                        SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_INFO_OF_VIDEO,
-                        new Object[] { map.get("vid") });
-                    if (playlist != null && playlist.size() > 0) {
-                        for (Object item : playlist) {
-                            tmp = (Map<String, Object>) item;
-                            map.put("plid", tmp.get("plid"));
-                            map.put("playlistname", tmp.get("name"));
-                        }
-                    } else {
-                        map.put("plid", null);
-                        map.put("playlistname", null);
-                    }
-                    result.add(map);
-                }
-                response = new SimpleResponse(SibConstants.SUCCESS, "videos", "getVideosBySubject", result);
-                // response = new SimpleResponse(SibConstants.SUCCESS,
-                // "videodetail",
-                // "getVideoRelatedMentor", readObjects);
+                response = new SimpleResponse(SibConstants.SUCCESS, "videos", "getVideosBySubject", readObjects);
             } else {
                 response = new SimpleResponse(SibConstants.SUCCESS, "videodetail", "getVideoRelatedMentor", SibConstants.NO_DATA);
             }
