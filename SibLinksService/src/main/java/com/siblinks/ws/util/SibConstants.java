@@ -550,7 +550,8 @@ public class SibConstants {
         public static final String SQL_SEARCH_PLAYLIST = "SEARCH_PLAYLIST";
         public static final String SQL_GET_ALL_VIDEO = "GET_ALL_VIDEO";
         public static final String SQL_CHECK_VIDEO_FAVOURITE = "CHECK_VIDEO_FAVOURITE";
-
+        public static final String SQL_GET_ALL_TITLE_VIDEO_PLAYLIST = "GET_ALL_TITLE_VIDEO_PLAYLIST";
+        public static final String SQL_SEARCH_VIDEO_PLAYLIST = "SEARCH_VIDEO_PLAYLIST";
         public static final String SQL_GET_NEWEST_ANSWERS = "GET_NEWEST_ANSWERS";
         public static final String SQL_GET_VIDEO_ADMISSION_DETAIL_BY_ID = "GET_VIDEO_ADMISSION_DETAIL_BY_ID";
         public static final String SQL_GET_COMMENT_VIDEO_ADMISSION_BY_VID = "GET_COMMENT_VIDEO_ADMISSION_BY_VID";

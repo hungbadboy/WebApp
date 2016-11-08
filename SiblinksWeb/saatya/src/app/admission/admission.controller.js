@@ -26,6 +26,7 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
         $scope.indexAdmission = 0;
         $scope.isShowUploadEssay = false;
         var tab = $location.search().tab;
+        $scope.isLogged = userId !== undefined && userId != null;
 
         init();
         function init() {

@@ -2002,11 +2002,15 @@ public class UserServiceImpl implements UserService {
                     if (fileOld.exists()) {
                         FileUtils.forceDeleteOnExit(fileOld);
                     }
+                    activityLogService.insertActivityLog(new ActivityLogData(
+                                                                             SibConstants.TYPE_PROFILE,
+                                                                             "U",
+                                                                             "You has been updated your avatar",
+                                                                             userid,
+                                                                             null));
                 }
                 // Successful return path image avatar
                 response = new SimpleResponse(SibConstants.SUCCESS, service + filename);
-                activityLogService.insertActivityLog(
-                    new ActivityLogData(SibConstants.TYPE_PROFILE, "U", "You has been updated your avatar", userid, null));
             } else {
                 response = new SimpleResponse(SibConstants.FAILURE, "Not found path or file is not exist");
             }
@@ -2122,10 +2126,11 @@ public class UserServiceImpl implements UserService {
             String msg;
             if (status) {
                 msg = "Success";
+                String activityStatus = String.format("You has been updated your %s", user.getActivity());
                 activityLogService.insertActivityLog(new ActivityLogData(
                                                                          SibConstants.TYPE_PROFILE,
                                                                          "U",
-                                                           "You updated profile",
+                                                                         activityStatus,
                                                                          user.getUserid(),
                                                                          null));
             } else {

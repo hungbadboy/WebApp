@@ -122,7 +122,7 @@
               <div class="college-admission-content-sidebar col-md-4">
                   <div class="college-admission-content-sidebar-wrapper">
                       <!-- Your essay -->
-                      <div class="your-essay" ng-controller="yourEssayController" ng-include="'src/app/admission/yourEssay.tpl.html'"></div>
+                      <div ng-show="isLogged" class="your-essay" ng-controller="yourEssayController" ng-include="'src/app/admission/yourEssay.tpl.html'"></div>
                      <!-- /End Your essay -->
                       <!-- /End top memtor -->
                       <!-- Top mentor -->

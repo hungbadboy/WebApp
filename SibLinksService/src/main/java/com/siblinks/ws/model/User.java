@@ -40,6 +40,7 @@ public class User {
     private String bod;
     private String defaultSubjectId;
     private String role;
+    private String activity;
 
     public String getUsername() {
         return username;
@@ -195,6 +196,21 @@ public class User {
      */
     public void setRole(final String role) {
         this.role = role;
+    }
+
+    /**
+     * @return the activity
+     */
+    public String getActivity() {
+        return activity;
+    }
+
+    /**
+     * @param activity
+     *            the activity to set
+     */
+    public void setActivity(final String activity) {
+        this.activity = activity;
     }
 
 }
