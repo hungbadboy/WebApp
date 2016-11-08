@@ -146,13 +146,12 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
         $scope.rateFunction = function (rate) {
             var ratenumOld = $scope.rateNum;
             if (isEmpty($scope.userId) || $scope.userId == "-1") {
-                $scope.errorVideo = "Please login!";
+            	window.location.href ='#/student/signin?continue='+encodeURIComponent($location.absUrl());
                 return;
             }
             $rootScope.$broadcast('open');
             videoAdmissionService.checkUserRatingVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
-
-                if (data.data.status) {
+                if (data.data.status == 'true') {
                     if (data.data.request_data_result.length > 0) {
                         $scope.rated = true;
                         $scope.errorVideo = "You are rated!";

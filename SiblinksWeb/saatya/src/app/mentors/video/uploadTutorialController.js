@@ -44,25 +44,25 @@ brotControllers.controller('UploadTutorialController',
     }
 
     function initSubject(){
-      var subjects = localStorage.getItem("insertupdateTutorialSubjects");
+      var subjects = localStorage.getItem("subjects");
       if (subjects != null) {
         $scope.uploadSubjects = JSON.parse(subjects);
         $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
       } else{
         HomeService.getAllCategory().then(function (data) {
-           if (data.data.status) {
-              var arr = angular.copy(data.data.request_data_result);
-              arr.splice(0, 0, {
-                'subjectId': 0,
-                'subject' : 'Select a Subject'
-              }); 
-              $scope.uploadSubjects = arr;
-              localStorage.setItem("insertupdateTutorialSubjects", JSON.stringify($scope.uploadSubjects), 2)
-              $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
-              if ($scope.editVideo) 
-                displayEdit($scope.editVideo);
-           }
-       });
+          if (data.data.status) {
+            var arr = angular.copy(data.data.request_data_result);
+            arr.splice(0, 0, {
+              'subjectId': 0,
+              'subject' : 'Select a Subject'
+            }); 
+            $scope.uploadSubjects = arr;
+            localStorage.setItem("subjects", JSON.stringify($scope.uploadSubjects), 10)
+            $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
+            if ($scope.editVideo) 
+              displayEdit($scope.editVideo);
+          }
+        });
       }      
     }
 
@@ -165,15 +165,17 @@ brotControllers.controller('UploadTutorialController',
       VideoService.updateTutorial(request).then(function(data){
         if (data.data.request_data_result === "Success") {
           if (!isNaN(v_id) && v_id > 0) {
-             var video = {
-               'vid': v_id,
-               'title': title,
-               'description': description,
-               'plid': plPos > 0 ? $scope.playlists[plPos].plid : null,
-               'playlistname': plPos > 0 ? getPlaylistName($scope.playlists[plPos].plid) : null,
-               'subjectId': $scope.uploadSubjects[subjectPos].subjectId
-             } 
-             $rootScope.$broadcast('passing', video);
+             // var video = {
+             //   'vid': v_id,
+             //   'title': title,
+             //   'description': description,
+             //   'plid': plPos > 0 ? $scope.playlists[plPos].plid : null,
+             //   'playlistname': plPos > 0 ? getPlaylistName($scope.playlists[plPos].plid) : null,
+             //   'subjectId': $scope.uploadSubjects[subjectPos].subjectId
+             // } 
+             request['playlistname'] = plPos > 0 ? getPlaylistName($scope.playlists[plPos].plid) : null;
+             $rootScope.$broadcast('passing', request);
+             // $rootScope.$broadcast('passing', video);
 
              $modalInstance.dismiss('cancel');
           }else{

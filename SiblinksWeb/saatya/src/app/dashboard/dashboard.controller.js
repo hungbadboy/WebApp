@@ -1,5 +1,5 @@
-brotControllers.controller('DashboardController',['$rootScope','$scope', 'MentorService', 'VideoService', 'EssayService',
-  function($rootScope, $scope, MentorService, VideoService, EssayService) {
+brotControllers.controller('DashboardController',['$rootScope','$scope', 'MentorService', 'VideoService', 'EssayService', 'HomeService',
+  function($rootScope, $scope, MentorService, VideoService, EssayService, HomeService) {
 
 	$scope.data =[
 	               { imageUrl:"assets/images/mentor-04.png", name:"Student1", caption:""},
@@ -24,10 +24,24 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', 'Mentor
       getStudentsSubcribed();
       getNewestEssay();
       initPlaylist();
+      initSubject();
     } else {
       window.localStorage.clear();
       window.location.href = '/';
     }    
+  }
+
+  function initSubject(){
+    HomeService.getAllCategory().then(function (data) {
+      if (data.data.status) {
+        var subjects = angular.copy(data.data.request_data_result);
+        subjects.splice(0, 0, {
+          'subjectId': 0,
+          'subject' : 'Select a Subject'
+        }); 
+        localStorage.setItem("subjects", JSON.stringify(subjects), 10)
+      }
+    });
   }
 
   function initPlaylist(){

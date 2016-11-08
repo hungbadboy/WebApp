@@ -12,7 +12,7 @@ brotControllers.controller('ChoosePlaylistController',
 
     function initPlaylist(){
       if (userId && userId > 0) {
-        var selectPlaylistSubjects = localStorage.getItem('selectPlaylistSubjects');
+        var selectPlaylistSubjects = localStorage.getItem('playlists');
         if (selectPlaylistSubjects !== null) {
           $scope.playlists = JSON.parse(selectPlaylistSubjects);
           $scope.playlist = $scope.playlists[0].plid;
@@ -24,7 +24,7 @@ brotControllers.controller('ChoosePlaylistController',
                 'plid':0,
                 'name': "Select a Playlist"
               });
-              localStorage.setItem("selectPlaylistSubjects", JSON.stringify($scope.playlists), 2);
+              localStorage.setItem("playlists", JSON.stringify($scope.playlists), 10);
               $scope.playlist = $scope.playlists[0].plid;
             }
           });

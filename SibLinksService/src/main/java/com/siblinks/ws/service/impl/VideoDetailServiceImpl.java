@@ -276,32 +276,14 @@ public class VideoDetailServiceImpl implements VideoDetailService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/getVideoByAdmissionId", method = RequestMethod.POST)
-    public ResponseEntity<Response> getVideoByAdmissionId(@RequestBody final RequestData request) {
+    @RequestMapping(value = "/getVideoByAdmissionId", method = RequestMethod.GET)
+    public ResponseEntity<Response> getVideoByAdmissionId(@RequestParam final String aId) {
         SimpleResponse response = null;
         try {
-            String limit = request.getRequest_data().getLimit();
-            String offset = request.getRequest_data().getOffset();
-            String sid = request.getRequest_data().getSubjectId();
-            String type = request.getRequest_data().getType();
+            Object[] queryParams = { aId };
 
-            String whereClause = "";
-            if (!StringUtil.isNull(type)) {
-
-                whereClause += " ORDER BY A.creationDate DESC";
-            }
-            if (!StringUtil.isNull(limit)) {
-                whereClause += " LIMIT " + limit;
-            }
-            if (!StringUtil.isNull(offset)) {
-                whereClause += " OFFSET " + offset;
-            }
-            Object[] queryParams = { sid };
-
-            List<Object> readObject = dao.readObjectsWhereClause(
-                SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_BY_ADMISSION_ID,
-                whereClause,
-                queryParams);
+            List<Object> readObject = dao
+                .readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_BY_ADMISSION_ID, queryParams);
             response = new SimpleResponse(SibConstants.SUCCESS, "Video", "getVideoByAdmissionId", readObject);
         } catch (Exception e) {
             e.printStackTrace();
