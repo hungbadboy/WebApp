@@ -1,16 +1,3 @@
-height();
-
-  function height(){
-        var width_win = $(window).width();
-        var heightInfo = $(".top-mentors-info-detail").height() - 30;
-        if (width_win < 1601) {
-            $(".center-content.mentor-view-mentor .content .mentors-profile-content").css({"margin-top": + heightInfo + "px"});
-         }
-        else {
-            $(".center-content.mentor-view-mentor .content .mentors-profile-content").css({"margin-top": "30px"});
-        } 
-  }
-
 brotControllers.filter('filterSub', function () {
     return function (items, name) {
         var filtered = [];
@@ -78,6 +65,7 @@ brotControllers.controller('MentorProfileController',
                     getNewestAnswers(mentorId, 6, 0);
                 }
                 getStudentSubscribed(userId, $scope.defaultLimit, 0);
+                setHeightMentorViewMentor();
                 getMentorProfile();
                 uploadEssayService.collegesOrUniversities().then(function (data) {
                     if (data.data.status) {
@@ -801,4 +789,17 @@ brotControllers.controller('MentorProfileController',
                 });
             }
 
+            /**
+            * @description : thoi cai nay de em chinh la sai gio xem co chay dc ko
+            */
+            function setHeightMentorViewMentor(){
+                var width_win = $(window).width();
+                var heightInfo = $(".top-mentors-info-detail").height() - 30;
+                if (width_win < 1601) {
+                    $(".content .mentors-profile-content").css({"margin-top": + heightInfo + "px"});
+                }
+                else {
+                    $(".content .mentors-profile-content").css({"margin-top": "30px"});
+                } 
+            }
         }]);
