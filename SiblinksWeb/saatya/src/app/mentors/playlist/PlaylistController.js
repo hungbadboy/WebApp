@@ -23,10 +23,16 @@ brotControllers.controller('PlaylistController',
     function initSubject(){
       var playlistManagerSubjects = localStorage.getItem("subjects");
       var filterSubjects = localStorage.getItem("subjects");
-      if (playlistManagerSubjects != null && filterSubjects != null){    
+      if (playlistManagerSubjects != null){    
         $scope.subjects = JSON.parse(playlistManagerSubjects);;
         $scope.addSubject = $scope.subjects[0].subjectId;
+
         $scope.filterSubjects = JSON.parse(filterSubjects);
+        $scope.filterSubjects.slice(0, 1);
+        $scope.filterSubjects.splice(0, 0, {
+          'subjectId': 0,
+          'subject' : 'All'
+        });
         $scope.subject = $scope.filterSubjects[0].subjectId;
       } else{
         HomeService.getAllCategory().then(function (data) {
