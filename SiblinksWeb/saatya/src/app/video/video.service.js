@@ -287,6 +287,13 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         return promise;
     };
 
+    factory.getAllTitleVideoPlaylist = function () {
+        return $http({
+            method : 'GET',
+            url : NEW_SERVICE_URL + 'video/getAllTitleVideoPlaylist'
+        });
+    };
+
     factory.getVideoStudentSubcribe = function (userId, limit, offset) {
         var rs = null;
         var promise = $http({
@@ -369,19 +376,24 @@ brotServices.factory('VideoService', ['$http', function ($http) {
     };
     
     factory.getVideosRecently = function (uid) {
-        var promise = $http({
+        return $http({
             method: 'GET',
-            url: NEW_SERVICE_URL + 'video/getVideosRecently/'+uid+''
+            url: NEW_SERVICE_URL + 'video/getVideosRecently/' + uid + ''
         });
-        return promise;
+    };
+
+    factory.searchVideoPlaylist = function (keyword, limit, offset) {
+        return $http({
+          method : 'GET',
+          url : NEW_SERVICE_URL + 'video/searchVideoPlaylist?keyword='+keyword+'&limit='+limit+'&offset='+offset
+        });
     };
 
     factory.getVideoPlaylistRecently = function (userId, limit, offset) {
-        var promise = $http({
+        return $http({
             method: 'GET',
             url: NEW_SERVICE_URL + 'video/getVideoPlaylistRecently?userId=' + userId + '&limit=' + limit + '&offset=' + offset
         });
-        return promise;
     };
     
     //MTDU

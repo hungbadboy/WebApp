@@ -140,13 +140,13 @@ function convertUnixTimeToTime(time) {
     if (_space < 60) {
         return _space + ' seconds';
     } else if (_space < 3600) {
-        return Math.floor(_space / 60) + ' minutes';
+        return Math.floor(_space / 60) > 1 ? Math.floor(_space / 60) + ' minutes' : Math.floor(_space / 60) + ' minute';
     } else if (_space < _secondDay) {
-        return Math.floor(_space / 3600) + ' hours';
+        return Math.floor(_space / 3600) > 1 ? Math.floor(_space / 3600) + ' hours' : Math.floor(_space / 3600) + ' hour';
     } else if (_space >= _secondDay && _space < _secondMonth) {
-        return Math.floor(_space / _secondDay) + ' days';
+        return Math.floor(_space / _secondDay) > 1 ? Math.floor(_space / _secondDay) + ' days' : Math.floor(_space / _secondDay) + ' day';
     } else {
-        return Math.floor(_space / _secondMonth) + ' months';
+        return Math.floor(_space / _secondMonth) > 1 ? Math.floor(_space / _secondMonth) + ' months' : Math.floor(_space / _secondMonth) + ' month';
     }
 }
 function loginFBService(callback) {

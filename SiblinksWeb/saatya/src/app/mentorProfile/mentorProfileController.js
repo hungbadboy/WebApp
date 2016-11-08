@@ -248,6 +248,7 @@ brotControllers.controller('MentorProfileController',
                 var error = "";
                 $scope.msgError = "";
                 $scope.msgSuccess = "";
+                var activityType = 'profile';
                 var gender = '';
                 if ($('input[name="gender"][value="male"]').is(':checked')) {
                     gender = "M";
@@ -306,6 +307,7 @@ brotControllers.controller('MentorProfileController',
                 if (check) {
                     var mentor = {
                         'role': "M",
+                        'activity' : activityType,
                         'userid': userId,
                         'firstName': firstName,
                         'lastName': lastName,
