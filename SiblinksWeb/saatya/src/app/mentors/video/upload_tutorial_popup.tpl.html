@@ -1,75 +1,77 @@
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()"><span data-icon="&#x51;"></span></button>
-    <h4 class="modal-title" ng-if="!editVideo">Upload Video</h4>
-    <h4 class="modal-title" ng-if="editVideo">Edit Video</h4>
-</div>
-<div class="modal-body edit-tutorial" ng-cloak>
-    <div class="row">
-        <div class="col-md-6">
-            <div ng-if="success" class="succesful">
-              <span>{{success}}</span>
-            </div>
-            <div ng-if="error" class="validate_error">
-               <span>{{error}}</span>
-            </div>
-            <div class="form-modal">
-                <form action="" method="" role="form" id="uploadTutorial">
-                    <div class="form-group">
-                        <input type="text" id="txtTutorialUrl" class="form-control input-custom-link" data-ng-model="uploadLink" placeholder="Youtube Link or ID" ng-enter="validateLink()" ng-blur="validateLink()" ng-hide="link" maxlength="99" autofocus>
-                        <input type="text" class="form-control input-custom-link" readonly="readonly" value="{{link}}" ng-show="link" tabindex="-1">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="txtTutorialTitle" ng-model="title" placeholder="Video Title" maxlength="100">
-                    </div>                    
-                    <div class="form-group">
-                        <input type="text" id="txtTutorialDuration" class="form-control box-duration" ng-model="duration" placeholder="Duration" readonly="true" tabindex="-1">
-                    </div>
-                    <div class="form-group">
-                        <textarea name="desciption" id="txtTutorialDescription" rows="4" cols="5" ng-model="description" class="form-control textarea-custom" placeholder="Description" maxlength="1024"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <select class="select-sbj form-control" id="uploadSubject" data-ng-model="uploadSubject" class="form-control" data-ng-options='subject.subjectId as subject.subject for subject in uploadSubjects'>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <select class="select-sbj form-control" id="uploadPlaylist" data-ng-model="uploadPlaylist" class="form-control" data-ng-options='p.plid as p.name for p in playlists'>
-                        </select>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="col-md-6 right-modal">
-            <div ng-show="vid" style="margin-bottom: 15px;">
-                <div class="box-video-lag" id="uplad_player"></div>
-            </div>
-        </div>
+<div ng-show="show">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()"><span data-icon="&#x51;"></span></button>
+        <h4 class="modal-title" ng-if="!editVideo">Upload Video</h4>
+        <h4 class="modal-title" ng-if="editVideo">Edit Video</h4>
     </div>
-    <div class="clearfix">
-        <div class="bx-btn pull-right">
-            <button class="btn-play active" ng-click="upload()" ng-if="!editVideo"><b>Upload</b></button>
-            <button class="btn-play active" ng-click="update()" ng-show="editVideo"><b>Update</b></button>
-            <button class="btn-edit" ng-click="cancel()"><b>Cancel</b></button>
+    <div class="modal-body edit-tutorial" ng-cloak>
+        <div class="row">
+            <div class="col-md-6">
+                <div ng-if="success" class="succesful">
+                  <span>{{success}}</span>
+                </div>
+                <div ng-if="error" class="validate_error">
+                   <span>{{error}}</span>
+                </div>
+                <div class="form-modal">
+                    <form action="" method="" role="form" id="uploadTutorial">
+                        <div class="form-group">
+                            <input type="text" id="txtTutorialUrl" class="form-control input-custom-link" data-ng-model="uploadLink" placeholder="Youtube Link or ID" ng-enter="validateLink()" ng-blur="validateLink()" ng-hide="link" maxlength="99" autofocus>
+                            <input type="text" class="form-control input-custom-link" readonly="readonly" value="{{link}}" ng-show="link" tabindex="-1">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="txtTutorialTitle" ng-model="title" placeholder="Video Title" maxlength="100">
+                        </div>                    
+                        <div class="form-group">
+                            <input type="text" id="txtTutorialDuration" class="form-control box-duration" ng-model="duration" placeholder="Duration" readonly="true" tabindex="-1">
+                        </div>
+                        <div class="form-group">
+                            <textarea name="desciption" id="txtTutorialDescription" rows="4" cols="5" ng-model="description" class="form-control textarea-custom" placeholder="Description" maxlength="1024"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <select class="select-sbj form-control" id="uploadSubject" data-ng-model="uploadSubject" class="form-control" data-ng-options='subject.subjectId as subject.subject for subject in uploadSubjects'>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="select-sbj form-control" id="uploadPlaylist" data-ng-model="uploadPlaylist" class="form-control" data-ng-options='p.plid as p.name for p in playlists'>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 right-modal">
+                <div ng-show="vid" style="margin-bottom: 15px;">
+                    <div class="box-video-lag" id="uplad_player"></div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="list-add-video" ng-hide="editVideo">
-        <h4>Recently uploaded videos </h4>
-        <div class="filter-modal clearfix">
-            <div class="col-md-3">Video Information</div>
-            <div class="col-md-2">Subject</div>
-            <div class="col-md-4">Description</div>
-            <div class="col-md-3">Action</div>
+        <div class="clearfix">
+            <div class="bx-btn pull-right">
+                <button class="btn-play active" ng-click="upload()" ng-if="!editVideo"><b>Upload</b></button>
+                <button class="btn-play active" ng-click="update()" ng-show="editVideo"><b>Update</b></button>
+                <button class="btn-edit" ng-click="cancel()"><b>Cancel</b></button>
+            </div>
         </div>
-        <div class="group-item" ng-show="videos">
-            <div class="item clearfix" ng-repeat="v in videos track by $index">
-                <div class="col-md-3">{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</div>
-                <div class="col-md-2">{{v.subject}}</div>
-                <div class="col-md-4">{{v.description | limitTo : 70}}{{v.description.length > 70 ? '...' : ''}}</div>
-                <div class="col-md-3">
-                    <ul class="list-ac">
-                        <li><a href="" ng-click="openEdit(v)">Edit</a></li>
-                        <li><a href="" ng-click="addToPlaylist(v)">Add to playlist</a></li>
-                        <li><a href="" ng-really-message="Are you sure you want to delete?" ng-really-click ="delete(v.vid)">Delete</a></li>
-                    </ul>
+        <div class="list-add-video" ng-hide="editVideo">
+            <h4>Recently uploaded videos </h4>
+            <div class="filter-modal clearfix">
+                <div class="col-md-3">Video Information</div>
+                <div class="col-md-2">Subject</div>
+                <div class="col-md-4">Description</div>
+                <div class="col-md-3">Action</div>
+            </div>
+            <div class="group-item" ng-show="videos">
+                <div class="item clearfix" ng-repeat="v in videos track by $index">
+                    <div class="col-md-3">{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</div>
+                    <div class="col-md-2">{{v.subject}}</div>
+                    <div class="col-md-4">{{v.description | limitTo : 70}}{{v.description.length > 70 ? '...' : ''}}</div>
+                    <div class="col-md-3">
+                        <ul class="list-ac">
+                            <li><a href="" ng-click="openEdit(v)">Edit</a></li>
+                            <li><a href="" ng-click="addToPlaylist(v)">Add to playlist</a></li>
+                            <li><a href="" ng-really-message="Are you sure you want to delete?" ng-really-click ="delete(v.vid)">Delete</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
