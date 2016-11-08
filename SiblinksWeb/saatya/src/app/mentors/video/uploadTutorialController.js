@@ -31,7 +31,7 @@ brotControllers.controller('UploadTutorialController',
         var result = data.data.request_data_result;
         if (result  && result != "Found no data") {
           displayEdit(result);
-          $scope.show = true;
+          // $scope.show = true;
         }
       });
     }
