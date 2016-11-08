@@ -937,7 +937,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 if (readObject != null && readObject.size() > 0) {
                     for (int i = 0; i < readObject.size(); i++) {
                         Map<String, Object> map = (Map<String, Object>) readObject.get(i);
-                        mentorProcessed = (String) map.get("mentorId");
+                        if (map.get("mentorId") != null) {
+                            mentorProcessed = map.get("mentorId").toString();
+                        }
                     }
                 }
                 if (status != null && status.equals("I")) {
