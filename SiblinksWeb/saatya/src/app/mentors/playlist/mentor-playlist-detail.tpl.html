@@ -16,7 +16,7 @@
                                         <img class="playlist-detail-fix-img" src="{{playlist.image}}" err-src="assets/images/image-not-available.png" alt="">
                                     </span>
                                     <div class="detail-pl-inner pull-left">
-                                        <h5>{{playlist.name | limitTo : 50}}{{playlist.name.length > 50 ? '...' : ''}}
+                                        <h5 title="{{playlist.name}}">{{playlist.name | limitTo : 50}}{{playlist.name.length > 50 ? '...' : ''}}
                                         <span class="add-time">{{playlist.timeStamp}} ago</span>
                                         <p class="list-view">
                                             <span><img src="assets/images/icon-play.png" alt=""> {{playlist.numViews ? playlist.numViews : 0}}</span>&nbsp;&nbsp;
@@ -59,7 +59,7 @@
                                                         <span class="video-time">{{v.runningTime}}</span>
                                                     </div></a>
                                                     <div class="detail-pl-inner">
-                                                        <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
+                                                        <a href="#/mentor/video/detail/{{v.vid}}"><h5 title="{{v.title}}">{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
                                                         <span class="add-time">added {{v.timeStamp}} ago</span>
                                                         <ul class="list-star">
                                                             <div  class="pull-left" star-rating stars="5"
@@ -77,7 +77,7 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <p class="box-description pre-wrap">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
+                                                <p class="box-description pre-wrap" title="{{v.description}}">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
                                                 <p class="box-playlist">{{v.subject}}</p>
                                                 <div class="box-ac">
                                                     <ul class="list-ac">
@@ -97,7 +97,7 @@
                                                         <span class="video-time">{{v.runningTime}}</span>
                                                     </div></a>
                                                     <div class="detail-pl-inner">
-                                                        <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
+                                                        <a href="#/mentor/video/detail/{{v.vid}}"><h5 title="{{v.title}}">{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5></a>
                                                         <span class="add-time">added {{v.timeStamp}} ago</span>
                                                         <ul class="list-star">
                                                             <div  class="pull-left" star-rating stars="5"
@@ -115,7 +115,7 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <p class="box-description pre-wrap">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
+                                                <p class="box-description pre-wrap" title="{{v.description}}">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
                                                 <p class="box-playlist">{{v.subject}}</p>
                                                 <div class="box-ac">
                                                     <ul class="list-ac">

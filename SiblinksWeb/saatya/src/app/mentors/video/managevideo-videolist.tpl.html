@@ -75,7 +75,7 @@
                                                                 <span class="video-time">{{v.runningTime}}</span>
                                                             </div>
                                                             <div class="detail-pl-inner">
-                                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
+                                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5 title="{{v.title}}">{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
                                                                 <span class="add-time">{{v.timeStamp}} ago</span>
                                                                 <ul class="list-star">
                                                                     <div ng-if="v" class="pull-left" star-rating stars="5"
@@ -94,10 +94,10 @@
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                        <p class="box-playlist">
+                                                        <p class="box-playlist" title="{{v.playlistname}}">
                                                             {{v.playlistname | limitTo: 15}}{{v.playlistname.length > 15 ? '...' : ''}}
                                                         </p>
-                                                        <p class="box-description pre-wrap">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
+                                                        <p class="box-description pre-wrap" title="{{v.description}}">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
                                                         <div class="box-ac">
                                                             <ul class="list-ac">
                                                                 <li><a href="" ng-click="edit(v.vid)">Edit</a></li>
@@ -116,7 +116,7 @@
                                                                 <span class="video-time">{{v.runningTime}}</span>
                                                             </div>
                                                             <div class="detail-pl-inner">
-                                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
+                                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5 title="{{v.title}}">{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
                                                                 <span class="add-time">{{v.timeStamp}} ago</span>
                                                                 <ul class="list-star">
                                                                     <div ng-if="v" class="pull-left" star-rating stars="5"
@@ -135,10 +135,10 @@
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                        <p class="box-playlist">
+                                                        <p class="box-playlist" title="{{v.playlistname}}">
                                                             {{v.playlistname | limitTo: 15}}{{v.playlistname.length > 15 ? '...' : ''}}
                                                         </p>
-                                                        <p class="box-description pre-wrap">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
+                                                        <p class="box-description pre-wrap" title="{{v.description}}">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
                                                         <div class="box-ac">
                                                             <ul class="list-ac">
                                                                 <li><a href="" ng-click="edit(v.vid)">Edit</a></li>
@@ -184,7 +184,7 @@
                                                                 <span class="video-time">{{v.runningTime}}</span>
                                                             </div>
                                                             <div class="detail-pl-inner">
-                                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
+                                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5 title="{{v.title}}">{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
                                                                 <span class="add-time">{{v.timeStamp}} ago</span>
                                                                 <ul class="list-star">
                                                                     <div ng-if="v" class="pull-left" star-rating stars="5"
@@ -203,10 +203,10 @@
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                        <p class="box-playlist">
+                                                        <p class="box-playlist" title="{{v.playlistname}}">
                                                             {{v.playlistname | limitTo: 15}}{{v.playlistname.length > 15 ? '...' : ''}}
                                                         </p>
-                                                        <p class="box-description pre-wrap">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
+                                                        <p class="box-description pre-wrap" title="{{v.description}}">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
                                                         <div class="box-ac">
                                                             <ul class="list-ac">
                                                                 <li><a href="" ng-click="edit(v.vid)">Edit</a></li>
@@ -225,7 +225,7 @@
                                                                 <span class="video-time">{{v.runningTime}}</span>
                                                             </div>
                                                             <div class="detail-pl-inner">
-                                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
+                                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5 title="{{v.title}}">{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
                                                                 <span class="add-time">{{v.timeStamp}} ago</span>
                                                                 <ul class="list-star">
                                                                     <div ng-if="v" class="pull-left" star-rating stars="5"
@@ -244,10 +244,10 @@
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                        <p class="box-playlist">
+                                                        <p class="box-playlist" title="{{v.playlistname}}">
                                                             {{v.playlistname | limitTo: 15}}{{v.playlistname.length > 15 ? '...' : ''}}
                                                         </p>
-                                                        <p class="box-description pre-wrap">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
+                                                        <p class="box-description pre-wrap" title="{{v.description}}">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
                                                         <div class="box-ac">
                                                             <ul class="list-ac">
                                                                 <li><a href="" ng-click="edit(v.vid)">Edit</a></li>
@@ -293,7 +293,7 @@
                                                                 <span class="video-time">{{v.runningTime}}</span>
                                                             </div>
                                                             <div class="detail-pl-inner">
-                                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
+                                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5 title="{{v.title}}">{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
                                                                 <span class="add-time">{{v.timeStamp}} ago</span>
                                                                 <ul class="list-star">
                                                                     <div ng-if="v" class="pull-left" star-rating stars="5"
@@ -312,10 +312,10 @@
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                        <p class="box-playlist">
+                                                        <p class="box-playlist" title="{{v.playlistname}}">
                                                             {{v.playlistname | limitTo: 15}}{{v.playlistname.length > 15 ? '...' : ''}}
                                                         </p>
-                                                        <p class="box-description pre-wrap">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
+                                                        <p class="box-description pre-wrap" title="{{v.description}}">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
                                                         <div class="box-ac">
                                                             <ul class="list-ac">
                                                                 <li><a href="" ng-click="edit(v.vid)">Edit</a></li>
@@ -334,7 +334,7 @@
                                                                 <span class="video-time">{{v.runningTime}}</span>
                                                             </div>
                                                             <div class="detail-pl-inner">
-                                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5>{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
+                                                                <a href="#/mentor/video/detail/{{v.vid}}"><h5 title="{{v.title}}">{{v.title | limitTo : 25}}{{v.title.length > 25 ? '...' : ''}}</h5></a>
                                                                 <span class="add-time">{{v.timeStamp}} ago</span>
                                                                 <ul class="list-star">
                                                                     <div ng-if="v" class="pull-left" star-rating stars="5"
@@ -353,10 +353,10 @@
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                        <p class="box-playlist">
+                                                        <p class="box-playlist" title="{{v.playlistname}}">
                                                             {{v.playlistname | limitTo: 15}}{{v.playlistname.length > 15 ? '...' : ''}}
                                                         </p>
-                                                        <p class="box-description pre-wrap">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
+                                                        <p class="box-description pre-wrap" title="{{v.description}}">{{v.description | limitTo : 150}}{{v.description.length > 150 ? '...' : ''}}</p>
                                                         <div class="box-ac">
                                                             <ul class="list-ac">
                                                                 <li><a href="" ng-click="edit(v.vid)">Edit</a></li>

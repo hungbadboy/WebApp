@@ -99,7 +99,7 @@
                                                         </a>
                                                     </span>
                                                     <div class="detail-pl-inner">
-                                                        <a href="#/mentor/playlist/detail/{{p.plid}}"><h5>{{p.name | limitTo : 20}}{{p.name.length > 20 ? '...' : ''}}</h5></a>
+                                                        <a href="#/mentor/playlist/detail/{{p.plid}}"><h5 title="{{p.name}}">{{p.name | limitTo : 20}}{{p.name.length > 20 ? '...' : ''}}</h5></a>
                                                         <span class="add-time">{{p.timeStamp}} ago</span>
                                                         
                                                         <p class="list-view">
@@ -134,7 +134,7 @@
                                                         </a>
                                                     </span>
                                                     <div class="detail-pl-inner">
-                                                        <a href="#/mentor/playlist/detail/{{p.plid}}"><h5>{{p.name | limitTo : 20}}{{p.name.length > 20 ? '...' : ''}}</h5></a>
+                                                        <a href="#/mentor/playlist/detail/{{p.plid}}"><h5 title="{{p.name}}">{{p.name | limitTo : 20}}{{p.name.length > 20 ? '...' : ''}}</h5></a>
                                                         <span class="add-time">{{p.timeStamp}} ago</span>
                                                         
                                                         <p class="list-view">
@@ -155,9 +155,6 @@
                                         </div>
                                         <div ng-if="!playlist" style="margin-left: 45px;"><h5>No Playlist here</h5></div>
                                     </div>
-                                   <!--  <div class="row clearfix">
-                                        <p class="btn-load-more"><a class="load-more-mng" href="#">load more</a></p>
-                                    </div> -->
                                     <div class="filters clearfix">
                                         <div class="check-all"><input id="check-all" type="checkbox" name="checkall"  ng-model="selectedAll" ng-click="checkAll()"/></div>
                                         <div class="text-trf">Playlist</div>

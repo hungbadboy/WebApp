@@ -932,22 +932,26 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 String status = request.getRequest_data().getStatus();
                 Object[] params = null;
                 boolean flag = false;
+                String mentorProcessed = null;
+                List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_STATUS_ESSAY, new Object[] { essayId });
+                if (readObject != null && readObject.size() > 0) {
+                    for (int i = 0; i < readObject.size(); i++) {
+                        Map<String, Object> map = (Map<String, Object>) readObject.get(i);
+                        if (map.get("mentorId") != null) {
+                            mentorProcessed = map.get("mentorId").toString();
+                        }
+                    }
+                }
                 if (status != null && status.equals("I")) {
                     params = new Object[] { essayId, mentorId };
                     flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_IGNORE_ESSAY, params);
-                    params = new Object[] { "W", essayId };
-                    flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_CANCEL_ESSAY, params);
+                    if (mentorProcessed != null && mentorProcessed.equals(mentorId)) {
+                        params = new Object[] { "W", essayId };
+                        flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_CANCEL_ESSAY, params);
+                    }
                     activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You ignored essay", mentorId, essayId));
                 } else {
-                    List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_STATUS_ESSAY, new Object[] { essayId });
-                    String essayStatus = "";
-                    if (readObject != null && readObject.size() > 0) {
-                        for (int i = 0; i < readObject.size(); i++) {
-                            Map<String, Object> map = (Map<String, Object>) readObject.get(i);
-                            essayStatus = (String) map.get("status");
-                        }
-                    }
-                    if (essayStatus.equals("P") || essayStatus.equals("R")) {
+                    if (mentorProcessed != null && !mentorProcessed.isEmpty()) {
                         reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "updateStatusEssay", "Processed");
                     } else {
                         params = new Object[] { status, mentorId, essayId };
