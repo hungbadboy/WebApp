@@ -1,3 +1,16 @@
+height();
+
+  function height(){
+        var width_win = $(window).width();
+        var heightInfo = $(".top-mentors-info-detail").height() - 30;
+        if (width_win < 1601) {
+            $(".center-content.mentor-view-mentor .content .mentors-profile-content").css({"margin-top": + heightInfo + "px"});
+         }
+        else {
+            $(".center-content.mentor-view-mentor .content .mentors-profile-content").css({"margin-top": "30px"});
+        } 
+  }
+
 brotControllers.filter('filterSub', function () {
     return function (items, name) {
         var filtered = [];
