@@ -40,11 +40,45 @@
                 </div>
             </div>
             <div class="col-md-6 right-modal">
-                <div ng-show="vid" style="margin-bottom: 15px;">
+                <div ng-show="vid" style="margin-bottom: 15px; height: 340px; display: block !important">
                     <div class="box-video-lag" id="uplad_player"></div>
+                </div>
+                <div class="bx-btn pull-right">
+                    <button class="btn-play active" ng-click="upload()" ng-if="!editVideo"><b>Upload</b></button>
+                    <button class="btn-play active" ng-click="update()" ng-show="editVideo"><b>Update</b></button>
+                    <button class="btn-edit" ng-click="cancel()"><b>Cancel</b></button>
                 </div>
             </div>
         </div>
+        
+    </div>
+    <div class="clearfix">
+        
+    </div>
+    <div class="list-add-video" ng-hide="editVideo">
+        <h4>Recently uploaded videos </h4>
+        <div class="filter-modal clearfix">
+            <div class="col-md-3">Video Information</div>
+            <div class="col-md-2">Subject</div>
+            <div class="col-md-4">Description</div>
+            <div class="col-md-3">Action</div>
+        </div>
+        <div class="group-item" ng-show="videos">
+            <div class="item clearfix" ng-repeat="v in videos track by $index">
+                <div class="col-md-3">{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</div>
+                <div class="col-md-2">{{v.subject}}</div>
+                <div class="col-md-4">{{v.description | limitTo : 70}}{{v.description.length > 70 ? '...' : ''}}</div>
+                <div class="col-md-3">
+                    <ul class="list-ac">
+                        <li><a href="" ng-click="openEdit(v)">Edit</a></li>
+                        <li><a href="" ng-click="addToPlaylist(v)">Add to playlist</a></li>
+                        <li><a href="" ng-really-message="Are you sure you want to delete?" ng-really-click ="delete(v.vid)">Delete</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
         <div class="clearfix">
             <div class="bx-btn pull-right">
                 <button class="btn-play active" ng-click="upload()" ng-if="!editVideo"><b>Upload</b></button>
