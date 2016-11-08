@@ -10,8 +10,8 @@
                     <div class="manager-detail-video">
                         <div class="play-video">
                             <div class="box-btn-sl clearfix" ng-if="plid">
-                                <a href="" class="btn-prev" ng-click="preVideo(pos)" data-icon="&#x34;"></a>
-                                <a href="" class="btn-next" ng-click="nextVideo(pos)" data-icon="&#x35;"></a>
+                                <a href="javascript:void(0)" class="btn-prev" ng-click="preVideo(pos)" data-icon="&#x34;"></a>
+                                <a href="javascript:void(0)" class="btn-next" ng-click="nextVideo(pos)" data-icon="&#x35;"></a>
                             </div>
                             <div class="group-video-pl">
                                 <div class="item-pl-video clearfix" ng-if="plid">
@@ -20,11 +20,11 @@
                                     </div>                                    
                                     <div class="video-wait col-md-3">
                                         <div class="top-w clearfix">
-                                            <h5 class="pull-left" title="{{playlist.name}}">{{ playlist.name | limitTo: 20 }}{{playlist.name.length > 20 ? '...' : ''}}</h5>
+                                            <a class="pull-left" title="{{playlist.name}}" href="#/mentor/playlist/detail/{{playlist.plid}}">{{ playlist.name | limitTo: 20 }}{{playlist.name.length > 20 ? '...' : ''}}</h5>
                                             <a href="#/mentor/playlist/detail/{{playlist.plid}}"><span class="pull-right" data-icon="&#xe037;"></span></a>
                                         </div>
                                         <div class="top-nav-w clearfix">
-                                            <span class="pull-left">{{playlist.fullName}}</span>
+                                            <span class="pull-left"><a href="#/mentor/mentorProfile">{{playlist.fullName}}</a></span>
                                             <span class="pull-right">{{pos+1}} of {{videos.length}} videos</span>
                                         </div>
                                         <ul class="list-videp-w" scroller="videosPlayList" on-init="loadTo" id="videos-in-list">
