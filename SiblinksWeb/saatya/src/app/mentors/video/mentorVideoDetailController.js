@@ -11,7 +11,7 @@ brotControllers.controller('MentorVideoDetailController',
 
     $scope.averageRating = 0.1;
 
-    $scope.currentId = 0;
+    $scope.currentId = vid;
     init();
 
     function init(){
@@ -112,7 +112,8 @@ brotControllers.controller('MentorVideoDetailController',
         initYoutubePlayer($scope.video.url);
         getCommentVideoDetail(v.vid);
         getVideoRelated();
-        $location.path('/mentor/video/detail/'+v.vid+'/'+plid);
+        // $location.path('/mentor/video/detail/'+v.vid+'/'+plid, false);
+        angular.element(document.getElementById('videos-in-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentId);
     }
 
     function getVideoDetail(id, userId){
@@ -330,8 +331,8 @@ brotControllers.controller('MentorVideoDetailController',
                 $scope.pos = pos - 1;
                 loadVideoDetail($scope.videos[$scope.pos]);
             }
+            $location.path('/mentor/video/detail/'+$scope.videos[$scope.pos].vid+'/'+plid, false);
         }
-        angular.element(document.getElementById('videos-in-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentId);
     }
 
     $scope.nextVideo = function(pos){
@@ -343,7 +344,7 @@ brotControllers.controller('MentorVideoDetailController',
                 $scope.pos = pos + 1;
                 loadVideoDetail($scope.videos[$scope.pos]);
             }
-            angular.element(document.getElementById('videos-in-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentId);
+            $location.path('/mentor/video/detail/'+$scope.videos[$scope.pos].vid+'/'+plid, false);
         }
     }
 
