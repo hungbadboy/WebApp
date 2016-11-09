@@ -74,6 +74,7 @@ import com.siblinks.ws.service.VideoService;
 import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.SibConstants;
+import com.siblinks.ws.util.StringUtil;
 
 /**
  * {@link VideoService}
@@ -1775,30 +1776,43 @@ public class VideoServiceImpl implements VideoService {
         String entityName = null;
         boolean status = false;
         SimpleResponse response = null;
-        TransactionDefinition def = new DefaultTransactionDefinition();
         TransactionStatus statusDao = null;
         try {
             if (!AuthenticationFilter.isAuthed(context)) {
                 response = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(response, HttpStatus.FORBIDDEN);
             }
+
+            String vid = request.getRequest_data().getVid();
+            String uid = request.getRequest_data().getUid();
+            String rate = request.getRequest_data().getRating();
+
+            // Return if vid or uid
+            if (StringUtil.isNull(vid) || StringUtil.isNull(uid) || StringUtil.isNull(rate)) {
+                response = new SimpleResponse(
+                                              SibConstants.FAILURE,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "Parameter cannot null or Emppty.");
+                return new ResponseEntity<Response>(response, HttpStatus.OK);
+            }
+
+            TransactionDefinition def = new DefaultTransactionDefinition();
             statusDao = transactionManager.getTransaction(def);
 
-            Object[] queryParams = new Object[] { request.getRequest_data().getUid(), request.getRequest_data().getVid() };
+            Object[] queryParams = new Object[] { uid, vid };
 
             entityName = SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO;
 
             List<Object> videoRated = dao.readObjects(entityName, queryParams);
 
             boolean isRated = videoRated.size() > 0 ? true : false;
-            String rate = request.getRequest_data().getRating();
-            String vid = request.getRequest_data().getVid();
 
             if (!isRated) {
                 entityName = SibConstants.SqlMapper.SQL_SIB_RATE_VIDEO;
-                queryParams = new Object[] { vid, request.getRequest_data().getUid(), rate };
+                queryParams = new Object[] { vid, uid, rate };
             } else {
-                queryParams = new Object[] { rate, vid, request.getRequest_data().getUid() };
+                queryParams = new Object[] { rate, vid, uid };
                 entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO;
             }
             Object[] queryUpdateRate = { rate, vid, rate, vid };
@@ -1808,7 +1822,6 @@ public class VideoServiceImpl implements VideoService {
             transactionManager.commit(statusDao);
             logger.info("Insert Menu success " + new Date());
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request.getRequest_data().getVid());
-
         } catch (Exception e) {
             e.printStackTrace();
             if (transactionManager != null) {
@@ -1829,43 +1842,67 @@ public class VideoServiceImpl implements VideoService {
         boolean status = false;
         SimpleResponse response = null;
         TransactionStatus statusDao = null;
-        TransactionDefinition def = new DefaultTransactionDefinition();
         try {
             if (!AuthenticationFilter.isAuthed(context)) {
                 response = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(response, HttpStatus.FORBIDDEN);
             }
 
+            String vid = request.getRequest_data().getVid();
+            String uid = request.getRequest_data().getUid();
+            String rate = request.getRequest_data().getRating();
+            // Return if vid or uid
+            if (StringUtil.isNull(vid) || StringUtil.isNull(uid) || StringUtil.isNull(rate)) {
+                response = new SimpleResponse(
+                                              SibConstants.FAILURE,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "Parameter cannot null or Emppty.");
+                return new ResponseEntity<Response>(response, HttpStatus.OK);
+            }
+            TransactionDefinition def = new DefaultTransactionDefinition();
             statusDao = transactionManager.getTransaction(def);
             // Check user rated yet
             Object[] queryParams = new Object[] { request.getRequest_data().getUid(), request.getRequest_data().getVid() };
             List<Object> videoRated = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_VIDEO_ADMISSION, queryParams);
 
             boolean isRated = videoRated.size() > 0 ? true : false;
-            String rate = request.getRequest_data().getRating();
-            String vid = request.getRequest_data().getVid();
 
             if (!isRated) {
                 // New rating
                 entityName = SibConstants.SqlMapper.SQL_SIB_RATE_VIDEO_ADMISSION;
-                queryParams = new Object[] { vid, request.getRequest_data().getUid(), rate };
+                queryParams = new Object[] { vid, uid, rate };
                 status = dao.insertUpdateObject(entityName, queryParams);
 
                 Object[] queryUpdateRate = { rate, vid };
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_VIDEO_ADMISSION, queryUpdateRate);
+                // Activity Log
+                activiLogService.insertActivityLog(new ActivityLogData(
+                                                                       SibConstants.TYPE_VIDEO,
+                                                                       "C",
+                                                                       "You rated a video",
+                                                                       uid,
+                                                                       String.valueOf(vid)));
             } else {
                 Map<String, Double> object = (Map<String, Double>) videoRated.get(0);
                 // Update rating
-                queryParams = new Object[] { rate, vid, request.getRequest_data().getUid() };
+                queryParams = new Object[] { rate, vid, uid };
                 entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO_ADMISSION;
                 Double rateOld = object.get("rate");
                 Double rateNew = Double.parseDouble(rate);
                 Object[] queryUpdateRate = { rateNew - rateOld };
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_VIDEO_ADMISSION_AGAIN, queryUpdateRate);
+                // Activity Log
+                activiLogService.insertActivityLog(new ActivityLogData(
+                                                                       SibConstants.TYPE_VIDEO,
+                                                                       "U",
+                                                                       "You updated the rating a video",
+                                                                       uid,
+                                                                       String.valueOf(vid)));
             }
 
             transactionManager.commit(statusDao);
-            logger.info("Insert Menu success " + new Date());
+            logger.info("RateVideoAdmission success " + new Date());
 
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request.getRequest_data().getVid());
         } catch (Exception e) {
@@ -3431,22 +3468,22 @@ public class VideoServiceImpl implements VideoService {
         SimpleResponse response = null;
         if (!StringUtils.isEmpty(keyword)) {
             // String escapeStrSearch = StringEscapeUtils.escapeJava(keyword);
-            String whereClause = String
-                .format(
-                    "AND sv.title LIKE '%%%s%%' UNION ALL SELECT sp.plid, sp.`CreateBy` authorID, sp.Image, sp.url, su.firstName, su.lastName, su.userName, sp.`Name` title, NULL numRatings, "
-                            + "NULL numComments, sp.subjectId, NULL averageRating, NULL numViews, UNIX_TIMESTAMP(CreateDate) `timeStamp`, "
-                            + "NULL runningTime, '2' type, count(spv.vid) countvid FROM Sib_PlayList sp, Sib_PlayList_Videos spv, Sib_Users su  "
-                            + "WHERE sp.plid = spv.plid AND sp.CreateBy = su.userid AND "
-                            + "EXISTS ( SELECT 1 FROM Sib_PlayList_Videos spv LEFT JOIN Sib_Videos sv ON sv.vid = spv.vid "
-                            + "WHERE sp.plid = spv.plid AND (sp.`Name` LIKE '%%%s%%' OR sv.title LIKE '%%%s%%') ) AND sp.`Status` = 'A'  "
-                            + "GROUP BY sp.plid ORDER BY title DESC LIMIT %d OFFSET %d",
-                    keyword,
-                    keyword,
-                    keyword,
-                    Integer.parseInt(searchLimit.get("limit")),
-                    Integer.parseInt(searchLimit.get("offset")));
+            String whereClause =
+                "AND sv.title LIKE (?) UNION ALL SELECT sp.plid, sp.`CreateBy` authorID, sp.Image, sp.url, su.firstName, su.lastName, su.userName, sp.`Name` title, NULL numRatings, " +
+                                               "NULL numComments, sp.subjectId, NULL averageRating, NULL numViews, UNIX_TIMESTAMP(CreateDate) `timeStamp`, " +
+                                               "NULL runningTime, '2' type, count(spv.vid) countvid FROM Sib_PlayList sp, Sib_PlayList_Videos spv, Sib_Users su  " +
+                                               "WHERE sp.plid = spv.plid AND sp.CreateBy = su.userid AND " +
+                                               "EXISTS ( SELECT 1 FROM Sib_PlayList_Videos spv LEFT JOIN Sib_Videos sv ON sv.vid = spv.vid " +
+                                               "WHERE sp.plid = spv.plid AND (sp.`Name` LIKE (?) OR sv.title LIKE (?)) ) AND sp.`Status` = 'A'  " +
+                                               "GROUP BY sp.plid ORDER BY title DESC LIMIT ? OFFSET ?";
+                
             try {
-                List<Object> searchResults = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_SEARCH_VIDEO_PLAYLIST, whereClause, new Object[] {});
+                String keySearch = "%" + keyword + "%";
+                List<Object> searchResults = dao.readObjectsWhereClause(
+                    SibConstants.SqlMapper.SQL_SEARCH_VIDEO_PLAYLIST,
+                    whereClause,
+                    new Object[] { keySearch, keySearch, keySearch, Integer.parseInt(searchLimit.get("limit")), Integer
+                        .parseInt(searchLimit.get("offset")) });
                 if (!CollectionUtils.isEmpty(searchResults)) {
                     String count = String.valueOf(searchResults.size());
                     response = new SimpleResponse(SibConstants.SUCCESS, "video", "searchVideoPlaylist", searchResults, count);
