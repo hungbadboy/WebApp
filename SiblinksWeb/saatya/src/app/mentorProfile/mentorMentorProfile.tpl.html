@@ -87,8 +87,8 @@
                             <div ng-show="videosMentorRecently" class="feature-video">
                                 <div class="feature-thumnail" id="{{videosMentorRecently[0].vid}}" ng-mouseover="hoverVideo(videosMentorRecently[0].vid)"
                                      ng-mouseleave="unHoverVideo(videosMentorRecently[0].vid)">
-                                    <a href="#/videos/detailVideo/{{videosMentorRecently[0].vid}}" err-src="assets/images/image-not-available.png">
-                                        <img ng-src="{{videosMentorRecently[0].image}}">
+                                    <a href="#/videos/detailVideo/{{videosMentorRecently[0].vid}}">
+                                        <img ng-src="{{videosMentorRecently[0].image}}" err-src="assets/images/image-not-available.png">
                                     </a>
                                     <a ng-href="{{videosMentorRecently[0].type == 2 ? '#/mentor/video/view/detail/'+videosMentorRecently[0].authorID+'/' + videosMentorRecently[0].vidPlaylist+'/'+videosMentorRecently[0].vid : '#/mentor/video/view/detail/'+videosMentorRecently[0].authorID+'/' + videosMentorRecently[0].vid }}"><div class="hover-video">
                                         <span data-icon="&#x45;"></span>
