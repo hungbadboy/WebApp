@@ -416,7 +416,7 @@
                                                 <a href="#/student/mentorProfile/{{lstRecentVideo.authorID}}">
                                                     <span class="video-poster" id="{{lstRecentVideo.authorID}}">{{validateShowName(lstRecentVideo.firstName, lstRecentVideo.lastName, lstRecentVideo.userName)}}</span>
                                                 </a>
-                                                <span>&#8226; {{convertUnixTimeToTime(lstRecentVideo.timeStamp)}}</span>
+                                                <span>&#8226; {{convertUnixTimeToTime(lstRecentVideo.timeStamp)}} ago</span>
                                             </div>
                                             <div class="videos-rate">
                                                 <p class="videos-start">
@@ -461,7 +461,7 @@
                                             <div class="videos-time-add">
                                                 <a href="#/student/mentorProfile/{{lstWeekVideo.authorID}}"><span
                                                         class="video-poster" id="{{lstWeekVideo.authorID}}"
-                                                        ng-click="showProfile($event)"> {{validateShowName(lstWeekVideo.firstName,lstWeekVideo.lastName, lstWeekVideo.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(lstWeekVideo.timeStamp)}}</span>
+                                                        ng-click="showProfile($event)"> {{validateShowName(lstWeekVideo.firstName,lstWeekVideo.lastName, lstWeekVideo.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(lstWeekVideo.timeStamp)}} ago</span>
                                             </div>
                                             <div class="videos-rate">
                                                 <p class="videos-start">
@@ -489,55 +489,8 @@
                                 <div ng-click="showMoreVideoWeek()" class="see-more" ng-show="flagShowMoreWeek"><span>Show more</span></div>
                             </div>
                             <div class="older" ng-show="showDivOlder">
-
-                                <div ng-hide="!searchItem">
-                                    <h5>Search Result</h5>
-                                    <ul>
-                                        <li ng-show="searchItem"
-                                            ng-repeat="search in searchItem | limitTo : limitSearchResult : 0">
-                                            <div class="video-wrapper"><a href="#">
-                                                <div class="videos-thumnail">
-                                                    <a href="#/videos/detailVideo/{{search.vid}}">
-                                                        <img ng-src="{{search.image}}">
-                                                    </a>
-                                                    <span class="video-time">{{search.runningTime}}</span>
-                                                </div>
-                                                <div class="videos-title">
-                                                    <a href="#/videos/detailVideo/{{search.vid}}" title="{{search.title}}">{{ search.title | limitTo:
-                                                        40 }}{{search.title.length > 40 ?'...' :''}}</a>
-                                                </div>
-                                            </a>
-                                                <div class="videos-time-add">
-                                                    <a href="#/student/mentorProfile/{{search.authorID}}"><span
-                                                            class="video-poster"> {{search.userName}}</span></a><span> &#8226; {{convertUnixTimeToTime(search.timeStamp)}} ago</span>
-                                                </div>
-                                                <div class="videos-rate">
-                                                    <p class="videos-start">
-                                                    <span ng-if="isReadyLoadRatedRecommended" star-rating stars="5"
-                                                          outer-star-selection="stars"
-                                                          outer-percent="rating"
-                                                          rating-define="star"
-                                                          rating-stars="{{search.averageRating}}"
-                                                          star-radius="6" sel-color="gold"
-                                                          readonly="true"
-                                                          back-color="white">
-                                                     </span>
-                                                    </p>
-                                                    <p class="videos-rate-infor">
-                                                        <span data-icon="&#x49;">{{search.numViews}}</span>
-                                                        <span data-icon="&#xe066;">{{search.numComments}}</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li ng-show="searchItem.length == 0" ng-bind="msgSearchNotFound">
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <h5 ng-show="!searchItem">Older</h5>
-                                <ul ng-show="!searchItem">
+                                <h5>Older</h5>
+                                <ul>
                                     <li ng-repeat="lstMentorOlder in listMentorOlder">
                                         <div class="video-wrapper">
                                             <a href="#/videos/detailVideo/{{lstMentorOlder.vid}}"

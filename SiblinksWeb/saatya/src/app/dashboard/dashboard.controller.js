@@ -1,5 +1,5 @@
-brotControllers.controller('DashboardController',['$rootScope','$scope', 'MentorService', 'VideoService', 'EssayService', 'HomeService',
-  function($rootScope, $scope, MentorService, VideoService, EssayService, HomeService) {
+brotControllers.controller('DashboardController',['$rootScope','$scope', '$location', 'MentorService', 'VideoService', 'EssayService', 'HomeService',
+  function($rootScope, $scope, $location, MentorService, VideoService, EssayService, HomeService) {
 
 	$scope.data =[
 	               { imageUrl:"assets/images/mentor-04.png", name:"Student1", caption:""},
@@ -86,12 +86,13 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', 'Mentor
       var result = data.data.request_data_result;
       if (result && result !== NO_DATA) {
         for (var i = result.length - 1; i >= 0; i--) {
-          var fullname = result[i].name;
-          result[i].name = fullname != null ? fullname : result[i].userName.substr(0, result[i].userName.indexOf('@'));
+          var fullname = result[i].firstName + ' ' + result[i].lastName;
+          result[i].name = fullname != ' ' ? fullname : result[i].userName.substr(0, result[i].userName.indexOf('@'));
         }
         $scope.data = result;
       } else
         $scope.data = null;
+      console.log($scope.data);
     });
   }
 
@@ -177,10 +178,6 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', 'Mentor
     });
   }
   
-  $scope.goToEssayDetail = function(essayId){
-    window.location.href = '#/mentor/essay?eid='+essayId+'';
-  }
-
   var player;
   function onYouTubeIframeAPIReady(youtubeId) {
     player = new YT.Player('player', {

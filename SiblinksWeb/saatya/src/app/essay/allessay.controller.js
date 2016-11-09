@@ -172,6 +172,8 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
           if (eid != null && eid > 0) {
             $scope.pos = getIndexEssay(eid, $scope.newestEssays);
             $scope.eid = eid;
+            $scope.currentId = eid;
+            angular.element(document.getElementById('newestEssaysTab')).mCustomScrollbar('scrollTo','#newestEssaysList' + $scope.currentId);
           } else{
             $scope.eid = $scope.newestEssays[0].uploadEssayId;
           }

@@ -224,6 +224,7 @@ brotControllers.controller('MentorVideoDetailController',
     $scope.$on('passing', function(e, a){
         $scope.video.title = a.title;
         $scope.video.description = a.description;
+        $scope.video.subject = a.subject;
     })
 
     $scope.editVideo = function(vid){

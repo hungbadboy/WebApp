@@ -52,7 +52,7 @@
                             <h3 title="{{videoInfo.title}}">
                                 {{ videoInfo.title | limitTo: 73 }}{{videoInfo.title.length > 73 ? '...' : ''}}</h3>
                             <span>from </span>
-                            <span class="own-video"><a href="#/student/mentorProfile/{{videoInfo.userid}}">{{displayName(videoInfo.firstName, videoInfo.lastName, videoInfo.userName)}}</a>
+                            <span class="own-video"><b><a href="#/student/mentorProfile/{{videoInfo.userid}}">{{displayName(videoInfo.firstName, videoInfo.lastName, videoInfo.userName)}}</a></b>
                             </span>
                             <span class="video-time-add"> {{convertTime(videoInfo.timeStamp)}} ago</span>
                             <div class="video-mentor-details">
@@ -64,8 +64,8 @@
                                                     data-icon="{{isSubscribe =='1'?'&#x4e;':'&#x4c;'}}" ng-Mouseover="hoverSubscribe(isSubscribe)"
                                                     ng-mouseleave="unHoverSubscribe(isSubscribe)" ng-click="setSubscribeMentor(videoInfo.userid)">
                                                 <span id="spansubs" >{{isSubscribe == '1' ? 'Subscribed' : 'Subscribe'}}</span>
-                                                <span class="number-subscribers">{{videoInfo.numsub}}</span></button>
-
+                                                <span class="number-subscribers">{{videoInfo.numsub}}</span>
+                                            </button>
                                         </div>
                                         <button ng-if="userId" ng-disabled="isFavorite == '1'" class="favoriteVideo" ng-class="{'btn-warning':isFavorite =='1'}"
                                                 id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" ><span data-icon="&#xe031;"></span>Favorite</button>

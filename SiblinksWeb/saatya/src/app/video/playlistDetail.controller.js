@@ -529,9 +529,15 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 if (data.data.status == "true") {
                     if (data.data.request_data_type == "subs") {
                         $scope.isSubscribe = 1;
+                        if($scope.videoInfo){
+                            $scope.videoInfo.numsub += 1;
+                        }
                     }
                     else {
                         $scope.isSubscribe = 0;
+                        if($scope.videoInfo){
+                            $scope.videoInfo.numsub -= 1;
+                        }
                     }
                 }
                 $rootScope.$broadcast('close');
@@ -569,5 +575,21 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                     }
                 }
             });
+        };
+
+        $scope.hoverSubscribe = function (isSub) {
+            if(isSub != '1' || isEmpty(isSub)){
+                return;
+            }
+            angular.element('.subscribers').attr('data-icon', 'M');
+            angular.element('#spansubs').text('Unsubscribe');
+        };
+
+        $scope.unHoverSubscribe = function (isSub) {
+            if(isSub != 1 || isEmpty(isSub)){
+                return;
+            }
+            angular.element('.subscribers').attr('data-icon', 'N');
+            angular.element('#spansubs').text('Subscribed');
         };
     }]);
