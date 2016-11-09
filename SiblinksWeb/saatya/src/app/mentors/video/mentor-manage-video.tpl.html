@@ -33,11 +33,11 @@
                             </div>
                             <div class="col-md-3 box-video-inner">
                                 <div class="video-detail active">
-                                    <a href="" ng-click="goToDetail(v)"><img ng-show="videos" src="{{v.image}}" alt=""><img ng-show="!videos" src="assets/images/img-video.png" alt="" class="nodata"></a>                                
-                                    <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt="" ng-click="goToDetail(v)"></span>
+                                    <a href="#/mentor/video/detail/{{v.vid}}/{{v.plid}}"><img ng-show="videos" src="{{v.image}}" alt=""><img ng-show="!videos" src="assets/images/img-video.png" alt="" class="nodata"></a>                                
+                                    <a href="#/mentor/video/detail/{{v.vid}}/{{v.plid}}"><span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span></a>
                                 </div>
                                 <div class="detail-vd">
-                                    <a href="" ng-click="goToDetail(v)"><h5 ng-show="videos">{{v.title | limitTo : 15}}{{v.title.length > 15 ? '...' : ''}}</h5></a>
+                                    <a href="#/mentor/video/detail/{{v.vid}}/{{v.plid}}"><h5 ng-show="videos">{{v.title | limitTo : 15}}{{v.title.length > 15 ? '...' : ''}}</h5></a>
                                     <h5 ng-show="!videos">No video</h5>
                                     <div class="clearfix">
                                         <div class="average">
@@ -59,11 +59,11 @@
                             </div>
                             <div class="col-md-3 box-video-inner">
                                 <div class="video-detail">
-                                    <a href="" ng-click="goToDetail(vTopRated)"><img ng-show="videosTopRated" src="{{vTopRated.image}}" alt=""><img ng-show="!videosTopRated" src="assets/images/img-video-2.png" alt="" class="nodata"></a>                                    
-                                    <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt="" ng-click="goToDetail(vTopRated)"></span>
+                                    <a href="#/mentor/video/detail/{{vTopRated.vid}}/{{vTopRated.plid}}"><img ng-show="videosTopRated" src="{{vTopRated.image}}" alt=""><img ng-show="!videosTopRated" src="assets/images/img-video-2.png" alt="" class="nodata"></a>
+                                    <a href="#/mentor/video/detail/{{vTopRated.vid}}/{{vTopRated.plid}}"><span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span></a>
                                 </div>
                                 <div class="detail-vd detail-vd-2">
-                                    <a href="" ng-click="goToDetail(vTopRated)"><h5 ng-show="videosTopRated">{{vTopRated.title | limitTo : 15}}{{vTopRated.title.length > 15 ? '...' : ''}}</h5></a>
+                                    <a href="#/mentor/video/detail/{{vTopRated.vid}}/{{vTopRated.plid}}"><h5 ng-show="videosTopRated">{{vTopRated.title | limitTo : 15}}{{vTopRated.title.length > 15 ? '...' : ''}}</h5></a>
                                     <h5 ng-show="!videosTopRated">No video</h5>
                                     <div class="clearfix">
                                         <div class="average">
@@ -85,12 +85,11 @@
                             </div>
                             <div class="col-md-3 box-video-inner">
                                 <div class="video-detail">
-                                    <a href="" ng-click="goToDetail(vTopViewed)"><img ng-show="videosTopViewed" src="{{vTopViewed.image}}" alt="" ><img ng-show="!videosTopViewed" src="assets/images/img-video-3.png" alt="" class="nodata"></a>
-                                    
-                                    <span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt="" ng-click="goToDetail(vTopViewed)"></span>
+                                    <a href="#/mentor/video/detail/{{vTopViewed.vid}}/{{vTopViewed.plid}}"><img ng-show="videosTopViewed" src="{{vTopViewed.image}}" alt=""><img ng-show="!videosTopViewed" src="assets/images/img-video-3.png" alt="" class="nodata"></a>
+                                    <a href="#/mentor/video/detail/{{vTopViewed.vid}}/{{vTopViewed.plid}}"><span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span></a>
                                 </div>
                                 <div class="detail-vd detail-vd-3">
-                                    <a href="" ng-click="goToDetail(vTopRated)"><h5 ng-show="videosTopViewed">{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5></a>
+                                    <a href="#/mentor/video/detail/{{vTopViewed.vid}}/{{vTopViewed.plid}}"><h5 ng-show="videosTopViewed">{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5></a>
                                     <h5 ng-show="!videosTopViewed">No video</h5>
                                     <div class="clearfix">
                                         <div class="average">
@@ -153,10 +152,9 @@
                                                 </ul>
                                                 <p>{{c.content | limitTo: 135}}{{c.content.length > 135 ? '...' : ''}}</p>
                                             </div>
-                                            <a class="pull-right btn-reply" href="" ng-click="goVideoDetail(c.vid, c.plid)">reply</a>
+                                            <a class="pull-right btn-reply" href="#/mentor/video/detail/{{c.vid}}/{{c.plid}}" >reply</a>
                                         </div>   
                                     </div>
-                                                                        
                                     <div ng-show="!comments">No comments</div>
                                 </div>                                    
                             </div>
@@ -167,6 +165,4 @@
         </div>
     </div>                
 </div>
-<!-- Sidebar right -->
 <div id="sidebar-right" ng-include="sidebarRight" auto-height-recent-activity></div>
-<!-- End Sidebar right -->
