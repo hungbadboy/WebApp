@@ -86,12 +86,13 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
       var result = data.data.request_data_result;
       if (result && result !== NO_DATA) {
         for (var i = result.length - 1; i >= 0; i--) {
-          var fullname = result[i].name;
-          result[i].name = fullname != null ? fullname : result[i].userName.substr(0, result[i].userName.indexOf('@'));
+          var fullname = result[i].firstName + ' ' + result[i].lastName;
+          result[i].name = fullname != ' ' ? fullname : result[i].userName.substr(0, result[i].userName.indexOf('@'));
         }
         $scope.data = result;
       } else
         $scope.data = null;
+      console.log($scope.data);
     });
   }
 
