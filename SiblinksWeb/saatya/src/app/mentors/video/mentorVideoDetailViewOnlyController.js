@@ -68,7 +68,6 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
                             $scope.pos = index;
                         }
                     } else {
-                        // $location.path('/mentor/video/detail/'+$scope.videos[0].vid+'/'+plid);
                         $location.path('/mentor/video/view/detail/'+userId+'/'+$scope.videos[0].vid+'/'+plid);
                     }                    
                 } else{
@@ -110,8 +109,7 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
         initYoutubePlayer($scope.video.url);
         getCommentVideoDetail(v.vid);
         getVideoRelated();
-        // $location.path('/mentor/video/detail/'+v.vid+'/'+plid);
-        $location.path('/mentor/video/view/detail/'+userId+'/'+v.vid+'/'+plid);
+        angular.element(document.getElementById('videos-in-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentId);
     }
 
     function getVideoDetail(id, userId){
@@ -123,7 +121,6 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
                 $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
                 $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
                 if ($scope.video.plid && $scope.video.plid > 0) {
-                    // $location.path('/mentor/video/detail/'+id+'/'+$scope.video.plid);
                     $location.path('/mentor/video/view/detail/'+userId+'/'+id+'/'+$scope.video.plid);
                 } else{
                     initYoutubePlayer($scope.video.url);
@@ -189,12 +186,9 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
 
     function loadData(v){
         if (v.plid && v.plid > 0) {
-        	// $location.path('/mentor/video/detail/'+v.vid+'/'+v.plid);
             $location.path('/mentor/video/view/detail/'+userId+'/'+v.vid+'/'+$scope.video.plid);
         } else{
-
-        	// $location.path('/mentor/video/detail/'+v.vid);
-            $location.path('/mentor/video/view/detail/'+userId+'/'+id);
+            $location.path('/mentor/video/view/detail/'+userId+'/'+v.vid);
         }
     }
 
@@ -220,6 +214,7 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
                 loadVideoDetail($scope.videos[$scope.pos]);
             }
         }
+        $location.path('/mentor/video/view/detail/'+userId+'/'+$scope.videos[$scope.pos].vid+'/'+plid, false);
         angular.element(document.getElementById('videos-in-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentId);
     }
 
@@ -232,6 +227,7 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
                 $scope.pos = pos + 1;
                 loadVideoDetail($scope.videos[$scope.pos]);
             }
+            $location.path('/mentor/video/view/detail/'+userId+'/'+$scope.videos[$scope.pos].vid+'/'+plid, false);
             angular.element(document.getElementById('videos-in-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentId);
         }
     }
