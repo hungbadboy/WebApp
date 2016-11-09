@@ -190,6 +190,11 @@ brotControllers.controller('MentorPlaylistDetailController',
         getVideosInPlaylist();
     });
 
+    $scope.$on('uploadNew', function(){
+        loadPlaylistDetail();
+        getVideosInPlaylist();
+    });
+
     $scope.$on('addVideo', function(e,a){
         loadPlaylistDetail();
         getVideosInPlaylist();
