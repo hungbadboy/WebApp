@@ -92,7 +92,7 @@
                     <div class="feature-thumnail" id="{{videosRecently[0].vid}}" ng-mouseover="hoverVideo(videosRecently[0].vid)"
                          ng-mouseleave="unHoverVideo(videosRecently[0].vid)">
                         <a href="#/videos/detailVideo/{{videosRecently[0].vid}}">
-                            <img ng-src="{{videosRecently[0].image != null ? videosRecently[0].image : 'assets/images/image-not-available.png'}}">
+                            <img ng-src="{{videosRecently[0].image}}" err-src="assets/images/image-not-available.png">
                         </a>
                         <a ng-href="{{videosRecently[0].type == 2 ? '#/videos/detailPlaylist/' + videosRecently[0].vid + '/0' : '#/videos/detailVideo/'+videosRecently[0].vid }}"><div class="hover-video">
                             <span data-icon="&#x45;"></span>
@@ -122,10 +122,10 @@
                             <div class="top-videos-list">
                                 <ul ng-show="videosRecently && videosRecently.length > 1">
                                     <li ng-repeat="video in videosRecently track by $index" ng-if="$index > 0">
-                                        <div ng-class="{'videos-thumnail profile-recent-video': video.type == 2, 'videos-thumnail': video.type == 1}" id="{{video.vid}}" ng-mouseover="hoverVideo(video.vid)"
+                                        <div ng-class="{'videos-thumnail profile-recent-video': video.type == 2, 'video-thumnail': video.type == 1}" id="{{video.vid}}" ng-mouseover="hoverVideo(video.vid)"
                                              ng-mouseleave="unHoverVideo(video.vid)">
                                             <a ng-href="{{video.type == 2 ? '#/videos/detailPlaylist/' + video.vid + '/0' : '#/videos/detailVideo/'+video.vid }}">
-                                                <img ng-src="{{video.image != null ? video.image : 'assets/images/image-not-available.png'}}" width="90px">
+                                                <img ng-src="{{video.image != null ? video.image : 'assets/images/image-not-available.png'}}" style="height: 90px;">
                                             </a>
                                             <a ng-href="{{video.type == 2 ? '#/videos/detailPlaylist/' + video.vid + '/0' : '#/videos/detailVideo/'+video.vid }}">
                                                 <div class="hover-video recently">
