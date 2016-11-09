@@ -1,5 +1,5 @@
-brotControllers.controller('DashboardController',['$rootScope','$scope', 'MentorService', 'VideoService', 'EssayService', 'HomeService',
-  function($rootScope, $scope, MentorService, VideoService, EssayService, HomeService) {
+brotControllers.controller('DashboardController',['$rootScope','$scope', '$location', 'MentorService', 'VideoService', 'EssayService', 'HomeService',
+  function($rootScope, $scope, $location, MentorService, VideoService, EssayService, HomeService) {
 
 	$scope.data =[
 	               { imageUrl:"assets/images/mentor-04.png", name:"Student1", caption:""},
@@ -177,10 +177,6 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', 'Mentor
     });
   }
   
-  $scope.goToEssayDetail = function(essayId){
-    window.location.href = '#/mentor/essay?eid='+essayId+'';
-  }
-
   var player;
   function onYouTubeIframeAPIReady(youtubeId) {
     player = new YT.Player('player', {
