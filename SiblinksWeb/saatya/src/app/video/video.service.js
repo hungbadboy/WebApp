@@ -1,12 +1,6 @@
 brotServices.factory('VideoService', ['$http', function ($http) {
     var factory = {};
 
-    var GetCountType = {
-        SUBSCRIPTION: 0,
-        HISTORY: 1,
-        FAVOURITE: 2
-    };
-
     factory.getListCategorySubscription = function () {
         var promise = $http({
             method: 'GET',
