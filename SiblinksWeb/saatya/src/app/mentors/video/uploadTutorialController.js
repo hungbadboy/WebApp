@@ -44,7 +44,7 @@ brotControllers.controller('UploadTutorialController',
     }
 
     function initSubject(){
-      var subjects = localStorage.getItem("subjects");
+      var subjects = localStorage.getItem("mentorSubjects");
       if (subjects != null) {
         $scope.uploadSubjects = JSON.parse(subjects);
         $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
@@ -58,7 +58,7 @@ brotControllers.controller('UploadTutorialController',
               'subject' : 'Select a Subject'
             }); 
             $scope.uploadSubjects = subjects;
-            localStorage.setItem("subjects", JSON.stringify($scope.uploadSubjects), 10)
+            localStorage.setItem("mentorSubjects", JSON.stringify($scope.uploadSubjects), 10)
             $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
             if ($scope.editVideo) 
               displayEdit($scope.editVideo);

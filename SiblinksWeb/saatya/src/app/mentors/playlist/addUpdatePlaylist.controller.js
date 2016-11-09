@@ -23,7 +23,7 @@ brotControllers.controller('AddUpdatePlaylistController',
     }
 
     function initSubject(){
-      var playlistDetaillSubjects = localStorage.getItem("subjects");
+      var playlistDetaillSubjects = localStorage.getItem("mentorSubjects");
       if (playlistDetaillSubjects !== null) {
          $scope.updateSubjects = JSON.parse(playlistDetaillSubjects);
          $scope.updateSubject = $scope.updateSubjects[0].subjectId;

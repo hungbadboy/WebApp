@@ -74,7 +74,7 @@ brotControllers.controller('ChooseVideoController',
     }
 
     function initSubject(){
-      var subjects = localStorage.getItem("subjects");
+      var subjects = localStorage.getItem("mentorSubjects");
       if (subjects != null){    
         $scope.subjects = JSON.parse(subjects);
         $scope.addSubject = $scope.subjects[0].subjectId;    
