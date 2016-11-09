@@ -40,7 +40,7 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
           'subjectId': 0,
           'subject' : 'Select a Subject'
         });
-        localStorage.setItem("subjects", JSON.stringify(subjects), 10)
+        localStorage.setItem("mentorSubjects", JSON.stringify(subjects), 10)
       }
     });
   }
