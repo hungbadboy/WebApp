@@ -1137,6 +1137,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 String entityString = "";
                 String whereClause = "";
                 String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch().trim());
+                term = term.replace("'", "\\'");
                 int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
 
                 Map<String, Object> result = new HashMap<String, Object>();

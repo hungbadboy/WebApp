@@ -295,6 +295,7 @@ brotControllers.controller('PlaylistController',
     }
 
     function searchPlaylist(keyword, subjectId){
+      // var encodeKeyword = encodeURIComponent(keyword);
       PlaylistService.searchPlaylist(userId, keyword, subjectId, 0).then(function(data){
         var result = data.data.request_data_result;
         if (result && result != "Found no data") {
