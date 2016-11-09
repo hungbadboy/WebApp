@@ -378,22 +378,20 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         }
 
         function reloadHistory() {
-            VideoService.getHistoryVideosList(localStorage.getItem('userId')).then(function (data) {
-                if (data.data.status) {
-                    $scope.listVideos = data.data.request_data_result;
-                    for (var i = 0; i < $scope.listVideos.length; i++) {
-                        $scope.listVideos[i].timeStamp = $scope.convertUnixTimeToTime($scope.listVideos[i].timeStamp)
+            if(userId){
+                VideoService.getHistoryVideosList(userId).then(function (data) {
+                    if (data.data.status) {
+                        $scope.listVideos = data.data.request_data_result;
+                        $scope.loadRateHistory = true;
                     }
-                    myCache.put("listVideos", $scope.listVideos);
-                    $scope.loadRateHistory = true;
-                }
-            });
-            $scope.numberOfHistoryVideo = 4;
-            $scope.flagShowMoreButton = true;
-            $scope.searchItem = null;
-            $scope.selected = null;
-            $scope.isSearchAction = false;
-            clearSearch();
+                });
+                $scope.numberOfHistoryVideo = 4;
+                $scope.flagShowMoreButton = true;
+                $scope.searchItem = null;
+                $scope.selected = null;
+                $scope.isSearchAction = false;
+                clearSearch();
+            }
         }
 
 
@@ -811,23 +809,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         //MTDU
         var listVideos = '';
 
-        function loadHistory() {
-            if (myCache.get("listVideos") !== undefined) {
-                $log.info("My cache already exists");
-                $scope.listVideos = myCache.get("listVideos");
-            } else {
-                VideoService.getHistoryVideosList(localStorage.getItem('userId')).then(function (data) {
-                    if (data.data.status) {
-                        $scope.listVideos = data.data.request_data_result;
-                        for (var i = 0; i < $scope.listVideos.length; i++) {
-                            $scope.listVideos[i].timeStamp = $scope.convertUnixTimeToTime($scope.listVideos[i].timeStamp)
-                        }
-                        myCache.put("listVideos", $scope.listVideos);
-                    }
-                });
-            }
-        }
-
         $scope.numberOfHistoryVideo = 4;
         $scope.flagShowMoreButton = true;
         $scope.showMore = function () {
@@ -846,36 +827,36 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 return true;
             if (video == null || video == '')
                 video = {"vid": ''};
-            VideoService.deleteHistoryVideo(localStorage.getItem('userId'), video.vid).then(function (data) {
-                if (data.data.status) {
-                    if (video.vid != null && video.vid != "") {
-                        $scope.listVideos.splice($scope.listVideos.indexOf(video), 1);
-                        if ($scope.listVideos == null || $scope.listVideos.length == 0)
+            if(userId){
+                VideoService.deleteHistoryVideo(userId, video.vid).then(function (data) {
+                    if (data.data.status) {
+                        if (video.vid != null && video.vid != "") {
+                            $scope.listVideos.splice($scope.listVideos.indexOf(video), 1);
+                            if ($scope.listVideos == null || $scope.listVideos.length == 0)
+                                $scope.flagShowMoreButton = false;
+                        } else {
+                            $scope.listVideos.splice(0, $scope.listVideos.length);
                             $scope.flagShowMoreButton = false;
-                    } else {
-                        $scope.listVideos.splice(0, $scope.listVideos.length);
-                        $scope.flagShowMoreButton = false;
+                        }
+                        return true;
                     }
-                    return true;
-                }
-            });
+                });
+            }
+
         };
 
 
         var listVideoFavourite = '';
-
         function getFavouriteVideosList() {
             if (userId === null || userId === undefined) {
                 return;
             }
-            VideoService.getFavouriteVideosList(localStorage.getItem('userId')).then(function (data) {
-                if (data.data.status) {
+            VideoService.getFavouriteVideosList(userId).then(function (data) {
+                if (data.data.status == 'true' && data.data.request_data_result != StatusError.MSG_DATA_NOT_FOUND) {
                     $scope.listVideoFavourite = data.data.request_data_result;
-                    for (var i = 0; i < $scope.listVideoFavourite.length; i++) {
-                        $scope.listVideoFavourite[i].timeStamp = $scope.convertUnixTimeToTime($scope.listVideoFavourite[i].timeStamp)
-                    }
                     $scope.loadRateFavorite = true;
-                    // myCache.put("listVideoFavourite", $scope.listVideoFavourite);
+                }else{
+                    $scope.listVideoFavourite = null;
                 }
             });
         }
