@@ -35,10 +35,12 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
     HomeService.getAllCategory().then(function (data) {
       if (data.data.status) {
         var subjects = angular.copy(data.data.request_data_result);
+        console.log(subjects);
+        subjects = removeItem(subjects);
         subjects.splice(0, 0, {
           'subjectId': 0,
           'subject' : 'Select a Subject'
-        }); 
+        });
         localStorage.setItem("subjects", JSON.stringify(subjects), 10)
       }
     });

@@ -39,22 +39,22 @@ brotControllers.controller('PlaylistController',
            if (data.data.status) {
               var objArr = angular.copy(data.data.request_data_result);
               var objArr2 = angular.copy(data.data.request_data_result);
+              objArr = removeItem(objArr);
+              objArr.splice(0, 0, {
+                'subjectId': 0,
+                'subject' : 'Select a Subject'
+              });
+              $scope.subjects = objArr;
+              localStorage.setItem("subjects", JSON.stringify($scope.subjects), 10)
+              $scope.addSubject = $scope.subjects[0].subjectId;  
 
-             objArr.splice(0, 0, {
-              'subjectId': 0,
-               'subject' : 'Select a Subject'
-             });
-             $scope.subjects = objArr;
-             localStorage.setItem("subjects", JSON.stringify($scope.subjects), 10)
-             $scope.addSubject = $scope.subjects[0].subjectId;  
-
-             objArr2.splice(0, 0, {
-              'subjectId': 0,
-              'subject' : 'All'
-             });
-             $scope.filterSubjects = objArr2;
-             // localStorage.setItem("filterSubjects", JSON.stringify($scope.filterSubjects), 10)
-             $scope.subject = $scope.filterSubjects[0].subjectId;               
+              objArr2 = removeItem(objArr2);
+              objArr2.splice(0, 0, {
+               'subjectId': 0,
+               'subject' : 'All'
+              });
+              $scope.filterSubjects = objArr2;
+              $scope.subject = $scope.filterSubjects[0].subjectId;               
           }
         });
       }      

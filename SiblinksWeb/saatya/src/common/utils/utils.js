@@ -559,3 +559,11 @@ function displayUserName(firstName, lastName, userName) {
     	return  !isEmpty(firstName)?firstName:lastName;
     }
 }
+
+function removeItem(data){
+    for (var i = data.length - 1; i >= 0; i--) {
+        if(data[i].isForum && data[i].isForum == true)
+            data.splice(i, 1);
+    }
+    return data;
+}

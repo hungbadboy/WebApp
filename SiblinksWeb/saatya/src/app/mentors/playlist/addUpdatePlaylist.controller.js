@@ -30,7 +30,8 @@ brotControllers.controller('AddUpdatePlaylistController',
       } else {
          HomeService.getAllCategory().then(function (data) {
              if (data.data.status) {
-                $scope.updateSubjects = data.data.request_data_result;                 
+                $scope.updateSubjects = data.data.request_data_result;     
+                $scope.updateSubjects = removeItem($scope.updateSubjects);            
                 $scope.updateSubjects.splice(0, 0, {
                   'subjectId': 0,
                   'subject' : 'Select a Subject'
