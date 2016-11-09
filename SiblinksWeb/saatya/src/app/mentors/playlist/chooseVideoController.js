@@ -87,24 +87,25 @@ brotControllers.controller('ChooseVideoController',
         $scope.subject = $scope.filterSubjects[0].subjectId;
       } else{
         HomeService.getAllCategory().then(function (data) {
-           if (data.data.status) {
+            if (data.data.status) {
               var objArr = angular.copy(data.data.request_data_result);
               var objArr2 = angular.copy(data.data.request_data_result);
-
-             objArr.splice(0, 0, {
-              'subjectId': 0,
+              objArr = removeItem(objArr);
+              objArr.splice(0, 0, {
+               'subjectId': 0,
                'subject' : 'Select a Subject'
-             });
-             $scope.subjects = objArr;             
-             $scope.addSubject = $scope.subjects[0].subjectId;  
+              });
+              $scope.subjects = objArr;             
+              $scope.addSubject = $scope.subjects[0].subjectId;  
 
-             objArr2.splice(0, 0, {
-              'subjectId': 0,
-              'subject' : 'All'
-             });
-             $scope.filterSubjects = objArr2;
-             $scope.subject = $scope.filterSubjects[0].subjectId;               
-           }
+              objArr2 = removeItem(objArr2);
+              objArr2.splice(0, 0, {
+               'subjectId': 0,
+               'subject' : 'All'
+              });
+              $scope.filterSubjects = objArr2;
+              $scope.subject = $scope.filterSubjects[0].subjectId;               
+            }
          });
       }  
     }

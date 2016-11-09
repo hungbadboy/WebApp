@@ -32,12 +32,13 @@ brotControllers.controller('VideoManagerController',
       } else{
         HomeService.getAllCategory().then(function (data) {
            if (data.data.status) {
-              var arr = angular.copy(data.data.request_data_result);
-               arr.splice(0, 0, {
+              var subjects = angular.copy(data.data.request_data_result);
+              subjects = removeItem(subjects);
+               subjects.splice(0, 0, {
                 'subjectId': 0,
                 'subject' : 'All'
                });
-               $scope.videoMgrSubjects = arr;
+               $scope.videoMgrSubjects = subjects;
                localStorage.setItem("videoManagerSubjects", JSON.stringify($scope.videoMgrSubjects), 10)
                $scope.subject = $scope.videoMgrSubjects[0].subjectId;
            }

@@ -31,7 +31,6 @@ brotControllers.controller('UploadTutorialController',
         var result = data.data.request_data_result;
         if (result  && result != "Found no data") {
           displayEdit(result);
-          // $scope.show = true;
         }
       });
     }
@@ -52,12 +51,13 @@ brotControllers.controller('UploadTutorialController',
       } else{
         HomeService.getAllCategory().then(function (data) {
           if (data.data.status) {
-            var arr = angular.copy(data.data.request_data_result);
-            arr.splice(0, 0, {
+            var subjects = angular.copy(data.data.request_data_result);
+            subjects = removeItem(subjects);
+            subjects.splice(0, 0, {
               'subjectId': 0,
               'subject' : 'Select a Subject'
             }); 
-            $scope.uploadSubjects = arr;
+            $scope.uploadSubjects = subjects;
             localStorage.setItem("subjects", JSON.stringify($scope.uploadSubjects), 10)
             $scope.uploadSubject = $scope.uploadSubjects[0].subjectId;
             if ($scope.editVideo) 
