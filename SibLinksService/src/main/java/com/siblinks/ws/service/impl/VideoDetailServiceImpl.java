@@ -416,7 +416,6 @@ public class VideoDetailServiceImpl implements VideoDetailService {
                     String parentId = map.get(Parameters.PARENT_ID) + "";
                     String subId = map.get(Parameters.SUBJECT_ID) + "";
                     if (subId.equals(subjectId) && !parentId.equals("null") && parentId.trim().length() > 0) {
-                        System.out.println("Have parent id");
                         getAllParentId(parentId, categoryList, subIds);
                     }
                 }

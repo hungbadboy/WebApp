@@ -166,17 +166,9 @@ brotControllers.controller('UploadTutorialController',
       VideoService.updateTutorial(request).then(function(data){
         if (data.data.request_data_result === "Success") {
           if (!isNaN(v_id) && v_id > 0) {
-             // var video = {
-             //   'vid': v_id,
-             //   'title': title,
-             //   'description': description,
-             //   'plid': plPos > 0 ? $scope.playlists[plPos].plid : null,
-             //   'playlistname': plPos > 0 ? getPlaylistName($scope.playlists[plPos].plid) : null,
-             //   'subjectId': $scope.uploadSubjects[subjectPos].subjectId
-             // } 
              request['playlistname'] = plPos > 0 ? getPlaylistName($scope.playlists[plPos].plid) : null;
+             request['subject'] = getSubjectName($scope.uploadSubjects[subjectPos].subjectId);
              $rootScope.$broadcast('passing', request);
-             // $rootScope.$broadcast('passing', video);
 
              $modalInstance.dismiss('cancel');
           }else{
@@ -192,6 +184,18 @@ brotControllers.controller('UploadTutorialController',
       });
     }
 
+    function getSubjectName(subid){
+      var name = null;
+      var result = $.grep($scope.uploadSubjects, function(v){
+        return v.subjectId == subid;
+      });
+
+      var index = $scope.uploadSubjects.indexOf(result[0]);
+      if (index != -1) {
+        name = $scope.uploadSubjects[index].subject;
+      }
+      return name;
+    }
     function getPlaylistName(plid){
       var name = null;
       var result = $.grep($scope.playlists, function(v){
