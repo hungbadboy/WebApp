@@ -339,7 +339,7 @@ public class PlaylistServiceImpl implements PlaylistService {
         SimpleResponse reponse = null;
 
         try {
-            String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch());
+            String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch().trim());
             int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request
                 .getRequest_data()
                 .getSubjectId()) : 0;

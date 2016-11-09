@@ -1723,7 +1723,7 @@ public class VideoServiceImpl implements VideoService {
 
             String entityName = "";
             Object[] queryParams = null;
-            String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch());
+            String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch().trim());
             int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request
                 .getRequest_data()
                 .getSubjectId()) : 0;
@@ -3764,7 +3764,7 @@ public class VideoServiceImpl implements VideoService {
         try {
             String strEntity = "";
             Object[] params = null;
-            String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch());
+            String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch().trim());
             int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request
                 .getRequest_data()
                 .getSubjectId()) : 0;

@@ -35,7 +35,6 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
     HomeService.getAllCategory().then(function (data) {
       if (data.data.status) {
         var subjects = angular.copy(data.data.request_data_result);
-        console.log(subjects);
         subjects = removeItem(subjects);
         subjects.splice(0, 0, {
           'subjectId': 0,
@@ -94,7 +93,6 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
         $scope.data = result;
       } else
         $scope.data = null;
-      console.log($scope.data);
     });
   }
 
