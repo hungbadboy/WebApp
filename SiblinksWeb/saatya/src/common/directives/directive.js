@@ -1067,7 +1067,7 @@ brotControllers.directive('readMore', function() {
         scope: {
             text: '=ngModel'
         },
-        template: '<div class="video-detail-script"><p class="pre-wrap">{{text | readMoreFilter:[text, countingWords, textLength] }}</p>'+
+        template: '<div class="video-detail-script"><p class="desc-wrap">{{text | readMoreFilter:[text, countingWords, textLength] }}</p>'+
            ' <div ng-if="showLinks" ng-class="{\'hide-text\': !isExpanded }"></div>'+
         '<button  ng-show="showLinks"  ng-click="changeLength()" class="read-more">'+
         '<span  ng-show="!isExpanded">Read more <span data-icon="&#x33;"></span></span>' +
