@@ -1481,7 +1481,8 @@ public class VideoServiceImpl implements VideoService {
 
             String entityName = "";
             Object[] queryParams = null;
-            String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch().trim());
+//            String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch().trim());
+            String term = request.getRequest_data().getKeySearch().trim();
             term = term.replace("'", "\\'");
             int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request.getRequest_data().getSubjectId()) : 0;
             int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;

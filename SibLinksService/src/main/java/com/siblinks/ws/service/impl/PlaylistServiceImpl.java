@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -326,7 +325,9 @@ public class PlaylistServiceImpl implements PlaylistService {
         SimpleResponse reponse = null;
 
         try {
-            String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch().trim());
+            // String term =
+            // StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch().trim());
+            String term = request.getRequest_data().getKeySearch().trim();
             term = term.replace("'", "\\'");
             int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request.getRequest_data().getSubjectId()) : 0;
             int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
@@ -342,15 +343,8 @@ public class PlaylistServiceImpl implements PlaylistService {
 
             List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
 
-            List<Object> dataReturn = new ArrayList<Object>();
             if (readObject != null && readObject.size() > 0) {
-                Map<String, Object> playlistItem = null;
-                for (Object object : readObject) {
-                    playlistItem = (Map<String, Object>) object;
-                    playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
-                    dataReturn.add(playlistItem);
-                }
-                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "searchPlaylist", dataReturn);
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "searchPlaylist", readObject);
             } else {
                 reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "searchPlaylist", SibConstants.NO_DATA);
             }
@@ -372,16 +366,9 @@ public class PlaylistServiceImpl implements PlaylistService {
             Object[] queryParams = { uid, subjectId, offset };
             String entityName = SibConstants.SqlMapperBROT163.SQL_GET_PLAYLIST_BY_SUBJECT;
             List<Object> readObject = dao.readObjects(entityName, queryParams);
-            List<Object> dataReturn = new ArrayList<Object>();
 
             if (readObject != null && readObject.size() > 0) {
-                Map<String, Object> playlistItem = null;
-                for (Object object : readObject) {
-                    playlistItem = (Map<String, Object>) object;
-                    playlistItem.put("count_videos", getCountVideos(playlistItem.get("plid").toString()));
-                    dataReturn.add(playlistItem);
-                }
-                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "getPlaylistBySubject", dataReturn);
+                reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "getPlaylistBySubject", readObject);
             } else {
                 reponse = new SimpleResponse(SibConstants.SUCCESS, "playlist", "getPlaylistBySubject", SibConstants.NO_DATA);
             }
