@@ -570,7 +570,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             $scope.filterSearchBySub = false;
             isLoadMoreSearch = false;
             var searchValue = $("input#srch-term").val();
-            searchVideoPlaylist(searchValue, limitOfLoadMore, 0);
+
+            searchVideoPlaylist(encodeURIComponent(searchValue), limitOfLoadMore, 0);
             $location.search('search', encodeURIComponent(searchValue));
             displayResultsSearch();
         };

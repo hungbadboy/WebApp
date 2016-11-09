@@ -1903,7 +1903,7 @@ public class VideoServiceImpl implements VideoService {
             }
 
             transactionManager.commit(statusDao);
-            logger.info("RateVideoAdmission success " + new Date());
+            logger.info("    " + new Date());
 
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request.getRequest_data().getVid());
         } catch (Exception e) {
@@ -2038,9 +2038,9 @@ public class VideoServiceImpl implements VideoService {
                 .getRequest_data()
                 .getTitle()
                 .trim(), request.getRequest_data().getDescription().trim(), request.getRequest_data().getTitle().trim(), request
-                .getRequest_data()
-                .getTitle()
-                .trim(), map.get(Parameters.FROM), map.get(Parameters.TO) };
+                    .getRequest_data()
+                    .getTitle()
+                    .trim(), map.get(Parameters.FROM), map.get(Parameters.TO) };
 
             entityName = SibConstants.SqlMapper.SQL_SEARCH_ALL_VIDEO;
 
@@ -2421,7 +2421,6 @@ public class VideoServiceImpl implements VideoService {
     }
 
     public Map<String, String> getParamsSubcribe(final String sql, final String sql2, final Object[] queryParams, final RequestData request) throws Exception {
-
         List<Object> readObject = null;
         Map<String, String> queryParamsIns = new HashMap<String, String>();
 
@@ -3002,10 +3001,8 @@ public class VideoServiceImpl implements VideoService {
                     // subId +
                     // ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ? ";
                     String clauseWhere = formatQueryGetVideoPlaylist("bySubjectLogin", userId, childSubjectId, limit, offset);
-                    List<Object> resultRecently = dao.readObjectsWhereClause(
-                        SibConstants.SqlMapper.SQL_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB,
-                        clauseWhere,
-                        new Object[] {});
+                    List<Object> resultRecently = dao
+                        .readObjectsWhereClause(SibConstants.SqlMapper.SQL_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB, clauseWhere, new Object[] {});
                     map.put("recently", resultRecently != null ? resultRecently : null);
 
                     String entityName = SibConstants.SqlMapper.SQL_VIDEO_RECOMMENDED_FOR_YOU_WITH_SUB_ID;
@@ -3232,26 +3229,17 @@ public class VideoServiceImpl implements VideoService {
         try {
             Map<String, String> searchLimit = CommonUtil.getInstance().getOffset(limit, offset);
             String strEntity = "";
-            String whereClause = "";
+            Object[] params = null;
+            String formatKeyWord = "%" + keyword + "%";
             if (type != null && !type.isEmpty()) {
                 if (type.equals("playlist")) {
                     strEntity = SibConstants.SqlMapper.SQL_SEARCH_PLAYLIST;
-                    whereClause = String.format(
-                        "WHERE PL.Name LIKE '%%%s%%' OR PL.Description LIKE '%%%s%%' ORDER BY PL.Name, PL.Description LIMIT %d OFFSET %d",
-                        keyword,
-                        keyword,
-                        Integer.valueOf(searchLimit.get("limit")),
-                        Integer.valueOf(searchLimit.get("offset")));
+                    params = new Object[] { formatKeyWord, Integer.valueOf(searchLimit.get("limit")), Integer.valueOf(searchLimit.get("offset")) };
                 } else if (type.equals("video")) {
                     strEntity = SibConstants.SqlMapper.SQL_SEARCH_VIDEO;
-                    whereClause = String.format(
-                        "WHERE V.title LIKE '%%%s%%' OR V.description LIKE '%%%s%%' ORDER BY V.title, V.description LIMIT %d OFFSET %d",
-                        keyword,
-                        keyword,
-                        Integer.valueOf(searchLimit.get("limit")),
-                        Integer.valueOf(searchLimit.get("offset")));
+                    params = new Object[] { formatKeyWord, Integer.valueOf(searchLimit.get("limit")), Integer.valueOf(searchLimit.get("offset")) };
                 }
-                List<Object> searchResult = dao.readObjectsWhereClause(strEntity, whereClause, new Object[] {});
+                List<Object> searchResult = dao.readObjects(strEntity, params);
 
                 if (searchResult != null && !searchResult.isEmpty()) {
                     String lengthOfResult = "" + searchResult.size();
@@ -3468,23 +3456,11 @@ public class VideoServiceImpl implements VideoService {
         Map<String, String> searchLimit = CommonUtil.getInstance().getOffset(limit, offset);
         SimpleResponse response = null;
         if (!StringUtils.isEmpty(keyword)) {
-            // String escapeStrSearch = StringEscapeUtils.escapeJava(keyword);
-            String whereClause =
-                "AND sv.title LIKE (?) UNION ALL SELECT sp.plid, sp.`CreateBy` authorID, sp.Image, sp.url, su.firstName, su.lastName, su.userName, sp.`Name` title, NULL numRatings, " +
-                                               "NULL numComments, sp.subjectId, NULL averageRating, NULL numViews, UNIX_TIMESTAMP(CreateDate) `timeStamp`, " +
-                                               "NULL runningTime, '2' type, count(spv.vid) countvid FROM Sib_PlayList sp, Sib_PlayList_Videos spv, Sib_Users su  " +
-                                               "WHERE sp.plid = spv.plid AND sp.CreateBy = su.userid AND " +
-                                               "EXISTS ( SELECT 1 FROM Sib_PlayList_Videos spv LEFT JOIN Sib_Videos sv ON sv.vid = spv.vid " +
-                                               "WHERE sp.plid = spv.plid AND (sp.`Name` LIKE (?) OR sv.title LIKE (?)) ) AND sp.`Status` = 'A'  " +
-                                               "GROUP BY sp.plid ORDER BY title DESC LIMIT ? OFFSET ?";
-                
+            String formatKeyword = "%" + keyword + "%";
+            Object[] params = { formatKeyword, formatKeyword, formatKeyword, Integer.parseInt(searchLimit.get("limit")), Integer
+                .parseInt(searchLimit.get("offset")) };
             try {
-                String keySearch = "%" + keyword + "%";
-                List<Object> searchResults = dao.readObjectsWhereClause(
-                    SibConstants.SqlMapper.SQL_SEARCH_VIDEO_PLAYLIST,
-                    whereClause,
-                    new Object[] { keySearch, keySearch, keySearch, Integer.parseInt(searchLimit.get("limit")), Integer
-                        .parseInt(searchLimit.get("offset")) });
+                List<Object> searchResults = dao.readObjects(SibConstants.SqlMapper.SQL_SEARCH_VIDEO_PLAYLIST, params);
                 if (!CollectionUtils.isEmpty(searchResults)) {
                     String count = String.valueOf(searchResults.size());
                     response = new SimpleResponse(SibConstants.SUCCESS, "video", "searchVideoPlaylist", searchResults, count);
