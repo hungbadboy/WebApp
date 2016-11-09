@@ -2696,21 +2696,38 @@ public class VideoServiceImpl implements VideoService {
     /**
      * {@inheritDoc}
      */
-    @RequestMapping(value = "/getVideoStudentSubcribe", method = RequestMethod.GET)
+    @RequestMapping(value = "/getVideoStudentSubscribe", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Response> getVideoStudentSubcribe(@RequestParam final long userId, @RequestParam final String limit,
+    public ResponseEntity<Response> getVideoStudentSubscribe(@RequestParam final long userId,
+            @RequestParam final String subjectId, @RequestParam final String limit,
             @RequestParam final String offset) {
         SimpleResponse response = null;
         try {
             CommonUtil cmUtil = CommonUtil.getInstance();
             Map<String, String> map = cmUtil.getOffset(limit, offset);
-            Object[] params = { userId, Integer.parseInt(map.get("limit")), Integer.parseInt(map.get("offset")) };
-            List<Object> resultData = dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_STUDENT_SUBCRIBE, params);
-            String count = String.valueOf(resultData.size());
-            response = new SimpleResponse(SibConstants.SUCCESS, "GET", "getVideoStudentSubcribe", resultData, count);
+            Object[] params = { userId };
+            String whereClause;
+            if (StringUtils.isEmpty(subjectId) || subjectId == null) {
+                whereClause = String.format(
+                    "AND S.Subcribe = 'Y' LIMIT %d OFFSET %d;",
+                    Integer.parseInt(map.get("limit")),
+                    Integer.parseInt(map.get("offset")));
+            } else {
+                whereClause = String.format(
+                    "AND V.subjectId IN(%s) AND S.Subcribe = 'Y' LIMIT %d OFFSET %d;",
+                    subjectId,
+                    Integer.parseInt(map.get("limit")),
+                    Integer.parseInt(map.get("offset")));
+            }
+            List<Object> resultData = dao
+                .readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_STUDENT_SUBCRIBE, whereClause, params);
+            if (!CollectionUtils.isEmpty(resultData)) {
+                String count = String.valueOf(resultData.size());
+                response = new SimpleResponse(SibConstants.SUCCESS, "GET", "getVideoStudentSubcribe", resultData, count);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, "videos", "getVideoStudentSubcribe", e.getMessage());
+            response = new SimpleResponse(SibConstants.FAILURE, "videos", "getVideoStudentSubcribe", SibConstants.NO_DATA, "0");
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
@@ -3900,7 +3917,7 @@ public class VideoServiceImpl implements VideoService {
         Map<String, String> searchLimit = CommonUtil.getInstance().getOffset(limit, offset);
         SimpleResponse response = null;
         if (!StringUtils.isEmpty(keyword)) {
-            String escapeStrSearch = StringEscapeUtils.escapeJava(keyword);
+            // String escapeStrSearch = StringEscapeUtils.escapeJava(keyword);
             String whereClause = String.format(
                 "AND sv.title LIKE '%%%s%%' UNION ALL SELECT sp.plid, sp.`CreateBy` authorID, sp.Image, sp.url, su.firstName, su.lastName, su.userName, sp.`Name` title, NULL numRatings, " +
                                                "NULL numComments, sp.subjectId, NULL averageRating, NULL numViews, UNIX_TIMESTAMP(CreateDate) `timeStamp`, " +
@@ -3909,9 +3926,9 @@ public class VideoServiceImpl implements VideoService {
                                                "EXISTS ( SELECT 1 FROM Sib_PlayList_Videos spv LEFT JOIN Sib_Videos sv ON sv.vid = spv.vid " +
                                                "WHERE sp.plid = spv.plid AND (sp.`Name` LIKE '%%%s%%' OR sv.title LIKE '%%%s%%') ) AND sp.`Status` = 'A'  " +
                                                "GROUP BY sp.plid ORDER BY title DESC LIMIT %d OFFSET %d",
-                escapeStrSearch,
-                escapeStrSearch,
-                escapeStrSearch,
+                keyword,
+                keyword,
+                keyword,
                 Integer.parseInt(searchLimit.get("limit")),
                 Integer.parseInt(searchLimit.get("offset")));
             try {
