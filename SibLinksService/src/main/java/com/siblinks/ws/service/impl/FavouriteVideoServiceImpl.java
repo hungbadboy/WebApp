@@ -51,7 +51,7 @@ import com.siblinks.ws.util.SibConstants;
 
 /**
  * This class API handle crud relate to video favourite
- * 
+ *
  * @author hungpd
  * @version 1.0
  */
@@ -109,14 +109,14 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
         return entity;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     @RequestMapping(value = "/checkFavouriteVideo", method = RequestMethod.POST)
     public ResponseEntity<Response> checkFavouriteVideo(@RequestBody final FavouriteData favourite) {
-       
+
         String message = "false";
         try {
             List<Object> readObjects = dao.readObjects( SibConstants.SqlMapper.SQL_CHECK_VIDEO_FAVOURITE,
@@ -163,7 +163,7 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
                 // Delete in the video_favourite
                 isDelete = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_VIDEO_FAVOURITE_DELETE_ALL, params);
             }
-            
+
             // commit
             transactionManager.commit(status);
             message =((isDelete)? " Delete favourite successful": "Delete favourite failure");
@@ -184,13 +184,19 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
      */
     @Override
     @RequestMapping(value = "/countFavourite/{uid}", method = RequestMethod.GET)
-    public ResponseEntity<Response> getCountFavourite(@PathVariable(value = "uid") final String uid) throws Exception {
+    public ResponseEntity<Response> getCountFavourite(@PathVariable(value = "uid") final String uid) {
         // Get in the videos table
-        List<Object> readObjects = dao
-            .readObjects(SibConstants.SqlMapper.SQL_VIDEO_FAVOURITE_COUNT_BY_USER, new Object[] { uid });
-        SimpleResponse reponse = new SimpleResponse("" + Boolean.TRUE, "favouriteService", "getCountFavourite", readObjects);
+        SimpleResponse reponse;
+        try {
+            List<Object> readObjects = dao
+                .readObjects(SibConstants.SqlMapper.SQL_VIDEO_FAVOURITE_COUNT_BY_USER, new Object[] { uid });
+            reponse = new SimpleResponse(SibConstants.SUCCESS, "favouriteService", "getCountFavourite", readObjects);
+            logger.info("getCountFavourite success " + new Date());
+        } catch (DAOException e) {
+            reponse = new SimpleResponse(SibConstants.FAILURE, "favouriteService", "getCountFavourite", SibConstants.NO_DATA);
+            logger.error(e.getMessage());
+        }
         ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-        logger.info("getCountFavourite success " + new Date());
         return entity;
     }
 

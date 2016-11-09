@@ -444,11 +444,8 @@
                             </div>
                             <div class="this-week" ng-show="showDivWeek">
                                 <h5>This week</h5>
-                                <ul ng-init="countWeek=0" class="videos-img"
-                                    ng-repeat="lstWeekVideo in listWeekVideo track by $index"
-                                    ng-if="$index < displayNumberOfVideoWeek">
-
-                                    <li>
+                                <ul>
+                                    <li ng-repeat="lstWeekVideo in listWeekVideo track by $index" ng-if="$index < displayNumberOfVideoWeek">
                                         <div class="video-wrapper"><a href="#/videos/detailVideo/{{lstWeekVideo.vid}}">
                                             <div class="videos-thumnail">
                                                 <img src="{{lstWeekVideo.image}}">
@@ -559,7 +556,7 @@
                                         <div class="videos-time-add">
                                             <a href="#/student/mentorProfile/{{video.authorID}}"><span
                                                     class="video-poster" id="{{video.authorID}}"
-                                                    ng-click="showProfile($event)">{{validateShowName(video.firstName, video.lastName, video.userName)}}</span></a><span> &#8226; {{video.timeStamp}} </span>
+                                                    ng-click="showProfile($event)">{{validateShowName(video.firstName, video.lastName, video.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(video.timeStamp)}} </span>
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
@@ -621,10 +618,10 @@
                                                 <a href="#/student/mentorProfile/{{videoFavourite.authorID}}">
                                                     <span class="video-poster" video-author
                                                           id="{{videoFavourite.authorID}}"
-                                                          ng-click="showProfile($event)">{{videoFavourite.firstName + ' ' +videoFavourite.lastName}}
+                                                          ng-click="showProfile($event)">{{validateShowName(videoFavourite.firstName,videoFavourite.lastName, videoFavourite.userName)}}
                                                     </span>
                                                 </a>
-                                                <span> &#8226; {{videoFavourite.timeStamp}}</span>
+                                                <span> &#8226; {{convertUnixTimeToTime(videoFavourite.timeStamp)}}</span>
                                             </div>
                                             <div class="videos-rate">
                                                 <p class="videos-start">
