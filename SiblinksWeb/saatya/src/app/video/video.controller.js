@@ -470,9 +470,13 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         function getVideoBySubject(userid, subjectId, limit, offset) {
             if (userid) {
-                $rootScope.$broadcast('open');
+                if(!hasLoadMore){
+                    $rootScope.$broadcast('open');
+                }
                 VideoService.getVideoBySubject(userid, subjectId, limit, offset).then(function (response) {
-                    $rootScope.$broadcast('close');
+                    if(!hasLoadMore){
+                        $rootScope.$broadcast('close');
+                    }
                     var allData = response.data.request_data_result;
                     if (allData) {
                         var rs_recommended = allData.recommended;
