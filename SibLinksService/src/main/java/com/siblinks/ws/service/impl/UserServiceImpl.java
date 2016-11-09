@@ -939,26 +939,26 @@ public class UserServiceImpl implements UserService {
                                                           "Changed Password Successfully");
                         } else {
                             response = new SimpleResponse(
-                                                          "" + Boolean.FALSE,
+                                                          SibConstants.FAILURE,
                                                           request.getRequest_data_type(),
                                                           request.getRequest_data_method(),
                                                           "Change password is failed. Please contact with administrator");
                         }
                     } else {
                         response = new SimpleResponse(
-                                                      "" + Boolean.FALSE,
+                                                      SibConstants.FAILURE,
                                                       request.getRequest_data_type(),
                                                       request.getRequest_data_method(),
                                                       "Old password is not correctly");
 
                     }
                 } else {
-                    // User is not exist
+                    // User is exist
                     response = new SimpleResponse(
-                                                  "" + Boolean.FALSE,
+                                                  SibConstants.FAILURE,
                                                   request.getRequest_data_type(),
                                                   request.getRequest_data_method(),
-                                                  "User is not exist");
+                                                  "Your account can not change password.");
                 }
             }
 
@@ -990,7 +990,7 @@ public class UserServiceImpl implements UserService {
             if (status) {
                 response = new SimpleResponse(SibConstants.SUCCESS, "", "changePasswordForgot", "Success");
             } else {
-                response = new SimpleResponse("" + Boolean.FALSE, "", "changePasswordForgot", "Failure");
+                response = new SimpleResponse(SibConstants.FAILURE, "", "changePasswordForgot", "Failure");
             }
 
         } catch (Exception e) {
@@ -1684,7 +1684,7 @@ public class UserServiceImpl implements UserService {
             new ArrayList<String>(Arrays.asList(request.getRequest_data().getActivityid().split(",")));
             /*
              * String userId = request.getRequest_data().getUid();
-             *
+             * 
              * insertNotResource(myListActivityId, userId,
              * SibConstants.SqlMapper.SQL_INSERT_SIB_USER_ACTIVITY);
              */
@@ -1899,7 +1899,7 @@ public class UserServiceImpl implements UserService {
         SimpleResponse response = null;
         try {
             if (!AuthenticationFilter.isAuthed(context)) {
-                response = new SimpleResponse("" + Boolean.FALSE, "Authentication required.");
+                response = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(response, HttpStatus.FORBIDDEN);
             }
 
@@ -2127,12 +2127,8 @@ public class UserServiceImpl implements UserService {
             if (status) {
                 msg = "Success";
                 String activityStatus = String.format("You has been updated your %s", user.getActivity());
-                activityLogService.insertActivityLog(new ActivityLogData(
-                                                                         SibConstants.TYPE_PROFILE,
-                                                                         "U",
-                                                                         activityStatus,
-                                                                         user.getUserid(),
-                                                                         null));
+                activityLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PROFILE, "U", activityStatus, user
+                    .getUserid(), null));
             } else {
                 msg = "Failed";
             }
