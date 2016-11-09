@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -3341,7 +3340,9 @@ public class VideoServiceImpl implements VideoService {
         try {
             String strEntity = "";
             Object[] params = null;
-            String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch().trim());
+            // String term =
+            // StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch().trim());
+            String term = request.getRequest_data().getKeySearch().trim();
             term = term.replace("'", "\\'");
             int subjectId = request.getRequest_data().getSubjectId() != null ? Integer.parseInt(request.getRequest_data().getSubjectId()) : 0;
             int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
