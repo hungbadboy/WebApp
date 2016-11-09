@@ -399,7 +399,7 @@ brotControllers.controller('MentorProfileController',
                     angular.element('#accomplishments').val($scope.mentorInfo.accomplishments);
                     $scope.schoolSelect = $scope.mentorInfo.school != null ? {id: parseInt($scope.mentorInfo.school, 10)} : null;
                     angular.element('#bod').val(bod);
-                    angular.element('#about').val($scope.mentorInfo.bio);
+                    angular.element('#aboutme').val($scope.mentorInfo.bio);
                     var subjectChecked = angular.element('.masterSubject:checked');
                     for (var i = 0; i < subjectChecked.length; i++) {
                         subjectChecked[i].checked = false;
