@@ -35,7 +35,7 @@
                                 <div class="detail-question col-xs-offset-1">
                                     <div class="infor-of-question col-xs-12">
                                         <div class="details-question-title">
-                                            <span>asked {{question.timeStamp}} ago </span><br>
+                                            <span>asked {{question.timeStamp}}</span><br>
                                             <p>in <a href="#/ask_a_question/{{question.subjectId}}">{{question.subject}}</a></p>
                                         </div>
                                         <div class="edit-details-question" data-icon="&#xe037;"
@@ -98,7 +98,7 @@
                                                         <div class="mentor-name">
                                                             <a href="#/student/mentorProfile/{{answer.authorID}}">
                                                                 <strong>{{validateShowName(answer.firstName,answer.lastName,answer.userName)}}</strong>&nbsp;</a>
-                                                            &nbsp;&nbsp;<span>answered {{answer.timeStamp}} ago</span>
+                                                            &nbsp;&nbsp;<span>answered {{answer.timeStamp}}</span>
                                                             <span>{{answer.numlike}} <span
                                                                     data-icon="&#xe089;" class="heart{{answer.aid}}" id="{{answer.like=='1'?'heart':''}}"
                                                                     ng-click="likeAnswer(answer.aid)"></span></span>

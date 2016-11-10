@@ -62,7 +62,7 @@ Sidebar left menu -->
                                                     <p class="q-cont">{{ question.content | limitTo: 100 }}{{question.content.length > 100 ? '...' : ''}}</p>
                                                     <div class="clearfix bt-item">
                                                         <div class="col-md-8 replied" ng-if="question.timeanswer"><h6>Replied
-                                                            <span>&nbsp;{{convertUnixTimeToTime(question.timeanswer)}} ago</span></h6></div>
+                                                            <span>&nbsp;{{convertUnixTimeToTime(question.timeanswer)}}</span></h6></div>
                                                         <div class="col-md-8 replied" ng-if="!question.timeanswer && currentTab != 'unanswered'"><h6>No replies </span></h6></div>
                                                         <div class="col-md-8 replied" ng-if="currentTab == 'unanswered'"><h6></span></h6></div>
                                                         <div class="lis-view">
@@ -98,7 +98,7 @@ Sidebar left menu -->
                                                 </div>
                                                 <div class="col-md-6 bx-dt-qa">
                                                     <h5> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{displayName(questionDetail.firstName,questionDetail.lastName,questionDetail.userName)}}</a></h5>
-                                                    <span class="time">asked {{questionDetail.timeStamp}} ago</span>
+                                                    <span class="time">asked {{questionDetail.timeStamp}}</span>
                                                     <p class="txt-category"><b style="cursor: pointer;" ng-click="clickSubject(questionDetail.subjectId,questionDetail.subject)">{{questionDetail.subject}}</b></p>
                                                 </div>
                                                 <div class="col-md-4 bt-item">
@@ -234,12 +234,12 @@ Sidebar left menu -->
                                                                         <span title="Edit" ng-click="editAnswer(answer.aid)" class="edit-answer" data-icon="&#x6c;"></span>
                                                                         <span title="Delete" ng-really-message="Are you sure you want to delete?"
                                                                               ng-really-click ="removeAnswer(answer.aid)" class="edit-answer" data-icon="&#xe019;"></span>
-                                                                        <span class="pull-right time" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago</span>{{answer.numlike}}
+                                                                        <span class="pull-right time" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}}</span>{{answer.numlike}}
                                                                         <span class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                                     </div>
                                                                     <div class="header" ng-if="userId != answer.authorID">
                                                                         <strong class="primary-font pull-left"><a href="#/mentor/mentorProfile/{{answer.authorID}}">{{displayName(answer.firstName,answer.lastName,answer.userName)}}</a></strong>
-                                                                        <span class="time pull-left" >&nbsp;Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago &nbsp; </span>{{answer.numlike}}
+                                                                        <span class="time pull-left" >&nbsp;Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} &nbsp; </span>{{answer.numlike}}
                                                                         <span  id="heart{{answer.aid}}" class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                                     </div>
                                                                     <p class="pre-wrap" ng-click="showAnswer($index)">{{ answer.content | limitTo: 100 }}{{answer.content.length > 100 ? '...' : ''}}</p>
@@ -300,7 +300,7 @@ Sidebar left menu -->
                     </div>
                     <div class="col-md-10">
                         <h6> <a ng-click="transferPage('/mentor/studentProfile/',questionDetail.authorId)">{{displayName(questionDetail.firstName,questionDetail.lastName,question.userName)}}</a></h6>
-                        <span class="time">asked {{questionDetail.timeStamp}} ago</span>
+                        <span class="time">asked {{questionDetail.timeStamp}}</span>
                         <p class="list-view">
                             {{questionDetail.numReplies}} <span data-icon="w"></span>&nbsp;&nbsp;
                             {{questionDetail.numview}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
@@ -332,7 +332,7 @@ Sidebar left menu -->
                     </div>
                     <div class="col-md-6">
                         <h6><a  ng-click="transferPage('/student/mentorProfile/',currentAnswer.authorID)" >{{displayName(currentAnswer.firstName,currentAnswer.lastName,currentAnswer.userName)}}</a></h6>
-                        <span class="time">Replied {{convertUnixTimeToTime(currentAnswer.TIMESTAMP)}} mins ago</span>
+                        <span class="time">Replied {{convertUnixTimeToTime(currentAnswer.TIMESTAMP)}}</span>
                         <p class="list-view">
                             {{currentAnswer.numlike}} <span class="like-h" data-icon=""></span>
                         </p>

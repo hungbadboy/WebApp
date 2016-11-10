@@ -160,7 +160,7 @@
                                         </a>
                                         <div class="videos-time-add">
                                             <a href="#/student/mentorProfile/{{search.authorID}}"><span
-                                                    class="video-poster"> {{validateShowName(search.firstName, search.lastName, search.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(search.timeStamp)}} ago</span>
+                                                    class="video-poster"> {{validateShowName(search.firstName, search.lastName, search.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(search.timeStamp)}} </span>
                                         </div>
                                         <div class="videos-rate" ng-show="{{search.type == '1'}}">
                                             <p class="videos-start">
@@ -212,7 +212,7 @@
                                         </a>
                                             <div class="videos-time-add">
                                                 <a href="#/student/mentorProfile/{{recommend.authorID}}"><span
-                                                        class="video-poster"> {{validateShowName(recommend.firstName, recommend.lastName, recommend.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(recommend.timeStamp)}} ago</span>
+                                                        class="video-poster"> {{validateShowName(recommend.firstName, recommend.lastName, recommend.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(recommend.timeStamp)}}</span>
                                             </div>
                                             <div class="videos-rate">
                                                 <p class="videos-start">
@@ -268,7 +268,7 @@
                                             </a>
                                             <div class="videos-time-add">
                                                 <a href="#/student/mentorProfile/{{videoRecently.authorID}}"><span
-                                                        class="video-poster"> {{validateShowName(videoRecently.firstName, videoRecently.lastName, videoRecently.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(videoRecently.timeStamp)}} ago</span>
+                                                        class="video-poster"> {{validateShowName(videoRecently.firstName, videoRecently.lastName, videoRecently.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(videoRecently.timeStamp)}}</span>
                                             </div>
                                             <div class="videos-rate" ng-show="{{videoRecently.type == '1'}}">
                                                 <p class="videos-start">
@@ -338,7 +338,7 @@
                                             </a>
                                                 <div class="videos-time-add">
                                                     <a href="#/student/mentorProfile/{{detailVideo.userid}}"><span
-                                                            class="video-poster"> {{validateShowName(detailVideo.firstName, detailVideo.lastName, detailVideo.userName)}}</span></a><span>&#8226; {{convertUnixTimeToTime(detailVideo.timeStamp)}} ago</span>
+                                                            class="video-poster"> {{validateShowName(detailVideo.firstName, detailVideo.lastName, detailVideo.userName)}}</span></a><span>&#8226; {{convertUnixTimeToTime(detailVideo.timeStamp)}} </span>
                                                 </div>
                                                 <div class="videos-rate">
                                                     <p class="videos-start">
@@ -416,7 +416,7 @@
                                                 <a href="#/student/mentorProfile/{{lstRecentVideo.authorID}}">
                                                     <span class="video-poster" id="{{lstRecentVideo.authorID}}">{{validateShowName(lstRecentVideo.firstName, lstRecentVideo.lastName, lstRecentVideo.userName)}}</span>
                                                 </a>
-                                                <span>&#8226; {{convertUnixTimeToTime(lstRecentVideo.timeStamp)}} ago</span>
+                                                <span>&#8226; {{convertUnixTimeToTime(lstRecentVideo.timeStamp)}} </span>
                                             </div>
                                             <div class="videos-rate">
                                                 <p class="videos-start">
@@ -458,7 +458,7 @@
                                             <div class="videos-time-add">
                                                 <a href="#/student/mentorProfile/{{lstWeekVideo.authorID}}"><span
                                                         class="video-poster" id="{{lstWeekVideo.authorID}}"
-                                                        ng-click="showProfile($event)"> {{validateShowName(lstWeekVideo.firstName,lstWeekVideo.lastName, lstWeekVideo.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(lstWeekVideo.timeStamp)}} ago</span>
+                                                        ng-click="showProfile($event)"> {{validateShowName(lstWeekVideo.firstName,lstWeekVideo.lastName, lstWeekVideo.userName)}}</span></a><span> &#8226; {{convertUnixTimeToTime(lstWeekVideo.timeStamp)}} </span>
                                             </div>
                                             <div class="videos-rate">
                                                 <p class="videos-start">

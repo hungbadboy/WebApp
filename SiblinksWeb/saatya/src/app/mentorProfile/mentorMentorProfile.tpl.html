@@ -142,7 +142,7 @@
                                                             <a ng-href="{{video.type == 2 ? '#/mentor/video/view/detail/'+video.authorID+'/' + video.vid+'/'+video.vidPlaylist : '#/mentor/video/view/detail/'+video.authorID+'/' + video.vid }}">{{ video.title | limitTo: 50 }}{{video.title.length > 50 ? '...' : ''}}</a>
                                                         </p>
                                                         <p class="videos-time-add">
-                                                            <span>{{convertUnixTimeToTime(video.timeStamp)}} ago</span>
+                                                            <span>{{convertUnixTimeToTime(video.timeStamp)}}</span>
                                                         </p>
                                                         <p class="video-rate" ng-if="video.type == 1">
                                                             <!--<span>Rate: {{video.averageRating != null ? video.averageRating : 0}} ({{video.numRatings}} votes)</span>-->
@@ -193,7 +193,7 @@
                                                 </div>
                                                 <div class="detail-answered">
                                                     <p class="answered-time">
-                                                        Answered {{convertUnixTimeToTime(answer.timeStamp)}} ago
+                                                        Answered {{convertUnixTimeToTime(answer.timeStamp)}}
                                                     </p>
                                                     <p class="answered-content"> {{ answer.content | limitTo: 250 }}{{answer.content.length > 250 ? '...' : ''}}</p>
                                                     <p class="answered-rate">{{answer.numlikes}}
