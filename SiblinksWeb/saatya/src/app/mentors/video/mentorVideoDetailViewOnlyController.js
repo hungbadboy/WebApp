@@ -6,9 +6,8 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
     var vid = $routeParams.vid;
     var plid = $routeParams.plid;
     var userId = $routeParams.authorId;
-    $scope.currentId = localStorage.getItem('userId');
     $scope.averageRating = 0.1;
-
+    $scope.currentUserId = localStorage.getItem('userId');
     $scope.currentId = 0;
     init();
 
@@ -118,6 +117,7 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.video = result[0];
                 $scope.video.averageRating = parseAvgRating($scope.video.averageRating);
+                $scope.averageRating = $scope.video.averageRating;
                 $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
                 $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
                 if ($scope.video.plid && $scope.video.plid > 0) {
@@ -193,7 +193,7 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
     }
 
     $scope.goToProfile = function(id){
-        if (id == userId) {
+        if (id == $scope.currentUserId) {
         	$location.path('/mentor/mentorProfile');
         } else{
         	$location.path('/mentor/studentProfile/'+id);

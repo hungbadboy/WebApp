@@ -32,7 +32,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -670,7 +669,7 @@ public class MentorServiceImpl implements MentorService {
     @Override
     @RequestMapping(value = "/getTopMentorsByLikeRateSubcrible", method = RequestMethod.GET)
     public ResponseEntity<Response> getTopMentorsByLikeRateSubcrible(@RequestParam final String subjectId,
-            @RequestParam String content, @RequestParam final String uid, @RequestParam final String type,
+            @RequestParam final String content, @RequestParam final String uid, @RequestParam final String type,
             @RequestParam final String limit, @RequestParam final String offset) {
         SimpleResponse simpleResponse = null;
         try {
@@ -678,8 +677,7 @@ public class MentorServiceImpl implements MentorService {
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
-
-            Object[] queryParams = {};
+            List<Object> listParam = new ArrayList<Object>();
             String tempUserId = uid;
             String entityName = SibConstants.SqlMapper.SQL_GET_TOP_MENTORS_BY_LIKE_RATE_SUBS;
             if (StringUtil.isNull(tempUserId)) {
@@ -697,14 +695,12 @@ public class MentorServiceImpl implements MentorService {
             whereClause += " FROM Sib_Users U LEFT JOIN Sib_School_College_Degree SCD ON U.school = SCD.sch_colle_degree_id LEFT JOIN Sib_Videos V ON U.userid = V.authorID "
                            + "WHERE U.userType = 'M' GROUP BY U.userid, U.lastName, U.imageUrl, U.firstName)X ";
             if (!StringUtil.isNull(content)) {
-                content = StringEscapeUtils.escapeJava(content);
-                whereClause += " WHERE (X.loginName LIKE '%" +
-                               content +
-                               "%' or lastName LIKE '%" +
-                               content +
-                               "%' OR firstname like '" +
-                               content +
-                               "%')";
+                String keySearch = "%" + content + "%";
+                listParam.add(keySearch);
+                listParam.add(keySearch);
+                listParam.add(keySearch);
+                whereClause += " WHERE ((firstName is null AND lastName is null AND X.loginName LIKE (?)) OR lastName LIKE (?) OR firstname like (?))";
+
             }
             if (!StringUtil.isNull(subjectId)) {
                 whereClause += " WHERE FIND_IN_SET(" + subjectId + ",X.defaultSubjectId)";
@@ -719,14 +715,16 @@ public class MentorServiceImpl implements MentorService {
             }
 
             if (!StringUtil.isNull(limit)) {
-                whereClause += " LIMIT " + limit;
+                listParam.add(Integer.parseInt(limit));
+                whereClause += " LIMIT ?";
             }
 
             if (!StringUtil.isNull(offset)) {
-                whereClause += " OFFSET " + offset;
+                listParam.add(Integer.parseInt(offset));
+                whereClause += " OFFSET ?";
             }
 
-            List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, queryParams);
+            List<Object> readObject = dao.readObjectsWhereClause(entityName, whereClause, listParam.toArray());
 
             // dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY, new
             // Object[] {});

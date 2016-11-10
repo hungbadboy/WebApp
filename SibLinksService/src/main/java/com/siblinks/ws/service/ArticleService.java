@@ -47,4 +47,17 @@ public interface ArticleService {
      * @return True update success, False no row update
      */
     ResponseEntity<Response> updateViewArticle(Article aid);
+
+    /**
+     * @param request
+     * @return
+     */
+    ResponseEntity<Response> rateArticalAdmission(RequestData request);
+
+    /**
+     * @param uid
+     * @param arid
+     * @return
+     */
+    ResponseEntity<Response> checkRateArticle(String uid, String arid);
 }

@@ -94,7 +94,7 @@
 				                                          ng-click="rateFunction(stars)"
 				                                          outer-percent="rating"
 				                                          rating-define="star"
-				                                          rating-stars="{{lstVideoTutAdmission.averageRating}}"
+				                                          rating-stars="{{lstArticleAdmission.averageRating}}"
 				                                          star-radius="6" sel-color="gold"
 				                                          back-color="white"
 				                                          readonly="true">
@@ -156,8 +156,17 @@
 	                          <span class="fa fa-eye">{{articalDetail.numView}}</span>
 	                      </p>
 	                      <p>
-	                     	<span>Rate this article</span>
-	                     	<span star-rating stars="5" id="rateArtical"
+	                      	<span>Rate this article</span>
+	                     	<span star-rating stars="5" id="divRate"
+                                          outer-star-selection="stars"
+                                          ng-click="rateFunction(stars)"
+                                          outer-percent="rating"
+                                          rating-define="star"
+                                          rating-stars="{{articalDetail.averageRating}}"
+                                          star-radius="10" sel-color="gold"
+                                          back-color="white">
+                            </span>
+	                     	<!-- <span star-rating stars="5" id="rateArtical"
 	                                 outer-star-selection="stars"
 	                                 ng-click="rateFunction(stars)"
 	                                 outer-percent="rating"
@@ -165,7 +174,7 @@
 	                                 rating-stars="{{articalDetail.averageRating}}"
 	                                 star-radius="6" sel-color="gold"
 	                                 back-color="white">
-	                        	</span>
+	                        	</span> -->
 	                     </p>
 	                  </div>
 	                  <!-- <button class="share">Share</button> -->

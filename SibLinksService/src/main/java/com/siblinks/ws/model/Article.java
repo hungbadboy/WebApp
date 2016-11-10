@@ -15,8 +15,45 @@ public class Article {
     private String active;
     private String createBy;
     private String createDate;
-	
-	public String getArId() {
+    private String numRate;
+    private String averageRating;
+    // rate
+    private String uid;
+    private String rating;
+    
+    public String getNumRate() {
+        return numRate;
+    }
+
+    public void setNumRate(final String numRate) {
+        this.numRate = numRate;
+    }
+
+    public String getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(final String averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(final String uid) {
+        this.uid = uid;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(final String rating) {
+        this.rating = rating;
+    }
+
+    public String getArId() {
 		return arId;
 	}
 

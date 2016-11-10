@@ -92,11 +92,11 @@
                                                 <ul>
                                                     <li class="clearfix" ng-repeat="c in comments track by $index">
                                                         <span class="chat-img col-md-1">
-                                                            <a ng-href="{{c.userid != null && c.userid != currentId ? '#/mentor/studentProfile/'+c.userid : '#/mentor/studentProfile/'}}"><img class="avatar-fix-size" src="{{c.imageUrl}}" alt="User Avatar"></a>
+                                                            <a ng-href="{{c.userid != null && c.userid != currentUserId ? '#/mentor/studentProfile/'+c.userid : '#/mentor/studentProfile/'}}"><img class="avatar-fix-size" src="{{c.imageUrl}}" alt="User Avatar"></a>
                                                         </span>
                                                         <div class="chat-body col-md-11">
                                                             <div class="header">
-                                                                <a ng-href="{{c.userid != null && c.userid != currentId ? '#/mentor/studentProfile/'+c.userid : '#/mentor/studentProfile/'}}"><strong class="primary-font">{{c.fullName}}</strong></a><span class="time">{{c.timestamp}}</span>
+                                                                <a ng-href="{{c.userid != null && c.userid != currentUserId ? '#/mentor/studentProfile/'+c.userid : '#/mentor/studentProfile/'}}"><strong class="primary-font">{{c.fullName}}</strong></a><span class="time">{{c.timestamp}}</span>
                                                                 <!--<a href="" class="txt-dlt pull-right" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteComment(c.cid, video.vid)">Delete</a>-->
                                                             </div>
                                                             <p class="desc-wrap">{{c.content}}</p>

@@ -122,6 +122,7 @@ brotControllers.controller('MentorVideoDetailController',
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.video = result[0];
                 $scope.video.averageRating = parseAvgRating($scope.video.averageRating);
+                $scope.averageRating = $scope.video.averageRating;
                 $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
                 $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
                 if ($scope.video.plid && $scope.video.plid > 0) {
@@ -347,10 +348,6 @@ brotControllers.controller('MentorVideoDetailController',
             }
             $location.path('/mentor/video/detail/'+$scope.videos[$scope.pos].vid+'/'+plid, false);
         }
-    }
-
-    $scope.addToPlaylist = function(vid){
-
     }
 
     var player;

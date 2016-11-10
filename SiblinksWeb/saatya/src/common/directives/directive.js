@@ -1363,3 +1363,35 @@ brotControllers.directive('autoHeightRecentActivity', function($window) {
         }
     }
 });
+
+/**
+ * @author Tavv
+ * @description : auto margin div information of another mentor in screen mentor view mentor
+ */
+brotControllers.directive('setMarginTagInfoMentor', function ($timeout, $window) {
+    return{
+        restrict : 'A',
+        link : function (scope, element) {
+            scope.$on('onGetInfoMentorCompleted',function () {
+                $timeout(function () {
+                    var window = angular.element($window);
+                    var width_win = $window.innerWidth;
+                    var heightInfo = document.getElementById("top-mentors-info").offsetHeight - 30;
+                    console.log(heightInfo);
+                    var resize = function () {
+                        if (width_win < 1601) {
+                            element.css({"margin-top": + heightInfo + "px"});
+                        }
+                        else {
+                            element.css({"margin-top": "30px"});
+                        }
+                    };
+                    window.bind('resize', function () {
+                        resize();
+                    });
+                    resize();
+                });
+            });
+        }
+    }
+});
