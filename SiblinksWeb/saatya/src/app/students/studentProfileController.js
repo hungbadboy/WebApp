@@ -785,12 +785,14 @@ brotControllers.controller('StudentProfileController',
                     if(data.data.status =="true") {
                         if (data.data.request_data_type == "subs") {
                             $scope.isSubscribe = true;
+                            $scope.studentMentorProfile.count_subscribers += 1;
                         }
                         else {
                             $scope.isSubscribe = false;
-                            $("#span_"+mentorId).text('Subscribe');
-                            $("#subscribers_"+mentorId).attr("data-icon","N");
-                            $('#subscribers_'+mentorId).removeClass('unsubcrib');
+                            $scope.studentMentorProfile.count_subscribers -= 1;
+                            $("#spansubs").text('Subscribe');
+                            $(".subscribers").attr("data-icon","N");
+                            $(".subscribers").removeClass('unsubcrib');
                         }
                     }
                 });
