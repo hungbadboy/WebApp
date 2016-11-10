@@ -6,7 +6,7 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
     var vid = $routeParams.vid;
     var plid = $routeParams.plid;
     var userId = $routeParams.authorId;
-
+    $scope.currentId = localStorage.getItem('userId');
     $scope.averageRating = 0.1;
 
     $scope.currentId = 0;

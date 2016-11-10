@@ -28,7 +28,7 @@
                         <!-- <span data-icon="&#x34;" class="sub-menu"></span> -->
                     </a>
                 </li>
-                <li ng-class="{active: (currentPath =='/mentor/mentorVideo' || currentPath =='/mentor/videoManager' ||  currentPath == '/mentor/playlistManager')}">
+                <li ng-class="{active: (currentPath =='/mentor/mentorVideo' || currentPath =='/mentor/videoManager' ||  currentPath == '/mentor/playlistManager' || currentPath.indexOf('mentor/video/detail') !== -1)}">
                     <a href="javascript:void(0)" ng-click="showSubMenu('sub-menu-video')" class="none-bgr">
                         <span data-icon="&#x49;"></span>
                         <span class="menu-title">Tutorials</span>
@@ -36,13 +36,13 @@
                               ng-class="{show : (currentPath =='/mentor/mentorVideo' || currentPath =='/mentor/videoManager' ||  currentPath == '/mentor/playlistManager')}"></span>
                     </a>
                     <ul class="menuSubmenu" id="sub-menu-video"
-                        ng-class="{show : (currentPath =='/mentor/mentorVideo' || currentPath =='/mentor/videoManager' ||  currentPath == '/mentor/playlistManager')}">
+                        ng-class="{show : (currentPath =='/mentor/mentorVideo' || currentPath =='/mentor/videoManager' ||  currentPath == '/mentor/playlistManager') || currentPath.indexOf('mentor/video/detail') !== -1}">
                         <li ng-class="{active : currentPath == '/mentor/mentorVideo'}" ng-click="showFullLeftSideBar()">
                             <a href="#/mentor/mentorVideo">
                                 <span class="menu-title">General</span>
                             </a>
                         </li>
-                        <li ng-class="{active : currentPath == '/mentor/videoManager'}" ng-click="showFullLeftSideBar()">
+                        <li ng-class="{active : currentPath == '/mentor/videoManager' || currentPath.indexOf('mentor/video/detail') !== -1}" ng-click="showFullLeftSideBar()">
                             <a href="#/mentor/videoManager">
                                 <span class="menu-title">Videos</span>
                             </a>

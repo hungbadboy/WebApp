@@ -43,7 +43,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1136,7 +1135,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             } else {
                 String entityString = "";
                 String whereClause = "";
-                String term = StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch().trim());
+                // String term =
+                // StringEscapeUtils.escapeJava(request.getRequest_data().getKeySearch().trim());
+                String term = request.getRequest_data().getKeySearch().trim();
                 term = term.replace("'", "\\'");
                 int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
 

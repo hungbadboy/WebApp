@@ -1,5 +1,5 @@
-brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope', '$modal', '$routeParams', '$http', '$location', 'VideoService', 'MentorService','$sce',
-                                       function ($rootScope, $scope, $modal, $routeParams, $http, $location, VideoService, MentorService, $sce) {
+brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope', '$modal', '$routeParams', '$location', 'VideoService', 'MentorService','$sce',
+                                       function ($rootScope, $scope, $modal, $routeParams, $location, VideoService, MentorService, $sce) {
 
 
     var userId = localStorage.getItem('userId');
@@ -224,23 +224,6 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
         $scope.vTopViewed = $scope.videosTopViewed[pos + 1];
       }
       $scope.topViewedAverageRating = $scope.vTopViewed.averageRating;
-    }
-  }
-
-  $scope.goVideoDetail = function(vid, plid){
-    if (plid && plid > 0) {
-      window.location.href = '#/mentor/video/detail/'+vid+'/'+plid+'';
-    } else {
-      window.location.href = '#/mentor/video/detail/'+vid+'';
-    }
-  }
-
-  $scope.goToDetail = function(v){
-    if (v.plid && v.plid > 0) {
-      window.location.href = '#/mentor/video/detail/'+v.vid+'/'+v.plid+'';
-    } else{
-      localStorage.removeItem('vidInPlaylist');
-      window.location.href = '#/mentor/video/detail/'+v.vid+'';
     }
   }
 

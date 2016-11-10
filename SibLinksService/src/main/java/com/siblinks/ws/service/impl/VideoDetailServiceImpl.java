@@ -135,7 +135,13 @@ public class VideoDetailServiceImpl implements VideoDetailService {
         try {
             Object[] queryParams = { vid };
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_COMMENT_VIDEO_BY_VID, queryParams);
-            response = new SimpleResponse(SibConstants.SUCCESS, "Video", "getCommentVideoById", readObject);
+            String count = "";
+            if (!CollectionUtils.isEmpty(readObject)) {
+                count = String.valueOf(readObject.size());
+            } else {
+                count = "0";
+            }
+            response = new SimpleResponse(SibConstants.SUCCESS, "Video", "getCommentVideoById", readObject, count);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());

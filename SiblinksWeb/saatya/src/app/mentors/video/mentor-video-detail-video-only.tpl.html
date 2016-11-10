@@ -5,7 +5,7 @@
             <section id="dashboard">
                 <div class="dashboard-wrapper">
                     <div class="dashboard-header">
-                    <h4><a href="#/mentor/dashboard"> SibLinks</a> / <a href="#/mentor/videoManager">Manage Videos</a> / Detail Information</h4> 
+                    <h4><a href="#/mentor/dashboard"> SibLinks</a>/ Detail Information</h4>
                     </div>
                     <div class="manager-detail-video">
                         <div class="play-video">
@@ -20,7 +20,7 @@
                                     </div>                                    
                                     <div class="video-wait col-md-3">
                                         <div class="top-w clearfix">
-                                            <a href="#/mentor/playlist/detail/{{playlist.plid}}" ><h5 class="pull-left" title="playlist.name">{{ playlist.name | limitTo: 20 }}{{playlist.name.length > 20 ? '...' : ''}}</h5></a>
+                                            <h5 class="pull-left" title="{{playlist.name}}">{{ playlist.name | limitTo: 20 }}{{playlist.name.length > 20 ? '...' : ''}}</h5>
                                         </div>
                                         <div class="top-nav-w clearfix">
                                             <span class="pull-left"><a href="javascript:void(0)" style="font-weight: 600;" ng-click="goToProfile(video.userid)">{{playlist.fullName}}</a></span>
@@ -78,14 +78,14 @@
                                                 <ul>
                                                     <li class="clearfix" ng-repeat="c in comments track by $index">
                                                         <span class="chat-img col-md-1">
-                                                            <a href="" ng-click="goToProfile(c.userid)"><img class="avatar-fix-size" src="{{c.imageUrl}}" alt="User Avatar"></a>
+                                                            <a ng-href="{{c.userid != null && c.userid != currentId ? '#/mentor/studentProfile/'+c.userid : '#/mentor/studentProfile/'}}"><img class="avatar-fix-size" src="{{c.imageUrl}}" alt="User Avatar"></a>
                                                         </span>
                                                         <div class="chat-body col-md-11">
                                                             <div class="header">
-                                                                <a href="" ng-click="goToProfile(c.userid)"><strong class="primary-font">{{c.fullName}}</strong></a><span class="time">{{c.timestamp}} ago</span>
-                                                                <a href="" class="txt-dlt pull-right" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteComment(c.cid, video.vid)">Delete</a>
+                                                                <a ng-href="{{c.userid != null && c.userid != currentId ? '#/mentor/studentProfile/'+c.userid : '#/mentor/studentProfile/'}}"><strong class="primary-font">{{c.fullName}}</strong></a><span class="time">{{c.timestamp}} ago</span>
+                                                                <!--<a href="" class="txt-dlt pull-right" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteComment(c.cid, video.vid)">Delete</a>-->
                                                             </div>
-                                                            <p class="pre-wrap">{{c.content}}</p>
+                                                            <p class="desc-wrap">{{c.content}}</p>
                                                         </div>
                                                     </li>
                                                 </ul>
