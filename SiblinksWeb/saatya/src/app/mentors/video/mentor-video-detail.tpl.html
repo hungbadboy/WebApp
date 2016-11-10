@@ -57,7 +57,7 @@
                                 <div class="main-cm-detail">
                                     <div class="top-cm">
                                         <h3 class="word-wrap" title="{{video.title}}">{{video.title}}</h3>
-                                        <span class="time">{{video.timeStamp}} ago</span>
+                                        <span class="time">{{video.timeStamp}}</span>
                                         <div class="btn-count clearfix">
                                             <div class="bx-btn pull-left">
                                                 <button id="btnDelete" class="btn-add active" data-toggle="modal" ng-click="openAddPlaylist(video.vid)">Add to playlist</button>
@@ -109,7 +109,7 @@
                                                         </span>
                                                         <div class="chat-body col-md-11">
                                                             <div class="header">
-                                                                <a href="" ng-click="goToProfile(c.userid)"><strong class="primary-font">{{c.fullName}}</strong></a><span class="time">{{c.timestamp}} ago</span>
+                                                                <a href="" ng-click="goToProfile(c.userid)"><strong class="primary-font">{{c.fullName}}</strong></a><span class="time">{{c.timestamp}}</span>
                                                                 <a href="" class="txt-dlt pull-right" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteComment(c.cid, video.vid)">Delete</a>
                                                             </div>
                                                             <p class="desc-wrap">{{c.content}}</p>

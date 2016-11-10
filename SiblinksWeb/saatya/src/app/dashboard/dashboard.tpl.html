@@ -72,7 +72,7 @@
                                           <div class="newest-qa-student-info">
                                               <p class="newest-qa-student-name">
                                                   <a href="#/mentor/studentProfile/{{q.userId}}"><strong>{{q.fullName}}</strong></a>
-                                                  <span class="time-post">{{q.timeStamp}} ago</span>
+                                                  <span class="time-post">{{q.timeStamp}}</span>
                                               </p>
                                               <p class="newest-qa-in">
                                                   In {{q.subject}}
@@ -121,7 +121,7 @@
                                                    </div>
                                                    <div class="newest-sub-esay-info">
                                                        <p class="newest-sub-esay-name">
-                                                           <a href="#/mentor/studentProfile/{{e.userId}}"><strong>{{e.fullName}}</strong><br></a><span class="time-post">{{e.timeStamp}} ago</span>
+                                                           <a href="#/mentor/studentProfile/{{e.userId}}"><strong>{{e.fullName}}</strong><br></a><span class="time-post">{{e.timeStamp}}</span>
                                                            <a href="#/mentor/essay?eid={{e.uploadEssayId}}"><span>{{e.nameOfEssay}}</span></a>
                                                            <span class="essay-wait-review" style="margin-top: 4px;">Waiting</span>
                                                        </p>
@@ -137,22 +137,20 @@
                                    </div>
                                </div>
                            </div>
-                            <div class="dashboard-video" ng-show="videosTopViewed">
-                                <div class="video-detail" id="player">
+                            <div class="dashboard-video">
+                                <!-- <div class="video-detail" id="player">
+                                </div> -->
+                                <div class="video-detail active">
+                                    <a href="#/mentor/video/detail/{{vTopViewed.vid}}/{{vTopViewed.plid}}"><img ng-show="videosTopViewed" src="{{vTopViewed.image}}" err-src="assets/images/img-video.png" alt="" style="max-height: 300px;"><img ng-show="!videosTopViewed" src="assets/images/img-video.png" alt="" class="nodata"></a>                                
+                                    <a href="#/mentor/video/detail/{{vTopViewed.vid}}/{{vTopViewed.plid}}"><span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span></a>
                                 </div>
                                 <div class="video-wrapper dashboard-top">
                                     <div class="videos-title">
                                         <h5>{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5>
+                                        <h5 ng-show="!videosTopViewed">No video</h5>
                                     </div>
                                     <div class="videos-rate">
-                                        <div ng-if="vTopViewed" class="list-star pull-left star-align" star-rating stars="5"
-                                              outer-star-selection="stars"
-                                              outer-percent="rating"
-                                              readonly="true"
-                                              rating-define="star"
-                                              rating-stars="{{vTopViewed.averageRating}}"
-                                              star-radius="9" sel-color="gold"
-                                              back-color="#505050" ></div>
+                                        <div class="list-star pull-left star-align" star-rating stars="5" outer-star-selection="stars" outer-percent="rating" readonly="true" rating-define="star" rating-stars="{{vTopViewed.averageRating}}" star-radius="9" sel-color="gold" back-color="#505050" ></div>
                                               
                                         <p class="videos-rate-infor">
                                             <span data-icon="&#x49;">{{vTopViewed.numViews}}</span>
@@ -161,7 +159,7 @@
                                     </div>
                                     <div class="recent-view">
                                         <h4>Most Viewed</h4>
-                                        <div class="recent-view-button">
+                                        <div class="recent-view-button" >
                                             <a ng-click="topViewedPre(topViewedPos)"><span data-icon="&#x34;"></span></a>
                                             <a ng-click="topViewedNext(topViewedPos)"><span data-icon="&#x35;"></span></a>
                                         </div>

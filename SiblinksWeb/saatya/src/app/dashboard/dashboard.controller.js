@@ -126,32 +126,32 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
         $scope.videosTopViewed = data.data.request_data_result;
         $scope.vTopViewed = $scope.videosTopViewed[0];            
         $scope.topViewedPos = 0;
-        initYoutubePlayer($scope.vTopViewed.url);
+        // initYoutubePlayer($scope.vTopViewed.url);
       }
     });
   }
 
-  function initYoutubePlayer(youtubeUrl){
-    var videoid = youtubeUrl.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
-    if (videoid != null) {
-      if (typeof(player) == "undefined") {
-        onYouTubeIframeAPIReady(videoid[1]);
-      } else {
-        player.cueVideoById(videoid[1]);
-      }      
-    }
-  }
+  // function initYoutubePlayer(youtubeUrl){
+  //   var videoid = youtubeUrl.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+  //   if (videoid != null) {
+  //     if (typeof(player) == "undefined") {
+  //       onYouTubeIframeAPIReady(videoid[1]);
+  //     } else {
+  //       player.cueVideoById(videoid[1]);
+  //     }      
+  //   }
+  // }
 
   $scope.topViewedPre = function(pos){
     if (pos == 0) {
       $scope.topViewedPos = $scope.videosTopViewed.length - 1;
       $scope.vTopViewed = $scope.videosTopViewed[$scope.videosTopViewed.length - 1];
-      initYoutubePlayer($scope.vTopViewed.url);
+      // initYoutubePlayer($scope.vTopViewed.url);
     }
     else{
       $scope.topViewedPos = pos - 1;
       $scope.vTopViewed = $scope.videosTopViewed[pos - 1];
-      initYoutubePlayer($scope.vTopViewed.url);
+      // initYoutubePlayer($scope.vTopViewed.url);
     }
   }
 
@@ -159,12 +159,12 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
     if (pos == $scope.videosTopViewed.length - 1) {
       $scope.topViewedPos = 0;
       $scope.vTopViewed = $scope.videosTopViewed[0];
-      initYoutubePlayer($scope.vTopViewed.url);
+      // initYoutubePlayer($scope.vTopViewed.url);
     }
     else{
       $scope.topViewedPos = pos + 1;
       $scope.vTopViewed = $scope.videosTopViewed[pos + 1];
-      initYoutubePlayer($scope.vTopViewed.url);
+      // initYoutubePlayer($scope.vTopViewed.url);
     }
   }
 
@@ -178,29 +178,29 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
     });
   }
   
-  var player;
-  function onYouTubeIframeAPIReady(youtubeId) {
-    player = new YT.Player('player', {
-        height: '300',
-        width: '100%',
-        videoId: youtubeId,
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        },
-        playerVars: {
-            showinfo: 0,
-            autohide: 1,
-            theme: 'dark'
-        }
-    });
-  }
+  // var player;
+  // function onYouTubeIframeAPIReady(youtubeId) {
+  //   player = new YT.Player('player', {
+  //       height: '300',
+  //       width: '100%',
+  //       videoId: youtubeId,
+  //       events: {
+  //           'onReady': onPlayerReady,
+  //           'onStateChange': onPlayerStateChange
+  //       },
+  //       playerVars: {
+  //           showinfo: 0,
+  //           autohide: 1,
+  //           theme: 'dark'
+  //       }
+  //   });
+  // }
 
-  function onPlayerReady(event) {
-  }
+  // function onPlayerReady(event) {
+  // }
 
-  function onPlayerStateChange(event) {
-  }
+  // function onPlayerStateChange(event) {
+  // }
 
   $scope.$on('uploadNew', function(){
     getMainDashboardInfo();
