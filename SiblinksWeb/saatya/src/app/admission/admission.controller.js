@@ -305,11 +305,40 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
             AdmissionService.updateViewArticalAdmission(idArtilce).then(function (data) {
                 if (data.data.status == 'true') {
                     $scope.articleAdmissionDetail = data.data.request_data_result;
+                    $scope.idArtilce=idArtilce;
                 } else {
                     console.log(data.data.request_data_result);
                 }
             });
         };
+        
+        /**
+         * Rating artical
+         */
+        $scope.rateFunction = function (rate) {
+            var ratenumOld = $scope.rateNum;
+            if (isEmpty(userId) || userId == "-1") {
+            	window.location.href ='#/student/signin?continue='+encodeURIComponent($location.absUrl());
+                return;
+            }
+            $rootScope.$broadcast('open');
+            AdmissionService.checkUserRatingArtical($scope.idArtilce, userId).then(function (data) {
+                if (data.data.status == 'true') {
+                    if (data.data.request_data_result.length > 0) {
+                        $scope.rated = true;
+                        $scope.errorVideo = "You are rated!";
+                        $scope.rateNum = ratenumOld;
+                    } else {
+                    	AdmissionService.rateArtical($scope.idArtilce, userId, parseInt(rate)).then(function (data) {
+                            if (data.data.status) {
+                                $scope.rateNum = parseInt(rate);
+                            }
+                        });
+                    }
+                }
+                $rootScope.$broadcast('close');
+            });
 
+        }
     }]);
 //===========================================END ADMINSSION.CONTROLLER.JS==============

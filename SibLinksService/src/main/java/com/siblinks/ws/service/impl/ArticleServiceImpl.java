@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,10 +55,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
+import com.siblinks.ws.model.ActivityLogData;
 import com.siblinks.ws.model.Article;
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
+import com.siblinks.ws.service.ActivityLogService;
 import com.siblinks.ws.service.ArticleService;
 import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.Parameters;
@@ -79,6 +86,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ObjectDao dao;
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+
+    @Autowired
+    ActivityLogService activiLogService;
 
     /**
      * {@inheritDoc}
@@ -519,5 +532,125 @@ public class ArticleServiceImpl implements ArticleService {
             reponse = new SimpleResponse(SibConstants.FAILURE, "ArticleServiceImpl", "getArticleAdmission", e.getMessage());
         }
         return new ResponseEntity<Response>(reponse, HttpStatus.OK);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/rateArticalAdmission", method = RequestMethod.POST)
+    public ResponseEntity<Response> rateArticalAdmission(@RequestBody final RequestData request) {
+        String entityName = null;
+        boolean status = false;
+        SimpleResponse response = null;
+        TransactionStatus statusDao = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                response = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(response, HttpStatus.FORBIDDEN);
+            }
+
+            String arid = request.getRequest_data_article().getArId();
+            String uid = request.getRequest_data_article().getUid();
+            String rate = request.getRequest_data_article().getRating();
+
+            // Return if vid or uid
+            if (StringUtil.isNull(arid) || StringUtil.isNull(uid) || StringUtil.isNull(rate)) {
+                response = new SimpleResponse(
+                                              SibConstants.FAILURE,
+                                              request.getRequest_data_type(),
+                                              request.getRequest_data_method(),
+                                              "Parameter cannot null or Emppty.");
+                return new ResponseEntity<Response>(response, HttpStatus.OK);
+            }
+            TransactionDefinition def = new DefaultTransactionDefinition();
+            statusDao = transactionManager.getTransaction(def);
+            // Check user rated yet
+            Object[] queryParams = new Object[] { uid, arid };
+            List<Object> videoRated = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_ARTICAL_ADMISSION, queryParams);
+
+            boolean isRated = videoRated.size() > 0 ? true : false;
+
+            if (!isRated) {
+                // New rating
+                entityName = SibConstants.SqlMapper.SQL_SIB_RATE_ARTICAL_ADMISSION;
+                queryParams = new Object[] { arid, uid, rate };
+                status = dao.insertUpdateObject(entityName, queryParams);
+
+                Object[] queryUpdateRate = { rate, arid };
+                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_ARTICAL_ADMISSION, queryUpdateRate);
+                // Activity Log
+                activiLogService.insertActivityLog(new ActivityLogData(
+                                                                       SibConstants.TYPE_ATICAL,
+                                                                       "C",
+                                                                       "You rated a artical",
+                                                                       uid,
+                                                                       String.valueOf(arid)));
+            } else {
+                Map<String, Double> object = (Map<String, Double>) videoRated.get(0);
+                // Update rating
+                queryParams = new Object[] { rate, arid, uid };
+                entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_ARTICAL_ADMISSION;
+                Double rateOld = object.get("rate");
+                Double rateNew = Double.parseDouble(rate);
+                Object[] queryUpdateRate = { rateNew - rateOld };
+                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_ARTICAL_ADMISSION_AGAIN, queryUpdateRate);
+                // Activity Log
+                activiLogService.insertActivityLog(new ActivityLogData(
+                                                                       SibConstants.TYPE_VIDEO,
+                                                                       "U",
+                                                                       "You updated the rating a artical",
+                                                                       uid,
+                                                                       String.valueOf(arid)));
+            }
+
+            transactionManager.commit(statusDao);
+            logger.info("    " + new Date());
+
+            response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), arid);
+        } catch (Exception e) {
+            if (statusDao != null) {
+                transactionManager.rollback(statusDao);
+            }
+            e.printStackTrace();
+            response = new SimpleResponse(
+                                          SibConstants.FAILURE,
+                                          request.getRequest_data_type(),
+                                          request.getRequest_data_method(),
+                                          e.getMessage());
+        }
+        return new ResponseEntity<Response>(response, HttpStatus.OK);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @RequestMapping(value = "/checkRateArticle", method = RequestMethod.GET)
+    public ResponseEntity<Response> checkRateArticle(@RequestParam final String uid, @RequestParam final String arId) {
+        SimpleResponse response = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                response = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(response, HttpStatus.FORBIDDEN);
+            }
+
+            // Return if vid or uid
+            if (StringUtil.isNull(arId) || StringUtil.isNull(uid)) {
+                response = new SimpleResponse(
+                                              SibConstants.FAILURE,
+                                              "artical",
+                                              "checkRateArticle",
+                                              "Parameter cannot null or Emppty.");
+                return new ResponseEntity<Response>(response, HttpStatus.OK);
+            }
+
+            List<Object> readObjects = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_ARTICAL_ADMISSION, new Object[] { uid, arId });
+            response = new SimpleResponse(SibConstants.SUCCESS, "artical", "checkRateArticle", readObjects);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = new SimpleResponse(SibConstants.FAILURE, "artical", "checkRateArticle", e.getMessage());
+        }
+        return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
 }

@@ -422,6 +422,30 @@ brotServices.factory('AdmissionService', ['$http', function($http) {
 	    });
 	    return promise;
 	  };
+	  
+  factory.checkUserRatingArtical = function(arId, uid) {
+	  var promise = $http({
+	      method: 'GET',
+	      url: NEW_SERVICE_URL + 'article/checkRateArticle?arId='+arId+'&uid='+uid
+	    });
+	    return promise;
+  }
+  
+  factory.rateArtical = function(arid, uid, rate) {
+	  var promise = $http({
+	      method: 'POST',
+	      url: NEW_SERVICE_URL + 'article/rateArticalAdmission',
+	      data:{  "request_data_type": "artical",
+	          "request_data_method": "rateArticalAdmission",
+	          "request_data_article": {
+	            "uid": uid,
+	            "arId": arid,
+	            "rating": rate
+	    	  }
+	      }
+	    });
+	    return promise;
+  }
   return factory;
 }]);
 //===========================================END ADMINSSION.SERVICES.JS==============
