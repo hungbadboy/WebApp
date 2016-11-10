@@ -171,9 +171,15 @@ public class SibConstants {
         public static final String SQL_UPDATE_AVG_RATE_ARTICAL_ADMISSION_AGAIN = "UPDATE_AVG_RATE_ARTICAL_ADMISSION_AGAIN";
         public static final String SQL_SIB_CHECK_RATE_ARTICAL_ADMISSION = "SIB_CHECK_RATE_ARTICAL_ADMISSION";
         public static final String SQL_SIB_RATE_UPDATE_ARTICAL_ADMISSION = "SIB_RATE_UPDATE_ARTICAL_ADMISSION";
-
+        // Essay Rate
         public static final String SQL_SIB_GET_ESSAY_COMMENTS_PN = "SIB_GET_ESSAY_COMMENTS_PN";
         public static final String SQL_SIB_GET_ESSAY_COMMENTS_PN_COUNT = "SIB_GET_ESSAY_COMMENTS_PN_COUNT";
+        public static final String SQL_SIB_CHECK_RATE_ESSAY = "SIB_CHECK_RATE_ESSAY";
+        public static final String SQL_SIB_RATE_ESSAY = "SIB_RATE_ESSAY";
+        public static final String SQL_UPDATE_AVG_RATE_ESSAY = "UPDATE_AVG_RATE_ESSAY";
+        public static final String SQL_UPDATE_AVG_RATE_ESSAY_AGAIN = "UPDATE_AVG_RATE_ESSAY_AGAIN";
+        public static final String SQL_SIB_RATE_UPDATE_ESSAY = "SIB_RATE_UPDATE_ESSAY";
+
         public static final String SQL_SIB_EDIT_VIDEO = "SIB_EDIT_VIDEO";
         public static final String SQL_SIB_DELETE_TAGS = "SIB_DELETE_TAGS";
         public static final String SQL_SIB_CHECK_RATE_VIDEO = "SIB_CHECK_RATE_VIDEO";
