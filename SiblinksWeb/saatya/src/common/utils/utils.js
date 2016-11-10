@@ -138,15 +138,22 @@ function convertUnixTimeToTime(time) {
     var _secondDay = 3600 * 24;
     var _secondMonth = _secondDay * 30;
     if (_space < 60) {
-        return _space + ' seconds';
+        if (_space <= 0) {
+            serverDateTime = null;
+            timeBackEnd();
+            _now = Math.floor(serverDateTime);
+            _space = _now - time;
+            return _space + ' seconds ago';
+        } else
+            return _space + ' seconds ago';
     } else if (_space < 3600) {
-        return Math.floor(_space / 60) > 1 ? Math.floor(_space / 60) + ' minutes' : Math.floor(_space / 60) + ' minute';
+        return Math.floor(_space / 60) > 1 ? Math.floor(_space / 60) + ' minutes ago' : Math.floor(_space / 60) + ' minute ago';
     } else if (_space < _secondDay) {
-        return Math.floor(_space / 3600) > 1 ? Math.floor(_space / 3600) + ' hours' : Math.floor(_space / 3600) + ' hour';
+        return Math.floor(_space / 3600) > 1 ? Math.floor(_space / 3600) + ' hours ago' : Math.floor(_space / 3600) + ' hour ago';
     } else if (_space >= _secondDay && _space < _secondMonth) {
-        return Math.floor(_space / _secondDay) > 1 ? Math.floor(_space / _secondDay) + ' days' : Math.floor(_space / _secondDay) + ' day';
+        return Math.floor(_space / _secondDay) > 1 ? Math.floor(_space / _secondDay) + ' days ago' : ' yesterday';
     } else {
-        return Math.floor(_space / _secondMonth) > 1 ? Math.floor(_space / _secondMonth) + ' months' : Math.floor(_space / _secondMonth) + ' month';
+        return Math.floor(_space / _secondMonth) > 1 ? Math.floor(_space / _secondMonth) + ' months ago' : Math.floor(_space / _secondMonth) + ' month ago';
     }
 }
 function loginFBService(callback) {

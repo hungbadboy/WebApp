@@ -46,7 +46,7 @@
                             </span>
                             <div class="detail-pl-inner pull-left">
                                 <h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5>
-                                <span class="add-time">{{v.timeStamp}} ago</span>
+                                <span class="add-time">{{v.timeStamp}}</span>
                                 <p class="list-view">
                                     <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
                                     <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
@@ -64,10 +64,11 @@
                         <div class="box-detail-play col-md-6 clearfix">
                             <span class="item-thumbnail pull-left">
                                 <img class="item-fix-size" src="{{v.image}}" alt="">
+                                <span class="video-time">{{v.runningTime}}</span>
                             </span>
                             <div class="detail-pl-inner pull-left">
                                 <h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5>
-                                <span class="add-time">{{v.timeStamp}} ago</span>
+                                <span class="add-time">{{v.timeStamp}}</span>
                                 <p class="list-view">
                                     <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
                                     <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
