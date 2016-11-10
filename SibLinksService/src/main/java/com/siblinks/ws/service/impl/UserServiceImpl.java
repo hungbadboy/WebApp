@@ -1684,7 +1684,7 @@ public class UserServiceImpl implements UserService {
             new ArrayList<String>(Arrays.asList(request.getRequest_data().getActivityid().split(",")));
             /*
              * String userId = request.getRequest_data().getUid();
-             * 
+             *
              * insertNotResource(myListActivityId, userId,
              * SibConstants.SqlMapper.SQL_INSERT_SIB_USER_ACTIVITY);
              */
@@ -2005,7 +2005,7 @@ public class UserServiceImpl implements UserService {
                     activityLogService.insertActivityLog(new ActivityLogData(
                                                                              SibConstants.TYPE_PROFILE,
                                                                              "U",
-                                                                             "You has been updated your avatar",
+                                                                             "You updated your avatar",
                                                                              userid,
                                                                              null));
                 }
@@ -2126,7 +2126,7 @@ public class UserServiceImpl implements UserService {
             String msg;
             if (status) {
                 msg = "Success";
-                String activityStatus = String.format("You has been updated your %s", user.getActivity());
+                String activityStatus = String.format("You updated your %s", user.getActivity());
                 activityLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PROFILE, "U", activityStatus, user
                     .getUserid(), null));
             } else {
