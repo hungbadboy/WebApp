@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.MultiValueMap;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -2960,45 +2959,20 @@ public class VideoServiceImpl implements VideoService {
             }
             map.put("recommended_for_you", readObject);
         } else if (isValidatedForm(userId, subjectId)) {
-            // int subId;
-            // try {
-            // subId = Integer.parseInt(subjectId);
-            // } catch (Exception e) {
-            // subId = -2;
-            // }
-            // if (subId != -2) {
             if (subjectIds != null && !StringUtils.isEmpty(subjectIds)) {
-                String[] subjects = subjectIds.split(",");
-                if (ArrayUtils.contains(subjects, subjectId)) {
+                // Check subjectId contains in subjects student registered
+                // String[] subjects = subjectIds.split(",");
+                // if (ArrayUtils.contains(subjects, subjectId)) {
                     params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
 
                     // Get child category by subjectId
                     String childSubjectId = CommonUtil.getAllChildCategory("" + subjectId, getAllSubjectIdCategory());
 
-                    // StringBuilder sBuilder = new StringBuilder();
-                    // for (String subject : subjects) {
-                    // String childSubjectId =
-                    // CommonUtil.getAllChildCategory("" + subject,
-                    // getAllSubjectIdCategory());
-                    // sBuilder.append(childSubjectId.concat(","));
-                    // }
-                    // if (childSubjectId.contains(",")) {
-                    // whereClause = "WHERE V.subjectId IN (" +
-                    // childSubjectId.substring(0,
-                    // childSubjectId.lastIndexOf(",")) +
-                    // ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
-                    // } else {
                     String whereClause = "WHERE V.subjectId IN (" + childSubjectId + ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ?;";
-                    // }
                     List<Object> resultDataRecommended = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_VIDEO_BY_SUBJECT, whereClause, params);
                     map.put("recommended", resultDataRecommended);
                     params = new Object[] { userId, childSubjectId, userId, childSubjectId, Integer.parseInt(pageLimit.get("limit")), Integer
                         .parseInt(pageLimit.get("offset")) };
-                    // String whereClause = "WHERE S.StudentId = ? AND
-                    // S.Subcribe =
-                    // 'Y' AND V.subjectId IN (" +
-                    // subId +
-                    // ") ORDER BY V.timeStamp DESC LIMIT ? OFFSET ? ";
                     String clauseWhere = formatQueryGetVideoPlaylist("bySubjectLogin", userId, childSubjectId, limit, offset);
                     List<Object> resultRecently = dao
                         .readObjectsWhereClause(SibConstants.SqlMapper.SQL_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB, clauseWhere, new Object[] {});
@@ -3020,7 +2994,7 @@ public class VideoServiceImpl implements VideoService {
                         readObject.add(multiValueMap.get(key[i]));
                     }
                     map.put("recommended_for_you", readObject);
-                }
+                // }
                 // }
             } else {
                 params = new Object[] { subjectId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
@@ -3138,37 +3112,6 @@ public class VideoServiceImpl implements VideoService {
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }
 
-    // @Override
-    // @RequestMapping(value = "/searchVideos", method = RequestMethod.GET)
-    // public ResponseEntity<Response> searchVideos(@RequestParam final long
-    // uid, @RequestParam final String keyword, @RequestParam final int offset)
-    // {
-    // SimpleResponse response = null;
-    // Object[] queryParams = new Object[] { uid };
-    // String term = StringEscapeUtils.escapeJava(keyword);
-    // String whereClause = String.format(
-    // " and (a.title like '%%%s%%' OR a.description like '%%%s%%') order by
-    // a.timeStamp DESC limit 10 offset %d",
-    // term,
-    // term,
-    // offset);
-    // String entityName = SibConstants.SqlMapperBROT126.SQL_SEARCH_VIDEOS;
-    //
-    // List<Object> readObject = dao.readObjectsWhereClause(entityName,
-    // whereClause, queryParams);
-    // if (readObject != null && readObject.size() > 0) {
-    // response = new SimpleResponse(SibConstants.SUCCESS, "videos",
-    // "searchVideos",
-    // readObject);
-    // } else {
-    // response = new SimpleResponse(SibConstants.SUCCESS, "videos",
-    // "searchVideos",
-    // SibConstants.NO_DATA);
-    // }
-    // ResponseEntity<Response> entity = new ResponseEntity<Response>(response,
-    // HttpStatus.OK);
-    // return entity;
-    // }
     /**
      * {@inheritDoc}
      */

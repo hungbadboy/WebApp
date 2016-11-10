@@ -372,6 +372,12 @@ brotControllers.controller('StudentProfileController',
                     check = false;
                     error += "About me must not exceed 500 characters, ";
                 }
+                if(isEmpty(firstName)){
+                    firstName = null;
+                }
+                if(isEmpty(lastName)){
+                    lastName = null;
+                }
                 if (check) {
                     var student = {
                         'role': "S",
@@ -769,4 +775,42 @@ brotControllers.controller('StudentProfileController',
                 $scope.currentTab = tabName;
                 $location.search('tab', tabName);
             }
+
+
+            $scope.setSubscribeMentor = function (mentorId) {
+                if(isEmpty(userId)||userId == -1){
+                    return ;
+                }
+                VideoService.setSubscribeMentor(userId, mentorId+"").then(function (data) {
+                    if(data.data.status =="true") {
+                        if (data.data.request_data_type == "subs") {
+                            $scope.isSubscribe = true;
+                        }
+                        else {
+                            $scope.isSubscribe = false;
+                            $("#span_"+mentorId).text('Subscribe');
+                            $("#subscribers_"+mentorId).attr("data-icon","N");
+                            $('#subscribers_'+mentorId).removeClass('unsubcrib');
+                        }
+                    }
+                });
+            };
+
+            $scope.hoverSubscribe = function (isSub) {
+                if(!isSub){
+                    return;
+                }
+                angular.element('.subscribers').attr('data-icon', 'M');
+                angular.element('#spansubs').text('Unsubscribe');
+            };
+
+            $scope.unHoverSubscribe = function (isSub) {
+                if(!isSub){
+                    return;
+                }
+                angular.element('.subscribers').attr('data-icon', 'N');
+                angular.element('#spansubs').text('Subscribed');
+            };
+
+
         }]);

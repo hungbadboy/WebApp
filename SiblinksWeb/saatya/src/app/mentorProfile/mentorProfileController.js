@@ -305,6 +305,12 @@ brotControllers.controller('MentorProfileController',
                     check = false;
                     error += "About me must not exceed 500 characters, ";
                 }
+                if(isEmpty(firstName)){
+                    firstName = null;
+                }
+                if(isEmpty(lastName)){
+                    lastName = null;
+                }
                 if (check) {
                     var mentor = {
                         'role': "M",
