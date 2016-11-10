@@ -597,7 +597,7 @@ public class ArticleServiceImpl implements ArticleService {
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_ARTICAL_ADMISSION_AGAIN, queryUpdateRate);
                 // Activity Log
                 activiLogService.insertActivityLog(new ActivityLogData(
-                                                                       SibConstants.TYPE_VIDEO,
+                                                                       SibConstants.TYPE_ATICAL,
                                                                        "U",
                                                                        "You updated the rating a artical",
                                                                        uid,
