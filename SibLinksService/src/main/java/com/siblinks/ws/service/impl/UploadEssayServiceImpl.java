@@ -957,7 +957,12 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                         flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_UPDATE_STATUS_ESSAY, params);
                         if (flag) {
                             if (status.equals("P")) {
-                                activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You have been processing essay", mentorId, essayId));
+                                activiLogService.insertActivityLog(new ActivityLogData(
+                                                                                       SibConstants.TYPE_ESSAY,
+                                                                                       "U",
+                                                                                       "You are processing an essay",
+                                                                                       mentorId,
+                                                                                       essayId));
                             } else {
                                 activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_ESSAY, "U", "You replied essay", mentorId, essayId));
                             }
