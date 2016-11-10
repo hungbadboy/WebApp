@@ -117,7 +117,7 @@
                                         </div>
                                         <div class="detail-question col-xs-offset-1">
                                             <div class="infor-of-question col-xs-12">
-                                                <span>asked {{q.time}} ago</span><br>
+                                                <span>asked {{q.time}}</span><br>
                                                 <p>in <a href="/">{{q.subject}}</a></p>
                                             </div>
                                             <!-- Detail Content of Question -->
@@ -166,7 +166,7 @@
                                                                 </div>
                                                                 <div class="detail-mentor-answer">
                                                                     <div class="mentor-name">
-                                                                        <strong>{{a.name}}</strong>&nbsp;&nbsp;&nbsp;<span>answerd {{a.time}} ago</span>&nbsp;&nbsp;&nbsp;<span>{{a.countLike}}
+                                                                        <strong>{{a.name}}</strong>&nbsp;&nbsp;&nbsp;<span>answerd {{a.time}}</span>&nbsp;&nbsp;&nbsp;<span>{{a.countLike}}
 	                                                                    	<span data-icon="&#xe089;" ng-if="a.like"
                                                                                   id="heart"></span>
 	                                                                    	<span data-icon="&#xe089;"
@@ -233,7 +233,7 @@
                                         <div class="detail-question col-xs-offset-1">
                                             <div class="infor-of-question col-xs-12">
                                                 <h5 class="essay-title"><a>{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 185 ? '...' : ''}}</a></h5>
-                                                <p><span>uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}} ago </span></p>
+                                                <p><span>uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}}</span></p>
                                                 <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
                                                 <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span><span>by : </span><span class="mentor-review"><a href="#/student/mentorProfile/{{essay.mentorID}}">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</a></span>
                                             </div>
@@ -252,7 +252,7 @@
                                                 <h3>Essay detail</h3>
                                                 <div class="essay-detail-top">
                                                     <h4 ng-bind="currentEssay.nameOfEssay"></h4>
-                                                    <span class="post-time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago</span>
+                                                    <span class="post-time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} </span>
                                                 </div>
                                                 <div class="essay-thumb"  ng-if="currentEssay.status =='W' ">
                                                     <p><span class="essay-wait-review">Waiting for review</span></p><br>
@@ -290,7 +290,7 @@
                                                         <div ng-if="currentEssay.status =='R'" class="answer-by"><p>Answered by mentor</p></div>
                                                     </div>
                                                     <div ng-if="currentEssay.status =='R'" class="essay-detail-right-content">
-                                                        <span class="post-time">Replied {{convertUnixTimeToTime(currentEssay.docReviewedDate)}} ago</span>
+                                                        <span class="post-time">Replied {{convertUnixTimeToTime(currentEssay.docReviewedDate)}} </span>
                                                         <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
                                                         <div class=""></div>
                                                         <div class="attrach-file">

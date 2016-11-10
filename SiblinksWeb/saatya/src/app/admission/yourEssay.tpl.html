@@ -16,7 +16,7 @@
                 </div>
                 <div class="detail-essay col-xs-offset-1">
                     <div class="infor-of-essay">
-                        <p><span class="essay-time">Uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}} ago </span></p>
+                        <p><span class="essay-time">Uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}}</span></p>
                         <p class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 100 ? '...' : ''}}</p>
                         <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
                         <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span>
@@ -37,7 +37,7 @@
                     <h3>Essay detail</h3>
                     <div class="essay-detail-top">
                         <h4 ng-bind="currentEssay.nameOfEssay"></h4>
-                        <span class="post-time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} ago</span>
+                        <span class="post-time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}}</span>
                     </div>
                     <div class="essay-thumb"  ng-if="currentEssay.status =='W' ">
                         <p><span class="essay-wait-review">Waiting for review</span></p><br>
@@ -90,7 +90,7 @@
                         <div ng-if="currentEssay.status =='R'" class="essay-detail-right-content">
                             <div ng-if="currentEssay.status =='R'" class="answer-by">
                                 <span class="mentor-answer">Answered by mentor</span>
-                                <span class="post-time"> {{convertUnixTimeToTime(currentEssay.docReviewedDate)}} ago</span>
+                                <span class="post-time"> {{convertUnixTimeToTime(currentEssay.docReviewedDate)}}</span>
                             </div>                            
                             <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
                             <div class=""></div>

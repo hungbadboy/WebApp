@@ -108,7 +108,7 @@
                 <span class="edit" ng-click="editComment(discuss.cid, discuss.content)" ng-if="userId == discuss.authorId">Edit</span>
                 <span class="delete" ng-click="deleteComment(discuss.cid)" ng-if="userId == discuss.authorId">Delete</span>
               </div>
-              <div class="time">{{discuss.creationDate}} ago by 
+              <div class="time">{{discuss.creationDate}} by
                 <a href="#student/studentProfile/{{discuss.authorId}}">{{discuss.firstName}} {{discuss.lastName}}</a>
               </div>
               <div class="clearfix"></div>

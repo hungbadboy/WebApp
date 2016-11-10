@@ -3287,12 +3287,12 @@ public class VideoServiceImpl implements VideoService {
      */
     @Override
     @RequestMapping(value = "/getVideosNonePlaylist", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideosNonePlaylist(final long uid, final int offset) {
+    public ResponseEntity<Response> getVideosNonePlaylist(final long plid, final long uid, final int offset) {
         SimpleResponse response = null;
         try {
             String strEntity = SibConstants.SqlMapperBROT163.SQL_GET_VIDEOS_NONE_PLAYLIST;
 
-            List<Object> readObjects = dao.readObjects(strEntity, new Object[] { uid, offset });
+            List<Object> readObjects = dao.readObjects(strEntity, new Object[] { plid, uid, offset });
 
             if (readObjects != null && !readObjects.isEmpty()) {
                 response = new SimpleResponse(SibConstants.SUCCESS, "video", "getVideosNonePlaylist", readObjects);
@@ -3311,12 +3311,12 @@ public class VideoServiceImpl implements VideoService {
      */
     @Override
     @RequestMapping(value = "/getVideosNonePlaylistBySubject", method = RequestMethod.GET)
-    public ResponseEntity<Response> getVideosNonePlaylistBySubject(final long uid, final long subjectId, final int offset) {
+    public ResponseEntity<Response> getVideosNonePlaylistBySubject(final long plid, final long uid, final long subjectId, final int offset) {
         SimpleResponse response = null;
         try {
             String strEntity = SibConstants.SqlMapperBROT163.SQL_GET_VIDEOS_NONE_PLAYLIST_BY_SUBJECT;
 
-            List<Object> readObjects = dao.readObjects(strEntity, new Object[] { uid, subjectId, offset });
+            List<Object> readObjects = dao.readObjects(strEntity, new Object[] { plid, uid, subjectId, offset });
 
             if (readObjects != null && !readObjects.isEmpty()) {
                 response = new SimpleResponse(SibConstants.SUCCESS, "video", "getVideosNonePlaylistBySubject", readObjects);
@@ -3348,13 +3348,13 @@ public class VideoServiceImpl implements VideoService {
             int offset = request.getRequest_data().getOffset() != null ? Integer.parseInt(request.getRequest_data().getOffset()) : 0;
 
             if (subjectId > 0) {
-                params = new Object[] { request.getRequest_data().getUid(), subjectId };
+                params = new Object[] { request.getRequest_data().getPlid(), request.getRequest_data().getUid(), subjectId };
                 strEntity = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_NONE_PLAYLIST_WITH_SUBJECT;
             } else {
-                params = new Object[] { request.getRequest_data().getUid() };
+                params = new Object[] { request.getRequest_data().getPlid(), request.getRequest_data().getUid() };
                 strEntity = SibConstants.SqlMapperBROT163.SQL_SEARCH_VIDEOS_NONE_PLAYLIST;
             }
-            String whereClause = String.format(" and v.title like '%%%s%%' order by v.timeStamp DESC limit 5 offset %d", term, offset);
+            String whereClause = String.format(" and a.title like '%%%s%%' order by a.vid DESC limit 10 offset %d", term, offset);
             List<Object> readObjects = dao.readObjectsWhereClause(strEntity, whereClause, params);
             if (readObjects != null && !readObjects.isEmpty()) {
                 response = new SimpleResponse(SibConstants.SUCCESS, "video", "searchVideosNonePlaylist", readObjects);
