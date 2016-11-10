@@ -45,7 +45,7 @@
                                 <img class="item-fix-size" src="{{v.image}}" alt="">
                             </span>
                             <div class="detail-pl-inner pull-left">
-                                <h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5>
+                                <h5 title="{{v.title}}">{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5>
                                 <span class="add-time">{{v.timeStamp}}</span>
                                 <p class="list-view">
                                     <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
@@ -53,9 +53,7 @@
                                 </p>
                             </div>
                         </div>
-                        <p class="box-playlist col-md-5">
-                            {{v.playlist}}
-                        </p>
+                        <p class="box-playlist col-md-5"> {{v.playlistname}}</p>
                     </div>
                 </div>
                 <div style="height: 300px;" ng-if="videosNoPLaylist.length > 2" scroller="videoScrl" data-on-total-scroll="loadMoreVideos">
@@ -67,7 +65,7 @@
                                 <span class="video-time">{{v.runningTime}}</span>
                             </span>
                             <div class="detail-pl-inner pull-left">
-                                <h5>{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5>
+                                <h5 title="{{v.title}}">{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</h5>
                                 <span class="add-time">{{v.timeStamp}}</span>
                                 <p class="list-view">
                                     <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
@@ -75,9 +73,7 @@
                                 </p>
                             </div>
                         </div>
-                        <p class="box-playlist col-md-5">
-                            {{v.playlist}}
-                        </p>
+                        <p class="box-playlist col-md-5"> {{v.playlistname}}</p>
                     </div>
                 </div>
                 <div class="item clearfix" ng-show="!videosNoPLaylist"><h4>No video</h4></div>

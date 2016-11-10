@@ -622,21 +622,21 @@ brotServices.factory('VideoService', ['$http', function ($http) {
       });
     }
 
-    factory.getVideosNonePlaylist = function(uid, offset){
+    factory.getVideosNonePlaylist = function(plid, uid, offset){
         return $http({
           method: 'GET',
-          url: NEW_SERVICE_URL + 'video/getVideosNonePlaylist?uid='+uid+'&offset='+offset+''
+          url: NEW_SERVICE_URL + 'video/getVideosNonePlaylist?plid='+plid+'&uid='+uid+'&offset='+offset+''
         });
     }
 
-    factory.getVideosNonePlaylistBySubject = function(uid, subjectid, offset){
+    factory.getVideosNonePlaylistBySubject = function(plid, uid, subjectid, offset){
         return $http({
           method: 'GET',
-          url: NEW_SERVICE_URL + 'video/getVideosNonePlaylistBySubject?uid='+uid+'&subjectId='+subjectid+'&offset='+offset+''
+          url: NEW_SERVICE_URL + 'video/getVideosNonePlaylistBySubject?plid='+plid+'&uid='+uid+'&subjectId='+subjectid+'&offset='+offset+''
         });
     }
 
-    factory.searchVideosNonePlaylist = function(uid, keyword, subjectId, offset){
+    factory.searchVideosNonePlaylist = function(plid, uid, keyword, subjectId, offset){
         return $http({
             method: 'POST',
             url: NEW_SERVICE_URL + 'video/searchVideosNonePlaylist',
@@ -647,7 +647,8 @@ brotServices.factory('VideoService', ['$http', function ($http) {
                     "uid":uid,
                     "keySearch":keyword,
                     "subjectId":subjectId,
-                    "offset":offset
+                    "offset":offset,
+                    "plid": plid
                 }
             } 
         });

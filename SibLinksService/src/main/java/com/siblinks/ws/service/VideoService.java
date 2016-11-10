@@ -124,9 +124,9 @@ public interface VideoService {
 
      public ResponseEntity<Response> addVideosToPlaylist(RequestData request);
 
-    public ResponseEntity<Response> getVideosNonePlaylist(long uid, int offset);
+    public ResponseEntity<Response> getVideosNonePlaylist(long plid, long uid, int offset);
 
-    public ResponseEntity<Response> getVideosNonePlaylistBySubject(long uid, long subjectId, int offset);
+    public ResponseEntity<Response> getVideosNonePlaylistBySubject(long plid, long uid, long subjectId, int offset);
 
     public ResponseEntity<Response> searchVideosNonePlaylist(RequestData request);
 
