@@ -138,13 +138,20 @@ function convertUnixTimeToTime(time) {
     var _secondDay = 3600 * 24;
     var _secondMonth = _secondDay * 30;
     if (_space < 60) {
-        return _space + ' seconds';
+        if (_space <= 0) {
+            serverDateTime = null;
+            timeBackEnd();
+            _now = Math.floor(serverDateTime);
+            _space = _now - time;
+            return _space + ' seconds';
+        } else
+            return _space + ' seconds';
     } else if (_space < 3600) {
         return Math.floor(_space / 60) > 1 ? Math.floor(_space / 60) + ' minutes' : Math.floor(_space / 60) + ' minute';
     } else if (_space < _secondDay) {
         return Math.floor(_space / 3600) > 1 ? Math.floor(_space / 3600) + ' hours' : Math.floor(_space / 3600) + ' hour';
     } else if (_space >= _secondDay && _space < _secondMonth) {
-        return Math.floor(_space / _secondDay) > 1 ? Math.floor(_space / _secondDay) + ' days' : Math.floor(_space / _secondDay) + ' day';
+        return Math.floor(_space / _secondDay) > 1 ? Math.floor(_space / _secondDay) + ' days' : ' yesterday';
     } else {
         return Math.floor(_space / _secondMonth) > 1 ? Math.floor(_space / _secondMonth) + ' months' : Math.floor(_space / _secondMonth) + ' month';
     }
