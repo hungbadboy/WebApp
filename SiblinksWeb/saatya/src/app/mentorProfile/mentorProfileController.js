@@ -65,7 +65,6 @@ brotControllers.controller('MentorProfileController',
                     getNewestAnswers(mentorId, 6, 0);
                 }
                 getStudentSubscribed(userId, $scope.defaultLimit, 0);
-                setHeightMentorViewMentor();
                 getMentorProfile();
                 uploadEssayService.collegesOrUniversities().then(function (data) {
                     if (data.data.status) {
@@ -102,6 +101,7 @@ brotControllers.controller('MentorProfileController',
 
             function getInfoAnotherMentor() {
                 MentorService.getStudentMentorProfile(mentorId).then(function (data) {
+                    $scope.$broadcast('onGetInfoMentorCompleted');
                     if (data.data.status == "true") {
                         if (data.data.request_data_result) {
                             var result_data = data.data.request_data_result;
@@ -323,6 +323,7 @@ brotControllers.controller('MentorProfileController',
                     };
                     $rootScope.$broadcast('open');
                     StudentService.updateUserProfile(mentor).then(function (data) {
+                        $rootScope.$broadcast('close');
                         if (data.data.request_data_result == "Success") {
                             if (mentor) {
                                 if ($scope.isEmptyName) {
@@ -356,7 +357,6 @@ brotControllers.controller('MentorProfileController',
                                 $scope.msgError = "Failed to update your profile";
                             }
                         }
-                        $rootScope.$broadcast('close');
                     });
                 }
                 else {
@@ -791,17 +791,4 @@ brotControllers.controller('MentorProfileController',
                 });
             }
 
-            /**
-            * @description : thoi cai nay de em chinh la sai gio xem co chay dc ko
-            */
-            function setHeightMentorViewMentor(){
-                var width_win = $(window).width();
-                var heightInfo = $(".top-mentors-info-detail").height() - 30;
-                if (width_win < 1601) {
-                    $(".content .mentors-profile-content").css({"margin-top": + heightInfo + "px"});
-                }
-                else {
-                    $(".content .mentors-profile-content").css({"margin-top": "30px"});
-                } 
-            }
         }]);

@@ -6,7 +6,7 @@
                 <!-- Breadcrum -->
                 <div class="breadcrum">
                     <div class="container">
-                        <h5 ng-if="!isEmptyNameMentor"><a href="#/">SibLinks </a>/ {{displayName(mentorMentorProfile.firstname,studentMentorProfile.lastName,studentMentorProfile.userName)}}</span>
+                        <h5 ng-if="!isEmptyNameMentor"><a href="#/">SibLinks </a>/ {{mentorMentorProfile.firstname.trim()}} {{mentorMentorProfile.lastName.trim()}}</span>
                         </h5>
                         <h5 ng-if="isEmptyNameMentor"><a href="#/">SibLinks </a>/ {{mentorMentorProfile.fullNameMentor}}</span>
                         </h5>
@@ -37,7 +37,7 @@
                                    back-color="#cecfcf" empty-back-color="white">
                                 </p>
                             </div>
-                            <div class="top-mentors-info-detail">
+                            <div class="top-mentors-info-detail" id="top-mentors-info">
                                 <div class="top-mentors-info-detail-wrapper">
                                     <p>{{GenderMentor}}, {{bod != null ? bod : EMPTY_DATA}} year old</p>
                                     <p class="skilled">
@@ -81,14 +81,14 @@
                 <!-- Container -->
                 <div class="container">
                     <!-- Content -->
-                    <section class="content mentors-profile-content" ng-class="{'content mentors-profile-content-nodata' : videosMentorRecently.length == 0}">
+                    <section  class="{{videosMentorRecently.length > 0 ? 'content mentors-profile-content' : 'content mentors-profile-content-nodata'}}" set-margin-tag-info-mentor>
                         <div class="mentors-video-recently col-md-6 col-md-offset-3">
                             <h4 ng-show="!videosMentorRecently">Sorry, found no data</h4>
                             <div ng-show="videosMentorRecently" class="feature-video">
                                 <div class="feature-thumnail" id="{{videosMentorRecently[0].vid}}" ng-mouseover="hoverVideo(videosMentorRecently[0].vid)"
                                      ng-mouseleave="unHoverVideo(videosMentorRecently[0].vid)">
                                     <a href="#/videos/detailVideo/{{videosMentorRecently[0].vid}}">
-                                        <img ng-src="{{videosMentorRecently[0].image}}" err-src="assets/images/image-not-available.png">
+                                        <img ng-src="{{videosMentorRecently[0].image != null ? videosMentorRecently[0].image : 'assets/images/image-not-available.png'}}" err-src="assets/images/image-not-available.png">
                                     </a>
                                     <a ng-href="{{videosMentorRecently[0].type == 2 ? '#/mentor/video/view/detail/'+videosMentorRecently[0].authorID+'/' + videosMentorRecently[0].vidPlaylist+'/'+videosMentorRecently[0].vid : '#/mentor/video/view/detail/'+videosMentorRecently[0].authorID+'/' + videosMentorRecently[0].vid }}"><div class="hover-video">
                                         <span data-icon="&#x45;"></span>
@@ -118,10 +118,10 @@
                                         <div class="top-videos-list">
                                             <ul ng-show="videosMentorRecently && videosMentorRecently.length > 1">
                                                 <li ng-repeat="video in videosMentorRecently track by $index" ng-if="$index > 0">
-                                                    <div ng-class="{'videos-thumnail profile-recent-video': video.type == 2, 'video-thumnail': video.type == 1}" id="{{video.vid}}" ng-mouseover="hoverVideo(video.vid)"
-                                                         ng-mouseleave="unHoverVideo(video.vid)">
+                                                    <div  ng-class="{'videos-thumnail profile-recent-video': video.type == 2, 'video-thumnail': video.type == 1}" id="{{video.vid}}" ng-mouseover="hoverVideo(video.vid)"
+                                                          ng-mouseleave="unHoverVideo(video.vid)" ng-style="{width : video.type == 2 ? 150+'px' : ''}">
                                                         <a ng-href="{{video.type == 2 ? '#/mentor/video/view/detail/'+video.authorID+'/' + video.vidPlaylist+'/'+video.vid : '#/mentor/video/view/detail/'+video.authorID+'/' + video.vid }}">
-                                                            <img ng-src="{{video.image != null ? video.image : 'assets/images/image-not-available.png'}}" width="90px">
+                                                            <img ng-src="{{video.image}}" err-src="assets/images/image-not-available.png" style="height: 90px;">
                                                         </a>
                                                         <a ng-href="{{video.type == 2 ? '#/mentor/video/view/detail/'+video.authorID+'/' + video.vidPlaylist+'/'+video.vid : '#/mentor/video/view/detail/'+video.authorID+'/' + video.vid }}">
                                                             <div class="hover-video recently">
@@ -177,9 +177,9 @@
                                         <div class="mentors-newest-answer-title">
                                             <span data-icon="&#x5c;"></span><h4>Newest Answers</h4>
                                         </div>
-                                        <div class="see-more" ng-hide="!listNewestAnswers">
-                                            <p>See more</p>
-                                        </div>
+                                        <!--<div class="see-more" ng-hide="!listNewestAnswers">-->
+                                            <!--<p>See more</p>-->
+                                        <!--</div>-->
                                     </div><!-- /End top-mentor-header -->
                                     <!-- List of answered mentors -->
                                     <div class="mentor-profile-answered">

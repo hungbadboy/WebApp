@@ -225,7 +225,7 @@ Sidebar left menu -->
                                                         <ul class="chat">
                                                             <li ng-repeat="answer in listAnswer | unique:'aid' track by $index" class="clearfix {{userId == answer.authorID ? 'right' : 'left'}}">
                                                         <span class="chat-img" ng-class="{'pull-right':userId == answer.authorID,'pull-left':userId != answer.authorID}">
-                                                                                <a href="{{userId != answer.authorID?'#/student/mentorProfile/'+answer.authorID :'#mentor/mentorProfile'}}">
+                                                                                <a href="{{userId != answer.authorID?'#/mentor/mentorProfile/'+answer.authorID :'#mentor/mentorProfile'}}">
                                                                                     <img class="avatar-fix-max-size60" ng-src="{{answer.imageUrl}}" alt="Avatar"></a>
                                                                             </span>
                                                                 <div class="chat-body clearfix">
@@ -238,7 +238,7 @@ Sidebar left menu -->
                                                                         <span class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                                     </div>
                                                                     <div class="header" ng-if="userId != answer.authorID">
-                                                                        <strong class="primary-font pull-left"><a href="#/student/mentorProfile/{{answer.authorID}}">{{displayName(answer.firstName,answer.lastName,answer.userName)}}</a></strong>
+                                                                        <strong class="primary-font pull-left"><a href="#/mentor/mentorProfile/{{answer.authorID}}">{{displayName(answer.firstName,answer.lastName,answer.userName)}}</a></strong>
                                                                         <span class="time pull-left" >&nbsp;Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} ago &nbsp; </span>{{answer.numlike}}
                                                                         <span  id="heart{{answer.aid}}" class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                                     </div>

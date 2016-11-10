@@ -388,6 +388,7 @@ brotControllers.controller('StudentProfileController',
                     };
                     $rootScope.$broadcast('open');
                     StudentService.updateUserProfile(student).then(function (data) {
+                        $rootScope.$broadcast('close');
                         if (data.data.request_data_result == "Success") {
                             if (student) {
                                 if ($scope.isEmptyName) {
@@ -422,7 +423,6 @@ brotControllers.controller('StudentProfileController',
                                 $scope.msgError = "Failed to update your profile";
                             }
                         }
-                        $rootScope.$broadcast('close');
                     });
                 } else {
                     $scope.msgError = error.substr(0, error.lastIndexOf(','));

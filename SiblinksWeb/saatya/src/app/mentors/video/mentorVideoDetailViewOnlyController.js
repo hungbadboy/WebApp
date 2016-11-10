@@ -6,9 +6,8 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
     var vid = $routeParams.vid;
     var plid = $routeParams.plid;
     var userId = $routeParams.authorId;
-    $scope.currentId = localStorage.getItem('userId');
     $scope.averageRating = 0.1;
-
+    $scope.currentUserId = localStorage.getItem('userId');
     $scope.currentId = 0;
     init();
 
@@ -194,7 +193,7 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
     }
 
     $scope.goToProfile = function(id){
-        if (id == userId) {
+        if (id == $scope.currentUserId) {
         	$location.path('/mentor/mentorProfile');
         } else{
         	$location.path('/mentor/studentProfile/'+id);
