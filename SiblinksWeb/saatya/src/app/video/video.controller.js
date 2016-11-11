@@ -42,7 +42,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         var masterSubjects = JSON.parse(localStorage.getItem('subjects'));
 
-        var search = $location.search().search;
+        var keywordFromAnotherPage = $location.search().search;
 
         $scope.currentTab = $location.search().tab;
 
@@ -267,14 +267,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         var nameOfUser = localStorage.getItem("nameHome");
 
-        var CountType = {
-            HOME: 0,
-            MENTOR: 1,
-            SUBSCRIPTION: 2,
-            HISTORY: 3,
-            FAVOURITE: 4
-        };
-
         var TabName = {
             ALL: 'all',
             SUBSCRIPTION: 'sub',
@@ -313,7 +305,6 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.isLoadMoreRecommended = false;
 
 
-
         init();
 
         function init() {
@@ -330,6 +321,15 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             reloadHistory();
             getFavouriteVideosList();
             showTab($scope.currentTab);
+            checkSearchFromDetailVideo();
+        }
+
+
+        function checkSearchFromDetailVideo() {
+            if (!isEmpty(keywordFromAnotherPage)) {
+                $location.search('search', null);
+                searchFromAnotherPage(keywordFromAnotherPage);
+            }
         }
 
 
@@ -378,7 +378,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         }
 
         function reloadHistory() {
-            if(userId){
+            if (userId) {
                 VideoService.getHistoryVideosList(userId).then(function (data) {
                     if (data.data.status) {
                         $scope.listVideos = data.data.request_data_result;
@@ -470,11 +470,11 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         function getVideoBySubject(userid, subjectId, limit, offset) {
             if (userid) {
-                if(!hasLoadMore){
+                if (!hasLoadMore) {
                     $rootScope.$broadcast('open');
                 }
                 VideoService.getVideoBySubject(userid, subjectId, limit, offset).then(function (response) {
-                    if(!hasLoadMore){
+                    if (!hasLoadMore) {
                         $rootScope.$broadcast('close');
                     }
                     var allData = response.data.request_data_result;
@@ -573,10 +573,12 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             }
             $scope.filterSearchBySub = false;
             isLoadMoreSearch = false;
-            var searchValue = $("input#srch-term").val();
-
+            currentPageSearch = 0;
+            if (!isEmpty(keywordFromAnotherPage)) {
+                keywordFromAnotherPage = null;
+            }
+            var searchValue = angular.element("input#srch-term").val();
             searchVideoPlaylist(encodeURIComponent(searchValue), limitOfLoadMore, 0);
-            $location.search('search', encodeURIComponent(searchValue));
             displayResultsSearch();
         };
 
@@ -777,16 +779,21 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
 
         function clearSearch() {
-            $("input#srch-term").val("");
+            angular.element("input#srch-term").val("");
         }
 
         $scope.flagShowMoreButton = true;
         var currentPageSearch = 0;
         $scope.overMaxLength = null;
         $scope.loadMoreSearch = function () {
-            var keyword = $("input#srch-term").val();
-            if (isEmpty(keyword)) {
-                return;
+            var keyword = "";
+            if (!isEmpty(keywordFromAnotherPage)) {
+                keyword = keywordFromAnotherPage
+            } else {
+                keyword = angular.element("input#srch-term").val();
+                if (isEmpty(keyword)) {
+                    return;
+                }
             }
             currentPageSearch++;
             var newOffset = limitOfLoadMore * currentPageSearch;
@@ -832,7 +839,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 return true;
             if (video == null || video == '')
                 video = {"vid": ''};
-            if(userId){
+            if (userId) {
                 VideoService.deleteHistoryVideo(userId, video.vid).then(function (data) {
                     if (data.data.status) {
                         if (video.vid != null && video.vid != "") {
@@ -852,6 +859,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
 
         var listVideoFavourite = '';
+
         function getFavouriteVideosList() {
             if (userId === null || userId === undefined) {
                 return;
@@ -860,7 +868,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 if (data.data.status == 'true' && data.data.request_data_result != StatusError.MSG_DATA_NOT_FOUND) {
                     $scope.listVideoFavourite = data.data.request_data_result;
                     $scope.loadRateFavorite = true;
-                }else{
+                } else {
                     $scope.listVideoFavourite = null;
                 }
             });
@@ -1104,6 +1112,12 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     $scope.msgSearchNotFound = "No results for '" + keyword + "'";
                 }
             });
+        }
+
+        function searchFromAnotherPage(keyword) {
+            $scope.isSearchAction = true;
+            searchVideoPlaylist(encodeURIComponent(keyword), limitOfLoadMore, 0);
+            displayResultsSearch();
         }
 
     }]);
