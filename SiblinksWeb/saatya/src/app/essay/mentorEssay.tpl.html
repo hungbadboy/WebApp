@@ -163,7 +163,7 @@
                                                            <span style="color: red;">{{error}}</span>
                                                         </div>
                                                         <div ng-if="fileName" style="margin-top: 10px; margin-bottom: -8px; margin-left: 75px;">
-                                                           <img src="assets/images/img-attacfile.png" alt=""><span> {{fileName}} - {{fileSize}}</span>
+                                                           <img src="assets/images/remove-img.png" ng-click="removeFile()"><img src="assets/images/img-attacfile.png" alt=""><span> {{fileName}} - {{fileSize}}</span>
                                                         </div>
                                                         <div class="clearfix">
                                                             <div class="btnreply pull-right">
@@ -208,8 +208,8 @@
                                                                 </span>
                                                                 <div class="chat-body clearfix">
                                                                     <div class="header">
-                                                                        <a href="#/mentor/mentorProfile" style="font-weight: bold;">{{c.fullName}} </a><span class="time">{{c.timestamp}} </span>
-                                                                        <span star-rating stars="5" outer-star-selection="stars" readonly="true" outer-percent="rating" rating-define="star" rating-stars="c.rating" star-radius="7" sel-color="gold" back-color="white"></span>
+                                                                        <a href="#/mentor/mentorProfile" style="font-weight: bold;">{{displayName(c.firstName, c.lastName, c.userName)}} </a><span class="time">{{convertUnixTimeToTime(c.timestamp)}} </span>
+                                                                        <span star-rating stars="5" outer-star-selection="stars" readonly="true" outer-percent="rating" rating-define="star" rating-stars="{{c.rating}}" star-radius="7" sel-color="gold" back-color="white"></span>
                                                                          <span title="Edit" ng-click="openEdit(c.cid, c.content, essay.urlReview, essay.rdFilesize)" class="edit-answer" data-icon="&#x6c;"></span>
                                                                     </div>
                                                                     <p class="pre-wrap">{{c.content}}</p>
