@@ -107,7 +107,8 @@
                         </div></a>
                     </div>
                     <div class="feature-detail">
-                        <a ng-href="{{videosRecently[0].type == 2 ? '#/videos/detailPlaylist/' + videosRecently[0].vid + '/0' : '#/videos/detailVideo/'+videosRecently[0].vid }}"><h5>{{videosRecently[0].title}}</h5>
+                        <a ng-href="{{videosRecently[0].type == 2 ? '#/videos/detailPlaylist/' + videosRecently[0].vid + '/0' : '#/videos/detailVideo/'+videosRecently[0].vid }}">
+                            <h5 style="word-wrap:break-word;" title="{{videosRecently[0].title}}">{{videosRecently[0].title | limitTo : 79}}{{videosRecently[0].title.length > 79 ? '...' : ''}}</h5>
                         </a>
                         <p>Newest video uploaded</p>
                     </div>
