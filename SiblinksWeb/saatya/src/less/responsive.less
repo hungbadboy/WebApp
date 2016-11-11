@@ -1017,7 +1017,7 @@
         width: 250px;
     }
     #sidebar-menu.menuMobile .navigation ul li a>span {
-        padding-right: 20px;
+        padding: 0 20px;
     }
     #sidebar-menu.menuMobile .mentor-infor {
         padding: 0 10px;
@@ -1025,21 +1025,54 @@
     #sidebar-menu.menuMobile .navbar-collapse {
         padding: 0;
     }
-
-
-        /*Mentor.Menu*/
-    /*.mentor-right-header .user-nofitication {
-        width: 150px;
-    }
-    .mentor-right-header .background-color {
-        width: 70px;
-    }
-    .center-content,
-    .center-content.in {
+    .center-content.menuMobile {
         width: ~"calc(100% - 140px)";
+        margin-left: 70px;
     }
-    .center-content.sidebar-open {
+    #sidebar-menu.menuMobile #sub-menu-video {
+        display: none !important;
+    }
+    .mentor-left-header.menuMobile.in, 
+    #sidebar-menu.menuMobile.in {
+        width: 250px;
+    }
+    .mentor-center-header.menuMobile {
         width: ~"calc(100% - 320px)";
+    }
+    .mentor-center-header.menuMobile.in {
+        width: ~"calc(100% - 500px)";
+    }
+    #sidebar-menu.in.menuMobile .menu-title, 
+    #sidebar-menu.in.menuMobile .sub-menu, 
+    #sidebar-menu.in.menuMobile .mentor-infor-name {
+        visibility: visible;
+        opacity: 1;
+    }
+    #sidebar-menu.menuMobile.in .navigation ul li a > span {
+        padding: 0px;
+    }
+    .center-content.menuMobile.in {
+        width: ~"calc(100% - 320px)";
+        margin-left: 250px;
+    }
+    #sidebar-menu.menuMobile.in #sub-menu-video.show {
+        display: block !important;
+    }
+
+    #sidebar-right.in {
+        width: 250px;
+        float: left;
+        position: absolute;
+        right: 0;
+    }
+    #sidebar-right.in .tab-content {
+        display: block;
+    }
+    #sidebar-right.in .right-content .nav-tabs > li.active > a:hover, 
+    #sidebar-right.in .right-content ul.nav.nav-tabs li a:hover, 
+    #sidebar-right.in .right-content ul.nav.nav-tabs li.active > a {
+        border-bottom: 4px solid #ffcc00;
+        border-right: none;
     }
     #sidebar-right {
         width: 70px;
@@ -1065,33 +1098,24 @@
         border-bottom: none;
         border-right: 4px solid #ffcc00;
     }
-    #sidebar-right.in {
-        width: 250px;
-        float: left;
-        position: absolute;
-        right: 0;
-    }
-    #sidebar-right.in .tab-content {
-        display: block;
-    }
-    #sidebar-right.in .right-content .nav-tabs > li.active > a:hover, 
-    #sidebar-right.in .right-content ul.nav.nav-tabs li a:hover, 
-    #sidebar-right.in .right-content ul.nav.nav-tabs li.active > a {
-        border-bottom: 4px solid #ffcc00;
-        border-right: none;
-    }
-    .mentor-left-header {
+    .mentor-right-header .background-color {
         width: 70px;
-        overflow: hidden;
+    }
+
+        /*Mentor.Menu*/
+    /*.mentor-right-header .user-nofitication {
+        width: 150px;
     }
     
-    .mentor-center-header {
-        width: ~"calc(100% - 321px)";
+    .center-content,
+    .center-content.in {
+        width: ~"calc(100% - 140px)";
     }
-    .mentor-left-header, #sidebar-menu {
-        width: 70px;
-        overflow: hidden;
-    }*/
+    .center-content.sidebar-open {
+        width: ~"calc(100% - 320px)";
+    }
+    
+    */
 
 
     
@@ -1379,14 +1403,17 @@
     }
 
     /*======Menu======*/
-    .mobimenu {
+    .module-navigation .navigation ul.mobimenuStu {
         position: absolute;
         width: 200px;
         background: #2f2f2f;
         z-index: 2;
-        top: 78px;
+        top: 72px;
         right: 0;
         display: none;
+    }
+    .module-navigation .navigation ul.mobimenuStu.in {
+        display: block;
     }
     .smobitrigger {
         display: block;
@@ -1411,7 +1438,7 @@
     .module-navigation .navigation ul {
         margin: -1px;
     }
-    .navigation .nav > li > a {
+    .navigation ul.mobimenuStu li > a {
         padding: 12px 20px;
     }
     .module-navigation .navigation .navbar-default .navbar-collapse, 
@@ -1435,7 +1462,7 @@
     }
     ul.mobimenu.nav.navbar-nav {
         position: absolute;
-        top: 81px;
+        top: 71px;
         right: ~"calc((100% - 750px)/2 + 123px)";
     }
     .user-nofitication {
