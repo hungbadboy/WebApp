@@ -17,7 +17,9 @@
                 <div class="detail-essay col-xs-offset-1">
                     <div class="infor-of-essay">
                         <p><span class="essay-time">Uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}}</span></p>
-                        <p><span star-rating stars="5" id="divRate"
+                        
+                        <p class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 100 ? '...' : ''}}</p>
+                        <p><span star-rating stars="5" id="divRate" class="essayRate"
                                           outer-star-selection="stars"
                                           ng-click="rateFunction(stars)"
                                           outer-percent="rating"
@@ -27,7 +29,6 @@
                                           back-color="white"
                                           readonly="true"></span>
                                           </p>
-                        <p class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 100 ? '...' : ''}}</p>
                         <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
                         <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span>
                             <span>by </span><span style="line-height: 25px;" class="mentor-review"><a href="#/student/mentorProfile/{{essay.mentorID}}">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</a></span></p>
