@@ -13,6 +13,7 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
   var userId = localStorage.getItem('userId');
   var schoolId = localStorage.getItem('school');
   var NO_DATA = "Found no data";
+  $scope.rating = 0.1;
 
   init();
 
@@ -69,20 +70,11 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
       EssayService.getNewestEssay(userId, schoolId, 5, 0).then(function(data){
         var result = data.data.request_data_result;
         if (result && result != NO_DATA) {
-          $scope.newestEssays = formatEssay(result);
+          $scope.newestEssays = result;
         } else
           $scope.newestEssays = null;
       });
     }
-  }
-
-  function formatEssay(data){
-    for (var i = data.length - 1; i >= 0; i--) {
-      data[i].timeStamp = convertUnixTimeToTime(data[i].timeStamp);
-      var fullName = data[i].firstName + ' ' + data[i].lastName;
-      data[i].fullName = fullName != ' ' ? fullName : data[i].userName.substr(0, data[i].userName.indexOf('@'));;
-    }
-    return data;
   }
 
   function getStudentsSubcribed(){
@@ -103,12 +95,6 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
     MentorService.getNewestQuestions(userId).then(function(data){
       var result = data.data.request_data_result;
       if (result && result != NO_DATA) {
-        for (var i = result.length - 1; i >= 0; i--) {
-          result[i].timeStamp = convertUnixTimeToTime(data.data.request_data_result[i].timeStamp);
-          var fullname = result[i].firstName + ' ' + result[i].lastName;
-          result[i].fullName = fullname != ' ' ? fullname : result[i].userName.substr(0, result[i].userName.indexOf('@'));
-          result[i].imageUrl = result[i].imageUrl != null ? result[i].imageUrl : 'assets/images/noavartar.jpg';
-        }
         $scope.questions = result;
       } else
         $scope.questions = null;   
@@ -129,32 +115,21 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
         $scope.videosTopViewed = data.data.request_data_result;
         $scope.vTopViewed = $scope.videosTopViewed[0];            
         $scope.topViewedPos = 0;
-        // initYoutubePlayer($scope.vTopViewed.url);
+        $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
       }
     });
   }
-
-  // function initYoutubePlayer(youtubeUrl){
-  //   var videoid = youtubeUrl.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
-  //   if (videoid != null) {
-  //     if (typeof(player) == "undefined") {
-  //       onYouTubeIframeAPIReady(videoid[1]);
-  //     } else {
-  //       player.cueVideoById(videoid[1]);
-  //     }      
-  //   }
-  // }
 
   $scope.topViewedPre = function(pos){
     if (pos == 0) {
       $scope.topViewedPos = $scope.videosTopViewed.length - 1;
       $scope.vTopViewed = $scope.videosTopViewed[$scope.videosTopViewed.length - 1];
-      // initYoutubePlayer($scope.vTopViewed.url);
+      $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
     }
     else{
       $scope.topViewedPos = pos - 1;
       $scope.vTopViewed = $scope.videosTopViewed[pos - 1];
-      // initYoutubePlayer($scope.vTopViewed.url);
+      $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
     }
   }
 
@@ -162,12 +137,12 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
     if (pos == $scope.videosTopViewed.length - 1) {
       $scope.topViewedPos = 0;
       $scope.vTopViewed = $scope.videosTopViewed[0];
-      // initYoutubePlayer($scope.vTopViewed.url);
+      $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
     }
     else{
       $scope.topViewedPos = pos + 1;
       $scope.vTopViewed = $scope.videosTopViewed[pos + 1];
-      // initYoutubePlayer($scope.vTopViewed.url);
+      $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
     }
   }
 
@@ -181,30 +156,6 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
     });
   }
   
-  // var player;
-  // function onYouTubeIframeAPIReady(youtubeId) {
-  //   player = new YT.Player('player', {
-  //       height: '300',
-  //       width: '100%',
-  //       videoId: youtubeId,
-  //       events: {
-  //           'onReady': onPlayerReady,
-  //           'onStateChange': onPlayerStateChange
-  //       },
-  //       playerVars: {
-  //           showinfo: 0,
-  //           autohide: 1,
-  //           theme: 'dark'
-  //       }
-  //   });
-  // }
-
-  // function onPlayerReady(event) {
-  // }
-
-  // function onPlayerStateChange(event) {
-  // }
-
   $scope.$on('uploadNew', function(){
     getMainDashboardInfo();
   })

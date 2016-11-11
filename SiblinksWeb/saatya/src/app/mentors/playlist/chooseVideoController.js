@@ -37,6 +37,7 @@ brotControllers.controller('ChooseVideoController',
           if (result && result != "Found no data") {
             $scope.videosNoPLaylist = formatVideos(result);
             cacheVideos = $scope.videosNoPLaylist.slice(0);
+            console.log(cacheVideos);
           } else
             $scope.videosNoPLaylist = null;
         });

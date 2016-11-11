@@ -77,6 +77,7 @@ brotControllers.controller('PlaylistController',
              cachePlaylist = $scope.playlist.slice(0);
           } else
             $scope.playlist = null;
+            $scope.checkAll = false;
         });
     }
 
@@ -137,11 +138,11 @@ brotControllers.controller('PlaylistController',
       });
     };
 
-    $scope.optionSelected = function(){
-      $scope.selectedAll = $scope.playlist.every(function(v){
-        return v.selected;
-      });
-    }
+    // $scope.optionSelected = function(){
+    //   $scope.selectedAll = $scope.playlist.every(function(v){
+    //     return v.selected;
+    //   });
+    // }
 
     $scope.delete = function(p){
       if (p.numVideos > 0) {
@@ -227,7 +228,7 @@ brotControllers.controller('PlaylistController',
       for (var i = 0; i < $scope.playlist.length; i++) {
         var data = $scope.playlist[i];
         if (!!data.selected) {
-          if (data.count_videos > 0) {
+          if (data.numVideos > 0) {
             status = false;
             var message = 'Please remove all videos in the playlist first.';
             showModal(message);
@@ -251,8 +252,10 @@ brotControllers.controller('PlaylistController',
       PlaylistService.getPlaylistBySubject(userId, $scope.subject, 0).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
            $scope.playlist = parseData(data.data.request_data_result);   
-        } else
+        } else{
           $scope.playlist = null;
+          $scope.checkAll = false;
+        }
       });
     }
 
@@ -302,6 +305,7 @@ brotControllers.controller('PlaylistController',
           $scope.playlist = parseData(result);
         } else
           $scope.playlist = null;
+          $scope.checkAll = false;
       });
     }
 

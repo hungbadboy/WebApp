@@ -256,6 +256,7 @@ brotControllers.controller('VideoManagerController',
           $scope.videos = formatData(data.data.request_data_result);
         } else
           $scope.videos = null;
+          $scope.checkAll = false;
       });
     }
 
@@ -265,6 +266,7 @@ brotControllers.controller('VideoManagerController',
           $scope.topRatedVideos = formatData(data.data.request_data_result);
         } else
           $scope.topRatedVideos = null;
+          $scope.checkAll = false;
       });
     }
 
@@ -274,6 +276,7 @@ brotControllers.controller('VideoManagerController',
           $scope.topViewedVideos = formatData(data.data.request_data_result);
         } else
           $scope.topViewedVideos = null;
+          $scope.checkAll = false;
       });
     }
 
@@ -295,21 +298,21 @@ brotControllers.controller('VideoManagerController',
       }
     };
 
-    $scope.optionSelected = function(){
-      if ($scope.videoTab == 1) {
-        $scope.selectedAll = $scope.videos.every(function(v){
-          return v.selected;
-        });
-      } else if ($scope.videoTab == 2) {
-        $scope.selectedAll = $scope.topViewedVideos.every(function(v){
-          return v.selected;
-        });
-      } else{
-        $scope.selectedAll = $scope.topRatedVideos.every(function(v){
-          return v.selected;
-        });
-      }
-    }
+    // $scope.optionSelected = function(){
+    //   if ($scope.videoTab == 1) {
+    //     $scope.selectedAll = $scope.videos.every(function(v){
+    //       return v.selected;
+    //     });
+    //   } else if ($scope.videoTab == 2) {
+    //     $scope.selectedAll = $scope.topViewedVideos.every(function(v){
+    //       return v.selected;
+    //     });
+    //   } else{
+    //     $scope.selectedAll = $scope.topRatedVideos.every(function(v){
+    //       return v.selected;
+    //     });
+    //   }
+    // }
 
     $scope.deleteMultiple = function(){
       var selectedVideos = checkSelectedVideos();
