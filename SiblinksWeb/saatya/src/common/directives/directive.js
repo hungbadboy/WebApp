@@ -1147,6 +1147,7 @@ brotControllers.directive('slideit',function() {
         +'</div>'
         +'</div><!-- cont-mainslider -->'
         +'<span class="icon-p"><img src="assets/images/icon-p-slider.png" alt=""></span>'
+        +'<span class="icon-pb"><img src="assets/images/icon-p-slider.png" alt=""></span>'
         +'</li>'
         +'<li>'
         +'<div class="cont-mainslider">'
@@ -1161,6 +1162,7 @@ brotControllers.directive('slideit',function() {
         +'</div>'
         +'</div><!-- cont-mainslider -->'
         +'<span class="icon-p"><img src="assets/images/icon-p-slider.png" alt=""></span>'
+        +'<span class="icon-pb"><img src="assets/images/icon-p-slider.png" alt=""></span>'
         +'</li>'
         +'<li>'
         +'<div class="cont-mainslider">'
@@ -1175,6 +1177,7 @@ brotControllers.directive('slideit',function() {
         +'</div>'
         +'</div><!-- cont-mainslider -->'
         +'<span class="icon-p"><img src="assets/images/icon-p-slider.png" alt=""></span>'
+        +'<span class="icon-pb"><img src="assets/images/icon-p-slider.png" alt=""></span>'
         +'</li>'
         +'</ul>',
         link: function(scope, elm, attrs) {
