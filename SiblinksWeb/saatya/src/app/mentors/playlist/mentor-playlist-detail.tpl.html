@@ -16,7 +16,7 @@
                                         <img class="playlist-detail-fix-img" src="{{playlist.image}}" err-src="assets/images/image-not-available.png" alt="">
                                     </span>
                                     <div class="detail-pl-inner pull-left">
-                                        <h5 title="{{playlist.name}}">{{playlist.name | limitTo : 50}}{{playlist.name.length > 50 ? '...' : ''}}
+                                        <h5 class="desc-wrap" title="{{playlist.name}}">{{playlist.name | limitTo : 50}}{{playlist.name.length > 50 ? '...' : ''}}
                                         <span class="add-time">{{playlist.timeStamp}}</span>
                                         <p class="list-view">
                                             <span><img src="assets/images/icon-play.png" alt=""> {{playlist.numViews ? playlist.numViews : 0}}</span>&nbsp;&nbsp;
