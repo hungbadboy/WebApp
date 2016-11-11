@@ -31,7 +31,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
         if (data.data.request_data_result != null) {
           $scope.dashboard = data.data.request_data_result;
           $scope.dashboard.avg_rating = parseFloat(Math.round($scope.dashboard.avg_rating * 100) / 100).toFixed(1);
-          $scope.averageRating = $scope.dashboard.avg_rating > 0 ? $scope.dashboard.avg_rating : 1;
+          $scope.averageRating = $scope.dashboard.avg_rating > 0 ? $scope.dashboard.avg_rating : 0.1;
         }
       });
     }
