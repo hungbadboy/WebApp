@@ -3009,7 +3009,7 @@ public class VideoServiceImpl implements VideoService {
     /**
      * {@inheritDoc}
      */
-    @RequestMapping(value = "getNewestVideoBySubject", method = RequestMethod.GET)
+    @RequestMapping(value = "/getNewestVideoBySubject", method = RequestMethod.GET)
     public ResponseEntity<Response> getNewestVideoBySubject(@RequestParam final String subjectId, @RequestParam final String limit,
             @RequestParam final String offset) {
         SimpleResponse response = null;
@@ -3020,7 +3020,7 @@ public class VideoServiceImpl implements VideoService {
             params = new Object[] { Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
             String count = "0";
             if (subjectId.equals("-1")) {
-                entityName = SibConstants.SqlMapper.SQL_GET_VIDEO_BY_VIEW;
+                entityName = SibConstants.SqlMapper.SQL_GET_VIDEO_NEWEST;
                 List<Object> readObjects = dao.readObjects(entityName, params);
                 if (!CollectionUtils.isEmpty(readObjects)) {
                     count = String.valueOf(readObjects.size());
@@ -3031,7 +3031,7 @@ public class VideoServiceImpl implements VideoService {
 
             } else if (!StringUtils.isEmpty(subjectId)) {
                 entityName = SibConstants.SqlMapper.SQL_GET_NEWEST_VIDEO_SUBJECT;
-                String whereClause = "V.subjectId IN(" + subjectId + ") ORDER BY numViews DESC LIMIT ? OFFSET ?;";
+                String whereClause = "V.subjectId IN(" + subjectId + ") ORDER BY timeStamp DESC LIMIT ? OFFSET ?;";
                 List<Object> readObjects = dao.readObjectsWhereClause(entityName, whereClause, params);
                 if (readObjects != null && readObjects.size() > 0) {
                     count = String.valueOf(readObjects.size());
