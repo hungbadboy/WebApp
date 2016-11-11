@@ -144,12 +144,14 @@
                                 </div>
                                 <div class="video-wrapper dashboard-top">
                                     <div class="videos-title">
-                                        <a href="#/mentor/video/detail/{{vTopViewed.vid}}/{{vTopViewed.plid}}"><h5>{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5></a>
+                                        <a href="#/mentor/video/detail/{{vTopViewed.vid}}/{{vTopViewed.plid}}" style="color: #fff;"><h5>{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5></a>
                                         <h5 ng-show="!videosTopViewed">No video</h5>
                                     </div>
                                     <div class="videos-rate">
-                                        <div class="list-star pull-left star-align" star-rating stars="5" outer-star-selection="stars" outer-percent="rating" readonly="true" rating-define="star" rating-stars="{{vTopViewed.averageRating}}" star-radius="9" sel-color="gold" back-color="#505050" ></div>
-                                              
+                                        <!-- <div class="list-star pull-left star-align" star-rating stars="5" outer-star-selection="stars" outer-percent="rating" readonly="true" rating-define="star" rating-stars="{{vTopViewed.averageRating}}" star-radius="9" sel-color="gold" back-color="#505050" ></div> -->
+                                        <div class="average">
+                                            <average-star-rating ng-model="rating" max="5"><average-star-rating>    
+                                        </div>
                                         <p class="videos-rate-infor">
                                             <span data-icon="&#x49;">{{vTopViewed.numViews}}</span>
                                             <span data-icon="&#xe066;">{{vTopViewed.numComments}}</span>

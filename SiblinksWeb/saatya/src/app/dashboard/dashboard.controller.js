@@ -13,6 +13,7 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
   var userId = localStorage.getItem('userId');
   var schoolId = localStorage.getItem('school');
   var NO_DATA = "Found no data";
+  $scope.rating = 0.1;
 
   init();
 
@@ -114,6 +115,7 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
         $scope.videosTopViewed = data.data.request_data_result;
         $scope.vTopViewed = $scope.videosTopViewed[0];            
         $scope.topViewedPos = 0;
+        $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
       }
     });
   }
@@ -122,10 +124,12 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
     if (pos == 0) {
       $scope.topViewedPos = $scope.videosTopViewed.length - 1;
       $scope.vTopViewed = $scope.videosTopViewed[$scope.videosTopViewed.length - 1];
+      $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
     }
     else{
       $scope.topViewedPos = pos - 1;
       $scope.vTopViewed = $scope.videosTopViewed[pos - 1];
+      $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
     }
   }
 
@@ -133,10 +137,12 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
     if (pos == $scope.videosTopViewed.length - 1) {
       $scope.topViewedPos = 0;
       $scope.vTopViewed = $scope.videosTopViewed[0];
+      $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
     }
     else{
       $scope.topViewedPos = pos + 1;
       $scope.vTopViewed = $scope.videosTopViewed[pos + 1];
+      $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
     }
   }
 
