@@ -1017,7 +1017,7 @@
         width: 250px;
     }
     #sidebar-menu.menuMobile .navigation ul li a>span {
-        padding: 0 20px;
+        padding: 0 8px;
     }
     #sidebar-menu.menuMobile .mentor-infor {
         padding: 0 10px;
@@ -1092,9 +1092,9 @@
     #sidebar-right ul.nav.nav-tabs li a {
         padding: 8px 17px;
     }
-    .right-content .nav-tabs > li.active > a:hover, 
-    .right-content ul.nav.nav-tabs li a:hover, 
-    .right-content ul.nav.nav-tabs li.active > a {
+    #sidebar-right .nav-tabs > li.active > a:hover, 
+    #sidebar-right ul.nav.nav-tabs li a:hover, 
+    #sidebar-right ul.nav.nav-tabs li.active > a {
         border-bottom: none;
         border-right: 4px solid #ffcc00;
     }
@@ -1102,7 +1102,22 @@
         width: 70px;
     }
     #sidebar-right.in {
-        width: ~"calc(100% - 140px)";
+        width: 250px;
+    }
+    #sidebar-right.in ul.nav.nav-tabs li a {
+        padding: 8px 23px;
+    }
+    #sidebar-right.in .nav-tabs > li.active > a:hover, 
+    #sidebar-right.in ul.nav.nav-tabs li a:hover, 
+    #sidebar-right.in ul.nav.nav-tabs li.active > a {
+        border-bottom: 4px solid #ffcc00;
+        border-right: none;
+    }
+    #sidebar-right.in .tab-content {
+        display: block;
+    }
+    #sidebar-right.in .right-content-wrapper {
+        padding: 10px 15px;
     }
         /*Mentor.Menu*/
     /*.mentor-right-header .user-nofitication {
@@ -1379,11 +1394,7 @@
     /*notification*/
     .notification-content {
         right: ~"calc((100% - 970px)/2 + 117px)";
-    }
-
-
-
-    
+    }   
 
     
 

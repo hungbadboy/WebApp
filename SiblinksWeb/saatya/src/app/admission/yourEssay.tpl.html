@@ -19,7 +19,7 @@
                         <p><span class="essay-time">Uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}}</span></p>
                         
                         <p class="essay-title">{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 100 ? '...' : ''}}</p>
-                        <p><span star-rating stars="5" id="divRate" class="essayRate"
+                        <p><span star-rating stars="5" class="essayRate"
                                           outer-star-selection="stars"
                                           ng-click="rateFunction(stars)"
                                           outer-percent="rating"
@@ -67,7 +67,7 @@
                     <div class="essay-infor" ng-if="currentEssay.status =='R'">
                         <p class="rate-video">
                             <span>Rate this reply</span>
-                            <span star-rating stars="5" id="divRate"
+                            <span star-rating stars="5"
                                           outer-star-selection="stars"
                                           ng-click="rateFunction(stars)"
                                           outer-percent="rating"
