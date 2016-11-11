@@ -203,6 +203,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
           var fullname = result[i].firstName + ' ' + result[i].lastName;
           result[i].fullName = fullname != ' ' ? fullname : result[i].userName.substr(0, result[i].userName.indexOf('@'));
           result[i].timestamp = convertUnixTimeToTime(result[i].timestamp);
+          result[i].rating = result[i].rating != null ? result[i].rating : 0.1; 
         }
         $scope.comments = result;        
       } else {

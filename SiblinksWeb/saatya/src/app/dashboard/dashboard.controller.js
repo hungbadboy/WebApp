@@ -32,36 +32,39 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
   }
 
   function initSubject(){
-    HomeService.getAllCategory().then(function (data) {
-      if (data.data.status) {
-        var subjects = angular.copy(data.data.request_data_result);
-        subjects = removeItem(subjects);
-        subjects.splice(0, 0, {
-          'subjectId': 0,
-          'subject' : 'Select a Subject'
-        });
-        localStorage.setItem("mentorSubjects", JSON.stringify(subjects), 10)
-      }
-    });
+    if (localStorage.getItem('mentorSubjects') == null) {
+      HomeService.getAllCategory().then(function (data) {
+        if (data.data.status) {
+          var subjects = angular.copy(data.data.request_data_result);
+          subjects = removeItem(subjects);
+          subjects.splice(0, 0, {
+            'subjectId': 0,
+            'subject' : 'Select a Subject'
+          });
+          localStorage.setItem("mentorSubjects", JSON.stringify(subjects), 10)
+        }
+      });
+    }
   }
 
   function initPlaylist(){
-    VideoService.getPlaylist(userId).then(function(data){
-      if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
-        var playlists = data.data.request_data_result;
-        playlists.splice(0,0,{
-          'plid':0,
-          'name': "Select a Playlist"
-        });
-        localStorage.setItem("playlists", JSON.stringify(playlists), 10);
-      }
-    });
+    if (localStorage.getItem('playlists') == null) {
+      VideoService.getPlaylist(userId).then(function(data){
+        if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
+          var playlists = data.data.request_data_result;
+          playlists.splice(0,0,{
+            'plid':0,
+            'name': "Select a Playlist"
+          });
+          localStorage.setItem("playlists", JSON.stringify(playlists), 10);
+        }
+      });
+    }
   }
 
   function getNewestEssay(){
     if (schoolId == undefined) {
       $scope.newestEssays = null;
-      return;
     } else {
       EssayService.getNewestEssay(userId, schoolId, 5, 0).then(function(data){
         var result = data.data.request_data_result;
