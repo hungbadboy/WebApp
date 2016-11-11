@@ -31,7 +31,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
         if (data.data.request_data_result != null) {
           $scope.dashboard = data.data.request_data_result;
           $scope.dashboard.avg_rating = parseFloat(Math.round($scope.dashboard.avg_rating * 100) / 100).toFixed(1);
-          $scope.averageRating = $scope.dashboard.avg_rating;
+          $scope.averageRating = $scope.dashboard.avg_rating > 0 ? $scope.dashboard.avg_rating : 1;
         }
       });
     }
@@ -39,28 +39,15 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
     function getLatestComments(){
       MentorService.getLatestComments(userId, 10, 0).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data"){
-          $scope.comments = formatCommentProfile(data.data.request_data_result);
+          $scope.comments = data.data.request_data_result;
         }
       });
-    }
-
-    function formatCommentProfile(data){      
-      for (var i = 0; i < data.length; i++) {
-        data[i].imageUrl = data[i].imageUrl != null ? data[i].imageUrl : 'assets/images/noavartar.jpg';
-        var firstname = data[i].firstName != null ? data[i].firstName : '';
-        var lastname = data[i].lastName != null ? data[i].lastName : '';
-        var fullname = firstname + ' ' + lastname;
-        data[i].fullName = fullname == ' ' ? data[i].userName.substr(0, data[i].userName.indexOf('@')) : fullname;
-        data[i].timestamp = convertUnixTimeToTime(data[i].timestamp);
-        data[i].content = decodeURIComponent(data[i].content);
-      }
-      return data;
     }
 
     function getLatestRatings(){
       MentorService.getLatestRatings(userId).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data"){
-          $scope.ratings = formatRatingProfile(data.data.request_data_result);
+          $scope.ratings = data.data.request_data_result;
         }
       });
     }
@@ -84,7 +71,7 @@ brotControllers.controller('MentorVideoManageController', ['$rootScope','$scope'
       MentorService.getLatestComments(userId, 10, offset).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
           var oldArr = $scope.comments;
-          var newArr = formatCommentProfile(data.data.request_data_result);
+          var newArr = data.data.request_data_result;
           var totalArr = oldArr.concat(newArr);
           $scope.comments = totalArr;
         }

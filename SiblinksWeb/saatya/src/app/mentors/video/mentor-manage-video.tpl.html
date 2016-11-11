@@ -27,7 +27,7 @@
                                         </span>    
                                           <div class="average">
                                             <average-star-rating ng-model="averageRating" max="5"><average-star-rating>    
-                                          </div>                                    
+                                          </div>  
                                     </li>
                                 </ul>
                             </div>
@@ -51,8 +51,8 @@
                                     <div class="clearfix">
                                         <h4 class="pull-left">Newest</h4>
                                         <ul class="pull-right icon-sl">
-                                            <li><a ng-click="newestPrev(newestPos)"><img src="assets/images/icon-left.png" alt="" ></a></li>
-                                            <li><a ng-click="newestNext(newestPos)"><img src="assets/images/icon-right.png" alt="" ></a></li>
+                                            <li><a href="javascript:void(0)" ng-click="newestPrev(newestPos)"><img src="assets/images/icon-left.png" alt="" ></a></li>
+                                            <li><a href="javascript:void(0)" ng-click="newestNext(newestPos)"><img src="assets/images/icon-right.png" alt="" ></a></li>
                                         </ul>
                                     </div>                                   
                                 </div>                                   
@@ -77,8 +77,8 @@
                                     <div class="clearfix">
                                         <h4 class="pull-left">Top Rated</h4>
                                         <ul class="pull-right icon-sl">
-                                            <li><a ng-click="topRatedPre(topRatedPos)"><img src="assets/images/icon-left.png" alt=""></a></li>
-                                            <li><a ng-click="topRatedNext(topRatedPos)"><img src="assets/images/icon-right.png" alt=""></a></li>
+                                            <li><a href="javascript:void(0)" ng-click="topRatedPre(topRatedPos)"><img src="assets/images/icon-left.png" alt=""></a></li>
+                                            <li><a href="javascript:void(0)" ng-click="topRatedNext(topRatedPos)"><img src="assets/images/icon-right.png" alt=""></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -103,8 +103,8 @@
                                     <div class="clearfix">
                                         <h4 class="pull-left">Top Viewed</h4>
                                         <ul class="pull-right icon-sl">
-                                            <li><a ng-click="topViewedPre(topViewedPos)"><img src="assets/images/icon-left.png" alt=""></a></li>
-                                            <li><a ng-click="topViewedNext(topViewedPos)"><img src="assets/images/icon-right.png" alt=""></a></li>
+                                            <li><a href="javascript:void(0)" ng-click="topViewedPre(topViewedPos)"><img src="assets/images/icon-left.png" alt=""></a></li>
+                                            <li><a href="javascript:void(0)" ng-click="topViewedNext(topViewedPos)"><img src="assets/images/icon-right.png" alt=""></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -118,10 +118,10 @@
                                         <li class="clearfix" ng-repeat="r in ratings track by $index">
                                             <span class="img-tb pull-left"><a href="#/mentor/studentProfile/{{r.userid}}"><img class="avatar-fix-size" src="{{r.imageUrl}}" alt=""></a></span>
                                             <div class="text-rate pull-left">
-                                                <h5><a href="#/mentor/studentProfile/{{r.userid}}"">{{r.fullName}}</a></h5>
+                                                <h5><a href="#/mentor/studentProfile/{{r.userid}}"">{{displayName(r.firstName, r.lastName, r.userName)}}</a></h5>
                                                 <div class="rate-star clearfix">
                                                     <span class="pull-left">
-                                                        <div star-rating stars="5"
+                                                        <div star-rating stars="5" readonly="true"
                                                           outer-star-selection="stars"
                                                           outer-percent="rating"
                                                           rating-define="star"
@@ -146,8 +146,8 @@
                                             <span class="img-tb pull-left"><a href="" ng-click="goToProfile(c.authorid)"><img class="avatar-fix-size" src="{{c.imageUrl}}" alt=""></a></span>
                                             <div class="pull-left detail-cm">
                                                 <ul class="top-name">
-                                                    <li><a href="" ng-click="goToProfile(c.authorid)">{{c.fullName}}</a></li>
-                                                    <li><span class="time">{{c.timestamp}} on</span></li>
+                                                    <li><a href="" ng-click="goToProfile(c.authorid)">{{displayName(c.firstName, c.lastName, c.userName)}}</a></li>
+                                                    <li><span class="time">{{convertUnixTimeToTime(c.timestamp)}} on</span></li>
                                                     <li><span class="">{{c.title | limitTo : 25}} {{c.title.length > 25 ? '...' : ''}}</span></li>
                                                 </ul>
                                                 <p>{{c.content | limitTo: 135}}{{c.content.length > 135 ? '...' : ''}}</p>
