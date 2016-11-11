@@ -344,6 +344,9 @@ function timeConverter(timeStamp, typeFormat) {
     var hour = a.getHours();
     var min = a.getMinutes();
     var sec = a.getSeconds();
+    if(date<10) {
+        date='0'+date;
+    }
     switch (String(typeFormat)) {
         case FormatDateTimeType.DD_MM_YY:
             return date + ' ' + month + ', ' + year;

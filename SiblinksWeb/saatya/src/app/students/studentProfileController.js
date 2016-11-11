@@ -1,6 +1,6 @@
 brotControllers.controller('StudentProfileController',
-    ['$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService', 'HomeService', 'uploadEssayService',
-        function ($scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService, HomeService, uploadEssayService) {
+    ['$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService', 'HomeService', 'uploadEssayService', '$window',
+        function ($scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService, HomeService, uploadEssayService, $window) {
             var userId = localStorage.getItem('userId');
             var userName = localStorage.getItem('userName');
             var userType = localStorage.getItem('userType');
@@ -39,6 +39,9 @@ brotControllers.controller('StudentProfileController',
 
             init();
             function init() {
+                if(!$scope.isLogged){
+                    $window.location.href = "#/student/signin";
+                }
                 getMentorSubscribedInfo();
                 if (mentorId != undefined) {
                     getVideosRecently();

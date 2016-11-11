@@ -17,14 +17,17 @@ brotControllers.filter('filterSub', function () {
     }
 });
 brotControllers.controller('MentorProfileController',
-    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'MentorService', 'TeamMentorService', 'VideoService', 'StudentService', 'myCache', 'uploadEssayService',
-        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, MentorService, TeamMentorService, VideoService, StudentService, myCache, uploadEssayService) {
+    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'MentorService', 'TeamMentorService', 'VideoService', 'StudentService', 'myCache', 'uploadEssayService', '$window',
+        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, MentorService, TeamMentorService, VideoService, StudentService, myCache, uploadEssayService, $window) {
 
             var userId = localStorage.getItem('userId');
             var userType = localStorage.getItem('userType');
             var userName = localStorage.getItem('userName');
 
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
+
+            $scope.isLogged = userId !== undefined && userId != null;
+
 
             var mentorId = $routeParams.mentorId;
 
@@ -54,6 +57,9 @@ brotControllers.controller('MentorProfileController',
             init();
 
             function init() {
+                if(!$scope.isLogged){
+                    $window.location.href = "#/mentor/signin";
+                }
                 if (studentId != undefined) {
                     getStudentInfo();
                     getMentorSubscribed(studentId, $scope.defaultLimit, 0);
@@ -150,10 +156,6 @@ brotControllers.controller('MentorProfileController',
                                 name: $scope.mentorInfo.schoolName
                             };
                         }
-                        var bioTimeStamp = $scope.mentorInfo.birthDay;
-                        var registrationTime = $scope.mentorInfo.registrationTime;
-                        $scope.birthDay = timeConverter(bioTimeStamp, FormatDateTimeType.DD_MM_YY);
-                        $scope.sinceDay = timeConverter(registrationTime, FormatDateTimeType.MM_YY);
                         $scope.isLoginViaFBOrGoogle = $scope.mentorInfo.idFacebook != null || $scope.mentorInfo.idGoogle != null;
                         $scope.isEmptyName = false;
                         if (isNameEmpty($scope.mentorInfo.firstname, $scope.mentorInfo.lastName)) {
@@ -164,7 +166,6 @@ brotControllers.controller('MentorProfileController',
                         $scope.masterFavourite = putMasterSubjectSelected(subjects, $scope.mentorInfo.favorite, true);
                         defaultSubjectChecked = $scope.masterSubjects;
                         defaultFavouriteChecked = $scope.masterFavourite;
-                        bod = $scope.birthDay;
                         var subName = [];
                         for (var i = 0; i < $scope.masterSubjects.length; i++) {
                             if ($scope.masterSubjects[i].selected == "1") {
@@ -182,6 +183,14 @@ brotControllers.controller('MentorProfileController',
                 });
 
             }
+
+            $scope.getBirthDay = function (bioTimeStamp) {
+                return timeConverter(bioTimeStamp, FormatDateTimeType.DD_MM_YY);
+            };
+
+            $scope.getSinceDay = function (registrationTime) {
+                return timeConverter(registrationTime, FormatDateTimeType.DD_MM_YY);
+            };
 
             /**
              * Calculator old from birth day.
@@ -201,7 +210,8 @@ brotControllers.controller('MentorProfileController',
                 $('input[name="firstname"]').val($scope.mentorInfo.firstname);
                 $('input[name="lastname"]').val($scope.mentorInfo.lastName);
                 $('input[name="email"]').val($scope.mentorInfo.email);
-                $('input[id="bod"]').val($scope.birthDay);
+                var convertBOD = $scope.getBirthDay($scope.mentorInfo.birthDay);
+                $('input[id="bod"]').val(convertBOD);
                 $('textarea[name="aboutme"]').val($scope.mentorInfo.bio);
                 $('input[name="accomplishments"]').val($scope.mentorInfo.accomplishments);
                 if ($scope.mentorInfo.gender) {
@@ -242,6 +252,11 @@ brotControllers.controller('MentorProfileController',
                         }
                     }
                 });
+            }
+
+            function getTimeZone() {
+                var offset = new Date().getTimezoneOffset(), o = Math.abs(offset);
+                return (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
             }
 
             $scope.updateProfile = function () {
@@ -311,7 +326,12 @@ brotControllers.controller('MentorProfileController',
                 if(isEmpty(lastName)){
                     lastName = null;
                 }
+                var bod = angular.element('input[id="bod"]').val();
                 if (check) {
+                    var timeStamp = null;
+                    if(bod){
+                        timeStamp = (Date.parse(bod)/1000);
+                    }
                     var mentor = {
                         'role': "M",
                         'activity' : activityType,
@@ -322,7 +342,7 @@ brotControllers.controller('MentorProfileController',
                         'gender': gender,
                         'accomplishments': $('input[name="accomplishments"]').val(),
                         'school': school,
-                        'bod': $('input[id="bod"]').val(),
+                        'bod': bod,
                         'bio': bio,
                         'favorite': favorite,
                         'defaultSubjectId': strSubs
@@ -345,7 +365,7 @@ brotControllers.controller('MentorProfileController',
                                 $scope.mentorInfo.accomplishments = mentor.accomplishments;
                                 $scope.mentorInfo.email = mentor.email;
                                 $scope.mentorInfo.bio = mentor.bio;
-                                $scope.birthDay = mentor.bod;
+                                $scope.mentorInfo.birthDay = timeStamp;
                                 $scope.mentorInfo.schoolName = $scope.schoolSelect != null ? $scope.schoolSelect.name : null;
                                 $scope.mentorSubs = strSubsName.substr(0, strSubsName.lastIndexOf(','));
                                 localStorage.setItem('defaultSubjectId', strSubs);
@@ -404,7 +424,8 @@ brotControllers.controller('MentorProfileController',
                     angular.element('#email').val($scope.mentorInfo.email);
                     angular.element('#accomplishments').val($scope.mentorInfo.accomplishments);
                     $scope.schoolSelect = $scope.mentorInfo.school != null ? {id: parseInt($scope.mentorInfo.school, 10)} : null;
-                    angular.element('#bod').val(bod);
+                    var convertBOD = $scope.getBirthDay($scope.mentorInfo.birthDay);
+                    angular.element('#bod').val(convertBOD);
                     angular.element('#aboutme').val($scope.mentorInfo.bio);
                     var subjectChecked = angular.element('.masterSubject:checked');
                     for (var i = 0; i < subjectChecked.length; i++) {
@@ -518,18 +539,14 @@ brotControllers.controller('MentorProfileController',
                         $scope.studentInfo = dataResponse.data.request_data_result;
                         var gender = $scope.studentInfo.gender;
                         $scope.gender = validateGender(gender);
-                        var bioTimeStamp = $scope.studentInfo.birthDay;
-                        var registrationTime = $scope.studentInfo.registrationTime;
                         $scope.isStudentEmptyName = false;
                         if (isNameEmpty($scope.studentInfo.firstname, $scope.studentInfo.lastName)) {
                             $scope.isStudentEmptyName = true;
                             $scope.studentInfo.fullName = splitUserName($scope.studentInfo.username);
                         }
-                        $scope.birthDay = timeConverter(bioTimeStamp, FormatDateTimeType.DD_MM_YY);
-                        $scope.sinceDay = timeConverter(registrationTime, FormatDateTimeType.MM_YY);
                         if (subjects) {
                             var subsName = getSubjectNameById($scope.studentInfo.defaultSubjectId, subjects);
-                            if (subsName != undefined && !subsName) {
+                            if (subsName !== undefined && subsName) {
                                 var listSubs = [];
                                 subsName.forEach(function (sub) {
                                     if (subsName.length - 1) {
@@ -622,8 +639,6 @@ brotControllers.controller('MentorProfileController',
                     if (data.data.status == "true") {
                         if (data.data.request_data_type == "subs") {
                             $scope.isSubscribe = 1;
-
-                            //$('#subscribers_'+mentorId).addClass('unsubcrib');
                         }
                         else {
                             $scope.isSubscribe = 0;

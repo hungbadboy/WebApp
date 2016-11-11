@@ -244,7 +244,9 @@ brotControllers.controller('UserHeaderController',
             	var elem = $(el.target).closest('.notification'),
             	userLogin= $(el.target).closest('.profile-user'),
             	boxUserinfo= $(el.target).closest('#user-info'),
-            	box  = $(el.target).closest('.notification-content');
+            	box  = $(el.target).closest('.notification-content'),
+            	navbarToggle = $(el.target).closest('.navbar-toggle'),
+            	mobimenu = $(el.target).closest('.mobimenu');
             	
             	if ( elem.length ) {
             		el.preventDefault();
@@ -258,6 +260,17 @@ brotControllers.controller('UserHeaderController',
             		$('#user-info').toggle();
             	}else if (!boxUserinfo.length){
             		$('#user-info').hide();
+            	}
+            	//
+            	if ( navbarToggle.length ) {
+            		el.preventDefault();
+            		if($('.mobimenu').hasClass('in')) {
+            			$('.mobimenu').addClass('in');
+            		} else {
+            			$('.mobimenu').removeClass('in');	
+            		}
+            	}else if (!boxUserinfo.length){
+            		$('.mobimenu').removeClass('in');
             	}
             });
 

@@ -41,8 +41,8 @@
                                     <p>{{mentorSubs}}</p>
                                     <h5>Sex <span>{{(mentorInfo.gender =='M')?'Male':(mentorInfo.gender =='F')?'Female':'Other'}}</span>
                                     </h5>
-                                    <h5>BOD <span>{{birthDay != null && birthDay != "" ? birthDay : EMPTY_DATA}}</span></h5>
-                                    <h5>Since <span>{{sinceDay}}</span></h5>
+                                    <h5>BOD <span>{{getBirthDay(mentorInfo.birthDay) != ""? getBirthDay(mentorInfo.birthDay) : EMPTY_DATA}}</span></h5>
+                                    <h5>Since <span>{{getBirthDay(mentorInfo.registrationTime)}}</span></h5>
                                 </div>
                             </div>
                         </div>
