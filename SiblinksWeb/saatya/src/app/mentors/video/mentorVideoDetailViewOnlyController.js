@@ -196,13 +196,13 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
         if (id == $scope.currentUserId) {
         	$location.path('/mentor/mentorProfile');
         } else{
-        	$location.path('/mentor/studentProfile/'+id);
+        	$location.path('/mentor/mentorProfile/'+id);
         }
-    }
+    };
 
     $scope.loadTo = function(){
         angular.element(document.getElementById('videos-in-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentId);
-    }
+    };
 
     $scope.preVideo = function(pos){
         if ($scope.videos && $scope.videos.length > 0) {
@@ -230,7 +230,7 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
             $location.path('/mentor/video/view/detail/'+userId+'/'+$scope.videos[$scope.pos].vid+'/'+plid, false);
             angular.element(document.getElementById('videos-in-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentId);
         }
-    }
+    };
 
     var player;
     function onYouTubeIframeAPIReady(youtubeId) {

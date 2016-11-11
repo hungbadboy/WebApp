@@ -879,6 +879,15 @@
     .modal-article.modal-add-video .right-answer {
         width: 65%;
     }
+    .manage-tutorial .main-manager-video .filters .text-play, 
+    .manage-tutorial .group-item .item .box-playlist {
+        width: 12%;
+        padding-right: 5px;
+    }
+    .manager-playlist .main-manager-video .filters .text-trf, 
+    .manager-playlist .group-item .item .box-detail-play {
+        width: 430px;
+    }
 }
 /***For max screen 1281***/
 @media screen and (max-width: 1281px) { 
@@ -995,22 +1004,25 @@
     }
 
     /*Mentor.Menu*/
-    .mentor-left-header, #sidebar-menu {
+    .mentor-left-header.menuMobile, #sidebar-menu.menuMobile {
         width: 70px;
         overflow: hidden;
     }
-    #sidebar-menu .mentor-infor-img img {
+    #sidebar-menu.menuMobile .mentor-infor-img img {
         width: 48px;
         height: 48px;
     }
-    #sidebar-menu .navigation ul li,
+    #sidebar-menu.menuMobile .navigation ul li,
     #sidebar-menu.in .mentor-infor {
         width: 250px;
     }
-    #sidebar-menu .mentor-infor {
+    #sidebar-menu.menuMobile .navigation ul li a>span {
+        padding-right: 20px;
+    }
+    #sidebar-menu.menuMobile .mentor-infor {
         padding: 0 10px;
     }
-    #sidebar-menu .navbar-collapse {
+    #sidebar-menu.menuMobile .navbar-collapse {
         padding: 0;
     }
 
@@ -1397,7 +1409,7 @@
         padding: 10px;
     }
     .module-navigation .navigation ul {
-        margin: -11px;
+        margin: -1px;
     }
     .navigation .nav > li > a {
         padding: 12px 20px;

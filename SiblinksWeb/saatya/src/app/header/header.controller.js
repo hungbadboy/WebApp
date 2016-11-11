@@ -1,7 +1,7 @@
 //=========================================== HEADER.CONTROLLER.JS==============
 brotControllers.controller('UserHeaderController',
-    ['$scope', '$modal', '$rootScope', '$http', '$location', '$document','$log', 'NotificationService', 'LogoutService', 'myCache', 'HomeService',
-        function ($scope, $modal, $rootScope, $http, $location, $document, $log, NotificationService, LogoutService, myCache, HomeService) {
+    ['$scope', '$modal', '$rootScope', '$http', '$location', '$document','$log', 'NotificationService', 'LogoutService', 'myCache', 'HomeService', '$window',
+        function ($scope, $modal, $rootScope, $http, $location, $document, $log, NotificationService, LogoutService, myCache, HomeService, $window) {
             // check login page
             brot.signin.statusStorageHtml();
             $scope.isHidden = false;
@@ -119,6 +119,8 @@ brotControllers.controller('UserHeaderController',
                     $scope.footerUser = "src/app/footer/footer.tpl.html";
 
                 }
+
+                $rootScope.isMenuMobile = checkMenuType();
             }
 
             function showNotification(ele) {
@@ -242,9 +244,7 @@ brotControllers.controller('UserHeaderController',
             	var elem = $(el.target).closest('.notification'),
             	userLogin= $(el.target).closest('.profile-user'),
             	boxUserinfo= $(el.target).closest('#user-info'),
-            	box  = $(el.target).closest('.notification-content'),
-            	navbarToggle = $(el.target).closest('.navbar-toggle'),
-            	mobimenu = $(el.target).closest('.mobimenu');
+            	box  = $(el.target).closest('.notification-content');
             	
             	if ( elem.length ) {
             		el.preventDefault();
@@ -259,21 +259,13 @@ brotControllers.controller('UserHeaderController',
             	}else if (!boxUserinfo.length){
             		$('#user-info').hide();
             	}
-            	//
-            	if ( navbarToggle.length ) {
-            		el.preventDefault();
-            		if($('.mobimenu').hasClass('in')) {
-            			$('.mobimenu').addClass('in');
-            			$('.mobimenu').addClass('collapse');
-            		} else {
-            			$('.mobimenu').removeClass('in');
-            			$('.mobimenu').removeClass('collapse');
-            		}
-            	}else if (!boxUserinfo.length){
-            		$('.mobimenu').removeClass('in');
-        			$('.mobimenu').removeClass('collapse');
-            	}
             });
+
+            function checkMenuType(){
+                var width = $window.innerWidth;
+                return width < 1281;
+            }
+
         }]);
 
 //=========================================== HEADER.CONTROLLER.JS==============

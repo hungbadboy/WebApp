@@ -260,11 +260,12 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 
         $scope.convertTime = function (str) {
             return convertUnixTimeToTime(str);
-        }
+        };
+
         $scope.searchEnter = function () {
-            var txtSearch = $('#srch-term').val();
-            $window.location.href = '#/videos?search='+encodeURIComponent(txtSearch);
-        }
+            var searchValue = angular.element("input#srch-term").val();
+            $window.location.href = '#/videos?search='+encodeURIComponent(searchValue);
+        };
 
         // rate video detail
         $scope.rateFunction = function (rate) {
