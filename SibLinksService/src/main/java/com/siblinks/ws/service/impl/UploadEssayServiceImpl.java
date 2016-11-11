@@ -34,6 +34,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -550,16 +551,23 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             @RequestParam final String offset, @RequestParam final String totalCountFlag) {
         SimpleResponse simpleResponse = null;
         try {
-            Object[] queryParams = { userId };
+            List<Object> params = new ArrayList<Object>();
+            params.add(userId);
             String whereClause = "";
             if (!StringUtil.isNull(limit)) {
-                whereClause += " LIMIT " + limit;
+                whereClause += " LIMIT ?";
+                params.add(Integer.parseInt(limit));
             }
             if (!StringUtil.isNull(offset)) {
-                whereClause += " OFFSET " + offset;
+                whereClause += " OFFSET ?";
+                params.add(Integer.parseInt(offset));
             }
-            List<Object> readObject = null;
-            readObject = dao.readObjectsWhereClause(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT, whereClause, queryParams);
+
+            List<Object> readObject = dao.readObjectsWhereClause(
+                SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT,
+                whereClause,
+                params.toArray());
+
             if (readObject != null) {
                 Map<String, Object> dataMap = null;
                 String directory = env.getProperty("directoryDowloadEssay");
@@ -583,7 +591,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
             String count = null;
             if ("true".equalsIgnoreCase(totalCountFlag)) {
-                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT_COUNT, queryParams);
+                count = dao.getCount(SibConstants.SqlMapper.SQL_GET_ALL_ESSAY_STUDENT_COUNT, new Object[] { userId });
             }
 
             simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "essay", "getEssayByStudentId", readObject, count);
