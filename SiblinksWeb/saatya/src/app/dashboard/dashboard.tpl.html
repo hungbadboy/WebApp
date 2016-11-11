@@ -17,8 +17,8 @@
                                             <span data-icon="&#xe030;"></span>
                                         </div>
                                         <div class="number-total">
-                                            <p>Total {{dashboard.count_likes}}</p>
-                                            <span>{{dashboard.count_likes_today}}</span>
+                                            <p>Total {{dashboard.count_likes != null ? dashboard.count_likes : 0}}</p>
+                                            <span data-icon="&#x42;"> {{dashboard.count_likes_today != null ? dashboard.count_likes_today : 0}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -29,8 +29,8 @@
                                             <span data-icon="&#xe031;"></span>
                                         </div>
                                         <div class="number-total">
-                                            <p>Total {{dashboard.count_ratings}}</p>
-                                            <span>{{dashboard.count_ratings_today}}</span>
+                                            <p>Total {{dashboard.count_ratings != null ? dashboard.count_ratings : 0}}</p>
+                                            <span data-icon="&#x42;"> {{dashboard.count_ratings_today != null ? dashboard.count_ratings_today : 0}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -41,8 +41,8 @@
                                             <span data-icon="&#x77;"></span>
                                         </div>
                                         <div class="number-total">
-                                            <p>Total {{dashboard.count_answers}}</p>
-                                            <span>{{dashboard.count_answers_today}}</span>
+                                            <p>Total {{dashboard.count_answers != null ? dashboard.count_answers : 0}}</p>
+                                            <span data-icon="&#x42;"> {{dashboard.count_answers_today != null ? dashboard.count_answers_today : 0}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -53,8 +53,8 @@
                                             <span data-icon="&#x49;"></span>
                                         </div>
                                         <div class="number-total">
-                                            <p>Total {{dashboard.count_videos}}</p>
-                                            <span>{{dashboard.count_videos_today}}</span>
+                                            <p>Total {{dashboard.count_videos != null ? dashboard.count_videos : 0}}</p>
+                                            <span data-icon="&#x42;"> {{dashboard.count_videos_today != null ? dashboard.count_videos_today : 0}}</span>
                                         </div>
                                     </div>
                                 </div>                                            
@@ -99,8 +99,8 @@
                                             <span data-icon="&#x50;"></span>
                                         </div>
                                         <div class="number-total">
-                                            <p>Total <span>{{dashboard.count_subscribers}}</span></p>
-                                            <span data-icon="&#x42;">{{dashboard.count_subscribers_today}}</span>
+                                            <p>Total <span>{{dashboard.count_subscribers != null ? dashboard.count_subscribers : 0}}</span></p>
+                                            <span data-icon="&#x42;">{{dashboard.count_subscribers_today != null ? dashboard.count_subscribers_today : 0}}</span>
                                         </div>
                                     </div>
                                     <div class="col-xs-10 col-xs-offset-1">
