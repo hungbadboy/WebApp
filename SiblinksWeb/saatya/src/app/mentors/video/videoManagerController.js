@@ -256,6 +256,7 @@ brotControllers.controller('VideoManagerController',
           $scope.videos = formatData(data.data.request_data_result);
         } else
           $scope.videos = null;
+          $scope.checkAll = false;
       });
     }
 
@@ -265,6 +266,7 @@ brotControllers.controller('VideoManagerController',
           $scope.topRatedVideos = formatData(data.data.request_data_result);
         } else
           $scope.topRatedVideos = null;
+          $scope.checkAll = false;
       });
     }
 
@@ -274,6 +276,7 @@ brotControllers.controller('VideoManagerController',
           $scope.topViewedVideos = formatData(data.data.request_data_result);
         } else
           $scope.topViewedVideos = null;
+          $scope.checkAll = false;
       });
     }
 

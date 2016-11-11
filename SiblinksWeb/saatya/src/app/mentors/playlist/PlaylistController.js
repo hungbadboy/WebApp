@@ -77,6 +77,7 @@ brotControllers.controller('PlaylistController',
              cachePlaylist = $scope.playlist.slice(0);
           } else
             $scope.playlist = null;
+            $scope.checkAll = false;
         });
     }
 
@@ -251,8 +252,10 @@ brotControllers.controller('PlaylistController',
       PlaylistService.getPlaylistBySubject(userId, $scope.subject, 0).then(function(data){
         if (data.data.request_data_result != null && data.data.request_data_result != "Found no data") {
            $scope.playlist = parseData(data.data.request_data_result);   
-        } else
+        } else{
           $scope.playlist = null;
+          $scope.checkAll = false;
+        }
       });
     }
 
@@ -302,6 +305,7 @@ brotControllers.controller('PlaylistController',
           $scope.playlist = parseData(result);
         } else
           $scope.playlist = null;
+          $scope.checkAll = false;
       });
     }
 
