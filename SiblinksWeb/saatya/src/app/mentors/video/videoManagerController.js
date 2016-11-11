@@ -295,21 +295,21 @@ brotControllers.controller('VideoManagerController',
       }
     };
 
-    $scope.optionSelected = function(){
-      if ($scope.videoTab == 1) {
-        $scope.selectedAll = $scope.videos.every(function(v){
-          return v.selected;
-        });
-      } else if ($scope.videoTab == 2) {
-        $scope.selectedAll = $scope.topViewedVideos.every(function(v){
-          return v.selected;
-        });
-      } else{
-        $scope.selectedAll = $scope.topRatedVideos.every(function(v){
-          return v.selected;
-        });
-      }
-    }
+    // $scope.optionSelected = function(){
+    //   if ($scope.videoTab == 1) {
+    //     $scope.selectedAll = $scope.videos.every(function(v){
+    //       return v.selected;
+    //     });
+    //   } else if ($scope.videoTab == 2) {
+    //     $scope.selectedAll = $scope.topViewedVideos.every(function(v){
+    //       return v.selected;
+    //     });
+    //   } else{
+    //     $scope.selectedAll = $scope.topRatedVideos.every(function(v){
+    //       return v.selected;
+    //     });
+    //   }
+    // }
 
     $scope.deleteMultiple = function(){
       var selectedVideos = checkSelectedVideos();

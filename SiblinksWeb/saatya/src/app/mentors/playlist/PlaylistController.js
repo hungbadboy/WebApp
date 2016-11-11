@@ -137,11 +137,11 @@ brotControllers.controller('PlaylistController',
       });
     };
 
-    $scope.optionSelected = function(){
-      $scope.selectedAll = $scope.playlist.every(function(v){
-        return v.selected;
-      });
-    }
+    // $scope.optionSelected = function(){
+    //   $scope.selectedAll = $scope.playlist.every(function(v){
+    //     return v.selected;
+    //   });
+    // }
 
     $scope.delete = function(p){
       if (p.numVideos > 0) {
