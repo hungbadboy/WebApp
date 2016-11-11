@@ -1377,7 +1377,6 @@ brotControllers.directive('setMarginTagInfoMentor', function ($timeout, $window)
                     var window = angular.element($window);
                     var width_win = $window.innerWidth;
                     var heightInfo = document.getElementById("top-mentors-info").offsetHeight - 30;
-                    console.log(heightInfo);
                     var resize = function () {
                         if (width_win < 1601) {
                             element.css({"margin-top": + heightInfo + "px"});

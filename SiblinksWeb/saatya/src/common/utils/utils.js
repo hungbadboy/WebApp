@@ -249,31 +249,6 @@ function isEmpty(str) {
 
 }
 
-function caculateTimeElapsed(time) {
-    var current = new Date().getTime();
-    var inputTime = new Date(time);
-    var secondElapsed = parseInt(Math.floor((current - inputTime) / 1000));
-    secondElapsed = (secondElapsed < 1) ? 1 : secondElapsed;
-    var text = '';
-
-    if (years = parseInt((Math.floor(secondElapsed / 31536000))))
-        text = years + (years > 1 ? ' years' : ' year') + ' ago';
-    else if (months = parseInt((Math.floor(secondElapsed / 2592000))))
-        text = months + (months > 1 ? ' months' : ' month') + ' ago';
-    else if (weeks = parseInt((Math.floor(secondElapsed / 604800))))
-        text = weeks + (weeks > 1 ? ' weeks' : ' week') + ' ago';
-    else if (days = parseInt((Math.floor(secondElapsed / 86400))))
-        text = days + (days > 1 ? ' days' : ' day') + ' ago';
-    else if (hours = parseInt((Math.floor(secondElapsed / 3600))))
-        text = hours + (hours > 1 ? ' hours' : ' hour') + ' ago';
-    else if (minutes = parseInt((Math.floor(secondElapsed / 60))))
-        text = minutes + (minutes > 1 ? ' minutes' : ' minute') + ' ago';
-    else
-        text = secondElapsed + (secondElapsed > 1 ? ' seconds' : ' second') + ' ago';
-
-    return text;
-}
-
 /*
  * convert string subject id to array
  */

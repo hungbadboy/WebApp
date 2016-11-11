@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.siblinks.ws.model.EssayUploadData;
 import com.siblinks.ws.model.RequestData;
 import com.siblinks.ws.response.Response;
 
@@ -86,4 +87,17 @@ public interface UploadEssayService {
     public ResponseEntity<Response> updateEssayStudent(String essayId, String desc, String userId, String fileName, String title,
             String schoolId,
             String majorId, MultipartFile file);
+
+    /**
+     * @param essayUploadData
+     * @return
+     */
+    ResponseEntity<Response> rateEssay(EssayUploadData essayUploadData);
+
+    /**
+     * @param uid
+     * @param uploadEssayId
+     * @return
+     */
+    ResponseEntity<Response> checkRateEssay(String uid, String uploadEssayId);
 }

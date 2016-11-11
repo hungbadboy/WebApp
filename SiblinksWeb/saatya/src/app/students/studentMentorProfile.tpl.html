@@ -46,11 +46,19 @@
                             <span class="pre-wrap">{{studentMentorProfile.bio != null ? studentMentorProfile.bio: EMPTY_DATA}}</span>
                         </div>
                     </div>
-                    <div class="subscribers-button">
-                        <button>
-                            <p class="{{!isSubscribe ? 'subscribers active' : 'subscribers'}}" data-icon="{{isSubscribe ? '&#x4e;':'&#x4c;'}}">
-                                <span>{{isSubscribe ? 'Subscribed' : 'Subscribe Me'}}</span>
-                            </p>
+                    <!--<div class="subscribers-button">-->
+                        <!--<button>-->
+                            <!--<p class="{{!isSubscribe ? 'subscribers active' : 'subscribers'}}" data-icon="{{isSubscribe ? '&#x4e;':'&#x4c;'}}">-->
+                                <!--<span>{{isSubscribe ? 'Subscribed' : 'Subscribe Me'}}</span>-->
+                            <!--</p>-->
+                        <!--</button>-->
+                    <!--</div>-->
+                    <div class="video-member-subcriber student-view-mentor">
+                        <button id="btnsubs" class="subscribers" ng-class="{'unsubcrib':isSubscribe}"
+                                data-icon="{{isSubscribe ?'&#x4e;':'&#x4c;'}}" ng-Mouseover="hoverSubscribe(isSubscribe)"
+                                ng-mouseleave="unHoverSubscribe(isSubscribe)" ng-click="setSubscribeMentor(studentMentorProfile.userid)" style="float: none; width: 170px;">
+                            <span id="spansubs" >{{isSubscribe ? 'Subscribed' : 'Subscribe'}}</span>
+                            <span class="number-subscribers">{{studentMentorProfile.count_subscribers}}</span>
                         </button>
                     </div>
                 </div>
@@ -146,7 +154,7 @@
                                                 <a ng-href="{{video.type == 2 ? '#/videos/detailPlaylist/' + video.vid + '/0' : '#/videos/detailVideo/'+video.vid }}">{{ video.title | limitTo: 50 }}{{video.title.length > 50 ? '...' : ''}}</a>
                                             </p>
                                             <p class="videos-time-add">
-                                                <span>{{convertUnixTimeToTime(video.timeStamp)}} ago</span>
+                                                <span>{{convertUnixTimeToTime(video.timeStamp)}} </span>
                                             </p>
                                             <p class="video-rate" ng-if="video.type == 1">
                                                 <!--<span>Rate: {{video.averageRating != null ? video.averageRating : 0}} ({{video.numRatings}} votes)</span>-->
@@ -197,7 +205,7 @@
                                     </div>
                                     <div class="detail-answered">
                                         <p class="answered-time">
-                                            Answered {{convertUnixTimeToTime(answer.timeStamp)}} ago
+                                            Answered {{convertUnixTimeToTime(answer.timeStamp)}}
                                         </p>
                                         <p class="answered-content"> {{ answer.content | limitTo: 250 }}{{answer.content.length > 250 ? '...' : ''}}</p>
                                         <p class="answered-rate">{{answer.numlikes}}

@@ -57,7 +57,7 @@ Sidebar left menu -->
                                                     <a><img class="avatar-fix-max-size60" ng-src="{{question.imageUrl}}" alt="avatar"></a>
                                                 </div>
                                                 <div class="col-md-9 bx-dt-qa">
-                                                    <h5>{{displayName(question.firstName,question.lastName,question.userName+'abc')}}</h5><span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}} ago</span>
+                                                    <h5>{{displayName(question.firstName,question.lastName,question.userName+'abc')}}</h5><span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}}</span>
                                                     <p class="in-subj"><span>in</span> <b>{{question.subject}}</b></p>
                                                     <p class="q-cont">{{ question.content | limitTo: 100 }}{{question.content.length > 100 ? '...' : ''}}</p>
                                                     <div class="clearfix bt-item">

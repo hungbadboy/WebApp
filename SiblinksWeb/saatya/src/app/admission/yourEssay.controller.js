@@ -32,10 +32,6 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
             });
         }
 
-
-        $scope.convertUnixTimeToTime = function (datetime) {
-            return convertUnixTimeToTime(datetime);
-        };
         $rootScope.$on('reloadYourEssay', function (event, message) {
             if (message == 'load') {
                 init();
@@ -67,6 +63,7 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
                     if (!isEmpty($scope.currentEssay.status == 'P')) {
                         uploadEssayService.getMentorEssayByUid($scope.currentEssay.mentorId).then(function (data) {
                             $scope.currentMentor = data.data.request_data_result[0];
+                            $scope.uploadEssayId=uploadEssayId;
                             // $scope.currentMentor.defaultSubject = getSubjectNameById($scope.currentMentor.defaultSubjectId, subjects);
                         });
                     }
@@ -78,7 +75,7 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
         $scope.transferPage = function (path) {
             angular.element(document.getElementById('essay-detail')).modal('toggle');
             $timeout(function () {
-                $window.location.href = '#/mentor/mentorProfile';
+                $location.path(path);
             }, 300);
         };
 
@@ -108,4 +105,32 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
                 getEssays(userId, $scope.defaultLimitEssay, newOffset);
             }
         };
+        
+        /**
+         * Rating article
+         */
+        $scope.rateFunction = function (rate) {
+            var ratenumOld = $scope.rateNum;
+            if (isEmpty(userId) || userId == "-1") {
+            	window.location.href ='#/student/signin?continue='+encodeURIComponent($location.absUrl());
+                return;
+            }
+            $rootScope.$broadcast('open');
+            uploadEssayService.checkUserRatingEssay($scope.uploadEssayId, userId).then(function (data) {
+                if (data.data.status == 'true') {
+                    if (data.data.request_data_result.length > 0) {
+                        $scope.rated = true;
+                        $scope.errorVideo = "You are rated!";
+                        $scope.rateNum = ratenumOld;
+                    } else {
+                    	uploadEssayService.rateEssay($scope.uploadEssayId, userId, parseInt(rate)).then(function (data) {
+                            if (data.data.status) {
+                                $scope.rateNum = parseInt(rate);
+                            }
+                        });
+                    }
+                }
+                $rootScope.$broadcast('close');
+            });
+        }
     }]);

@@ -111,6 +111,21 @@ brotServices.factory('uploadEssayService', ['$http', function($http) {
         return promise;
     };
 
-
+    factory.checkUserRatingEssay = function(essayUploadId, uid) {
+  	  var promise = $http({
+  	      method: 'GET',
+  	      url: NEW_SERVICE_URL + 'essay/checkRateEssay?uploadEssayId='+essayUploadId+'&uid='+uid
+  	    });
+  	    return promise;
+    }
+    
+    factory.rateEssay = function(essayUploadId, uid, rate) {
+  	  var promise = $http({
+  	      method: 'POST',
+  	      url: NEW_SERVICE_URL + 'essay/rateEssay',
+  	      data:{"uid": uid,"uploadEssayId": essayUploadId,"rating": rate}
+  	    });
+  	    return promise;
+    }
     return factory;
 }]);
