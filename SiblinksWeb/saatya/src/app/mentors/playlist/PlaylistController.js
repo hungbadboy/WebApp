@@ -227,7 +227,7 @@ brotControllers.controller('PlaylistController',
       for (var i = 0; i < $scope.playlist.length; i++) {
         var data = $scope.playlist[i];
         if (!!data.selected) {
-          if (data.count_videos > 0) {
+          if (data.numVideos > 0) {
             status = false;
             var message = 'Please remove all videos in the playlist first.';
             showModal(message);
