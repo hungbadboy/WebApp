@@ -476,6 +476,7 @@ public class SibConstants {
         public static final String SQL_GET_ALL_CATEGORY_TOPIC = "GET_ALL_CATEGORY_TOPIC";
         public static final String SQL_GET_ALL_QUESTION = "GET_ALL_QUESTION";
         public static final String SQL_GET_VIDEO_BY_VIEW = "GET_VIDEO_BY_VIEW";
+        public static final String SQL_GET_VIDEO_NEWEST = "GET_VIDEO_NEWEST";
         public static final String SQL_GET_VIDEO_VIEW_BY_SUBJECT = "GET_VIDEO_VIEW_BY_SUBJECT";
         public static final String VIDEO_PLAYLIST_NEWEST_BY_SUBJECT = "GET_VIDEO_PLAYLIST_NEWEST_BY_SUBJECT";
         public static final String SQL_GET_NEWEST_VIDEO_SUBJECT = "GET_NEWEST_VIDEO_BY_SUBJECT";
