@@ -82,14 +82,6 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/question/firstAsk.tpl.html',
 		controller: 'QuestionController',
 	}).
-	when('/editStudent/:type', {
-		templateUrl: 'src/app/editStudentProfile.tpl.html',
-		controller: 'EditStudentController'
-	}).
-	when('/register_success', {
-		templateUrl: 'src/app/register_success.tpl.html',
-		controller: 'RegisterSuccessController'
-	}).
 	when('/contact', {
 		templateUrl: 'src/app/contact/contact.tpl.html',
 		controller: 'ContactCtrl'
