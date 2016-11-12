@@ -360,8 +360,7 @@ brotControllers
                     HomeService.addQuestion(fd).then(function (data) {
                         if (data.data.status == "true") {
                             $(".popup-images, .form-ask-question").css({"left": "100%"});
-                            window.location.href = '/#/ask_a_question/-1';
-                            window.location.reload();
+                            $window.location.href = '/#/ask_a_question/-1';
                         }
                         else {
                             $scope.askErrorMsg = data.data.request_data_result;

@@ -75,7 +75,7 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
         $scope.transferPage = function (path) {
             angular.element(document.getElementById('essay-detail')).modal('toggle');
             $timeout(function () {
-                $location.path(path);
+                $window.location.href = '#'+path;
             }, 300);
         };
 

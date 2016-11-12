@@ -458,7 +458,11 @@ public class CommentServiceImpl implements CommentsService {
             }
 
             String content = request.getRequest_data().getContent();
-            if (StringUtil.isNull(content)) {
+            String authorId = request.getRequest_data().getAuthorID();
+            String authorName = request.getRequest_data().getAuthor();
+            String vId = request.getRequest_data().getVid();
+
+            if (StringUtil.isNull(content) || StringUtil.isNull(authorId) || StringUtil.isNull(vId)) {
                 simpleResponse = new SimpleResponse(
                                                     SibConstants.FAILURE,
                                                     request.getRequest_data_type(),
@@ -471,38 +475,17 @@ public class CommentServiceImpl implements CommentsService {
             TransactionDefinition def = new DefaultTransactionDefinition();
             statusDB = transactionManager.getTransaction(def);
 
-            Object[] queryParams = { request.getRequest_data().getAuthor(), request.getRequest_data().getAuthorID(), content };
-            long id = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
-            if (id > 0) {
-                Object[] queryParamsIns = { request.getRequest_data().getVid(), "" + id };
+            Object[] queryParams = { authorName, authorId, content };
+            long commentId = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, queryParams);
+            if (commentId > 0) {
+                Object[] queryParamsIns = { vId, commentId };
                 flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_INSERT_VIDEO_ADMISSION_COMMENT, queryParamsIns);
-                // List<Object> readObject =
-                // dao.readObjects(SibConstants.SqlMapper.SQL_GET_VIDEO_ADMISSION_DETAIL_BY_ID,
-                // new Object[] { request
-                // .getRequest_data()
-                // .getVid() });
-                // Map userPostVideoMap = (Map) readObject.get(0);
-                // Object[] queryParamsIns3 = { userPostVideoMap.get("userid"),
-                // request.getRequest_data().getAuthorID(),
-                // "commentVideoAdmssion",
-                // "New comment of video",
-                // "commented video : "
-                // +userPostVideoMap.get("title").toString(), userPostVideoMap
-                // .get("idAdmission"), request.getRequest_data().getVid() };
-                // Object[] queryParamsIns3 = { userId, authorId,
-                // SibConstants.NOTIFICATION_TYPE_COMMENT_VIDEO,
-                // SibConstants.NOTIFICATION_TITLE_COMMENT_VIDEO, contentNofi,
-                // subjectId, vid };
-                // status =
-                // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION,
-                // queryParamsIns3);
-                //
-                // if
-                // (!userPostVideoMap.get("userid").toString().equalsIgnoreCase(request.getRequest_data().getAuthorID()))
-                // {
-                // dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION,
-                // queryParamsIns3);
-                // }
+                // Update number comment into video adminission table.
+                if (flag) {
+                    flag = dao.insertUpdateObject(
+                        SibConstants.SqlMapper.SQL_UPDATE_NUMCOMMENT_VIDEO_ADMISSION,
+                        new Object[] { vId });
+                }
             }
             transactionManager.commit(statusDB);
             simpleResponse = new SimpleResponse(

@@ -134,13 +134,11 @@ public class SibConstants {
         public static final String SQL_SIB_REMOVE_VIDEO = "SIB_REMOVE_VIDEO";
         public static final String SQL_SIB_GET_VIDEO = "SIB_GET_VIDEO";
         public static final String SQL_GET_RATING_VIDEO = "GET_RATING_VIDEO";
-        public static final String SQL_GET_RATING_VIDEO_ADMISSION = "GET_RATING_VIDEO_ADMISSION";
         public static final String SQL_SIB_GET_TAGS = "SIB_GET_TAGS";
         public static final String SQL_SIB_GET_COMMENTS = "SIB_GET_COMMENTS";
         public static final String SQL_SIB_GET_COMMENTS_PN = "SIB_GET_COMMENTS_PN";
         public static final String SQL_SIB_GET_COMMENTS_PN_COUNT = "SIB_GET_COMMENTS_PN_COUNT";
-        public static final String SQL_SIB_GET_VIDEO_ADMISSION_COMMENTS_PN = "SIB_GET_VIDEO_ADMISSION_COMMENTS_PN";
-        public static final String SQL_SIB_GET_VIDEO_ADMISSION_COMMENTS_PN_COUNT = "SIB_GET_VIDEO_ADMISSION_COMMENTS_PN_COUNT";
+
         // Artical
         public static final String SQL_SIB_GET_ARTICLE_COMMENTS_PN = "SIB_GET_ARTICLE_COMMENTS_PN";
         public static final String SQL_SIB_GET_ARTICLE_COMMENTS_PN_COUNT = "SIB_GET_ARTICLE_COMMENTS_PN_COUNT";
@@ -426,6 +424,7 @@ public class SibConstants {
         public static final String SQL_GET_VIDEOS_LIST_BY_USER_PN = "GET_VIDEOS_LIST_BY_USER_PN";
         public static final String SQL_GET_VIDEOS_LIST_BY_USER_PN_COUNT = "GET_VIDEOS_LIST_BY_USER_PN_COUNT";
         public static final String SQL_UPDATE_VIDEO = "UPDATE_VIDEO";
+        // Video Admission
         public static final String SQL_GET_ADMISSION = "GET_ADMISSION";
         public static final String SQL_GET_SUB_ADMISSION = "GET_SUB_ADMISSION";
         public static final String SQL_GET_TOPIC_FIRST_ADMISSION = "GET_TOPIC_FIRST_ADMISSION";
@@ -433,20 +432,27 @@ public class SibConstants {
         public static final String SQL_GET_VIDEO_ADMISSION_PN = "GET_VIDEO_ADMISSION_PN";
         public static final String SQL_GET_VIDEO_ADMISSION = "GET_VIDEO_ADMISSION";
         public static final String SQL_GET_VIDEO_ADMISSION_COUNT = "GET_VIDEO_ADMISSION_COUNT";
-
         public static final String SQL_GET_VIDEO_ADMISSION_WITH_TOPIC = "GET_VIDEO_ADMISSION_WITH_TOPIC";
         public static final String SQL_GET_VIDEO_ADMISSION_DETAIL = "GET_VIDEO_ADMISSION_DETAIL";
         public static final String SQL_GET_VIDEO_ADMISSION_VIEW_PN = "GET_VIDEO_ADMISSION_VIEW_PN";
+        public static final String SQL_GET_IMAGE_VIDEO_ADMISSION = "GET_IMAGE_VIDEO_ADMISSION";
+        public static final String SQL_GET_ALL_VIDEO_ADMISSION = "GET_LIST_ALL_VIDEO_ADMISSION";// MTDU
+        public static final String SQL_GET_ID_VIDEO_ADMISSION_USER_WATCHED = "GET_ID_VIDEO_ADMISSION_USER_WATCHED";
+        public static final String SQL_GET_RATING_VIDEO_ADMISSION = "GET_RATING_VIDEO_ADMISSION";
+        public static final String SQL_SIB_GET_LIST_VIDEO_TUTTORIAL_ADMISSION = "SIB_GET_LIST_VIDEO_TUTTORIAL_ADMISSION";
+        public static final String SQL_SIB_GET_VIDEO_ADMISSION_COMMENTS_PN = "SIB_GET_VIDEO_ADMISSION_COMMENTS_PN";
+        public static final String SQL_SIB_GET_VIDEO_ADMISSION_COMMENTS_PN_COUNT = "SIB_GET_VIDEO_ADMISSION_COMMENTS_PN_COUNT";
+        public static final String SQL_CREATE_VIDEO_ADMISSION = "CREATE_VIDEO_ADMISSION";
         public static final String SQL_UPDATE_VIEW_VIDEO_ADMISSION = "UPDATE_VIEW_VIDEO_ADMISSION";
+        public static final String SQL_UPDATE_VIDEO_ADMISSION = "UPDATE_VIDEO_ADMISSION";
+        public static final String SQL_UPDATE_USER_WATCHED_VIDEO_ADMISSION = "UPDATE_USER_WATCHED_VIDEO_ADMISSION";
+        public static final String SQL_UPDATE_NUMCOMMENT_VIDEO_ADMISSION = "UPDATE_NUMCOMMENT_VIDEO_ADMISSION";
+        public static final String SQL_DELETE_VIDEO_ADMISSION = "DELETE_VIDEO_ADMISSION";
+        public static final String SQL_CHECK_USER_WATCHED_VIDEO_ADMISSION = "CHECK_USER_WATCHED_VIDEO_ADMISSION";
+
         public static final String SQL_UPDATE_AVARTAR_USER = "UPDATE_AVARTAR_USER";
         public static final String SQL_GET_AVATAR_USER = "GET_AVATAR_USER";
         public static final String SQL_GET_IMAGE_UPLOAD_ESSAY = "GET_IMAGE_UPLOAD_ESSAY";
-        public static final String SQL_GET_ALL_TOPIC_SUB_ADMISSION = "GET_ALL_TOPIC_SUB_ADMISSION";
-        public static final String SQL_DELETE_VIDEO_ADMISSION = "DELETE_VIDEO_ADMISSION";
-        public static final String SQL_GET_IMAGE_VIDEO_ADMISSION = "GET_IMAGE_VIDEO_ADMISSION";
-        public static final String SQL_GET_ALL_VIDEO_ADMISSION = "GET_LIST_ALL_VIDEO_ADMISSION";// MTDU
-        public static final String SQL_UPDATE_VIDEO_ADMISSION = "UPDATE_VIDEO_ADMISSION";
-        public static final String SQL_CREATE_VIDEO_ADMISSION = "CREATE_VIDEO_ADMISSION";
         public static final String SQL_GET_ALL_COMMENT = "GET_ALL_COMMENT";
         public static final String SQL_DELETE_COMMENT = "DELETE_COMMENT";
         public static final String SQL_SEARCH_ALL_VIDEO_BY_USER = "SEARCH_ALL_VIDEO_BY_USER";
@@ -464,9 +470,6 @@ public class SibConstants {
         public static final String SQL_CHECK_USER_WATCHED_VIDEO = "CHECK_USER_WATCHED_VIDEO";
         public static final String SQL_UPDATE_USER_WATCHED_VIDEO = "UPDATE_USER_WATCHED_VIDEO";
         public static final String SQL_GET_ID_VIDEO_USER_WATCHED = "GET_ID_VIDEO_USER_WATCHED";
-        public static final String SQL_CHECK_USER_WATCHED_VIDEO_ADMISSION = "CHECK_USER_WATCHED_VIDEO_ADMISSION";
-        public static final String SQL_UPDATE_USER_WATCHED_VIDEO_ADMISSION = "UPDATE_USER_WATCHED_VIDEO_ADMISSION";
-        public static final String SQL_GET_ID_VIDEO_ADMISSION_USER_WATCHED = "GET_ID_VIDEO_ADMISSION_USER_WATCHED";
         public static final String SQL_MENU_ADMIN = "MENU_ADMIN";
         public static final String SQL_GET_STUDENT_POSTED = "GET_STUDENT_POSTED";
         public static final String SQL_CREATE_QUESTION = "CREATE_QUESTION";
@@ -537,7 +540,6 @@ public class SibConstants {
         public static final String SQL_GET_COMMENT_VIDEO_BY_VID = "GET_COMMENT_VIDEO_BY_VID";
         public static final String SQL_CHECK_USER_HISTORY_VIDEO = "CHECK_USER_HISTORY_VIDEO";
         public static final String SQL_INSERT_HISTORY_VIDEO = "INSERT_HISTORY_VIDEO";
-        public static final String SQL_SIB_GET_LIST_VIDEO_TUTTORIAL_ADMISSION = "SIB_GET_LIST_VIDEO_TUTTORIAL_ADMISSION";
 
         public static final String SQL_GET_VIDEO_BY_SUBJECTID = "GET_VIDEO_BY_SUBJECTID";
         public static final String SQL_CHECK_SUBSCRIBE = "CHECK_SUBSCRIBE";

@@ -7,7 +7,7 @@ brotControllers.filter('fillterTeam', function() {
             nameSearch = name.toLowerCase();
         }
         angular.forEach(items, function(el) {
-            fullName =  displayUserName(el.firstName,el.lastName,el.userName);
+            fullName =  displayUserName(el.firstName,el.lastName,el.loginName);
             if((!isEmpty(fullName) && fullName.toLowerCase().indexOf(nameSearch)>-1)
                 || (!isEmpty(el.accomplishments) && el.accomplishments.toLowerCase().indexOf(nameSearch)>-1) || isEmpty(name)) {
                 filtered.push(el);
