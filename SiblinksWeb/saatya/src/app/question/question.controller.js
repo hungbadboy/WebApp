@@ -36,9 +36,11 @@ brotControllers
                 var userId = localStorage.getItem('userId');
                 $scope.userId = userId;
 
+                $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
                 $scope.totalQuestion = 0;
                 var oldQid = '-1';
                 $scope.curentOrderType = "newest";
+                var LIMIT_TOP_VIDEOS = 4;
                 var idRemove;
                 var eventRemove;
                 var questionForAnswer;

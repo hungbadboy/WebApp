@@ -1033,7 +1033,6 @@ brotControllers.directive('scroller', function($timeout, $parse) {
                 theme: 'dark',
                 scrollInertia: 250,
                 advanced: {
-                    updateOnContentResize: true
                 },
                 callbacks: {
                     onTotalScrollOffset: 20,

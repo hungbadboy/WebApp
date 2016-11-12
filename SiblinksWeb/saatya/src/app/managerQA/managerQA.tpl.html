@@ -234,12 +234,12 @@
                                                                         <span title="Edit" ng-click="editAnswer(answer.aid)" class="edit-answer" data-icon="&#x6c;"></span>
                                                                         <span title="Delete" ng-really-message="Are you sure you want to delete?"
                                                                               ng-really-click ="removeAnswer(answer.aid)" class="edit-answer" data-icon="&#xe019;"></span>
-                                                                        <span class="pull-right time" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}}</span>{{answer.numlike}}
+                                                                        <span class="pull-right time" >Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}}</span>
                                                                         <span class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                                     </div>
                                                                     <div class="header" ng-if="userId != answer.authorID">
                                                                         <strong class="primary-font pull-left"><a href="#/mentor/mentorProfile/{{answer.authorID}}">{{displayName(answer.firstName,answer.lastName,answer.userName)}}</a></strong>
-                                                                        <span class="time pull-left" >&nbsp;Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} &nbsp; </span>{{answer.numlike}}
+                                                                        <span class="time pull-left" >&nbsp;Replied {{convertUnixTimeToTime(answer.TIMESTAMP)}} &nbsp; </span>
                                                                         <span  id="heart{{answer.aid}}" class="{{answer.like=='1'?'like-h':''}}" data-icon="&#xe089;"></span>
                                                                     </div>
                                                                     <p class="pre-wrap" ng-click="showAnswer($index)">{{ answer.content | limitTo: 100 }}{{answer.content.length > 100 ? '...' : ''}}</p>
@@ -307,7 +307,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="dt-txt-question"   scroller="questionContent">
+                <div class="dt-txt-question"  style="height: 60%"  scroller="questionContent">
                     <p class =" pre-wrap"  >{{questionDetail.question_text}}</p>
                     <a ng-repeat="image in questionDetail.imagePath" href="javascript:void(0)">
                         <img style="max-width: 430px;" ng-src="{{image}}">
@@ -346,7 +346,7 @@
                 <div  class="top-user clearfix"  ng-if="!currentAnswer">
                     No answer
                 </div>
-                <div class="dt-txt-question" scroller="answerc">
+                <div class="dt-txt-question" style="height: 60%" scroller="answerc">
                     <p class="pre-wrap">{{currentAnswer.content}}</p>
                     <a href="" ng-repeat="img in convertToArrayImage(currentAnswer.imageAnswer)">
                         <img style="max-width: 430px;" ng-src="{{img}}"></a>

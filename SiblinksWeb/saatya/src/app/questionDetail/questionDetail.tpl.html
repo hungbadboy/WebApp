@@ -79,7 +79,6 @@
                                                     <div class="sort-answerDetail">
                                                         <ul>
                                                             <li class="newest" ng-click="propertyName = 'TIMESTAMP';reverse=true">Newest</li>
-                                                            <li class="answered" ng-click="propertyName = 'numlike';reverse=true">Top liked</li>
                                                             <li class="unanswer" ng-click="propertyName = 'TIMESTAMP';reverse=false">Oldest</li>
                                                         </ul>
                                                     </div>
@@ -99,7 +98,7 @@
                                                             <a href="#/student/mentorProfile/{{answer.authorID}}">
                                                                 <strong>{{validateShowName(answer.firstName,answer.lastName,answer.userName)}}</strong>&nbsp;</a>
                                                             &nbsp;&nbsp;<span>answered {{answer.timeStamp}}</span>
-                                                            <span>{{answer.numlike}} <span
+                                                            <span> <span
                                                                     data-icon="&#xe089;" class="heart{{answer.aid}}" id="{{answer.like=='1'?'heart':''}}"
                                                                     ng-click="likeAnswer(answer.aid)"></span></span>
                                                         </div>
