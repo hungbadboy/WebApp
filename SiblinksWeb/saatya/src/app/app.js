@@ -100,6 +100,8 @@ brotApp.controller('MainController', function($scope, $http, $location, HomeServ
         	  $scope.idbody = '';
           }
           
+       // Remove it modal-backdrop
+          $(".modal-backdrop").remove();
       });
       
 	  // Check login
