@@ -542,6 +542,7 @@ public class SibConstants {
         public static final String SQL_GET_VIDEO_BY_SUBJECTID = "GET_VIDEO_BY_SUBJECTID";
         public static final String SQL_CHECK_SUBSCRIBE = "CHECK_SUBSCRIBE";
         public static final String SQL_UPDATE_AVG_RATE = "UPDATE_AVG_RATE";
+        public static final String SQL_UPDATE_AVG_RATE_AGAIN = "UPDATE_AVG_RATE_AGAIN";
         public static final String SQL_GET_ALL_SUBJECTID_CATEGORY = "GET_ALL_SUBJECTID_CATEGORY";
         public static final String SQL_CHECK_STUDENT_SUBSCRIBE = "CHECK_STUDENT_SUBSCRIBE";
         // Favourite

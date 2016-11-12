@@ -38,14 +38,19 @@ brotControllers.controller('UserHeaderController',
             }
 
             $scope.profile = function () {
-//                $('.user-setting-wrapper span.current').trigger('click');
-                $location.path('/student/studentProfile' + userId);
+            	$location.path('/student/studentProfile' + userId);
             };
 
-            $scope.goToEditStudent = function () {
+            /*$scope.goToEditStudent = function () {
                 $location.path('/editStudent/basic');
-            };
+            };*/
 
+            $scope.goToProfile= function(url) {
+            	$('#user-info').hide();
+            	$location.path(url);
+            	
+            }
+            
             $scope.popupNotification = function () {
                showNotification($(this));
             };

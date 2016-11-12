@@ -739,9 +739,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                         subject.level = listcate[y].level;
                         subject.parentId = listcate[y].parentId;
                         listSubject.push(subject);
-                        return listSubject;
-                    }
 
+                    }
+                    return listSubject;
                 }
             }
             else {
