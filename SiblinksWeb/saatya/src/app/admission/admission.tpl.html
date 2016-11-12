@@ -44,7 +44,7 @@
                                           </div>
                                           
                                           <div class="videos-time-add">
-                                              <span class="video-poster" id="{{lstVideoTutAdmission.authorId}}" ng-click="showProfile($event)"> {{displayName(lstVideoTutAdmission.firstName,lstVideoTutAdmission.lastName,lstVideoTutAdmission.userName)}}</span>
+                                              <span class="video-poster" id="{{lstVideoTutAdmission.authorId}}" ng-click="showProfile($event)"><a href="javascript:void(0)">{{displayName(lstVideoTutAdmission.firstName,lstVideoTutAdmission.lastName,lstVideoTutAdmission.userName)}}</a></span>
                                               <span> added {{convertUnixTimeToTime(lstVideoTutAdmission.creationDate)}}</span>
                                           </div>
                                           <div class="videos-rate">
@@ -84,7 +84,7 @@
                                                   <a href="javascript:void(0)">{{lstArticleAdmission.title}}</a>
                                               </div>
                                               <div class="videos-time-add">
-                                                  <span class="video-poster" id="{{lstArticleAdmission.authorId}}" ng-click="showProfile($event);$event.stopPropagation()">{{displayName(lstArticleAdmission.firstName,lstArticleAdmission.lastName,lstArticleAdmission.userName)}}</span>
+                                                  <span class="video-poster" id="{{lstArticleAdmission.authorId}}" ng-click="showProfile($event);$event.stopPropagation()"><a href="javascript:void(0)">{{displayName(lstArticleAdmission.firstName,lstArticleAdmission.lastName,lstArticleAdmission.userName)}}</a></span>
                                                   <span> added {{convertUnixTimeToTime(lstArticleAdmission.createDate)}}</span>
                                               </div>
                                           </div>
@@ -150,7 +150,8 @@
 	                      <a href="javascript:void(0)"><img ng-src="{{articalDetail.image}}"></a>
 	                  </div>
 	                  <div class="article-infor">
-	                      <p>from <span class="name-mentor">{{displayName(articalDetail.firstName, articalDetail.lastName, articalDetail.userName)}}</span> 
+	                      <p>from <span class="name-mentor">
+	                      	<a href="javascript:void(0)">{{displayName(articalDetail.firstName, articalDetail.lastName, articalDetail.userName)}}</a></span> 
 	                      <span class="post-time">add {{convertUnixTimeToTime(articalDetail.createDate)}}</span></p>
 	                      <p class="video-view">
 	                      	<!-- <span data-icon="&#xe066;">{{lstArticleAdmission.numComments}}</span> -->
