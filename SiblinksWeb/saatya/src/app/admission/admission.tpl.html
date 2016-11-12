@@ -61,7 +61,8 @@
 				    	                            </span>
                                               </p>
                                               <p class="videos-rate-infor">
-                                                  <span data-icon="&#x49;"> {{lstVideoTutAdmission.numViews}}</span>
+                                                  <span data-icon="&#x49;"> {{(lstVideoTutAdmission.numViews == null)? '0' :lstVideoTutAdmission.numViews}}</span>
+                                                  <span data-icon="&#xe066;">{{(lstVideoTutAdmission.numComments == null)? '0': lstVideoTutAdmission.numComments}}</span>
                                               </p>
                                           </div>
                                       </div>

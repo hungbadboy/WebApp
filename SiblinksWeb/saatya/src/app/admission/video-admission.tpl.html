@@ -51,8 +51,9 @@
                         <div class="video-details-description">
                             <h3>{{videoInfo.title}}</h3>
                             <span>from </span>
-                            <a href="#/student/mentorProfile/{{videoInfo.userid}}"><span class="own-video">{{displayName(videoInfo.firstName,videoInfo.lastName,videoInfo.userName)}}
-                            </span></a>
+                            	<span class="own-video">
+                            		<a href="#/mentorProfile/{{videoInfo.userid}}">{{displayName(videoInfo.firstName,videoInfo.lastName,videoInfo.userName)}}</a>
+                            	</span>
                             <span class="video-time-add"> {{convertTime(videoInfo.creationDate)}}</span>
                             <div class="video-mentor-details">
                                 <div class="videos-rate">
@@ -71,9 +72,9 @@
                                                 <!--id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" ><span data-icon="&#xe031;"></span>Favorite</button>-->
                                     </div>
                                     <p class="videos-rate-infor">
-                                        <span data-icon="&#x49;">{{videoInfo.numViews}}</span>
-                                        &nbsp;&nbsp;
-                                        <span ng-if="comments" data-icon="&#xe066;">{{comments.length}} </span>
+                                        <span data-icon="&#x49;">{{(videoInfo.numViews == null)? '0' : videoInfo.numViews}}</span>
+                                        &nbsp;
+                                        <span data-icon="&#xe066;">{{(!videoInfo.numComments)? '0': videoInfo.numComments}} </span>
                                     </p>
                                 </div>
                             </div>
@@ -121,12 +122,12 @@
                                 </div>
                                 <ul class="comments-list">
                                     <li class="comment" ng-repeat="comment in comments">
-                                        <a class="pull-left" href="#">
+                                        <a class="pull-left" href="#/student/studentProfile/{{comment.userid}}">
                                             <img class="avatar" ng-src="{{comment.imageUrl}}" alt="avatar">
                                         </a>
                                         <div class="comment-body">
                                             <div class="comment-heading">
-                                                <h4 class="user">{{displayName(comment.firstName,comment.lastName,comment.userName)}}</h4>
+                                                <h4 class="user"><a href="#/student/studentProfile/{{comment.userid}}">{{displayName(comment.firstName,comment.lastName,comment.userName)}}</a></h4>
                                                 <h5 class="time">{{convertTime(comment.timestamp)}}</h5>
                                             </div>
                                             <p class="pre-wrap">{{comment.content}}</p>
@@ -150,12 +151,16 @@
                                     <span class="video-time">{{videoRelate.runningTime}}</span>
                                 </div>
                                 <div class="detail-video">
-                                    <a href="#/video_admission/{{videoRelate.vid}}"><p class="title-video">
-                                        {{videoRelate.title}}
-                                    </p></a>
+                                  	<p class="title-video">
+                                  		<a href="#/video_admission/{{videoRelate.vid}}">{{videoRelate.title}}</a>
+                                  	</p>
+                                    
                                     <span class="owner-video">from
-                                        <a href="#/student/mentorProfile/{{videoRelate.userid}}"><span class="own-video"> {{displayName(videoRelate.firstName,videoRelate.lastName,comment.userName)}}</span></a></span><br>
-                                    	<span class="view-count">view: <span>{{videoRelate.numViews}}</span>
+                                        <span class="own-video">
+                                        	<a href="#/student/mentorProfile/{{videoRelate.userid}}">{{displayName(videoRelate.firstName,videoRelate.lastName,videoRelate.userName)}}</a>
+                                        </span>
+                                      </span><br>
+                                    <span class="view-count">view: <span>{{videoRelate.numViews}}</span>
                                     </span>
                                 </div>
                             </div>
