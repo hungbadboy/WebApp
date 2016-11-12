@@ -1810,13 +1810,20 @@ public class VideoServiceImpl implements VideoService {
             if (!isRated) {
                 entityName = SibConstants.SqlMapper.SQL_SIB_RATE_VIDEO;
                 queryParams = new Object[] { vid, uid, rate };
+
+                Object[] queryUpdateRate = { rate, vid };
+                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE, queryUpdateRate);
+                status = dao.insertUpdateObject(entityName, queryParams);
             } else {
                 queryParams = new Object[] { rate, vid, uid };
                 entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO;
+                double newRate = Double.parseDouble(rate);
+                double rateOld = ((Map<String, Double>) videoRated.get(0)).get(Parameters.RATE);
+                // Update again
+                Object[] queryUpdateRate = { newRate - rateOld, vid };
+                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_AGAIN, queryUpdateRate);
+                status = dao.insertUpdateObject(entityName, queryParams);
             }
-            Object[] queryUpdateRate = { rate, vid, rate, vid };
-            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE, queryUpdateRate);
-            status = dao.insertUpdateObject(entityName, queryParams);
 
             transactionManager.commit(statusDao);
             logger.info("Insert Menu success " + new Date());
