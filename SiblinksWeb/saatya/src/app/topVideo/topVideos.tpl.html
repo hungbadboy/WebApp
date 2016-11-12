@@ -27,7 +27,8 @@
                          {{ video.title | limitTo: 50 }}{{video.title.length > 50 ? '...' : ''}}</a>
                  </p>
                  <p class="video-rate">
-                 	<span>Rate: {{video.averageRating}} ({{video.numRatings}} votes)</span>
+                 	<span ng-if="!video.averageRating">No ratings</span>
+                 	<span ng-if="video.averageRating">Rate: {{video.averageRating}} ({{video.numRatings}} votes)</span>
                      <span  ng-if="video" star-rating stars="5" id="divRateTopVideo"
 	                          outer-star-selection="stars"
 	                          readonly="true"
