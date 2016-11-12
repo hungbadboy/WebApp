@@ -39,19 +39,24 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
         }, 300);
 
 
-        // $scope.onFileSelect = function ($files) {
-        //     $scope.essayErrorMsg = "";
-        //     fileUpload = $files[0];
-        //     $scope.fileName = fileUpload.name;
-        // };
-        $scope.$watch('files', function () {
+        $scope.uploadFiles = function ($files,errFiles) {
             $scope.essayErrorMsg = "";
-            if(isEmpty($scope.files)){
-                return ;
+            var errFile = errFiles && errFiles[0];
+            if(!isEmpty(errFile)){
+                $scope.essayErrorMsg = 'File wrong format or over 5M!';
+                return;
             }
-            fileUpload = $scope.files;
+            fileUpload = $files[0];
             $scope.fileName = fileUpload.name;
-        });
+        };
+        // $scope.$watch('files', function () {
+        //     $scope.essayErrorMsg = "";
+        //     if(isEmpty($scope.files)){
+        //         return ;
+        //     }
+        //     fileUpload = $scope.files;
+        //     $scope.fileName = fileUpload.name;
+        // });
 
         function setValueEdit(object) {
             $scope.selectMajor = object.majorId;

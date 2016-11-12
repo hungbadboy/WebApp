@@ -36,12 +36,9 @@ brotControllers
                 var userId = localStorage.getItem('userId');
                 $scope.userId = userId;
 
-                $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
                 $scope.totalQuestion = 0;
                 var oldQid = '-1';
                 $scope.curentOrderType = "newest";
-                var LIMIT_TOP_MENTORS = 5;
-                var LIMIT_TOP_VIDEOS = 4;
                 var idRemove;
                 var eventRemove;
                 var questionForAnswer;
@@ -426,7 +423,7 @@ brotControllers
                     $scope.filesArray.splice(index, 1);
 
                 }
-                $scope.onFileSelect = function ($files) {
+                $scope.onFileSelect = function ($files,errFiles) {
                     $scope.askErrorMsg= "";
                     var errFile = errFiles && errFiles[0];
                     if(!isEmpty(errFile)){
@@ -616,17 +613,17 @@ brotControllers
 
 
                 };
-                $scope.onFileSelect = function ($files) {
-                    $scope.askErrorMsg= "";
-                    if ($files != null) {
-                        for (var i = 0; i < $files.length; i++) {
-                            var file = $files[i];
-                            $scope.filesArray.push(file);
-
-
-                        }
-                    }
-                };
+                // $scope.onFileSelect = function ($files) {
+                //     $scope.askErrorMsg= "";
+                //     if ($files != null) {
+                //         for (var i = 0; i < $files.length; i++) {
+                //             var file = $files[i];
+                //             $scope.filesArray.push(file);
+                //
+                //
+                //         }
+                //     }
+                // };
                 $scope.deleteQuestion = function (qid) {
                     $rootScope.$broadcast('open');
 	                QuestionsService.removePost(qid).then(function (data) {

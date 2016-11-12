@@ -19,7 +19,7 @@
 	                        <p><div angucomplete-alt id="autocompleteCate_value" placeholder="Select a category" pause="300"
 	                                selected-object="selectedSubject"
 	                                local-data="subjects" search-fields="subject" title-field="subject"
-	                                image-field="image" minlength="0" input-class="form-control form-control-small"
+	                                minlength="0" input-class="form-control form-control-small"
 	                                match-class="highlight" />
 	                                <!--<input type="file" multiple id="files"  ng-file-select="onFileSelect($files)" accept='image/*'/>-->
 	                        </p>
@@ -35,6 +35,7 @@
 								<!--<span class="add-img">-->
 	                                <!--<label for="files"><img src="assets/images/add-img.png"></label></span>-->
 								<p >
+									<button ng-click="clean()">ccccc</button>
 									<button type="button" class="home-ask-now" ng-click="redirectForum()">Ask Now</button></p>
 	                        </output>
 
