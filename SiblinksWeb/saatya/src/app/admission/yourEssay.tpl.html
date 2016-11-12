@@ -73,7 +73,7 @@
                                           outer-percent="rating"
                                           rating-define="star"
                                           rating-stars="{{currentEssay.averageRating}}"
-                                          star-radius="6" sel-color="gold"
+                                          star-radius="8" sel-color="gold"
                                           back-color="white"></span>
                         </p>
                     </div>
@@ -101,14 +101,15 @@
                         </div>
                         <div ng-if="currentEssay.status =='R'" class="essay-detail-right-content">
                             <div ng-if="currentEssay.status =='R'" class="answer-by">
-                                <span class="mentor-answer">Replied by mentor</span>
-                                <span class="post-time">{{convertUnixTimeToTime(currentEssay.timestamp)}}</span>
+                                <span class="mentor-answer">Replied by <a style="cursor:pointer" data-dismiss="modal" ng-click="transferPage('/student/mentorProfile/' + currentEssay.mentorId)">{{displayName(currentEssay.mfirstName,currentEssay.mlastName,currentEssay.muserName)}}</a>
+                             </span><br/>
+                                <span class="post-time">{{convertUnixTimeToTime(currentEssay.docReviewedDate)}}</span>
                             </div>                            
                             <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
                             <div class=""></div>
                             <!-- <button class=read-more>Read more <span data-icon="&#x33;"></span></button> -->
                             <div class="attrach-file" ng-if="currentEssay.downloadLinkM">
-                                <a href="{{currentEssay.downloadLinkS}}"><label for="attached"><span data-icon="&#xe092;"> Attached file</span></label></a>
+                                <a href="{{currentEssay.downloadLinkM}}"><label for="attached"><span data-icon="&#xe092;"> Attached file</span></label></a>
                                 <span>{{currentEssay.urlReview}}</span>
                             </div>
                         </div>
