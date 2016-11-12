@@ -1,28 +1,21 @@
 brotControllers.controller('DashboardController',['$rootScope','$scope', '$location', 'MentorService', 'VideoService', 'EssayService', 'HomeService',
   function($rootScope, $scope, $location, MentorService, VideoService, EssayService, HomeService) {
 
-	$scope.data =[
-	               { imageUrl:"assets/images/mentor-04.png", name:"Student1", caption:""},
-	               { imageUrl:"assets/images/mentor-04.png", name:"Student2", caption:""},
-	               { imageUrl:"assets/images/mentor-04.png", name:"Student3", caption:""},
-	               { imageUrl:"assets/images/mentor-04.png", name:"Student4", caption:""},
-	               { imageUrl:"assets/images/mentor-04.png", name:"Student5", caption:""},
-	            ];
+	$scope.data =[];
   //Author: Hoai Nguyen;
   //event click on "Submit" button;
   var userId = localStorage.getItem('userId');
   var schoolId = localStorage.getItem('school');
   var NO_DATA = "Found no data";
-  $scope.rating = 0.1;
 
   init();
 
   function init(){
     if (userId && userId > 0) {
+   	  getStudentsSubcribed();
       getMainDashboardInfo();
       getVideosTopViewed();
       getNewestQuestions();
-      getStudentsSubcribed();
       getNewestEssay();
       initPlaylist();
       initSubject();
@@ -41,7 +34,7 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
           subjects.splice(0, 0, {
             'subjectId': 0,
             'subject' : 'Select a Subject'
-          });
+          })
           localStorage.setItem("mentorSubjects", JSON.stringify(subjects), 10)
         }
       });
@@ -115,7 +108,6 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
         $scope.videosTopViewed = data.data.request_data_result;
         $scope.vTopViewed = $scope.videosTopViewed[0];            
         $scope.topViewedPos = 0;
-        $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
       }
     });
   }
@@ -124,12 +116,10 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
     if (pos == 0) {
       $scope.topViewedPos = $scope.videosTopViewed.length - 1;
       $scope.vTopViewed = $scope.videosTopViewed[$scope.videosTopViewed.length - 1];
-      $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
     }
     else{
       $scope.topViewedPos = pos - 1;
       $scope.vTopViewed = $scope.videosTopViewed[pos - 1];
-      $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
     }
   }
 
@@ -137,12 +127,10 @@ brotControllers.controller('DashboardController',['$rootScope','$scope', '$locat
     if (pos == $scope.videosTopViewed.length - 1) {
       $scope.topViewedPos = 0;
       $scope.vTopViewed = $scope.videosTopViewed[0];
-      $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
     }
     else{
       $scope.topViewedPos = pos + 1;
       $scope.vTopViewed = $scope.videosTopViewed[pos + 1];
-      $scope.rating = $scope.vTopViewed.averageRating != null ? $scope.vTopViewed.averageRating : 0.1;
     }
   }
 

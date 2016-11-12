@@ -45,7 +45,7 @@ brotControllers.controller('SignUpController', ['$scope','$rootScope', '$locatio
       if(data.status == 'true') {
         //active student
     	$rootScope.$broadcast('open');
-        StudentService.loginUser(user.email, user.password, token, function(data) {
+        StudentService.loginUser(user.email, user.password, token, null, function(data) {
         	$rootScope.$broadcast('close');
             if(data.status == 'true') {
               var dataUser = data;
