@@ -2126,7 +2126,7 @@ public class VideoServiceImpl implements VideoService {
             }
 
             transactionManager.commit(statusDao);
-            logger.info("Insert Menu success " + new Date());
+            logger.info("Rate video success " + new Date());
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request
                 .getRequest_data()
                 .getVid());
@@ -2187,7 +2187,7 @@ public class VideoServiceImpl implements VideoService {
                 status = dao.insertUpdateObject(entityName, queryParams);
 
                 Object[] queryUpdateRate = { rate, vid };
-                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_VIDEO_ADMISSION, queryUpdateRate);
+                status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_VIDEO_ADMISSION, queryUpdateRate);
                 // Activity Log
                 activiLogService.insertActivityLog(new ActivityLogData(
                                                                        SibConstants.TYPE_VIDEO,
@@ -2196,25 +2196,31 @@ public class VideoServiceImpl implements VideoService {
                                                                        uid,
                                                                        String.valueOf(vid)));
             } else {
-                Map<String, Double> object = (Map<String, Double>) videoRated.get(0);
-                // Update rating
-                queryParams = new Object[] { rate, vid, uid };
-                entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO_ADMISSION;
-                Double rateOld = object.get(Parameters.RATING);
-                Double rateNew = Double.parseDouble(rate);
-                Object[] queryUpdateRate = { rateNew - rateOld };
-                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_VIDEO_ADMISSION_AGAIN, queryUpdateRate);
-                // Activity Log
-                activiLogService.insertActivityLog(new ActivityLogData(
-                                                                       SibConstants.TYPE_VIDEO,
-                                                                       "U",
-                                                                       "You updated the rating a video",
-                                                                       uid,
-                                                                       String.valueOf(vid)));
+                Map<String, Integer> object = (Map<String, Integer>) videoRated.get(0);
+                int rateOld = object.get(Parameters.RATING);
+                int rateNew = Integer.parseInt(rate);
+                if (rateNew != rateOld) {
+                    // Update rating
+                    queryParams = new Object[] { rate, vid, uid };
+                    entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO_ADMISSION;
+                    status = dao.insertUpdateObject(entityName, queryParams);
+
+                    Object[] queryUpdateRate = { rateNew - rateOld, vid };
+                    status = dao.insertUpdateObject(
+                        SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_VIDEO_ADMISSION_AGAIN,
+                        queryUpdateRate);
+                    // Activity Log
+                    activiLogService.insertActivityLog(new ActivityLogData(
+                                                                           SibConstants.TYPE_VIDEO,
+                                                                           "U",
+                                                                           "You updated the rating a video",
+                                                                           uid,
+                                                                           String.valueOf(vid)));
+                }
             }
 
             transactionManager.commit(statusDao);
-            logger.info("    " + new Date());
+            logger.info("Rating video addmission successful" + new Date());
 
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), request
                 .getRequest_data()
@@ -2580,8 +2586,9 @@ public class VideoServiceImpl implements VideoService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/getUserRatingVideoAdmission", method = RequestMethod.GET)
-    public ResponseEntity<Response> getUserRatingVideoAdmission(@RequestParam final String uid, @RequestParam final String vid) {
+    @RequestMapping(value = "/getUserRatingVideoAdmission/{uid}/{vid}", method = RequestMethod.GET)
+    public ResponseEntity<Response> getUserRatingVideoAdmission(@PathVariable(value = "uid") final long uid, @PathVariable(
+            value = "vid") final long vid) {
         SimpleResponse response = null;
         try {
             if (StringUtil.isNull(uid) || StringUtil.isNull(vid)) {

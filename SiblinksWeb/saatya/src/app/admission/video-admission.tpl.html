@@ -5,14 +5,6 @@
             <h5><a href="#/"> SibLinks</a> / <a href="#/college_admission">College Admission</a> / Video admission</h5>
             <!-- Search form -->
             <div class="search searchbrecrum">
-                <!--<form class="navbar-form" role="search">-->
-                    <!--<div class="input-group">-->
-                        <!--<input type="text" class="form-control form-control-search" placeholder="Search" name="srch-term" id="srch-term" >-->
-                        <!--<div class="input-group-btn">-->
-                            <!--<button class="btn btn-default btn-search-video" ><span data-icon="&#x55;"></span></button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</form>-->
             </div><!-- /End Search form -->
         </div>
 
@@ -27,19 +19,8 @@
                 <div class="video-details-playlist-wrapper container">
                     <!-- 16:9 aspect ratio -->
                     <div class="video-iframe noplaylist" >
-                        <div id="video">
-                            <!--<iframe width="100%" height="430px" src="https://www.youtube.com/embed/B7wkzmZ4GBw?enablejsapi=1" frameborder="0"></iframe>-->
-                        </div>
+                        <div id="video"></div>
                     </div>
-                    <!--<div class="control-video">-->
-                        <!--<div  class="left" ng-click="nextVideo('back')"><span data-icon="&#x34;"></span></div>-->
-                        <!--<div  class="right" ng-click="nextVideo('next')"><span data-icon="&#x35;"></span></div>-->
-                    <!--</div>-->
-
-                    <!-- 4:3 aspect ratio -->
-                    <!-- <div class="embed-responsive embed-responsive-4by3">
-                      <iframe class="embed-responsive-item" src="..."></iframe>
-                    </div> -->
                 </div>
             </div><!-- /End Video details playlist -->
 
@@ -59,19 +40,17 @@
                                 <div class="videos-rate">
                                     <div class="video-details-sub">
                                         <a href="#/student/mentorProfile/{{videoInfo.userid}}"><img ng-src="{{videoInfo.avatar}}"></a>
-                                        <!--<div class="video-member-subcriber">-->
-                                            <!--<button id="btnsubs" class="subscribers" ng-class="{'unsubcrib':isSubscribe=='1'}"-->
-                                                    <!--data-icon="&#x4c;" ng-Mouseover="hoverSubcribe()"-->
-                                                    <!--ng-mouseleave="unHoverSubcribe()" ng-click="setSubscribeMentor(videoInfo.userid)">-->
-                                                <!--<span id="spansubs" >Subscribe</span>-->
-                                                <!--<span class="number-subscribers">{{videoInfo.numsub}}</span></button>-->
-
-                                        <!--</div>-->
-                                        &nbsp;
-                                        <!--<button ng-if="userId" ng-disabled="isFavorite == '1'" class="favoriteVideo" ng-class="{'btn-warning':isFavorite =='1'}"-->
-                                                <!--id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" ><span data-icon="&#xe031;"></span>Favorite</button>-->
                                     </div>
                                     <p class="videos-rate-infor">
+                                    	<span ng-if="loadRate" star-rating stars="5" id="divRate"
+                                          outer-star-selection="stars"
+                                          outer-percent="rating"
+                                          rating-define="star"
+                                          rating-stars="{{rateNum}}"
+                                          star-radius="10" sel-color="gold"
+                                          back-color="white"
+                                          readonly = "true"></span>
+                                        <span>{{(rateNum == null) ? '0' : rateNum}} ({{videoInfo.numRatings}} votes)</span>
                                         <span data-icon="&#x49;">{{(videoInfo.numViews == null)? '0' : videoInfo.numViews}}</span>
                                         &nbsp;
                                         <span data-icon="&#xe066;">{{(!videoInfo.numComments)? '0': videoInfo.numComments}} </span>
@@ -80,12 +59,12 @@
                             </div>
                             <div class="videos-start">
                                 <span style="float: left;" id="rateSpan">Rate
-                                     <div ng-if="loadRate" star-rating stars="5" id="divRate"
-                                          outer-star-selection="stars"
-                                          ng-click="rateFunction(stars)"
+                                     <div ng-if="loadRate" star-rating stars="5" id="divRate1"
+                                          outer-star-selection="stars1"
+                                          ng-click="rateFunction(stars1)"
                                           outer-percent="rating"
                                           rating-define="star"
-                                          rating-stars="{{rateNum}}"
+                                          rating-stars="{{numRating}}"
                                           star-radius="10" sel-color="gold"
                                           back-color="white"></div>
                                 </span>

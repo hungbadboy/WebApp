@@ -180,7 +180,7 @@ public class SibConstants {
         public static final String SQL_SIB_EDIT_VIDEO = "SIB_EDIT_VIDEO";
         public static final String SQL_SIB_DELETE_TAGS = "SIB_DELETE_TAGS";
         public static final String SQL_SIB_GET_USER_RATE_VIDEO = "SIB_GET_USER_RATE_VIDEO";
-        public static final String SQL_SIB_GET_USER_RATE_VIDEO_ADMISSION = "GET_USER_RATE_VIDEO_ADMISSION";
+        public static final String SQL_SIB_GET_USER_RATE_VIDEO_ADMISSION = "SIB_GET_USER_RATE_VIDEO_ADMISSION";
         public static final String SQL_SIB_RATE_VIDEO = "SIB_RATE_VIDEO";
         public static final String SQL_SIB_RATE_VIDEO_ADMISSION = "SIB_RATE_VIDEO_ADMISSION";
         public static final String SQL_SIB_RATE_UPDATE_VIDEO = "SIB_RATE_UPDATE_VIDEO";

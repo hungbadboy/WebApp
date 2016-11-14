@@ -147,6 +147,6 @@ public interface VideoService {
      * @param vid
      * @return
      */
-    ResponseEntity<Response> getUserRatingVideoAdmission(String uid, String vid);
+    ResponseEntity<Response> getUserRatingVideoAdmission(long uid, long vid);
 
 }

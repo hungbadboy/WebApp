@@ -51,14 +51,14 @@
                                            	<p class="videos-start star-admission">
                                                   <span star-rating stars="5" id="divRate"
 				                                          outer-star-selection="stars"
-				                                          ng-click="rateFunction(stars)"
 				                                          outer-percent="rating"
 				                                          rating-define="star"
 				                                          rating-stars="{{lstVideoTutAdmission.averageRating}}"
 				                                          star-radius="6" sel-color="gold"
 				                                          back-color="white"
-				                                          readonly="true">
+				                                          readonly="true" title="{{lstVideoTutAdmission.averageRating}}">
 				    	                            </span>
+				    	                            <span>{{lstVideoTutAdmission.averageRating != null ? lstVideoTutAdmission.averageRating : 0}} ({{ (!lstVideoTutAdmission.numRatings)? '0' : lstVideoTutAdmission.numRatings}} votes)</span>
                                               </p>
                                               <p class="videos-rate-infor">
                                                   <span data-icon="&#x49;"> {{(lstVideoTutAdmission.numViews == null)? '0' :lstVideoTutAdmission.numViews}}</span>
@@ -92,7 +92,6 @@
                                               <p class="videos-start star-artical">
                                              		<span star-rating stars="5"
 				                                          outer-star-selection="stars"
-				                                          ng-click="rateFunction(stars)"
 				                                          outer-percent="rating"
 				                                          rating-define="star"
 				                                          rating-stars="{{lstArticleAdmission.averageRating}}"
@@ -100,6 +99,7 @@
 				                                          back-color="white"
 				                                          readonly="true">
 				    	                            </span>
+				    	                            <span>{{lstArticleAdmission.averageRating != null ? lstArticleAdmission.averageRating : 0}} ({{ (!lstArticleAdmission.numRatings)? '0' : lstArticleAdmission.numRatings}} votes)</span>
                                               </p>
                                               <p class="videos-rate-infor">
                                                   	<span class="fa fa-eye">{{lstArticleAdmission.numView}}</span>
@@ -168,15 +168,6 @@
                                           star-radius="10" sel-color="gold"
                                           back-color="white">
                             </span>
-	                     	<!-- <span star-rating stars="5" id="rateArtical"
-	                                 outer-star-selection="stars"
-	                                 ng-click="rateFunction(stars)"
-	                                 outer-percent="rating"
-	                                 rating-define="star"
-	                                 rating-stars="{{articalDetail.averageRating}}"
-	                                 star-radius="6" sel-color="gold"
-	                                 back-color="white">
-	                        	</span> -->
 	                     </p>
 	                  </div>
 	                  <!-- <button class="share">Share</button> -->
