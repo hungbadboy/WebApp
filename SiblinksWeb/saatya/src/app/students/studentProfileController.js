@@ -424,7 +424,7 @@ brotControllers.controller('StudentProfileController',
                                 }
                                 updateDefaultFavsSubs();
                             }
-                            $scope.msgSuccess = "Update Profile Successful !";
+                            $scope.msgSuccess = "Your profile has been updated successfully!";
                         } else {
                             if (error != '') {
                                 $scope.msgError = error.substr(0, error.lastIndexOf(','));
