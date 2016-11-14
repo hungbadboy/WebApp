@@ -51,11 +51,11 @@
                                              readonly="true"
                                              outer-percent="rating"
                                              rating-define="star"
-                                             rating-stars="{{mentor.avgrate}}"
+                                             rating-stars="{{(mentor.avgrate != null)? toFixed(mentor.avgrate,1) : '0'}}"
                                              star-radius="9" sel-color="gold"
-                                             back-color="white">
+                                             back-color="white" title="{{(mentor.avgrate != null)? toFixed(mentor.avgrate,1) : '0'}}">
 	                                 </span>
-
+	                                 <span>{{(mentor.avgrate != null)? toFixed(mentor.avgrate,1) : '0'}} ({{(mentor.numRatings != null) ? mentor.numRatings : '0'}} votes)</span>
                                   </div>
                                   <div class="mentors-edu">
                                   	<span ng-if="(mentor.schoolName) == ''">&nbsp;</span>
