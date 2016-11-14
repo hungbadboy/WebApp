@@ -171,8 +171,9 @@
                                                       rating-stars="{{search.averageRating}}"
                                                       star-radius="6" sel-color="gold"
                                                       readonly="true"
-                                                      back-color="white">
+                                                      back-color="white" title="{{search.averageRating}}">
                                                  </span>
+                                                 <span>{{search.averageRating != null ? search.averageRating : 0}} ({{ (!search.numRatings)? '0' : search.numRatings}} votes)</span>
                                             </p>
                                             <p class="videos-rate-infor">
                                                 <span data-icon="&#x49;">{{search.numViews}}</span>
@@ -223,8 +224,9 @@
                                                           rating-stars="{{recommend.averageRating != null ? recommend.averageRating : 0}}"
                                                           star-radius="6" sel-color="gold"
                                                           readonly="true"
-                                                          back-color="white">
+                                                          title="{{recommend.averageRating}}">
                                                      </span>
+                                                     <span>{{recommend.averageRating != null ? recommend.averageRating : 0}} ({{ (!recommend.numRatings)? '0' : recommend.numRatings}} votes)</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{recommend.numViews != null ? recommend.numViews : 0}}</span>
@@ -279,8 +281,9 @@
                                                            rating-stars="{{videoRecently.averageRating != null ? videoRecently.averageRating : 0}}"
                                                            star-radius="6" sel-color="gold"
                                                            readonly="true"
-                                                           back-color="white">
+                                                           title="{{videoRecently.averageRating}}">
                                                      </span>
+                                                     <span>{{videoRecently.averageRating != null ? videoRecently.averageRating : 0}} ({{ (!videoRecently.numRatings)? '0' : videoRecently.numRatings}} votes)</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{videoRecently.numViews != null ? videoRecently.numViews : 0}}</span>
@@ -342,15 +345,16 @@
                                                 </div>
                                                 <div class="videos-rate">
                                                     <p class="videos-start">
-                                                <span ng-if="isReadyLoadRatedR4U" star-rating stars="5"
-                                                      outer-star-selection="stars"
-                                                      outer-percent="rating"
-                                                      rating-define="star"
-                                                      rating-stars="{{detailVideo.avgRating}}"
-                                                      star-radius="6" sel-color="gold"
-                                                      readonly="true"
-                                                      back-color="white">
-                                                 </span>
+	                                                <span ng-if="isReadyLoadRatedR4U" star-rating stars="5"
+	                                                      outer-star-selection="stars"
+	                                                      outer-percent="rating"
+	                                                      rating-define="star"
+	                                                      rating-stars="{{detailVideo.avgRating}}"
+	                                                      star-radius="6" sel-color="gold"
+	                                                      readonly="true"
+	                                                      title="{{detailVideo.averageRating}}">
+	                                                 </span>
+                                                 	<span>{{detailVideo.averageRating != null ? detailVideo.averageRating : 0}} ({{ (!detailVideo.numRatings)? '0' : detailVideo.numRatings}} votes)</span>
                                                     </p>
                                                     <p class="videos-rate-infor">
                                                         <span data-icon="&#x49;">{{detailVideo.numViews}}</span>
@@ -430,6 +434,7 @@
                                                           readonly="true"
                                                           back-color="white">
                                                      </span>
+                                                     <span>{{lstRecentVideo.averageRating != null ? lstRecentVideo.averageRating : 0}} ({{ (!lstRecentVideo.numRatings)? '0' : lstRecentVideo.numRatings}} votes)</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{lstRecentVideo.numViews}}</span>
@@ -472,6 +477,7 @@
                                                            readonly="true"
                                                            back-color="white">
                                                      </span>
+                                                     <span>{{lstWeekVideo.averageRating != null ? lstWeekVideo.averageRating : 0}} ({{ (!lstWeekVideo.numRatings)? '0' : lstWeekVideo.numRatings}} votes)</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{lstWeekVideo.numViews}}</span>
@@ -517,6 +523,7 @@
                                                            readonly="true"
                                                            back-color="white">
                                                      </span>
+                                                     <span>{{lstMentorOlder.averageRating != null ? lstMentorOlder.averageRating : 0}} ({{ (!lstMentorOlder.numRatings)? '0' : lstMentorOlder.numRatings}} votes)</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{lstMentorOlder.numViews}}</span>
@@ -560,7 +567,7 @@
                                         </div>
                                         <div class="videos-rate">
                                             <p class="videos-start">
-                                                     <span style="float : left; margin-left: 0px"
+                                                 <span style="float : left; margin-left: 0px"
                                                            ng-if="loadRateHistory" star-rating stars="5"
                                                            outer-star-selection="stars"
                                                            outer-percent="rating"
@@ -568,8 +575,9 @@
                                                            rating-stars="{{video.averageRating != null ? video.averageRating : 0}}"
                                                            star-radius="6" sel-color="gold"
                                                            readonly="true"
-                                                           back-color="white">
+                                                           title="{{video.averageRating}}">
                                                  </span>
+                                                 <span>{{video.averageRating != null ? video.averageRating : 0}} ({{ (!video.numRatings)? '0' : video.numRatings}} votes)</span>
                                             </p>
                                             <p class="videos-rate-infor">
                                                 <span data-icon="&#x49;">{{video.numViews}}</span>
@@ -636,6 +644,7 @@
                                                           readonly="true"
                                                           back-color="white">
                                                      </span>
+                                                     <span>{{videoFavourite.averageRating != null ? videoFavourite.averageRating : 0}} ({{ (!videoFavourite.numRatings)? '0' : videoFavourite.numRatings}} votes)</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{videoFavourite.numViews}}</span>

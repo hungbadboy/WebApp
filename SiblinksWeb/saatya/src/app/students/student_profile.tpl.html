@@ -20,7 +20,7 @@
                                  err-src="assets/images/noavartar.jpg">
                             <h3 ng-if="!isEmptyName" class="student-name" style="font-size: 20px; margin-top: 13px; word-wrap: break-word;">{{displayName(studentInfo.firstname ,studentInfo.lastName,studentInfo.username)}}</h3>
                             <h3 ng-if="isEmptyName" class="student-name" style="font-size: 20px; margin-top: 13px; word-wrap: break-word;">{{studentInfo.fullName}}</h3>
-                            <span class="changeImg" ng-hide="isLoginViaFBOrGoogle">
+                            <span class="changeImg">
                                 <button ngf-select="onFileSelect($files, $invalidFiles)" multiple ngf-pattern="'image/*'"
                                         accept="image/*" ngf-max-size="5MB">
 									<span style="pointer-events: none;" data-icon="&#xe075;"></span></button>

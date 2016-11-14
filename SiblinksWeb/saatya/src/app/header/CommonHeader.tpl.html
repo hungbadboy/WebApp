@@ -25,7 +25,7 @@
 			        <li ng-class="{active: currentPath=='/'}" ><a href="#/">Home</a></li>
 			        <li ng-class="{active: currentPath =='/first-ask'}" ><a href="#/first-ask">Ask a Question</a></li>
 			        <li ng-class="{active: currentPath=='/videos' }"><a href="#/videos">Tutorials</a></li>
-			        <li ng-class="{active: currentPath=='/college_admission'}"><a href="#/college_admission">College Admission</a></li>
+			        <li ng-class="{active: currentPath=='/college_admission' || currentPath.indexOf('/video_admission/')>=0}"><a href="#/college_admission">College Admission</a></li>
 			        <li ng-class="{active: currentPath=='/mentor/signin'}"><a href="#/mentor/signin">Become a Mentor</a></li>
 			    </ul>
 			</div>

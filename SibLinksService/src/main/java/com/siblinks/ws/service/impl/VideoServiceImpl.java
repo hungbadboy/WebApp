@@ -1818,7 +1818,7 @@ public class VideoServiceImpl implements VideoService {
                 queryParams = new Object[] { rate, vid, uid };
                 entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO;
                 double newRate = Double.parseDouble(rate);
-                double rateOld = ((Map<String, Double>) videoRated.get(0)).get(Parameters.RATE);
+                double rateOld = ((Map<String, Double>) videoRated.get(0)).get(Parameters.RATING);
                 // Update again
                 Object[] queryUpdateRate = { newRate - rateOld, vid };
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_AGAIN, queryUpdateRate);
@@ -1894,7 +1894,7 @@ public class VideoServiceImpl implements VideoService {
                 // Update rating
                 queryParams = new Object[] { rate, vid, uid };
                 entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_VIDEO_ADMISSION;
-                Double rateOld = object.get("rate");
+                Double rateOld = object.get(Parameters.RATING);
                 Double rateNew = Double.parseDouble(rate);
                 Object[] queryUpdateRate = { rateNew - rateOld };
                 dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_VIDEO_ADMISSION_AGAIN, queryUpdateRate);

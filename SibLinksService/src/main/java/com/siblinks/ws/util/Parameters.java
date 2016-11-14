@@ -30,6 +30,7 @@ public class Parameters {
     public static final String URLREVIEW = "urlReview";
     public static final String LIKE = "like";
     public static final String RATE = "rate";
+    public static final String RATING = "rating";
     public static final String LEVEL = "level";
     public static final String COUNT = "count";
     public static final String RULES = "rules";
