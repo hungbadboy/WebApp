@@ -59,7 +59,17 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
                                 }
 
                             });
-
+                          
+                          // Get user rating
+                          videoAdmissionService.getUserRatingVideoAdmission($scope.userId, $scope.videoInfo.vid).then(function (data) {
+                          if (data.data.status == 'true') {
+                              if (data.data.request_data_result.length > 0) {
+                                  $scope.numRating = data.data.request_data_result[0].rating;
+                              } else {
+                            	  $scope.numRating = 0
+                              }
+                           }
+                          });
                         }
                     }
 
@@ -150,17 +160,10 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
                 return;
             }
             $rootScope.$broadcast('open');
-//            videoAdmissionService.getUserRatingVideoAdmission($scope.userId, $scope.videoInfo.vid).then(function (data) {
-//                if (data.data.status == 'true') {
-//                    if (data.data.request_data_result.length > 0) {
-//                        $scope.rated = true;
-//                        $scope.errorVideo = "You are rated!";
-//                        $scope.rateNum = ratenumOld;
-//                    } else {
             videoAdmissionService.rateVideoAdmission($scope.userId, videoid, parseInt(rate)).then(function (data) {
             	$rootScope.$broadcast('close');
                 if (data.data.status == 'true') {
-                    $scope.rateNum = parseInt(rate);
+                    //$scope.rateNum = parseInt(rate);
                 }
             });
         }
