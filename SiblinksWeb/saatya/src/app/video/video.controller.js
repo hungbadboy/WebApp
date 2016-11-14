@@ -540,7 +540,11 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     $rootScope.subjectId = -1;
                 }
                 $scope.filterSearchBySub = false;
-                searchVideoPlaylist(keyword.title, limitOfLoadMore, 0);
+                var searchValue = keyword.title;
+                if(!isEmpty(searchValue)){
+                    searchValue = searchValue.trim();
+                }
+                searchVideoPlaylist(searchValue, limitOfLoadMore, 0);
                 displayResultsSearch();
             }
         };
@@ -578,6 +582,9 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 keywordFromAnotherPage = null;
             }
             var searchValue = angular.element("input#srch-term").val();
+            if(!isEmpty(searchValue)){
+                searchValue = searchValue.trim();
+            }
             searchVideoPlaylist(encodeURIComponent(searchValue), limitOfLoadMore, 0);
             displayResultsSearch();
         };

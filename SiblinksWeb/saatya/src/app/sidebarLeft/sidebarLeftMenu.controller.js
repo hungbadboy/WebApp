@@ -11,9 +11,7 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
 
     function init() {
 
-        if ($rootScope.imageUrl != undefined) {
-            $rootScope.imageUrl = $rootScope.imageUrl;
-        } else {
+        if ($rootScope.imageUrl == undefined) {
             $rootScope.imageUrl = localStorage.getItem('imageUrl');
         }
 
