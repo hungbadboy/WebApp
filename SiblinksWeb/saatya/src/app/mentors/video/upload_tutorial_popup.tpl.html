@@ -58,17 +58,17 @@
     <div class="list-add-video" ng-hide="editVideo">
         <h4>Recently uploaded videos </h4>
         <div class="filter-modal clearfix">
-            <div class="col-md-3">Video Information</div>
-            <div class="col-md-2">Subject</div>
-            <div class="col-md-4">Description</div>
-            <div class="col-md-3">Action</div>
+            <div class="col-xs-3">Video Information</div>
+            <div class="col-xs-2">Subject</div>
+            <div class="col-xs-4">Description</div>
+            <div class="col-xs-3">Action</div>
         </div>
         <div class="group-item" ng-show="videos">
             <div class="item clearfix" ng-repeat="v in videos track by $index">
-                <div class="col-md-3">{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</div>
-                <div class="col-md-2">{{v.subject}}</div>
-                <div class="col-md-4">{{v.description | limitTo : 70}}{{v.description.length > 70 ? '...' : ''}}</div>
-                <div class="col-md-3">
+                <div class="col-xs-3">{{v.title | limitTo : 20}}{{v.title.length > 20 ? '...' : ''}}</div>
+                <div class="col-xs-2">{{v.subject}}</div>
+                <div class="col-xs-4">{{v.description | limitTo : 70}}{{v.description.length > 70 ? '...' : ''}}</div>
+                <div class="col-xs-3">
                     <ul class="list-ac">
                         <li><a href="" ng-click="openEdit(v)">Edit</a></li>
                         <li><a href="" ng-click="addToPlaylist(v)">Add to playlist</a></li>
