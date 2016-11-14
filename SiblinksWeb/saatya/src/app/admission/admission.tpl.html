@@ -99,7 +99,7 @@
 				                                          back-color="white"
 				                                          readonly="true">
 				    	                            </span>
-				    	                            <span>{{lstArticleAdmission.averageRating != null ? lstArticleAdmission.averageRating : 0}} ({{ (!lstArticleAdmission.numRatings)? '0' : lstArticleAdmission.numRatings}} votes)</span>
+				    	                            <span>{{lstArticleAdmission.averageRating != null ? lstArticleAdmission.averageRating : 0}} ({{ (!lstArticleAdmission.numRate)? '0' : lstArticleAdmission.numRate}} votes)</span>
                                               </p>
                                               <p class="videos-rate-infor">
                                                   	<span class="fa fa-eye">{{lstArticleAdmission.numView}}</span>
@@ -155,27 +155,27 @@
 	                      <span class="post-time">add {{convertUnixTimeToTime(articalDetail.createDate)}}</span></p>
 	                      <p class="video-view">
 		                      	<span star-rating stars="5" id="divRate"
-	                                          outer-star-selection="stars"
-	                                          outer-percent="rating"
-	                                          rating-define="star"
+	                                          outer-star-selection="stars1"
+	                                          outer-percent="rating1"
+	                                          rating-define="star1"
 	                                          rating-stars="{{(averageRating == null) ? '0' : averageRating}}"
-	                                          star-radius="10" sel-color="gold"
+	                                          star-radius="9" sel-color="gold"
 	                                          back-color="white"
 	                                          readonly="true" title="{{(averageRating == null) ? '0' : averageRating}}">
 	                            </span>
-                            	<span>{{(rateNum == null) ? '0' : rateNum}} ({{(averageRating == null) ? '0' : averageRating}} votes)</span>
+                            	<span>{{(averageRating == null) ? '0' : averageRating}} ({{(numRate == null) ? '0' : numRate}} votes)</span>
 	                           <span class="fa fa-eye">{{articalDetail.numView}}</span>
 	                      </p>
 	                      <p>
 	                      	<span>Rate this article</span>
-	                     	<span star-rating stars="5" id="divRate"
-                                          outer-star-selection="stars"
-                                          ng-click="rateFunction(stars)"
-                                          outer-percent="rating"
-                                          rating-define="star"
-                                          rating-stars="{{articalDetail.rating}}"
+	                     	<span star-rating stars="5" id="divRatexxxx"
+                                          outer-star-selection="stars2"
+                                          ng-click="rateFunction(stars2)"
+                                          outer-percent="rating2"
+                                          rating-define="star2"
+                                          rating-stars="{{rating}}"
                                           star-radius="10" sel-color="gold"
-                                          back-color="white" title="{{articalDetail.rating}}">
+                                          back-color="white" title="{{rating}}">
                             </span>
 	                     </p>
 	                  </div>

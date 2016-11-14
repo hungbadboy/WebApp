@@ -303,8 +303,7 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
         $scope.showArticleDetail = function (idArtilce, numRate, averageRating) {
         	$scope.numRate = numRate;
         	$scope.averageRating = averageRating;
-        	
-            // Update view
+        	// Update view
             AdmissionService.updateViewArticalAdmission(idArtilce).then(function (data) {
                 if (data.data.status == 'true') {
                     $scope.articleAdmissionDetail = data.data.request_data_result;
@@ -316,11 +315,12 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
             
             if(userId != null && userId !== undefined) {
 	            // Get user Rate
-	            AdmissionService.getUserRatingArtical(idArtilce, userId).then(function (data) {
+	            AdmissionService.getUserRatingArtical(userId,idArtilce).then(function (data) {
 	                if (data.data.status == 'true') {
 	                    if (data.data.request_data_result.length > 0) {
-	                    	$scope.articleAdmissionDetail.rating = true;
+	                    	$scope.rating = data.data.request_data_result[0].rating;
 	                    } else {
+	                    	$scope.rating = 0;
 	                    	console.log('not yet rating');
 	                    }
 	                }

@@ -567,7 +567,8 @@ public class ArticleServiceImpl implements ArticleService {
             statusDao = transactionManager.getTransaction(def);
             // Check user rated yet
             Object[] queryParams = new Object[] { uid, arid };
-            List<Object> videoRated = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_ARTICAL_ADMISSION, queryParams);
+            List<Object> videoRated = dao
+                .readObjects(SibConstants.SqlMapper.SQL_SIB_GET_USER_RATE_ARTICAL_ADMISSION, queryParams);
 
             boolean isRated = videoRated.size() > 0 ? true : false;
 
@@ -578,7 +579,7 @@ public class ArticleServiceImpl implements ArticleService {
                 status = dao.insertUpdateObject(entityName, queryParams);
 
                 Object[] queryUpdateRate = { rate, arid };
-                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_ARTICAL_ADMISSION, queryUpdateRate);
+                status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_ARTICAL_ADMISSION, queryUpdateRate);
                 // Activity Log
                 activiLogService.insertActivityLog(new ActivityLogData(
                                                                        SibConstants.TYPE_ATICAL,
@@ -587,25 +588,31 @@ public class ArticleServiceImpl implements ArticleService {
                                                                        uid,
                                                                        String.valueOf(arid)));
             } else {
-                Map<String, Double> object = (Map<String, Double>) videoRated.get(0);
-                // Update rating
-                queryParams = new Object[] { rate, arid, uid };
-                entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_ARTICAL_ADMISSION;
-                Double rateOld = object.get("rate");
-                Double rateNew = Double.parseDouble(rate);
-                Object[] queryUpdateRate = { rateNew - rateOld };
-                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_ARTICAL_ADMISSION_AGAIN, queryUpdateRate);
-                // Activity Log
-                activiLogService.insertActivityLog(new ActivityLogData(
-                                                                       SibConstants.TYPE_ATICAL,
-                                                                       "U",
-                                                                       "You updated the rating a artical",
-                                                                       uid,
-                                                                       String.valueOf(arid)));
+                Map<String, Integer> object = (Map<String, Integer>) videoRated.get(0);
+                int rateOld = object.get(Parameters.RATING);
+                int rateNew = Integer.parseInt(rate);
+                if (rateNew != rateOld) {
+                    // Update rating
+                    queryParams = new Object[] { rate, arid, uid };
+                    entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_ARTICAL_ADMISSION;
+                    status = dao.insertUpdateObject(entityName, queryParams);
+
+                    Object[] queryUpdateRate = { rateNew - rateOld, arid };
+                    status = dao.insertUpdateObject(
+                        SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_ARTICAL_ADMISSION_AGAIN,
+                        queryUpdateRate);
+                    // Activity Log
+                    activiLogService.insertActivityLog(new ActivityLogData(
+                                                                           SibConstants.TYPE_ATICAL,
+                                                                           "U",
+                                                                           "You updated the rating a artical",
+                                                                           uid,
+                                                                           String.valueOf(arid)));
+                }
             }
 
             transactionManager.commit(statusDao);
-            logger.info("    " + new Date());
+            logger.info("Rating article successful " + new Date());
 
             response = new SimpleResponse("" + status, request.getRequest_data_type(), request.getRequest_data_method(), arid);
         } catch (Exception e) {
@@ -626,8 +633,9 @@ public class ArticleServiceImpl implements ArticleService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/checkRateArticle", method = RequestMethod.GET)
-    public ResponseEntity<Response> checkRateArticle(@RequestParam final String uid, @RequestParam final String arId) {
+    @RequestMapping(value = "/getUserRateArticle/{uid}/{arId}", method = RequestMethod.GET)
+    public ResponseEntity<Response> getUserRateArticle(@PathVariable(value = "uid") final long uid,
+            @PathVariable(value = "arId") final long arId) {
         SimpleResponse response = null;
         try {
             if (!AuthenticationFilter.isAuthed(context)) {
@@ -642,11 +650,13 @@ public class ArticleServiceImpl implements ArticleService {
                                               "artical",
                                               "checkRateArticle",
                                               "Parameter cannot null or Emppty.");
-                return new ResponseEntity<Response>(response, HttpStatus.OK);
-            }
+            } else {
 
-            List<Object> readObjects = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_ARTICAL_ADMISSION, new Object[] { uid, arId });
+            List<Object> readObjects = dao.readObjects(
+                    SibConstants.SqlMapper.SQL_SIB_GET_USER_RATE_ARTICAL_ADMISSION,
+                new Object[] { uid, arId });
             response = new SimpleResponse(SibConstants.SUCCESS, "artical", "checkRateArticle", readObjects);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             response = new SimpleResponse(SibConstants.FAILURE, "artical", "checkRateArticle", e.getMessage());
