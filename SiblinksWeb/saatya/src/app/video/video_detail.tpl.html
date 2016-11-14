@@ -71,7 +71,7 @@
                                                 id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" ><span data-icon="&#xe031;"></span>Favorite</button>
                                     </div>
                                     <p class="videos-rate-infor">
-                                   			 <span ng-if="loadRate" star-rating stars="5" id="divRate"
+                                   			 <span ng-if="loadRate" star-rating stars="5" id="divTotalRate"
 	                                          outer-star-selection="stars"
 	                                          outer-percent="rating"
 	                                          rating-define="star"
@@ -88,10 +88,10 @@
                             <div class="videos-start">
                                 <span style="float: left;" id="rateSpan">Rate 
                                      <div ng-if="loadRate" star-rating stars="5" id="divRate"
-                                          outer-star-selection="stars"
-                                          ng-click="rateFunction(stars)"
+                                          outer-star-selection="stars1"
+                                          ng-click="rateFunction(stars1)"
                                           outer-percent="rating"
-                                          rating-define="star"
+                                          rating-define="star1"
                                           rating-stars="{{numRating}}"
                                           star-radius="10" sel-color="gold"
                                           back-color="white" title="{{numRating}}"></div>

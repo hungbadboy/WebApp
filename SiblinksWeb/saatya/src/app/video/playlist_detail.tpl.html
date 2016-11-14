@@ -85,20 +85,29 @@
                                                 id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" ><span data-icon="&#xe031;"></span>Favorite</button>
                                     </div>
                                     <p class="videos-rate-infor">
+                                    	<span ng-if="loadRate" star-rating stars="5" id="divRate"
+                                          outer-star-selection="stars"
+                                          outer-percent="rating"
+                                          rating-define="star"
+                                          rating-stars="{{rateNum}}"
+                                          star-radius="10" sel-color="gold"
+                                          back-color="white"
+                                          readonly ="true"></span>
+                                        <span>{{(rateNum == null) ? '0' : rateNum}} ({{videoInfo.numRatings}} votes)</span>
                                         <span data-icon="&#x49;">{{videoInfo.numViews}}</span>
                                         &nbsp;&nbsp;
-                                        <span ng-if="comments" data-icon="&#xe066;">{{comments.length}} </span>
+                                        <span data-icon="&#xe066;">{{(videoInfo.numComments == null) ? '0' : videoInfo.numComments}}</span>
                                     </p>
                                 </div>
                             </div>
                             <div class="videos-start">
                                 <span id="rateSpan">Rate
                                     <div ng-if="loadRate" star-rating stars="5" id="divRate"
-                                          outer-star-selection="stars"
-                                          ng-click="rateFunction(stars)"
+                                          outer-star-selection="stars1"
+                                          ng-click="rateFunction(stars1)"
                                           outer-percent="rating"
-                                          rating-define="star"
-                                          rating-stars="{{rateNum}}"
+                                          rating-define="star1"
+                                          rating-stars="{{numRating}}"
                                           star-radius="10" sel-color="gold"
                                           back-color="white"></div>
                                 </span>

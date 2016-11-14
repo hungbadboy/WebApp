@@ -39,8 +39,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                 if (data.data.status == 'true') {
                     if (data.data.request_data_result.length == 0) {
                         $scope.errorInfo = "Video not found";
-                    }
-                    else {
+                    } else {
                         $scope.videoInfo = data.data.request_data_result[0];
                         $scope.rateNum = $scope.videoInfo.averageRating;
                         if(isEmpty($scope.videoInfo.description)){
@@ -285,10 +284,11 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             if (isEmpty($scope.userId) || $scope.userId == "-1") {
                 $window.location.href ='#/student/signin?continue='+encodeURIComponent($location.absUrl());
             }
-            
+            $rootScope.$broadcast('open');
 	        VideoService.rateVideo($scope.userId, videoid, parseInt(rate)).then(function (data) {
+	        	$rootScope.$broadcast('close');
 	            if (data.data.status) {
-	                $scope.rateNum = parseInt(rate);
+	                //$scope.rateNum = parseInt(rate);
 	            }
 	        });
 
@@ -459,4 +459,5 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             angular.element('.subscribers').attr('data-icon', 'N');
             angular.element('#spansubs').text('Subscribed');
         };
+        
     }]);

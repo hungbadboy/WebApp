@@ -96,7 +96,19 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                                         $scope.isFavorite = 0;
                                     }
                                 });
-
+                                
+                             // Get User Rate
+                                if ($scope.userId != null && $scope.userId !== undefined) {
+                              	  VideoService.getUserRatingVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
+                              		  if (data.data.status == 'true') {
+                              			  if (data.data.request_data_result.length > 0) {
+                              				  	$scope.numRating = data.data.request_data_result[0].rating;
+                                          } else {
+                                          	$scope.numRating = 0;
+                                          }
+                              		  }
+                              	  });
+                              }
                             }
 
 
@@ -403,23 +415,13 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 $window.location.href = '#/student/signin?continue='+encodeURIComponent($location.absUrl());
                 return;
             }
-//            VideoService.getUserRatingVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
-//
-//                if (data.data.status) {
-//                    if (data.data.request_data_result.length > 0) {
-//                        $scope.rated = true;
-//                        $scope.errorVideo = "You are rated!";
-//                        $scope.rateNum = ratenumOld;
-//                    } else {
-                        VideoService.rateVideo($scope.userId, $scope.videoInfo.vid, parseInt(rate)).then(function (data) {
-                            if (data.data.status) {
-                                $scope.rateNum = parseInt(rate);
-                            }
-                        });
-//                    }
-//                }
-//            });
-
+            $rootScope.$broadcast('open');
+            VideoService.rateVideo($scope.userId, $scope.videoInfo.vid, parseInt(rate)).then(function (data) {
+            	$rootScope.$broadcast('close');
+                if (data.data.status == 'true') {
+                    //$scope.rateNum = parseInt(rate);
+                }
+            });
         }
 
 
