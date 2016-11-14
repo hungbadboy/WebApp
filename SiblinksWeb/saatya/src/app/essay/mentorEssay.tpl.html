@@ -40,8 +40,8 @@
                                                     </div>
                                                     <div class="studentDetails bx-dt-qa">
                                                         <h5><a href="javascript:void(0)" ng-click="goToProfile(e.userId)">{{e.fullName}} </a><span class="time">{{e.timeStamp}}</span></h5>
-                                                        <b class="pre-wrap">{{e.nameOfEssay}}</b>
-                                                        <p class="pre-wrap">{{e.descriptionOfEssay | limitTo : 240 }}{{e.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
+                                                        <b class="desc-wrap">{{e.nameOfEssay}}</b>
+                                                        <p class="desc-wrap">{{e.descriptionOfEssay | limitTo : 240 }}{{e.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                         <div class="clearfix bt-item">
                                                             <a href="javascript:void(0)" ng-click="changeStatus(e.uploadEssayId,'P')"><span style="top: 0" class="essay-wait-review"><i class="fa fa-spinner fa-spin white" aria-hidden="true"></i> Process</span></a>
                                                             <a href="javascript:void(0)" ng-click="changeStatus(e.uploadEssayId,'I')"><span class="essay-cancel"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
@@ -61,8 +61,8 @@
                                                     </div>
                                                     <div class="studentDetails bx-dt-qa">
                                                         <h5><a href="javascript:void(0)" ng-click="goToProfile(pe.userId)">{{pe.fullName}} </a><span class="time">{{pe.timeStamp}}</span></h5>
-                                                        <b class="pre-wrap">{{pe.nameOfEssay}}</b>
-                                                        <p class="pre-wrap">{{pe.descriptionOfEssay | limitTo : 240 }}{{pe.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
+                                                        <b class="desc-wrap">{{pe.nameOfEssay}}</b>
+                                                        <p class="desc-wrap">{{pe.descriptionOfEssay | limitTo : 240 }}{{pe.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                         <div class="clearfix bt-item">
                                                             <a href="javascript:void(0)" ng-click="changeStatus(pe.uploadEssayId,'I')"><span class="essay-cancel"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
                                                         </div>
@@ -81,8 +81,8 @@
                                                     </div>
                                                     <div class="studentDetails bx-dt-qa">
                                                         <h5><a href="javascript:void(0)" ng-click="goToProfile(ie.userId)">{{ie.fullName}} </a><span class="time">{{ie.timeStamp}}</span></h5>
-                                                        <b class="pre-wrap">{{ie.nameOfEssay}}</b>
-                                                        <p class="pre-wrap">{{ie.descriptionOfEssay | limitTo : 240 }}{{ie.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
+                                                        <b class="desc-wrap">{{ie.nameOfEssay}}</b>
+                                                        <p class="desc-wrap">{{ie.descriptionOfEssay | limitTo : 240 }}{{ie.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -98,8 +98,8 @@
                                                     </div>
                                                     <div class="studentDetails bx-dt-qa">
                                                         <h5><a href="javascript:void(0)" ng-click="goToProfile(re.userId)">{{re.fullName}} </a><span class="time">{{re.timeStamp}}</span></h5>
-                                                        <b class="pre-wrap">{{re.nameOfEssay}}</b>
-                                                        <p class="pre-wrap">{{re.descriptionOfEssay | limitTo : 240 }}{{re.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
+                                                        <b class="desc-wrap">{{re.nameOfEssay}}</b>
+                                                        <p class="desc-wrap">{{re.descriptionOfEssay | limitTo : 240 }}{{re.descriptionOfEssay.length > 240 ? '...' :'' }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -134,11 +134,11 @@
                                                     <div class="bt-item-r col-md-4" ng-if="essay.status == 'P' && tabpane == 2">
                                                         <a href="javascript:void(0)" ng-click="changeStatus(essay.uploadEssayId,'I')"><span class="essay-cancel"><i class="fa fa-flag gray" aria-hidden="true"></i></span></a>
                                                     </div>
-                                                    <p class="txt-essay pre-wrap"><b>{{essay.nameOfEssay}}</b></p>
+                                                    <p class="txt-essay desc-wrap"><b>{{essay.nameOfEssay}}</b></p>
                                                     </div>
                                                 </div>                                                
                                             </div>
-                                            <p class="text-rpl-2 pre-wrap">{{essay.descriptionOfEssay}}</p>
+                                            <p class="text-rpl-2 desc-wrap">{{essay.descriptionOfEssay}}</p>
                                             <div class="bx-dowfile clearfix">
                                                 <p class="pull-left"><a href="{{essay.downloadLinkS}}"><img src="assets/images/img-attacfile.png" alt=""></a><span>{{essay.urlFile}} - {{essay.odFilesize}}</span></p>
                                             </div>
@@ -212,7 +212,7 @@
                                                                         <span star-rating stars="5" outer-star-selection="stars" readonly="true" outer-percent="rating" rating-define="star" rating-stars="{{c.rating}}" star-radius="7" sel-color="gold" back-color="white"></span>
                                                                          <span title="Edit" ng-click="openEdit(c.cid, c.content, essay.urlReview, essay.rdFilesize)" class="edit-answer" data-icon="&#x6c;"></span>
                                                                     </div>
-                                                                    <p class="pre-wrap">{{c.content}}</p>
+                                                                    <p class="desc-wrap">{{c.content}}</p>
                                                                     <p class="attaced-file" ng-if="essay.downloadLinkM"><a href="{{essay.downloadLinkM}}"><img src="assets/images/img-attacfile.png" alt=""></a><span>{{essay.urlReview}} - {{essay.rdFilesize}}</span></p>
                                                                 </div>
                                                             </li>
