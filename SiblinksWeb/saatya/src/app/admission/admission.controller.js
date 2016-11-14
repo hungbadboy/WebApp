@@ -300,7 +300,10 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
             $location.path('/admission/article');
         };
 
-        $scope.showArticleDetail = function (idArtilce) {
+        $scope.showArticleDetail = function (idArtilce, numRate, averageRating) {
+        	$scope.numRate = numRate;
+        	$scope.averageRating = averageRating;
+        	
             // Update view
             AdmissionService.updateViewArticalAdmission(idArtilce).then(function (data) {
                 if (data.data.status == 'true') {
@@ -310,6 +313,7 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
                     console.log(data.data.request_data_result);
                 }
             });
+            
             if(userId != null && userId !== undefined) {
 	            // Get user Rate
 	            AdmissionService.getUserRatingArtical(idArtilce, userId).then(function (data) {

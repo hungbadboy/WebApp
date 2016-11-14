@@ -74,7 +74,7 @@
                               <h5>Articles</h5>
                               <ul>
                               	<div ng-repeat="lstArticleAdmission in listArticleAdmission track by $index" ng-if="$index < displayNumberOfArticle">
-                              	<li ng-click="showArticleDetail(lstArticleAdmission.arId)" data-toggle="modal" href="#article-detail">
+                              	<li ng-click="showArticleDetail(lstArticleAdmission.arId,lstArticleAdmission.numRate, lstArticleAdmission.averageRating)" data-toggle="modal" href="#article-detail">
                                       <div class="video-wrapper">
                                           <div class="videos-thumnail">
                                               <a href="javascript:void(0)"><img ng-src="{{lstArticleAdmission.image}}"></a>
@@ -154,8 +154,17 @@
 	                      	<a href="javascript:void(0)">{{displayName(articalDetail.firstName, articalDetail.lastName, articalDetail.userName)}}</a></span> 
 	                      <span class="post-time">add {{convertUnixTimeToTime(articalDetail.createDate)}}</span></p>
 	                      <p class="video-view">
-	                      	<!-- <span data-icon="&#xe066;">{{lstArticleAdmission.numComments}}</span> -->
-	                          <span class="fa fa-eye">{{articalDetail.numView}}</span>
+		                      	<span star-rating stars="5" id="divRate"
+	                                          outer-star-selection="stars"
+	                                          outer-percent="rating"
+	                                          rating-define="star"
+	                                          rating-stars="{{(averageRating == null) ? '0' : averageRating}}"
+	                                          star-radius="10" sel-color="gold"
+	                                          back-color="white"
+	                                          readonly="true" title="{{(averageRating == null) ? '0' : averageRating}}">
+	                            </span>
+                            	<span>{{(rateNum == null) ? '0' : rateNum}} ({{(averageRating == null) ? '0' : averageRating}} votes)</span>
+	                           <span class="fa fa-eye">{{articalDetail.numView}}</span>
 	                      </p>
 	                      <p>
 	                      	<span>Rate this article</span>
@@ -164,9 +173,9 @@
                                           ng-click="rateFunction(stars)"
                                           outer-percent="rating"
                                           rating-define="star"
-                                          rating-stars="{{articalDetail.averageRating}}"
+                                          rating-stars="{{articalDetail.rating}}"
                                           star-radius="10" sel-color="gold"
-                                          back-color="white">
+                                          back-color="white" title="{{articalDetail.rating}}">
                             </span>
 	                     </p>
 	                  </div>
