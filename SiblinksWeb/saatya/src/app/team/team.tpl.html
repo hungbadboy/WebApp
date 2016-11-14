@@ -46,6 +46,8 @@
                                   <div class="mentors-name">
                                       <a href="#/student/mentorProfile/{{mentor.userid}}" >{{displayName(mentor.firstName,mentor.lastName,mentor.loginName)}}</a>
                                       <!--<span data-icon="&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;"></span>-->
+                                  </div>
+                                  <div class="mentorRate">
                                       <span  ng-if="mentor" star-rating stars="5"
                                              outer-star-selection="stars"
                                              readonly="true"
@@ -54,8 +56,8 @@
                                              rating-stars="{{(mentor.avgrate != null)? toFixed(mentor.avgrate,1) : '0'}}"
                                              star-radius="9" sel-color="gold"
                                              back-color="white" title="{{(mentor.avgrate != null)? toFixed(mentor.avgrate,1) : '0'}}">
-	                                 </span>
-	                                 <span>{{(mentor.avgrate != null)? toFixed(mentor.avgrate,1) : '0'}} ({{(mentor.numRatings != null) ? mentor.numRatings : '0'}} votes)</span>
+    	                                </span>
+    	                                <span>{{(mentor.avgrate != null)? toFixed(mentor.avgrate,1) : '0'}} ({{(mentor.numRatings != null) ? mentor.numRatings : '0'}} votes)</span>
                                   </div>
                                   <div class="mentors-edu">
                                   	<span ng-if="(mentor.schoolName) == ''">&nbsp;</span>
