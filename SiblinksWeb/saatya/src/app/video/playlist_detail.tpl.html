@@ -85,7 +85,8 @@
                                                 id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" ><span data-icon="&#xe031;"></span>Favorite</button>
                                     </div>
                                     <p class="videos-rate-infor">
-                                    	<span ng-if="loadRate" star-rating stars="5" id="divRate"
+                                        <span class="videoRate">{{(rateNum == null) ? '0' : rateNum}} ({{videoInfo.numRatings}} votes)</span>
+                                    	<span ng-if="loadRate" star-rating stars="5"
                                           outer-star-selection="stars"
                                           outer-percent="rating"
                                           rating-define="star"
@@ -93,7 +94,7 @@
                                           star-radius="10" sel-color="gold"
                                           back-color="white"
                                           readonly ="true"></span>
-                                        <span>{{(rateNum == null) ? '0' : rateNum}} ({{videoInfo.numRatings}} votes)</span>
+                                        
                                         <span data-icon="&#x49;">{{videoInfo.numViews}}</span>
                                         &nbsp;&nbsp;
                                         <span data-icon="&#xe066;">{{(videoInfo.numComments == null) ? '0' : videoInfo.numComments}}</span>
@@ -102,7 +103,7 @@
                             </div>
                             <div class="videos-start">
                                 <span id="rateSpan">Rate
-                                    <div ng-if="loadRate" star-rating stars="5" id="divRate"
+                                    <div ng-if="loadRate" star-rating stars="5" 
                                           outer-star-selection="stars1"
                                           ng-click="rateFunction(stars1)"
                                           outer-percent="rating"
