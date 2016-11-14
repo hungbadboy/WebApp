@@ -84,9 +84,7 @@ public interface VideoService {
 
      public ResponseEntity<Response> getIdVideoWatched(RequestData request);
 
-     public ResponseEntity<Response> getRating(RequestData request);
-
-     public ResponseEntity<Response> checkUserRatingVideo(RequestData request);
+    // public ResponseEntity<Response> getRating(RequestData request);
 
      public ResponseEntity<Response> getAllVideoByUserPN(RequestData request);
 
@@ -135,8 +133,20 @@ public interface VideoService {
       */
     public ResponseEntity<Response> getVideoBySubject(long userId, String subjectId, String limit, String offset);
 
-    public ResponseEntity<Response> checkUserRatingVideoAdmission(RequestData request);
-
     public ResponseEntity<Response> rateVideoAdmission(RequestData request);
+
+    /**
+     * @param uid
+     * @param vid
+     * @return
+     */
+    ResponseEntity<Response> getUserRatingVideo(String uid, String vid);
+
+    /**
+     * @param uid
+     * @param vid
+     * @return
+     */
+    ResponseEntity<Response> getUserRatingVideoAdmission(String uid, String vid);
 
 }

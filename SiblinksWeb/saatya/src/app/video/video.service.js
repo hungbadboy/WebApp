@@ -199,38 +199,14 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         return promise;
     };
 
-    factory.checkUserRatingVideo = function (uid, vid) {
+    factory.getUserRatingVideo = function (uid, vid) {
         var promise = $http({
-            method: 'POST',
-            url: NEW_SERVICE_URL + 'video/checkUserRatingVideo',
-            data: {
-                "request_data_type": "video",
-                "request_data_method": "checkUserRatingVideo",
-                "request_data": {
-                    "uid": uid,
-                    "vid": vid
-                }
-            }
+            method: 'GET',
+            url: NEW_SERVICE_URL + 'video/getUserRatingVideo/'+uid+'/'+vid
         });
         return promise;
     };
-
-    factory.getRatingVideo = function (vid) {
-        var promise = $http({
-            method: 'POST',
-            url: NEW_SERVICE_URL + 'video/getRating',
-            data: {
-                "request_data_type": "video",
-                "request_data_method": "getRating",
-                "request_data": {
-                    "vid": vid
-                }
-            }
-        });
-        return promise;
-    };
-
-
+    
     factory.getVideoByUserSubject = function (uid, limit, offset) {
         var rs = null;
         var promise = $http({
@@ -242,7 +218,6 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         });
         return promise;
     };
-
 
     factory.getVideoByViews = function (limit, offset) {
         var rs = null;

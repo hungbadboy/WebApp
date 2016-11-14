@@ -45,22 +45,15 @@ brotServices.factory('videoAdmissionService', ['$http', function ($http) {
         return promise;
     };
 
-    factory.checkUserRatingVideo = function (uid, vid) {
+    factory.getUserRatingVideoAdmission = function (uid, vid) {
         var promise = $http({
-            method: 'POST',
-            url: NEW_SERVICE_URL + 'video/checkUserRatingVideoAdmission',
-            data: {
-                "request_data_type": "video",
-                "request_data_method": "checkUserRatingVideoAdmission",
-                "request_data": {
-                    "uid": uid,
-                    "vid": vid
-                }
-            }
+            method: 'GET',
+            url: NEW_SERVICE_URL + 'video/getUserRatingVideoAdmission/'+uid+'/'+vid
         });
         return promise;
     };
-    factory.rateVideo = function (uid, vid, rate) {
+    
+    factory.rateVideoAdmission = function (uid, vid, rate) {
         var promise = $http({
             method: 'POST',
             url: NEW_SERVICE_URL + 'video/rateVideoAdmission',

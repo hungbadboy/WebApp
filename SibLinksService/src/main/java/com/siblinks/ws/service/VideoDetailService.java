@@ -29,4 +29,12 @@ public interface VideoDetailService {
     public ResponseEntity<Response> updateViewVideoAdmission(RequestData request);
 
     public ResponseEntity<Response> getVideoByAdmissionId(final String aId);
+    /*    *//**
+     * @param vid
+     * @param uid
+     * @return
+     */
+    /*
+     * ResponseEntity<Response> getUserRatingVideo(long vid, long uid);
+     */
 }

@@ -366,53 +366,7 @@ brotServices.factory('AdmissionService', ['$http', function($http) {
     return promise;
   };
 
-  factory.rateVideoAdmission = function(uid, vid, rate) {
-    var promise = $http({
-      method: 'POST',
-      url: NEW_SERVICE_URL + 'videoAdmission/rateVideoAdmission',
-      data: {
-        "request_data_type": "videoAdmission",
-        "request_data_method": "rateVideoAdmission",
-        "request_data_videoAdmission": {
-          "uid": uid,
-          "vId": vid,
-          "rating": rate
-        }
-      }
-    });
-    return promise;
-  };
-
-  factory.getRatingVideoAdmission = function(vid) {
-    var promise = $http({
-      method: 'POST',
-      url: NEW_SERVICE_URL + 'videoAdmission/getRatingVideoAdmission',
-      data: {
-        "request_data_type": "videoAdmission",
-        "request_data_method": "getRatingVideoAdmission",
-        "request_data_videoAdmission": {
-          "vId": vid
-        }
-      }
-    });
-    return promise;
-  };
-
-  factory.checkUserRatingVideoAdmission = function(uid, vid) {
-    var promise = $http({
-      method: 'POST',
-      url: NEW_SERVICE_URL + 'videoAdmission/checkUserRatingVideoAdmission',
-      data: {
-        "request_data_type": "videoAdmission",
-        "request_data_method": "checkUserRatingVideoAdmission",
-        "request_data_videoAdmission": {
-          "uid": uid,
-          "vId": vid
-        }
-      }
-    });
-    return promise;
-  };*/
+  */
   
   factory.updateViewArticalAdmission = function(articalId) {
 	    var promise = $http({
@@ -426,7 +380,7 @@ brotServices.factory('AdmissionService', ['$http', function($http) {
   factory.checkUserRatingArtical = function(arId, uid) {
 	  var promise = $http({
 	      method: 'GET',
-	      url: NEW_SERVICE_URL + 'article/checkRateArticle?arId='+arId+'&uid='+uid
+	      url: NEW_SERVICE_URL + 'article/getUserRateArticle?arId='+arId+'&uid='+uid
 	    });
 	    return promise;
   }

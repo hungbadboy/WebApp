@@ -310,8 +310,23 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
                     console.log(data.data.request_data_result);
                 }
             });
+            if(userId != null && userId !== undefined) {
+	            // Get user Rate
+	            AdmissionService.getUserRatingArtical(idArtilce, userId).then(function (data) {
+	                if (data.data.status == 'true') {
+	                    if (data.data.request_data_result.length > 0) {
+	                    	$scope.articleAdmissionDetail.rating = true;
+	                    } else {
+	                    	console.log('not yet rating');
+	                    }
+	                }
+	            });
+            }
         };
         
+        
+        
+                	
         /**
          * Rating artical
          */
@@ -321,21 +336,9 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
             	window.location.href ='#/student/signin?continue='+encodeURIComponent($location.absUrl());
                 return;
             }
+            // Rate article
             $rootScope.$broadcast('open');
-            AdmissionService.checkUserRatingArtical($scope.idArtilce, userId).then(function (data) {
-                if (data.data.status == 'true') {
-                    if (data.data.request_data_result.length > 0) {
-                        $scope.rated = true;
-                        $scope.errorVideo = "You are rated!";
-                        $scope.rateNum = ratenumOld;
-                    } else {
-                    	AdmissionService.rateArtical($scope.idArtilce, userId, parseInt(rate)).then(function (data) {
-                            if (data.data.status) {
-                                $scope.rateNum = parseInt(rate);
-                            }
-                        });
-                    }
-                }
+           	AdmissionService.rateArtical($scope.idArtilce, userId, parseInt(rate)).then(function (data) {
                 $rootScope.$broadcast('close');
             });
 

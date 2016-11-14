@@ -397,37 +397,6 @@ brotServices.factory('MentorSignUpService', ['$http', function($http) {
 //    return promise;
 //  };
 //
-//  factory.getRatingVideoAdmission = function(vid) {
-//    var promise = $http({
-//      method: 'POST',
-//      url: NEW_SERVICE_URL + 'videoAdmission/getRatingVideoAdmission',
-//      data: {
-//        "request_data_type": "videoAdmission",
-//        "request_data_method": "getRatingVideoAdmission",
-//        "request_data_videoAdmission": {
-//          "vId": vid
-//        }
-//      }
-//    });
-//    return promise;
-//  };
-//
-//  factory.checkUserRatingVideoAdmission = function(uid, vid) {
-//    var promise = $http({
-//      method: 'POST',
-//      url: NEW_SERVICE_URL + 'videoAdmission/checkUserRatingVideoAdmission',
-//      data: {
-//        "request_data_type": "videoAdmission",
-//        "request_data_method": "checkUserRatingVideoAdmission",
-//        "request_data_videoAdmission": {
-//          "uid": uid,
-//          "vId": vid
-//        }
-//      }
-//    });
-//    return promise;
-//  };
-//
 //  return factory;
 //}]);
 

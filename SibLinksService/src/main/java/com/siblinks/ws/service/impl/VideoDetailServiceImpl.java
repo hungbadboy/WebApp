@@ -430,4 +430,36 @@ public class VideoDetailServiceImpl implements VideoDetailService {
         return StringUtils.join(subIds, ",");
     }
 
+    // /**
+    // * {@inheritDoc}
+    // */
+    // @Override
+    // @RequestMapping(value = "/getUserRatingVideo/{uid}/{vid}", method =
+    // RequestMethod.GET)
+    // public ResponseEntity<Response> getUserRatingVideo(@PathVariable(value =
+    // "uid") final long uid,
+    // @PathVariable(value = "vid") final long vid) {
+    // SimpleResponse response = null;
+    // try {
+    // String entityName = null;
+    //
+    // Map<String, String> queryParams = new HashMap<String, String>();
+    //
+    // entityName = SibConstants.SqlMapper.SQL_GET_RATING_VIDEO;
+    //
+    // List<Object> readObject = dao.readObjects(entityName, queryParams);
+    //
+    // response = new SimpleResponse(SibConstants.SUCCESS, "video",
+    // "getUserRatingVideo", readObject);
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // response = new SimpleResponse(SibConstants.FAILURE, response = new
+    // SimpleResponse(
+    // SibConstants.SUCCESS,
+    // "video",
+    // "getUserRatingVideo",
+    // e.getMessage()));
+    // }
+    // return new ResponseEntity<Response>(response, HttpStatus.OK);
+    // }
 }

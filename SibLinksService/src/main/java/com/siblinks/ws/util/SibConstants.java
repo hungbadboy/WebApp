@@ -133,7 +133,6 @@ public class SibConstants {
         public static final String SQL_SIB_INSERT_TAG = "SIB_INSERT_TAG";
         public static final String SQL_SIB_REMOVE_VIDEO = "SIB_REMOVE_VIDEO";
         public static final String SQL_SIB_GET_VIDEO = "SIB_GET_VIDEO";
-        public static final String SQL_GET_RATING_VIDEO = "GET_RATING_VIDEO";
         public static final String SQL_SIB_GET_TAGS = "SIB_GET_TAGS";
         public static final String SQL_SIB_GET_COMMENTS = "SIB_GET_COMMENTS";
         public static final String SQL_SIB_GET_COMMENTS_PN = "SIB_GET_COMMENTS_PN";
@@ -180,8 +179,8 @@ public class SibConstants {
 
         public static final String SQL_SIB_EDIT_VIDEO = "SIB_EDIT_VIDEO";
         public static final String SQL_SIB_DELETE_TAGS = "SIB_DELETE_TAGS";
-        public static final String SQL_SIB_CHECK_RATE_VIDEO = "SIB_CHECK_RATE_VIDEO";
-        public static final String SQL_SIB_CHECK_RATE_VIDEO_ADMISSION = "SIB_CHECK_RATE_VIDEO_ADMISSION";
+        public static final String SQL_SIB_GET_USER_RATE_VIDEO = "SIB_GET_USER_RATE_VIDEO";
+        public static final String SQL_SIB_GET_USER_RATE_VIDEO_ADMISSION = "GET_USER_RATE_VIDEO_ADMISSION";
         public static final String SQL_SIB_RATE_VIDEO = "SIB_RATE_VIDEO";
         public static final String SQL_SIB_RATE_VIDEO_ADMISSION = "SIB_RATE_VIDEO_ADMISSION";
         public static final String SQL_SIB_RATE_UPDATE_VIDEO = "SIB_RATE_UPDATE_VIDEO";

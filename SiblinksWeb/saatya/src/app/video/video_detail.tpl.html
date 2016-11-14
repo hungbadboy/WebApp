@@ -71,23 +71,31 @@
                                                 id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" ><span data-icon="&#xe031;"></span>Favorite</button>
                                     </div>
                                     <p class="videos-rate-infor">
+                                   			 <span ng-if="loadRate" star-rating stars="5" id="divRate"
+	                                          outer-star-selection="stars"
+	                                          outer-percent="rating"
+	                                          rating-define="star"
+	                                          rating-stars="{{rateNum}}"
+	                                          star-radius="10" sel-color="gold"
+	                                          back-color="white" title="{{rateNum}}"
+	                                          readonly ="true"></span>
+	                                          <span>{{(rateNum == null) ? '0' : rateNum}} ({{videoInfo.numRatings}} votes)</span>
                                         <span data-icon="&#x49;">{{videoInfo.numViews}}</span>
                                         <span ng-if="comments" data-icon="&#xe066;">{{comments.length}} </span>
                                     </p>
                                 </div>
                             </div>
                             <div class="videos-start">
-                                <span style="float: left;" id="rateSpan">Rate
+                                <span style="float: left;" id="rateSpan">Rate 
                                      <div ng-if="loadRate" star-rating stars="5" id="divRate"
                                           outer-star-selection="stars"
                                           ng-click="rateFunction(stars)"
                                           outer-percent="rating"
                                           rating-define="star"
-                                          rating-stars="{{rateNum}}"
+                                          rating-stars="{{numRating}}"
                                           star-radius="10" sel-color="gold"
-                                          back-color="white"></div>
+                                          back-color="white" title="{{numRating}}"></div>
                                 </span>
-
                             </div>
                             <!--<div class="video-detail-script hide-text">-->
                                 <!--Show 100 characters-->

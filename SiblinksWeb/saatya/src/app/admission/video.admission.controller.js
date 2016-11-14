@@ -150,23 +150,19 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
                 return;
             }
             $rootScope.$broadcast('open');
-            videoAdmissionService.checkUserRatingVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
+//            videoAdmissionService.getUserRatingVideoAdmission($scope.userId, $scope.videoInfo.vid).then(function (data) {
+//                if (data.data.status == 'true') {
+//                    if (data.data.request_data_result.length > 0) {
+//                        $scope.rated = true;
+//                        $scope.errorVideo = "You are rated!";
+//                        $scope.rateNum = ratenumOld;
+//                    } else {
+            videoAdmissionService.rateVideoAdmission($scope.userId, videoid, parseInt(rate)).then(function (data) {
+            	$rootScope.$broadcast('close');
                 if (data.data.status == 'true') {
-                    if (data.data.request_data_result.length > 0) {
-                        $scope.rated = true;
-                        $scope.errorVideo = "You are rated!";
-                        $scope.rateNum = ratenumOld;
-                    } else {
-                        videoAdmissionService.rateVideo($scope.userId, videoid, parseInt(rate)).then(function (data) {
-                            if (data.data.status) {
-                                $scope.rateNum = parseInt(rate);
-                            }
-                        });
-                    }
+                    $scope.rateNum = parseInt(rate);
                 }
-                $rootScope.$broadcast('close');
             });
-
         }
 
         function onYouTubeIframeAPIReady(youtubeId) {

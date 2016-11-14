@@ -403,22 +403,22 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 $window.location.href = '#/student/signin?continue='+encodeURIComponent($location.absUrl());
                 return;
             }
-            VideoService.checkUserRatingVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
-
-                if (data.data.status) {
-                    if (data.data.request_data_result.length > 0) {
-                        $scope.rated = true;
-                        $scope.errorVideo = "You are rated!";
-                        $scope.rateNum = ratenumOld;
-                    } else {
+//            VideoService.getUserRatingVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
+//
+//                if (data.data.status) {
+//                    if (data.data.request_data_result.length > 0) {
+//                        $scope.rated = true;
+//                        $scope.errorVideo = "You are rated!";
+//                        $scope.rateNum = ratenumOld;
+//                    } else {
                         VideoService.rateVideo($scope.userId, $scope.videoInfo.vid, parseInt(rate)).then(function (data) {
                             if (data.data.status) {
                                 $scope.rateNum = parseInt(rate);
                             }
                         });
-                    }
-                }
-            });
+//                    }
+//                }
+//            });
 
         }
 

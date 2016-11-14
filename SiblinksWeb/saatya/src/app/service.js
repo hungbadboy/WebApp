@@ -1496,13 +1496,13 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         return promise;
     };
 
-    factory.checkUserRatingVideo = function (uid, vid) {
+    factory.getUserRatingVideo = function (uid, vid) {
         var promise = $http({
             method: 'POST',
-            url: NEW_SERVICE_URL + 'video/checkUserRatingVideo',
+            url: NEW_SERVICE_URL + 'video/getUserRatingVideo',
             data: {
                 "request_data_type": "video",
-                "request_data_method": "checkUserRatingVideo",
+                "request_data_method": "getUserRatingVideo",
                 "request_data": {
                     "uid": uid,
                     "vid": vid
@@ -1942,13 +1942,13 @@ brotServices.factory('MentorSignUpService', ['$http', function ($http) {
 //    return promise;
 //  };
 //
-//  factory.checkUserRatingVideoAdmission = function(uid, vid) {
+//  factory.getUserRatingVideoAdmission = function(uid, vid) {
 //    var promise = $http({
 //      method: 'POST',
-//      url: NEW_SERVICE_URL + 'videoAdmission/checkUserRatingVideoAdmission',
+//      url: NEW_SERVICE_URL + 'videoAdmission/getUserRatingVideoAdmission',
 //      data: {
 //        "request_data_type": "videoAdmission",
-//        "request_data_method": "checkUserRatingVideoAdmission",
+//        "request_data_method": "getUserRatingVideoAdmission",
 //        "request_data_videoAdmission": {
 //          "uid": uid,
 //          "vId": vid
