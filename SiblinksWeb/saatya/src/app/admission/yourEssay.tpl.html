@@ -103,7 +103,7 @@
                             <div ng-if="currentEssay.status =='R'" class="answer-by">
                                 <span class="mentor-answer">Replied by <a style="cursor:pointer" data-dismiss="modal" ng-click="transferPage('/student/mentorProfile/' + currentEssay.mentorId)">{{displayName(currentEssay.mfirstName,currentEssay.mlastName,currentEssay.muserName)}}</a>
                              </span><br/>
-                                <span class="post-time">{{convertUnixTimeToTime(currentEssay.docReviewedDate)}}</span>
+                                <span class="post-time">{{convertUnixTimeToTime(currentEssay.timestamp)}}</span>
                             </div>                            
                             <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
                             <div class=""></div>
