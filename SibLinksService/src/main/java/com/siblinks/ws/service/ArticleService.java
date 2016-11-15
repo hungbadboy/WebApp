@@ -53,11 +53,10 @@ public interface ArticleService {
      * @return
      */
     ResponseEntity<Response> rateArticalAdmission(RequestData request);
-
     /**
      * @param uid
-     * @param arid
+     * @param arId
      * @return
      */
-    ResponseEntity<Response> checkRateArticle(String uid, String arid);
+    ResponseEntity<Response> getUserRateArticle(long uid, long arId);
 }

@@ -377,10 +377,10 @@ brotServices.factory('AdmissionService', ['$http', function($http) {
 	    return promise;
 	  };
 	  
-  factory.checkUserRatingArtical = function(arId, uid) {
+  factory.getUserRatingArtical = function(uid,arId) {
 	  var promise = $http({
 	      method: 'GET',
-	      url: NEW_SERVICE_URL + 'article/getUserRateArticle?arId='+arId+'&uid='+uid
+	      url: NEW_SERVICE_URL + 'article/getUserRateArticle/'+uid+'/'+arId
 	    });
 	    return promise;
   }
