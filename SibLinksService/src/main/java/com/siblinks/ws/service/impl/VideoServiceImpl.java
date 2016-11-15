@@ -2755,28 +2755,38 @@ public class VideoServiceImpl implements VideoService {
         try {
             CommonUtil cmUtil = CommonUtil.getInstance();
             Map<String, String> map = cmUtil.getOffset(limit, offset);
-            Object[] params = { userId };
-            String whereClause;
-            if (StringUtils.isEmpty(subjectId) || subjectId == null) {
-                whereClause = String.format(
-                    "AND S.Subcribe = 'Y' LIMIT %d OFFSET %d;",
-                    Integer.parseInt(map.get("limit")),
-                    Integer.parseInt(map.get("offset")));
-            } else {
-                whereClause = String.format(
-                    "AND V.subjectId IN(%s) AND S.Subcribe = 'Y' LIMIT %d OFFSET %d;",
-                    subjectId,
-                    Integer.parseInt(map.get("limit")),
-                    Integer.parseInt(map.get("offset")));
+            List<Object> listParams = new ArrayList<Object>();
+            listParams.add(userId);
+            String whereClause = " AND S.Subcribe = 'Y'";
+            if (subjectId != null && !StringUtils.isEmpty(subjectId)) {
+                List<Map<String, Object>> readObjectNoCondition = dao
+                    .readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC);
+                String allChildCategory = CommonUtil.getAllChildCategory(subjectId, readObjectNoCondition);
+                if (StringUtil.isNull(allChildCategory)) {
+                    whereClause += " AND V.subjectId IN (" + allChildCategory + ")";
+                }
             }
+            if (!StringUtil.isNull(limit)) {
+                whereClause += " LIMIT ?";
+                listParams.add(Integer.parseInt(map.get("limit")));
+            }
+            if (!StringUtil.isNull(offset)) {
+                listParams.add(Integer.parseInt(map.get("offset")));
+                whereClause += " OFFSET ?";
+            }
+
             List<Object> resultData = dao.readObjectsWhereClause(
                 SibConstants.SqlMapper.SQL_GET_VIDEO_STUDENT_SUBCRIBE,
                 whereClause,
-                params);
-            if (!CollectionUtils.isEmpty(resultData)) {
-                String count = String.valueOf(resultData.size());
-                response = new SimpleResponse(SibConstants.SUCCESS, "GET", "getVideoStudentSubcribe", resultData, count);
-            }
+                listParams.toArray());
+
+            response = new SimpleResponse(
+                                          SibConstants.SUCCESS,
+                                          "GET",
+                                          "getVideoStudentSubcribe",
+                                          resultData,
+                                          (resultData != null && resultData.size() > 0) ? "" + resultData.size() : "0");
+
         } catch (Exception e) {
             e.printStackTrace();
             response = new SimpleResponse(SibConstants.FAILURE, "videos", "getVideoStudentSubcribe", SibConstants.NO_DATA, "0");
