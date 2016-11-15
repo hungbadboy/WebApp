@@ -42,7 +42,8 @@
                                         <a href="#/student/mentorProfile/{{videoInfo.userid}}"><img ng-src="{{videoInfo.avatar}}"></a>
                                     </div>
                                     <p class="videos-rate-infor">
-                                    	<span ng-if="loadRate" star-rating stars="5" id="divRate"
+                                        <span class="videoRate">{{(rateNum == null) ? '0' : rateNum}} ({{videoInfo.numRatings}} votes)</span>
+                                    	<span ng-if="loadRate" star-rating stars="5" 
                                           outer-star-selection="stars"
                                           outer-percent="rating"
                                           rating-define="star"
@@ -50,7 +51,7 @@
                                           star-radius="10" sel-color="gold"
                                           back-color="white"
                                           readonly = "true"></span>
-                                        <span>{{(rateNum == null) ? '0' : rateNum}} ({{videoInfo.numRatings}} votes)</span>
+                                        
                                         <span data-icon="&#x49;">{{(videoInfo.numViews == null)? '0' : videoInfo.numViews}}</span>
                                         &nbsp;
                                         <span data-icon="&#xe066;">{{(!videoInfo.numComments)? '0': videoInfo.numComments}} </span>
