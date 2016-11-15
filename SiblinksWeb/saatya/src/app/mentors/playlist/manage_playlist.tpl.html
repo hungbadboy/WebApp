@@ -77,7 +77,7 @@
                                         <button class="btn-delete" ng-click ="deleteMultiplePlaylist()">Delete Selected</button>
                                     </div>
                                     <div class="filters clearfix">
-                                        <div class="check-all"><input id="check-all" type="checkbox" name="checkall" ng-model="selectedAll" ng-click="checkAll()" /></div>
+                                        <div class="check-all"><input id="check-all" type="checkbox" ng-model="selectedAll" ng-click="optionAll()" /></div>
                                         <div class="text-trf">Playlist</div>
                                         <div class="text-play">Subject</div>
                                         <div class="text-ac">Action</div>
@@ -85,7 +85,7 @@
                                     <div class="group-item">
                                         <div ng-if="playlist.length <= 3">
                                             <div class="item" ng-repeat="p in playlist track by $index">
-                                                <div class="check-box"><input type="checkbox" ng-model="p.selected" class="check-input" name="checkall" ng-click="optionSelected()"/></div>
+                                                <div class="check-box"><input type="checkbox" ng-model="p.selected" class="check-input" ng-click="optionSelected()"/></div>
                                                 <div class="box-detail-play clearfix">
                                                     <span class="item-thumbnail">
                                                         <a href="#/mentor/playlist/detail/{{p.plid}}"><img class="item-fix-size" src="{{p.image}}" err-src="assets/images/image-not-available.png" alt="">
@@ -120,7 +120,7 @@
                                         </div>
                                         <div ng-if="playlist.length > 3" scroller="playlistScrl" data-on-total-scroll="loadMorePlaylist">
                                             <div class="item" ng-repeat="p in playlist track by $index">
-                                                <div class="check-box"><input type="checkbox" ng-model="p.selected" class="check-input" name="checkall" ng-click="optionSelected()"/></div>
+                                                <div class="check-box"><input type="checkbox" ng-model="p.selected" class="check-input" ng-click="optionSelected()"/></div>
                                                 <div class="box-detail-play clearfix">
                                                     <span class="item-thumbnail">
                                                         <a href="#/mentor/playlist/detail/{{p.plid}}"><img class="item-fix-size" src="{{p.image}}" err-src="assets/images/image-not-available.png" alt="">
@@ -156,7 +156,7 @@
                                         <div ng-if="!playlist" style="margin-left: 45px;"><h5>No Playlist here</h5></div>
                                     </div>
                                     <div class="filters clearfix">
-                                        <div class="check-all"><input id="check-all" type="checkbox" name="checkall"  ng-model="selectedAll" ng-click="checkAll()"/></div>
+                                        <div class="check-all"><input id="check-all" type="checkbox" ng-model="selectedAll" ng-click="optionAll()"/></div>
                                         <div class="text-trf">Playlist</div>
                                         <div class="text-play">Subject</div>
                                         <div class="text-ac">Action</div>
