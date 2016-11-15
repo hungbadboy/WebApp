@@ -6,7 +6,7 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
     var vid = $routeParams.vid;
     var plid = $routeParams.plid;
     var userId = $routeParams.authorId;
-    $scope.averageRating = 0.1;
+    //$scope.averageRating = 0.1;
     $scope.currentUserId = localStorage.getItem('userId');
     $scope.currentId = 0;
     init();
@@ -102,8 +102,8 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
     function loadVideoDetail(v){
         $scope.currentId = v.vid;
         $scope.video = v;
-        $scope.video.averageRating = parseAvgRating($scope.video.averageRating);
-        $scope.averageRating = $scope.video.averageRating;
+        //$scope.video.averageRating = parseAvgRating($scope.video.averageRating);
+        //$scope.averageRating = $scope.video.averageRating;
         $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
         initYoutubePlayer($scope.video.url);
         getCommentVideoDetail(v.vid);
@@ -116,8 +116,8 @@ brotControllers.controller('MentorVideoDetailViewOnlyController',
             var result = data.data.request_data_result;
             if (result && result.length > 0 && result != "Found no data") {
                 $scope.video = result[0];
-                $scope.video.averageRating = parseAvgRating($scope.video.averageRating);
-                $scope.averageRating = $scope.video.averageRating;
+                //$scope.video.averageRating = parseAvgRating($scope.video.averageRating);
+                //$scope.averageRating = $scope.video.averageRating;
                 $scope.video.numViews = $scope.video.numViews != null ? $scope.video.numViews : 0;
                 $scope.video.timeStamp = convertUnixTimeToTime($scope.video.timeStamp);
                 if ($scope.video.plid && $scope.video.plid > 0) {

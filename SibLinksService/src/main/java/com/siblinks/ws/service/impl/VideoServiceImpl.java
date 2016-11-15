@@ -2762,7 +2762,7 @@ public class VideoServiceImpl implements VideoService {
                 List<Map<String, Object>> readObjectNoCondition = dao
                     .readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC);
                 String allChildCategory = CommonUtil.getAllChildCategory(subjectId, readObjectNoCondition);
-                if (StringUtil.isNull(allChildCategory)) {
+                if (!StringUtil.isNull(allChildCategory)) {
                     whereClause += " AND V.subjectId IN (" + allChildCategory + ")";
                 }
             }
