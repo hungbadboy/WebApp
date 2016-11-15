@@ -70,11 +70,23 @@
                                         <h3 class="word-wrap" title="{{video.title}}">{{video.title}}</h3>
                                         <span class="time">{{video.timeStamp}}</span>
                                         <div class="txt-dg clearfix">
-                                            <span><p class="pull-left" style="margin-top: 4px;">Rating
-                                                <div class="average">
-                                                    <average-star-rating ng-model="averageRating" max="5"><average-star-rating>    
-                                                </div> 
-                                            </p></span>
+                                            <span>
+                                            	<p class="pull-left" style="margin-top: 4px;">Rating
+	                                                <div class="average">
+	                                                    <span star-rating stars="5" id="divTotalRate"
+					                                          outer-star-selection="stars"
+					                                          outer-percent="rating"
+					                                          rating-define="star"
+					                                          rating-stars="{{video.averageRating}}"
+					                                          star-radius="10" sel-color="gold"
+					                                          back-color="white" title="{{video.averageRating}}"
+					                                          readonly ="true"></span>
+		                                                <span> {{video.averageRating != null ? video.averageRating : 0}} ({{ (!video.numRatings)? '0' : video.numRatings}} votes)</span>
+	                                                	<span><i class="fa fa-play-circle-o" aria-hidden="true"></i> {{video.numViews}}</span>&nbsp;&nbsp;
+	                                                	<span><i class="fa fa-comments" aria-hidden="true"></i> {{comments.length > 0 ? comments.length : 0}}</span>&nbsp;&nbsp;
+	                                                </div>
+                                            	</p>
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="show-about">
@@ -105,7 +117,7 @@
                                                 </ul>
                                             </div>
                                         </form>
-                                    </div>                                    
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-4 right-sub-video">
@@ -124,10 +136,10 @@
                                                 <p>from <b><a href="" ng-click="goToProfile(v.userId)">{{displayName(v.firstName,v.lastName,v.userName)}}</a></b></p>
                                                 <p>View: <span>{{v.numViews}}</span></p>
                                             </div> 
-                                        </li>                                    
+                                        </li>
                                     </ul>
                                 </div> 
-                                <div ng-if="!videosRelated"><h5>No video related</h5></div>                               
+                                <div ng-if="!videosRelated"><h5>No video related</h5></div>
                             </div>
                         </div>
                     </div>

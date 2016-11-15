@@ -28,8 +28,8 @@
         </div>
         <p><textarea type="textarea" ng-model="txtDesc"  id="txtDesc" name="essaydesscription" placeholder="Essay description"></textarea></p>
         <p class="upload-file">
-        <div ngf-select="uploadFiles($files,$invalidFiles)"  ngf-drop="uploadFiles($files,$invalidFiles)"  ngf-max-size="5MB" ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xls'" class="drop-box"
-             accept= "application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf">
+        <div ngf-select="uploadFiles($files,$invalidFiles)"  ngf-drop="uploadFiles($files,$invalidFiles)"  ngf-max-size="5MB" ngf-pattern="'.pdf,.doc,.docx,.xlsx,.xls,.txt'" class="drop-box"
+             accept= "application/msword, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf, text/plain">
             <span>{{fileName}}</span>
         </div>
         </p>

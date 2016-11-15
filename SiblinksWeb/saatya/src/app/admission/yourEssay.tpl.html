@@ -27,7 +27,7 @@
                                           rating-stars="{{essay.averageRating}}"
                                           star-radius="6" sel-color="gold"
                                           back-color="white"
-                                          readonly="true"></span>
+                                          readonly="true" title="{{essay.averageRating}}"></span>
                                           </p>
                         <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
                         <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span>

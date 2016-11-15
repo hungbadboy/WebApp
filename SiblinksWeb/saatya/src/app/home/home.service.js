@@ -48,14 +48,8 @@ brotServices.factory('HomeService', ['$http', function ($http) {
     };
     factory.getAllCategory = function () {
         var promise = $http({
-            method: 'POST',
-            url: NEW_SERVICE_URL + 'subjects/getAllCategory',
-            data: {
-                "request_data_type": "subjects",
-                "request_data_method": "getAllCategory",
-                "request_data": {}
-            }
-        });
+            method: 'GET',
+            url: NEW_SERVICE_URL + 'subjects/getAllCategory'});
         return promise;
     };
 

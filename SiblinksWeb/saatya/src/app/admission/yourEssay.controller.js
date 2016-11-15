@@ -14,6 +14,16 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
 
         function init() {
             getEssays(userId, LIMIT, OFFSET);
+            // get user rating
+            uploadEssayService.getUserRatingEssay(userId, $scope.uploadEssayId).then(function (data) {
+                if (data.data.status == 'true') {
+                    if (data.data.request_data_result.length > 0) {
+                    	$scope.rating = data.data.request_data_result[0].rating;
+                    } else {
+                    	$scope.rating = 0;
+                    }
+                }
+            });
         }
 
 
@@ -116,21 +126,11 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
                 return;
             }
             $rootScope.$broadcast('open');
-            uploadEssayService.checkUserRatingEssay($scope.uploadEssayId, userId).then(function (data) {
-                if (data.data.status == 'true') {
-                    if (data.data.request_data_result.length > 0) {
-                        $scope.rated = true;
-                        $scope.errorVideo = "You are rated!";
-                        $scope.rateNum = ratenumOld;
-                    } else {
-                    	uploadEssayService.rateEssay($scope.uploadEssayId, userId, parseInt(rate)).then(function (data) {
-                            if (data.data.status) {
-                                $scope.rateNum = parseInt(rate);
-                            }
-                        });
-                    }
+            uploadEssayService.rateEssay($scope.uploadEssayId, userId, parseInt(rate)).then(function (data) {
+        		$rootScope.$broadcast('close');
+                if (data.data.status) {
+                    $scope.rateNum = parseInt(rate);
                 }
-                $rootScope.$broadcast('close');
-            });
+            }); 
         }
     }]);

@@ -1236,7 +1236,7 @@ brotControllers.directive("averageStarRating", function() {
                "      <i class='fa fa-star'></i>" + //&#9733
                "    </li>" +
                "  </ul>" +
-               "  <ul class='rating foreground' class='readonly' style='width:{{filledInStarsContainerWidth}}%'>" +
+               "  <ul class='rating foreground' class='readonly' style='width:{{filledInStarsContainerWidth}}%' title='{{iAverageStarRating}}'>" +
                "    <li ng-repeat='star in stars' class='star filled'>" +
                "      <i class='fa fa-star'></i>" + //&#9733
                "    </li>" +
@@ -1256,6 +1256,7 @@ brotControllers.directive("averageStarRating", function() {
         }
         var starContainerMaxWidth = 100; //%
         scope.filledInStarsContainerWidth = scope.averageRatingValue / scope.max * starContainerMaxWidth;
+        scope.iAverageStarRating = toFixed(scope.averageRatingValue,1)
       };
       scope.$watch("averageRatingValue", function(oldVal, newVal) {
         if (newVal) { updateStars(); }

@@ -16,7 +16,6 @@ public interface SubjectsService {
 	public ResponseEntity<Response> listOfTopics(RequestData video);
 	//public ResponseEntity<Response> getVidioInfo(RequestData video);
 	public ResponseEntity<Response> listOfSubTopicsPn(RequestData video);
-	public ResponseEntity<Response> getAllCategory(RequestData video);
 	
 	@Secured({ "ROLE_ADMIN"})
 	public ResponseEntity<Response> createSubject(RequestData video);
@@ -26,4 +25,9 @@ public interface SubjectsService {
 	public ResponseEntity<Response> fetchSubjects(RequestData video);
 	
 	public ResponseEntity<Response> listOfSubjectsWithTag(RequestData request);
+
+    /**
+     * @return
+     */
+    ResponseEntity<Response> getAllCategory();
 }

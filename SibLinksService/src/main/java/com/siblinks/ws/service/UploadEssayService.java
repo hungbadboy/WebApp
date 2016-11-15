@@ -99,5 +99,5 @@ public interface UploadEssayService {
      * @param uploadEssayId
      * @return
      */
-    ResponseEntity<Response> checkRateEssay(String uid, String uploadEssayId);
+    ResponseEntity<Response> getUserRateEssay(String uid, String uploadEssayId);
 }

@@ -12,7 +12,7 @@
                             <div class="col-md-8">
                                 <div class="col-md-5 search">
                                     <form class="navbar-form" role="search">
-                                        <div class="input-group">                                                        
+                                        <div class="input-group">
                                             <div id="srch-term" angucomplete-alt id="srch-term" ng-enter="search()" placeholder="Search" pause="50" selected-object="onSelect" local-data="listAllVideos" search-fields="title" title-field="title"
                                                 minlength="1" input-class="form-control input-search" text-no-results="Tutorial Not Found" match-class="highlight" ></div>
                                             <div class="input-group-btn">
@@ -85,7 +85,9 @@
                                                                       rating-define="star"
                                                                       rating-stars="{{v.averageRating}}"
                                                                       star-radius="7" sel-color="gold"
-                                                                      back-color="white"></div>
+                                                                      back-color="white" title="{{v.averageRating}}">
+                                                                      </div>
+                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
                                                                 </ul></br>
                                                                 
                                                                 <p class="list-view">
@@ -126,7 +128,9 @@
                                                                       rating-define="star"
                                                                       rating-stars="{{v.averageRating}}"
                                                                       star-radius="7" sel-color="gold"
-                                                                      back-color="white"></div>
+                                                                      back-color="white" title="{{v.averageRating}}">
+                                                                      </div>
+                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
                                                                 </ul></br>
                                                                 
                                                                 <p class="list-view">
@@ -194,7 +198,9 @@
                                                                       rating-define="star"
                                                                       rating-stars="{{v.averageRating}}"
                                                                       star-radius="7" sel-color="gold"
-                                                                      back-color="white"></div>
+                                                                      back-color="white" title="{{v.averageRating}}"
+                                                                      </div>
+                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
                                                                 </ul></br>
                                                                 
                                                                 <p class="list-view">
@@ -235,7 +241,9 @@
                                                                       rating-define="star"
                                                                       rating-stars="{{v.averageRating}}"
                                                                       star-radius="7" sel-color="gold"
-                                                                      back-color="white"></div>
+                                                                      back-color="white" title="{{v.averageRating}}">
+                                                                      </div>
+                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
                                                                 </ul></br>
                                                                 
                                                                 <p class="list-view">
@@ -303,7 +311,9 @@
                                                                       rating-define="star"
                                                                       rating-stars="{{v.averageRating}}"
                                                                       star-radius="7" sel-color="gold"
-                                                                      back-color="white"></div>
+                                                                      back-color="white" title="{{v.averageRating}}">
+                                                                      </div>
+                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
                                                                 </ul></br>
                                                                 
                                                                 <p class="list-view">
@@ -344,7 +354,9 @@
                                                                       rating-define="star"
                                                                       rating-stars="{{v.averageRating}}"
                                                                       star-radius="7" sel-color="gold"
-                                                                      back-color="white"></div>
+                                                                      back-color="white" title="{{v.averageRating}}">
+                                                                      </div>
+                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
                                                                 </ul></br>
                                                                 
                                                                 <p class="list-view">

@@ -26,7 +26,7 @@
                                         <span class="pull-left" ><img src="assets/images/icon-l-star.png" alt="">&nbsp;&nbsp;<b>{{dashboard.avg_rating}}</b>&nbsp;&nbsp;
                                         </span>    
                                           <div class="average">
-                                            <average-star-rating ng-model="averageRating" max="5"><average-star-rating>    
+                                            <average-star-rating ng-model="averageRating" max="5"><average-star-rating>
                                           </div>  
                                     </li>
                                 </ul>
@@ -41,7 +41,7 @@
                                     <h5 ng-show="!videos">No video</h5>
                                     <div class="clearfix">
                                         <div class="average">
-                                            <average-star-rating ng-model="newestAverageRating" max="5"><average-star-rating>    
+                                            <average-star-rating ng-model="newestAverageRating" max="5"><average-star-rating>
                                         </div> 
                                         <p class="list-view pull-right pull-right-mod">
                                             <span><img src="assets/images/icon-pl.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
@@ -127,7 +127,7 @@
                                                           rating-define="star"
                                                           rating-stars="{{r.rating ? r.rating : 0}}"
                                                           star-radius="7" sel-color="gold"
-                                                          back-color="white"></div>
+                                                          back-color="white" title="{{r.rating ? r.rating : 0}}"></div>
                                                      </span>
                                                 </div>
                                                 <span>video <a href="#/mentor/video/detail/{{r.vid}}" style="font-weight: 500;">{{r.title | limitTo : 60}}{{r.title.length > 60 ? '...' : ''}}</a></span>                                                

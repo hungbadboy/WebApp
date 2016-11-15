@@ -27,12 +27,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
@@ -787,15 +781,15 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         if (file != null) {
             name = file.getOriginalFilename();
             if (!StringUtil.isNull(name)) {
-                if (isUTF8MisInterpreted(name, "Windows-1252")) {
+                // if (isUTF8MisInterpreted(name, "Windows-1252")) {
                     String nameExt = FilenameUtils.getExtension(name.toLowerCase());
                     boolean status = sample.contains(nameExt);
                     if (!status) {
                         return "Error Format";
                     }
-                } else {
-                    error = "File name is not valid";
-                }
+                // } else {
+                // error = "File name is not valid";
+                // }
             }
             if (file.getSize() > Long.parseLong(limitSize)) {
                 error = "File over 5MB";
@@ -806,22 +800,23 @@ public class UploadEssayServiceImpl implements UploadEssayService {
         return error;
     }
 
-    private boolean isUTF8MisInterpreted(final String input, final String encoding) {
-        CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
-        CharsetEncoder encoder = Charset.forName(encoding).newEncoder();
-        ByteBuffer tmp;
-        try {
-            tmp = encoder.encode(CharBuffer.wrap(input));
-        } catch (CharacterCodingException e) {
-            return false;
-        }
-        try {
-            decoder.decode(tmp);
-            return true;
-        } catch (CharacterCodingException e) {
-            return false;
-        }
-    }
+    // private boolean isUTF8MisInterpreted(final String input, final String
+    // encoding) {
+    // CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
+    // CharsetEncoder encoder = Charset.forName(encoding).newEncoder();
+    // ByteBuffer tmp;
+    // try {
+    // tmp = encoder.encode(CharBuffer.wrap(input));
+    // } catch (CharacterCodingException e) {
+    // return false;
+    // }
+    // try {
+    // decoder.decode(tmp);
+    // return true;
+    // } catch (CharacterCodingException e) {
+    // return false;
+    // }
+    // }
 
     /**
      * {@inheritDoc}
@@ -1358,7 +1353,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             statusDao = transactionManager.getTransaction(def);
             // Check user rated yet
             Object[] queryParams = new Object[] { uid, uploadEssayId };
-            List<Object> videoRated = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_ESSAY, queryParams);
+            List<Object> videoRated = dao.readObjects(SibConstants.SqlMapper.SQL_SIB_GET_USER_RATE_ESSAY, queryParams);
 
             boolean isRated = videoRated.size() > 0 ? true : false;
 
@@ -1378,25 +1373,29 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                                                                        uid,
                                                                        String.valueOf(uploadEssayId)));
             } else {
-                Map<String, Double> object = (Map<String, Double>) videoRated.get(0);
-                // Update rating
-                queryParams = new Object[] { rate, uploadEssayId, uid };
-                entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_ESSAY;
-                Double rateOld = object.get("rate");
-                Double rateNew = Double.parseDouble(rate);
-                Object[] queryUpdateRate = { rateNew - rateOld };
-                dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_ESSAY_AGAIN, queryUpdateRate);
-                // Activity Log
-                activiLogService.insertActivityLog(new ActivityLogData(
-                                                                       SibConstants.TYPE_ESSAY,
-                                                                       "U",
-                                                                       "You updated the rating a artical",
-                                                                       uid,
-                                                                       String.valueOf(uploadEssayId)));
+                Map<String, Integer> object = (Map<String, Integer>) videoRated.get(0);
+                int rateOld = object.get(Parameters.RATING);
+                int rateNew = Integer.parseInt(rate);
+                if (rateOld != rateNew) {
+                    // Update rating
+                    queryParams = new Object[] { rate, uploadEssayId, uid };
+                    entityName = SibConstants.SqlMapper.SQL_SIB_RATE_UPDATE_ESSAY;
+                    status = dao.insertUpdateObject(entityName, queryParams);
+
+                    Object[] queryUpdateRate = { rateNew - rateOld, uploadEssayId };
+                    status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_AVG_RATE_ESSAY_AGAIN, queryUpdateRate);
+                    // Activity Log
+                    activiLogService.insertActivityLog(new ActivityLogData(
+                                                                           SibConstants.TYPE_ESSAY,
+                                                                           "U",
+                                                                           "You updated the rating a artical",
+                                                                           uid,
+                                                                           String.valueOf(uploadEssayId)));
+                }
             }
 
             transactionManager.commit(statusDao);
-            logger.info("    " + new Date());
+            logger.info("Rate essay successful " + new Date());
 
             response = new SimpleResponse("" + status, "essay", "rateEssay", uploadEssayId);
         } catch (Exception e) {
@@ -1413,8 +1412,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/checkRateEssay", method = RequestMethod.GET)
-    public ResponseEntity<Response> checkRateEssay(@RequestParam final String uid, @RequestParam final String uploadEssayId) {
+    @RequestMapping(value = "/getUserRateEssay/{uid}/{uploadEssayId}", method = RequestMethod.GET)
+    public ResponseEntity<Response> getUserRateEssay(@PathVariable(value = "uid") final String uid, @PathVariable(
+            value = "uploadEssayId") final String uploadEssayId) {
         SimpleResponse response = null;
         try {
             if (!AuthenticationFilter.isAuthed(context)) {
@@ -1429,16 +1429,16 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                                               "artical",
                                               "checkRateEssay",
                                               "Parameter cannot null or Emppty.");
-                return new ResponseEntity<Response>(response, HttpStatus.OK);
-            }
+            } else {
 
-            List<Object> readObjects = dao.readObjects(
-                SibConstants.SqlMapper.SQL_SIB_CHECK_RATE_ESSAY,
-                new Object[] { uid, uploadEssayId });
-            response = new SimpleResponse(SibConstants.SUCCESS, "artical", "checkRateEssay", readObjects);
+                List<Object> readObjects = dao.readObjects(
+                    SibConstants.SqlMapper.SQL_SIB_GET_USER_RATE_ESSAY,
+                    new Object[] { uid, uploadEssayId });
+                response = new SimpleResponse(SibConstants.SUCCESS, "essay", "getUserRateEssay", readObjects);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, "artical", "checkRateEssay", e.getMessage());
+            response = new SimpleResponse(SibConstants.FAILURE, "essay", "getUserRateEssay", e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }

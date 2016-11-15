@@ -171,7 +171,7 @@ public class SibConstants {
         // Essay Rate
         public static final String SQL_SIB_GET_ESSAY_COMMENTS_PN = "SIB_GET_ESSAY_COMMENTS_PN";
         public static final String SQL_SIB_GET_ESSAY_COMMENTS_PN_COUNT = "SIB_GET_ESSAY_COMMENTS_PN_COUNT";
-        public static final String SQL_SIB_CHECK_RATE_ESSAY = "SIB_CHECK_RATE_ESSAY";
+        public static final String SQL_SIB_GET_USER_RATE_ESSAY = "SIB_GET_USER_RATE_ESSAY";
         public static final String SQL_SIB_RATE_ESSAY = "SIB_RATE_ESSAY";
         public static final String SQL_UPDATE_AVG_RATE_ESSAY = "UPDATE_AVG_RATE_ESSAY";
         public static final String SQL_UPDATE_AVG_RATE_ESSAY_AGAIN = "UPDATE_AVG_RATE_ESSAY_AGAIN";

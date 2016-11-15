@@ -166,26 +166,18 @@ public class SubjectsServiceImpl implements SubjectsService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/getAllCategory", method = RequestMethod.POST)
-    public ResponseEntity<Response> getAllCategory(@RequestBody final RequestData request) {
+    @RequestMapping(value = "/getAllCategory", method = RequestMethod.GET)
+    public ResponseEntity<Response> getAllCategory() {
         SimpleResponse simpleResponse = null;
         try {
             Object[] queryParams = {};
 
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC, queryParams);
 
-            simpleResponse = new SimpleResponse(
-                                                SibConstants.SUCCESS,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                readObject);
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "subjects", "getAllCategory", readObject);
         } catch (DAOException e) {
             e.printStackTrace();
-            simpleResponse = new SimpleResponse(
-                                                SibConstants.FAILURE,
-                                                request.getRequest_data_type(),
-                                                request.getRequest_data_method(),
-                                                e.getMessage());
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "subjects", "getAllCategory", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }

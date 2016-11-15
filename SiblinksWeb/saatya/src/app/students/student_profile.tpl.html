@@ -267,89 +267,114 @@
                             <!-- /End POPUP of images's question -->
                         </div><!-- /End content of My Question -->
 
-                        <!-- Content Of Essay -->
-                        <div ng-controller="yourEssayController" class="content-question col-md-12 tab-pane" id="essay"  ng-class="{active : currentTab == 'essay'}">
-                            <div class="content-essay-block" scroller="yourEssay">
-                                <div class="content-question-wrapper">
-                                    <!-- Essay 01 -->
-                                    <div  ng-repeat="essay in listEssays track by $index" class="question essay_0{{$index}}" ng-click="showModal($index)">
-                                        <div class="number-question col-xs-1">
-                                            <h4>{{$index+1}}</h4>
-                                        </div>
-                                        <div class="detail-question col-xs-offset-1">
-                                            <div class="infor-of-question col-xs-12">
-                                                <h5 class="essay-title"><a>{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 185 ? '...' : ''}}</a></h5>
-                                                <p><span>uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}}</span></p>
-                                                <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
-                                                <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span><span>by : </span><span class="mentor-review"><a href="#/student/mentorProfile/{{essay.mentorID}}">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</a></span>
-                                            </div>
-                                        </div>
-                                    </div><!-- End Essay 01 -->
-
-                                    <div ng-if="!listEssays">
-                                        <h5 class="essay-title">No data found</h5>
-                                    </div>
-                                </div>
-                                <!-- Essay popup -->
-                                <div class="modal fade" id="essay-detail">
-                                    <div class="modal-dialog modal-add-video modal-qa modal-article modal-essay">
-                                        <div class="modal-content clearfix">
-                                            <div class="col-md-3 left-question">
-                                                <h3>Essay detail</h3>
-                                                <div class="essay-detail-top">
-                                                    <h4 ng-bind="currentEssay.nameOfEssay"></h4>
-                                                    <span class="post-time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} </span>
-                                                </div>
-                                                <div class="essay-thumb"  ng-if="currentEssay.status =='W' ">
-                                                    <p><span class="essay-wait-review">Waiting for review</span></p><br>
-                                                </div>
-                                                <div class="essay-thumb"  ng-if="currentEssay.status !='W'">
-                                                    <div class="essay-thumb-left">
-                                                        <p>Mentor:</p>
-                                                        <p class="name-mentor"><a data-dismiss="modal" ng-click="transferPage('/student/mentorProfile/{{currentEssay.mentorId}}')">{{displayName(currentEssay.mfirstName,currentEssay.mlastName,currentEssay.muserName)}}</a>
-                                                        </p>
-                                                        <p><span class="essay-{{currentEssay.status=='P'?'reviewing':'answers'}}">{{currentEssay.status=='P'?'Reviewing':'Answered'}}</p><br>
-                                                    </div>
-                                                    <div class="essay-thumb-right">
-                                                        <a data-dismiss="modal"  ng-click="transferPage('/student/mentorProfile/{{currentEssay.mentorId}}')"><img ng-src="{{currentEssay.mavatar}}"></a>
-                                                    </div>
-                                                </div>
-
-                                                <div class="action-essay">
-                                                    <button ng-click="editEssay()" ng-if="currentEssay.status !='R'" class="edit">Edit</button>
-                                                    <button ng-really-message="Are you sure you want to delete?" ng-really-click ="removeEssay(currentEssay.uploadEssayId)" ng-if="currentEssay.status !='R'" class="delete">Delete</button>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-9 right-answer clearfix">
-                                                <h4>Desciption</h4>
-                                                <button type="button" class="close close-popup-detail" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true" data-icon="&#x51;"></span>
-                                                </button>
-                                                <div class="essay-detail-right-content-wrapper" scroller="detailEssay1">
-                                                    <div class="essay-detail-right-content">
-                                                        <p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>
-                                                        <div class=""></div>
-                                                        <div class="attrach-file">
-                                                            <a href="{{currentEssay.downloadLinkS}}"> <label><span data-icon="&#xe092;"> Download file</span></label>
-                                                            </a>
-                                                        </div>
-                                                        <div ng-if="currentEssay.status =='R'" class="answer-by"><p>Answered by mentor</p></div>
-                                                    </div>
-                                                    <div ng-if="currentEssay.status =='R'" class="essay-detail-right-content">
-                                                        <span class="post-time">Replied {{convertUnixTimeToTime(currentEssay.docReviewedDate)}} </span>
-                                                        <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
-                                                        <div class=""></div>
-                                                        <div class="attrach-file">
-                                                            <a href="{{currentEssay.downloadLinkM}}"> <label><span data-icon="&#xe092;"> Download file</span></label></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /End Essay popup -->
+								<!-- Content Of Essay -->
+								<div ng-controller="yourEssayController" class="content-question col-md-12 tab-pane" id="essay"  ng-class="{active : currentTab == 'essay'}">
+								    <div class="content-essay-block" scroller="yourEssay">
+								        <div class="content-question-wrapper">
+								            <!-- Essay 01 -->
+								            <div  ng-repeat="essay in listEssays track by $index" class="question essay_0{{$index}}" ng-click="showModal($index)">
+								                <div class="number-question col-xs-1">
+								                    <h4>{{$index+1}}</h4>
+								                </div>
+								                <div class="detail-question col-xs-offset-1">
+								                    <div class="infor-of-question col-xs-12">
+								                        <h5 class="essay-title"><a>{{ essay.nameOfEssay | limitTo: 100 }}{{essay.nameOfEssay.length > 185 ? '...' : ''}}</a></h5>
+								                        <p><span star-rating stars="5" class="essayRate"
+					                                          outer-star-selection="stars"
+					                                          outer-percent="rating"
+					                                          rating-define="star"
+					                                          rating-stars="{{essay.averageRating}}"
+					                                          star-radius="6" sel-color="gold"
+					                                          back-color="white"
+					                                          readonly="true" title="{{essay.averageRating}}"></span>
+					                                    </p>
+								                        <p><span>uploaded {{convertUnixTimeToTime(essay.docSubmittedDate)}}</span></p>
+								                        <p ng-if="essay.STATUS =='W'"><span class="essay-wait-review">Waiting for review</span></p>
+								                        <p ng-if="essay.STATUS !='W'"><span class="essay-{{essay.STATUS=='P'?'reviewing':'answers'}}">{{essay.STATUS=='P'?'Reviewing':'Answered'}}</span><span>by : </span><span class="mentor-review"><a href="#/student/mentorProfile/{{essay.mentorID}}">{{displayName(essay.firstName,essay.lastName,essay.userName)}}</a></span>
+								                    </div>
+								                </div>
+								            </div><!-- End Essay 01 -->
+								
+								            <div ng-if="!listEssays">
+								                <h5 class="essay-title">No data found</h5>
+								            </div>
+								        </div>
+								       <!-- Essay popup -->
+								            <div class="modal fade" id="essay-detail">
+								                <div class="modal-dialog modal-add-video modal-qa modal-article modal-essay">
+								                    <div class="modal-content clearfix">
+								                        <div class="col-md-3 left-question">
+								                            <h3>Essay detail</h3>
+								                            <div class="essay-detail-top">
+								                                <h4 ng-bind="currentEssay.nameOfEssay"></h4>
+								                                <span class="post-time">Submitted {{convertUnixTimeToTime(currentEssay.docSubmittedDate)}} </span>
+								                            </div>
+								                            <div class="essay-thumb"  ng-if="currentEssay.status =='W' ">
+								                                <p><span class="essay-wait-review">Waiting for review</span></p><br>
+								                            </div>
+								                            <div class="essay-thumb"  ng-if="currentEssay.status !='W'">
+								                                <div class="essay-thumb-left">
+								                                    <p>Mentor:</p>
+								                                    <p class="name-mentor"><a data-dismiss="modal" ng-click="transferPage('/student/mentorProfile/' + currentEssay.mentorId)">{{displayName(currentEssay.mfirstName,currentEssay.mlastName,currentEssay.muserName)}}</a>
+								                                    </p>
+								                                    <p><span class="essay-{{currentEssay.status=='P'?'reviewing':'answers'}}">{{currentEssay.status=='P'?'Reviewing':'Answered'}}</p><br>
+								                                </div>
+								                                <div class="essay-thumb-right">
+								                                  <a data-dismiss="modal" ng-click="transferPage('/student/mentorProfile/' + currentEssay.mentorId)"><img ng-src="{{currentEssay.mavatar}}"></a>
+								                                </div>
+								                            </div>
+															<div class="essay-infor" ng-if="currentEssay.status =='R'">
+															    <p class="rate-video">
+															        <span>Rate this reply</span>
+															        <span star-rating stars="5"
+															                      outer-star-selection="stars"
+															                      ng-click="rateFunction(stars)"
+															                      outer-percent="rating"
+															                      rating-define="star"
+															                      rating-stars="{{currentEssay.averageRating}}"
+															                      star-radius="8" sel-color="gold"
+															                      back-color="white"></span>
+															    </p>
+															</div>
+								                            <div class="action-essay">
+								                                <button ng-click="editEssay()" ng-if="currentEssay.status !='R'" class="edit">Edit</button>
+								                                <button ng-really-message="Are you sure you want to delete?" ng-really-click ="removeEssay(currentEssay.uploadEssayId)" ng-if="currentEssay.status !='R'" class="delete">Delete</button>
+								                            </div>
+								                        </div>
+								                        <div class="col-md-9 right-answer clearfix">
+														<h4>Description</h4>
+								                            <button type="button" class="close close-popup-detail" data-dismiss="modal" aria-label="Close">
+								                                <span aria-hidden="true" data-icon="&#x51;"></span>
+								                            </button>
+								                            <div class="essay-detail-right-content-wrapper" scroller="detailEssay1">
+								                                <div class="essay-detail-right-content">
+								                                    <p class="pre-wrap" >{{currentEssay.descriptionOfEssay}}</p>
+								                               		<div class=""></div>
+															        <div class="attrach-file">
+															            <a href="{{currentEssay.downloadLinkS}}"><label for="attached"><span data-icon="&#xe092;"> Attached file</span></label></a>
+															            <span>{{currentEssay.urlFile}}</span>
+															        </div>
+														 		</div>
+								                         		<div ng-if="currentEssay.status =='R'" class="essay-detail-right-content">
+														        	<div ng-if="currentEssay.status =='R'" class="answer-by">
+														                <span class="mentor-answer">Replied by <a style="cursor:pointer" data-dismiss="modal" ng-click="transferPage('/student/mentorProfile/' + currentEssay.mentorId)">{{displayName(currentEssay.mfirstName,currentEssay.mlastName,currentEssay.muserName)}}</a>
+														                </span><br/>
+														              <span class="post-time">{{convertUnixTimeToTime(currentEssay.docReviewedDate)}}</span>
+														            </div>
+								                                    <p class="pre-wrap" ng-if="currentEssay.mentorComment" >{{currentEssay.mentorComment}}</p>
+								                                    <div class=""></div>
+									                                 <!-- <button class=read-more>Read more <span data-icon="&#x33;"></span></button> -->
+										                            <div class="attrach-file" ng-if="currentEssay.downloadLinkM">
+										                                <a href="{{currentEssay.downloadLinkM}}"><label for="attached"><span data-icon="&#xe092;"> Attached file</span></label></a>
+										                                <span>{{currentEssay.urlReview}}</span>
+										                            </div>
+								                            	</div>
+								                        	</div>
+									                    </div>
+								                </div>
+								            </div>
+								        </div>
+								<!-- /End Essay popup -->
                             <!-- <div class="scroll-load-more col-md-12">
                                 <p>Scroll to load more</p>
                             </div> -->

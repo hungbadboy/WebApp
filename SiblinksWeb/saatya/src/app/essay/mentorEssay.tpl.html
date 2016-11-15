@@ -209,8 +209,12 @@
                                                                 <div class="chat-body clearfix">
                                                                     <div class="header">
                                                                         <a href="#/mentor/mentorProfile" style="font-weight: bold;">{{displayName(c.firstName, c.lastName, c.userName)}} </a><span class="time">{{convertUnixTimeToTime(c.timestamp)}} </span>
-                                                                        <span star-rating stars="5" outer-star-selection="stars" readonly="true" outer-percent="rating" rating-define="star" rating-stars="{{c.rating}}" star-radius="7" sel-color="gold" back-color="white"></span>
-                                                                         <span title="Edit" ng-click="openEdit(c.cid, c.content, essay.urlReview, essay.rdFilesize)" class="edit-answer" data-icon="&#x6c;"></span>
+																		<span star-rating stars="5"
+																			outer-star-selection="stars" readonly="true"
+																			outer-percent="rating" rating-define="star"
+																			rating-stars="{{c.rating}}" star-radius="7"
+																			sel-color="gold" back-color="white" title="{{(c.rating == null)? '0': c.rating}}"></span>
+																			 <span title="Edit" ng-click="openEdit(c.cid, c.content, essay.urlReview, essay.rdFilesize)" class="edit-answer" data-icon="&#x6c;"></span>
                                                                     </div>
                                                                     <p class="desc-wrap">{{c.content}}</p>
                                                                     <p class="attaced-file" ng-if="essay.downloadLinkM"><a href="{{essay.downloadLinkM}}"><img src="assets/images/img-attacfile.png" alt=""></a><span>{{essay.urlReview}} - {{essay.rdFilesize}}</span></p>
