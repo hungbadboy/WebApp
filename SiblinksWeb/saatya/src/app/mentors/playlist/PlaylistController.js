@@ -130,7 +130,16 @@ brotControllers.controller('PlaylistController',
       });
     }
 
-    $scope.checkAll = function(){
+    // $scope.checkAll = function(){
+    //   console.log('checkAll');
+    //   var status = !$scope.selectedAll;
+
+    //   angular.forEach($scope.playlist, function(v){
+    //     v.selected = status;
+    //   });
+    // };
+
+    $scope.optionAll = function(){
       var status = !$scope.selectedAll;
 
       angular.forEach($scope.playlist, function(v){
