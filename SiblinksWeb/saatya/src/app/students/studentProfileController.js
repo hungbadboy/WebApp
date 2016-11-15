@@ -418,7 +418,7 @@ brotControllers.controller('StudentProfileController',
                                 localStorage.setItem('defaultSubjectId', strSubs);
                                 localStorage.setItem('firstName', student.firstName);
                                 localStorage.setItem('lastname', student.lastName);
-                                localStorage.setItem('school', $scope.schoolSelect.id);
+                                localStorage.setItem('school', ($scope.schoolSelect != null && ($scope.schoolSelect.id !=null && $scope.schoolSelect.id !== undefined)) ? $scope.schoolSelect.id : '');
                                 if (subjects != null || subjects !== undefined) {
                                     $scope.objSubs = getSubjectNameById(strSubs, subjects);
                                 }
