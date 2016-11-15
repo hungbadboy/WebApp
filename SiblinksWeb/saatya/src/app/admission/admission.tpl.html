@@ -154,7 +154,7 @@
 	                      	<a href="javascript:void(0)">{{displayName(articalDetail.firstName, articalDetail.lastName, articalDetail.userName)}}</a></span> 
 	                      <span class="post-time">add {{convertUnixTimeToTime(articalDetail.createDate)}}</span></p>
 	                      <p class="video-view">
-		                      	<span star-rating stars="5" id="divRate"
+		                      	<span star-rating stars="5"
 	                                          outer-star-selection="stars1"
 	                                          outer-percent="rating1"
 	                                          rating-define="star1"
@@ -163,8 +163,8 @@
 	                                          back-color="white"
 	                                          readonly="true" title="{{(averageRating == null) ? '0' : averageRating}}">
 	                            </span>
-                            	<span>{{(averageRating == null) ? '0' : averageRating}} ({{(numRate == null) ? '0' : numRate}} votes)</span>
-	                           <span class="fa fa-eye">{{articalDetail.numView}}</span>
+                            	<span class="admissionRate">{{(averageRating == null) ? '0' : averageRating}} ({{(numRate == null) ? '0' : numRate}} votes)</span>
+	                           <span class="fa fa-eye pull-right" style="margin-top: 5px;">{{articalDetail.numView}}</span>
 	                      </p>
 	                      <p>
 	                      	<span>Rate this article</span>
