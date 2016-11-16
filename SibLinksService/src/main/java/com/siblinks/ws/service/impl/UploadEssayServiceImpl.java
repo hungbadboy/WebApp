@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.net.URLEncoder;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
@@ -142,11 +143,10 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             // set content attributes for the response
             response.setContentType(mimeType);
             response.setContentLength(Integer.parseInt(file.getFilesize()));
+            response.setCharacterEncoding("utf-8");
+            String fileName = URLEncoder.encode(file.getFileName(), "UTF-8").replace("+", "%20");
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
 
-            // set headers for the response
-            String headerKey = "Content-Disposition";
-            String headerValue = String.format("attachment; filename=\"%s\"", file.getFileName());
-            response.setHeader(headerKey, headerValue);
             outStream = response.getOutputStream();
 
             byte[] buffer = new byte[BUFFER_SIZE];
