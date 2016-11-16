@@ -77,6 +77,7 @@
 	                                          outer-percent="rating"
 	                                          rating-define="star"
 	                                          rating-stars="{{videoInfo.averageRating}}"
+	                                          rating-percent="{{videoInfo.averageRating*20}}"
 	                                          star-radius="10" sel-color="gold"
 	                                          back-color="white" title="{{videoInfo.averageRating}}"
 	                                          readonly ="true"></span>
@@ -93,7 +94,8 @@
                                           ng-click="rateFunction(stars1)"
                                           outer-percent="rating"
                                           rating-define="star1"
-                                          rating-stars="{{numRating}}"
+                                          rating-stars="{{(numRating == null? 0 : numRating)}}"
+                                          rating-percent="{{(numRating == null? 0 : numRating*20)}}"
                                           star-radius="10" sel-color="gold"
                                           back-color="white" title="{{numRating}}"></div>
                                 </span>
