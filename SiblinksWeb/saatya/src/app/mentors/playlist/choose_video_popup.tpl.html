@@ -12,7 +12,7 @@
         <div role="tabpanel" class="tab-pane active" id="lib">
             <div class="row top-mag">
                 <div class="col-md-12">
-                    <div class="col-md-6 search">
+                    <div class="col-xs-6 search">
                         <form class="navbar-form" role="search">
                             <div class="input-group">                                                
                                 <div id="keyword" angucomplete-alt ng-enter="search()" placeholder="Search" pause="50" selected-object="onSelect" local-data="listAllVideos" search-fields="title" title-field="title" minlength="1" input-class="form-control input-search" text-no-results="Tutorial Not Found" match-class="highlight" ></div>
@@ -22,7 +22,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-3 sl-sbj">
+                    <div class="col-xs-3 sl-sbj">
                         <select class="select-sbj" id="subject" data-ng-model="subject" ng-change="loadVideoBySubject(subject)" class="form-control" data-ng-options='subject.subjectId as subject.subject for subject in filterSubjects'>
                     </select>
                     </div>

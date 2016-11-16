@@ -189,7 +189,7 @@
                         $scope.starsSelected = starsUtility.starsByPercent($scope.howManyStars.length, $scope.percent);
                     });
                     $scope.$watch('ratingStars', function(newValue) {
-                        $scope.percent = starsUtility.calculatePercent( attrs );
+                        $scope.percent = $scope.prevPercent = starsUtility.calculatePercent( attrs );
                     });
 
                     // handle events to change the rating
@@ -201,7 +201,18 @@
                             var newPercent = $scope.ratingDefine == 'star'
                                 ? starsUtility.percentFullStars($scope.howManyStars.length, w,
                                 $scope.starRadius * 2, selected) : Math.floor((selected * 100) / w);
-                            $scope.percent = newPercent > 100 ? 100 : newPercent;
+                            //$scope.percent = newPercent > 100 ? 100 : newPercent;
+                                if(newPercent>80) {
+                                	$scope.percent = 100;
+                                } else if (newPercent > 0 && newPercent<=20) {
+                                	$scope.percent = 20;
+                                } else if (newPercent>20 && newPercent<=40) {
+                                	$scope.percent = 40;
+                                } else if (newPercent>40 && newPercent<=60) {
+                                	$scope.percent = 60;
+                                } else if (newPercent>60 && newPercent<=80) {
+                                	$scope.percent = 80;
+                                }
                         }
                     };
 
