@@ -538,8 +538,8 @@ public class ArticleServiceImpl implements ArticleService {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/rateArticalAdmission", method = RequestMethod.POST)
-    public ResponseEntity<Response> rateArticalAdmission(@RequestBody final RequestData request) {
+    @RequestMapping(value = "/rateArticleAdmission", method = RequestMethod.POST)
+    public ResponseEntity<Response> rateArticleAdmission(@RequestBody final RequestData request) {
         String entityName = null;
         boolean status = false;
         SimpleResponse response = null;
@@ -584,7 +584,7 @@ public class ArticleServiceImpl implements ArticleService {
                 activiLogService.insertActivityLog(new ActivityLogData(
                                                                        SibConstants.TYPE_ATICAL,
                                                                        "C",
-                                                                       "You rated a artical",
+                                                                       "You rated a article",
                                                                        uid,
                                                                        String.valueOf(arid)));
             } else {
@@ -647,19 +647,19 @@ public class ArticleServiceImpl implements ArticleService {
             if (StringUtil.isNull(arId) || StringUtil.isNull(uid)) {
                 response = new SimpleResponse(
                                               SibConstants.FAILURE,
-                                              "artical",
-                                              "checkRateArticle",
+                                              "article",
+                                              "getUserRateArticle",
                                               "Parameter cannot null or Emppty.");
             } else {
 
             List<Object> readObjects = dao.readObjects(
                     SibConstants.SqlMapper.SQL_SIB_GET_USER_RATE_ARTICAL_ADMISSION,
                 new Object[] { uid, arId });
-            response = new SimpleResponse(SibConstants.SUCCESS, "artical", "checkRateArticle", readObjects);
+                response = new SimpleResponse(SibConstants.SUCCESS, "article", "getUserRateArticle", readObjects);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response = new SimpleResponse(SibConstants.FAILURE, "artical", "checkRateArticle", e.getMessage());
+            response = new SimpleResponse(SibConstants.FAILURE, "article", "getUserRateArticle", e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
     }

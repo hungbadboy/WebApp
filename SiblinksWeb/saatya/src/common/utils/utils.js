@@ -478,21 +478,21 @@ function deleteToken() {
 }
 // Add a message to the messages element.
 function appendMessage(payload) {
-    const messagesElement = document.querySelector('#messages');
-    const dataHeaderELement = document.createElement('h5');
-    const dataElement = document.createElement('pre');
-    dataElement.style = 'overflow-x:hidden;'
-    dataHeaderELement.textContent = 'Received message:';
-    dataElement.textContent = JSON.stringify(payload, null, 2);
-    messagesElement.appendChild(dataHeaderELement);
-    messagesElement.appendChild(dataElement);
+//    const messagesElement = document.querySelector('#messages');
+//    const dataHeaderELement = document.createElement('h5');
+//    const dataElement = document.createElement('pre');
+//    dataElement.style = 'overflow-x:hidden;'
+//    dataHeaderELement.textContent = 'Received message:';
+//    dataElement.textContent = JSON.stringify(payload, null, 2);
+//    messagesElement.appendChild(dataHeaderELement);
+//    messagesElement.appendChild(dataElement);
 }
 // Clear the messages element of all children.
 function clearMessages() {
-    const messagesElement = document.querySelector('#messages');
-    while (messagesElement.hasChildNodes()) {
-        messagesElement.removeChild(messagesElement.lastChild);
-    }
+//    const messagesElement = document.querySelector('#messages');
+//    while (messagesElement.hasChildNodes()) {
+//        messagesElement.removeChild(messagesElement.lastChild);
+//    }
 }
 function updateUIForPushEnabled(currentToken) {
     showHideDiv(tokenDivId, true);
