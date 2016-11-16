@@ -17,7 +17,8 @@ brotControllers.controller('UploadTutorialController',
         initPlaylist();
         if (!isNaN(v_id) && v_id > 0) {
           getVideoDetail();
-        } else{        
+        } else{
+          angular.element('#txtTutorialUrl').trigger('focus');
           loadVideoRecently();
         } 
       } else {
