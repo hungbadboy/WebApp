@@ -300,14 +300,14 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
             $location.path('/admission/article');
         };
 
-        $scope.showArticleDetail = function (idArtilce, numRate, averageRating) {
-        	$scope.numRate = numRate;
-        	$scope.averageRating = averageRating;
+        $scope.showArticleDetail = function (index, arId) {
+        	$scope.index = index;
+        	$scope.idArtilce = arId;
         	// Update view
-            AdmissionService.updateViewArticalAdmission(idArtilce).then(function (data) {
+            AdmissionService.updateViewArticalAdmission(arId).then(function (data) {
                 if (data.data.status == 'true') {
                     $scope.articleAdmissionDetail = data.data.request_data_result;
-                    $scope.idArtilce=idArtilce;
+                    $scope.listArticleAdmission[index] = data.data.request_data_result[0];
                 } else {
                     console.log(data.data.request_data_result);
                 }
@@ -315,7 +315,7 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
             
             if(userId != null && userId !== undefined) {
 	            // Get user Rate
-	            AdmissionService.getUserRatingArtical(userId,idArtilce).then(function (data) {
+	            AdmissionService.getUserRatingArtical(userId,arId).then(function (data) {
 	                if (data.data.status == 'true') {
 	                    if (data.data.request_data_result.length > 0) {
 	                    	$scope.rating = data.data.request_data_result[0].rating;
@@ -340,11 +340,26 @@ brotControllers.controller('AdmissionCtrl', ['$scope', '$rootScope', '$log', '$l
             	window.location.href ='#/student/signin?continue='+encodeURIComponent($location.absUrl());
                 return;
             }
-            // Rate article
-            $rootScope.$broadcast('open');
-           	AdmissionService.rateArtical($scope.idArtilce, userId, parseInt(rate)).then(function (data) {
-                $rootScope.$broadcast('close');
-            });
+            try{
+            	// Rate article
+            	$rootScope.$broadcast('open');
+            	AdmissionService.rateArtical($scope.idArtilce, userId, parseInt(rate)).then(function (data) {
+            		if(data.data.status =='true') {
+            			var averageRatingOld = $scope.articleAdmissionDetail[0].averageRating == null ? 0: $scope.articleAdmissionDetail[0].averageRating;
+		            	var numRatingsOld = $scope.articleAdmissionDetail[0].numRate == null ? 0: $scope.articleAdmissionDetail[0].numRate;
+		            	var ratingOld = ($scope.rating == null)? 0 : $scope.rating;
+		            	$scope.rating = parseInt(rate);
+		            	$scope.articleAdmissionDetail[0].averageRating = toFixed((( averageRatingOld * numRatingsOld) + parseInt(rate - ratingOld))/ ((ratingOld == 0)? numRatingsOld + 1 : numRatingsOld),1);
+		            	$scope.articleAdmissionDetail[0].numRate = (ratingOld == 0)? numRatingsOld + 1 : numRatingsOld;
+		            	$scope.listArticleAdmission[$scope.index] =$scope.articleAdmissionDetail[0];
+            		}
+            	});
+            	
+            } catch(e){
+            	console.log(e.description)
+            } finally{
+            	$rootScope.$broadcast('close');
+            }
 
         }
     }]);

@@ -402,7 +402,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 	                            }
 	                        });
 	                        // Update numComments
-	                        $scope.videoInfo.numComments = $scope.videoInfo.numComments + 1;
+	                        $scope.videoInfo.numComments = ($scope.videoInfo.numComments == null)? 1 : $scope.videoInfo.numComments +1;
 	                    }
 	                });
 	            }

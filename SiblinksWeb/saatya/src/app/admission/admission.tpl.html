@@ -74,7 +74,7 @@
                               <h5>Articles</h5>
                               <ul>
                               	<div ng-repeat="lstArticleAdmission in listArticleAdmission track by $index" ng-if="$index < displayNumberOfArticle">
-                              	<li ng-click="showArticleDetail(lstArticleAdmission.arId,lstArticleAdmission.numRate, lstArticleAdmission.averageRating)" data-toggle="modal" href="#article-detail">
+                              	<li ng-click="showArticleDetail($index, lstArticleAdmission.arId)" data-toggle="modal" href="#article-detail">
                                       <div class="video-wrapper">
                                           <div class="videos-thumnail">
                                               <a href="javascript:void(0)"><img ng-src="{{lstArticleAdmission.image}}"></a>
@@ -158,12 +158,12 @@
 	                                          outer-star-selection="stars1"
 	                                          outer-percent="rating1"
 	                                          rating-define="star1"
-	                                          rating-stars="{{(averageRating == null) ? '0' : averageRating}}"
+	                                          rating-stars="{{(articalDetail.averageRating == null) ? '0' : articalDetail.averageRating}}"
 	                                          star-radius="9" sel-color="gold"
 	                                          back-color="white"
-	                                          readonly="true" title="{{(averageRating == null) ? '0' : averageRating}}">
+	                                          readonly="true" title="{{(articalDetail.averageRating == null) ? '0' : articalDetail.averageRating}}">
 	                            </span>
-                            	<span class="admissionRate">{{(averageRating == null) ? '0' : averageRating}} ({{(numRate == null) ? '0' : numRate}} votes)</span>
+                            	<span class="admissionRate">{{(articalDetail.averageRating == null) ? '0' : articalDetail.averageRating}} ({{(articalDetail.numRate == null) ? '0' : articalDetail.numRate}} votes)</span>
 	                           <span class="fa fa-eye pull-right" style="margin-top: 5px;">{{articalDetail.numView}}</span>
 	                      </p>
 	                      <p>

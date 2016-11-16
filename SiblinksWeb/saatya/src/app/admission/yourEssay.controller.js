@@ -57,6 +57,7 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
         };
 
         $scope.showModal = function (index) {
+        	$scope.index = index;
             if (isEmpty(index)) {
                 return;
             }
@@ -125,12 +126,19 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
             	window.location.href ='#/student/signin?continue='+encodeURIComponent($location.absUrl());
                 return;
             }
-            $rootScope.$broadcast('open');
-            uploadEssayService.rateEssay($scope.uploadEssayId, userId, parseInt(rate)).then(function (data) {
-        		$rootScope.$broadcast('close');
-                if (data.data.status) {
-                    $scope.rateNum = parseInt(rate);
-                }
-            }); 
+            try {
+            	$rootScope.$broadcast('open');
+            	uploadEssayService.rateEssay($scope.uploadEssayId, userId, parseInt(rate)).then(function (data) {
+            		if (data.data.status == 'true') {
+            			$scope.currentEssay.averageRating=parseInt(rate);
+            			$scope.listEssays[$scope.index].averageRating=parseInt(rate);
+            		}
+            	}); 
+            	
+            } catch (e){
+            	console.log(e.description)
+            } finally {
+            	$rootScope.$broadcast('close');
+            }
         }
     }]);
