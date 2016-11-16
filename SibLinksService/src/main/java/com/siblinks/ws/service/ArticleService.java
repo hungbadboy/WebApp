@@ -47,16 +47,16 @@ public interface ArticleService {
      * @return True update success, False no row update
      */
     ResponseEntity<Response> updateViewArticle(Article aid);
-
-    /**
-     * @param request
-     * @return
-     */
-    ResponseEntity<Response> rateArticalAdmission(RequestData request);
     /**
      * @param uid
      * @param arId
      * @return
      */
     ResponseEntity<Response> getUserRateArticle(long uid, long arId);
+
+    /**
+     * @param request
+     * @return
+     */
+    ResponseEntity<Response> rateArticleAdmission(RequestData request);
 }
