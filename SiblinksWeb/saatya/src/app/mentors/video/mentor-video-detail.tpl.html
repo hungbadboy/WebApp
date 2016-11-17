@@ -97,14 +97,20 @@
                                     <div class="form-commnent">
                                         <h4 ng-if="comments">{{comments.length}} Comments</h4>
                                         <h4 ng-if="!comments">0 Comments</h4>
+                                        
                                         <form action="">
+                                        	<div>
+			                                   <div ng-if="msgSuccess" class="succesful">
+			                                        <span>{{msgSuccess}}</span>
+			                                     </div>
+			                                     <div ng-if="msgError" class="validate_error">
+			                                       <span>{{msgError}}</span>
+			                                     </div>
+			                                  </div>
                                             <div class="box-chat-onl clearfix">
                                                 <a href="#" class="col-md-1"><img src="{{avatar}}" alt=""></a>
                                                 <div class="texta col-md-11">
                                                     <textarea id="txtComment" maxlength="1024" ng-change="validateText()" ng-click="showButton()" ng-model="contentText" placeholder="Add a comment"></textarea>
-                                                    <div ng-if="error" style="margin-top: 10px; margin-bottom: 5px; margin-left: 10px;">
-                                                       <span style="color: red;">{{error}}</span>
-                                                    </div>
                                                     <div class="comment-action">
                                                         <button ng-click="cancelComment()" class="cancel">Cancel</button>
                                                         <button ng-click="addComment()" class="add-comment">Add comment</button>

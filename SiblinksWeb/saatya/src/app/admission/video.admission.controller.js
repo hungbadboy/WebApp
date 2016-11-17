@@ -216,6 +216,8 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
 
 
         $scope.addComment = function () {
+        	$scope.msgSuccess ="";
+        	$scope.msgError="";
             var content = $('#add-comment').val();
             if (isEmpty(content)) {
                 return;
@@ -239,9 +241,14 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
 	                            }
 	                            // Update numComments
 		                        $scope.videoInfo.numComments = ($scope.videoInfo.numComments == null)? 1 : $scope.videoInfo.numComments +1;
-	                        }
+		                        $scope.msgSuccess = "You have added comment successful.";
+		                    } else {
+		                    	$scope.msgError=data.request_data_result;
+		                    }
 	                    });
-	                }
+	                } else {
+                    	$scope.msgError=data.request_data_result;
+                    }
 	            });
             } catch(e){
             	console.log(e.description)

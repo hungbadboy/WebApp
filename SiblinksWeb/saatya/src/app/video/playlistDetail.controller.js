@@ -470,6 +470,9 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         };
 
         $scope.addComment = function () {
+        	$scope.msgSuccess = "";
+        	$scope.msgError="";
+        	
             var content = $('#add-comment').val();
             if (isEmpty(content)) {
                 return;
@@ -478,36 +481,42 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 $scope.errorVideo = "Please login";
                 return;
             }
-            $rootScope.$broadcast('open');
-            var objRequest = {
-                authorID : $scope.videoInfo.userid,
-                content : content,
-                vid : $scope.currentvid,
-                uid: $scope.userId,
-                title : $scope.videoInfo.title,
-                subjectId : $scope.videoInfo.subjectId,
-                author : userName
-            };
-            videoDetailService.addCommentVideo(objRequest).success(function (data) {
-                if (data.status == 'true') {
-                    $("#add-comment").val('');
-                    $(".comment-action").hide();
-                    videoDetailService.getCommentVideoById($scope.currentvid).then(function (data) {
-                        if (data.data.status == 'true') {
-                            if (data.data.request_data_result.length == 0) {
-                                $scope.nocommentInfo = "Have no comment";
-                            }
-                            else {
-                                $scope.comments = data.data.request_data_result;
-                            }
-
-                        }
-
-                    });
-                }
-                $rootScope.$broadcast('close');
-            });
-
+            try {
+	            $rootScope.$broadcast('open');
+	            var objRequest = {
+	                authorID : $scope.videoInfo.userid,
+	                content : content,
+	                vid : $scope.currentvid,
+	                uid: $scope.userId,
+	                title : $scope.videoInfo.title,
+	                subjectId : $scope.videoInfo.subjectId,
+	                author : userName
+	            };
+	            videoDetailService.addCommentVideo(objRequest).success(function (data) {
+	                if (data.status == 'true') {
+	                    $("#add-comment").val('');
+	                    $(".comment-action").hide();
+	                    videoDetailService.getCommentVideoById($scope.currentvid).then(function (data) {
+	                        if (data.data.status == 'true') {
+	                            if (data.data.request_data_result.length == 0) {
+	                                $scope.nocommentInfo = "Have no comment";
+	                            } else {
+	                                $scope.comments = data.data.request_data_result;
+	                            }	
+	                            $scope.msgSuccess = "You have added comment successful.";
+		                    } else {
+		                    	$scope.msgError=data.request_data_result;
+		                    }
+	                    });
+	                } else {
+	                	$scope.msgError=data.request_data_result;
+	                }
+	            });
+            } catch (e) {
+            	console.log(e.description)
+            } finally {
+            	$rootScope.$broadcast('close');
+            }
         }
 
         $scope.updateComment = function () {

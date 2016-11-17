@@ -124,6 +124,14 @@
                                 <h3 ng-if="!comments">0 Comments</h3>
                             </div>
                             <div class="post-footer">
+                            	<div>
+                                     <div ng-if="msgSuccess" class="succesful">
+                                        <span>{{msgSuccess}}</span>
+                                     </div>
+                                     <div ng-if="msgError" class="validate_error">
+                                       <span>{{msgError}}</span>
+                                     </div>
+                                  </div>
                                 <div class="input-group">
                                     <img  ng-if="userId" class="avatar" ng-src="{{avartar}}" alt="avatar">
                                     <textarea ng-if="userId" ng-click="clickTxtComent()"  ng-if="userId" class="form-control" placeholder="Add a comment" type="text" id="add-comment"></textarea>

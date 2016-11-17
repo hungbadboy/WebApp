@@ -368,6 +368,8 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 
 
         $scope.addComment = function () {
+        	$scope.msgSuccess ="";
+        	$scope.msgError ="";
         	 try {
 	            var content = $('#add-comment').val();
 	            if (isEmpty(content)) {
@@ -403,6 +405,9 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 	                        });
 	                        // Update numComments
 	                        $scope.videoInfo.numComments = ($scope.videoInfo.numComments == null)? 1 : $scope.videoInfo.numComments +1;
+	                        $scope.msgSuccess = "You have added comment successful.";
+	                    } else {
+	                    	$scope.msgError=data.request_data_result;
 	                    }
 	                });
 	            }

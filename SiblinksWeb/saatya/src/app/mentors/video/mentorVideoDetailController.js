@@ -292,10 +292,12 @@ brotControllers.controller('MentorVideoDetailController',
 
     $scope.validateText = function(){
         if ($scope.contentText && $scope.contentText.length < 1024) 
-            $scope.error = null;
+        	$scope.msgError = null;
     }
 
     $scope.addComment = function(){
+    	$scope.msgError = "";
+    	$scope.msgSuccess ="";
         var content = $('#txtComment').val();
         if (isEmpty(content)) {
             return;
@@ -304,25 +306,32 @@ brotControllers.controller('MentorVideoDetailController',
             $scope.errorVideo = "Please login";
             return;
         }
-        var objRequest = {
-            authorID: userId,
-            content: content,
-            vid: $scope.video.vid,
-            title: $scope.video.title,
-            subjectId: $scope.video.subjectId,
-            author: userName
-        };
-        videoDetailService.addCommentVideo(objRequest).success(function (data) {
-            if (data.status == 'true') {
-                $("#txtComment").val('');
-                $(".comment-action").hide();
-                getCommentVideoDetail($scope.video.vid);
-            } else{
-                $scope.error = data.request_data_result;
-                console.log($scope.error);
-            }
-        });
-
+        try {
+	        var objRequest = {
+	            authorID: userId,
+	            content: content,
+	            vid: $scope.video.vid,
+	            title: $scope.video.title,
+	            subjectId: $scope.video.subjectId,
+	            author: userName
+	        };
+	        $rootScope.$broadcast('open');
+	        videoDetailService.addCommentVideo(objRequest).success(function (data) {
+	            if (data.status == 'true') {
+	                $("#txtComment").val('');
+	                $(".comment-action").hide();
+	                getCommentVideoDetail($scope.video.vid);
+	                $scope.msgSuccess = "You have added comment successful.";
+	            } else{
+	                $scope.msgError = data.request_data_result;
+	                console.log($scope.error);
+	            }
+	        });
+        } catch(e) {
+        	console.log(e.description)
+        } finally {
+        	$rootScope.$broadcast('close');
+        }
     }
 
     $scope.preVideo = function(pos){
