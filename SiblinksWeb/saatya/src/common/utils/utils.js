@@ -312,9 +312,9 @@ function validateGender(key) {
         case "F":
             return "Female";
         case "O":
-            return "Other";
+            return "Decline to state";
         default :
-            return "Other";
+            return "Decline to state";
     }
 }
 

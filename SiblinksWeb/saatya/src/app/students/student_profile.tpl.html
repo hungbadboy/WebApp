@@ -58,10 +58,10 @@
                         </div>
                         <div class="student-sex">
                             <strong>Sex:</strong>
-                            <span>{{(studentInfo.gender =='M')?'Male':(studentInfo.gender =='F')?'Female':'Other'}}</span>
+                            <span>{{(studentInfo.gender =='M')?'Male':(studentInfo.gender =='F')?'Female':'Decline to state'}}</span>
                         </div>
                         <div class="student-bio">
-                            <strong>BOD: </strong>
+                            <strong>DOB: </strong>
                             <span>{{birthDay}}</span>
                         </div>
                         <div class="student-sex">
@@ -443,10 +443,10 @@
                                                         Female</label>
                                                         <input type="radio" id="other" name="gender" value="O"
                                                                ng-checked="studentInfo.gender=='O'"><label>
-                                                        Other</label>
+                                                        Decline to state</label>
                                                     </p>
 
-                                                    <p><input type="text" id="DOB" ng-model="birthDay" placeholder="DOB"
+                                                    <p><input type="text" id="dob" ng-model="birthDay" placeholder="DOB"
                                                               brotdatepicker dateFormat="dd M, yy"/></p>
                                                     <p><textarea placeholder="About me..." id="about" name="aboutme">{{studentInfo.bio}}</textarea>
                                                     </p>

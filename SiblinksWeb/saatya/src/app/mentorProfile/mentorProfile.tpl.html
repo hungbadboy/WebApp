@@ -39,7 +39,7 @@
                                     <p class="pre-wrap">{{mentorInfo.bio != null && mentorInfo.bio != "" ? mentorInfo.bio : EMPTY_DATA }}</p>
                                     <h5>Knowledge field: </h5>
                                     <p>{{mentorSubs}}</p>
-                                    <h5>Sex <span>{{(mentorInfo.gender =='M')?'Male':(mentorInfo.gender =='F')?'Female':'Other'}}</span>
+                                    <h5>Sex <span>{{(mentorInfo.gender =='M')?'Male':(mentorInfo.gender =='F')?'Female':'Decline to state'}}</span>
                                     </h5>
                                     <h5>DOB <span>{{getBirthDay(mentorInfo.birthDay) != ""? getBirthDay(mentorInfo.birthDay) : EMPTY_DATA}}</span></h5>
                                     <h5>Since <span>{{getBirthDay(mentorInfo.registrationTime)}}</span></h5>
@@ -115,7 +115,7 @@
                                                         <p class="sex">
                                                             <input type="radio" id="male" name="gender" value="male" checked><label>Male</label>
                                                             <input type="radio" id="female" name="gender" value="female"><label>Female</label>
-                                                            <input type="radio" id="other" name="gender" value="other"><label>Other</label>
+                                                            <input type="radio" id="other" name="gender" value="other"><label>Decline to state</label>
                                                         </p>
                                                         <p><input type="text" id="dob" ng-model="date" placeholder="DOB" brotdatepicker dateFormat="dd M, yy"/></p>
                                                         <p><textarea id="aboutme" placeholder="About me..." name="aboutme"></textarea></p>

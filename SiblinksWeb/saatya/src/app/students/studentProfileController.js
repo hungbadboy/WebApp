@@ -390,7 +390,7 @@ brotControllers.controller('StudentProfileController',
                         'email': $('#email').val(),
                         'gender': gender,
                         'school': school,
-                        'bod': $('#bod').val(),
+                        'dob': $('#dob').val(),
                         'bio': bio,
                         'favorite': favorite,
                         'defaultSubjectId': strSubs
@@ -414,6 +414,7 @@ brotControllers.controller('StudentProfileController',
                                 $scope.studentInfo.school = school;
                                 $scope.studentInfo.email = student.email;
                                 $scope.studentInfo.bio = student.bio;
+                                $scope.studentInfo.gender = student.gender;
                                 $scope.studentInfo.schoolName = $scope.schoolSelect != null ? $scope.schoolSelect.name : null;
                                 localStorage.setItem('defaultSubjectId', strSubs);
                                 localStorage.setItem('firstName', student.firstName);
