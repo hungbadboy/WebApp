@@ -11,7 +11,7 @@ public class Parameters {
     public static final String USER_NAME = "username";
     public static final String PASSWORD = "password";
     public static final String EMAIL = "email";
-    public static final String BOD = "bod";
+    public static final String DOB = "dob";
     public static final String USER_TYPE = "userType";
     public static final String IMAGE_URL = "imageUrl";
     public static final String DEFAULT_SUBJECT_ID = "defaultSubjectId";

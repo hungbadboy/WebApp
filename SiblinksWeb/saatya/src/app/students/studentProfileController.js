@@ -32,7 +32,7 @@ brotControllers.controller('StudentProfileController',
 
             var defaultSubjectChecked = [];
             var defaultFavouriteChecked = [];
-            var bod = "";
+            var dob = "";
 
             $scope.currentTab = $location.search().tab;
 
@@ -116,7 +116,7 @@ brotControllers.controller('StudentProfileController',
                             var gender = $scope.studentMentorProfile.gender;
                             $scope.GenderMentor = validateGender(gender);
                             var birthDay = calculateBirthDay(result_data.birthDay);
-                            $scope.bod = birthDay;
+                            $scope.dob = birthDay;
                             $scope.isEmptyNameMentor = false;
                             if (isNameEmpty($scope.studentMentorProfile.firstname, $scope.studentMentorProfile.lastName)) {
                                 $scope.isEmptyNameMentor = true;
@@ -409,7 +409,7 @@ brotControllers.controller('StudentProfileController',
                                 $scope.studentInfo.firstname = student.firstName;
                                 $scope.studentInfo.lastName = student.lastName;
                                 $scope.gender = student.gender;
-                                $scope.birthDay = student.bod;
+                                $scope.birthDay = student.dob;
                                 $scope.studentInfo.favorite = student.favorite;
                                 $scope.studentInfo.school = school;
                                 $scope.studentInfo.email = student.email;
@@ -477,7 +477,7 @@ brotControllers.controller('StudentProfileController',
                     angular.element('#lastName').val($scope.studentInfo.lastName);
                     angular.element('#email').val($scope.studentInfo.email);
                     $scope.schoolSelect = $scope.studentInfo.school != null ? {id: parseInt($scope.studentInfo.school, 10)} : null;
-                    angular.element('#bod').val(bod);
+                    angular.element('#dob').val(dob);
                     angular.element('#about').val($scope.studentInfo.bio);
                     var subjectChecked = angular.element('.masterSubject:checked');
                     for (var i = 0; i < subjectChecked.length; i++) {
@@ -701,7 +701,7 @@ brotControllers.controller('StudentProfileController',
                     $scope.masterFavourite = putMasterSubjectSelected(subjects, $scope.studentInfo.favorite, true);
                     defaultSubjectChecked = $scope.masterSubjects;
                     defaultFavouriteChecked = $scope.masterFavourite;
-                    bod = $scope.birthDay;
+                    dob = $scope.birthDay;
                 });
 
             }

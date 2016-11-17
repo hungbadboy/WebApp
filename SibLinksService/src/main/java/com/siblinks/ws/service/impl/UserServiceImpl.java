@@ -456,13 +456,13 @@ public class UserServiceImpl implements UserService {
             boolean status = false;
             boolean isRegisterAdmin = role.equals("A");
             if (CollectionUtils.isEmpty(userResponse) || userResponse == null) {
-                String bod = objRequest.getString(Parameters.BOD);
-                if (!StringUtils.isEmpty(bod)) {
+                String dob = objRequest.getString(Parameters.DOB);
+                if (!StringUtils.isEmpty(dob)) {
                     SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
-                    Date date = formatter.parse(bod);
-                    bod = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                    Date date = formatter.parse(dob);
+                    dob = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                 } else {
-                    bod = null;
+                    dob = null;
                 }
 
                 String rawPwd = isRegisterAdmin ? objRequest.getString(Parameters.PASSWORD) : CommonUtil
@@ -478,11 +478,11 @@ public class UserServiceImpl implements UserService {
                 }
                 if (isRegisterAdmin) {
                     queryParams = new Object[] { userName, role, objRequest.getString(Parameters.FIRST_NAME), objRequest
-                        .getString(Parameters.LAST_NAME), pwdEncrypt, bod, objRequest.getString(Parameters.ACTIVE_PLAG) };
+                        .getString(Parameters.LAST_NAME), pwdEncrypt, dob, objRequest.getString(Parameters.ACTIVE_PLAG) };
                     status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_ADMIN_ADD_ANOTHER_ADMIN, queryParams);
                 } else {
                     queryParams = new Object[] { userName, role, objRequest.getString(Parameters.FIRST_NAME), objRequest
-                        .getString(Parameters.LAST_NAME), pwdEncrypt, bod, objRequest.getString(Parameters.BIO), objRequest
+                        .getString(Parameters.LAST_NAME), pwdEncrypt, dob, objRequest.getString(Parameters.BIO), objRequest
                         .getString(Parameters.SCHOOL), objRequest.getString(Parameters.DEFAULT_SUBJECT_ID), objRequest
                         .getString(Parameters.ACCOMPLISHMENT), objRequest.getString(Parameters.ACTIVE_PLAG) };
                     status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_ADMIN_ADD_ANOTHER_MENTOR, queryParams);
@@ -556,19 +556,19 @@ public class UserServiceImpl implements UserService {
                     new Object[] { userId });
                 if (!CollectionUtils.isEmpty(readObjects)) {
                     // user is exists
-                    String bod = jsonRequest.getString(Parameters.BOD);
+                    String dob = jsonRequest.getString(Parameters.DOB);
                     try {
-                        if (!StringUtils.isEmpty(bod)) {
+                        if (!StringUtils.isEmpty(dob)) {
                             SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
-                            Date date = formatter.parse(bod);
-                            bod = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                            Date date = formatter.parse(dob);
+                            dob = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                         } else {
-                            bod = null;
+                            dob = null;
                         }
                     } catch (Exception e) {
-                        bod = null;
+                        dob = null;
                     }
-                    Object[] params = { jsonRequest.getString(Parameters.EMAIL), bod, jsonRequest
+                    Object[] params = { jsonRequest.getString(Parameters.EMAIL), dob, jsonRequest
                         .getString(Parameters.FIRST_NAME), jsonRequest.getString(Parameters.LAST_NAME), jsonRequest
                         .getString(Parameters.SCHOOL), jsonRequest.getString(Parameters.DEFAULT_SUBJECT_ID), jsonRequest
                         .getString(Parameters.ACCOMPLISHMENT), jsonRequest.getString(Parameters.BIO), jsonRequest
@@ -609,16 +609,16 @@ public class UserServiceImpl implements UserService {
                     new Object[] { userId });
                 if (!CollectionUtils.isEmpty(readObjects)) {
                     // user is exists
-                    String bod = jsonRequest.getString(Parameters.BOD);
+                    String dob = jsonRequest.getString(Parameters.DOB);
 
-                    if (!StringUtils.isEmpty(bod)) {
+                    if (!StringUtils.isEmpty(dob)) {
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
-                        Date date = formatter.parse(bod);
-                        bod = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                        Date date = formatter.parse(dob);
+                        dob = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                     } else {
-                        bod = null;
+                        dob = null;
                     }
-                    Object[] params = { jsonRequest.getString(Parameters.EMAIL), bod, jsonRequest
+                    Object[] params = { jsonRequest.getString(Parameters.EMAIL), dob, jsonRequest
                         .getString(Parameters.FIRST_NAME), jsonRequest.getString(Parameters.LAST_NAME), jsonRequest
                         .getString(Parameters.SCHOOL), jsonRequest.getString(Parameters.DEFAULT_SUBJECT_ID), jsonRequest
                         .getString(Parameters.ACCOMPLISHMENT), jsonRequest.getString(Parameters.BIO), jsonRequest
@@ -693,16 +693,16 @@ public class UserServiceImpl implements UserService {
                 if (!CollectionUtils.isEmpty(readObjects)) {
                     // user is exists
                     String entityName = SibConstants.SqlMapper.SQL_UPDATE_ADMIN_INFO;
-                    String bod = jsonRequest.getString(Parameters.BOD);
-                    if (!StringUtils.isEmpty(bod)) {
+                    String dob = jsonRequest.getString(Parameters.DOB);
+                    if (!StringUtils.isEmpty(dob)) {
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
-                        Date date = formatter.parse(bod);
-                        bod = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                        Date date = formatter.parse(dob);
+                        dob = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                     } else {
-                        bod = null;
+                        dob = null;
                     }
 
-                    Object[] params = { jsonRequest.getString(Parameters.USER_NAME), bod, jsonRequest
+                    Object[] params = { jsonRequest.getString(Parameters.USER_NAME), dob, jsonRequest
                         .getString(Parameters.FIRST_NAME), jsonRequest.getString(Parameters.LAST_NAME), jsonRequest
                         .getString(Parameters.ACTIVE_PLAG), userId };
                     status = dao.insertUpdateObject(entityName, params);
@@ -2094,7 +2094,7 @@ public class UserServiceImpl implements UserService {
         SimpleResponse response;
         try {
             // Convert birth day
-            String dateUpdate = request.getRequest_user().getBod();
+            String dateUpdate = request.getRequest_user().getDob();
             if (!StringUtils.isEmpty(dateUpdate) && !dateUpdate.equals("Unknown")) {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
                 Date date = formatter.parse(dateUpdate);

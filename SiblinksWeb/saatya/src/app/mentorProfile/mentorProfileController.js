@@ -45,7 +45,7 @@ brotControllers.controller('MentorProfileController',
 
             var defaultSubjectChecked = [];
             var defaultFavouriteChecked = [];
-            var bod = "";
+            var dob = "";
             var currentPageStudentSubs = 0;
             $scope.isLoadMoreStudentSubs = false;
 
@@ -115,7 +115,7 @@ brotControllers.controller('MentorProfileController',
                             var gender = $scope.mentorMentorProfile.gender;
                             $scope.GenderMentor = validateGender(gender);
                             var birthDay = calculateBirthDay(result_data.birthDay);
-                            $scope.bod = birthDay;
+                            $scope.dob = birthDay;
                             $scope.isEmptyNameMentor = false;
                             if (isNameEmpty($scope.mentorMentorProfile.firstname,$scope.mentorMentorProfile.lastName)){
                                 $scope.isEmptyNameMentor = true;
@@ -210,8 +210,8 @@ brotControllers.controller('MentorProfileController',
                 $('input[name="firstname"]').val($scope.mentorInfo.firstname);
                 $('input[name="lastname"]').val($scope.mentorInfo.lastName);
                 $('input[name="email"]').val($scope.mentorInfo.email);
-                var convertBOD = $scope.getBirthDay($scope.mentorInfo.birthDay);
-                $('input[id="bod"]').val(convertBOD);
+                var convertDOB = $scope.getBirthDay($scope.mentorInfo.birthDay);
+                $('input[id="dob"]').val(convertDOB);
                 $('textarea[name="aboutme"]').val($scope.mentorInfo.bio);
                 $('input[name="accomplishments"]').val($scope.mentorInfo.accomplishments);
                 if ($scope.mentorInfo.gender) {
@@ -326,11 +326,11 @@ brotControllers.controller('MentorProfileController',
                 if(isEmpty(lastName)){
                     lastName = null;
                 }
-                var bod = angular.element('input[id="bod"]').val();
+                var dob = angular.element('input[id="dob"]').val();
                 if (check) {
                     var timeStamp = null;
-                    if(bod){
-                        timeStamp = (Date.parse(bod)/1000);
+                    if(dob){
+                        timeStamp = (Date.parse(dob)/1000);
                     }
                     var mentor = {
                         'role': "M",
@@ -342,7 +342,7 @@ brotControllers.controller('MentorProfileController',
                         'gender': gender,
                         'accomplishments': $('input[name="accomplishments"]').val(),
                         'school': school,
-                        'bod': bod,
+                        'dob': dob,
                         'bio': bio,
                         'favorite': favorite,
                         'defaultSubjectId': strSubs
@@ -424,8 +424,8 @@ brotControllers.controller('MentorProfileController',
                     angular.element('#email').val($scope.mentorInfo.email);
                     angular.element('#accomplishments').val($scope.mentorInfo.accomplishments);
                     $scope.schoolSelect = $scope.mentorInfo.school != null ? {id: parseInt($scope.mentorInfo.school, 10)} : null;
-                    var convertBOD = $scope.getBirthDay($scope.mentorInfo.birthDay);
-                    angular.element('#bod').val(convertBOD);
+                    var convertDOB = $scope.getBirthDay($scope.mentorInfo.birthDay);
+                    angular.element('#dob').val(convertDOB);
                     angular.element('#aboutme').val($scope.mentorInfo.bio);
                     var subjectChecked = angular.element('.masterSubject:checked');
                     for (var i = 0; i < subjectChecked.length; i++) {

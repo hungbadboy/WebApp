@@ -41,7 +41,7 @@
                                     <p>{{mentorSubs}}</p>
                                     <h5>Sex <span>{{(mentorInfo.gender =='M')?'Male':(mentorInfo.gender =='F')?'Female':'Other'}}</span>
                                     </h5>
-                                    <h5>BOD <span>{{getBirthDay(mentorInfo.birthDay) != ""? getBirthDay(mentorInfo.birthDay) : EMPTY_DATA}}</span></h5>
+                                    <h5>DOB <span>{{getBirthDay(mentorInfo.birthDay) != ""? getBirthDay(mentorInfo.birthDay) : EMPTY_DATA}}</span></h5>
                                     <h5>Since <span>{{getBirthDay(mentorInfo.registrationTime)}}</span></h5>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
                                                             <input type="radio" id="female" name="gender" value="female"><label>Female</label>
                                                             <input type="radio" id="other" name="gender" value="other"><label>Other</label>
                                                         </p>
-                                                        <p><input type="text" id="bod" ng-model="date" placeholder="BOD" brotdatepicker dateFormat="dd M, yy"/></p>
+                                                        <p><input type="text" id="dob" ng-model="date" placeholder="DOB" brotdatepicker dateFormat="dd M, yy"/></p>
                                                         <p><textarea id="aboutme" placeholder="About me..." name="aboutme"></textarea></p>
                                                     </div>
                                                     <div class="submit col-md-12">

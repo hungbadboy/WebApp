@@ -37,11 +37,19 @@ public class User {
     private String password;
     private String accomplishments;
     private String newpassword;
-    private String bod;
+    private String dob;
     private String defaultSubjectId;
+
     private String role;
     private String activity;
 
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(final String dob) {
+        this.dob = dob;
+    }
     public String getUsername() {
         return username;
     }
@@ -136,21 +144,6 @@ public class User {
 
     public void setFavorite(final String favorite) {
         this.favorite = favorite;
-    }
-
-    /**
-     * @return the bod
-     */
-    public String getBod() {
-        return bod;
-    }
-
-    /**
-     * @param bod
-     *            the bod to set
-     */
-    public void setBod(final String bod) {
-        this.bod = bod;
     }
 
     /**
