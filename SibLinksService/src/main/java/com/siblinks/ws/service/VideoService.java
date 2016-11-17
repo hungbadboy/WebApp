@@ -149,4 +149,14 @@ public interface VideoService {
      */
     ResponseEntity<Response> getUserRatingVideoAdmission(long uid, long vid);
 
+    /**
+     * @param subjectId
+     * @param keyword
+     * @param type
+     * @param limit
+     * @param offset
+     * @return
+     */
+    ResponseEntity<Response> searchVideo(String subjectId, String keyword, String type, String limit, String offset);
+
 }

@@ -3656,26 +3656,59 @@ public class VideoServiceImpl implements VideoService {
     /**
      * {@inheritDoc}
      */
+    @Override
     @RequestMapping(value = "/searchVideo", method = RequestMethod.GET)
-    public ResponseEntity<Response> searchVideo(@RequestParam final String keyword, @RequestParam final String type,
-            @RequestParam final String limit, @RequestParam final String offset) {
+    public ResponseEntity<Response> searchVideo(@RequestParam final String subjectId, @RequestParam final String keyword,
+            @RequestParam final String type, @RequestParam final String limit, @RequestParam final String offset) {
         SimpleResponse response = null;
         try {
             Map<String, String> searchLimit = CommonUtil.getInstance().getOffset(limit, offset);
-            String strEntity = "";
-            Object[] params = null;
-            String formatKeyWord = "%" + keyword + "%";
+            List<Object> listParam = new ArrayList<Object>();
+            String whereClause = "";
             if (type != null && !type.isEmpty()) {
+                String strEntity = "";
                 if (type.equals("playlist")) {
                     strEntity = SibConstants.SqlMapper.SQL_SEARCH_PLAYLIST;
-                    params = new Object[] { formatKeyWord, Integer.valueOf(searchLimit.get("limit")), Integer.valueOf(searchLimit
-                        .get("offset")) };
+                    if (!StringUtil.isNull(subjectId)) {
+                        List<Map<String, Object>> readObjectNoCondition = dao
+                            .readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC);
+                        String allChildSubject = CommonUtil.getAllChildCategory(subjectId, readObjectNoCondition);
+                            whereClause += " AND sp.subjectId in (" + allChildSubject + ")";
+                    }
+                    if (!StringUtil.isNull(keyword)) {
+                        listParam.add("%" + keyword + "%");
+                        whereClause += " AND sp.`Name` LIKE (?)";
+                    }
+                    whereClause += " GROUP BY pid ORDER BY title DESC";
                 } else if (type.equals("video")) {
                     strEntity = SibConstants.SqlMapper.SQL_SEARCH_VIDEO;
-                    params = new Object[] { formatKeyWord, Integer.valueOf(searchLimit.get("limit")), Integer.valueOf(searchLimit
-                        .get("offset")) };
+                    if (!StringUtil.isNull(keyword)) {
+                        listParam.add("%" + keyword + "%");
+                        whereClause += " WHERE V.title LIKE (?)";
+                    }
+                    if (!StringUtil.isNull(subjectId)) {
+                        List<Map<String, Object>> readObjectNoCondition = dao
+                            .readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC);
+                        String allChildSubject = CommonUtil.getAllChildCategory(subjectId, readObjectNoCondition);
+                        if (StringUtil.isNull(whereClause)) {
+                            whereClause += " WHERE V.subjectId IN (" + allChildSubject + ")";
+                        } else {
+                            whereClause += " AND V.subjectId IN (" + allChildSubject + ")";
+                        }
+                    }
+                    whereClause += " ORDER BY V.title";
                 }
-                List<Object> searchResult = dao.readObjects(strEntity, params);
+
+                if (!StringUtil.isNull(searchLimit.get("limit"))) {
+                    listParam.add(Integer.parseInt(searchLimit.get("limit")));
+                    whereClause += " LIMIT ?";
+                }
+
+                if (!StringUtil.isNull(searchLimit.get("offset"))) {
+                    listParam.add(Integer.parseInt(searchLimit.get("offset")));
+                    whereClause += " OFFSET ?";
+                }
+                List<Object> searchResult = dao.readObjectsWhereClause(strEntity, whereClause, listParam.toArray());
 
                 if (searchResult != null && !searchResult.isEmpty()) {
                     String lengthOfResult = "" + searchResult.size();
