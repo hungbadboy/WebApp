@@ -2960,19 +2960,28 @@ public class VideoServiceImpl implements VideoService {
     /**
      * {@inheritDoc}
      */
+    @Override
     @RequestMapping(value = "/getMentorSubscribed")
     @ResponseBody
-    public ResponseEntity<Response> getMentorSubscribe(@RequestParam final long userId, @RequestParam final String limit,
-            @RequestParam final String offset) {
+    public ResponseEntity<Response> getMentorSubscribe(@RequestParam final boolean isTotalCount, @RequestParam final long userId,
+            @RequestParam final String limit, @RequestParam final String pageno) {
         SimpleResponse response = null;
         try {
-            String entityName = SibConstants.SqlMapper.SQL_GET_ALL_MENTOR_SUBSCRIBED;
             CommonUtil cmUtil = CommonUtil.getInstance();
-            Map<String, String> map = cmUtil.getOffset(limit, offset);
-            Object[] params = { userId, Integer.parseInt(map.get("limit")), Integer.parseInt(map.get("offset")) };
-            List<Object> dataResult = dao.readObjects(entityName, params);
-            String count = String.valueOf(dataResult.size());
-            response = new SimpleResponse(SibConstants.SUCCESS, "video", "getMentorSubscribe", dataResult, count);
+            Map<String, String> map = cmUtil.getLimit(limit, pageno);
+            
+            Object[] params = { userId, Integer.parseInt(map.get("from")), Integer.parseInt(map.get("to")) };
+            List<Object> dataResult = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_MENTOR_SUBSCRIBED, params);
+            
+            long count = 0L;
+            if (isTotalCount) {
+            List<Object> dataCount = dao.readObjects(
+                SibConstants.SqlMapper.SQL_GET_COUNT_STUDENT_SUBSCRIBED_MENTOR,
+                new Object[] { userId });
+            Map<String, Long> mapCount = (Map<String, Long>) dataCount.get(0);
+            count = mapCount.get(Parameters.COUNT);
+            }
+            response = new SimpleResponse(SibConstants.SUCCESS, "video", "getMentorSubscribe", dataResult, "" + count);
         } catch (Exception e) {
             e.printStackTrace();
             response = new SimpleResponse(SibConstants.FAILURE, "videos", "getMentorSubscribe", e.getMessage());
@@ -3494,7 +3503,11 @@ public class VideoServiceImpl implements VideoService {
 
             } else if (!StringUtils.isEmpty(subjectId)) {
                 entityName = SibConstants.SqlMapper.SQL_GET_NEWEST_VIDEO_SUBJECT;
-                String whereClause = "V.subjectId IN(" + subjectId + ") ORDER BY timeStamp DESC LIMIT ? OFFSET ?;";
+                List<Map<String, Object>> readObjectNoCondition = dao
+                        .readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC);
+                    String allChildSubject = CommonUtil.getAllChildCategory(subjectId, readObjectNoCondition);
+                    
+                String whereClause = "V.subjectId IN(" + allChildSubject + ") ORDER BY timeStamp DESC LIMIT ? OFFSET ?;";
                 List<Object> readObjects = dao.readObjectsWhereClause(entityName, whereClause, params);
                 if (readObjects != null && readObjects.size() > 0) {
                     count = String.valueOf(readObjects.size());

@@ -159,4 +159,13 @@ public interface VideoService {
      */
     ResponseEntity<Response> searchVideo(String subjectId, String keyword, String type, String limit, String offset);
 
+    /**
+     * @param isCountTotal
+     * @param userId
+     * @param limit
+     * @param offset
+     * @return
+     */
+    ResponseEntity<Response> getMentorSubscribe(boolean isTotalCount, long userId, String limit, String offset);
+
 }
