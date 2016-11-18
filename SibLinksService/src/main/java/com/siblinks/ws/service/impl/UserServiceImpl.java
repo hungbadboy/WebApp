@@ -728,9 +728,6 @@ public class UserServiceImpl implements UserService {
         try {
             JSONObject jsonObject = new JSONObject(jsonRegister);
             String username = jsonObject.getString(Parameters.USER_NAME);
-            BCryptPasswordEncoder ecy = new BCryptPasswordEncoder(SibConstants.LENGHT_AUTHENTICATION);
-            Object[] queryParams = { username, ecy.encode(jsonObject.getString(Parameters.PASSWORD)), environment
-                .getProperty("directoryImageAvatar") };
             //
             List<Object> readObject = dao.readObjects(
                 SibConstants.SqlMapper.SQL_SIB_REGISTER_USER_EXIST,
@@ -738,6 +735,9 @@ public class UserServiceImpl implements UserService {
             //
             boolean status = Boolean.FALSE;
             if (CollectionUtils.isEmpty(readObject)) {
+                BCryptPasswordEncoder ecy = new BCryptPasswordEncoder(SibConstants.LENGHT_AUTHENTICATION);
+                Object[] queryParams = { username, ecy.encode(jsonObject.getString(Parameters.PASSWORD)), environment
+                    .getProperty("directoryImageAvatar"), username };
                 boolean msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_REGISTER_USER, queryParams);
                 readObject = new ArrayList<Object>();
                 if (msgs) {
@@ -1684,7 +1684,7 @@ public class UserServiceImpl implements UserService {
             new ArrayList<String>(Arrays.asList(request.getRequest_data().getActivityid().split(",")));
             /*
              * String userId = request.getRequest_data().getUid();
-             *
+             * 
              * insertNotResource(myListActivityId, userId,
              * SibConstants.SqlMapper.SQL_INSERT_SIB_USER_ACTIVITY);
              */
@@ -1832,23 +1832,20 @@ public class UserServiceImpl implements UserService {
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
             boolean status = false;
+            String username = request.getRequest_data().getUsername();
             // Check user
-            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request
-                .getRequest_data()
-                .getUsername() });
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { username });
 
             // User is not exists
             if (CollectionUtils.isEmpty(readObject)) {
-                Object[] queryParamsFB = { request.getRequest_data().getUsername(), request.getRequest_data().getUsertype(), request
+                Object[] queryParamsFB = { username, request.getRequest_data().getUsertype(), request
                     .getRequest_data()
                     .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getImage(), request
                     .getRequest_data()
-                    .getFacebookid(), request.getRequest_data().getToken() };
+                    .getFacebookid(), request.getRequest_data().getToken(), (username.indexOf("@") == -1) ? null : username };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_USER_FACEBOOK, queryParamsFB);
                 if (status) {
-                    readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { request
-                        .getRequest_data()
-                        .getUsername() });
+                    readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { username });
                 }
 
                 simpleResponse = new SimpleResponse(
@@ -1902,21 +1899,17 @@ public class UserServiceImpl implements UserService {
                 response = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(response, HttpStatus.FORBIDDEN);
             }
-
-            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request
-                .getRequest_data()
-                .getUsername() });
+            String username = request.getRequest_data().getUsername();
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { username });
             if (CollectionUtils.isEmpty(readObject)) {// For register
-                Object[] queryParamsGG = { request.getRequest_data().getUsername(), request.getRequest_data().getUsertype(), request
+                Object[] queryParamsGG = { username, request.getRequest_data().getUsertype(), request
                     .getRequest_data()
                     .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getImage(), request
                     .getRequest_data()
-                    .getGoogleid(), request.getRequest_data().getToken() };
+                    .getGoogleid(), request.getRequest_data().getToken(), username };
                 boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_USER_GOOGLE, queryParamsGG);
                 if (status) {
-                    readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { request
-                        .getRequest_data()
-                        .getUsername() });
+                    readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { username });
                 }
                 response = new SimpleResponse(
                                               "" + status,
@@ -2113,13 +2106,13 @@ public class UserServiceImpl implements UserService {
             String lastName = StringUtils.isEmpty(user.getLastName()) ? null : user.getLastName();
             if (!StringUtils.isEmpty(role)) {
                 if (role.equals("M")) {
-                    queryParams = new Object[] { firstName, lastName, request.getRequest_user().getEmail(), user
-                        .getGender(), school, user.getAccomplishments(), dateUpdate, request.getRequest_user().getBio(), user
-                        .getFavorite(), user.getDefaultSubjectId(), request.getRequest_user().getUserid() };
-                } else if (role.equals("S")) {
-                    queryParams = new Object[] { firstName, lastName, request.getRequest_user().getEmail(), user
-                        .getGender(), school, null, dateUpdate, request.getRequest_user().getBio(), user.getFavorite(), user
+                    queryParams = new Object[] { firstName, lastName, request.getRequest_user().getEmail(), user.getGender(), school, user
+                        .getAccomplishments(), dateUpdate, request.getRequest_user().getBio(), user.getFavorite(), user
                         .getDefaultSubjectId(), request.getRequest_user().getUserid() };
+                } else if (role.equals("S")) {
+                    queryParams = new Object[] { firstName, lastName, request.getRequest_user().getEmail(), user.getGender(), school, null, dateUpdate, request
+                        .getRequest_user()
+                        .getBio(), user.getFavorite(), user.getDefaultSubjectId(), request.getRequest_user().getUserid() };
                 }
             }
 
