@@ -292,7 +292,7 @@ brotServices.factory('VideoService', ['$http', function ($http) {
         var rs = null;
         var promise = $http({
             method: 'GET',
-            url: NEW_SERVICE_URL + 'video/getMentorSubscribed?isTotalCount='+((isTotalCount === undefined)? false:true)+'&userId=' + userId + '&limit=' + limit + '&pageno=' + pageno
+            url: NEW_SERVICE_URL + 'video/getMentorSubscribed?isTotalCount='+((isTotalCount === undefined)? false:isTotalCount)+'&userId=' + userId + '&limit=' + limit + '&pageno=' + pageno
         }).success(function (response) {
             rs = response;
             return rs;
