@@ -2968,7 +2968,7 @@ public class VideoServiceImpl implements VideoService {
         SimpleResponse response = null;
         try {
             CommonUtil cmUtil = CommonUtil.getInstance();
-            Map<String, String> map = cmUtil.getLimit(limit, pageno);
+            Map<String, String> map = cmUtil.getLimit(pageno, limit);
             
             Object[] params = { userId, Integer.parseInt(map.get("from")), Integer.parseInt(map.get("to")) };
             List<Object> dataResult = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_MENTOR_SUBSCRIBED, params);

@@ -5,6 +5,7 @@ brotControllers.controller('StudentSubcribedCtrl',['$scope', 'VideoService',func
 	$scope.countAll;
 	$scope.pageSubscribed = 1;
 	$scope.defaultLimit = 5;
+	$scope.listMentorBySubs = [];
     init();
 
 	function init() {
@@ -12,9 +13,9 @@ brotControllers.controller('StudentSubcribedCtrl',['$scope', 'VideoService',func
 	}
 	
 	function getMentorSubscribedInfo() {
-	    VideoService.getMentorSubscribe(userId, $scope.pageSubscribed, $scope.defaultLimit).then(function (data) {
+	    VideoService.getMentorSubscribe(userId, $scope.pageSubscribed, $scope.defaultLimit, true).then(function (data) {
 	        var data_result = data.data.request_data_result;
-	        if (data.data.status=='true') {
+	        if (data.data.status=='true' && (data.data.request_data_result != null && data.data.request_data_result.length > 0)) {
 	            for (var i = 0; i < data_result.length; i++) {
 	                if (subjects != null || subjects !== undefined) {
 	                    if (data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
@@ -24,9 +25,9 @@ brotControllers.controller('StudentSubcribedCtrl',['$scope', 'VideoService',func
 	                	data_result[i].listSubject.push([{id: 1, subject: "None"}])
 	                }
 	            }
-	            $scope.listMentorBySubs = data_result;
+	            $scope.listMentorBySubs = $scope.listMentorBySubs.concat(data_result);
 	            $scope.countAll = data.data.count;
-	            var totalPageSubscribed = Math.ceil($scope.countAll / $scope.defaultLimit);
+	            $scope.totalPageSubscribed = Math.ceil($scope.countAll / $scope.defaultLimit);
 	        }
 	    });
 	}
@@ -54,7 +55,7 @@ brotControllers.controller('StudentSubcribedCtrl',['$scope', 'VideoService',func
     $scope.loadMoreSubscribed = function loadMoreSubscribed() {
     	$scope.pageSubscribed = $scope.pageSubscribed + 1;
     	var newOffset = $scope.defaultLimit * $scope.pageSubscribed;
-    	if ($scope.pageSubscribed > totalPageSubscribed) {
+    	if ($scope.pageSubscribed > $scope.totalPageSubscribed) {
     		return;
     	}
     	getMentorSubscribedInfo();
