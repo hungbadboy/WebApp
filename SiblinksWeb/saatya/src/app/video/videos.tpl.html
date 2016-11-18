@@ -173,7 +173,7 @@
                                                       readonly="true"
                                                       back-color="white" title="{{search.averageRating}}">
                                                  </span>
-                                                 <span>{{search.averageRating != null ? search.averageRating : 0}} ({{ (!search.numRatings)? '0' : search.numRatings}} votes)</span>
+                                                 <span>{{search.averageRating != null ? search.averageRating : 0}} ({{ (search.numRatings  == null)? '0' : search.numRatings}} votes)</span>
                                             </p>
                                             <p class="videos-rate-infor">
                                                 <span data-icon="&#x49;">{{search.numViews}}</span>
@@ -226,7 +226,7 @@
                                                           readonly="true"
                                                           title="{{recommend.averageRating}}">
                                                      </span>
-                                                     <span>{{recommend.averageRating != null ? recommend.averageRating : 0}} ({{ (!recommend.numRatings)? '0' : recommend.numRatings}} votes)</span>
+                                                     <span>{{recommend.averageRating != null ? recommend.averageRating : 0}} ({{ (recommend.numRatings  == null)? '0' : recommend.numRatings}} votes)</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{recommend.numViews != null ? recommend.numViews : 0}}</span>
@@ -283,7 +283,7 @@
                                                            readonly="true"
                                                            title="{{videoRecently.averageRating}}">
                                                      </span>
-                                                     <span>{{videoRecently.averageRating != null ? videoRecently.averageRating : 0}} ({{ (!videoRecently.numRatings)? '0' : videoRecently.numRatings}} votes)</span>
+                                                     <span>{{videoRecently.averageRating != null ? videoRecently.averageRating : 0}} ({{ (videoRecently.numRatings  == null)? '0' : videoRecently.numRatings}} votes)</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{videoRecently.numViews != null ? videoRecently.numViews : 0}}</span>
@@ -345,16 +345,16 @@
                                                 </div>
                                                 <div class="videos-rate">
                                                     <p class="videos-start">
-	                                                <span ng-if="isReadyLoadRatedR4U" star-rating stars="5"
+	                                                <span star-rating stars="5"
 	                                                      outer-star-selection="stars"
 	                                                      outer-percent="rating"
 	                                                      rating-define="star"
-	                                                      rating-stars="{{detailVideo.avgRating}}"
+	                                                      rating-stars="{{detailVideo.averageRating}}"
 	                                                      star-radius="6" sel-color="gold"
 	                                                      readonly="true"
 	                                                      title="{{detailVideo.averageRating}}">
 	                                                 </span>
-                                                 	<span>{{detailVideo.averageRating != null ? detailVideo.averageRating : 0}} ({{ (!detailVideo.numRatings)? '0' : detailVideo.numRatings}} votes)</span>
+                                                 	<span>{{detailVideo.averageRating != null ? detailVideo.averageRating : 0}} ({{ (detailVideo.numRatings  == null)? '0' : detailVideo.numRatings}} votes)</span>
                                                     </p>
                                                     <p class="videos-rate-infor">
                                                         <span data-icon="&#x49;">{{detailVideo.numViews}}</span>
@@ -434,7 +434,7 @@
                                                           readonly="true"
                                                           back-color="white" title="{{lstRecentVideo.averageRating}}">
                                                      </span>
-                                                     <span>{{lstRecentVideo.averageRating != null ? lstRecentVideo.averageRating : 0}} ({{ (!lstRecentVideo.numRatings)? '0' : lstRecentVideo.numRatings}} votes)</span>
+                                                     <span>{{lstRecentVideo.averageRating != null ? lstRecentVideo.averageRating : 0}} ({{ (lstRecentVideo.numRatings == null)? '0' : lstRecentVideo.numRatings}} votes)</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{lstRecentVideo.numViews}}</span>
@@ -477,7 +477,7 @@
                                                            readonly="true"
                                                            back-color="white" title="{{lstWeekVideo.averageRating}}">
                                                      </span>
-                                                     <span>{{lstWeekVideo.averageRating != null ? lstWeekVideo.averageRating : 0}} ({{ (!lstWeekVideo.numRatings)? '0' : lstWeekVideo.numRatings}} votes)</span>
+                                                     <span>{{lstWeekVideo.averageRating != null ? lstWeekVideo.averageRating : 0}} ({{ (lstWeekVideo.numRatings == null)? '0' : lstWeekVideo.numRatings}} votes)</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{lstWeekVideo.numViews}}</span>
@@ -508,7 +508,7 @@
                                             </a>
                                             <div class="videos-time-add">
                                                 <span class="video-poster"> <a href="#/videos/detailVideo/{{lstMentorOlder.vid}}"
-                                                                               title="{{lstMentorOlder.title}}">{{lstMentorOlder.authorName}}</a></span>
+                                                                               title="{{lstMentorOlder.title}}">{{validateShowName(lstMentorOlder.firstName,lstMentorOlder.lastName, lstMentorOlder.userName)}}</a></span>
                                                 <span> &#8226; {{convertUnixTimeToTime(lstMentorOlder.timeStamp)}}</span>
                                             </div>
                                             <div class="videos-rate">
@@ -523,7 +523,7 @@
                                                            readonly="true"
                                                            back-color="white" title="{{lstMentorOlder.averageRating}}">
                                                      </span>
-                                                     <span>{{lstMentorOlder.averageRating != null ? lstMentorOlder.averageRating : 0}} ({{ (!lstMentorOlder.numRatings)? '0' : lstMentorOlder.numRatings}} votes)</span>
+                                                     <span>{{lstMentorOlder.averageRating != null ? lstMentorOlder.averageRating : 0}} ({{ (lstMentorOlder.numRatings == null)? '0' : lstMentorOlder.numRatings}} votes)</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{lstMentorOlder.numViews}}</span>
@@ -577,7 +577,7 @@
                                                            readonly="true"
                                                            title="{{video.averageRating}}">
                                                  </span>
-                                                 <span>{{video.averageRating != null ? video.averageRating : 0}} ({{ (!video.numRatings)? '0' : video.numRatings}} votes)</span>
+                                                 <span>{{video.averageRating != null ? video.averageRating : 0}} ({{ (video.numRatings  == null)? '0' : video.numRatings}} votes)</span>
                                             </p>
                                             <p class="videos-rate-infor">
                                                 <span data-icon="&#x49;">{{video.numViews}}</span>
@@ -644,7 +644,7 @@
                                                           readonly="true"
                                                           back-color="white" title="{{videoFavourite.averageRating}}">
                                                      </span>
-                                                     <span>{{videoFavourite.averageRating != null ? videoFavourite.averageRating : 0}} ({{ (!videoFavourite.numRatings)? '0' : videoFavourite.numRatings}} votes)</span>
+                                                     <span>{{videoFavourite.averageRating != null ? videoFavourite.averageRating : 0}} ({{ (videoFavourite.numRatings  == null)? '0' : videoFavourite.numRatings}} votes)</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
                                                     <span data-icon="&#x49;">{{videoFavourite.numViews}}</span>

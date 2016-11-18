@@ -3426,6 +3426,7 @@ public class VideoServiceImpl implements VideoService {
                 map.put("recommended", resultDataRecommended);
                 params = new Object[] { userId, childSubjectId, userId, childSubjectId, Integer.parseInt(pageLimit.get("limit")), Integer
                     .parseInt(pageLimit.get("offset")) };
+
                 String clauseWhere = formatQueryGetVideoPlaylist("bySubjectLogin", userId, childSubjectId, limit, offset);
                 List<Object> resultRecently = dao.readObjectsWhereClause(
                     SibConstants.SqlMapper.SQL_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB,
