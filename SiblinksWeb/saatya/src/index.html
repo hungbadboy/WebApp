@@ -103,6 +103,11 @@
 	  });
 	  // [END receive_message]
 	  resetUI();
+
+	  $(document).keyup(function(ev){
+		    if(ev.keyCode == 27)
+		      $(".modal").trigger("click");
+		});
 	</script>
 </body>
 </html>

@@ -131,18 +131,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         }
                     }
                     if (!checkExist) {
-                        $scope.listMentorOlder.push({
-                            "authorID": $scope.listOlderVideo[i].authorID,
-                            "authorName": displayUserName($scope.listOlderVideo[i].firstName, $scope.listOlderVideo[i].lastName, $scope.listOlderVideo[i].userName).trim(),
-                            "vid": $scope.listOlderVideo[i].vid,
-                            "image": $scope.listOlderVideo[i].image,
-                            "title": $scope.listOlderVideo[i].title,
-                            "timeStamp": $scope.listOlderVideo[i].timeStamp,
-                            "runningTime": $scope.listOlderVideo[i].runningTime,
-                            "numComments": $scope.listOlderVideo[i].numComments,
-                            "numViews": $scope.listOlderVideo[i].numViews,
-                            "averageRating": $scope.listOlderVideo[i].averageRating
-                        });
+                        $scope.listMentorOlder.push($scope.listOlderVideo[i]);
                     }
                 }
                 if ($scope.listMentorOlder.length < 8) {
