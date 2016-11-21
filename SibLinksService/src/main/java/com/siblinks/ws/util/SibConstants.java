@@ -516,6 +516,7 @@ public class SibConstants {
         public static final String SQL_GET_TOP_MENTORS_MOST_LIKE = "GET_TOP_MENTORS_MOST_LIKE";
         public static final String SQL_GET_STUDENT_SUBCRIBE = "GET_STUDENT_SUBCRIBE";
         public static final String SQL_GET_TOTAL_LIKE_VIEW_VIDEO = "GET_TOTAL_LIKE_VIEW_VIDEO";
+        public static final String SQL_GET_COUNT_STUDENT_SUBSCRIBED_MENTOR = "GET_COUNT_STUDENT_SUBSCRIBED_MENTOR";
         public static final String SQL_GET_TOTAL_ANSWERS = "GET_TOTAL_ANSWERS";
         public static final String SQL_GET_TOP_MENTORS_BY_LIKE_RATE_SUBS = "GET_TOP_MENTORS_BY_LIKE_RATE_SUBS";
         public static final String SQL_GET_VIDEOS_BY_PLAYLIST = "GET_VIDEOS_BY_PLAYLIST";

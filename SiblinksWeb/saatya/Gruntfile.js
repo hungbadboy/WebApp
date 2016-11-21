@@ -216,6 +216,8 @@ module.exports = function ( grunt ) {
                       'src/app/topMentor/topMentors.controller.js',
                       // TopVideos
                       'src/app/topVideo/topVideos.controller.js',
+                      // Student Subcribed
+                      'src/app/subscribed/subscribed.controller.js',
                       // Contact
                       'src/app/contact/contact.controller.js',
                       'src/app/contact/contact.service.js',

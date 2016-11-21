@@ -1,4 +1,4 @@
-<div class="top-mentor-wrapper col-xs-12" id="subcribles_wrapper" >
+<div class="top-mentor-wrapper col-xs-12" id="subcribles_wrapper" ng-controller="StudentSubcribedCtrl" >
     <div class="top-mentor-header" id="subcribles_header">
         <div class="top-mentor-header-title">
             <span><img src="assets/images/ask question/top-mentor.png"></span><h4>Subscriptions</h4>
@@ -7,7 +7,7 @@
             <p><a href="#/team">See more</a></p>
         </div> -->
     </div>
-    <div class="top-mentors-list" scroller="subcribled" data-on-total-scroll="loadMoreNotification" style="height:434px;">
+    <div class="top-mentors-list" scroller="subcribled" data-on-total-scroll="loadMoreSubscribed" style="height:434px;">
         <ul>
             <li ng-if="listMentorBySubs" ng-repeat="mentor in listMentorBySubs track by $index">
                 <div class="top-mentors-img">

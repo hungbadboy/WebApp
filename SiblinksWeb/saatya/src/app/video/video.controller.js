@@ -589,7 +589,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         function getMentorSubscribed(userId) {
             if (userId) {
-                VideoService.getMentorSubscribed(userId, 5, 0).then(function (response) {
+                VideoService.getMentorSubscribed(userId, 1, 5).then(function (response) {
                     if (response.data.status) {
                         var result = response.data.request_data_result;
                         if (result) {
@@ -642,7 +642,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         function getMentorSubscribe(userId) {
             if (userId) {
-                VideoService.getMentorSubscribe(userId, 5, 0).then(function (response) {
+                VideoService.getMentorSubscribe(userId, 1, 5).then(function (response) {
                     if (response.data.status) {
                         var result = response.data.request_data_result;
                         if (result) {

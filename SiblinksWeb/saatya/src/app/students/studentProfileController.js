@@ -42,7 +42,7 @@ brotControllers.controller('StudentProfileController',
                 if(!$scope.isLogged){
                     $window.location.href = "#/student/signin";
                 }
-                getMentorSubscribedInfo();
+               
                 if (mentorId != undefined) {
                     getVideosRecently();
                     isSubscribed();
@@ -61,40 +61,6 @@ brotControllers.controller('StudentProfileController',
                     showTabContent($scope.currentTab);
                 }
             }
-
-
-            function getMentorSubscribedInfo() {
-                VideoService.getMentorSubscribe(userId, 5, 0).then(function (data) {
-                    var data_result = data.data.request_data_result;
-                    if (data_result) {
-                        var listTopMentors = [];
-                        for (var i = 0; i < data_result.length; i++) {
-                            var mentor = {};
-                            mentor.userid = data_result[i].userid;
-                            mentor.fullName = data_result[i].name;
-                            mentor.firstName = data_result[i].firstName;
-                            mentor.lastName = data_result[i].lastName;
-                            mentor.userName = data_result[i].userName;
-                            mentor.imageUrl = data_result[i].imageUrl;
-                            mentor.isOnline = data_result[i].isOnline;
-                            mentor.defaultSubjectId = data_result[i].defaultSubjectId;
-                            mentor.numsub = data_result[i].numSubs;
-                            mentor.numAnswers = data_result[i].numAnswers;
-                            mentor.accomplishments = data_result[i].accomplishments;
-                            if (subjects != null || subjects !== undefined) {
-                                if (data_result[i].defaultSubjectId !== null && data_result[i].defaultSubjectId !== undefined) {
-                                    mentor.listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
-                                }
-                            } else {
-                                mentor.listSubject.push([{id: 1, subject: "None"}])
-                            }
-                            listTopMentors.push(mentor);
-                        }
-                        $scope.listMentorBySubs = listTopMentors;
-                    }
-                });
-            }
-
 
             function getEssayProfile() {
                 StudentService.getEssayProfile(userId, 0, 0).then(function (data) {
