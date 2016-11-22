@@ -12,7 +12,7 @@
                             <div class="avt">
                                 <div class="box-avatar">
                                     <div class="img-avt">
-                                        <img ng-src="{{mentorInfo.imageUrl != null ? mentorInfo.imageUrl  : 'assets/images/noavartar.jpg'}}" err-src="assets/images/noavartar.jpg">
+                                        <img ng-src="{{mentorInfo.imageUrl}}">
                                     </div>
                                     <h4 ng-if="!isEmptyName">{{mentorInfo.firstname.trim()}} {{mentorInfo.lastName.trim()}}</h4>
                                     <h4 ng-if="isEmptyName">{{mentorInfo.fullName}}</h4>
