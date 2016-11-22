@@ -60,7 +60,7 @@
 				    	                            </span>
 				    	                            <span>{{lstVideoTutAdmission.averageRating != null ? lstVideoTutAdmission.averageRating : 0}} ({{ (!lstVideoTutAdmission.numRatings)? '0' : lstVideoTutAdmission.numRatings}} votes)</span>
                                               </p>
-                                              <p class="videos-rate-infor">
+                                              <p class="videos-rate-infor tutorial">
                                                   <span data-icon="&#x49;"> {{(lstVideoTutAdmission.numViews == null)? '0' :lstVideoTutAdmission.numViews}}</span>
                                                   <span data-icon="&#xe066;">{{(lstVideoTutAdmission.numComments == null)? '0': lstVideoTutAdmission.numComments}}</span>
                                               </p>
@@ -164,7 +164,7 @@
 	                                          readonly="true" title="{{(articalDetail.averageRating == null) ? '0' : articalDetail.averageRating}}">
 	                            </span>
                             	<span class="admissionRate">{{(articalDetail.averageRating == null) ? '0' : articalDetail.averageRating}} ({{(articalDetail.numRate == null) ? '0' : articalDetail.numRate}} votes)</span>
-	                           <span class="fa fa-eye pull-right" style="margin-top: 5px;">{{articalDetail.numView}}</span>
+	                           <span class="fa fa-eye pull-right" style="margin-top: 3px;">{{articalDetail.numView}}</span>
 	                      </p>
 	                      <p>
 	                      	<span>Rate this article</span>
