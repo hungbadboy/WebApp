@@ -557,3 +557,8 @@ function toFixed(value, precision) {
     var power = Math.pow(10, precision || 0);
     return String(Math.round(value * power) / power);
 }
+
+function closePopupAskQuestion() {
+	$("body").removeClass('disableScroll');
+    $(".popup-images, .form-ask-question").css({"left": "100%"});
+}

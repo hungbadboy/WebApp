@@ -285,6 +285,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
             return decodeURIComponent(str);
         };
         $scope.searchEnter = function () {
+        	resetMessage();
             var txtSearch = $('#srch-term').val();
             $window.location.href = '#/videos?search='+encodeURIComponent(txtSearch);
         }
@@ -294,6 +295,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         }
 
         $scope.nextVideo = function (str) {
+        	resetMessage();
             if (!isEmpty($scope.videosRelatedError)) {
                 return;
             }
@@ -458,11 +460,13 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
 
 
         $scope.deleteComment = function (cid) {
+        	resetMessage();
             $('#deleteItem').modal('show');
             idRemove = cid;
         };
 
         $scope.editComment = function (cid, discuss) {
+        	resetMessage();
             editCommentId = cid;
             $scope.discussOld = discuss;
             $('#editDiscuss').modal('show');
@@ -470,9 +474,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         };
 
         $scope.addComment = function () {
-        	$scope.msgSuccess = "";
-        	$scope.msgError="";
-        	
+        	resetMessage();
             var content = $('#add-comment').val();
             if (isEmpty(content)) {
                 return;
@@ -603,4 +605,9 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
             angular.element('.subscribers').attr('data-icon', 'N');
             angular.element('#spansubs').text('Subscribed');
         };
+        
+        function resetMessage() {
+        	$scope.msgSuccess = "";
+        	$scope.msgError="";
+        }
     }]);

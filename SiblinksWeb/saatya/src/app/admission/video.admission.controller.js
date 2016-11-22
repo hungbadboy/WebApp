@@ -100,6 +100,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
         }
 
         $scope.viewVideo = function (vid) {
+        	resetMessage();
             videoAdmissionService.getVideoDetailById(vid + '').then(function (data) {
                 if (data.data.status == 'true') {
                     if (data.data.request_data_result.length == 0) {
@@ -141,9 +142,11 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
         }
 
         $scope.clickTxtComent = function(){
+        	resetMessage();
             $(".comment-action").show();
         };
         $scope.cencelComment = function(){
+        	resetMessage();
             $("#add-comment").val('');
             $(".comment-action").hide();
         };
@@ -154,6 +157,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
         }
 
         $scope.rateFunction = function (rate) {
+        	resetMessage();
             var ratenumOld = $scope.rateNum;
             if (isEmpty($scope.userId) || $scope.userId == "-1") {
             	window.location.href ='#/student/signin?continue='+encodeURIComponent($location.absUrl());
@@ -207,6 +211,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
 
 
         $scope.deleteComment = function (cid) {
+        	resetMessage();
             $('#deleteItem').modal('show');
             idRemove = cid;
         };
@@ -216,8 +221,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
 
 
         $scope.addComment = function () {
-        	$scope.msgSuccess ="";
-        	$scope.msgError="";
+        	resetMessage();
             var content = $('#add-comment').val();
             if (isEmpty(content)) {
                 return;
@@ -258,6 +262,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
         }
 
         $scope.updateComment = function () {
+        	resetMessage();
             var content = CKEDITOR.instances['discuss'].getData();
             CommentService.editComment(editCommentId, content).then(function (data) {
                 if (data.data.request_data_result) {
@@ -271,6 +276,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
 
         $scope.deleteItem = function () {
         	try {
+        		resetMessage();
         		$rootScope.$broadcast('open');
         		CommentService.deleteComment(idRemove).then(function (data) {
         			if (data.data.status == 'true') {
@@ -288,4 +294,8 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
             	$rootScope.$broadcast('close');
             }
         };
+        function resetMessage(){
+        	$scope.msgSuccess ="";
+        	$scope.msgError="";
+        }
     }]);
