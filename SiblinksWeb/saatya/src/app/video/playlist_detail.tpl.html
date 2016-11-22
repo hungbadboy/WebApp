@@ -85,15 +85,15 @@
                                                 id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" ><span data-icon="&#xe031;"></span>Favorite</button>
                                     </div>
                                     <p class="videos-rate-infor">
-                                        <span class="videoRate">{{(rateNum == null) ? '0' : rateNum}} ({{videoInfo.numRatings}} votes)</span>
+                                        <span class="videoRate">{{(videoInfo.averageRating == null) ? '0' : videoInfo.averageRating}} ({{videoInfo.numRatings}} votes)</span>
                                     	<span ng-if="loadRate" star-rating stars="5"
                                           outer-star-selection="stars"
                                           outer-percent="rating"
                                           rating-define="star"
-                                          rating-stars="{{rateNum}}"
+                                          rating-stars="{{videoInfo.averageRating}}"
                                           star-radius="10" sel-color="gold"
                                           back-color="white"
-                                          readonly ="true"></span>
+                                          readonly ="true" title="videoInfo.averageRating"></span>
                                         
                                         <span data-icon="&#x49;">{{videoInfo.numViews}}</span>
                                         &nbsp;&nbsp;

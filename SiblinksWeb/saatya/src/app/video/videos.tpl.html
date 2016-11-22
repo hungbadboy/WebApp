@@ -61,7 +61,7 @@
                             </a>
                         </li>
                     </ul><!-- /End Tab left menu -->
-                    <div class="link-mentor"><a href="#/team">Browse Mentors</a></div>
+                    <div class="link-mentor" ng-click="targetTeam()"><a href="#/team">Browse Mentors</a></div>
                 </div><!-- /End Left Side -->
 
                 <!-- Top subcrible -->
@@ -510,8 +510,9 @@
                                                 </div>
                                             </a>
                                             <div class="videos-time-add">
-                                                <span class="video-poster"> <a href="#/videos/detailVideo/{{lstMentorOlder.vid}}"
-                                                                               title="{{lstMentorOlder.title}}">{{validateShowName(lstMentorOlder.firstName,lstMentorOlder.lastName, lstMentorOlder.userName)}}</a></span>
+                                                <span class="video-poster">
+                                                	<a href="#/student/mentorProfile/{{lstMentorOlder.authorID}}"
+                                                     title="{{lstMentorOlder.title}}">{{validateShowName(lstMentorOlder.firstName,lstMentorOlder.lastName, lstMentorOlder.userName)}}</a></span>
                                                 <span> &#8226; {{convertUnixTimeToTime(lstMentorOlder.timeStamp)}}</span>
                                             </div>
                                             <div class="videos-rate">
