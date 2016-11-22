@@ -127,6 +127,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         }
 
         $scope.viewVideo = function (vid) {
+        	resetMessage();
             videoDetailService.getVideoDetailById(vid + '').then(function (data) {
                 if (data.data.status == 'true') {
                     if (data.data.request_data_result.length == 0) {
@@ -169,14 +170,17 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         }
 
         $scope.clickTxtComent = function(){
+        	resetMessage();
             $(".comment-action").show();
         };
         $scope.cencelComment = function(){
+        	resetMessage();
             $("#add-comment").val('');
             $(".comment-action").hide();
         };
 
         $scope.nextVideo = function (str) {
+        	resetMessage();
             if (!isEmpty($scope.videosRelatedError)) {
                 return;
             }
@@ -270,12 +274,14 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         };
 
         $scope.searchEnter = function () {
+        	resetMessage();
             var searchValue = angular.element("input#srch-term").val();
             $window.location.href = '#/videos?search='+encodeURIComponent(searchValue);
         };
 
         // Rating video detail
         $scope.rateFunction = function (rate) {
+        	resetMessage();
             if (isEmpty($scope.userId) || $scope.userId == "-1") {
                 $window.location.href ='#/student/signin?continue='+encodeURIComponent($location.absUrl());
             }
@@ -299,7 +305,9 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
              }
 
         };
+        
         $scope.range = function (min, max, step) {
+        	resetMessage();
             step = step || 1;
             var input = [];
             for (var i = min; i <= max; i += step) {
@@ -307,7 +315,9 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             }
             return input;
         };
+        
         $scope.addfavourite = function (vid) {
+        	resetMessage();
             if ($scope.isFavorite == 1) {
                 return;
             }
@@ -359,17 +369,18 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 
 
         $scope.deleteComment = function (cid) {
+        	resetMessage();
             $('#deleteItem').modal('show');
             idRemove = cid;
         };
         $scope.decodeContent= function (str) {
+        	resetMessage();
            return decodeURIComponent(str);
         };
 
 
         $scope.addComment = function () {
-        	$scope.msgSuccess ="";
-        	$scope.msgError ="";
+        	resetMessage();
         	 try {
 	            var content = $('#add-comment').val();
 	            if (isEmpty(content)) {
@@ -419,6 +430,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         };
 
         $scope.updateComment = function () {
+        	resetMessage();
             var content = CKEDITOR.instances['discuss'].getData();
             CommentService.editComment(editCommentId, content).then(function (data) {
                 if (data.data.request_data_result) {
@@ -431,6 +443,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         };
 
         $scope.setSubscribeMentor = function (mentorId) {
+        		resetMessage();
         	    if (isEmpty($scope.userId)) {
 	                $window.location.href = '#/student/signin?continue='+encodeURIComponent($location.absUrl());
 	                return;
@@ -457,6 +470,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         };
 
         $scope.deleteItem = function () {
+        	resetMessage();
         	try {
         	$rootScope.$broadcast('open');
             CommentService.deleteComment(idRemove).then(function (data) {
@@ -477,6 +491,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         };
 
         $scope.hoverSubscribe = function (isSub) {
+        	resetMessage();
             if(isSub != '1' || isEmpty(isSub)){
                 return;
             }
@@ -485,11 +500,15 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         };
 
         $scope.unHoverSubscribe = function (isSub) {
+        	resetMessage();
             if(isSub != 1 || isEmpty(isSub)){
                 return;
             }
             angular.element('.subscribers').attr('data-icon', 'N');
             angular.element('#spansubs').text('Subscribed');
         };
-        
+        function resetMessage() {
+        	$scope.msgSuccess = "";
+        	$scope.msgError="";
+        }
     }]);
