@@ -157,11 +157,7 @@ brotControllers.controller('MentorProfileController',
                             };
                         }
                         $scope.isLoginViaFBOrGoogle = $scope.mentorInfo.idFacebook != null || $scope.mentorInfo.idGoogle != null;
-                        $scope.isEmptyName = false;
-                        if (isNameEmpty($scope.mentorInfo.firstname, $scope.mentorInfo.lastName)) {
-                            $scope.isEmptyName = true;
-                            $scope.mentorInfo.fullName = splitUserName($scope.mentorInfo.username);
-                        }
+                        $scope.mentorInfo.fullName = displayUserName($scope.mentorInfo.fistname, $scope.mentorInfo.lastName, $scope.mentorInfo.username);
                         $scope.masterSubjects = putMasterSubjectSelected(subjects, $scope.mentorInfo.defaultSubjectId, false);
                         $scope.masterFavourite = putMasterSubjectSelected(subjects, $scope.mentorInfo.favorite, true);
                         defaultSubjectChecked = $scope.masterSubjects;
@@ -207,23 +203,23 @@ brotControllers.controller('MentorProfileController',
             }
 
             function displayInformation() {
-                $('input[name="firstname"]').val($scope.mentorInfo.firstname);
-                $('input[name="lastname"]').val($scope.mentorInfo.lastName);
-                $('input[name="email"]').val($scope.mentorInfo.email);
+                $('#firstName').val($scope.mentorInfo.firstname);
+                $('#lastName').val($scope.mentorInfo.lastName);
+                $('#email').val($scope.mentorInfo.email);
                 var convertDOB = $scope.getBirthDay($scope.mentorInfo.birthDay);
-                $('input[id="dob"]').val(convertDOB);
-                $('textarea[name="aboutme"]').val($scope.mentorInfo.bio);
-                $('input[name="accomplishments"]').val($scope.mentorInfo.accomplishments);
+                $('#dob').val(convertDOB);
+                $('#aboutme').val($scope.mentorInfo.bio);
+                $('#accomplishments').val($scope.mentorInfo.accomplishments);
                 if ($scope.mentorInfo.gender) {
                     switch ($scope.mentorInfo.gender) {
                         case "M":
-                            $('input[name="gender"][value="male"]').prop('checked', true);
+                            $('#male').prop('checked', true);
                             break;
                         case "F":
-                            $('input[name="gender"][value="female"]').prop('checked', true);
+                            $('#female').prop('checked', true);
                             break;
                         case "O":
-                            $('input[name="gender"][value="other"]').prop('checked', true);
+                            $('#other').prop('checked', true);
                             break;
                     }
                 }
