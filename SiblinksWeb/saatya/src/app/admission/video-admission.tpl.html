@@ -59,16 +59,16 @@
                                 </div>
                             </div>
                             <div class="videos-start">
-                                <span style="float: left;" id="rateSpan">Rate
-                                     <div ng-if="loadRate" star-rating stars="5" id="divRate1"
+                                <p style="float: left;" id="rateSpan">Rate
+                                     <span ng-if="loadRate" star-rating stars="5" id="divRate1"
                                           outer-star-selection="stars1"
                                           ng-click="rateFunction(stars1)"
                                           outer-percent="rating"
                                           rating-define="star"
                                           rating-stars="{{numRating}}"
                                           star-radius="10" sel-color="gold"
-                                          back-color="white" title="{{(numRating == null) ? '0' : numRating}}"></div>
-                                </span>
+                                          back-color="white" title="{{(numRating == null) ? '0' : numRating}}" style="top: 3px; position: relative"></span>
+                                </p>
                             </div>
                             <!--<div class="video-detail-script hide-text">-->
                                 <!--Show 100 characters-->

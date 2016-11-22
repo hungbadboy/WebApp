@@ -80,7 +80,7 @@
 					                                          rating-stars="{{video.averageRating}}"
 					                                          star-radius="10" sel-color="gold"
 					                                          back-color="white" title="{{video.averageRating}}"
-					                                          readonly ="true"></span>
+					                                          readonly ="true" style="top: 4px; position: relative"></span>
 		                                                <span> {{video.averageRating != null ? video.averageRating : 0}} ({{ (!video.numRatings)? '0' : video.numRatings}} votes)</span>
 	                                                	<span><i class="fa fa-play-circle-o" aria-hidden="true"></i> {{video.numViews}}</span>&nbsp;&nbsp;
 	                                                	<span><i class="fa fa-comments" aria-hidden="true"></i> {{comments.length > 0 ? comments.length : 0}}</span>&nbsp;&nbsp;
