@@ -105,8 +105,10 @@
 	  resetUI();
 
 	  $(document).keyup(function(ev){
-		    if(ev.keyCode == 27)
+		    if(ev.keyCode == 27) {
 		      $(".modal").trigger("click");
+		      closePopupAskQuestion();
+		    }
 		});
 	</script>
 </body>
