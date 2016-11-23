@@ -17,8 +17,8 @@ brotControllers.filter('filterSub', function () {
     }
 });
 brotControllers.controller('MentorProfileController',
-    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'MentorService', 'TeamMentorService', 'VideoService', 'StudentService', 'myCache', 'uploadEssayService', '$window',
-        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, MentorService, TeamMentorService, VideoService, StudentService, myCache, uploadEssayService, $window) {
+    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'MentorService', 'TeamMentorService', 'VideoService', 'StudentService', 'myCache', 'uploadEssayService', '$window', '$timeout',
+        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, MentorService, TeamMentorService, VideoService, StudentService, myCache, uploadEssayService, $window, $timeout) {
 
             var userId = localStorage.getItem('userId');
             var userType = localStorage.getItem('userType');
@@ -72,6 +72,7 @@ brotControllers.controller('MentorProfileController',
                 }
                 getStudentSubscribed(userId, $scope.defaultLimit, 0);
                 getMentorProfile();
+                setHeightBoxInfo();
                 uploadEssayService.collegesOrUniversities().then(function (data) {
                     if (data.data.status) {
                         $scope.listSchools = data.data.request_data_result;
@@ -143,6 +144,7 @@ brotControllers.controller('MentorProfileController',
                     return;
                 }
                 StudentService.getUserProfile(userId).then(function (dataResponse) {
+                	$scope.$broadcast('getMentorProfileCompleted');
                     if (dataResponse.data.status) {
                         if (dataResponse.data.request_data_result == StatusError.MSG_USER_ID_NOT_EXIST) {
                             $scope.mentorInfo = null;
@@ -806,6 +808,20 @@ brotControllers.controller('MentorProfileController',
                         }
                     }
                 });
+            }
+            
+            
+            function setHeightBoxInfo(){
+            	$scope.$on('getMentorProfileCompleted', function(){
+            		 $timeout(function () {
+            			 var height = $(".box-information").innerHeight();
+            			 console.log(height);
+            			 var width =  $window.innerWidth;
+            			 if(width > 1399 && width < 1681){
+            				 $(".box-avatar").css({"height": + height + "px"});
+            			 }
+            		 });
+            	});
             }
 
         }]);
