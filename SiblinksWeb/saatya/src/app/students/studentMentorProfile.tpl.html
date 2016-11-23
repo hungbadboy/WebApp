@@ -158,7 +158,7 @@
                                                 <span>{{convertUnixTimeToTime(video.timeStamp)}} </span>
                                             </p>
                                             <p class="video-rate" ng-if="video.type == 1">
-                                                <!--<span>Rate: {{video.averageRating != null ? video.averageRating : 0}} ({{video.numRatings}} votes)</span>-->
+                                                <!--<span>Rate: {{video.averageRating != null ? video.averageRating : 0}} ({{video.numRatings}})</span>-->
                                                 <span>Rate:</span>
                                                 <span id="rate-studentMentorProfile" ng-if="isReadyLoadRatingRecently"
                                                       star-rating stars="5"
@@ -172,7 +172,7 @@
                                                  </span>
                                             </p>
                                             <p class="video-view" ng-if="video.type == 1">
-                                                <span data-icon="&#x49;">{{video.numViews == null || video.numViews == "" ? 0 : video.numViews}}</span>
+                                                <span data-icon="&#x49;">{{video.numViews == null || video.numViews == "" ? 0 : showNumberFormat(video.numViews)}}</span>
                                             </p>
                                         </div>
                                     </li>
