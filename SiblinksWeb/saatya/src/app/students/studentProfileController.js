@@ -1,6 +1,6 @@
 brotControllers.controller('StudentProfileController',
-    ['$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService', 'HomeService', 'uploadEssayService', '$window',
-        function ($scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService, HomeService, uploadEssayService, $window) {
+    ['$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService', 'HomeService', 'uploadEssayService', 'AnswerService','$window',
+        function ($scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService, HomeService, uploadEssayService, AnswerService, $window) {
             var userId = localStorage.getItem('userId');
             var userName = localStorage.getItem('userName');
             var userType = localStorage.getItem('userType');
@@ -520,31 +520,14 @@ brotControllers.controller('StudentProfileController',
                                     var listAnswer = [];
                                     for (var y = 0; y < answer_result.length; y++) {
 
-                                        var objAnswer = {};
-                                        objAnswer.authorID = answer_result[y].authorID;
-                                        objAnswer.aid = answer_result[y].aid;
-                                        objAnswer.pid = answer_result[y].pid;
-                                        if (isNameEmpty(answer_result[y].firstName, answer_result[y].lastName)) {
-                                            objAnswer.name = splitUserName(answer_result[y].userName);
-                                        } else {
-                                            objAnswer.name = answer_result[y].firstName.trim() + " " + answer_result[y].lastName.trim();
-                                        }
-                                        objAnswer.firstName = answer_result[y].firstName;
-                                        objAnswer.lastName = answer_result[y].lastName;
-                                        objAnswer.userName = answer_result[y].userName;
-                                        objAnswer.content = answer_result[y].content;
+                                        var objAnswer = answer_result[y];
                                         objAnswer.avatar = answer_result[y].imageUrl;
-                                        objAnswer.countLike = answer_result[y].countLike;
                                         var imageAnswers = answer_result[y].imageAnswer;
                                         if (imageAnswers != null && imageAnswers !== undefined && imageAnswers != '') {
                                             var arrImage = imageAnswers.split(';');
                                             objAnswer.images = arrImage;
                                         }
-                                        if (answer_result[y].likeAnswer == null || answer_result[y].likeAnswer === "N") {
-                                            objAnswer.like = false;
-                                        } else {
-                                            objAnswer.like = true;
-                                        }
+                                        
                                         objAnswer.time = convertUnixTimeToTime(answer_result[y].TIMESTAMP);
                                         listAnswer.push(objAnswer);
                                         objPosted.answers = listAnswer;
@@ -814,7 +797,28 @@ brotControllers.controller('StudentProfileController',
                     }
                 }
             }
-
-
-
-        }]);
+            /**
+             * Like Answer
+             */
+            $scope.likeAnswer = function (aid,pid) {
+                if (!isEmpty(userId) && userId != -1) {
+                	try {
+                		$rootScope.$broadcast('open');
+	                    AnswerService.likeAnswer(userId, aid + "").then(function (data) {
+	                        if (data.data.status == 'true') {
+	                            if (data.data.request_data_type == "like") {
+	                                $('.heart'+pid+aid).attr('id','heart');
+	                            }
+	                            else {
+	                                $('.heart'+pid+aid).attr('id','');
+	                            }
+	                        }
+	                    });
+                	} catch(er) {
+                		er.description
+                	} finally {
+                		$rootScope.$broadcast('close');
+                	}
+                }
+            };
+}]);

@@ -698,8 +698,7 @@ public class MentorServiceImpl implements MentorService {
                 String keySearch = "%" + content + "%";
                 listParam.add(keySearch);
                 listParam.add(keySearch);
-                listParam.add(keySearch);
-                whereClause += " WHERE ((firstName is null AND lastName is null AND X.loginName LIKE (?)) OR lastName LIKE (?) OR firstname like (?))";
+                whereClause += " WHERE ((firstName is null AND lastName is null AND SUBSTRING_INDEX(X.loginName,'@',1) LIKE (?)) OR concat(firstname,' ',lastName) like (?))";
 
             }
             if (!StringUtil.isNull(subjectId)) {
