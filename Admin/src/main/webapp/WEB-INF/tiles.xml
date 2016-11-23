@@ -29,6 +29,11 @@
 		<put-attribute name="menu" value="/Menu.jsp" />
 		<put-attribute name="body" value="/brotManageUsers.jsp" />
 	</definition>
+	<definition name="university" extends="baseLayout">
+		<put-attribute name="title" value="Manager Universities" />
+		<put-attribute name="menu" value="/Menu.jsp" />
+		<put-attribute name="body" value="/brotManageUniversities.jsp" />
+	</definition>
 	<definition name="qamanager" extends="baseLayout">
 		<put-attribute name="title" value="Manager Question and Answer" />
 		<put-attribute name="menu" value="/Menu.jsp" />

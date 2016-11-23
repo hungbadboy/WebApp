@@ -172,7 +172,6 @@
 			<result name="success" type="tiles">comments</result>
 		</action>
 		<action name="university">
-			<interceptor-ref name="loginStack"></interceptor-ref>
 			<result name="login">/loginUser.jsp</result>
 			<result name="success" type="tiles">university</result>
 		</action>

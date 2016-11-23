@@ -590,6 +590,9 @@ public class SibConstants {
         public static final String SQL_SET_ENABLE_FLAG_USER = "SET_ENABLE_USER";
         public static final String SQL_UPDATE_ADMIN_INFO = "UPDATE_ADMIN_INFO";
         public static final String SQL_GET_MENTOR_ESSAY = "GET_MENTOR_ESSAY";
+
+        // University
+        public static final String SQL_GET_ALL_UNIVERSITIES = "GET_ALL_UNIVERSITIES";
     }
 
     public class SqlMapperBROT4 {

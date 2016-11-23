@@ -153,7 +153,7 @@ public interface UserService {
      * @return
      */
     ResponseEntity<Response> getAllUsers(String search, String nd, int rows, int page, String sidx, String sord);
-
+    
     /**
      * This method register new user for brother hood
      *
