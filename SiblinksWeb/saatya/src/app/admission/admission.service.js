@@ -388,9 +388,9 @@ brotServices.factory('AdmissionService', ['$http', function($http) {
   factory.rateArtical = function(arid, uid, rate) {
 	  var promise = $http({
 	      method: 'POST',
-	      url: NEW_SERVICE_URL + 'article/rateArticalAdmission',
+	      url: NEW_SERVICE_URL + 'article/rateArticleAdmission',
 	      data:{  "request_data_type": "artical",
-	          "request_data_method": "rateArticalAdmission",
+	          "request_data_method": "rateArticleAdmission",
 	          "request_data_article": {
 	            "uid": uid,
 	            "arId": arid,

@@ -131,18 +131,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         }
                     }
                     if (!checkExist) {
-                        $scope.listMentorOlder.push({
-                            "authorID": $scope.listOlderVideo[i].authorID,
-                            "authorName": displayUserName($scope.listOlderVideo[i].firstName, $scope.listOlderVideo[i].lastName, $scope.listOlderVideo[i].userName).trim(),
-                            "vid": $scope.listOlderVideo[i].vid,
-                            "image": $scope.listOlderVideo[i].image,
-                            "title": $scope.listOlderVideo[i].title,
-                            "timeStamp": $scope.listOlderVideo[i].timeStamp,
-                            "runningTime": $scope.listOlderVideo[i].runningTime,
-                            "numComments": $scope.listOlderVideo[i].numComments,
-                            "numViews": $scope.listOlderVideo[i].numViews,
-                            "averageRating": $scope.listOlderVideo[i].averageRating
-                        });
+                        $scope.listMentorOlder.push($scope.listOlderVideo[i]);
                     }
                 }
                 if ($scope.listMentorOlder.length < 8) {
@@ -600,7 +589,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         function getMentorSubscribed(userId) {
             if (userId) {
-                VideoService.getMentorSubscribed(userId, 5, 0).then(function (response) {
+                VideoService.getMentorSubscribed(userId, 1, 5).then(function (response) {
                     if (response.data.status) {
                         var result = response.data.request_data_result;
                         if (result) {
@@ -653,7 +642,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
         function getMentorSubscribe(userId) {
             if (userId) {
-                VideoService.getMentorSubscribe(userId, 5, 0).then(function (response) {
+                VideoService.getMentorSubscribe(userId, 1, 5).then(function (response) {
                     if (response.data.status) {
                         var result = response.data.request_data_result;
                         if (result) {
@@ -1126,5 +1115,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             searchVideoPlaylist(encodeURIComponent(keyword), limitOfLoadMore, 0);
             displayResultsSearch();
         }
-
+        
+        $scope.targetTeam = function targetTeam(){
+        	$location.path('/team');
+        }
     }]);

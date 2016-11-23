@@ -40,6 +40,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
@@ -326,6 +328,22 @@ public class ObjectDaoImpl implements ObjectDao {
         try {
             String query = env.getProperty(dsConfigName);
             return jdbcTemplate.queryForList(query);
+        } catch (NullPointerException | DataAccessException e) {
+            throw new DAOException(e.getCause(), e.getMessage(), null, ErrorLevel.ERROR);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     */
+    @Override
+    public List<Map<String, Object>> readObjectNamedParameter(final String dsConfigName,
+            final MapSqlParameterSource parameterSource) throws DAOException {
+        try {
+            NamedParameterJdbcTemplate template =  new NamedParameterJdbcTemplate(jdbcTemplate);
+            String query = env.getProperty(dsConfigName);
+            return template.queryForList(query, parameterSource);
         } catch (NullPointerException | DataAccessException e) {
             throw new DAOException(e.getCause(), e.getMessage(), null, ErrorLevel.ERROR);
         }

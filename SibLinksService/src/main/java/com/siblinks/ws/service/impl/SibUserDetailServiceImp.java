@@ -86,8 +86,8 @@ public class SibUserDetailServiceImp implements UserDetailsService {
             user.setDefaultSubjectId((userMap.get(Parameters.DEFAULT_SUBJECT_ID) != null) ? "" + userMap.get(Parameters.DEFAULT_SUBJECT_ID):null);
             user.setEmail((userMap.get(Parameters.EMAIL) != null) ? "" +  userMap.get(Parameters.EMAIL):null);
             user.setActiveFlag((userMap.get(Parameters.ENABLE_FLAG) != null) ? "" +  userMap.get(Parameters.ENABLE_FLAG):null);
-            user.setBirthDay((userMap.get(Parameters.BOD) != null && !"".equals(userMap.get(Parameters.BOD))) ? Long
-                .parseLong("" + userMap.get(Parameters.BOD)) : null);
+            user.setBirthDay((userMap.get(Parameters.DOB) != null && !"".equals(userMap.get(Parameters.DOB))) ? Long
+                .parseLong("" + userMap.get(Parameters.DOB)) : null);
             
             return new SibUserDetails(user, authorities);
         } catch (DAOException e) {

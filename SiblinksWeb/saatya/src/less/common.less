@@ -479,10 +479,6 @@ div#modalImage #myCarousel #ulthumbnails-carouselli {
   position: relative;
 }
 
-#video-mentor-header .top-mentor-header-title > span {
-  margin-top: 7px;
-}
-
 .setting-profile {
   margin-top: 7px;
 }
@@ -730,10 +726,15 @@ a.right.carousel-control {
   position: absolute;
   bottom: 0;
 }
-
-.modal-add-video .group-item .item .check-box {
+.modal-add-video .filters .check-all {
+  width: 28px;
+}
+.modal-add-video .group-item .item .check-box,{
   top: 35px;
-  width: 7.3333%;
+  width: 60px;
+}
+.modal-add-video .filters .text-play {
+    padding-left: 42px;
 }
 
 .mentor-infor-img {
@@ -885,7 +886,8 @@ a.right.carousel-control {
 }
 
 .right-form .sex {
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 19px;
 }
 
 .hover-video {
@@ -982,12 +984,12 @@ a.right.carousel-control {
   width: 43px;
 }
 
-.modal-add-video #lib .filters .text-trf {
+/*.modal-add-video #lib .filters .text-trf {
   width: 52%;
   padding:  0 7px;
-}
+}*/
 .modal-add-video #lib .item .box-playlist {
-    padding-left: 35px;
+    padding-left: 15px;
 }
 
 iframe#detailPlayer {
@@ -1036,6 +1038,7 @@ iframe#detailPlayer {
 .manager-video .group-item .item .box-description {
   word-wrap: break-word;
   padding-right: 15px;
+  margin-right: 4px;
 }
 
 /*======== Table manage tutorial ==========*/
@@ -1978,7 +1981,7 @@ span.add-img label {
 
 #videos .videos-rate p.videos-start span .stars {
   margin-top: 0px;
-  top: 4px;
+  top: 6px;
 }
 #videos .videos-rate {
   height: 30px;
@@ -2730,8 +2733,8 @@ span.article-detail-title p {
     top: 10px;
 }
 .notification span {
-    padding: 0px 6px;
-    font-size: 10px;
+    padding: 2px 6px;
+    font-size: 11px;
 }
 .icon-pb {
     position: absolute;
@@ -2786,8 +2789,8 @@ p, h3 {
     float: right;
 }
 #videos-details p.videos-rate-infor span.videoRate {
-    font-size: 11px;
-    top: 7px;
+    font-size: 14px;
+    top: 2px;
     position: relative;
 }
 .admissionRate {
@@ -2815,4 +2818,63 @@ ul.list-star span:last-child {
 }
 .chat li .chat-body p {
     margin: 5px 0;
+}
+.manager-playlist-detail .top-vd-dt .box-detail-play .detail-pl-inner {
+    width: 50%;
+    padding-left: 10px; 
+}
+#sidebar-menu.menuMobile .navigation ul.menuSubmenu li {
+    padding: 10px 52px;
+}
+#main {
+    min-height: ~"calc(100% - 70px)";
+}
+#srch-term_dropdown {
+    z-index: 99;
+}
+span.number-media {
+    padding-top: 2px;
+}
+.post .post-footer .comments-list .comment .comment-body {
+    margin-left: 54px;
+}
+.mCSB_inside > .mCSB_container {
+    margin-right: 0px;
+}
+.mCSB_scrollTools {
+    width: 5px;
+}
+header {
+    z-index: 9999;
+}
+.modal .modal-dialog {
+     margin-top: 100px; 
+}
+.top-mentor-header, 
+.top-mentors-list, 
+.top-videos-header, 
+.top-videos-list {
+    padding: 10px 0;
+}
+#video-mentor-header .top-mentor-header-title > span {
+    margin-right: 0;
+    margin-top: 5px;
+}
+.top-mentor-header .see-more, .top-videos-header .see-more {
+    margin-top: 14px;
+    width: 57px;
+}
+.top-mentor-header .see-more p, 
+.top-videos-header .see-more p {
+    font-size: 11px;
+}
+.top-mentor-header-title, .top-videos-header-title {
+    width: ~"calc(100% - 57px)";
+}
+p.subcribe {
+    right: 10px;
+}
+#answer-detail .modal-add-video .right-answer {
+    width: ~"calc(50% - 20px)";
+    margin-left: 20px;
 }

@@ -2960,19 +2960,28 @@ public class VideoServiceImpl implements VideoService {
     /**
      * {@inheritDoc}
      */
+    @Override
     @RequestMapping(value = "/getMentorSubscribed")
     @ResponseBody
-    public ResponseEntity<Response> getMentorSubscribe(@RequestParam final long userId, @RequestParam final String limit,
-            @RequestParam final String offset) {
+    public ResponseEntity<Response> getMentorSubscribe(@RequestParam final boolean isTotalCount, @RequestParam final long userId,
+            @RequestParam final String limit, @RequestParam final String pageno) {
         SimpleResponse response = null;
         try {
-            String entityName = SibConstants.SqlMapper.SQL_GET_ALL_MENTOR_SUBSCRIBED;
             CommonUtil cmUtil = CommonUtil.getInstance();
-            Map<String, String> map = cmUtil.getOffset(limit, offset);
-            Object[] params = { userId, Integer.parseInt(map.get("limit")), Integer.parseInt(map.get("offset")) };
-            List<Object> dataResult = dao.readObjects(entityName, params);
-            String count = String.valueOf(dataResult.size());
-            response = new SimpleResponse(SibConstants.SUCCESS, "video", "getMentorSubscribe", dataResult, count);
+            Map<String, String> map = cmUtil.getLimit(pageno, limit);
+            
+            Object[] params = { userId, Integer.parseInt(map.get("from")), Integer.parseInt(map.get("to")) };
+            List<Object> dataResult = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_MENTOR_SUBSCRIBED, params);
+            
+            long count = 0L;
+            if (isTotalCount) {
+            List<Object> dataCount = dao.readObjects(
+                SibConstants.SqlMapper.SQL_GET_COUNT_STUDENT_SUBSCRIBED_MENTOR,
+                new Object[] { userId });
+            Map<String, Long> mapCount = (Map<String, Long>) dataCount.get(0);
+            count = mapCount.get(Parameters.COUNT);
+            }
+            response = new SimpleResponse(SibConstants.SUCCESS, "video", "getMentorSubscribe", dataResult, "" + count);
         } catch (Exception e) {
             e.printStackTrace();
             response = new SimpleResponse(SibConstants.FAILURE, "videos", "getMentorSubscribe", e.getMessage());
@@ -3426,6 +3435,7 @@ public class VideoServiceImpl implements VideoService {
                 map.put("recommended", resultDataRecommended);
                 params = new Object[] { userId, childSubjectId, userId, childSubjectId, Integer.parseInt(pageLimit.get("limit")), Integer
                     .parseInt(pageLimit.get("offset")) };
+
                 String clauseWhere = formatQueryGetVideoPlaylist("bySubjectLogin", userId, childSubjectId, limit, offset);
                 List<Object> resultRecently = dao.readObjectsWhereClause(
                     SibConstants.SqlMapper.SQL_NEW_VIDEO_PLAYLIST_MENTOR_SUBSCRIBED_BY_SUB,
@@ -3493,7 +3503,11 @@ public class VideoServiceImpl implements VideoService {
 
             } else if (!StringUtils.isEmpty(subjectId)) {
                 entityName = SibConstants.SqlMapper.SQL_GET_NEWEST_VIDEO_SUBJECT;
-                String whereClause = "V.subjectId IN(" + subjectId + ") ORDER BY timeStamp DESC LIMIT ? OFFSET ?;";
+                List<Map<String, Object>> readObjectNoCondition = dao
+                        .readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC);
+                    String allChildSubject = CommonUtil.getAllChildCategory(subjectId, readObjectNoCondition);
+                    
+                String whereClause = "V.subjectId IN(" + allChildSubject + ") ORDER BY timeStamp DESC LIMIT ? OFFSET ?;";
                 List<Object> readObjects = dao.readObjectsWhereClause(entityName, whereClause, params);
                 if (readObjects != null && readObjects.size() > 0) {
                     count = String.valueOf(readObjects.size());
@@ -3656,26 +3670,59 @@ public class VideoServiceImpl implements VideoService {
     /**
      * {@inheritDoc}
      */
+    @Override
     @RequestMapping(value = "/searchVideo", method = RequestMethod.GET)
-    public ResponseEntity<Response> searchVideo(@RequestParam final String keyword, @RequestParam final String type,
-            @RequestParam final String limit, @RequestParam final String offset) {
+    public ResponseEntity<Response> searchVideo(@RequestParam final String subjectId, @RequestParam final String keyword,
+            @RequestParam final String type, @RequestParam final String limit, @RequestParam final String offset) {
         SimpleResponse response = null;
         try {
             Map<String, String> searchLimit = CommonUtil.getInstance().getOffset(limit, offset);
-            String strEntity = "";
-            Object[] params = null;
-            String formatKeyWord = "%" + keyword + "%";
+            List<Object> listParam = new ArrayList<Object>();
+            String whereClause = "";
             if (type != null && !type.isEmpty()) {
+                String strEntity = "";
                 if (type.equals("playlist")) {
                     strEntity = SibConstants.SqlMapper.SQL_SEARCH_PLAYLIST;
-                    params = new Object[] { formatKeyWord, Integer.valueOf(searchLimit.get("limit")), Integer.valueOf(searchLimit
-                        .get("offset")) };
+                    if (!StringUtil.isNull(subjectId)) {
+                        List<Map<String, Object>> readObjectNoCondition = dao
+                            .readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC);
+                        String allChildSubject = CommonUtil.getAllChildCategory(subjectId, readObjectNoCondition);
+                            whereClause += " AND sp.subjectId in (" + allChildSubject + ")";
+                    }
+                    if (!StringUtil.isNull(keyword)) {
+                        listParam.add("%" + keyword + "%");
+                        whereClause += " AND sp.`Name` LIKE (?)";
+                    }
+                    whereClause += " GROUP BY pid ORDER BY title DESC";
                 } else if (type.equals("video")) {
                     strEntity = SibConstants.SqlMapper.SQL_SEARCH_VIDEO;
-                    params = new Object[] { formatKeyWord, Integer.valueOf(searchLimit.get("limit")), Integer.valueOf(searchLimit
-                        .get("offset")) };
+                    if (!StringUtil.isNull(keyword)) {
+                        listParam.add("%" + keyword + "%");
+                        whereClause += " WHERE V.title LIKE (?)";
+                    }
+                    if (!StringUtil.isNull(subjectId)) {
+                        List<Map<String, Object>> readObjectNoCondition = dao
+                            .readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC);
+                        String allChildSubject = CommonUtil.getAllChildCategory(subjectId, readObjectNoCondition);
+                        if (StringUtil.isNull(whereClause)) {
+                            whereClause += " WHERE V.subjectId IN (" + allChildSubject + ")";
+                        } else {
+                            whereClause += " AND V.subjectId IN (" + allChildSubject + ")";
+                        }
+                    }
+                    whereClause += " ORDER BY V.title";
                 }
-                List<Object> searchResult = dao.readObjects(strEntity, params);
+
+                if (!StringUtil.isNull(searchLimit.get("limit"))) {
+                    listParam.add(Integer.parseInt(searchLimit.get("limit")));
+                    whereClause += " LIMIT ?";
+                }
+
+                if (!StringUtil.isNull(searchLimit.get("offset"))) {
+                    listParam.add(Integer.parseInt(searchLimit.get("offset")));
+                    whereClause += " OFFSET ?";
+                }
+                List<Object> searchResult = dao.readObjectsWhereClause(strEntity, whereClause, listParam.toArray());
 
                 if (searchResult != null && !searchResult.isEmpty()) {
                     String lengthOfResult = "" + searchResult.size();

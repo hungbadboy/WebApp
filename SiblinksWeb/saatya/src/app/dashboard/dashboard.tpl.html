@@ -121,7 +121,7 @@
                                                    </div>
                                                    <div class="newest-sub-esay-info">
                                                        <p class="newest-sub-esay-name">
-                                                           <a href="#/mentor/studentProfile/{{e.userId}}"><strong>{{displayName(e.fistName, e.lastName, e.userName)}}</strong><br></a><span class="time-post">{{convertUnixTimeToTime(e.timeStamp)}}</span>
+                                                           <a href="#/mentor/studentProfile/{{e.userId}}"><strong>{{displayName(e.firstName, e.lastName, e.userName)}}</strong><br></a><span class="time-post">{{convertUnixTimeToTime(e.timeStamp)}}</span>
                                                            <a href="#/mentor/essay?eid={{e.uploadEssayId}}"><span>{{e.nameOfEssay}}</span></a>
                                                            <span class="essay-wait-review" style="margin-top: 4px;">Waiting</span>
                                                        </p>
@@ -153,8 +153,8 @@
                                             <average-star-rating ng-model="rating" max="5"><average-star-rating>    
                                         </div>
                                         <p class="videos-rate-infor">
-                                            <span data-icon="&#x49;">{{vTopViewed.numViews}}</span>
-                                            <span data-icon="&#xe066;">{{vTopViewed.numComments}}</span>
+                                            <span data-icon="&#x49;">{{showNumberFormat(vTopViewed.numViews)}}</span>
+                                            <span data-icon="&#xe066;">{{showNumberFormat(vTopViewed.numComments)}}</span>
                                         </p>
                                     </div>
                                     <div class="recent-view">

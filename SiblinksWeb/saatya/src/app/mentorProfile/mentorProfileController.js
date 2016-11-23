@@ -17,8 +17,8 @@ brotControllers.filter('filterSub', function () {
     }
 });
 brotControllers.controller('MentorProfileController',
-    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'MentorService', 'TeamMentorService', 'VideoService', 'StudentService', 'myCache', 'uploadEssayService', '$window',
-        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, MentorService, TeamMentorService, VideoService, StudentService, myCache, uploadEssayService, $window) {
+    ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'MentorService', 'TeamMentorService', 'VideoService', 'StudentService', 'myCache', 'uploadEssayService', '$window', '$timeout',
+        function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, MentorService, TeamMentorService, VideoService, StudentService, myCache, uploadEssayService, $window, $timeout) {
 
             var userId = localStorage.getItem('userId');
             var userType = localStorage.getItem('userType');
@@ -45,7 +45,7 @@ brotControllers.controller('MentorProfileController',
 
             var defaultSubjectChecked = [];
             var defaultFavouriteChecked = [];
-            var bod = "";
+            var dob = "";
             var currentPageStudentSubs = 0;
             $scope.isLoadMoreStudentSubs = false;
 
@@ -72,6 +72,7 @@ brotControllers.controller('MentorProfileController',
                 }
                 getStudentSubscribed(userId, $scope.defaultLimit, 0);
                 getMentorProfile();
+                setHeightBoxInfo();
                 uploadEssayService.collegesOrUniversities().then(function (data) {
                     if (data.data.status) {
                         $scope.listSchools = data.data.request_data_result;
@@ -115,7 +116,7 @@ brotControllers.controller('MentorProfileController',
                             var gender = $scope.mentorMentorProfile.gender;
                             $scope.GenderMentor = validateGender(gender);
                             var birthDay = calculateBirthDay(result_data.birthDay);
-                            $scope.bod = birthDay;
+                            $scope.dob = birthDay;
                             $scope.isEmptyNameMentor = false;
                             if (isNameEmpty($scope.mentorMentorProfile.firstname,$scope.mentorMentorProfile.lastName)){
                                 $scope.isEmptyNameMentor = true;
@@ -143,6 +144,7 @@ brotControllers.controller('MentorProfileController',
                     return;
                 }
                 StudentService.getUserProfile(userId).then(function (dataResponse) {
+                	$scope.$broadcast('getMentorProfileCompleted');
                     if (dataResponse.data.status) {
                         if (dataResponse.data.request_data_result == StatusError.MSG_USER_ID_NOT_EXIST) {
                             $scope.mentorInfo = null;
@@ -157,11 +159,7 @@ brotControllers.controller('MentorProfileController',
                             };
                         }
                         $scope.isLoginViaFBOrGoogle = $scope.mentorInfo.idFacebook != null || $scope.mentorInfo.idGoogle != null;
-                        $scope.isEmptyName = false;
-                        if (isNameEmpty($scope.mentorInfo.firstname, $scope.mentorInfo.lastName)) {
-                            $scope.isEmptyName = true;
-                            $scope.mentorInfo.fullName = splitUserName($scope.mentorInfo.username);
-                        }
+                        $scope.mentorInfo.fullName = displayUserName($scope.mentorInfo.fistname, $scope.mentorInfo.lastName, $scope.mentorInfo.username);
                         $scope.masterSubjects = putMasterSubjectSelected(subjects, $scope.mentorInfo.defaultSubjectId, false);
                         $scope.masterFavourite = putMasterSubjectSelected(subjects, $scope.mentorInfo.favorite, true);
                         defaultSubjectChecked = $scope.masterSubjects;
@@ -207,23 +205,23 @@ brotControllers.controller('MentorProfileController',
             }
 
             function displayInformation() {
-                $('input[name="firstname"]').val($scope.mentorInfo.firstname);
-                $('input[name="lastname"]').val($scope.mentorInfo.lastName);
-                $('input[name="email"]').val($scope.mentorInfo.email);
-                var convertBOD = $scope.getBirthDay($scope.mentorInfo.birthDay);
-                $('input[id="bod"]').val(convertBOD);
-                $('textarea[name="aboutme"]').val($scope.mentorInfo.bio);
-                $('input[name="accomplishments"]').val($scope.mentorInfo.accomplishments);
+                $('#firstName').val($scope.mentorInfo.firstname);
+                $('#lastName').val($scope.mentorInfo.lastName);
+                $('#email').val($scope.mentorInfo.email);
+                var convertDOB = $scope.getBirthDay($scope.mentorInfo.birthDay);
+                $('#dob').val(convertDOB);
+                $('#aboutme').val($scope.mentorInfo.bio);
+                $('#accomplishments').val($scope.mentorInfo.accomplishments);
                 if ($scope.mentorInfo.gender) {
                     switch ($scope.mentorInfo.gender) {
                         case "M":
-                            $('input[name="gender"][value="male"]').prop('checked', true);
+                            $('#male').prop('checked', true);
                             break;
                         case "F":
-                            $('input[name="gender"][value="female"]').prop('checked', true);
+                            $('#female').prop('checked', true);
                             break;
                         case "O":
-                            $('input[name="gender"][value="other"]').prop('checked', true);
+                            $('#other').prop('checked', true);
                             break;
                     }
                 }
@@ -326,11 +324,11 @@ brotControllers.controller('MentorProfileController',
                 if(isEmpty(lastName)){
                     lastName = null;
                 }
-                var bod = angular.element('input[id="bod"]').val();
+                var dob = angular.element('input[id="dob"]').val();
                 if (check) {
                     var timeStamp = null;
-                    if(bod){
-                        timeStamp = (Date.parse(bod)/1000);
+                    if(dob){
+                        timeStamp = (Date.parse(dob)/1000);
                     }
                     var mentor = {
                         'role': "M",
@@ -342,7 +340,7 @@ brotControllers.controller('MentorProfileController',
                         'gender': gender,
                         'accomplishments': $('input[name="accomplishments"]').val(),
                         'school': school,
-                        'bod': bod,
+                        'dob': dob,
                         'bio': bio,
                         'favorite': favorite,
                         'defaultSubjectId': strSubs
@@ -424,8 +422,8 @@ brotControllers.controller('MentorProfileController',
                     angular.element('#email').val($scope.mentorInfo.email);
                     angular.element('#accomplishments').val($scope.mentorInfo.accomplishments);
                     $scope.schoolSelect = $scope.mentorInfo.school != null ? {id: parseInt($scope.mentorInfo.school, 10)} : null;
-                    var convertBOD = $scope.getBirthDay($scope.mentorInfo.birthDay);
-                    angular.element('#bod').val(convertBOD);
+                    var convertDOB = $scope.getBirthDay($scope.mentorInfo.birthDay);
+                    angular.element('#dob').val(convertDOB);
                     angular.element('#aboutme').val($scope.mentorInfo.bio);
                     var subjectChecked = angular.element('.masterSubject:checked');
                     for (var i = 0; i < subjectChecked.length; i++) {
@@ -810,6 +808,20 @@ brotControllers.controller('MentorProfileController',
                         }
                     }
                 });
+            }
+            
+            
+            function setHeightBoxInfo(){
+            	$scope.$on('getMentorProfileCompleted', function(){
+            		 $timeout(function () {
+            			 var height = $(".box-information").innerHeight();
+            			 console.log(height);
+            			 var width =  $window.innerWidth;
+            			 if(width > 1399 && width < 1681){
+            				 $(".box-avatar").css({"height": + height + "px"});
+            			 }
+            		 });
+            	});
             }
 
         }]);

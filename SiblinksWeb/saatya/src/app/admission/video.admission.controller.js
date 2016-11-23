@@ -100,6 +100,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
         }
 
         $scope.viewVideo = function (vid) {
+        	resetMessage();
             videoAdmissionService.getVideoDetailById(vid + '').then(function (data) {
                 if (data.data.status == 'true') {
                     if (data.data.request_data_result.length == 0) {
@@ -141,9 +142,11 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
         }
 
         $scope.clickTxtComent = function(){
+        	resetMessage();
             $(".comment-action").show();
         };
         $scope.cencelComment = function(){
+        	resetMessage();
             $("#add-comment").val('');
             $(".comment-action").hide();
         };
@@ -154,18 +157,29 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
         }
 
         $scope.rateFunction = function (rate) {
+        	resetMessage();
             var ratenumOld = $scope.rateNum;
             if (isEmpty($scope.userId) || $scope.userId == "-1") {
             	window.location.href ='#/student/signin?continue='+encodeURIComponent($location.absUrl());
                 return;
             }
-            $rootScope.$broadcast('open');
-            videoAdmissionService.rateVideoAdmission($scope.userId, videoid, parseInt(rate)).then(function (data) {
+            try {
+	            $rootScope.$broadcast('open');
+	            videoAdmissionService.rateVideoAdmission($scope.userId, videoid, parseInt(rate)).then(function (data) {
+	                if (data.data.status == 'true') {
+	                	var averageRatingOld = $scope.videoInfo.averageRating == null ? 0: $scope.videoInfo.averageRating;
+		            	var numRatingsOld = $scope.videoInfo.numRatings == null ? 0: $scope.videoInfo.numRatings;
+		            	var ratingOld = ($scope.numRating == null)? 0 : $scope.numRating;
+		            	$scope.numRating = parseInt(rate);
+		            	$scope.videoInfo.averageRating = toFixed((( averageRatingOld * numRatingsOld) + parseInt(rate - ratingOld))/ ((ratingOld == 0)? numRatingsOld + 1 : numRatingsOld),1);
+		            	$scope.videoInfo.numRatings = (ratingOld == 0)? numRatingsOld + 1 : numRatingsOld;
+	                }
+	            });
+            } catch(e){
+            	console.log(e.description)
+            } finally{
             	$rootScope.$broadcast('close');
-                if (data.data.status == 'true') {
-                    //$scope.rateNum = parseInt(rate);
-                }
-            });
+            }
         }
 
         function onYouTubeIframeAPIReady(youtubeId) {
@@ -197,6 +211,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
 
 
         $scope.deleteComment = function (cid) {
+        	resetMessage();
             $('#deleteItem').modal('show');
             idRemove = cid;
         };
@@ -206,6 +221,7 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
 
 
         $scope.addComment = function () {
+        	resetMessage();
             var content = $('#add-comment').val();
             if (isEmpty(content)) {
                 return;
@@ -214,30 +230,39 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
                 $scope.errorVideo = "Please login";
                 return;
             }
-            $rootScope.$broadcast('open');
-            videoAdmissionService.addCommentVideo($scope.userId, content, videoid).success(function (data) {
-                if (data.status == 'true') {
-                    $("#add-comment").val('');
-                    $(".comment-action").hide();
-                    videoAdmissionService.getCommentVideoById(videoid).then(function (data) {
-                        if (data.data.status == 'true') {
-                            if (data.data.request_data_result.length == 0) {
-                                $scope.nocommentInfo = "Have no comment";
-                            }
-                            else {
-                                $scope.comments = data.data.request_data_result;
-                            }
-
-                        }
-
-                    });
-                }
-                $rootScope.$broadcast('close');
-            });
-
+            try {
+	            $rootScope.$broadcast('open');
+	            videoAdmissionService.addCommentVideo($scope.userId, content, videoid).success(function (data) {
+	                if (data.status == 'true') {
+	                    $("#add-comment").val('');
+	                    $(".comment-action").hide();
+	                    videoAdmissionService.getCommentVideoById(videoid).then(function (data) {
+	                        if (data.data.status == 'true') {
+	                            if (data.data.request_data_result.length == 0) {
+	                                $scope.nocommentInfo = "Have no comment";
+	                            } else {
+	                                $scope.comments = data.data.request_data_result;
+	                            }
+	                            // Update numComments
+		                        $scope.videoInfo.numComments = ($scope.videoInfo.numComments == null)? 1 : $scope.videoInfo.numComments +1;
+		                        $scope.msgSuccess = "You have added comment successful.";
+		                    } else {
+		                    	$scope.msgError=data.request_data_result;
+		                    }
+	                    });
+	                } else {
+                    	$scope.msgError=data.request_data_result;
+                    }
+	            });
+            } catch(e){
+            	console.log(e.description)
+            } finally{
+            	$rootScope.$broadcast('close');
+            }
         }
 
         $scope.updateComment = function () {
+        	resetMessage();
             var content = CKEDITOR.instances['discuss'].getData();
             CommentService.editComment(editCommentId, content).then(function (data) {
                 if (data.data.request_data_result) {
@@ -250,13 +275,27 @@ brotControllers.controller('VideoAdmissionController', ['$scope', '$rootScope', 
         };
 
         $scope.deleteItem = function () {
-            CommentService.deleteComment(idRemove).then(function (data) {
-                if (data.data.status) {
-                    listDiscuss = [];
-                    for (var i = 1; i <= $scope.clickD; i++) {
-                        getDiscuss(i);
-                    }
-                }
-            });
+        	try {
+        		resetMessage();
+        		$rootScope.$broadcast('open');
+        		CommentService.deleteComment(idRemove).then(function (data) {
+        			if (data.data.status == 'true') {
+        				listDiscuss = [];
+        				for (var i = 1; i <= $scope.clickD; i++) {
+        					getDiscuss(i);
+        				}
+        				// Update numComments
+        				$scope.videoInfo.numComments = $scope.videoInfo.numComments - 1;
+        			}
+        		});
+        	} catch(e){
+            	console.log(e.description)
+            } finally{
+            	$rootScope.$broadcast('close');
+            }
         };
+        function resetMessage(){
+        	$scope.msgSuccess ="";
+        	$scope.msgError="";
+        }
     }]);

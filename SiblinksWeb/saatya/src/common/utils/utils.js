@@ -312,9 +312,9 @@ function validateGender(key) {
         case "F":
             return "Female";
         case "O":
-            return "Other";
+            return "Decline to state";
         default :
-            return "Other";
+            return "Decline to state";
     }
 }
 
@@ -556,4 +556,26 @@ function removeItem(data){
 function toFixed(value, precision) {
     var power = Math.pow(10, precision || 0);
     return String(Math.round(value * power) / power);
+}
+
+function closePopupAskQuestion() {
+	$("body").removeClass('disableScroll');
+    $(".popup-images, .form-ask-question").css({"left": "100%"});
+}
+
+function showNumberFormat(value, precision) {
+	var nStr = toFixed(value, precision);
+	return thousandFormatNumber(nStr);
+}
+
+function thousandFormatNumber(nStr) {
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
 }

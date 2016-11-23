@@ -187,6 +187,7 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     $scope.loadVideo = function(v){
+    	resetMessage();
         loadData(v);
     }
 
@@ -207,6 +208,7 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     $scope.openAddPlaylist = function(vid){
+    	resetMessage();
         var selectedVideos = [];
         selectedVideos.push(vid);
         var modalInstance = $modal.open({
@@ -230,6 +232,7 @@ brotControllers.controller('MentorVideoDetailController',
     })
 
     $scope.editVideo = function(vid){
+    	resetMessage();
         var modalInstance = $modal.open({
             templateUrl: 'src/app/mentors/video/upload_tutorial_popup.tpl.html',
             controller: 'UploadTutorialController',
@@ -245,6 +248,7 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     $scope.deleteVideo = function(vid){
+    	resetMessage();
         var selectedVideos = [];
         selectedVideos.push(vid);
         VideoService.deleteMultipleVideo(selectedVideos, userId).then(function(data){
@@ -269,6 +273,7 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     $scope.deleteComment = function(cid, vid){
+    	resetMessage();
         CommentService.deleteComment(cid).then(function(data){
             if (data.data.status) {
                 $scope.video.numComments -= 1;
@@ -278,24 +283,29 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     $scope.loadTo = function(){
+    	resetMessage();
         angular.element(document.getElementById('videos-in-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentId);
     }
 
     $scope.showButton = function(){
+    	resetMessage();
         $(".comment-action").show();
     }
 
     $scope.cancelComment = function(){
+    	resetMessage();
         $('#txtComment').val('');
         $(".comment-action").hide();
     }
 
     $scope.validateText = function(){
+    	resetMessage();
         if ($scope.contentText && $scope.contentText.length < 1024) 
-            $scope.error = null;
+        	$scope.msgError = null;
     }
 
     $scope.addComment = function(){
+    	resetMessage();
         var content = $('#txtComment').val();
         if (isEmpty(content)) {
             return;
@@ -304,28 +314,36 @@ brotControllers.controller('MentorVideoDetailController',
             $scope.errorVideo = "Please login";
             return;
         }
-        var objRequest = {
-            authorID: userId,
-            content: content,
-            vid: $scope.video.vid,
-            title: $scope.video.title,
-            subjectId: $scope.video.subjectId,
-            author: userName
-        };
-        videoDetailService.addCommentVideo(objRequest).success(function (data) {
-            if (data.status == 'true') {
-                $("#txtComment").val('');
-                $(".comment-action").hide();
-                getCommentVideoDetail($scope.video.vid);
-            } else{
-                $scope.error = data.request_data_result;
-                console.log($scope.error);
-            }
-        });
-
+        try {
+	        var objRequest = {
+	            authorID: userId,
+	            content: content,
+	            vid: $scope.video.vid,
+	            title: $scope.video.title,
+	            subjectId: $scope.video.subjectId,
+	            author: userName
+	        };
+	        $rootScope.$broadcast('open');
+	        videoDetailService.addCommentVideo(objRequest).success(function (data) {
+	            if (data.status == 'true') {
+	                $("#txtComment").val('');
+	                $(".comment-action").hide();
+	                getCommentVideoDetail($scope.video.vid);
+	                $scope.msgSuccess = "You have added comment successful.";
+	            } else{
+	                $scope.msgError = data.request_data_result;
+	                console.log($scope.error);
+	            }
+	        });
+        } catch(e) {
+        	console.log(e.description)
+        } finally {
+        	$rootScope.$broadcast('close');
+        }
     }
 
     $scope.preVideo = function(pos){
+    	resetMessage();
         if ($scope.videos && $scope.videos.length > 0) {
             if (pos == 0) {
                 $scope.pos = $scope.videos.length - 1;
@@ -339,6 +357,7 @@ brotControllers.controller('MentorVideoDetailController',
     }
 
     $scope.nextVideo = function(pos){
+    	resetMessage();
         if ($scope.videos && $scope.videos.length > 0) {
             if (pos == $scope.videos.length - 1) {
                 $scope.pos = 0;
@@ -406,5 +425,9 @@ brotControllers.controller('MentorVideoDetailController',
           $location.path('/mentor/video/detail/'+$scope.video.vid+'/'+data.plid);
         }
       });
+    }
+    function resetMessage() {
+    	$scope.msgError = "";
+    	$scope.msgSuccess ="";
     }
 }]);

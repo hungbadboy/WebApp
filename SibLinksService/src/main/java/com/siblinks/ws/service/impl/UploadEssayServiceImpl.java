@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
@@ -135,6 +137,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
             // get MIME type of the file
             String mimeType = file.getMimeType();
+            String fileName = file.getFileName();
             if (mimeType == null) {
                 // set to binary type if MIME mapping not found
                 mimeType = "application/octet-stream";
@@ -142,11 +145,10 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             // set content attributes for the response
             response.setContentType(mimeType);
             response.setContentLength(Integer.parseInt(file.getFilesize()));
+            response.setCharacterEncoding("utf-8");
 
-            // set headers for the response
-            String headerKey = "Content-Disposition";
-            String headerValue = String.format("attachment; filename=\"%s\"", file.getFileName());
-            response.setHeader(headerKey, headerValue);
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + getFilenameUnicode(fileName));
+
             outStream = response.getOutputStream();
 
             byte[] buffer = new byte[BUFFER_SIZE];
@@ -782,11 +784,11 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             name = file.getOriginalFilename();
             if (!StringUtil.isNull(name)) {
                 // if (isUTF8MisInterpreted(name, "Windows-1252")) {
-                    String nameExt = FilenameUtils.getExtension(name.toLowerCase());
-                    boolean status = sample.contains(nameExt);
-                    if (!status) {
-                        return "Error Format";
-                    }
+                String nameExt = FilenameUtils.getExtension(name.toLowerCase());
+                boolean status = sample.contains(nameExt);
+                if (!status) {
+                    return "Error Format";
+                }
                 // } else {
                 // error = "File name is not valid";
                 // }
@@ -1441,5 +1443,33 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             response = new SimpleResponse(SibConstants.FAILURE, "essay", "getUserRateEssay", e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);
+    }
+
+    private String getFilenameUnicode(final String fileName) throws UnsupportedEncodingException {
+        String fileName1 = URLEncoder.encode(fileName, "UTF-8");
+        fileName1 = fileName1.replace("+", "%20");
+        fileName1 = fileName1.replace("%21", "!");
+        fileName1 = fileName1.replace("%23", "#");
+        fileName1 = fileName1.replace("%24", "$");
+        fileName1 = fileName1.replace("%25", "%");
+        fileName1 = fileName1.replace("%26", "&");
+        fileName1 = fileName1.replace("%27", "'");
+        fileName1 = fileName1.replace("%28", "(");
+        fileName1 = fileName1.replace("%29", ")");
+        fileName1 = fileName1.replace("%2B", "+");
+        fileName1 = fileName1.replace("%2C", ",");
+        fileName1 = fileName1.replace("%2D", "-");
+        fileName1 = fileName1.replace("%3B", ";");
+        fileName1 = fileName1.replace("%3D", "=");
+        fileName1 = fileName1.replace("%3D", "=");
+        fileName1 = fileName1.replace("%40", "@");
+        fileName1 = fileName1.replace("%5B", "[");
+        fileName1 = fileName1.replace("%5D", "]");
+        fileName1 = fileName1.replace("%60", "`");
+        fileName1 = fileName1.replace("%7E", "~");
+        fileName1 = fileName1.replace("%7B", "{");
+        fileName1 = fileName1.replace("%7D", "}");
+        fileName1 = fileName1.replace("%5E", "^");
+        return fileName1;
     }
 }

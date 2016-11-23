@@ -3,6 +3,7 @@ package com.siblinks.ws.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.siblinks.ws.common.DAOException;
@@ -134,4 +135,13 @@ public interface ObjectDao {
      * @throws DAOException
      */
     public List<Map<String, Object>> readObjectNoCondition(String dsConfigName) throws DAOException;
+
+    /**
+     * @param dsConfigName
+     * @param parameterSource
+     * @return
+     * @throws DAOException
+     */
+    List readObjectNamedParameter(String dsConfigName, MapSqlParameterSource parameterSource)
+            throws DAOException;
 }

@@ -8,7 +8,7 @@
         <!--</div>-->
     </div><!-- /End Your essay header -->
     <!-- Your essay Content -->
-    <div class="your-essay-content" scroller="scroll-essay" data-on-total-scroll="loadMoreEssay">
+    <div class="your-essay-content" scroller="scroll-essay" data-on-total-scroll="loadMoreEssay" ng-if="listEssays.length > 0">
         <ul>
             <li class="essay essay-01"  ng-repeat="essay in listEssays  track by $index" ng-click="showModal($index)">
                 <div class="number-essay">
@@ -40,6 +40,7 @@
             </li>
         </ul>
     </div>
+    <div ng-if="listEssays.length ==0" class="top-mentors-list">No data found</div>
     <!-- Essay popup -->
     <div class="modal fade" id="essay-detail"> 
         <div class="modal-dialog modal-add-video modal-qa modal-article modal-essay">

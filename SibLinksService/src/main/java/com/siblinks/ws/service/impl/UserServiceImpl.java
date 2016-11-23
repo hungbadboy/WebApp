@@ -456,13 +456,13 @@ public class UserServiceImpl implements UserService {
             boolean status = false;
             boolean isRegisterAdmin = role.equals("A");
             if (CollectionUtils.isEmpty(userResponse) || userResponse == null) {
-                String bod = objRequest.getString(Parameters.BOD);
-                if (!StringUtils.isEmpty(bod)) {
+                String dob = objRequest.getString(Parameters.DOB);
+                if (!StringUtils.isEmpty(dob)) {
                     SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
-                    Date date = formatter.parse(bod);
-                    bod = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                    Date date = formatter.parse(dob);
+                    dob = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                 } else {
-                    bod = null;
+                    dob = null;
                 }
 
                 String rawPwd = isRegisterAdmin ? objRequest.getString(Parameters.PASSWORD) : CommonUtil
@@ -478,11 +478,11 @@ public class UserServiceImpl implements UserService {
                 }
                 if (isRegisterAdmin) {
                     queryParams = new Object[] { userName, role, objRequest.getString(Parameters.FIRST_NAME), objRequest
-                        .getString(Parameters.LAST_NAME), pwdEncrypt, bod, objRequest.getString(Parameters.ACTIVE_PLAG) };
+                        .getString(Parameters.LAST_NAME), pwdEncrypt, dob, objRequest.getString(Parameters.ACTIVE_PLAG) };
                     status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_ADMIN_ADD_ANOTHER_ADMIN, queryParams);
                 } else {
                     queryParams = new Object[] { userName, role, objRequest.getString(Parameters.FIRST_NAME), objRequest
-                        .getString(Parameters.LAST_NAME), pwdEncrypt, bod, objRequest.getString(Parameters.BIO), objRequest
+                        .getString(Parameters.LAST_NAME), pwdEncrypt, dob, objRequest.getString(Parameters.BIO), objRequest
                         .getString(Parameters.SCHOOL), objRequest.getString(Parameters.DEFAULT_SUBJECT_ID), objRequest
                         .getString(Parameters.ACCOMPLISHMENT), objRequest.getString(Parameters.ACTIVE_PLAG) };
                     status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_ADMIN_ADD_ANOTHER_MENTOR, queryParams);
@@ -556,19 +556,19 @@ public class UserServiceImpl implements UserService {
                     new Object[] { userId });
                 if (!CollectionUtils.isEmpty(readObjects)) {
                     // user is exists
-                    String bod = jsonRequest.getString(Parameters.BOD);
+                    String dob = jsonRequest.getString(Parameters.DOB);
                     try {
-                        if (!StringUtils.isEmpty(bod)) {
+                        if (!StringUtils.isEmpty(dob)) {
                             SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
-                            Date date = formatter.parse(bod);
-                            bod = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                            Date date = formatter.parse(dob);
+                            dob = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                         } else {
-                            bod = null;
+                            dob = null;
                         }
                     } catch (Exception e) {
-                        bod = null;
+                        dob = null;
                     }
-                    Object[] params = { jsonRequest.getString(Parameters.EMAIL), bod, jsonRequest
+                    Object[] params = { jsonRequest.getString(Parameters.EMAIL), dob, jsonRequest
                         .getString(Parameters.FIRST_NAME), jsonRequest.getString(Parameters.LAST_NAME), jsonRequest
                         .getString(Parameters.SCHOOL), jsonRequest.getString(Parameters.DEFAULT_SUBJECT_ID), jsonRequest
                         .getString(Parameters.ACCOMPLISHMENT), jsonRequest.getString(Parameters.BIO), jsonRequest
@@ -609,16 +609,16 @@ public class UserServiceImpl implements UserService {
                     new Object[] { userId });
                 if (!CollectionUtils.isEmpty(readObjects)) {
                     // user is exists
-                    String bod = jsonRequest.getString(Parameters.BOD);
+                    String dob = jsonRequest.getString(Parameters.DOB);
 
-                    if (!StringUtils.isEmpty(bod)) {
+                    if (!StringUtils.isEmpty(dob)) {
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
-                        Date date = formatter.parse(bod);
-                        bod = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                        Date date = formatter.parse(dob);
+                        dob = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                     } else {
-                        bod = null;
+                        dob = null;
                     }
-                    Object[] params = { jsonRequest.getString(Parameters.EMAIL), bod, jsonRequest
+                    Object[] params = { jsonRequest.getString(Parameters.EMAIL), dob, jsonRequest
                         .getString(Parameters.FIRST_NAME), jsonRequest.getString(Parameters.LAST_NAME), jsonRequest
                         .getString(Parameters.SCHOOL), jsonRequest.getString(Parameters.DEFAULT_SUBJECT_ID), jsonRequest
                         .getString(Parameters.ACCOMPLISHMENT), jsonRequest.getString(Parameters.BIO), jsonRequest
@@ -693,16 +693,16 @@ public class UserServiceImpl implements UserService {
                 if (!CollectionUtils.isEmpty(readObjects)) {
                     // user is exists
                     String entityName = SibConstants.SqlMapper.SQL_UPDATE_ADMIN_INFO;
-                    String bod = jsonRequest.getString(Parameters.BOD);
-                    if (!StringUtils.isEmpty(bod)) {
+                    String dob = jsonRequest.getString(Parameters.DOB);
+                    if (!StringUtils.isEmpty(dob)) {
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
-                        Date date = formatter.parse(bod);
-                        bod = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                        Date date = formatter.parse(dob);
+                        dob = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                     } else {
-                        bod = null;
+                        dob = null;
                     }
 
-                    Object[] params = { jsonRequest.getString(Parameters.USER_NAME), bod, jsonRequest
+                    Object[] params = { jsonRequest.getString(Parameters.USER_NAME), dob, jsonRequest
                         .getString(Parameters.FIRST_NAME), jsonRequest.getString(Parameters.LAST_NAME), jsonRequest
                         .getString(Parameters.ACTIVE_PLAG), userId };
                     status = dao.insertUpdateObject(entityName, params);
@@ -728,9 +728,6 @@ public class UserServiceImpl implements UserService {
         try {
             JSONObject jsonObject = new JSONObject(jsonRegister);
             String username = jsonObject.getString(Parameters.USER_NAME);
-            BCryptPasswordEncoder ecy = new BCryptPasswordEncoder(SibConstants.LENGHT_AUTHENTICATION);
-            Object[] queryParams = { username, ecy.encode(jsonObject.getString(Parameters.PASSWORD)), environment
-                .getProperty("directoryImageAvatar") };
             //
             List<Object> readObject = dao.readObjects(
                 SibConstants.SqlMapper.SQL_SIB_REGISTER_USER_EXIST,
@@ -738,6 +735,9 @@ public class UserServiceImpl implements UserService {
             //
             boolean status = Boolean.FALSE;
             if (CollectionUtils.isEmpty(readObject)) {
+                BCryptPasswordEncoder ecy = new BCryptPasswordEncoder(SibConstants.LENGHT_AUTHENTICATION);
+                Object[] queryParams = { username, ecy.encode(jsonObject.getString(Parameters.PASSWORD)), environment
+                    .getProperty("directoryImageAvatar"), username };
                 boolean msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_REGISTER_USER, queryParams);
                 readObject = new ArrayList<Object>();
                 if (msgs) {
@@ -1684,7 +1684,7 @@ public class UserServiceImpl implements UserService {
             new ArrayList<String>(Arrays.asList(request.getRequest_data().getActivityid().split(",")));
             /*
              * String userId = request.getRequest_data().getUid();
-             *
+             * 
              * insertNotResource(myListActivityId, userId,
              * SibConstants.SqlMapper.SQL_INSERT_SIB_USER_ACTIVITY);
              */
@@ -1832,23 +1832,20 @@ public class UserServiceImpl implements UserService {
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
             boolean status = false;
+            String username = request.getRequest_data().getUsername();
             // Check user
-            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request
-                .getRequest_data()
-                .getUsername() });
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { username });
 
             // User is not exists
             if (CollectionUtils.isEmpty(readObject)) {
-                Object[] queryParamsFB = { request.getRequest_data().getUsername(), request.getRequest_data().getUsertype(), request
+                Object[] queryParamsFB = { username, request.getRequest_data().getUsertype(), request
                     .getRequest_data()
                     .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getImage(), request
                     .getRequest_data()
-                    .getFacebookid(), request.getRequest_data().getToken() };
+                    .getFacebookid(), request.getRequest_data().getToken(), (username.indexOf("@") == -1) ? null : username };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_USER_FACEBOOK, queryParamsFB);
                 if (status) {
-                    readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { request
-                        .getRequest_data()
-                        .getUsername() });
+                    readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { username });
                 }
 
                 simpleResponse = new SimpleResponse(
@@ -1902,21 +1899,17 @@ public class UserServiceImpl implements UserService {
                 response = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(response, HttpStatus.FORBIDDEN);
             }
-
-            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { request
-                .getRequest_data()
-                .getUsername() });
+            String username = request.getRequest_data().getUsername();
+            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { username });
             if (CollectionUtils.isEmpty(readObject)) {// For register
-                Object[] queryParamsGG = { request.getRequest_data().getUsername(), request.getRequest_data().getUsertype(), request
+                Object[] queryParamsGG = { username, request.getRequest_data().getUsertype(), request
                     .getRequest_data()
                     .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getImage(), request
                     .getRequest_data()
-                    .getGoogleid(), request.getRequest_data().getToken() };
+                    .getGoogleid(), request.getRequest_data().getToken(), username };
                 boolean status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_USER_GOOGLE, queryParamsGG);
                 if (status) {
-                    readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { request
-                        .getRequest_data()
-                        .getUsername() });
+                    readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { username });
                 }
                 response = new SimpleResponse(
                                               "" + status,
@@ -2094,7 +2087,7 @@ public class UserServiceImpl implements UserService {
         SimpleResponse response;
         try {
             // Convert birth day
-            String dateUpdate = request.getRequest_user().getBod();
+            String dateUpdate = request.getRequest_user().getDob();
             if (!StringUtils.isEmpty(dateUpdate) && !dateUpdate.equals("Unknown")) {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
                 Date date = formatter.parse(dateUpdate);
@@ -2113,13 +2106,13 @@ public class UserServiceImpl implements UserService {
             String lastName = StringUtils.isEmpty(user.getLastName()) ? null : user.getLastName();
             if (!StringUtils.isEmpty(role)) {
                 if (role.equals("M")) {
-                    queryParams = new Object[] { firstName, lastName, request.getRequest_user().getEmail(), user
-                        .getGender(), school, user.getAccomplishments(), dateUpdate, request.getRequest_user().getBio(), user
-                        .getFavorite(), user.getDefaultSubjectId(), request.getRequest_user().getUserid() };
-                } else if (role.equals("S")) {
-                    queryParams = new Object[] { firstName, lastName, request.getRequest_user().getEmail(), user
-                        .getGender(), school, null, dateUpdate, request.getRequest_user().getBio(), user.getFavorite(), user
+                    queryParams = new Object[] { firstName, lastName, request.getRequest_user().getEmail(), user.getGender(), school, user
+                        .getAccomplishments(), dateUpdate, request.getRequest_user().getBio(), user.getFavorite(), user
                         .getDefaultSubjectId(), request.getRequest_user().getUserid() };
+                } else if (role.equals("S")) {
+                    queryParams = new Object[] { firstName, lastName, request.getRequest_user().getEmail(), user.getGender(), school, null, dateUpdate, request
+                        .getRequest_user()
+                        .getBio(), user.getFavorite(), user.getDefaultSubjectId(), request.getRequest_user().getUserid() };
                 }
             }
 

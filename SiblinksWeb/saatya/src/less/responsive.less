@@ -575,7 +575,7 @@
         margin-top: 15px;
     }
     .manager-profile .box-avatar {
-        padding: 10%;
+        padding: 15% 0;
     }
     .manage-tutorial .group-item .item .box-ac {
         margin-top: 10px;
@@ -639,7 +639,7 @@
         margin-right: 0px;
     }
     .manage-tutorial .main-manager-video .filters .text-des {
-        width: ~"calc(100% - 513px)";
+        width: ~"calc(100% - 480px)";
     }
     .manage-tutorial .group-item .item .box-playlist {
         margin-right: 4px;
@@ -662,7 +662,7 @@
         width: 100%;
     }
     .manager-playlist-detail .group-item .item .box-description {
-        margin-right: 0px;
+        margin-right: 10px;
     }
     .manager-playlist-detail .main-manager-video .filters .text-des, 
     .manager-playlist-detail .group-item .item .box-description {
@@ -695,6 +695,10 @@
         width: 50%;
         float: left;
     }
+    .manager-playlist-detail .main-manager-video .filters .text-ac, 
+    .manager-playlist-detail .group-item .item .box-ac {
+        width: 77px !important;
+    }
     .manager-playlist-detail .group-item .item .box-ac {
         margin-top: 10px;
     }
@@ -704,6 +708,9 @@
     .modal-add-video .left-question .dt-txt-question,
     .modal-add-video .right-answer .dt-txt-question{
         height: 55%;
+    }
+    .manager-detail-video .ctn-main .top-cm .btn-count button {
+        padding: 10px;
     }
     #lib .row.top-mag>.col-md-12 {
         padding-left: 0;
@@ -808,7 +815,7 @@
     }
     .manager-playlist-detail .main-manager-video .filters .text-play, 
     .manager-playlist-detail .group-item .item .box-playlist {
-        width: 10%;
+        width: 13%;
         margin-right: 20px;
     }
     /*.manager-playlist-detail .group-item .item .box-description {
@@ -877,9 +884,11 @@
     #article-detail .modal-add-video .left-question,
     #essay-detail .modal-add-video .left-question{
         width: 35%;
+        float: left;
     }
     .modal-article.modal-add-video .right-answer {
         width: 65%;
+        float: left;
     }
     .manage-tutorial .main-manager-video .filters .text-play, 
     .manage-tutorial .group-item .item .box-playlist {
@@ -891,15 +900,35 @@
         width: 396px;
     }
     .manager-detail-video .ctn-main .top-cm .btn-count .list-view {
-        width: 143px;
+        width: 160px;
         text-align: right;
         line-height: 24px;
         margin-top: 0;
+        position: relative;
+        top: -4px;
     }
     .manager-detail-video .ctn-main .top-cm .btn-count .list-view span:nth-child(2) {
         margin-right: 0;
         top: 4px;
         position: relative;
+        right: 6px;
+    }
+    #videos-details p.videos-rate-infor span,
+    #videos-details p.videos-rate-infor span.videoRate {
+        font-size: 12px;
+    }
+    canvas.star {
+        height: 15px;
+    }
+    .videos-start.star-admission span:last-child, 
+    .videos-start.star-artical span:last-child {
+        top: -2px;
+    }
+    .videos-rate-infor {
+        margin-top: 8px;
+    }
+    .videos-rate-infor.tutorial {
+        margin-top: 5px;
     }
 }
 /***For max screen 1281***/
@@ -1149,6 +1178,9 @@
     }
     
     */
+    #sidebar-menu.menuMobile .navigation ul.menuSubmenu li {
+        padding: 10px 78px;
+    }
 
 
     
@@ -1377,7 +1409,7 @@
     }
     #videos #all .video-list-content li, 
     #videos #subcriptions .video-list-content li {
-        height: 270px;
+        height: 290px;
         position: relative;
         margin-bottom: 15px;
         padding-right: 0;
@@ -1411,7 +1443,10 @@
     .notification-content {
         right: ~"calc((100% - 970px)/2 + 117px)";
     }   
-
+    
+    #contact.ask-a-question-content .top-mentors {
+        float: none;
+    }
     
 
 }
@@ -1735,7 +1770,35 @@
     #main {
         min-height: inherit;
     }
-    
+    .modal-edit-video .right-modal .modal-preview {
+        width: 795px;
+    }
+    .modal-choose-playlist .col-xs-2 {
+        padding: 0; 
+    }
+    .manager-playlist-detail .col-md-7.top-vd-dt {
+        width: 323px;
+        float: left;
+    }
+    .manager-playlist-detail .bx-description {
+        padding-left: 10px;
+        width: ~"calc(100% - 323px)";
+        float: left;
+    }
+    /*Contact page*/
+    .content-contact-wrapper button[type="button"] {
+        width: ~"calc(100% - 15px)";
+    }
+    .content-contact-wrapper {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .ask-a-question-content .top-mentors {
+        width: 100%;
+    }
+    .content-contact {
+        overflow: hidden;
+    }
 
 }
 
@@ -1954,6 +2017,9 @@
     .notification-content {
         right: 143px;
     }
+    #contact.ask-a-question-content .top-mentors {
+        width: 100%;
+    }
 
 }
 
@@ -1992,6 +2058,8 @@
         float: left;
         margin-top: 30px;
     }
+
+    
 
 }
 /***For max screen 540***/

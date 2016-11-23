@@ -10,7 +10,7 @@
                     <div class="manager-video manage-tutorial">
                         <div class="row top-mag">
                             <div class="col-md-8">
-                                <div class="col-md-5 search">
+                                <div class="col-xs-5 search">
                                     <form class="navbar-form" role="search">
                                         <div class="input-group">
                                             <div id="srch-term" angucomplete-alt id="srch-term" ng-enter="search()" placeholder="Search" pause="50" selected-object="onSelect" local-data="listAllVideos" search-fields="title" title-field="title"
@@ -21,7 +21,7 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div class="col-md-3 sl-sbj">
+                                <div class="col-xs-3 sl-sbj">
                                     <select class="select-sbj" ng-model="subject" ng-change="loadVideosBySubject(subject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in videoMgrSubjects'>
                                     </select>
                                 </div>
@@ -87,12 +87,12 @@
                                                                       star-radius="7" sel-color="gold"
                                                                       back-color="white" title="{{v.averageRating}}">
                                                                       </div>
-                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
+                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}})</span>
                                                                 </ul></br>
                                                                 
                                                                 <p class="list-view">
-                                                                    <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
-                                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> {{showNumberFormat(v.numViews)}}</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{showNumberFormat(v.numComments)}}</span>&nbsp;&nbsp;
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -130,12 +130,12 @@
                                                                       star-radius="7" sel-color="gold"
                                                                       back-color="white" title="{{v.averageRating}}">
                                                                       </div>
-                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
+                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}})</span>
                                                                 </ul></br>
                                                                 
                                                                 <p class="list-view">
-                                                                    <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
-                                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> {{showNumberFormat(v.numViews)}}</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{showNumberFormat(v.numComments)}}</span>&nbsp;&nbsp;
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -200,12 +200,12 @@
                                                                       star-radius="7" sel-color="gold"
                                                                       back-color="white" title="{{v.averageRating}}"
                                                                       </div>
-                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
+                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}})</span>
                                                                 </ul></br>
                                                                 
                                                                 <p class="list-view">
-                                                                    <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
-                                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> {{showNumberFormat(v.numViews)}}</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{showNumberFormat(v.numComments)}}</span>&nbsp;&nbsp;
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -243,12 +243,12 @@
                                                                       star-radius="7" sel-color="gold"
                                                                       back-color="white" title="{{v.averageRating}}">
                                                                       </div>
-                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
+                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}})</span>
                                                                 </ul></br>
                                                                 
                                                                 <p class="list-view">
-                                                                    <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
-                                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> {{showNumberFormat(v.numViews)}}</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{showNumberFormat(v.numComments)}}</span>&nbsp;&nbsp;
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -313,12 +313,12 @@
                                                                       star-radius="7" sel-color="gold"
                                                                       back-color="white" title="{{v.averageRating}}">
                                                                       </div>
-                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
+                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}})</span>
                                                                 </ul></br>
                                                                 
                                                                 <p class="list-view">
-                                                                    <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
-                                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> {{showNumberFormat(v.numViews)}}</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{showNumberFormat(v.numComments)}}</span>&nbsp;&nbsp;
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -356,12 +356,12 @@
                                                                       star-radius="7" sel-color="gold"
                                                                       back-color="white" title="{{v.averageRating}}">
                                                                       </div>
-                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
+                                                                      <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}})</span>
                                                                 </ul></br>
                                                                 
                                                                 <p class="list-view">
-                                                                    <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
-                                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-play.png" alt=""> {{showNumberFormat(v.numViews)}}</span>&nbsp;&nbsp;
+                                                                    <span><img src="assets/images/icon-comment.png" alt=""> {{showNumberFormat(v.numComments)}}</span>&nbsp;&nbsp;
                                                                 </p>
                                                             </div>
                                                         </div>

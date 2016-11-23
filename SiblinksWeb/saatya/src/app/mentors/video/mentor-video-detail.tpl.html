@@ -73,9 +73,9 @@
 			                                          star-radius="7" sel-color="gold"
 			                                          back-color="white" title="{{video.averageRating}}"
 			                                          readonly ="true"></span>
-                                                <span> {{video.averageRating != null ? video.averageRating : 0}} ({{ (!video.numRatings)? '0' : video.numRatings}} votes)</span>
-                                                <span><i class="fa fa-play-circle-o" aria-hidden="true"></i> {{video.numViews}}</span>&nbsp;&nbsp;
-                                                <span><i class="fa fa-comments" aria-hidden="true"></i> {{comments.length > 0 ? comments.length : 0}}</span>&nbsp;&nbsp;
+                                                <span> {{video.averageRating != null ? video.averageRating : 0}} ({{ (!video.numRatings)? '0' : video.numRatings}})</span>
+                                                <span><i class="fa fa-play-circle-o" aria-hidden="true"></i> {{showNumberFormat(video.numViews)}}</span>&nbsp;&nbsp;
+                                                <span><i class="fa fa-comments" aria-hidden="true"></i> {{comments.length > 0 ? showNumberFormat(comments.length) : 0}}</span>&nbsp;&nbsp;
                                                 
                                             </p>
                                         </div>
@@ -95,16 +95,20 @@
                                         <p class="pull-right"><span>Subject:</span>&nbsp;&nbsp;<b>{{video.subject}}</b></p>
                                     </div>
                                     <div class="form-commnent">
-                                        <h4 ng-if="comments">{{comments.length}} Comments</h4>
-                                        <h4 ng-if="!comments">0 Comments</h4>
+                                    	<h4>{{comments.length > 0 ? comments.length : 0}} Comments</h4>
                                         <form action="">
+                                        	<div>
+			                                   <div ng-if="msgSuccess" class="succesful">
+			                                        <span>{{msgSuccess}}</span>
+			                                     </div>
+			                                     <div ng-if="msgError" class="validate_error">
+			                                       <span>{{msgError}}</span>
+			                                     </div>
+			                                  </div>
                                             <div class="box-chat-onl clearfix">
                                                 <a href="#" class="col-md-1"><img src="{{avatar}}" alt=""></a>
                                                 <div class="texta col-md-11">
                                                     <textarea id="txtComment" maxlength="1024" ng-change="validateText()" ng-click="showButton()" ng-model="contentText" placeholder="Add a comment"></textarea>
-                                                    <div ng-if="error" style="margin-top: 10px; margin-bottom: 5px; margin-left: 10px;">
-                                                       <span style="color: red;">{{error}}</span>
-                                                    </div>
                                                     <div class="comment-action">
                                                         <button ng-click="cancelComment()" class="cancel">Cancel</button>
                                                         <button ng-click="addComment()" class="add-comment">Add comment</button>
@@ -145,7 +149,7 @@
                                             <div class="sub-vd-right pull-left">
                                                 <h5 title="{{v.title}}"><a href="" ng-click="loadVideo(v)">{{ v.title | limitTo: 20 }}{{v.title.length > 20 ? '...' : ''}}</a></h5>
                                                 <p>from <b><a href="" ng-click="goToProfile(v.userId)">{{displayName(v.firstName,v.lastName,v.userName)}}</a></b></p>
-                                                <p>View: <span>{{v.numViews}}</span></p>
+                                                <p>View: <span>{{showNumberFormat(v.numViews)}}</span></p>
                                             </div> 
                                         </li>
                                     </ul>

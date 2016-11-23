@@ -61,7 +61,7 @@
                             </a>
                         </li>
                     </ul><!-- /End Tab left menu -->
-                    <div class="link-mentor"><a href="#/team">Browse Mentors</a></div>
+                    <div class="link-mentor" ng-click="targetTeam()"><a href="#/team">Browse Mentors</a></div>
                 </div><!-- /End Left Side -->
 
                 <!-- Top subcrible -->
@@ -74,6 +74,9 @@
                                 <span data-icon="&#x5c;"></span>
                                 <h4 style="font-size: 19px !important;">Subscriptions</h4>
                             </div>
+                            <div class="see-more">
+            					<p><a href="#/team">See more</a></p>
+        					</div>
                             <!--<div class="setting-profile"><span data-icon="&#xe037;"></span></div>-->
                         </div><!-- /End top-mentor-header -->
                         <!-- List of top mentors -->
@@ -173,12 +176,12 @@
                                                       readonly="true"
                                                       back-color="white" title="{{search.averageRating}}">
                                                  </span>
-                                                 <span>{{search.averageRating != null ? search.averageRating : 0}} ({{ (!search.numRatings)? '0' : search.numRatings}} votes)</span>
+                                                 <span>{{search.averageRating != null ? search.averageRating : 0}} ({{ (search.numRatings  == null)? '0' : search.numRatings}})</span>
                                             </p>
                                             <p class="videos-rate-infor">
-                                                <span data-icon="&#x49;">{{search.numViews}}</span>
+                                                <span data-icon="&#x49;">{{showNumberFormat(search.numViews)}}</span>
                                                 <!--<span data-icon="&#xe089;" class="favourite">{{recommend.numFavourite}}</span>-->
-                                                <span data-icon="&#xe066;">{{search.numComments}}</span>
+                                                <span data-icon="&#xe066;">{{showNumberFormat(search.numComments)}}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -226,11 +229,11 @@
                                                           readonly="true"
                                                           title="{{recommend.averageRating}}">
                                                      </span>
-                                                     <span>{{recommend.averageRating != null ? recommend.averageRating : 0}} ({{ (!recommend.numRatings)? '0' : recommend.numRatings}} votes)</span>
+                                                     <span>{{recommend.averageRating != null ? recommend.averageRating : 0}} ({{ (recommend.numRatings  == null)? '0' : recommend.numRatings}})</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
-                                                    <span data-icon="&#x49;">{{recommend.numViews != null ? recommend.numViews : 0}}</span>
-                                                    <span data-icon="&#xe066;">{{recommend.numComments ? recommend.numComments : 0}}</span>
+                                                    <span data-icon="&#x49;">{{recommend.numViews != null ? showNumberFormat(recommend.numViews) : 0}}</span>
+                                                    <span data-icon="&#xe066;">{{recommend.numComments ? showNumberFormat(recommend.numComments) : 0}}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -283,11 +286,11 @@
                                                            readonly="true"
                                                            title="{{videoRecently.averageRating}}">
                                                      </span>
-                                                     <span>{{videoRecently.averageRating != null ? videoRecently.averageRating : 0}} ({{ (!videoRecently.numRatings)? '0' : videoRecently.numRatings}} votes)</span>
+                                                     <span>{{videoRecently.averageRating != null ? videoRecently.averageRating : 0}} ({{ (videoRecently.numRatings  == null)? '0' : videoRecently.numRatings}})</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
-                                                    <span data-icon="&#x49;">{{videoRecently.numViews != null ? videoRecently.numViews : 0}}</span>
-                                                    <span data-icon="&#xe066;">{{videoRecently.numComments != null ? videoRecently.numComments : 0}}</span>
+                                                    <span data-icon="&#x49;">{{videoRecently.numViews != null ? showNumberFormat(videoRecently.numViews) : 0}}</span>
+                                                    <span data-icon="&#xe066;">{{videoRecently.numComments != null ? showNumberFormat(videoRecently.numComments) : 0}}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -345,21 +348,21 @@
                                                 </div>
                                                 <div class="videos-rate">
                                                     <p class="videos-start">
-	                                                <span ng-if="isReadyLoadRatedR4U" star-rating stars="5"
+	                                                <span star-rating stars="5"
 	                                                      outer-star-selection="stars"
 	                                                      outer-percent="rating"
 	                                                      rating-define="star"
-	                                                      rating-stars="{{detailVideo.avgRating}}"
+	                                                      rating-stars="{{detailVideo.averageRating}}"
 	                                                      star-radius="6" sel-color="gold"
 	                                                      readonly="true"
 	                                                      title="{{detailVideo.averageRating}}">
 	                                                 </span>
-                                                 	<span>{{detailVideo.averageRating != null ? detailVideo.averageRating : 0}} ({{ (!detailVideo.numRatings)? '0' : detailVideo.numRatings}} votes)</span>
+                                                 	<span>{{detailVideo.averageRating != null ? detailVideo.averageRating : 0}} ({{ (detailVideo.numRatings  == null)? '0' : detailVideo.numRatings}})</span>
                                                     </p>
                                                     <p class="videos-rate-infor">
-                                                        <span data-icon="&#x49;">{{detailVideo.numViews}}</span>
+                                                        <span data-icon="&#x49;">{{showNumberFormat(detailVideo.numViews)}}</span>
                                                         <!--<span data-icon="&#xe089;" class="favourite">{{recommended.numFavourite}}</span>-->
-                                                        <span data-icon="&#xe066;">{{detailVideo.numComments}}</span>
+                                                        <span data-icon="&#xe066;">{{showNumberFormat(detailVideo.numComments)}}</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -434,11 +437,11 @@
                                                           readonly="true"
                                                           back-color="white" title="{{lstRecentVideo.averageRating}}">
                                                      </span>
-                                                     <span>{{lstRecentVideo.averageRating != null ? lstRecentVideo.averageRating : 0}} ({{ (!lstRecentVideo.numRatings)? '0' : lstRecentVideo.numRatings}} votes)</span>
+                                                     <span>{{lstRecentVideo.averageRating != null ? lstRecentVideo.averageRating : 0}} ({{ (lstRecentVideo.numRatings == null)? '0' : lstRecentVideo.numRatings}})</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
-                                                    <span data-icon="&#x49;">{{lstRecentVideo.numViews}}</span>
-                                                    <span data-icon="&#xe066;">{{lstRecentVideo.numComments}}</span>
+                                                    <span data-icon="&#x49;">{{showNumberFormat(lstRecentVideo.numViews)}}</span>
+                                                    <span data-icon="&#xe066;">{{showNumberFormat(lstRecentVideo.numComments)}}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -477,13 +480,13 @@
                                                            readonly="true"
                                                            back-color="white" title="{{lstWeekVideo.averageRating}}">
                                                      </span>
-                                                     <span>{{lstWeekVideo.averageRating != null ? lstWeekVideo.averageRating : 0}} ({{ (!lstWeekVideo.numRatings)? '0' : lstWeekVideo.numRatings}} votes)</span>
+                                                     <span>{{lstWeekVideo.averageRating != null ? lstWeekVideo.averageRating : 0}} ({{ (lstWeekVideo.numRatings == null)? '0' : lstWeekVideo.numRatings}})</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
-                                                    <span data-icon="&#x49;">{{lstWeekVideo.numViews}}</span>
+                                                    <span data-icon="&#x49;">{{showNumberFormat(lstWeekVideo.numViews)}}</span>
                                                     <!--<span data-icon="&#xe089;"-->
                                                     <!--class="favourite">{{lstWeekVideo.numLike}}</span>-->
-                                                    <span data-icon="&#xe066;">{{lstWeekVideo.numComments}}</span>
+                                                    <span data-icon="&#xe066;">{{showNumberFormat(lstWeekVideo.numComments)}}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -507,8 +510,9 @@
                                                 </div>
                                             </a>
                                             <div class="videos-time-add">
-                                                <span class="video-poster"> <a href="#/videos/detailVideo/{{lstMentorOlder.vid}}"
-                                                                               title="{{lstMentorOlder.title}}">{{lstMentorOlder.authorName}}</a></span>
+                                                <span class="video-poster">
+                                                	<a href="#/student/mentorProfile/{{lstMentorOlder.authorID}}"
+                                                     title="{{lstMentorOlder.title}}">{{validateShowName(lstMentorOlder.firstName,lstMentorOlder.lastName, lstMentorOlder.userName)}}</a></span>
                                                 <span> &#8226; {{convertUnixTimeToTime(lstMentorOlder.timeStamp)}}</span>
                                             </div>
                                             <div class="videos-rate">
@@ -523,11 +527,11 @@
                                                            readonly="true"
                                                            back-color="white" title="{{lstMentorOlder.averageRating}}">
                                                      </span>
-                                                     <span>{{lstMentorOlder.averageRating != null ? lstMentorOlder.averageRating : 0}} ({{ (!lstMentorOlder.numRatings)? '0' : lstMentorOlder.numRatings}} votes)</span>
+                                                     <span>{{lstMentorOlder.averageRating != null ? lstMentorOlder.averageRating : 0}} ({{ (lstMentorOlder.numRatings == null)? '0' : lstMentorOlder.numRatings}})</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
-                                                    <span data-icon="&#x49;">{{lstMentorOlder.numViews}}</span>
-                                                    <span data-icon="&#xe066;">{{lstMentorOlder.numComments}}</span>
+                                                    <span data-icon="&#x49;">{{showNumberFormat(lstMentorOlder.numViews)}}</span>
+                                                    <span data-icon="&#xe066;">{{showNumberFormat(lstMentorOlder.numComments)}}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -577,11 +581,11 @@
                                                            readonly="true"
                                                            title="{{video.averageRating}}">
                                                  </span>
-                                                 <span>{{video.averageRating != null ? video.averageRating : 0}} ({{ (!video.numRatings)? '0' : video.numRatings}} votes)</span>
+                                                 <span>{{video.averageRating != null ? video.averageRating : 0}} ({{ (video.numRatings  == null)? '0' : video.numRatings}})</span>
                                             </p>
                                             <p class="videos-rate-infor">
-                                                <span data-icon="&#x49;">{{video.numViews}}</span>
-                                                <span data-icon="&#xe066;">{{video.numComments}}</span>
+                                                <span data-icon="&#x49;">{{showNumberFormat(video.numViews)}}</span>
+                                                <span data-icon="&#xe066;">{{showNumberFormat(video.numComments)}}</span>
                                             </p>
                                             <p class="video-description pre-wrap" title="{{video.description}}">{{ video.description | limitTo:
                                                 100 }}{{video.description.length >100 ?'...' :''}}</p>
@@ -644,11 +648,11 @@
                                                           readonly="true"
                                                           back-color="white" title="{{videoFavourite.averageRating}}">
                                                      </span>
-                                                     <span>{{videoFavourite.averageRating != null ? videoFavourite.averageRating : 0}} ({{ (!videoFavourite.numRatings)? '0' : videoFavourite.numRatings}} votes)</span>
+                                                     <span>{{videoFavourite.averageRating != null ? videoFavourite.averageRating : 0}} ({{ (videoFavourite.numRatings  == null)? '0' : videoFavourite.numRatings}})</span>
                                                 </p>
                                                 <p class="videos-rate-infor">
-                                                    <span data-icon="&#x49;">{{videoFavourite.numViews}}</span>
-                                                    <span data-icon="&#xe066;">{{videoFavourite.numComments}}</span>
+                                                    <span data-icon="&#x49;">{{showNumberFormat(videoFavourite.numViews)}}</span>
+                                                    <span data-icon="&#xe066;">{{showNumberFormat(videoFavourite.numComments)}}</span>
                                                 </p>
                                                 <p class="video-description pre-wrap" title="{{videoFavourite.description}}">{{
                                                     videoFavourite.description

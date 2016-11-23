@@ -10,7 +10,7 @@
                     <div class="manager-video manager-playlist">
                         <div class="row top-mag">
                             <div class="col-md-6 col-md-offset-6">
-                                <div class="col-md-7 search">
+                                <div class="col-xs-7 search">
                                     <form class="navbar-form" role="search">
                                         <div class="input-group">                                                        
                                             <div id="srch-term" angucomplete-alt id="srch-term" ng-enter="search()" placeholder="Search" pause="50" selected-object="onSelect"
@@ -24,7 +24,7 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div class="col-md-3 sl-sbj">
+                                <div class="col-xs-3 sl-sbj">
                                     <select class="select-sbj" ng-model="subject" ng-change="loadPlaylistBySubject(subject)" class="form-control" ng-options='subject.subjectId as subject.subject for subject in filterSubjects'>
                                     </select>
                                 </div>
@@ -103,8 +103,8 @@
                                                         <span class="add-time">{{p.timeStamp}}</span>
                                                         
                                                         <p class="list-view">
-                                                            <span><img src="assets/images/icon-view.png" alt=""> {{p.numViews ? p.numViews : 0}}</span>&nbsp;&nbsp;
-                                                            <span><img src="assets/images/icon-comment.png" alt=""> {{p.numComments}}</span>&nbsp;&nbsp;
+                                                            <span><img src="assets/images/icon-view.png" alt=""> {{p.numViews ? showNumberFormat(p.numViews) : 0}}</span>&nbsp;&nbsp;
+                                                            <span><img src="assets/images/icon-comment.png" alt=""> {{showNumberFormat(p.numComments)}}</span>&nbsp;&nbsp;
                                                         </p>
                                                     </div>
                                                 </div>
@@ -138,8 +138,8 @@
                                                         <span class="add-time">{{p.timeStamp}}</span>
                                                         
                                                         <p class="list-view">
-                                                            <span><img src="assets/images/icon-view.png" alt=""> {{p.numViews ? p.numViews : 0}}</span>&nbsp;&nbsp;
-                                                            <span><img src="assets/images/icon-comment.png" alt=""> {{p.numComments}}</span>&nbsp;&nbsp;
+                                                            <span><img src="assets/images/icon-view.png" alt=""> {{p.numViews ? showNumberFormat(p.numViews) : 0}}</span>&nbsp;&nbsp;
+                                                            <span><img src="assets/images/icon-comment.png" alt=""> {{showNumberFormat(p.numComments)}}</span>&nbsp;&nbsp;
                                                         </p>
                                                     </div>
                                                 </div>

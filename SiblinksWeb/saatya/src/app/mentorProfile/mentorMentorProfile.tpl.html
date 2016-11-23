@@ -17,9 +17,7 @@
                     <div class="container">
                         <div class="mentor-profile col-md-5">
                             <div class="top-mentors-img">
-                                <img style="width: 100%;   border-radius: 50%;    height: 120px; min-height: 100px"
-                                     ng-src="{{mentorMentorProfile.imageUrl != null ? mentorMentorProfile.imageUrl : 'assets/images/noavartar.jpg'}}"
-                                     err-src="assets/images/noavartar.jpg">
+                                <img style="width: 100%;   border-radius: 50%;    height: 120px; min-height: 100px" ng-src="{{mentorMentorProfile.imageUrl}}">
                             </div>
                             <div class="top-mentors-info">
                                 <p class="top-mentors-name">
@@ -39,7 +37,7 @@
                             </div>
                             <div class="top-mentors-info-detail" id="top-mentors-info">
                                 <div class="top-mentors-info-detail-wrapper">
-                                    <p>{{GenderMentor}}, {{bod != null ? bod : EMPTY_DATA}} year old</p>
+                                    <p>{{GenderMentor}}, {{dob != null ? dob : EMPTY_DATA}} year old</p>
                                     <p class="skilled">
                                         <strong>Skilled at</strong><br>
                                         <span ng-if="mentorSubs" ng-repeat="skill in listMentorSubs track by $index" id="{{skill.id}}">{{skill.name}}{{$last ? '' : ', '}}</span>
@@ -145,7 +143,7 @@
                                                             <span>{{convertUnixTimeToTime(video.timeStamp)}}</span>
                                                         </p>
                                                         <p class="video-rate" ng-if="video.type == 1">
-                                                            <!--<span>Rate: {{video.averageRating != null ? video.averageRating : 0}} ({{video.numRatings}} votes)</span>-->
+                                                            <!--<span>Rate: {{video.averageRating != null ? video.averageRating : 0}} ({{video.numRatings}})</span>-->
                                                             <span>Rate:</span>
                                                             <span id="rate-studentMentorProfile" ng-if="isReadyLoadMentorRatingRecently"
                                                                   star-rating stars="5"
@@ -159,7 +157,7 @@
                                                             </span>
                                                         </p>
                                                         <p class="video-view" ng-if="video.type == 1">
-                                                            <span data-icon="&#x49;">{{video.numViews == null || video.numViews == "" ? 0 : video.numViews}}</span>
+                                                            <span data-icon="&#x49;">{{video.numViews == null || video.numViews == "" ? 0 : showNumberFormat(video.numViews)}}</span>
                                                         </p>
                                                     </div>
                                                 </li>
