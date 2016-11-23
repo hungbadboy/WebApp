@@ -1115,5 +1115,8 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
             searchVideoPlaylist(encodeURIComponent(keyword), limitOfLoadMore, 0);
             displayResultsSearch();
         }
-
+        
+        $scope.targetTeam = function targetTeam(){
+        	$location.path('/team');
+        }
     }]);
