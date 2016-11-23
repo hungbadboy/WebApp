@@ -71,7 +71,7 @@
                                                 id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" ><span data-icon="&#xe031;"></span>Favorite</button>
                                     </div>
                                     <p class="videos-rate-infor">
-                                            <span class="videoRate">{{(videoInfo.averageRating == null) ? '0' : videoInfo.averageRating}} ({{videoInfo.numRatings}} votes)</span>
+                                            <span class="videoRate">{{(videoInfo.averageRating == null) ? '0' : videoInfo.averageRating}} ({{videoInfo.numRatings}})</span>
                                    			<span ng-if="loadRate" star-rating stars="5" id="divTotalRate"
 	                                          outer-star-selection="stars"
 	                                          outer-percent="rating"
@@ -82,8 +82,8 @@
 	                                          back-color="white" title="{{videoInfo.averageRating}}"
 	                                          readonly ="true"></span>
 	                                          
-                                        <span data-icon="&#x49;">{{(videoInfo.numViews == null) ? '0' : videoInfo.numViews}}</span>
-                                        <span data-icon="&#xe066;">{{(videoInfo.numComments == null) ? '0' : videoInfo.numComments}} </span>
+                                        <span data-icon="&#x49;">{{(videoInfo.numViews == null) ? '0' : showNumberFormat(videoInfo.numViews)}}</span>
+                                        <span data-icon="&#xe066;">{{(videoInfo.numComments == null) ? '0' : showNumberFormat(videoInfo.numComments)}} </span>
                                     </p>
                                 </div>
                             </div>
@@ -181,7 +181,7 @@
 	                                    </span>
 	                                    
                                     </span><br>
-                                    <span class="view-count">view: <span>{{videoRelate.numViews}}</span></span>
+                                    <span class="view-count">view: <span>{{showNumberFormat(videoRelate.numViews)}}</span></span>
                                 </div>
                             </div>
                         </li>

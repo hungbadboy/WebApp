@@ -44,8 +44,8 @@
                                             <average-star-rating ng-model="newestAverageRating" max="5"><average-star-rating>
                                         </div> 
                                         <p class="list-view pull-right pull-right-mod">
-                                            <span><img src="assets/images/icon-pl.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
-                                            <span><img src="assets/images/icon-cm.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                            <span><img src="assets/images/icon-pl.png" alt=""> {{showNumberFormat(v.numViews)}}</span>&nbsp;&nbsp;
+                                            <span><img src="assets/images/icon-cm.png" alt=""> {{showNumberFormat(v.numComments)}}</span>&nbsp;&nbsp;
                                         </p>
                                     </div>     
                                     <div class="clearfix">
@@ -70,8 +70,8 @@
                                             <average-star-rating ng-model="topRatedAverageRating" max="5"><average-star-rating>    
                                         </div>
                                         <p class="list-view pull-right pull-right-mod">
-                                            <span><img src="assets/images/icon-pl.png" alt=""> {{vTopRated.numViews}}</span>&nbsp;&nbsp;
-                                            <span><img src="assets/images/icon-cm.png" alt=""> {{vTopRated.numComments}}</span>&nbsp;&nbsp;
+                                            <span><img src="assets/images/icon-pl.png" alt=""> {{showNumberFormat(vTopRated.numViews)}}</span>&nbsp;&nbsp;
+                                            <span><img src="assets/images/icon-cm.png" alt=""> {{showNumberFormat(vTopRated.numComments)}}</span>&nbsp;&nbsp;
                                         </p>
                                     </div>
                                     <div class="clearfix">
@@ -96,8 +96,8 @@
                                             <average-star-rating ng-model="topViewedAverageRating" max="5"><average-star-rating>    
                                         </div> 
                                         <p class="list-view pull-right pull-right-mod">
-                                            <span><img src="assets/images/icon-pl.png" alt=""> {{vTopViewed.numViews}}</span>&nbsp;&nbsp;
-                                            <span><img src="assets/images/icon-cm.png" alt=""> {{vTopViewed.numComments}}</span>&nbsp;&nbsp;
+                                            <span><img src="assets/images/icon-pl.png" alt=""> {{showNumberFormat(vTopViewed.numViews)}}</span>&nbsp;&nbsp;
+                                            <span><img src="assets/images/icon-cm.png" alt=""> {{showNumberFormat(vTopViewed.numComments)}}</span>&nbsp;&nbsp;
                                         </p>
                                     </div>
                                     <div class="clearfix">

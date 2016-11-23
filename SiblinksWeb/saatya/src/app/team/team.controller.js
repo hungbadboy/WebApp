@@ -68,27 +68,32 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
             if(isEmpty(userId)||userId == -1){
                 return ;
             }
-            VideoService.setSubscribeMentor(userId, mentorId+"").then(function (data) {
-                if(data.data.status =="true") {
-                    if (data.data.request_data_type == "subs") {
-                        $scope.isSubscribe = 1;
-                        //$('#subscribers_'+mentorId).addClass('unsubcrib');
-                    }
-                    else {
-                        $scope.isSubscribe = 0;
-                        $("#span_"+mentorId).text('Subscribe');
-                        $("#subscribers_"+mentorId).attr("data-icon","N");
-                        $('#subscribers_'+mentorId).removeClass('unsubcrib');
-                    }
-                    for(var i = 0;i < $scope.listTopmentors.length;i++){
-                        if(mentorId == $scope.listTopmentors[i].userid){
-                            $scope.listTopmentors[i].isSubs = $scope.isSubscribe;
-                        }
-                    }
-
-
-                }
-            });
+            try {
+            	$rootScope.$broadcast('open');
+	            VideoService.setSubscribeMentor(userId, mentorId+"").then(function (data) {
+	                if(data.data.status =="true") {
+	                    if (data.data.request_data_type == "subs") {
+	                        $scope.isSubscribe = 1;
+	                        //$('#subscribers_'+mentorId).addClass('unsubcrib');
+	                    } else {
+	                        $scope.isSubscribe = 0;
+	                        $("#span_"+mentorId).text('Subscribe');
+	                        $("#subscribers_"+mentorId).attr("data-icon","N");
+	                        $('#subscribers_'+mentorId).removeClass('unsubcrib');
+	                    }
+	                    for(var i = 0;i < $scope.listTopmentors.length;i++){
+	                        if(mentorId == $scope.listTopmentors[i].userid){
+	                            $scope.listTopmentors[i].isSubs = $scope.isSubscribe;
+	                            $scope.listTopmentors[i].numsub = ($scope.isSubscribe == 0)?$scope.listTopmentors[i].numsub -1:$scope.listTopmentors[i].numsub +1;
+	                        }
+	                    }
+	                }
+	            });
+            } catch(er) {
+            	console.log(er.description);
+            } finally {
+            	$rootScope.$broadcast('close');
+            }
         };
 
 

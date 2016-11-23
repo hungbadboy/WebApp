@@ -40,7 +40,7 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
 
 
         $scope.uploadFiles = function ($files,errFiles) {
-            $scope.essayErrorMsg = "";
+        	ressetForm();
             var errFile = errFiles && errFiles[0];
             if(!isEmpty(errFile)){
                 $scope.essayErrorMsg = 'File wrong format or over 5M!';
@@ -69,40 +69,15 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
         }
 
         $scope.uploadEssay = function () {
+        	ressetForm();
             var fd = new FormData();
-            if(isEmpty(userId)){
-                $window.location.href = '#/student/signin?continue='+encodeURIComponent($location.absUrl());
-                return;
+            if(!validUploadEssay()) {
+            	return;
             }
             if(isEmpty(fileUpload)){
-                $scope.essayErrorMsg = "Please select file to upload";
-                return;
+            	$scope.essayErrorMsg = "Please select file to upload";
+            	return;
             }
-            if(fileUpload.size > MAX_SIZE_ESSAY_UPLOAD){
-                $scope.essayErrorMsg='Essay over 10M';
-            }
-            if(isEmpty($scope.txtTitle)){
-                $scope.essayErrorMsg = "Please input title essay";
-                $('#txtTitle').focus();
-                return;
-            }
-            if(isEmpty($scope.txtDesc)){
-                $scope.essayErrorMsg = "Please input description essay";
-                $('#txtDesc').focus();
-                return;
-            }
-
-            if($scope.selectMajor == 0){
-                $scope.essayErrorMsg = "Please select major";
-                $('#listMajors').focus();
-                return;
-            }
-            if($scope.selectSchool == 0){
-                $scope.essayErrorMsg = "Please select school";
-                $('#listSchools').focus();
-                return;
-            }
-
             fd.append('file',fileUpload);
             fd.append('desc',$scope.txtDesc);
             fd.append('userId',userId);
@@ -132,35 +107,15 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
         }
 
         $scope.updateEssay = function () {
+        	ressetForm();
             var fd = new FormData();
             if(isEmpty(userId)){
                 $window.location.href = '#/student/signin?continue='+encodeURIComponent($location.absUrl());
                 return;
             }
 
-            if(fileUpload != null&&fileUpload.size > MAX_SIZE_ESSAY_UPLOAD){
-                $scope.essayErrorMsg='Essay over 10M';
-            }
-            if(isEmpty($scope.txtTitle)){
-                $scope.essayErrorMsg = "Please input title essay";
-                $('#txtTitle').focus();
-                return;
-            }
-            if(isEmpty($scope.txtDesc)){
-                $scope.essayErrorMsg = "Please input description essay";
-                $('#txtDesc').focus();
-                return;
-            }
-
-            if($scope.selectMajor == 0){
-                $scope.essayErrorMsg = "Please select major";
-                $('#listMajors').focus();
-                return;
-            }
-            if($scope.selectSchool == 0){
-                $scope.essayErrorMsg = "Please select school";
-                $('#listSchools').focus();
-                return;
+            if(!validUploadEssay()) {
+            	return;
             }
             if(!isEmpty(fileUpload)){
                 fd.append('file',fileUpload);
@@ -193,5 +148,42 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
                 $rootScope.$broadcast('close');
             });
         }
-
+        
+        function ressetForm() {
+        	$scope.essayErrorMsg = "";
+            $scope.essaySusscesMsg = "";
+        }
+        
+        function validUploadEssay() {
+        	if(isEmpty(userId)){
+                $window.location.href = '#/student/signin?continue='+encodeURIComponent($location.absUrl());
+                return false;
+            }
+            if(isEmpty($scope.txtTitle)){
+                $scope.essayErrorMsg = "Please input title essay";
+                $('#txtTitle').focus();
+                return false;
+            }
+            if($scope.selectSchool == 0){
+            	$scope.essayErrorMsg = "Please select school";
+            	$('#listSchools').focus();
+            	return false;
+            }
+            if($scope.selectMajor == 0){
+                $scope.essayErrorMsg = "Please select major";
+                $('#listMajors').focus();
+                return false;
+            }
+            if(isEmpty($scope.txtDesc)){
+            	$scope.essayErrorMsg = "Please input description essay";
+            	$('#txtDesc').focus();
+            	return false;
+            }
+            
+            if(fileUpload!=null && fileUpload.size > MAX_SIZE_ESSAY_UPLOAD){
+            	$scope.essayErrorMsg='Essay over 10M';
+            	return false;
+            }
+            return true;
+        }
     }]);

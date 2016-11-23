@@ -165,11 +165,8 @@
                                                                 </div>
                                                                 <div class="detail-mentor-answer">
                                                                     <div class="mentor-name">
-                                                                        <strong>{{a.name}}</strong>&nbsp;&nbsp;&nbsp;<span>answerd {{a.time}}</span>&nbsp;&nbsp;&nbsp;<span>{{a.countLike}}
-	                                                                    	<span data-icon="&#xe089;" ng-if="a.like"
-                                                                                  id="heart"></span>
-	                                                                    	<span data-icon="&#xe089;"
-                                                                                  ng-if="!(a.like)"></span>
+                                                                        <strong>{{a.name}}</strong>&nbsp;&nbsp;&nbsp;<span>answerd {{a.time}}</span>&nbsp;&nbsp;&nbsp;<span>
+                                                                        	<span data-icon="&#xe089;" id="{{a.like=='1'?'heart':''}}" class="heart{{q.id +''+ a.aid}}" ng-click="likeAnswer(a.aid,q.id)"></span>
 	                                                                    </span>
                                                                     </div>
                                                                     <div class="mentor-answer">

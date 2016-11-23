@@ -43,7 +43,7 @@
                                                 </p>
                                                 <br>
                                                 <span class="view-count">
-                                                    view: <span>{{video.numViews}}</span>
+                                                    view: <span>{{showNumberFormat(video.numViews)}}</span>
                                                 </span>
                                             </div>
                                         </div>
@@ -85,7 +85,7 @@
                                                 id="btnFavorite" ng-click="addfavourite(videoInfo.vid)" ><span data-icon="&#xe031;"></span>Favorite</button>
                                     </div>
                                     <p class="videos-rate-infor">
-                                        <span class="videoRate">{{(videoInfo.averageRating == null) ? '0' : videoInfo.averageRating}} ({{videoInfo.numRatings}} votes)</span>
+                                        <span class="videoRate">{{(videoInfo.averageRating == null) ? '0' : videoInfo.averageRating}} ({{videoInfo.numRatings}})</span>
                                     	<span ng-if="loadRate" star-rating stars="5"
                                           outer-star-selection="stars"
                                           outer-percent="rating"
@@ -95,9 +95,9 @@
                                           back-color="white"
                                           readonly ="true" title="videoInfo.averageRating"></span>
                                         
-                                        <span data-icon="&#x49;">{{videoInfo.numViews}}</span>
+                                        <span data-icon="&#x49;">{{showNumberFormat(videoInfo.numViews)}}</span>
                                         &nbsp;&nbsp;
-                                        <span data-icon="&#xe066;">{{(videoInfo.numComments == null) ? '0' : videoInfo.numComments}}</span>
+                                        <span data-icon="&#xe066;">{{(videoInfo.numComments == null) ? '0' : showNumberFormat(videoInfo.numComments)}}</span>
                                     </p>
                                 </div>
                             </div>
@@ -178,7 +178,7 @@
                                           <a href="#/student/mentorProfile/{{videoRelate.userid}}">
                                           	<span class="own-video"> {{displayName(videoRelate.firstName,videoRelate.lastName,videoRelate.userName)}}</span>
                                           </a> </span><br>
-                                    <span class="view-count">view: <span>{{videoRelate.numViews}}</span></span>
+                                    <span class="view-count">view: <span>{{showNumberFormat(videoRelate.numViews)}}</span></span>
                                 </div>
                             </div>
                         </li>

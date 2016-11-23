@@ -86,7 +86,7 @@
                                             <div class="number-answer">
                                                 <div class="total-number-answer">
                                                 	<div ng-if="question.count_answer > 0 && question.count_answer" class="total-answer" ng-click="viewAnswer(question.id)">{{question.count_answer > 1 ? (question.count_answer + " answers") : (question.count_answer + " answer")}}</div>
-                                                    <div ng-if="question.count_answer == 0 || !question.count_answer" class="total-answer">No answer</div>
+                                                    <div ng-if="question.count_answer == 0 || !question.count_answer" class="total-answer">No answers</div>
                                                     <div class="total-view">&nbsp;<span data-icon=""></span>&nbsp;&nbsp;&nbsp; {{question.numviews > 1 ? (question.numviews + " views") : (question.numviews + " view")}}</div>
                                                 </div>
                                                 <!-- Detail-answer-question -->
@@ -99,7 +99,7 @@
                                                         <div class="detail-mentor-answer">
                                                             <div class="mentor-name">
                                                                 <a href="#/student/mentorProfile/{{answer.authorID}}"><strong>{{answer.name}}</strong></a>&nbsp;&nbsp;&nbsp;<span>answered {{answer.time}}
-                                                                </span>&nbsp;&nbsp;&nbsp;<span>{{answer.countLike }} <span
+                                                                </span>&nbsp;&nbsp;&nbsp;<span><!-- {{answer.countLike }}--><span 
                                                                     data-icon="&#xe089;" id="{{answer.like=='1'?'heart':''}}" class="heart{{question.id +''+ answer.aid}}"
                                                                     ng-click="likeAnswer(answer.aid,question.id)"></span></span>
                                                             </div>

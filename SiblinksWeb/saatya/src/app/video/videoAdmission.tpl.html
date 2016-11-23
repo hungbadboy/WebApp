@@ -46,7 +46,7 @@
         <div class="rating">
             <img class="left" ng-repeat="star in video.arr_rate track by $index" ng-src="{{star}}">
           <span class="name">{{video.firstName}} {{video.lastName}}</span>
-          <span class="point">Views: {{video.numViews}}</span>
+          <span class="point">Views: {{showNumberFormat(video.numViews)}}</span>
         </div>
         <div class="clearfix"></div>
       </div>

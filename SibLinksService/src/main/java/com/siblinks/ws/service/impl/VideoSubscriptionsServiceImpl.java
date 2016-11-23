@@ -37,6 +37,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,8 +47,10 @@ import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.VideoSubscriptionsService;
+import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.DateUtil;
 import com.siblinks.ws.util.SibConstants;
+import com.siblinks.ws.util.StringUtil;
 
 /**
  * {@link VideoSubscriptionsService}
@@ -117,12 +120,33 @@ public class VideoSubscriptionsServiceImpl implements VideoSubscriptionsService 
                 if ("-2".equals(subjectId)) {
                     entityName = SibConstants.SqlMapper.SQL_SIB_GET_ALL_VIDEO_SUBSCRIPTION;
                     queryParams = new Object[] { userId, currentDate, userId, firstDayOfCurrentWeek, currentDate, userId };
+                    readObject = dao.readObjects(entityName, queryParams);
                 } else {
+                    // Get child category by subjectId
+                    List<Map<String, Object>> readObjectNoCondition = dao
+                        .readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC);
+                    
+                    MapSqlParameterSource params = new MapSqlParameterSource();
+                    
+                    String allChildCategory = CommonUtil.getAllChildCategory(subjectId, readObjectNoCondition);
+                    if (!StringUtil.isNull(allChildCategory)) {
+                        List<Integer> listChildCategory = new ArrayList<Integer>();
+                        String[] arrChildCategory = allChildCategory.split(",");
+                        for (String string : arrChildCategory) {
+                            listChildCategory.add(Integer.parseInt(string));
+                        }
+                        params.addValue("subjectID", listChildCategory);
+                            
+                    }
+                    params.addValue("userID", userId);
+                    params.addValue("currentDate", currentDate);
+                    params.addValue("firstDayOfCurrentWeek", firstDayOfCurrentWeek);
+
                     entityName = SibConstants.SqlMapper.SQL_SIB_GET_ALL_VIDEO_SUBSCRIPTION_BY_CATEGORY;
-                    queryParams = new Object[] { userId, currentDate, subjectId, userId, firstDayOfCurrentWeek, currentDate, subjectId, userId, subjectId };
+
+                    readObject = dao.readObjectNamedParameter(entityName, params);
                 }
 
-                readObject = dao.readObjects(entityName, queryParams);
 
                 if (readObject == null) {
                     readObject = new ArrayList<Object>();
@@ -143,7 +167,7 @@ public class VideoSubscriptionsServiceImpl implements VideoSubscriptionsService 
 
             response = new SimpleResponse("true", mapListVideo);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            e.printStackTrace();
             response = new SimpleResponse(SibConstants.FAILURE, "video", "getListVideoSubscription", e.getMessage());
         }
         return new ResponseEntity<Response>(response, HttpStatus.OK);

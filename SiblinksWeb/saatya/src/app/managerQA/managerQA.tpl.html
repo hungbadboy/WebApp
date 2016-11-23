@@ -68,7 +68,7 @@
                                                         <div class="lis-view">
                                                             <p  class="{{currentTab != 'unanswered'?'list-view':'list-view-un'}}">
                                                                 {{question.numReplies}} <span data-icon="&#x77;"></span>&nbsp;&nbsp;
-                                                                {{question.numViews}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                                {{showNumberFormat(question.numViews)}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
                                                             </p>
                                                         </div>
                                                     </div>
@@ -343,9 +343,7 @@
                               ng-really-click ="removeAnswer(currentAnswer.aid)"  data-icon="&#xe019;"></span>
                     </div>
                 </div>
-                <div  class="top-user clearfix"  ng-if="!currentAnswer">
-                    No answer
-                </div>
+                <div  class="top-user clearfix"  ng-if="!currentAnswer">No answers</div>
                 <div class="dt-txt-question" style="height: 60%" scroller="answerc">
                     <p class="pre-wrap">{{currentAnswer.content}}</p>
                     <a href="" ng-repeat="img in convertToArrayImage(currentAnswer.imageAnswer)">

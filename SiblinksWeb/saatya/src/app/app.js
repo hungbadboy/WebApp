@@ -40,6 +40,10 @@ brotControllers.run(['$route', '$rootScope', '$modalStack', '$location', functio
      $rootScope.convertUnixTimeToTime = function (time) {
     	return convertUnixTimeToTime(time);
      };
+     
+     $rootScope.showNumberFormat = function (val, precision){
+    	 return showNumberFormat(val, precision);
+     }
 }])
 
 var brotServices = angular.module('brotServices', ['ngResource']);

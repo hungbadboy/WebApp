@@ -58,11 +58,11 @@
 				                                          back-color="white"
 				                                          readonly="true" title="{{lstVideoTutAdmission.averageRating}}">
 				    	                            </span>
-				    	                            <span>{{lstVideoTutAdmission.averageRating != null ? lstVideoTutAdmission.averageRating : 0}} ({{ (!lstVideoTutAdmission.numRatings)? '0' : lstVideoTutAdmission.numRatings}} votes)</span>
+				    	                            <span>{{lstVideoTutAdmission.averageRating != null ? lstVideoTutAdmission.averageRating : 0}} ({{ (!lstVideoTutAdmission.numRatings)? '0' : lstVideoTutAdmission.numRatings}})</span>
                                               </p>
                                               <p class="videos-rate-infor tutorial">
-                                                  <span data-icon="&#x49;"> {{(lstVideoTutAdmission.numViews == null)? '0' :lstVideoTutAdmission.numViews}}</span>
-                                                  <span data-icon="&#xe066;">{{(lstVideoTutAdmission.numComments == null)? '0': lstVideoTutAdmission.numComments}}</span>
+                                                  <span data-icon="&#x49;"> {{(lstVideoTutAdmission.numViews == null)? '0' :showNumberFormat(lstVideoTutAdmission.numViews)}}</span>
+                                                  <span data-icon="&#xe066;">{{(lstVideoTutAdmission.numComments == null)? '0': showNumberFormat(lstVideoTutAdmission.numComments)}}</span>
                                               </p>
                                           </div>
                                       </div>
@@ -99,7 +99,7 @@
 				                                          back-color="white"
 				                                          readonly="true">
 				    	                            </span>
-				    	                            <span>{{lstArticleAdmission.averageRating != null ? lstArticleAdmission.averageRating : 0}} ({{ (!lstArticleAdmission.numRate)? '0' : lstArticleAdmission.numRate}} votes)</span>
+				    	                            <span>{{lstArticleAdmission.averageRating != null ? lstArticleAdmission.averageRating : 0}} ({{ (!lstArticleAdmission.numRate)? '0' : lstArticleAdmission.numRate}})</span>
                                               </p>
                                               <p class="videos-rate-infor">
                                                   	<span class="fa fa-eye">{{lstArticleAdmission.numView}}</span>
@@ -151,8 +151,8 @@
 	                  </div>
 	                  <div class="article-infor">
 	                      <p>from <span class="name-mentor">
-	                      	<a href="javascript:void(0)">{{displayName(articalDetail.firstName, articalDetail.lastName, articalDetail.userName)}}</a></span> 
-	                      <span class="post-time">add {{convertUnixTimeToTime(articalDetail.createDate)}}</span></p>
+	                      	<a href="#/student/mentorProfile/{{articalDetail.authorId}}">{{displayName(articalDetail.firstName, articalDetail.lastName, articalDetail.userName)}}</a></span> 
+	                      <span class="post-time">added {{convertUnixTimeToTime(articalDetail.createDate)}}</span></p>
 	                      <p class="video-view">
 		                      	<span star-rating stars="5"
 	                                          outer-star-selection="stars1"
@@ -163,7 +163,7 @@
 	                                          back-color="white"
 	                                          readonly="true" title="{{(articalDetail.averageRating == null) ? '0' : articalDetail.averageRating}}">
 	                            </span>
-                            	<span class="admissionRate">{{(articalDetail.averageRating == null) ? '0' : articalDetail.averageRating}} ({{(articalDetail.numRate == null) ? '0' : articalDetail.numRate}} votes)</span>
+                            	<span class="admissionRate">{{(articalDetail.averageRating == null) ? '0' : articalDetail.averageRating}} ({{(articalDetail.numRate == null) ? '0' : articalDetail.numRate}})</span>
 	                           <span class="fa fa-eye pull-right" style="margin-top: 3px;">{{articalDetail.numView}}</span>
 	                      </p>
 	                      <p>

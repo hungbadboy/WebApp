@@ -19,8 +19,8 @@
                                         <h5 style="word-wrap: break-word;" title="{{playlist.name}}">{{playlist.name | limitTo : 50}}{{playlist.name.length > 50 ? '...' : ''}}
                                         <span class="add-time">{{playlist.timeStamp}}</span>
                                         <p class="list-view">
-                                            <span><img src="assets/images/icon-play.png" alt=""> {{playlist.numViews ? playlist.numViews : 0}}</span>&nbsp;&nbsp;
-                                            <span><img src="assets/images/icon-comment.png" alt=""> {{playlist.numComments}}</span>&nbsp;&nbsp;
+                                            <span><img src="assets/images/icon-play.png" alt=""> {{playlist.numViews ? showNumberFormat(playlist.numViews) : 0}}</span>&nbsp;&nbsp;
+                                            <span><img src="assets/images/icon-comment.png" alt=""> {{showNumberFormat(playlist.numComments)}}</span>&nbsp;&nbsp;
                                         </p>
                                         <div class="bx-btn">
                                             <button ng-if="videos" class="btn-play active" ng-click="playAll()">Playall</button>
@@ -70,11 +70,11 @@
                                                                   rating-stars="{{v.averageRating}}"
                                                                   star-radius="7" sel-color="gold"
                                                                   back-color="white" title="{{v.averageRating}}"></div>
-                                                                  <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
+                                                                  <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}})</span>
                                                         </ul>
                                                         <p class="list-view">
-                                                            <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
-                                                            <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                                            <span><img src="assets/images/icon-play.png" alt=""> {{showNumberFormat(v.numViews)}}</span>&nbsp;&nbsp;
+                                                            <span><img src="assets/images/icon-comment.png" alt=""> {{showNumberFormat(v.numComments)}}</span>&nbsp;&nbsp;
                                                         </p>
                                                     </div>
                                                 </div>
@@ -109,11 +109,11 @@
 						                                          star-radius="7" sel-color="gold"
 						                                          back-color="white" title="{{v.averageRating}}"
 						                                          readonly ="true"></span>
-                                                                  <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}} votes)</span>
+                                                                  <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}})</span>
                                                         </ul>
                                                         <p class="list-view">
-                                                            <span><img src="assets/images/icon-play.png" alt=""> {{v.numViews}}</span>&nbsp;&nbsp;
-                                                            <span><img src="assets/images/icon-comment.png" alt=""> {{v.numComments}}</span>&nbsp;&nbsp;
+                                                            <span><img src="assets/images/icon-play.png" alt=""> {{showNumberFormat(v.numViews)}}</span>&nbsp;&nbsp;
+                                                            <span><img src="assets/images/icon-comment.png" alt=""> {{showNumberFormat(v.numComments)}}</span>&nbsp;&nbsp;
                                                         </p>
                                                     </div>
                                                 </div>
