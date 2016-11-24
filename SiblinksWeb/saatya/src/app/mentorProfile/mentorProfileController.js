@@ -637,8 +637,7 @@ brotControllers.controller('MentorProfileController',
                     if (data.data.status == "true") {
                         if (data.data.request_data_type == "subs") {
                             $scope.isSubscribe = 1;
-                        }
-                        else {
+                        } else {
                             $scope.isSubscribe = 0;
                             $("#subscribers_" + mentorId).attr("data-icon", "N");
                             $('#subscribers_' + mentorId).removeClass('unsubcrib');
@@ -646,6 +645,7 @@ brotControllers.controller('MentorProfileController',
                         for (var i = 0; i < $scope.listMentorSubscribed.length; i++) {
                             if (mentorId == $scope.listMentorSubscribed[i].userid) {
                                 $scope.listMentorSubscribed[i].isSubs = $scope.isSubscribe;
+                                $scope.listMentorSubscribed[i].numsub = ($scope.isSubscribe == 0)?$scope.listMentorSubscribed[i].numsub -1:$scope.listMentorSubscribed[i].numsub +1;
                             }
                         }
 

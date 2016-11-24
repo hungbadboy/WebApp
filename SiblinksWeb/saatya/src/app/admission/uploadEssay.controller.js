@@ -180,9 +180,14 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             	return false;
             }
             
-            if(fileUpload!=null && fileUpload.size > MAX_SIZE_ESSAY_UPLOAD){
-            	$scope.essayErrorMsg='Essay over 10M';
-            	return false;
+            if(fileUpload!=null) { 
+            		if(fileUpload.size > MAX_SIZE_ESSAY_UPLOAD){
+            			$scope.essayErrorMsg='File size must be less than 5MB';
+            			return false;
+            		} else if (fileUpload.size == 0){
+            			$scope.essayErrorMsg='File size must be greater than 0 bytes';
+            			return false;
+            		}
             }
             return true;
         }

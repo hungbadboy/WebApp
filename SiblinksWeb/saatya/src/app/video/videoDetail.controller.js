@@ -318,27 +318,34 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
         
         $scope.addfavourite = function (vid) {
         	resetMessage();
-            if ($scope.isFavorite == 1) {
-                return;
-            }
-            try {
-	            $rootScope.$broadcast('open');
-	            VideoService.addfavourite($scope.userId, vid).then(function (data) {
-	                if (data.data.request_data_result == 'Favourite add successful') {
-	                    $('#btnFavorite').addClass('btn-warning');
-	                    $scope.isFavorite = 1;
-	                } else {
-	                    $scope.isFavorite = 0;
-	                    $('#btnFavorite').removeClass('btn-warning');
-	                }
-	            });
-         } catch (e) {
-            console.log(e.description);
-         } finally {
-        	 $rootScope.$broadcast('close');
-         }
-
-        };
+        	try {
+	            if ($scope.isFavorite == 1) {
+	            	// Unfavorite
+	            	$rootScope.$broadcast('open');
+	            	VideoService.deleteFavouriteVideo($scope.userId, vid).then(function (data) {
+	                    if (data.data.status == 'true') {
+	                    	$scope.isFavorite = 0;
+	                    	$('#btnFavorite').removeClass('btn-warning');
+	                    }
+	                });
+	            } else {
+	            	$rootScope.$broadcast('open');
+		            VideoService.addfavourite($scope.userId, vid).then(function (data) {
+		                if (data.data.status='true') {
+		                    $('#btnFavorite').addClass('btn-warning');
+		                    $scope.isFavorite = 1;
+		                } else {
+		                    $scope.isFavorite = 0;
+		                    $('#btnFavorite').removeClass('btn-warning');
+		                }
+		            });
+	            }
+	         } catch (e) {
+	            console.log(e.description);
+	         } finally {
+	        	 $rootScope.$broadcast('close');
+	         }
+        	};
 
         function onYouTubeIframeAPIReady(youtubeId) {
             player = new YT.Player('video', {
