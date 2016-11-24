@@ -817,7 +817,7 @@ brotControllers.controller('MentorProfileController',
             			 var height = $(".box-information").innerHeight();
             			 console.log(height);
             			 var width =  $window.innerWidth;
-            			 if(width > 1399 && width < 1681){
+            			 if(width > 1199 && width < 1681){
             				 $(".box-avatar").css({"height": + height + "px"});
             			 }
             		 });
