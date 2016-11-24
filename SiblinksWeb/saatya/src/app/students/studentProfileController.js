@@ -1,6 +1,6 @@
 brotControllers.controller('StudentProfileController',
-    ['$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService', 'HomeService', 'uploadEssayService', 'AnswerService','$window',
-        function ($scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService, HomeService, uploadEssayService, AnswerService, $window) {
+    ['$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'StudentService', 'QuestionsService', 'MentorService', 'TeamMentorService', 'myCache', 'VideoService', 'HomeService', 'uploadEssayService', 'AnswerService','$window', '$timeout',
+        function ($scope, $modal, $routeParams, $rootScope, $http, $location, StudentService, QuestionsService, MentorService, TeamMentorService, myCache, VideoService, HomeService, uploadEssayService, AnswerService, $window, $timeout) {
             var userId = localStorage.getItem('userId');
             var userName = localStorage.getItem('userName');
             var userType = localStorage.getItem('userType');
@@ -48,6 +48,7 @@ brotControllers.controller('StudentProfileController',
                     isSubscribed();
                     getNewestAnswers(mentorId, 6, 0);
                     getInfoMentorProfile();
+                    setHeightBoxInfo();
                 }
                 getStudentProfile();
                 getEssayProfile();
@@ -75,6 +76,7 @@ brotControllers.controller('StudentProfileController',
 
             function getInfoMentorProfile() {
                 MentorService.getStudentMentorProfile(mentorId).then(function (data) {
+                	$scope.$broadcast('getStudentMentorProfile');
                     if (data.data.status == "true") {
                         if (data.data.request_data_result) {
                             var result_data = data.data.request_data_result;
@@ -821,4 +823,13 @@ brotControllers.controller('StudentProfileController',
                 	}
                 }
             };
+            
+            function setHeightBoxInfo(){
+            	$scope.$on('getStudentMentorProfile', function(){
+            		$timeout(function (){
+            			var heightOfBoxInfo = angular.element('.top-mentors-info-detail-wrapper').height() + 100;
+            			angular.element('.ask-a-question>.container').css({"min-height": + heightOfBoxInfo + "px"});
+            		});
+            	});
+            }
 }]);
