@@ -488,10 +488,13 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     if (errFile) {
       $scope.fileName = null;
       $scope.fileSize = null;
-      if (errFile.size > 5000000) {
+      if (errFile.size > 5242880) {
         $scope.error = "File maximum is 5MB.";
-      } else
-        $scope.error = "File is not valid.";
+      } else if(errFile.size == 0){
+        $scope.error = "File size is not 0 bytes.";
+      } else {
+    	  $scope.error = "File is not valid.";
+      }
       return;
     }
     if ($files && $files.length > 0) {
@@ -512,7 +515,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     if (comment == undefined || comment.trim().length == 0) {
       $scope.error = "Please input your comment.";
       return;
-    } else{
+    } else {
       $scope.checked = true;
       $scope.error = null;
       var fd = new FormData();

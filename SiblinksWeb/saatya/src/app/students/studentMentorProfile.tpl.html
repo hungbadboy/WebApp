@@ -209,8 +209,8 @@
                                             Answered {{convertUnixTimeToTime(answer.timeStamp)}}
                                         </p>
                                         <p class="answered-content"> {{ answer.content | limitTo: 250 }}{{answer.content.length > 250 ? '...' : ''}}</p>
-                                        <p class="answered-rate">{{answer.numlikes}}
-                                            <span data-icon="&#xe089;" id="heart"></span>
+                                        <p class="answered-rate">
+                                            <span data-icon="&#xe089;" id="{{answer.numlikes !='0'?'heart':''}}"></span>
                                         </p>
                                     </div>
                                 </li>
