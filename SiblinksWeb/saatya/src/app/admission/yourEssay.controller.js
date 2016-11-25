@@ -91,12 +91,19 @@ brotControllers.controller('yourEssayController', ['$scope', '$rootScope', '$log
         };
 
         $scope.removeEssay = function (essayId) {
-            uploadEssayService.removeEssay(essayId).then(function (data) {
-                if (data.data.status == 'true') {
-                    angular.element(document.getElementById('essay-detail')).modal('toggle');
-                    init();
-                }
-            });
+        	try {
+        		$rootScope.$broadcast('open');
+	            uploadEssayService.removeEssay(essayId).then(function (data) {
+	                if (data.data.status == 'true') {
+	                    angular.element(document.getElementById('essay-detail')).modal('toggle');
+	                    $window.location.reload();
+	                }
+	            });
+        	} catch(er) {
+            	console.log(er.description);
+            } finally {
+            	$rootScope.$broadcast('close');
+            }
         };
 
         // Notification view essay

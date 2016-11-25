@@ -695,7 +695,7 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     EssayService.insertUpdateCommentEssay(fd).then(function(data){
       if (data.data.request_data_result != null && data.data.request_data_result == "Success") {
         $scope.success = "Reply successful.";
-        getEssayById($scope.essay.uploadEssayId, userId);        
+        getEssayById($scope.essay.uploadEssayId, userId);
         $scope.edit= false;
         $scope.editEssay = null;
         $scope.error = null;

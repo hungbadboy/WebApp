@@ -46,15 +46,18 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             	if(errFile.$error == 'pattern') {
 	                $scope.essayErrorMsg = 'File wrong format. Please select file (Word, Excel, PDF, TXT)!';
         		} else if (errFile.$error == 'maxSize') {
+        			
         			$scope.essayErrorMsg = 'File size must be less than 5MB.';
         		} else {
         			$scope.essayErrorMsg = 'Error ' + errFile.$error + '.';
         		}
+            	$scope.fileName = "Drop file (word, excel, pdf....) here or click to upload.";
             	return;
             }
             fileUpload = $files[0];
             if(!isEmpty(fileUpload)){
             	if(fileUpload.size == 0) {
+            		$scope.fileName = "Drop file (word, excel, pdf....) here or click to upload.";
             		$scope.essayErrorMsg = 'File size is invalid. File must be greater than 0 bytes.';
             	} else {
             		$scope.fileName = fileUpload.name;
@@ -144,13 +147,14 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             uploadEssayService.updateEssayStudent(fd).then(function (data) {
                 if (data.data.status ==  'true') {
                     $scope.essayErrorMsg = "";
-                    $scope.essaySusscesMsg = "You essay has been updated for review";
+                    $scope.essaySusscesMsg = "You essay has been updated for review.";
                     $scope.selectSchool = 0;
                     $scope.selectMajor = 0;
-                    $scope.fileName = "Drop file (word, excel, pdf....) here or click to upload";
+                    $scope.fileName = "Drop file (word, excel, pdf....) here or click to upload.";
                     fileUpload = null;
                     $scope.txtDesc = "";
                     $scope.txtTitle = "";
+                    $scope.isUpdate = false;
                     $scope.$emit('reloadYourEssay', 'load');
                 }
                 else {
@@ -172,32 +176,32 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
                 return false;
             }
             if(isEmpty($scope.txtTitle)){
-                $scope.essayErrorMsg = "Please input title essay";
+                $scope.essayErrorMsg = "Please input title essay.";
                 $('#txtTitle').focus();
                 return false;
             }
             if($scope.selectSchool == 0){
-            	$scope.essayErrorMsg = "Please select school";
+            	$scope.essayErrorMsg = "Please select school.";
             	$('#listSchools').focus();
             	return false;
             }
             if($scope.selectMajor == 0){
-                $scope.essayErrorMsg = "Please select major";
+                $scope.essayErrorMsg = "Please select major.";
                 $('#listMajors').focus();
                 return false;
             }
             if(isEmpty($scope.txtDesc)){
-            	$scope.essayErrorMsg = "Please input description essay";
+            	$scope.essayErrorMsg = "Please input description essay.";
             	$('#txtDesc').focus();
             	return false;
             }
             
             if(fileUpload!=null) { 
             		if(fileUpload.size > MAX_SIZE_ESSAY_UPLOAD){
-            			$scope.essayErrorMsg='File size must be less than 5MB';
+            			$scope.essayErrorMsg='File size must be less than 5MB.';
             			return false;
             		} else if (fileUpload.size == 0){
-            			$scope.essayErrorMsg='File size must be greater than 0 bytes';
+            			$scope.essayErrorMsg='File size must be greater than 0 bytes.';
             			return false;
             		}
             }

@@ -99,8 +99,8 @@ public class FavouriteVideoServiceImpl implements FavouriteVideoService {
             message = "Favourite add successful";
             logger.info("addfavourite success " + new Date());
         } catch (DAOException e) {
+            e.printStackTrace();
             message = e.getMessage();
-            logger.error("addfavourite error " + e.getMessage());
             if (status != null) {
                 transactionManager.rollback(status);
             }

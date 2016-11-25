@@ -122,15 +122,19 @@ public class PostServiceImpl implements PostService {
             }
             long id = 0l;
             String error = validateFileImage(files);
-            if (StringUtil.isNull(content) || content.length() > 4000) {
+            if (StringUtil.isNull(content)) {
+                // Return is not exist image
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "createPost", "Content is not empty.");
+            } else if (content.length() > 4000) {
                 // Return is not exist image
                 simpleResponse = new SimpleResponse(
                                                     SibConstants.FAILURE,
                                                     "post",
                                                     "createPost",
-                                                    "Content over 4000 or content null");
+                                                    "Content is limit 4000 characters.");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
+
             if (!StringUtil.isNull(error)) {
                 // Return is not exist image
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "createPost", error);
@@ -218,10 +222,7 @@ public class PostServiceImpl implements PostService {
                 contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
             }
             id = dao.insertObject(SibConstants.SqlMapper.SQL_CREATE_ANSWER, queryParamsAnswer);
-            Object[] queryParams = { mentorId, studentId,
-            		SibConstants.NOTIFICATION_TYPE_ANSWER_QUESTION,
-            		SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION,
-            		contentNofi, subjectId, pid };
+            Object[] queryParams = { mentorId, studentId, SibConstants.NOTIFICATION_TYPE_ANSWER_QUESTION, SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION, contentNofi, subjectId, pid };
             dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_NUMREPLIES_QUESTION, new Object[] { pid });
 
             status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParams);
@@ -241,8 +242,12 @@ public class PostServiceImpl implements PostService {
             if (id > 0 && status == true) {
                 status = true;
             }
-            activityLogSerservice.insertActivityLog(
-                new ActivityLogData(SibConstants.TYPE_QUENSION_ANSWER, "C", "You answered a question", mentorId, pid));
+            activityLogSerservice.insertActivityLog(new ActivityLogData(
+                                                                        SibConstants.TYPE_QUENSION_ANSWER,
+                                                                        "C",
+                                                                        "You answered a question",
+                                                                        mentorId,
+                                                                        pid));
             transactionManager.commit(statusBD);
             logger.info("Insert Menu success " + new Date());
             simpleResponse = new SimpleResponse("" + status, "POST", "createAnswer", status);

@@ -380,7 +380,6 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     required = false) final MultipartFile file) {
         SimpleResponse simpleResponse = null;
         String statusMessage = "";
-        boolean status = true;
         try {
 
             if (!AuthenticationFilter.isAuthed(context)) {
@@ -406,36 +405,29 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             if (StringUtil.isNull(essayId)) {
                 statusMessage = "EssayId null!";
             }
-            statusMessage = validateEssay(file);
-            boolean msgs = true;
+            boolean msgs = false;
             if (StringUtil.isNull(statusMessage)) {
-                Object[] queryParams = { file.getInputStream(), desc, file.getContentType(), fileName, title, file.getSize(), schoolId, majorId, essayId };
-                msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_STUDENT_UPDATE_ESSAY, queryParams);
-                if (msgs) {
-                    statusMessage = "Done";
-                } else {
-                    status = false;
-                    statusMessage = "You failed to upload ";
-                }
-
-            } else {
-                status = false;
-                if (statusMessage.equals("File is empty")) {
-                    status = true;
-                    statusMessage = "";
+                if (validateEssay(file).equals("File is empty")) {
                     Object[] queryParams = { desc, title, schoolId, majorId, essayId };
                     msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_STUDENT_UPDATE_ESSAY_NOFILE, queryParams);
+                } else {
+                    Object[] queryParams = { file.getInputStream(), desc, file.getContentType(), fileName, title, file.getSize(), schoolId, majorId, essayId };
+                    msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_STUDENT_UPDATE_ESSAY, queryParams);
+                }
+                if (msgs) {
+                    statusMessage = "You updated successfull essay.";
+                } else {
+                    statusMessage = "This essay is already not exits.";
                 }
 
             }
+            simpleResponse = new SimpleResponse("" + msgs, "essay", "upload", statusMessage);
+
         } catch (Exception e) {
             e.printStackTrace();
-            status = false;
-            statusMessage = "You failed to upload " + e.getMessage();
-            logger.error(e.getMessage(), e.getCause());
+            simpleResponse = new SimpleResponse(SibConstants.FAILURE, "essay", "upload", e.getMessage());
         }
 
-        simpleResponse = new SimpleResponse("" + status, "essay", "upload", statusMessage);
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
 

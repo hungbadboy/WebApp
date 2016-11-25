@@ -580,23 +580,34 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         };
 
         $scope.addfavourite = function (vid) {
-            if ($scope.isFavorite == 1) {
-                return;
-            }
-            $rootScope.$broadcast('open');
-            VideoService.addfavourite($scope.userId, vid).then(function (data) {
-                if (data.data.request_data_result == 'Favourite add successful') {
-                    $('#btnFavorite').addClass('btn-warning');
-                    $scope.isFavorite = 1;
-                }
-                else {
-                    $scope.isFavorite = 0;
-                    $('#btnFavorite').removeClass('btn-warning');
-                }
-                $rootScope.$broadcast('close');
-            });
-
-
+        	try {
+	            if ($scope.isFavorite == 1) {
+	            	// Unfavorite
+	            	$rootScope.$broadcast('open');
+	            	VideoService.deleteFavouriteVideo($scope.userId, vid).then(function (data) {
+	                    if (data.data.status == 'true') {
+	                    	$scope.isFavorite = 0;
+	                    	$('#btnFavorite').removeClass('btn-warning');
+	                    }
+	                });
+	            } else {
+		            $rootScope.$broadcast('open');
+		            VideoService.addfavourite($scope.userId, vid).then(function (data) {
+		                if (data.data.request_data_result == 'Favourite add successful') {
+		                    $('#btnFavorite').addClass('btn-warning');
+		                    $scope.isFavorite = 1;
+		                }
+		                else {
+		                    $scope.isFavorite = 0;
+		                    $('#btnFavorite').removeClass('btn-warning');
+		                }
+		            });
+	            }
+        	} catch (e) {
+	            console.log(e.description);
+	         } finally {
+	        	 $rootScope.$broadcast('close');
+	         }
         }
 
 
