@@ -76,15 +76,22 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
                 window.location.href = '#/signup';
             }
         };
+        
         $scope.onFileSelect = function ($files,errFiles) {
             $scope.askErrorMsg = "";
             var errFile = errFiles && errFiles[0];
-            if(!isEmpty(errFile)){
-                $scope.askErrorMsg = 'File wrong format. Please select file image!';
-                return;
+            if(!isEmpty(errFile)) {
+        		if(errFile.$error == 'pattern') {
+	                $scope.askErrorMsg = 'File wrong format. Please select file image!';
+	                return;
+        		} else if (errFile.$error == 'maxSize') {
+        			$scope.askErrorMsg = 'File size must be less than 5MB.';
+        		} else {
+        			// do nothing
+        		}
             }
             if ($files!=null && $files.length > MAX_IMAGE){
-                $scope.askErrorMsg = 'You cannot attach more than ' + MAX_IMAGE +' images for each question';
+                $scope.askErrorMsg = 'You cannot attach more than ' + MAX_IMAGE +' images for each question.';
                 return ;
             }
             if ($files != null) {
@@ -103,18 +110,18 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
         $scope.redirectForum = function () {
 
             if (isEmpty(userId) ||userId=='-1') {
-                $scope.askErrorMsg='Please login before you ask a question';
+                $scope.askErrorMsg='Please login before you ask a question.';
                 return;
             }
             // get question of student
         	if (selectCategory == null || selectCategory === undefined || selectCategory.originalObject == null) {
-        		$scope.askErrorMsg='Please choose category';
+        		$scope.askErrorMsg='Please choose category.';
         		$("#autocompleteCate_value").focus();
         		return;
         	}
             var questions = $('#autocompleteQuest_value').val();
             if (!questions) {
-                $scope.askErrorMsg='Please input your question';
+                $scope.askErrorMsg='Please input your question.';
                 $("#autocompleteQuest_value").focus();
                 return;
             }
@@ -130,7 +137,7 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
                 }
             }
             if ($scope.filesArray.length > MAX_IMAGE) {
-                $scope.askErrorMsg='You cannot attach more than  ' + MAX_IMAGE +' images for each question';
+                $scope.askErrorMsg='You cannot attach more than  ' + MAX_IMAGE +' images for each question.';
                 $rootScope.myVarU = !$scope.myVarU;
                 $timeout(function () {
                     $rootScope.myVarU = false;
@@ -139,7 +146,7 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
             }
 
             if(totalSize > MAX_SIZE_IMG_UPLOAD){
-                $scope.askErrorMsg='Image over 5Mb';
+                $scope.askErrorMsg='File size must be less than 5MB.';
                 $rootScope.myVarU = !$scope.myVarU;
                 $timeout(function () {
                     $rootScope.myVarU = false;
