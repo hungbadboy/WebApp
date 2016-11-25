@@ -709,8 +709,12 @@ public class MentorServiceImpl implements MentorService {
                 whereClause += " ORDER BY X.numlike DESC";
             } else if (Parameters.RATE.equalsIgnoreCase(type)) {
                 whereClause += " ORDER BY X.avgrate DESC";
-            } else {// type is Subscribe
+            } else if (Parameters.SUBCRIBED.equalsIgnoreCase(type)) {
+                whereClause += " WHERE X.isSubs > 0 ";
                 whereClause += " ORDER BY X.numsub DESC";
+            } else {
+                whereClause += " ORDER BY X.numsub DESC";
+
             }
 
             if (!StringUtil.isNull(limit)) {
