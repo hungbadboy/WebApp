@@ -488,20 +488,24 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
     if (errFile) {
       $scope.fileName = null;
       $scope.fileSize = null;
-      if (errFile.size > 5242880) {
-        $scope.error = "File maximum is 5MB.";
-      } else if(errFile.size == 0){
-        $scope.error = "File size is not 0 bytes.";
-      } else {
-    	  $scope.error = "File is not valid.";
-      }
-      return;
+      	if(errFile.$error == 'pattern') {
+      		$scope.error = 'File wrong format. Please select file (Word, Excel, PDF, TXT)!';
+		} else if (errFile.$error == 'maxSize') {
+			$scope.error = 'File size must be less than 5MB.';
+		} else {
+			$scope.error = 'Error ' + errFile.$error+'.';
+		}
+  		return;
     }
+  
     if ($files && $files.length > 0) {
       $scope.error = null;
       file = $files[0];
       if (file == undefined){
         $scope.error = "Only accept document file.";
+      } else if(file.size == 0){
+      	$scope.error = "File size is invalid. File must be greater than 0 bytes.";
+      	return;
       } else{
         $scope.fileName = file.name;
         $scope.fileSize = formatBytes(file.size);

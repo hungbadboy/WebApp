@@ -84,7 +84,6 @@ brotControllers
                     });
                 }
 
-
                 function getQuestions(userId, limit, offset, type, oldQid, subjectid) {
 
                     QuestionsService.getQuestionByUserId(userId, limit, offset, type, oldQid, subjectid).then(function (data) {
@@ -429,11 +428,17 @@ brotControllers
                     $scope.askErrorMsg= "";
                     var errFile = errFiles && errFiles[0];
                     if(!isEmpty(errFile)){
-                        $scope.askErrorMsg = 'File wrong format. Please select file image!';
-                        return;
+                    	if(errFile.$error == 'pattern') {
+        	                $scope.askErrorMsg = 'File wrong format. Please select file image!';
+        	                return;
+                		} else if (errFile.$error == 'maxSize') {
+                			$scope.askErrorMsg = 'File size must be less than 5MB.';
+                		} else {
+                			// do nothing
+                		}
                     }
                     if ($files!=null && $files.length > MAX_IMAGE){
-                        $scope.askErrorMsg = 'You cannot attach more than ' + MAX_IMAGE +' images';
+                        $scope.askErrorMsg = 'You cannot attach more than ' + MAX_IMAGE +' images.';
                         return ;
                     }
                     if ($files != null) {
@@ -470,26 +475,26 @@ brotControllers
                 }
                 $scope.redirectForum = function () {
                     if (isEmpty(userId) ||userId=='-1') {
-                        $scope.askErrorMsg='Please login before you ask a question';
+                        $scope.askErrorMsg='Please login before you ask a question.';
                         $rootScope.myVarU = !$scope.myVarU;
                         return;
                     }
                     // get question of student of ask question
                     if ($scope.selectedSubject == null || $scope.selectedSubject === undefined
                         || $scope.selectedSubject.originalObject == null ) {
-                        $scope.askErrorMsg='Please choose category';
+                        $scope.askErrorMsg='Please choose category.';
                         return;
                     }
                     var questions = $('#autocompleteQuest_value').val();
                     if (!questions) {
                         $rootScope.myVarQ = !$scope.myVarQ;
-                        $scope.askErrorMsg='Please enter your question';
+                        $scope.askErrorMsg='Please enter your question.';
                         $("#autocompleteQuest_value").focus();
                         return;
                     }
 
                     if (isEmpty(userId) ||userId=='-1') {
-                        $scope.askErrorMsg='Please login before you ask a question';
+                        $scope.askErrorMsg='Please login before you ask a question.';
 
                         return;
                     }
@@ -512,7 +517,7 @@ brotControllers
                     }
 
                     if(totalSize > MAX_SIZE_IMG_UPLOAD){
-                        $scope.askErrorMsg='Image over 5Mb';
+                        $scope.askErrorMsg='File size must be less than 5MB.';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;

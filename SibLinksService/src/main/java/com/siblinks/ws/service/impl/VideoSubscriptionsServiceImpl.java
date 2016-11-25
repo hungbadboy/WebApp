@@ -119,7 +119,7 @@ public class VideoSubscriptionsServiceImpl implements VideoSubscriptionsService 
 
                 if ("-2".equals(subjectId)) {
                     entityName = SibConstants.SqlMapper.SQL_SIB_GET_ALL_VIDEO_SUBSCRIPTION;
-                    queryParams = new Object[] { userId, currentDate, userId, firstDayOfCurrentWeek, currentDate, userId };
+                    queryParams = new Object[] { userId, currentDate, userId, firstDayOfCurrentWeek, currentDate, userId, firstDayOfCurrentWeek };
                     readObject = dao.readObjects(entityName, queryParams);
                 } else {
                     // Get child category by subjectId

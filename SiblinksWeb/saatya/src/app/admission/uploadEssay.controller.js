@@ -43,11 +43,23 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
         	ressetForm();
             var errFile = errFiles && errFiles[0];
             if(!isEmpty(errFile)){
-                $scope.essayErrorMsg = 'File wrong format or over 5M!';
-                return;
+            	if(errFile.$error == 'pattern') {
+	                $scope.essayErrorMsg = 'File wrong format. Please select file (Word, Excel, PDF, TXT)!';
+        		} else if (errFile.$error == 'maxSize') {
+        			$scope.essayErrorMsg = 'File size must be less than 5MB.';
+        		} else {
+        			$scope.essayErrorMsg = 'Error ' + errFile.$error + '.';
+        		}
+            	return;
             }
             fileUpload = $files[0];
-            $scope.fileName = fileUpload.name;
+            if(!isEmpty(fileUpload)){
+            	if(fileUpload.size == 0) {
+            		$scope.essayErrorMsg = 'File size is invalid. File must be greater than 0 bytes.';
+            	} else {
+            		$scope.fileName = fileUpload.name;
+            	}
+            }
         };
         // $scope.$watch('files', function () {
         //     $scope.essayErrorMsg = "";
@@ -75,7 +87,7 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             	return;
             }
             if(isEmpty(fileUpload)){
-            	$scope.essayErrorMsg = "Please select file to upload";
+            	$scope.essayErrorMsg = "Please select file to upload.";
             	return;
             }
             fd.append('file',fileUpload);
@@ -89,10 +101,10 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             uploadEssayService.uploadEssayStudent(fd).then(function (data) {
                  if (data.data.status ==  'true') {
                      $scope.essayErrorMsg = "";
-                     $scope.essaySusscesMsg = "Your essay has been submitted for review";
+                     $scope.essaySusscesMsg = "Your essay has been submitted for review.";
                      $scope.selectSchool = 0;
                      $scope.selectMajor = 0;
-                     $scope.fileName = "Drop file (word, excel, pdf....) here or click to upload";
+                     $scope.fileName = "Drop file (word, excel, pdf....) here or click to upload.";
                      fileUpload = null;
                      $scope.txtDesc = "";
                      $scope.txtTitle = "";

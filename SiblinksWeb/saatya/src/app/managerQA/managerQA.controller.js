@@ -315,7 +315,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 }
             }
             if(isEmpty(answeredit)){
-                $scope.QAErrorMsg='Can not edit this answer';
+                $scope.QAErrorMsg='Can not edit this answer.';
                 return;
             }
 
@@ -349,7 +349,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
 
             if (totalLenth > MAX_IMAGE) {
-                $scope.QAErrorMsg='You cannot attach more than ' + MAX_IMAGE +' images';
+                $scope.QAErrorMsg='You cannot attach more than ' + MAX_IMAGE +' images.';
                 return;
             }
 
@@ -358,7 +358,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 return;
             }
             if(isEmpty(contentAnswer)){
-                $scope.QAErrorMsg='Please enter your answer';
+                $scope.QAErrorMsg='Please enter your answer.';
                 return;
             }
             fd.append('aid', aidEdit);
@@ -389,20 +389,20 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 $timeout(function () {
                     $rootScope.myVarQ = false;
                 }, 2500);
-                $scope.QAErrorMsg='You enter text your answer';
+                $scope.QAErrorMsg='You enter text your answer.';
 
                 return;
             }
 
             if (isEmpty(userId) ||userId=='-1') {
-                $scope.QAErrorMsg='Please login before you ask a question';
+                $scope.QAErrorMsg='Please login before you ask a question.';
                 $timeout(function () {
                     $rootScope.myVarU = false;
                 }, 2500);
                 return;
             }
             if ($scope.filesArray.length > MAX_IMAGE) {
-                $scope.QAErrorMsg='You cannot attach more than ' + MAX_IMAGE +' images';
+                $scope.QAErrorMsg='You cannot attach more than ' + MAX_IMAGE +' images.';
                 $rootScope.myVarU = !$scope.myVarU;
                 $timeout(function () {
                     $rootScope.myVarU = false;
@@ -421,7 +421,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
 
             if(totalSize > MAX_SIZE_IMG_UPLOAD){
-                $scope.QAErrorMsg='Image over 5M';
+                $scope.QAErrorMsg='File size must be less than 5MB.';
                 $rootScope.myVarU = !$scope.myVarU;
                 $timeout(function () {
                     $rootScope.myVarU = false;
@@ -563,11 +563,18 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $scope.QAErrorMsg = "";
             var errFile = errFiles && errFiles[0];
             if(!isEmpty(errFile)){
-                $scope.QAErrorMsg = 'File wrong format. Please select file image!';
-                return;
+            	if(errFile.$error == 'pattern') {
+	                $scope.QAErrorMsg = 'File wrong format. Please select file image!';
+        		} else if (errFile.$error == 'maxSize') {
+        			$scope.QAErrorMsg = 'File size must be less than 5MB.';
+        		} else {
+        			$scope.QAErrorMsg = 'Error ' + errFile.$error +'.';
+        		}
+            	return;
             }
+            
             if ($files!=null && $files.length > MAX_IMAGE){
-                $scope.QAErrorMsg = 'You cannot attach more than ' + MAX_IMAGE +' images';
+                $scope.QAErrorMsg = 'You cannot attach more than ' + MAX_IMAGE +' images.';
                 return ;
             }
             if ($files != null) {

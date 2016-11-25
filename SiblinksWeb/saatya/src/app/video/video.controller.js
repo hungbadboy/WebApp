@@ -106,7 +106,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 $scope.listRecentVideo = allVideo[1];
                 $scope.totalSubscription += $scope.listRecentVideo.length;
                 $scope.showDivRecent = true;
-                if ($scope.listRecentVideo.length <= 6) {
+                if ($scope.listRecentVideo.length <= 8) {
                     $scope.flagShowMoreRecent = false;
                 }
             }
@@ -114,27 +114,27 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 $scope.listWeekVideo = allVideo[2];
                 $scope.totalSubscription += $scope.listWeekVideo.length;
                 $scope.showDivWeek = true;
-                if ($scope.listWeekVideo.length <= 6) {
+                if ($scope.listWeekVideo.length <= 8) {
                     $scope.flagShowMoreWeek = false;
                 }
             }
             if (typeof allVideo[3] != 'undefined') {
-                $scope.listOlderVideo = allVideo[3];
-                $scope.totalSubscription += $scope.listOlderVideo.length;
+                $scope.listMentorOlder = allVideo[3];
+                $scope.totalSubscription += $scope.listMentorOlder.length;
                 $scope.showDivOlder = true;
-                for (var i = 0; i < $scope.listOlderVideo.length; i++) {
-                    checkExist = false;
-                    for (var j = 0; j < $scope.listMentorOlder.length; j++) {
-                        if ($scope.listOlderVideo[i].authorID == $scope.listMentorOlder[j].authorID) {
-                            checkExist = true;
-                            break;
-                        }
-                    }
-                    if (!checkExist) {
-                        $scope.listMentorOlder.push($scope.listOlderVideo[i]);
-                    }
-                }
-                if ($scope.listMentorOlder.length < 8) {
+//                for (var i = 0; i < $scope.listOlderVideo.length; i++) {
+//                    checkExist = false;
+//                    for (var j = 0; j < $scope.listMentorOlder.length; j++) {
+//                        if ($scope.listOlderVideo[i].authorID == $scope.listMentorOlder[j].authorID) {
+//                            checkExist = true;
+//                            break;
+//                        }
+//                    }
+//                    if (!checkExist) {
+//                        $scope.listMentorOlder.push($scope.listOlderVideo[i]);
+//                    }
+//                }
+                if ($scope.listMentorOlder.length <= 8) {
                     $scope.flagShowMoreOlder = false;
                 }
                 $scope.loadRateSubscription = true;
