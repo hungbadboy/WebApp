@@ -415,17 +415,26 @@ p.video-rate>span:nth-child(2) {
     border-radius: 8px;
 }
 /*Sort answer*/
+.questions-wrapper .total-question h4 {
+    width: auto;
+    float: left;
+    margin-right: 5px;
+}
+/*.questions-wrapper .total-question {
+    width: 60%;
+}*/
 .sort-answer {
-    width: 100px;
+    width: 110px;
     float: right;
     border: 1px solid #ccc;
     box-shadow: 3px 3px 7px #ccc;
     margin-top: -5px;
     position: absolute;
-    right: 0;
+    right: 76px;
     background: #fff;
     z-index: 1;
     display: none;
+    top: 40px;
 }
 .open .sort-answer {
   display: block;
@@ -555,7 +564,7 @@ section.download {
     overflow: hidden;
     height: auto;
     right: 0;
-    width: 125px;
+    width: 100px;
     box-shadow: 5px 5px 12px #ccc;
     z-index: 2;
     display: none;
@@ -576,7 +585,7 @@ section.download {
 .edit-question li>a {
     color: #505050;
     display: block;
-    padding: 10px 20px;
+    padding: 5px 10px;
 }
 
 .edit-question li>a>span:before {
@@ -657,12 +666,11 @@ button.ask-question-now:hover {
     background: #505050;
 }
 .sort {
-    width: auto;
+    width: 70px;
     float: left;
-    position: absolute;
-    right: -40px;
-    top: 15px;
     color: #909090;
+    position: relative;
+    top: 16px;
 }
 .question:last-child:after {
     content: "";

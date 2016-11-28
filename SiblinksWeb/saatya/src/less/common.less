@@ -2613,9 +2613,9 @@ ul.thumbnails-carousel {
   bottom: 0px;
 }
 
-.searchbrecrum.video{
+/*.searchbrecrum.video{
   margin-right: 0px;
-}
+}*/
 .manager-profile .box-avatar h4{
   word-wrap: break-word;
 }
@@ -2673,9 +2673,13 @@ span.article-detail-title p {
   margin-top : 8px;
 }
 
-.video-list-content > div > div{
+.video-list-content > div,
+.video-list-content > div > div {
   overflow: hidden;
   border-bottom: 1px solid #ececed;
+}
+.video-list-content > div > div:last-child {
+    border: none;
 }
 
 .video-list-content ul{
@@ -2732,20 +2736,20 @@ span.article-detail-title p {
     margin-bottom: 10px;
     margin-left: 0;
 }
-.video-list-content div.article >div,
+/*.video-list-content div.article >div,
 .video-list-content > div {
     border: none;
-}
+}*/
 .module-navigation .navigation ul {
     top: 0;
 }
 .module-navigation .navigation ul.mobimenuStu {
     top: 10px;
 }
-.notification span {
+/*.notification span {
     padding: 2px 6px;
     font-size: 11px;
-}
+}*/
 .icon-pb {
     position: absolute;
     bottom: 0;
@@ -2901,12 +2905,15 @@ p.subcribe {
     position: relative;
 }
 .questions-wrapper {
-    min-height: 110px;
+    min-height: 165px;
     overflow: hidden;
 }
 .student-edu, .student-info, .student-sex, .student-bio, .student-since {
     padding-right:  15px;
 }
-.top-mentors-list li:before {
-
+#rateSpan {
+    font-size: 13px;
 }
+.average span, .average i {
+    color: #909090;
+} 
