@@ -44,6 +44,15 @@ brotControllers.controller('StudentSubcribedCtrl',['$scope', 'VideoService',func
                 if (response.data.request_data_type == "unsubs") {
                     $scope.isSubscribe = 1;
                     $scope.listMentorBySubs.splice(idx, 1);
+                    $scope.countAll=$scope.countAll -1;
+                    $('#num-subscribed').html($scope.countAll);
+                    $scope.totalPageSubscribed = Math.ceil($scope.countAll / $scope.defaultLimit);
+                    if($scope.listMentorBySubs.length == $scope.defaultLimit -1 && $scope.countAll >= $scope.defaultLimit) {
+                    	// reload
+                    	$scope.listMentorBySubs = [];
+                    	$scope.pageSubscribed = 1;
+                    	init();
+                    }
                 }
                 else {
                     $scope.isSubscribe = -1;

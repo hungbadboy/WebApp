@@ -193,7 +193,7 @@ brotControllers.controller('StudentProfileController',
                 var errFile = errFiles && errFiles[0];
                 if (!isEmpty(errFile)) {
                     if (errFile.$error == "maxSize") {
-                        $scope.errorMessage = 'File must not exceed 5 MB';
+                        $scope.errorMessage = 'File must not exceed 5 MB.';
                         return;
                     }
                     $scope.errorMessage = 'File wrong format. Please select file image!';
@@ -213,7 +213,7 @@ brotControllers.controller('StudentProfileController',
                             $rootScope.imageUrl = urlImage;
                         }
                         else {
-                            $scope.errorMessage = "Can't not upload avatar";
+                            $scope.errorMessage = "Can't not upload avatar.";
                         }
                     });
                 }
@@ -304,8 +304,8 @@ brotControllers.controller('StudentProfileController',
 
                 if (!isEmpty(email)) {
                     if (!isValidEmailAddress($('input[name="email"]').val())) {
-                        check = false;
-                        error += "Email is not valid";
+                        $scope.msgError = "Email is not valid";
+                        return;
                     }
                 } else {
                     email = "";
@@ -331,17 +331,17 @@ brotControllers.controller('StudentProfileController',
                 var firstName = $('input[name="firstname"]').val();
                 var lastName = $('input[name="lastname"]').val();
                 if((!isEmpty(firstName) && firstName.length > 50) || (!isEmpty(lastName) && lastName.length > 50)){
-                    check = false;
-                    error += "First name or last name must not exceed 50 characters,";
+                	$scope.msgError ="First name or last name must not exceed 50 characters.";
+                	return;
                 }
                 var bio = $('#about').val();
                 if (isNotValidName(firstName) || isNotValidName(lastName)) {
-                    check = false;
-                    error += "First name or last name contains special characters or number,";
+                	$scope.msgError = "First name or last name contains special characters or number.";
+                	return;
                 }
                 if (bio.length > 500) {
-                    check = false;
-                    error += "About me must not exceed 500 characters, ";
+                	$scope.msgError = "About me must not exceed 500 characters.";
+                	return
                 }
                 if(isEmpty(firstName)){
                     firstName = null;
@@ -349,7 +349,7 @@ brotControllers.controller('StudentProfileController',
                 if(isEmpty(lastName)){
                     lastName = null;
                 }
-                if (check) {
+                
                     var student = {
                         'role': "S",
                         'userid': userId,
@@ -395,17 +395,9 @@ brotControllers.controller('StudentProfileController',
                             }
                             $scope.msgSuccess = "Your profile has been updated successfully!";
                         } else {
-                            if (error != '') {
-                                $scope.msgError = error.substr(0, error.lastIndexOf(','));
-                            } else {
-                                $scope.msgError = "Failed to update your profile";
-                            }
+                           $scope.msgError = "Failed to update your profile";
                         }
                     });
-                } else {
-                    $scope.msgError = error.substr(0, error.lastIndexOf(','));
-                }
-
             };
 
 

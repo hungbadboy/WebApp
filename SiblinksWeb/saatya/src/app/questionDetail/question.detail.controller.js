@@ -156,6 +156,7 @@ brotControllers
                 };
 
                 $scope.editQuestion = function (qid) {
+                	$scope.filesArray=[];
                     bodyRef.addClass('disableScroll');
                     $scope.titlePopupAsk = "Edit question";
                     $scope.isEdit = true;
