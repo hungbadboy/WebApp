@@ -37,6 +37,9 @@ brotControllers
                 $scope.userId = userId;
 
                 $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
+                
+                var LIMIT_UPLOAD_IMAGES = 4;
+                
                 $scope.totalQuestion = 0;
                 var oldQid = '-1';
                 $scope.curentOrderType = "newest";
@@ -437,15 +440,20 @@ brotControllers
                 			// do nothing
                 		}
                     }
-                    if ($files!=null && $files.length > MAX_IMAGE){
-                        $scope.askErrorMsg = 'You cannot attach more than ' + MAX_IMAGE +' images.';
-                        return ;
-                    }
+//                    if ($files!=null && $files.length > MAX_IMAGE){
+//                        $scope.askErrorMsg = 'You cannot attach more than ' + MAX_IMAGE +' images.';
+//                        return ;
+//                    }
                     if ($files != null) {
-                        for (var i = 0; i < $files.length; i++) {
-                            var file = $files[i];
-                            $scope.filesArray.push(file);
-                        }
+                    	if($files.length > LIMIT_UPLOAD_IMAGES){
+                    		$scope.askErrorMsg = 'You cannot attach more than ' + LIMIT_UPLOAD_IMAGES +' images.';
+                    		return;
+                    	}else{
+                    		for (var i = 0; i < $files.length; i++) {
+                    			var file = $files[i];
+                    			$scope.filesArray.push(file);
+                    		}
+                    	}
                     }
                 };
 
