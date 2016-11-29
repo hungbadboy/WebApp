@@ -815,7 +815,6 @@ brotControllers.controller('MentorProfileController',
             	$scope.$on('getMentorProfileCompleted', function(){
             		 $timeout(function () {
             			 var height = $(".box-information").innerHeight();
-            			 console.log(height);
             			 var width =  $window.innerWidth;
             			 if(width > 1199 && width < 1681){
             				 $(".box-avatar").css({"height": + height + "px"});

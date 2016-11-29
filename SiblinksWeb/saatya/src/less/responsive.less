@@ -391,7 +391,7 @@
     .mentor-view-mentor .top-mentors-info-detail {
         position: absolute;
         z-index: 1;
-        top: 174px;
+        top: 175px;
         background: none;
         width: 852px;
         margin-left: 67px;
@@ -408,6 +408,7 @@
     .mentor-view-mentor .mentors-video-recently.col-md-6.col-md-offset-3 {
         margin-left: 67px;
         margin-right: 12px;
+        width: 50%;
     }
     .mentor-view-mentor .mentors-profile-headers .container {
         width: auto;
@@ -838,13 +839,23 @@
     .mentor-view-mentor .answers {
         margin-left: 0;
     }
-    .mentor-view-mentor .top-mentors-info-detail {
+    /*.mentor-view-mentor .top-mentors-info-detail {
         width: 100vw;
-        max-width: 748px;
-    }
+        max-width: 693px;
+    }*/
     .mentor-view-mentor .mentors-video-recently.col-md-6.col-md-offset-3 {
         margin-right: 0;
-        width: 42%;
+        width: 58%;
+    }
+    .mentor-view-mentor .newest-answer.col-md-3 {
+        width: 40%;
+    }
+    .mentors-video-recently,
+    .newest-answer {
+        margin-top: 20px;
+    }
+    .mentor-view-mentor .top-mentors-info-detail {
+        top: 165px;
     }
 
     /*Popup image*/
@@ -932,6 +943,9 @@
     ul.list-star span:last-child {
         position: relative;
         top: 1px;
+    }
+    .mentor-view-mentor .container {
+        width: auto;
     }
 }
 /***For max screen 1281***/
@@ -1168,21 +1182,11 @@
         padding: 10px 15px;
     }
         /*Mentor.Menu*/
-    /*.mentor-right-header .user-nofitication {
-        width: 150px;
-    }
-    
-    .center-content,
-    .center-content.in {
-        width: ~"calc(100% - 140px)";
-    }
-    .center-content.sidebar-open {
-        width: ~"calc(100% - 320px)";
-    }
-    
-    */
     #sidebar-menu.menuMobile .navigation ul.menuSubmenu li {
         padding: 10px 78px;
+    }
+    .mentor-view-mentor .top-mentors-info-detail {
+        top: 155px;
     }
 
 
@@ -1225,7 +1229,7 @@
     /*======First ask question======*/   
     .create-ask {
         width: 100%;
-        height: auto;
+        height: auto !important;
     }
 
     .create-ask-title {
@@ -1276,16 +1280,16 @@
     }*/
 
     /*======Mentors Profile======*/
-    .mentors-video-recently.col-md-6.col-md-offset-3 {
+    /*.mentors-video-recently.col-md-6.col-md-offset-3 {
         width: 70%;
         padding-left: 5%;
-    }
+    }*/
 
-    .newest-answer.col-md-3 {
+    /*.newest-answer.col-md-3 {
         width: 63%;
         margin-left: 30%;
         margin-top: 0px;
-    }
+    }*/
 
     /*======Student Profile======*/
     .student-header-detail {
@@ -1300,6 +1304,7 @@
 
     .student-profile {
         float: left;
+        width: 100%;
     }
     #student-profile-information {
         width: 100%;
@@ -1589,9 +1594,9 @@
     .media-uploaded img {
         width: 60px;
     }
-    .add-img img {
+    /*.add-img img {
         width: 50px;
-    }
+    }*/
     #list>div {
         width: 58px;
         height: 58px;
@@ -1635,14 +1640,18 @@
     }*/
 
     /*Mentor Profile*/
-    .mentors-video-recently.col-md-6.col-md-offset-3 {
+    /*.mentors-video-recently.col-md-6.col-md-offset-3 {
         width: 67%;
         padding-left: 5%;
         margin-left: 35%;
+    }*/
+    .mentors-video-recently {
+        width: 60%;
+        float: left;
     }
     .newest-answer.col-md-3 {
-        width: 60%;
-        margin-left: 40%;
+        width: 40%;
+        float: left;
     }
     .summary-rate.col-md-7 {
         overflow: hidden;
@@ -1655,11 +1664,13 @@
         text-align: center;
         margin: auto;
         padding-bottom: 0;
+        overflow: hidden;
+        margin-bottom: 10px;
     }
 
-    .mentor-profile .top-mentors-img {
+    /*.mentor-profile .top-mentors-img {
         width: auto;
-    }
+    }*/
 
     .top-mentors-info {
         width: auto;
@@ -1668,7 +1679,7 @@
         margin: 0
     }
     .mentor-profile .top-mentors-info {
-        margin-top: 48px;
+        margin-top: 25px;
     }
     .top-mentors-info-detail {
         top: 306px;
@@ -1676,7 +1687,7 @@
         text-align: left;
     }
     .summary-rate li {
-        width: 23%;
+        width: 22%;
     }
     
     /*Videos page*/
@@ -1826,6 +1837,12 @@
     }
     .sort-answer {
         right: 105px;
+    }
+    iframe#detailPlayer {
+        width: 80%;
+        left: 10%;
+        padding-right:  0;
+        height: 400px;
     }
 
         

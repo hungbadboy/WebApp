@@ -1,6 +1,6 @@
-<div id="sidebar-menu" class="sidebar-left"  ng-class="{in: isMiniMenu}" ng-include="sidebarLeft"></div>
+<div id="sidebar-menu" class="sidebar-left"  ng-class="{in: isMiniMenu, menuMobile : isMenuMobile}" ng-include="sidebarLeft"></div>
 <div class="content">
-    <div class="center-content mentor-view-mentor" ng-class="{in: isMiniMenu}">
+    <div class="center-content mentor-view-mentor" ng-class="{in: isMiniMenu, menuMobile : isMenuMobile}">
         <div class="center-content-wrapper">
             <div class="content ask-a-question">
                 <!-- Breadcrum -->
@@ -19,7 +19,7 @@
                             <div class="top-mentors-img">
                                 <img style="width: 100%;   border-radius: 50%;    height: 120px; min-height: 100px" ng-src="{{mentorMentorProfile.imageUrl}}">
                             </div>
-                            <div class="top-mentors-info">
+                            <div class="top-mentors-info" class="box-information">
                                 <p class="top-mentors-name">
                                 <h4 ng-if="!isEmptyNameMentor">{{mentorMentorProfile.firstname.trim()}} {{mentorMentorProfile.lastName.trim()}}</h4>
                                 <h4 ng-if="isEmptyNameMentor">{{mentorMentorProfile.fullNameMentor}}</h4>
@@ -214,4 +214,4 @@
         </div>
     </div>
 </div>
-<div id="sidebar-right" ng-include="sidebarRight" auto-height-recent-activity></div>
+<div id="sidebar-right" ng-include="sidebarRight" auto-height-recent-activity  ng-class="{in: isMiniMenu, menuMobile : isMenuMobile}"></div>

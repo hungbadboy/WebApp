@@ -1379,7 +1379,10 @@ brotControllers.directive('setMarginTagInfoMentor', function ($timeout, $window)
                 $timeout(function () {
                     var window = angular.element($window);
                     var width_win = $window.innerWidth;
-                    var heightInfo = document.getElementById("top-mentors-info").offsetHeight - 30;
+                    var heightInfo = document.getElementById("top-mentors-info").offsetHeight - 20;
+                    console.log(heightInfo);
+                    var widthBoxInfo = angular.element(".mentor-view-mentor")[0].clientWidth - 101;
+                    console.log(widthBoxInfo);
                     var resize = function () {
                         if (width_win < 1601) {
                             element.css({"margin-top": + heightInfo + "px"});
@@ -1387,6 +1390,11 @@ brotControllers.directive('setMarginTagInfoMentor', function ($timeout, $window)
                         else {
                             element.css({"margin-top": "30px"});
                         }
+                        
+                        if (width_win < 1441) {
+                        	angular.element("#top-mentors-info").css({"width": + widthBoxInfo +"px"});
+                        }
+                        
                     };
                     window.bind('resize', function () {
                         resize();
