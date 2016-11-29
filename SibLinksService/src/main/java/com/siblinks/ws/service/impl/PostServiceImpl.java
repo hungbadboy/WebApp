@@ -285,50 +285,67 @@ public class PostServiceImpl implements PostService {
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editPost", "Content over 4000 or content null");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
-            String error = validateFileImage(files);
+            String error = "";
+            if (files != null && files.length > 0) {
+                error = validateFileImage(files);
+            }
+
             if (!StringUtil.isNull(error)) {
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editPost", error);
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
-            MultipartFile file = null;
-            String filePath = "";
+
             String filePathEdited = mergeImage(oldImagePath, oldImagePathEdited);
-            // = getPathFile(oldImagePath,
-            // oldImagePathEdited,"directoryImageQuestion");
             String maxLength = environment.getProperty("file.upload.image.length");
+            String pathget = environment.getProperty("directoryGetImageQuestion");
+            // Check total file length
+            int totalLength = 0;
+            for (String pathImage : filePathEdited.split(";")) {
+                if (!StringUtil.isNull(pathImage)) {
+                    String oldPathFile = environment.getProperty("directoryImageQuestion") +
+                                         pathImage.substring(pathImage.lastIndexOf("/"));
+                    totalLength += new File(oldPathFile).length();
+                }
+            }
 
             if (files != null && files.length > 0) {
                 if ((files.length + filePathEdited.split(";").length) > Integer.parseInt(maxLength)) {
                     error = "You only upload " + maxLength + " image";
-                    Response reponse = new SimpleResponse("" + Boolean.FALSE, "post", "editPost", error);
-                    ResponseEntity<Response> entity = new ResponseEntity<Response>(reponse, HttpStatus.OK);
-                    return entity;
+                    simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editPost", error);
+                    return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
                 }
-                String pathget = environment.getProperty("directoryGetImageQuestion");
                 for (int i = 0; i < files.length; i++) {
-                    file = files[i];
-                    filePath += pathget + uploadFile(file, "directoryImageQuestion") + ".png";
+                    totalLength += files[i].getSize();
+                }
+            }
+
+            int maxSize = Integer.parseInt(environment.getProperty("file.upload.image.size"));
+            if (totalLength > maxSize) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editPost", "File size must be less than 5MB.");
+            } else {
+                // upload file
+                String filePath = "";
+                for (int i = 0; i < files.length; i++) {
+                    filePath += pathget + uploadFile(files[i], "directoryImageQuestion") + ".png";
                     if (i < files.length - 1) {
                         filePath += ";";
                     }
                 }
+                // remove file when edit question
+                removeFileEdit(oldImagePathEdited, "directoryImageQuestion");
+
+                dao.insertUpdateObject(
+                    SibConstants.SqlMapper.SQL_POST_EDIT,
+                    new Object[] { fixFilePath(filePathEdited + filePath), content, subjectId, qid });
+
+                // TODO can add user edit
+                // activityLogSerservice.insertActivityLog(new
+                // ActivityLogData(SibConstants.TYPE_QUENSION_ANSWER, "C",
+                // "You answered a question", studentId, qid));
+                simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "post", "editPost", "");
             }
-
-            // remove file when edit question
-            removeFileEdit(oldImagePathEdited, "directoryImageQuestion");
-
-            dao.insertUpdateObject(
-                SibConstants.SqlMapper.SQL_POST_EDIT,
-                new Object[] { fixFilePath(filePathEdited + filePath), content, subjectId, qid });
-
-            // TODO can add user edit
-            // activityLogSerservice.insertActivityLog(new
-            // ActivityLogData(SibConstants.TYPE_QUENSION_ANSWER, "C",
-            // "You answered a question", studentId, qid));
-            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "post", "editPost", "");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage(), e.getCause());
             simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Post", "editPost", e.getMessage());
         }
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
@@ -917,37 +934,59 @@ public class PostServiceImpl implements PostService {
 
             String error = validateFileImage(files);
             if (!StringUtil.isNull(error)) {
-                simpleResponse = new SimpleResponse("" + Boolean.FALSE, "post", "editAnswer", error);
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editAnswer", error);
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
             boolean status = true;
             MultipartFile file;
-            String filePath = "";
             String filePathEdited = mergeImage(oldImagePath, oldImagePathEdited);
             String maxLength = environment.getProperty("file.upload.image.length");
+
+            // Check total file length
+            int totalLength = 0;
+            for (String pathImage : filePathEdited.split(";")) {
+                if (!StringUtil.isNull(pathImage)) {
+                    String oldPathFile = environment.getProperty("directoryImageAnswer") +
+                                         pathImage.substring(pathImage.lastIndexOf("/"));
+                    totalLength += new File(oldPathFile).length();
+                }
+            }
 
             if (files != null && files.length > 0) {
                 if ((files.length + filePathEdited.split(";").length) > Integer.parseInt(maxLength)) {
                     error = "You only upload " + maxLength + " image";
-                    Response reponse = new SimpleResponse(SibConstants.FAILURE, "post", "editAnswer", error);
-                    return new ResponseEntity<Response>(reponse, HttpStatus.OK);
+                    simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editAnswer", error);
+                    return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
                 }
-                String pathget = environment.getProperty("directoryGetImageAnswer");
+                for (int i = 0; i < files.length; i++) {
+                    totalLength += files[i].getSize();
+                }
+            }
+            int maxSize = Integer.parseInt(environment.getProperty("file.upload.image.size"));
+            if (totalLength > maxSize) {
+                simpleResponse = new SimpleResponse(
+                                                    SibConstants.FAILURE,
+                                                    "post",
+                                                    "editAnswer",
+                                                    "File size must be less than 5MB.");
+            } else {
+                String filePath = "";
                 for (int i = 0; i < files.length; i++) {
                     file = files[i];
-                    filePath += pathget + uploadFile(file, "directoryImageAnswer") + ".png";
+                    filePath += environment.getProperty("directoryGetImageAnswer") +
+                                uploadFile(file, "directoryImageAnswer") +
+                                ".png";
                     if (i < files.length - 1) {
                         filePath += ";";
                     }
                 }
-            }
-
             // remove file when edit question
             removeFileEdit(oldImagePathEdited, "directoryImageAnswer");
 
             dao.insertUpdateObject(SibConstants.SqlMapper.SQL_ANSWER_EDIT, new Object[] { content, fixFilePath(filePathEdited +
                                                                                                                filePath), aid });
             simpleResponse = new SimpleResponse("" + status, "Post", "editAnswer", "");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
