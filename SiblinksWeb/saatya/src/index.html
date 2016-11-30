@@ -1,20 +1,21 @@
+<!DOCTYPE html>
 <html lang="en" ng-app="brotApp"  ng-controller="MainController">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta property="og:title" content="SibLinks" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta property="og:title" content="SibLinks"/>
 <meta property="og:image" content="http://img.youtube.com/vi/LukNyF-rEa8/0.jpg" />
-<meta name="google-signin-scope" content="profile email">
-<meta name="google-signin-client_id" content="667014101821-v1f9a583qgmt280gtci8n4a87k7uja2m.apps.googleusercontent.com">
+<meta name="google-signin-scope" content="profile email"/>
+<meta name="google-signin-client_id" content="667014101821-v1f9a583qgmt280gtci8n4a87k7uja2m.apps.googleusercontent.com"/>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
 
 <title>SibLinks</title>
-<link rel="shortcut icon" href="assets/images/logo-2.png">
+<link rel="shortcut icon" href="assets/images/logo-2.png"/>
 <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
 <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
-<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
-<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-<link rel="manifest" href="json/manifest.json">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet"/>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css"/>
+<link rel="manifest" href="json/manifest.json"/>
 </head>
 <body id="{{idbody}}" ng-class="{home: idbody =='', 'student-profile': currentPath == '/mentor/mentorProfile/'}">
   	<header id="header" ng-controller="UserHeaderController">
