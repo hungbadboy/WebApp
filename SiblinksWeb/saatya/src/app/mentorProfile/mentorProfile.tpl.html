@@ -16,7 +16,7 @@
                                     </div>
                                     <h4 ng-if="!isEmptyName">{{mentorInfo.firstname.trim()}} {{mentorInfo.lastName.trim()}}</h4>
                                     <h4 ng-if="isEmptyName">{{mentorInfo.fullName}}</h4>
-                                    <div ng-if="errorMessage" class="validate_error" style="background: transparent; margin-top : 10px;text-align: center; font-weight: 500">
+                                    <div ng-if="errorMessage" class="validate_error" style="background: transparent; text-align: center; font-weight: 500; position: absolute; top: 45px; width: 100%;">
                                         <span ng-bind="errorMessage" style="color: red"></span>
                                     </div>
                                     <span class="changeImg broswer-img" ng-show="!isLoginViaFBOrGoogle">
