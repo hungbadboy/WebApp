@@ -1,6 +1,6 @@
 //=========================================== HEADER.CONTROLLER.JS==============
 brotControllers.controller('UserHeaderController',
-    ['$scope', '$modal', '$rootScope', '$http', '$location', '$document','$log', 'NotificationService', 'LogoutService', 'myCache', 'HomeService', '$window',
+    ['$scope', '$modal', '$rootScope', '$http', '$location', '$document', '$log', 'NotificationService', 'LogoutService', 'myCache', 'HomeService', '$window',
         function ($scope, $modal, $rootScope, $http, $location, $document, $log, NotificationService, LogoutService, myCache, HomeService, $window) {
             // check login page
             brot.signin.statusStorageHtml();
@@ -38,30 +38,30 @@ brotControllers.controller('UserHeaderController',
             }
 
             $scope.profile = function () {
-            	$location.path('/student/studentProfile' + userId);
+                $location.path('/student/studentProfile' + userId);
             };
 
             /*$scope.goToEditStudent = function () {
-                $location.path('/editStudent/basic');
-            };*/
+             $location.path('/editStudent/basic');
+             };*/
 
-            $scope.goToProfile= function(url) {
-            	$('#user-info').hide();
-            	$location.path(url);
-            	
+            $scope.goToProfile = function (url) {
+                $('#user-info').hide();
+                $location.path(url);
+
             }
-            
+
             $scope.popupNotification = function () {
-               showNotification($(this));
+                showNotification($(this));
             };
 
             function init() {
                 if (userId != null) {
-                	// get Notification not read by user
-                	NotificationService.getNotificationByUserId(userId).then(function (data) {
-                    	$rootScope.countNotification = data.data.count;
+                    // get Notification not read by user
+                    NotificationService.getNotificationByUserId(userId).then(function (data) {
+                        $rootScope.countNotification = data.data.count;
                     });
-                    	//$scope.listNotifications = data.data.request_data_result;
+                    //$scope.listNotifications = data.data.request_data_result;
 //                    	if ($rootScope.countNotification == null) {
 //                    		NotificationService.getNotificationReaded(userId).then(function (data) {
 //                              if (data.data.request_data_result.length > 0) {
@@ -126,28 +126,28 @@ brotControllers.controller('UserHeaderController',
                 }
 
                 $rootScope.isMenuMobile = checkMenuType();
-                $rootScope.isMiniSideRightBar = checkMenuType(); 
+                $rootScope.isMiniSideRightBar = checkMenuType();
             }
 
             function showNotification(ele) {
-            	if($rootScope.countNotification !== null && $rootScope.countNotification !== undefined && $rootScope.countNotification > 0) {
-	                NotificationService.updateAllNotification(userId).then(function (data) {
-	                    if (data.data.request_data_result) {
-	                        $rootScope.countNotification = 0;
-	                    }
-	                });
-            	}
+                if ($rootScope.countNotification !== null && $rootScope.countNotification !== undefined && $rootScope.countNotification > 0) {
+                    NotificationService.updateAllNotification(userId).then(function (data) {
+                        if (data.data.request_data_result) {
+                            $rootScope.countNotification = 0;
+                        }
+                    });
+                }
             }
 
             init();
 
             $scope.logout = function () {
                 LogoutService.logout(userId).then(function (data) {
-                	if(data.data.status == true) {
-                		window.localStorage.clear();
-                		window.location.href ='/';
-                	}
-                });                
+                    if (data.data.status == true) {
+                        window.localStorage.clear();
+                        window.location.href = '/';
+                    }
+                });
             };
 
             $scope.viewAllNotification = function () {
@@ -235,52 +235,56 @@ brotControllers.controller('UserHeaderController',
              * Show small left side bar
              */
             $scope.showSmallLeftSideBar = function showSmallLeftSideBar() {
-            	$rootScope.isMiniMenu = !$rootScope.isMiniMenu;
-            	if($rootScope.isMiniMenu) {
-        			angular.element('.menuSubmenu').removeClass('show');
-            	} else {
-            		angular.element('.menuSubmenu').addClass('show');
-            	}
-            }
-            
+                $rootScope.isMiniMenu = !$rootScope.isMiniMenu;
+                if($rootScope.isMiniMenu && !$rootScope.isMiniSideRightBar){
+                    angular.element('#sidebar-right').removeClass('showsidebar');
+                    $rootScope.isMiniSideRightBar = true;
+                }
+                if ($rootScope.isMiniMenu) {
+                    angular.element('.menuSubmenu').removeClass('show');
+                } else {
+                    angular.element('.menuSubmenu').addClass('show');
+                }
+            };
+
             /**
              *  Show hide when toggle element and hide all element when click any where
-             */ 
-            angular.element($document).on('click', function(el) {
-            	var elem = $(el.target).closest('.notification'),
-            	userLogin= $(el.target).closest('.profile-user'),
-            	boxUserinfo= $(el.target).closest('#user-info'),
-            	box  = $(el.target).closest('.notification-content'),
-            	navbarToggle = $(el.target).closest('.navbar-toggle'),
-            	mobimenu = $(el.target).closest('.mobimenu');
-            	
-            	if ( elem.length ) {
-            		el.preventDefault();
-            		$('.notification-content').toggle();
-            	}else if (!box.length){
-            		$('.notification-content').hide();
-            	}
-            	//
-            	if ( userLogin.length ) {
-            		el.preventDefault();
-            		$('#user-info').toggle();
-            	}else if (!boxUserinfo.length){
-            		$('#user-info').hide();
-            	}
-            	//
-            	if ( navbarToggle.length ) {
-            		el.preventDefault();
-            		if($('.mobimenu').hasClass('in')) {
-            			$('.mobimenu').addClass('in');
-            		} else {
-            			$('.mobimenu').removeClass('in');	
-            		}
-            	}else if (!boxUserinfo.length){
-            		$('.mobimenu').removeClass('in');
-            	}
+             */
+            angular.element($document).on('click', function (el) {
+                var elem = $(el.target).closest('.notification'),
+                    userLogin = $(el.target).closest('.profile-user'),
+                    boxUserinfo = $(el.target).closest('#user-info'),
+                    box = $(el.target).closest('.notification-content'),
+                    navbarToggle = $(el.target).closest('.navbar-toggle'),
+                    mobimenu = $(el.target).closest('.mobimenu');
+
+                if (elem.length) {
+                    el.preventDefault();
+                    $('.notification-content').toggle();
+                } else if (!box.length) {
+                    $('.notification-content').hide();
+                }
+                //
+                if (userLogin.length) {
+                    el.preventDefault();
+                    $('#user-info').toggle();
+                } else if (!boxUserinfo.length) {
+                    $('#user-info').hide();
+                }
+                //
+                if (navbarToggle.length) {
+                    el.preventDefault();
+                    if ($('.mobimenu').hasClass('in')) {
+                        $('.mobimenu').addClass('in');
+                    } else {
+                        $('.mobimenu').removeClass('in');
+                    }
+                } else if (!boxUserinfo.length) {
+                    $('.mobimenu').removeClass('in');
+                }
             });
 
-            function checkMenuType(){
+            function checkMenuType() {
                 var width = $window.innerWidth;
                 return width < 1281;
             }
