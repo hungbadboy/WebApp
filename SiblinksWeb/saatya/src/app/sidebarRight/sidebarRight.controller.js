@@ -1,8 +1,8 @@
 /**
  * Created by Tavv on 28/09/2016.
  */
-brotControllers.controller('SideBarRightController', ['$scope', '$http', 'MentorService', 'VideoService', 'myCache', 'SideBarRightService', '$sce',
-    function ($scope, $http, MentorService, VideoService, myCache, SideBarRightService, $sce) {
+brotControllers.controller('SideBarRightController', ['$scope', '$http', 'MentorService', 'VideoService', 'myCache', 'SideBarRightService', '$sce', '$rootScope',
+    function ($scope, $http, MentorService, VideoService, myCache, SideBarRightService, $sce, $rootScope) {
 
         var userId = localStorage.getItem('userId');
         //data test
@@ -54,6 +54,7 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
 
         var listActivityLogSize = 0;
 
+        
         init();
 
         function init() {
@@ -199,7 +200,24 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
                 }
 
             }
-        }
+        };
+        
+        
+        $scope.toggleSideRightBar = function shotoggleSideRightBar() {
+        	$rootScope.isMiniSideRightBar = !$rootScope.isMiniSideRightBar;
+        	if($rootScope.isMiniSideRightBar && !$rootScope.isMenuMobile){
+        		$rootScope.isMenuMobile = true;
+        	}else if($rootScope.isMiniSideRightBar && $rootScope.isMenuMobile){
+        		$rootScope.isMenuMobile = false;
+        	}else if(!$rootScope.isMiniSideRightBar && !$rootScope.isMenuMobile){
+        		$rootScope.isMenuMobile = true;
+        	}
+        	if($rootScope.isMiniSideRightBar) {
+    			angular.element('#sidebar-right').removeClass('showsidebar');
+        	} else {
+        		angular.element('#sidebar-right').addClass('showsidebar');
+        	}
+        };
 
 
     }]);

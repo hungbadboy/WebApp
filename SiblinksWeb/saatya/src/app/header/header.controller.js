@@ -126,6 +126,7 @@ brotControllers.controller('UserHeaderController',
                 }
 
                 $rootScope.isMenuMobile = checkMenuType();
+                $rootScope.isMiniSideRightBar = checkMenuType(); 
             }
 
             function showNotification(ele) {
