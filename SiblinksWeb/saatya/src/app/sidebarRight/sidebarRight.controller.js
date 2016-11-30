@@ -205,13 +205,13 @@ brotControllers.controller('SideBarRightController', ['$scope', '$http', 'Mentor
         
         $scope.toggleSideRightBar = function shotoggleSideRightBar() {
         	$rootScope.isMiniSideRightBar = !$rootScope.isMiniSideRightBar;
-        	if($rootScope.isMiniSideRightBar && !$rootScope.isMenuMobile){
-        		$rootScope.isMenuMobile = true;
-        	}else if($rootScope.isMiniSideRightBar && $rootScope.isMenuMobile){
-        		$rootScope.isMenuMobile = false;
-        	}else if(!$rootScope.isMiniSideRightBar && !$rootScope.isMenuMobile){
-        		$rootScope.isMenuMobile = true;
-        	}
+            var isShowMenuLeft = angular.element('#sidebar-menu').hasClass('in');
+
+            if(isShowMenuLeft){
+                angular.element('#sidebar-menu').removeClass('in');
+                $rootScope.isMiniMenu = false;
+            }
+
         	if($rootScope.isMiniSideRightBar) {
     			angular.element('#sidebar-right').removeClass('showsidebar');
         	} else {
