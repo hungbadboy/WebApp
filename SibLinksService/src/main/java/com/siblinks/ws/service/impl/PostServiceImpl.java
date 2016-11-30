@@ -123,15 +123,14 @@ public class PostServiceImpl implements PostService {
             long id = 0l;
             String error = validateFileImage(files);
             if (StringUtil.isNull(content)) {
-                // Return is not exist image
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "createPost", "Content is not empty.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             } else if (content.length() > 4000) {
-                // Return is not exist image
                 simpleResponse = new SimpleResponse(
                                                     SibConstants.FAILURE,
                                                     "post",
                                                     "createPost",
-                                                    "Content is limit 4000 characters.");
+                                                    "Content must be less than 4000 characters.");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
 
@@ -189,12 +188,15 @@ public class PostServiceImpl implements PostService {
             boolean status = false;
             long id = 0l;
             String error = validateFileImage(files);
-            if (StringUtil.isNull(content) || content.length() > 4000) {
+            if (StringUtil.isNull(content)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "createAnswer", "Content is not empty.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+            } else if (content.length() > 4000) {
                 simpleResponse = new SimpleResponse(
                                                     SibConstants.FAILURE,
                                                     "post",
                                                     "createAnswer",
-                                                    "Answer over 4000 or answer null");
+                                                    "Content must be less than 4000 characters.");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
             if (!StringUtil.isNull(error)) {
@@ -280,9 +282,15 @@ public class PostServiceImpl implements PostService {
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
-            if (StringUtil.isNull(content) || content.length() > 4000) {
-                // Return is not exist image
-                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editPost", "Content over 4000 or content null");
+            if (StringUtil.isNull(content)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "createPost", "Content is not empty.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+            } else if (content.length() > 4000) {
+                simpleResponse = new SimpleResponse(
+                                                    SibConstants.FAILURE,
+                                                    "post",
+                                                    "createPost",
+                                                    "Content must be less than 4000 characters.");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
             String error = "";
@@ -927,10 +935,18 @@ public class PostServiceImpl implements PostService {
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
             }
 
-            if (StringUtil.isNull(content) || content.length() > 4000) {
-                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editAnswer", "Answer over 4000 or answer null");
+            if (StringUtil.isNull(content)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editAnswer", "Content is not empty.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+            } else if (content.length() > 4000) {
+                simpleResponse = new SimpleResponse(
+                                                    SibConstants.FAILURE,
+                                                    "post",
+                                                    "editAnswer",
+                                                    "Content must be less than 4000 characters.");
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
+
 
             String error = validateFileImage(files);
             if (!StringUtil.isNull(error)) {

@@ -120,7 +120,7 @@ brotControllers.controller('HomeController', ['$scope', '$http', '$location', '$
         		return;
         	}
             var questions = $('#autocompleteQuest_value').val();
-            if (!questions) {
+            if (questions == null || (questions !=null && questions.trim() == '')) {
                 $scope.askErrorMsg='Please input your question.';
                 $("#autocompleteQuest_value").focus();
                 return;

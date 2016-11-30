@@ -495,7 +495,7 @@ brotControllers
                         return;
                     }
                     var questions = $('#autocompleteQuest_value').val();
-                    if (!questions) {
+                    if (questions == null || (questions != null && questions.trim() == '')) {
                         $rootScope.myVarQ = !$scope.myVarQ;
                         $scope.askErrorMsg='Please enter your question.';
                         $("#autocompleteQuest_value").focus();
@@ -558,20 +558,19 @@ brotControllers
                     // get question of student
                     if ($scope.selectedSubject == null || $scope.selectedSubject === undefined
                         || $scope.selectedSubject.originalObject == null ) {
-                        $scope.askErrorMsg='Please choose category';
+                        $scope.askErrorMsg='Please choose category.';
                         $("#autocompleteCate_value").focus();
                         return;
                     }
                     var questions = $('#autocompleteQuest_value').val();
-                    if (!questions) {
-
-                        $scope.askErrorMsg='You enter your question';
+                    if (questions == null || (questions !=null && questions.trim() == '')) {
+                        $scope.askErrorMsg='Please enter your question.';
                         $("#autocompleteQuest_value").focus();
                         return;
                     }
 
                     if (isEmpty(userId) ||userId=='-1') {
-                        $scope.askErrorMsg='Please login before edit a question';
+                        $scope.askErrorMsg='Please login before edit a question.';
                         return;
                     }
                     fd = new FormData();
@@ -591,7 +590,7 @@ brotControllers
                     }
 
                     if (totalLenth > MAX_IMAGE) {
-                        $scope.askErrorMsg='You cannot attach more than ' + MAX_IMAGE +' images';
+                        $scope.askErrorMsg='You cannot attach more than ' + MAX_IMAGE +' images.';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;
@@ -600,7 +599,7 @@ brotControllers
                     }
 
                     if(totalSize > MAX_SIZE_IMG_UPLOAD){
-                        $scope.askErrorMsg='Image over 5Mb';
+                        $scope.askErrorMsg='File size must be less than 5MB.';
                         $rootScope.myVarU = !$scope.myVarU;
                         $timeout(function () {
                             $rootScope.myVarU = false;

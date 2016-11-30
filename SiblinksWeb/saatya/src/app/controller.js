@@ -661,7 +661,7 @@ brotControllers.controller('RegisterSuccessController', ['$scope', function($sco
 //    // get question of student
 //    $scope.selectCategory = $('select option:selected').val();
 //    var questions = $('.search-inner .search_question').val();
-//    if(!questions) {
+//    if (questions == null || (questions!=null && questions.trim() == '')) {
 //      $rootScope.myVarQ = !$scope.myVarQ;
 //      $timeout(function () {
 //        $rootScope.myVarQ = false;
@@ -1452,7 +1452,7 @@ brotControllers.controller('StudentProfileController', ['$scope', '$rootScope', 
 //      // get question of student
 //    $scope.selectCategory = $('select option:selected').val();
 //    var questions = $('.search-inner .search_question').val();
-//    if(!questions) {
+//    if (questions == null || (questions!=null && questions.trim() == '')) {
 //      $rootScope.myVarQ = !$scope.myVarQ;
 //      $timeout(function () {
 //        $rootScope.myVarQ = false;
