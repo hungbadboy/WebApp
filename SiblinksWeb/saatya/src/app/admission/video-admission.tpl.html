@@ -42,7 +42,7 @@
                                         <a href="#/student/mentorProfile/{{videoInfo.userid}}"><img ng-src="{{videoInfo.avatar}}"></a>
                                     </div>
                                     <p class="videos-rate-infor">
-                                        <span class="videoRate">{{(videoInfo.averageRating == null) ? '0' : videoInfo.averageRating}} ({{videoInfo.numRatings}})</span>
+                                        <span class="videoRate">{{(videoInfo.averageRating == null) ? '0' : videoInfo.averageRating}} ({{(videoInfo.numRatings == null)? '0' : videoInfo.numRatings}})</span>
                                     	<span ng-if="loadRate" star-rating stars="5" 
                                           outer-star-selection="stars"
                                           outer-percent="rating"
