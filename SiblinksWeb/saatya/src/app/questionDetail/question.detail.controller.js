@@ -202,7 +202,7 @@ brotControllers
                         return;
                     }
                     var questions = $('#autocompleteQuest_value').val();
-                    if (!questions) {
+                    if (questions == null || (questions!=null && questions.trim() == '')) {
                         $rootScope.myVarQ = !$scope.myVarQ;
                         $timeout(function () {
                             $rootScope.myVarQ = false;
@@ -320,7 +320,7 @@ brotControllers
                         return;
                     }
                     var questions = $('#autocompleteQuest_value').val();
-                    if (!questions) {
+                    if (questions == null || (questions!=null && questions.trim() == '')) {
                         $rootScope.myVarQ = !$scope.myVarQ;
                         $timeout(function () {
                             $rootScope.myVarQ = false;

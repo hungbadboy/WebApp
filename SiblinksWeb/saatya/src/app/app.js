@@ -12,7 +12,28 @@ brotControllers.run(function ($templateCache) {
 });
 
 //$location.path('/sampleurl', false); to prevent reloading
-brotControllers.run(['$route', '$rootScope', '$modalStack', '$location', function ($route, $rootScope, $modalStack, $location) {
+brotControllers.run(['$route', '$rootScope', '$modalStack', '$location','LogoutService', function ($route, $rootScope, $modalStack, $location, LogoutService) {
+	
+	var lastDigestRun = new Date();
+    setInterval(function () {
+        var now = Date.now();
+        if (now - lastDigestRun > 30 * 60 * 1000) { // Auto logout 30 minute
+        	if (localStorage.getItem('userId') !== undefined || localStorage.getItem('userId') != 'undefined') {
+	        	LogoutService.logout(localStorage.getItem('userId')).then(function (data) {
+	            	if(data.data.status == true) {
+	            		window.localStorage.clear();
+	            		window.location.href ='/';
+	            	}
+	            });
+        	}
+        	
+        }
+    }, 60 * 1000);
+
+    $rootScope.$watch(function() {
+        lastDigestRun = new Date();
+    });
+    
     $rootScope.$on('$locationChangeStart', function (event) {
         var top = $modalStack.getTop();
         if (top) {
