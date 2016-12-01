@@ -283,20 +283,20 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
           		  }
           	  });
           }
-        }
+        };
         $scope.decodeContent= function (str) {
             return decodeURIComponent(str);
         };
         $scope.searchEnter = function () {
         	resetPage();
         	$scope.cencelComment();
-        	var txtSearch = $('#srch-term').val();
+            var txtSearch = angular.element("input#srch-term").val();
             $window.location.href = '#/videos?search='+encodeURIComponent(txtSearch);
-        }
+        };
         //scroll to #id
         $scope.loadTo = function () {
             angular.element(document.getElementById('series-video-list')).mCustomScrollbar('scrollTo','#listPlaylist' + $scope.currentvid);
-        }
+        };
 
         $scope.nextVideo = function (str) {
         	resetPage();
