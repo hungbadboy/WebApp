@@ -15,6 +15,9 @@ brotControllers.controller('ChangePasswordCtrl',
   });
 
   $scope.changePassword = function(newPass, confirmPass) {
+	  $scope.msgError="";
+	  $scope.msgSuccess="";
+	  
     if(newPass == confirmPass && newPass !== undefined && confirmPass !== undefined) {
       StudentService.changePasswordForgot(token, newPass).then(function(data) {
     	 if(data.data='true') {
@@ -37,10 +40,10 @@ brotControllers.controller('ChangePasswordCtrl',
   };
 
   $scope.goHomePage = function(type) {
-	  if(type ==1) {
-		  window.location.href = '/student/signin';
+	  if(type == 1) {
+		  window.location.href='#/student/signin';
 	  } else {
-		  window.location.href = '/mentor/signin';
+		  window.location.href='#/mentor/signin';
 	  }
   };
 
