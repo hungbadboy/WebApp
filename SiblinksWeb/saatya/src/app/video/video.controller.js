@@ -560,22 +560,25 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
 
         $scope.searchAction = function () {
-            $scope.isSearchAction = true;
-            if ($rootScope.subjectId != -1) {
-                $rootScope.subjectId = -1;
+        	var searchValue = angular.element("input#srch-term").val();
+            searchValue = (searchValue != undefined && searchValue != null) ? searchValue.trim() : searchValue;
+            if(searchValue == ''){
+            	return false;
+            } else {
+	        	$scope.isSearchAction = true;
+	            if ($rootScope.subjectId != -1) {
+	                $rootScope.subjectId = -1;
+	            }
+	            $scope.filterSearchBySub = false;
+	            isLoadMoreSearch = false;
+	            currentPageSearch = 0;
+	            if (!isEmpty(keywordFromAnotherPage)) {
+	                keywordFromAnotherPage = null;
+	            }
+            
+            	searchVideoPlaylist(searchValue, limitOfLoadMore, 0);
+            	displayResultsSearch();
             }
-            $scope.filterSearchBySub = false;
-            isLoadMoreSearch = false;
-            currentPageSearch = 0;
-            if (!isEmpty(keywordFromAnotherPage)) {
-                keywordFromAnotherPage = null;
-            }
-            var searchValue = angular.element("input#srch-term").val();
-            if(!isEmpty(searchValue)){
-                searchValue = searchValue.trim();
-            }
-            searchVideoPlaylist(encodeURIComponent(searchValue), limitOfLoadMore, 0);
-            displayResultsSearch();
         };
 
 
@@ -1095,24 +1098,28 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         }
 
         function searchVideoPlaylist(keyword, limit, offset) {
-            VideoService.searchVideoPlaylist(keyword, limit, offset).then(function (search_response) {
-                if (search_response.data.status = "true" && search_response.data.request_data_result != StatusError.MSG_DATA_NOT_FOUND) {
-                    var results = search_response.data.request_data_result;
-                    $scope.listVideoSearchResults = isLoadMoreSearch ? $scope.listVideoSearchResults.concat(results) : results;
-                    $scope.countSearchResults = $scope.listVideoSearchResults.length;
-                    listVideoSearch = $scope.listVideoSearchResults;
-                    $scope.isShowMoreSearch = (isLoadMoreSearch && results.length < limitOfLoadMore) ? undefined : false;
-                    $scope.msgSearchNotFound = null;
-                } else {
-                    $scope.listVideoSearchResults = null;
-                    $scope.msgSearchNotFound = "No results for '" + keyword + "'";
-                }
-            });
+        	if(keyword === undefined || keyword.trim() == '') {
+        		return;
+        	} else {
+	            VideoService.searchVideoPlaylist(keyword, limit, offset).then(function (search_response) {
+	                if (search_response.data.status = "true" && search_response.data.request_data_result != StatusError.MSG_DATA_NOT_FOUND) {
+	                    var results = search_response.data.request_data_result;
+	                    $scope.listVideoSearchResults = isLoadMoreSearch ? $scope.listVideoSearchResults.concat(results) : results;
+	                    $scope.countSearchResults = $scope.listVideoSearchResults.length;
+	                    listVideoSearch = $scope.listVideoSearchResults;
+	                    $scope.isShowMoreSearch = (isLoadMoreSearch && results.length < limitOfLoadMore) ? undefined : false;
+	                    $scope.msgSearchNotFound = null;
+	                } else {
+	                    $scope.listVideoSearchResults = null;
+	                    $scope.msgSearchNotFound = "No results for '" + keyword + "'";
+	                }
+	            });
+        	}
         }
 
         function searchFromAnotherPage(keyword) {
             $scope.isSearchAction = true;
-            searchVideoPlaylist(encodeURIComponent(keyword), limitOfLoadMore, 0);
+            searchVideoPlaylist(keyword, limitOfLoadMore, 0);
             displayResultsSearch();
         }
         
