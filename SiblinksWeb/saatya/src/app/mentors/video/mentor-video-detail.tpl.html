@@ -64,7 +64,7 @@
                                                 <button class="btn-edit" ng-click="editVideo(video.vid)">Edit</button>
                                                 <button class="btn-remove" ng-really-message="Are you sure you want to delete?" ng-really-click ="deleteVideo(video.vid)">Delete</button>
                                             </div>
-                                            <p class="list-view pull-right">
+                                            <div class="list-view pull-right">
                                                 <span  class="pull-left" star-rating stars="5" id="divTotalRate"
 			                                          outer-star-selection="stars"
 			                                          outer-percent="rating"
@@ -74,10 +74,12 @@
 			                                          back-color="white" title="{{video.averageRating}}"
 			                                          readonly ="true"></span>
                                                 <span> {{video.averageRating != null ? video.averageRating : 0}} ({{ (!video.numRatings)? '0' : video.numRatings}})</span>
-                                                <span><i class="fa fa-play-circle-o" aria-hidden="true"></i> {{showNumberFormat(video.numViews)}}</span>&nbsp;&nbsp;
-                                                <span><i class="fa fa-comments" aria-hidden="true"></i> {{comments.length > 0 ? showNumberFormat(comments.length) : 0}}</span>&nbsp;&nbsp;
+                                                <p class="rateView">
+                                                    <span><i class="fa fa-play-circle-o" aria-hidden="true"></i> {{showNumberFormat(video.numViews)}}</span>&nbsp;&nbsp;
+                                                    <span><i class="fa fa-comments" aria-hidden="true"></i> {{comments.length > 0 ? showNumberFormat(comments.length) : 0}}</span>&nbsp;&nbsp;
+                                                </p>
                                                 
-                                            </p>
+                                            </div>
                                         </div>
                                       <!--   <div class="txt-dg clearfix">
                                             <span><p class="pull-left" style="margin-top: 4px;">Rating
