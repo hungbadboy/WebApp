@@ -19,7 +19,7 @@ brotControllers.controller('ChangePasswordCtrl',
       StudentService.changePasswordForgot(token, newPass).then(function(data) {
     	 if(data.data='true') {
     		 //$log.info(data.data.request_data_result);
-    		 $scope.msgSuccess='Change password is successful';
+    		 $scope.msgSuccess='Change password is successful.';
     	     $scope.show = 1;
     	 } else {
     		 $scope.msgError=data.data.request_data_result;
@@ -27,7 +27,7 @@ brotControllers.controller('ChangePasswordCtrl',
         
       });
     } else {
-    	$scope.msgError="Passwords do not match"
+    	$scope.msgError="Passwords do not match."
 //      $rootScope.myVar = !$scope.myVar;
 //      $timeout(function () {
 //        $rootScope.myVar = false;
@@ -36,8 +36,12 @@ brotControllers.controller('ChangePasswordCtrl',
     }
   };
 
-  $scope.goHomePage = function() {
-    window.location.href = '/';
+  $scope.goHomePage = function(type) {
+	  if(type ==1) {
+		  window.location.href = '/student/signin';
+	  } else {
+		  window.location.href = '/mentor/signin';
+	  }
   };
 
 }]);

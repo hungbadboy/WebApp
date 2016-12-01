@@ -139,10 +139,10 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
             String email = request.getRequest_data().getEmail();
 
             // check email is exist
-            List<Object> readObjects = dao.readObjects(
+            List<Object> userType = dao.readObjects(
                 SibConstants.SqlMapper.SQL_CHECK_USER_FORGOT_PASSWORD,
                 new Object[] { email, email });
-            if (!CollectionUtils.isEmpty(readObjects)) {
+            if (!CollectionUtils.isEmpty(userType)) {
                 String generateToken = CommonUtil.generateToken();
 
                 // Update DB
@@ -153,7 +153,7 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
                 if (statusIn) {
 
                     // Get address web configuration DB
-                    readObjects = dao.readObjects(
+                    List<Object> readObjects = dao.readObjects(
                         SibConstants.SqlMapper.SQL_GET_ADDRESS_WEB,
                         new Object[] { SibConstants.DOMAIN });
                     for (Object object : readObjects) {
@@ -164,7 +164,12 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
                 }
 
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("FORGOT", add + "forgotPassword?token=" + generateToken);
+                String strUserType = ((HashMap<String, String>) userType.get(0)).get(Parameters.USER_TYPE);
+                if (strUserType != null && !strUserType.equals(SibConstants.ROLE_TYPE.M.toString())) {
+                    map.put("FORGOT", add + "studentForgotPassword?token=" + generateToken);
+                } else {
+                    map.put("FORGOT", add + "mentor/mentorForgotPassword?token=" + generateToken);
+                }
 
                 NotifyByEmail notify = new NotifyByEmail();
                 notify.setMailSender(mailSender);

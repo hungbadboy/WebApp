@@ -111,8 +111,12 @@ brotApp.config(['$routeProvider', '$locationProvider', '$sceDelegateProvider',
 		templateUrl: 'src/app/search/search_forum.tpl.html',
 		controller: 'SearchForumCtrl'
 	}).
-	when('/forgotPassword', {
-		templateUrl: 'src/app/changePassword/changePassword.tpl.html',
+	when('/studentForgotPassword', {
+		templateUrl: 'src/app/changePassword/studentChangePassword.tpl.html',
+		controller: 'ChangePasswordCtrl'
+	}).
+	when('/mentor/mentorForgotPassword', {
+		templateUrl: 'src/app/changePassword/mentorChangePassword.tpl.html',
 		controller: 'ChangePasswordCtrl'
 	}).
 	when('/policy', {
