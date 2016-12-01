@@ -73,7 +73,6 @@
                                             <span>
                                             	<p class="pull-left" style="margin-top: 4px;">Rating
 	                                                <div class="average">
-                                                        <div>
 	                                                    <span star-rating stars="5" id="divTotalRate"
 					                                          outer-star-selection="stars"
 					                                          outer-percent="rating"
@@ -83,10 +82,8 @@
 					                                          back-color="white" title="{{video.averageRating}}"
 					                                          readonly ="true" style="top: 4px; position: relative"></span>
 		                                                <span> {{video.averageRating != null ? video.averageRating : 0}} ({{ (!video.numRatings)? '0' : video.numRatings}})</span>
-                                                        </div>
-                                                        <div>
 	                                                	<span><i class="fa fa-play-circle-o" aria-hidden="true"></i> {{showNumberFormat(video.numViews)}}</span>&nbsp;&nbsp;
-	                                                	<span><i class="fa fa-comments" aria-hidden="true"></i> {{comments.length > 0 ? showNumberFormat(comments.length) : 0}}</span></div>&nbsp;&nbsp;
+	                                                	<span><i class="fa fa-comments" aria-hidden="true"></i> {{comments.length > 0 ? showNumberFormat(comments.length) : 0}}</span>&nbsp;&nbsp;
 	                                                </div>
                                             	</p>
                                             </span>
