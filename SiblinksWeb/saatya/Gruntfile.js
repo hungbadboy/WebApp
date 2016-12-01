@@ -269,6 +269,7 @@ module.exports = function ( grunt ) {
                       'src/app/video/video.controller.js',
                       'src/app/video/VideoUploadController.js',
                       'src/app/video/VideoUpdateController.js',
+                      'src/app/video/searchSuggestController.js',
                       // Playlist
                       'src/app/mentors/playlist/PlaylistController.js',
                       'src/app/playlist/AddPlaylistController.js',

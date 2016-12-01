@@ -4,12 +4,22 @@
         <div class="container">
             <h5><a href="#/"> SibLinks</a> / <a href="#/videos">Tutorials</a> /<span> {{displayName(videoInfo.firstName, videoInfo.lastName, videoInfo.userName)}}</span></h5>
             <!-- Search form -->
-            <div class="search searchbrecrum">
+            <div class="search searchbrecrum" ng-controller="SearchSuggestController">
                 <form class="navbar-form" role="search">
                     <div class="input-group">
-                        <input type="text" ng-enter="searchEnter()" class="form-control form-control-search" placeholder="Search" name="srch-term" id="srch-term" >
+                        <!--<input type="text" ng-enter="searchEnter()" class="form-control form-control-search" placeholder="Search" name="srch-term" id="srch-term" >-->
+                        <!--<div class="input-group-btn">-->
+                            <!--<button ng-click="searchEnter()" class="btn btn-default btn-search-video" ><span data-icon="&#x55;"></span></button>-->
+                        <!--</div>-->
+                        <div angucomplete-alt id="srch-term" ng-enter="searchEnter()" placeholder="Search" pause="50"
+                             selected-object="onSelectKeyword"
+                             local-data="listTitlesVideo" search-fields="title" title-field="title"
+                             minlength="1" input-class="form-control form-control-small form-control-search"
+                             match-class="highlight"></div>
                         <div class="input-group-btn">
-                            <button ng-click="searchEnter()" class="btn btn-default btn-search-video" ><span data-icon="&#x55;"></span></button>
+                            <button class="btn btn-default btn-search-video" type="submit" ng-click="searchEnter()">
+                                <span data-icon="&#x55;"></span>
+                            </button>
                         </div>
                     </div>
                 </form>
