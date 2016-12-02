@@ -53,10 +53,10 @@
                                         <div ng-cloak id="listQA" class="group-item-qa" ng-if="listQuestions" scroller="askQuestion" data-on-total-scroll="loadMorePost" on-init="loadTo">
                                             <div ng-repeat="question in listQuestions | unique:'pid'" class="item-qa clearfix" ng-class="{'active':question.pid == currentPid}"
                                                  ng-click="selectQuestion(question.pid)" id="qa{{question.pid}}">
-                                                <div class="col-md-3">
+                                                <div class="col-xs-3">
                                                     <a><img class="avatar-fix-max-size60" ng-src="{{question.imageUrl}}" alt="avatar"></a>
                                                 </div>
-                                                <div class="col-md-9 bx-dt-qa">
+                                                <div class="col-xs-9 bx-dt-qa">
                                                     <h5>{{displayName(question.firstName,question.lastName,question.userName+'abc')}}</h5><span class="time"> asked {{convertUnixTimeToTime(question.timestamp)}}</span>
                                                     <p class="in-subj"><span>in</span> <b>{{question.subject}}</b></p>
                                                     <p class="q-cont">{{ question.content | limitTo: 100 }}{{question.content.length > 100 ? '...' : ''}}</p>
@@ -65,7 +65,7 @@
                                                             <span>&nbsp;{{convertUnixTimeToTime(question.timeanswer)}}</span></h6></div>
                                                         <div class="col-md-8 replied" ng-if="!question.timeanswer && currentTab != 'unanswered'"><h6>No replies </span></h6></div>
                                                         <div class="col-md-8 replied" ng-if="currentTab == 'unanswered'"><h6></span></h6></div>
-                                                        <div class="lis-view">
+                                                        <div class="lis-view col-md-4">
                                                             <p  class="{{currentTab != 'unanswered'?'list-view':'list-view-un'}}">
                                                                 {{question.numReplies}} <span data-icon="&#x77;"></span>&nbsp;&nbsp;
                                                                 {{showNumberFormat(question.numViews)}} <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
