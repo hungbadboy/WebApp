@@ -3,7 +3,7 @@
 <!-- /End Sidebar left menu -->
 <!-- Main center content -->
 <div class="content">
-    <div class="center-content" id="center-content" ng-class="{in: isMiniMenu, menuMobile : isMenuMobile}">
+    <div class="center-content" id="center-content" ng-class="{in: isMiniMenu, menuMobile : isMenuMobile, showsidebar : !isMiniSideRightBar}">
         <div class="center-content-wrapper">
             <section id="dashboard">
                 <!-- Content header -->
@@ -43,9 +43,9 @@
                             <div role="tabpanel tab-all" class="tab-answered">
                                 <!-- Nav tabs -->
                                 <div class="t-panel">
-                                    <p ng-click="selectTab('all')" ng-class="{'active':currentTab == 'all'}">All</p>
-                                    <p ng-click="selectTab('answered')" ng-class="{'active':currentTab == 'answered'}">Answered</p>
-                                    <p ng-click="selectTab('unanswered')" ng-class="{'active':currentTab == 'unanswered'}">Unanswered</p>
+                                    <p ng-click="selectTab('all')" ng-class="{'active':currentTab == 'all'}">All<span class="sup1">{{notifyNewest}}</span></p>
+                                    <p ng-click="selectTab('answered')" ng-class="{'active':currentTab == 'answered'}">Answered<span class="sup1">{{notifyNewest}}</span></p>
+                                    <p ng-click="selectTab('unanswered')" ng-class="{'active':currentTab == 'unanswered'}">Unanswered<span class="sup1">{{notifyNewest}}</span></p>
                                 </div>
                                 <!-- Tab panes -->
                                 <div class="tab-content">

@@ -1,6 +1,6 @@
 <div id="sidebar-menu" ng-class="{in: isMiniMenu, menuMobile : isMenuMobile}" class="sidebar-left" ng-include="sidebarLeft"></div>
 <div class="content" ng-cloak>
-    <div id="center-content" class="center-content" ng-class="{in: isMiniMenu, menuMobile : isMenuMobile}">
+    <div id="center-content" class="center-content" ng-class="{in: isMiniMenu, menuMobile : isMenuMobile, showsidebar : !isMiniSideRightBar}">
         <div class="center-content-wrapper">
             <section id="dashboard">
                 <div class="dashboard-wrapper">
