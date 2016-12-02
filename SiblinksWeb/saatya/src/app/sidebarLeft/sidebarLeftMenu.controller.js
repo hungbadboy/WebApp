@@ -48,5 +48,6 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
      */
     $scope.showFullLeftSideBar = function showFullLeftSideBar(path) {
     	$rootScope.isMiniMenu = false;
+    	$rootScope.isMiniSideRightBar = true;
     }
 }]);
