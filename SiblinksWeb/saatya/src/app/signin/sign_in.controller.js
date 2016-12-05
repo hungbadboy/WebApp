@@ -81,7 +81,7 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
 	                }
             	} else {
             		$rootScope.$broadcast('close');
-            		$scope.loginMess = 'Your email is already registered and not account Facebook';
+            		$scope.loginMess = 'Your email is already registered by Google';
             		return;
             	}
             });

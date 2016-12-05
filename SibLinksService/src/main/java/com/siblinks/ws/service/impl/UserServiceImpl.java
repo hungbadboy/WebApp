@@ -1836,7 +1836,7 @@ public class UserServiceImpl implements UserService {
             // Check user
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { username });
 
-            // User is not exists
+            // User is already exists
             if (CollectionUtils.isEmpty(readObject)) {
                 Object[] queryParamsFB = { username, request.getRequest_data().getUsertype(), request
                     .getRequest_data()
@@ -1856,6 +1856,21 @@ public class UserServiceImpl implements UserService {
 
             } else {
                 Map<String, String> mapUser = (HashMap<String, String>) readObject.get(SibConstants.NUMBER.ZERO);
+                if (mapUser.get(Parameters.ID_GOOGLE) != null && !mapUser.get(Parameters.ID_GOOGLE).equals("")) {
+                    simpleResponse = new SimpleResponse(
+                                                        SibConstants.FAILURE,
+                                                        request.getRequest_data_type(),
+                                                        request.getRequest_data_method(),
+                                                        "Your Facebook's email is already registered on the Google account.");
+                }
+
+                if (mapUser.get(Parameters.ID_FACEBOOK) == null || mapUser.get(Parameters.ID_FACEBOOK).equals("")) {
+                    simpleResponse = new SimpleResponse(
+                                                        SibConstants.FAILURE,
+                                                        request.getRequest_data_type(),
+                                                        request.getRequest_data_method(),
+                                                        "Your Facebook's email is already registered on the Siblinks account.");
+                }
                 // Check Facebook id for update
                 if (mapUser.get(Parameters.ID_FACEBOOK) != null &&
                     mapUser.get(Parameters.ID_FACEBOOK).equals(request.getRequest_data().getFacebookid())) {// Registered
