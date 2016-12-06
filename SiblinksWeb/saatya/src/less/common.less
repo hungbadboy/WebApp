@@ -2485,7 +2485,7 @@ span.essay-answers {
 .manager-profile-std .slide-broswer.subject {
   margin-right: 0px;
   position: absolute;
-  right: 0px;
+  right: 20px;
 }
 
 .slide-broswer.subject a span {
@@ -2680,7 +2680,7 @@ span.article-detail-title p {
 .video-list-content > div,
 .video-list-content > div > div {
   overflow: hidden;
-  /*border-bottom: 1px solid #ececed;*/
+  border-bottom: none;
 }
 .video-list-content > div > div:last-child {
     border: none;
@@ -2851,7 +2851,7 @@ ul.list-star span:last-child {
     z-index: 99;
 }
 span.number-media {
-    padding-top: 2px;
+    padding-top: 3px;
 }
 .post .post-footer .comments-list .comment .comment-body {
     margin-left: 54px;
@@ -2992,7 +2992,12 @@ canvas:focus, canvas:hover {
 .modal-add-video .group-item .item .box-detail-play .detail-pl-inner {
     width: ~"calc(100% - 196px)";
 }
-.video-list-content > div > div.line {
+.video-list-content > div > div.line,
+.video-list-content > div.line  {
     border-bottom: 1px solid #ececed;
     margin-right: 10px;
+}
+#history li:last-child .video-wrapper, 
+#favourite li:last-child .video-wrapper {
+  border: none;
 }

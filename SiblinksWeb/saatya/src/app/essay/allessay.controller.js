@@ -36,10 +36,11 @@ brotControllers.controller('AllEssayCtrl', ['$rootScope','$scope', '$location', 
         if (qa_scroll > 75) {
           $(".mentor-manage-essay .left-qa").css({"top":"105px"});
               $(".mentor-manage-essay .left-qa .tab-content .tab-pane").css({"height":+ heighttab + "px"});
-        } else {
-            $(".mentor-manage-essay .left-qa").css({"top":"auto"});
-            $(".mentor-manage-essay .left-qa .tab-content .tab-pane").css({"height":+ heighttab_scroll + "px"});
-        } 
+          }
+          else {
+              $(".mentor-manage-essay .left-qa").css({"top":"auto"});
+              $(".mentor-manage-essay .left-qa .tab-content .tab-pane").css({"height":+ heighttab_scroll + "px"});
+          } 
       })
       getAllEssay();
       if (!tab)

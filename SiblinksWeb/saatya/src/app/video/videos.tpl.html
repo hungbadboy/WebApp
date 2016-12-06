@@ -303,8 +303,7 @@
                             <div class="line"></div>
                             <div class="video-member" ng-show="login == 1 && listVideoRecommendedForU">
 
-                                <div ng-repeat="recommendedForYou in listVideoRecommendedForU | limitTo : limitOfRecommendedForU track by $index"
-                                     ng-style="{'border-bottom': !$last ? '1px solid #ddd' : '' }" class="clearfix">
+                                <div ng-repeat="recommendedForYou in listVideoRecommendedForU | limitTo : limitOfRecommendedForU track by $index" class="clearfix">
 
                                     <div class="video-member-header">
                                         <div class="video-member-title">
@@ -374,8 +373,9 @@
                                 <div class="see-more" ng-show="limitOfRecommendedForU < listVideoRecommendedForU.length" ng-click="loadMoreVideo(3)">
                                     <span>Show more</span>
                                 </div>
+                                <div class="line"></div>
                             </div>
-                            <div class="line"></div>
+                            
                         </div>
                     </div>
                 </div>
@@ -453,6 +453,7 @@
                                 </ul>
                                 <div class="see-more" ng-click="showMoreVideoRecent()" ng-show="flagShowMoreRecent"><span>Show more</span></div>
                             </div>
+                            <div class="line"></div>
                             <div class="this-week" ng-show="showDivWeek">
                                 <h5>This week</h5>
                                 <ul>
@@ -497,6 +498,7 @@
                                 </ul>
                                 <div ng-click="showMoreVideoWeek()" class="see-more" ng-show="flagShowMoreWeek"><span>Show more</span></div>
                             </div>
+                            <div class="line"></div>
                             <div class="older" ng-show="showDivOlder">
                                 <h5>Older</h5>
                                 <ul>
