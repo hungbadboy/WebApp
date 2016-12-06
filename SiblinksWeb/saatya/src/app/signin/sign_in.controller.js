@@ -55,7 +55,7 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
             var token = angular.element("#token").text();
             StudentService.loginFacebook($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.facebookId, token).then(function (data) {
             	$rootScope.$broadcast('close');
-            	if(data.data.status=='true') {
+            	if(data.data.status == 'true') {
             		var dataUser = data.data.request_data_result[0];
 	                setStorage('userName', dataUser['userName'], 30);
 	                setStorage('userId', dataUser['userid'], 30);
@@ -80,8 +80,8 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
 	                	window.location.href = '/';
 	                }
             	} else {
-            		$rootScope.$broadcast('close');
-            		$scope.loginMess = 'Your email is already registered by Google';
+            		$scope.loginMess = data.data.request_data_result;
+            		angular.element('#userName').trigger('focus');
             		return;
             	}
             });
@@ -133,7 +133,8 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
 	                        	window.location.href = '/';
 	                        }
                     	} else {
-                    		$scope.loginMess = 'Your email is already registered and not account Google';
+                    		$scope.loginMess = data.data.request_data_result;
+                    		angular.element('#userName').trigger('focus');
                     		return;
                     	}
                     });

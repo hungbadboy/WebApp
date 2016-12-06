@@ -30,7 +30,7 @@ import com.siblinks.ws.security.SibSecurityConfig;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = { "com.siblinks.ws" })
-@PropertySources({ @PropertySource("classpath:application.properties"), @PropertySource("classpath:appconfig_${sib.env}.properties"), @PropertySource("classpath:configuration_${sib.env}.properties"), @PropertySource("classpath:DataServiceSQLMap.properties"), @PropertySource("classpath:DataServiceSQLMapExt.properties"), @PropertySource("classpath:SQL_DAM.properties"), @PropertySource("classpath:SQL_TA.properties") })
+@PropertySources({ @PropertySource("classpath:application.properties"), @PropertySource("classpath:appconfig_${sib.env}.properties"), @PropertySource("classpath:configuration_${sib.env}.properties"), @PropertySource("classpath:DataServiceSQLMap.properties") })
 @SpringBootApplication
 @EnableCaching
 public class Application {

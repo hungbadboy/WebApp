@@ -192,11 +192,12 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     if (data.data.request_data_type == "subs") {
                         $scope.isSubscribe = 1;
                         removeMentor(mentorId);
-                    }
-                    else {
+                        $scope.listTopmentors[i].numsub = $scope.listTopmentors[i].numsub +1;
+                    } else {
                         $scope.isSubscribe = 0;
                         $("#subscribers_" + mentorId).attr("data-icon", "N");
                         $('#subscribers_' + mentorId).removeClass('unsubcrib');
+                        $scope.listTopmentors[i].numsub =$scope.listTopmentors[i].numsub -1;
                     }
                 }
             });
@@ -993,11 +994,13 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                 if (data.data.status == "true") {
                     if (data.data.request_data_type == "subs") {
                         $scope.isSubscribe = 1;
-
+                        $("#span_" + mentorId).text('Subscribed');
+                        $("#subscribers_" + mentorId).attr("data-icon", "N");
                         for (var i = 0; i < $scope.listVideoRecommendedForU.length; i++) {
                             if (mentorId == $scope.listVideoRecommendedForU[i][0].userid) {
                                 $scope.listVideoRecommendedForU[i][0].isSubs = $scope.isSubscribe;
                                 updateTopMentorBlock($scope.listVideoRecommendedForU[i][0]);
+                                $scope.listVideoRecommendedForU[i][0].countSubscribe = $scope.listVideoRecommendedForU[i][0].countSubscribe +1
                             }
                         }
                     } else {
@@ -1014,6 +1017,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                         for (var i = 0; i < $scope.listVideoRecommendedForU.length; i++) {
                             if (mentorId == $scope.listVideoRecommendedForU[i][0].userid) {
                                 $scope.listVideoRecommendedForU[i][0].isSubs = $scope.isSubscribe;
+                                $scope.listVideoRecommendedForU[i][0].countSubscribe = $scope.listVideoRecommendedForU[i][0].countSubscribe -1
                             }
                         }
                         $scope.listMentorSubscribed = listMentor;

@@ -460,11 +460,14 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
 		            VideoService.setSubscribeMentor($scope.userId, mentorId + "").then(function (data) {
 		                if (data.data.status == "true") {
 		                    if (data.data.request_data_type == "subs") {
-		                        $scope.isSubscribe = 1;
+		                    	$scope.isSubscribe = 1;
+		                        $("#subscribers_" + mentorId).attr("data-icon", "N");
 		                        angular.element('#spansubs').text('Subscribed');
-		                    }
-		                    else {
+		                        $scope.videoInfo.numsub = ($scope.videoInfo.numsub == null)? 1 : $scope.videoInfo.numsub + 1;
+		                    } else {
 		                        $scope.isSubscribe = 0;
+		                        $scope.videoInfo.numsub= $scope.videoInfo.numsub - 1;
+		                        $("#subscribers_" + mentorId).attr("data-icon", "L");
 		                        angular.element('#spansubs').text('Subscribe');
 		                    }
 		                }

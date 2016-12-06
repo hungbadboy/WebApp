@@ -34,7 +34,7 @@
                  <!-- Information of mentors -->
                  <div class="browser-mentors-infor">
                      <div class="browser-mentors-infor-wrapper clearfix">
-                          <div class="col-md-4" ng-repeat="mentor in listTopmentors  | fillterTeam:query ">
+                          <div class="col-md-4" ng-repeat="mentor in data = (listTopmentors  | fillterTeam:query) ">
                               <div class="mentors-infor-img">
                                   <div class="mentors-infor-img-wrapper">
                                       <a href="#/student/mentorProfile/{{mentor.userid}}"><img src="{{mentor.imageUrl}}"></a>
@@ -91,6 +91,7 @@
                           	</div>
                           </div>
                        </div>
+                       <div>{{(!query && data.length == 0)? noData: (data.length == 0)?"No result for '"+query+"'":""}}</div>
                      </div>
                  </div><!-- /End information of mentors -->
              </section><!-- /End content -->
