@@ -13,16 +13,18 @@ brotControllers.filter('fillterTeam', function() {
                 filtered.push(el);
             }
         });
+        if(filtered.length == 0) {
+        	noData = "";
+        }
         return filtered;
     }
 });
-brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$location', '$sce', 'TeamMentorService','myCache','VideoService',
-    function ($scope, $rootScope, $log, $location, $sce, TeamMentorService,myCache,VideoService) {
+brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$location', '$sce','$filter', 'TeamMentorService','myCache','VideoService',
+    function ($scope, $rootScope, $log, $location, $sce, $filter, TeamMentorService,myCache,VideoService) {
 
         var limit = "500";
         var offset = "0";
         $scope.type = $location.search().type||"subs";
-        alert($scope.type);
         brot.signin.statusStorageHtml();
         var LIMIT_SUBJECT = 4;
         $scope.login = 0;
@@ -35,16 +37,26 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
             if(isEmpty(userId)){
                 userId = -1;
             }
+            $scope.listTopFilter = [];
             selectMentorTop(limit, offset, $scope.type,userId);
 
         }
 
         $scope.selectType = function (type) {
             $scope.type = type + "";
+            $scope.noData = "";
             selectMentorTop(limit, offset, type);
+            $location.search('type', type);
         }
         $scope.isSubscribe = 0;
 
+        $scope.searchMentor = function(query) {
+        	$scope.listTopFilter = $filter('fillterTeam')(query);
+        	if($scope.listTopFilter.length == 0) {
+        		$scope.noData = "No results for '"+query+"'"
+        	}
+        };
+        
         $scope.hoverSubcribe = function (isSubs,userid) {
             if(isSubs != '1'||isEmpty(userid))
             {
@@ -84,8 +96,12 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
 	                    }
 	                    for(var i = 0;i < $scope.listTopmentors.length;i++){
 	                        if(mentorId == $scope.listTopmentors[i].userid){
-	                            $scope.listTopmentors[i].isSubs = $scope.isSubscribe;
-	                            $scope.listTopmentors[i].numsub = ($scope.isSubscribe == 0)?$scope.listTopmentors[i].numsub -1:$scope.listTopmentors[i].numsub +1;
+	                        	if($scope.type == 'subscribed') {
+	                        		$scope.listTopmentors.splice(i, 1 );
+		                        } else {
+		                        	$scope.listTopmentors[i].isSubs = $scope.isSubscribe;
+		                        	$scope.listTopmentors[i].numsub = ($scope.isSubscribe == 0)?$scope.listTopmentors[i].numsub -1:$scope.listTopmentors[i].numsub +1;
+		                        }
 	                        }
 	                    }
 	                }
@@ -102,10 +118,10 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
         	$scope.listTopmentors = [];
             TeamMentorService.getTopMentorsByType(limit, offset, type,userId).then(function (data) {
                 if (data.data.status == 'true') {
-                    if (data.data.request_data_result == null) {
-                        $scope.errorData = DATA_ERROR.noDataFound;
+                	var data_result = data.data.request_data_result;
+                    if (data_result == null || data_result.length == 0) {
+                        $scope.noData = DATA_ERROR.noDataFound;
                     } else {
-                        var data_result = data.data.request_data_result;
                         for (var i = 0; i < data_result.length; i++) {
                             var listSubject = getSubjectNameById(data_result[i].defaultSubjectId, subjects);
                             var strSubject="";

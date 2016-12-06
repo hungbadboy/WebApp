@@ -1846,13 +1846,18 @@ public class UserServiceImpl implements UserService {
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_USER_FACEBOOK, queryParamsFB);
                 if (status) {
                     readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { username });
+                    simpleResponse = new SimpleResponse(
+                                                        SibConstants.SUCCESS,
+                                                        request.getRequest_data_type(),
+                                                        request.getRequest_data_method(),
+                                                        readObject);
+                } else {
+                    simpleResponse = new SimpleResponse(
+                                                        SibConstants.FAILURE,
+                                                        request.getRequest_data_type(),
+                                                        request.getRequest_data_method(),
+                                                        "User register failure");
                 }
-
-                simpleResponse = new SimpleResponse(
-                                                    "" + status,
-                                                    request.getRequest_data_type(),
-                                                    request.getRequest_data_method(),
-                                                    readObject);
 
             } else {
                 Map<String, String> mapUser = (HashMap<String, String>) readObject.get(SibConstants.NUMBER.ZERO);
@@ -1861,19 +1866,16 @@ public class UserServiceImpl implements UserService {
                                                         SibConstants.FAILURE,
                                                         request.getRequest_data_type(),
                                                         request.getRequest_data_method(),
-                                                        "Your Facebook's email is already registered on the Google account.");
-                }
+                                                        "Your Facebook's email is already registered by the Google account.");
 
-                if (mapUser.get(Parameters.ID_FACEBOOK) == null || mapUser.get(Parameters.ID_FACEBOOK).equals("")) {
+                } else if (mapUser.get(Parameters.ID_FACEBOOK) == null || mapUser.get(Parameters.ID_FACEBOOK).equals("")) {
                     simpleResponse = new SimpleResponse(
                                                         SibConstants.FAILURE,
                                                         request.getRequest_data_type(),
                                                         request.getRequest_data_method(),
-                                                        "Your Facebook's email is already registered on the Siblinks account.");
-                }
-                // Check Facebook id for update
-                if (mapUser.get(Parameters.ID_FACEBOOK) != null &&
-                    mapUser.get(Parameters.ID_FACEBOOK).equals(request.getRequest_data().getFacebookid())) {// Registered
+                                                        "Your Facebook's email is already registered by the Siblinks account.");
+                } else if (mapUser.get(Parameters.ID_FACEBOOK) != null &&
+                           mapUser.get(Parameters.ID_FACEBOOK).equals(request.getRequest_data().getFacebookid())) {// Registered
                     // Set parameter
                     Object[] queryParams = { request.getRequest_data().getToken(), request.getRequest_data().getFacebookid() };
                     status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_FACEBOOK, queryParams);
@@ -1887,7 +1889,7 @@ public class UserServiceImpl implements UserService {
                                                         SibConstants.FAILURE,
                                                         request.getRequest_data_type(),
                                                         request.getRequest_data_method(),
-                                                        "Facebook id is not match");
+                                                        "Facebook's id dose not match.");
                 }
             }
         } catch (Exception e) {
@@ -1933,8 +1935,20 @@ public class UserServiceImpl implements UserService {
                                               readObject);
             } else {
                 Map<String, String> mapUser = (HashMap<String, String>) readObject.get(SibConstants.NUMBER.ZERO);
-                // Check google id for update
-                if (mapUser.get(Parameters.ID_GOOGLE) != null &&
+
+                if (mapUser.get(Parameters.ID_FACEBOOK) != null && !mapUser.get(Parameters.ID_FACEBOOK).equals("")) {
+                    response = new SimpleResponse(
+                                                  SibConstants.FAILURE,
+                                                  request.getRequest_data_type(),
+                                                  request.getRequest_data_method(),
+                                                  "Your Google's email is already registered by the Facebook account.");
+                } else if (mapUser.get(Parameters.ID_GOOGLE) == null || mapUser.get(Parameters.ID_GOOGLE).equals("")) {
+                    response = new SimpleResponse(
+                                                  SibConstants.FAILURE,
+                                                  request.getRequest_data_type(),
+                                                  request.getRequest_data_method(),
+                                                  "Your Google's email is already registered by the Siblinks account.");
+                } else if (mapUser.get(Parameters.ID_GOOGLE) != null &&
                     mapUser.get(Parameters.ID_GOOGLE).equals(request.getRequest_data().getGoogleid())) {// Registered
                     // Update token
                     dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_GOOGLE, new Object[] { request
@@ -1950,7 +1964,7 @@ public class UserServiceImpl implements UserService {
                                                   SibConstants.FAILURE,
                                                   request.getRequest_data_type(),
                                                   request.getRequest_data_method(),
-                                                  "");
+                                                  "Google's id dose not match");
                 }
             }
         } catch (Exception e) {

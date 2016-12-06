@@ -105,7 +105,8 @@ brotControllers.controller('SignUpController', ['$scope','$rootScope', '$locatio
 	              $window.location.href='#/student/studentProfile';
 	              $window.location.reload();
 	    	  } else {
-	    		  $scope.error = 'Email of account Facebook is already registered by account other ';
+	    		  console.log(data.data.request_data_result);
+	    		  $scope.error = "Your Facebook account's email is already registered by other account";
 	    	  }
 	      });
 	    });
@@ -134,16 +135,20 @@ brotControllers.controller('SignUpController', ['$scope','$rootScope', '$locatio
 	          $rootScope.$broadcast('open');
 	          StudentService.loginGoogle($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.googleid, token).then(function(data) {
 	        	$rootScope.$broadcast('close');
-	            var dataUser = data.data.request_data_result[0];
-	            setStorage('userName', dataUser['userName'], 30);
-	            setStorage('userId', dataUser['userid'], 30);
-	            setStorage('userType', dataUser['userType'], 10);
-	            setStorage('imageUrl', dataUser['imageUrl'], 10);
-	            setStorage('fullName', dataUser['firstName'], 30);
-	            setStorage('lastname', dataUser['lastname'], 30);
-	            setStorage('nameHome', nameHome, 30);
-	            $window.location.href='#/student/studentProfile';
-	            $window.location.reload();  
+	        	if(data.data.status == 'true') {
+	        		var dataUser = data.data.request_data_result[0];
+	        		setStorage('userName', dataUser['userName'], 30);
+	        		setStorage('userId', dataUser['userid'], 30);
+	        		setStorage('userType', dataUser['userType'], 10);
+	        		setStorage('imageUrl', dataUser['imageUrl'], 10);
+	        		setStorage('fullName', dataUser['firstName'], 30);
+	        		setStorage('lastname', dataUser['lastname'], 30);
+	        		setStorage('nameHome', nameHome, 30);
+	        		$window.location.href='#/student/studentProfile';
+	        		$window.location.reload();  
+	        	} else {
+	        		$scope.error = data.data.request_data_result;
+	        	}
 	          });
 	        });
 	      });

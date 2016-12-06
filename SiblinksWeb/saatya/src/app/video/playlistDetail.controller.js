@@ -57,6 +57,9 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             }
 
                             $scope.videoInfo = data.data.request_data_result[0];
+                            if(isEmpty($scope.videoInfo.description)){
+                                $scope.videoInfo.description = "No description";
+                            }
                             $scope.rateNum = $scope.videoInfo.averageRating;
                             $scope.loadRate = true;
                             $scope.currentvid = data.data.request_data_result[0].vid;
@@ -566,12 +569,15 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                         $scope.isSubscribe = 1;
                         if($scope.videoInfo){
                             $scope.videoInfo.numsub += 1;
+                            $("#subscribers_" + mentorId).attr("data-icon", "N");
+	                        angular.element('#spansubs').text('Subscribed');
                         }
-                    }
-                    else {
+                    } else {
                         $scope.isSubscribe = 0;
                         if($scope.videoInfo){
                             $scope.videoInfo.numsub -= 1;
+                            $("#subscribers_" + mentorId).attr("data-icon", "L");
+	                        angular.element('#spansubs').text('Subscribe');
                         }
                     }
                 }

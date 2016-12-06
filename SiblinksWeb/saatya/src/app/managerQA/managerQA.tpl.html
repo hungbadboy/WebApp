@@ -43,9 +43,9 @@
                             <div role="tabpanel tab-all" class="tab-answered">
                                 <!-- Nav tabs -->
                                 <div class="t-panel">
-                                    <p ng-click="selectTab('all')" ng-class="{'active':currentTab == 'all'}">All<span class="sup sup1">1</span></p>
-                                    <p ng-click="selectTab('answered')" ng-class="{'active':currentTab == 'answered'}">Answered<span class="sup sup2">2</span></p>
-                                    <p ng-click="selectTab('unanswered')" ng-class="{'active':currentTab == 'unanswered'}">Unanswered<span class="sup sup3">3</span></p>
+                                    <p ng-click="selectTab('all')" ng-class="{'active':currentTab == 'all'}">All<span class="sup sup1">{{listQuestions.length}}</span></p>
+                                    <p ng-click="selectTab('answered')" ng-class="{'active':currentTab == 'answered'}">Answered<span class="sup sup2">{{listAnswer.length}}</span></p>
+                                    <p ng-click="selectTab('unanswered')" ng-class="{'active':currentTab == 'unanswered'}">Unanswered<span class="sup sup3">{{}}</span></p>
                                 </div>
                                 <!-- Tab panes -->
                                 <div class="tab-content">
