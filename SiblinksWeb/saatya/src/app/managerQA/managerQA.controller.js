@@ -85,8 +85,13 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $document.on('scroll', function() {
             // do your things like logging the Y-axis
             // var height = '73vh';
+            var qa_scroll = $(window).scrollTop();
             var heighttab = $(window).height() - 305;
                 heighttab_scroll = $(window).height() - 365;
+                console.log("scrollY: " + $window.scrollY);
+                console.log("qa_scroll: " + qa_scroll);
+                console.log("heighttab: " + heighttab);
+                console.log("heighttab_scroll: " + heighttab_scroll);
             // if($window.innerWidth < 1601){
                 // height = '67vh';
                 if ($window.scrollY > 70) {

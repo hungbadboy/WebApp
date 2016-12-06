@@ -243,6 +243,7 @@
                                     <span>Show more</span>
                                 </div>
                             </div>
+                            <div class="line"></div>
                             <div class="recently-uploaded"
                                  ng-show="listVideoRecently.length > 0">
                                 <h5>Recently Uploaded</h5>
@@ -299,6 +300,7 @@
                                 <div class="see-more" ng-show="isShowMoreRecently && isShowRecently !== undefined" ng-click="loadMoreVideo(2)">
                                     <span>Show more</span></div>
                             </div>
+                            <div class="line"></div>
                             <div class="video-member" ng-show="login == 1 && listVideoRecommendedForU">
 
                                 <div ng-repeat="recommendedForYou in listVideoRecommendedForU | limitTo : limitOfRecommendedForU track by $index"
@@ -373,6 +375,7 @@
                                     <span>Show more</span>
                                 </div>
                             </div>
+                            <div class="line"></div>
                         </div>
                     </div>
                 </div>

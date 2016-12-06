@@ -509,9 +509,9 @@ div#modalImage #myCarousel #ulthumbnails-carouselli {
   float: left;
 }
 
-.college-admission-content .article .videos-time-add span:nth-child(2) {
-  width: 60%;
-}
+/*.college-admission-content .article .videos-time-add span:nth-child(2) {
+  width: 100%;
+}*/
 
 #videos-details textarea#add-comment {
   margin-left: 7px;
@@ -2680,7 +2680,7 @@ span.article-detail-title p {
 .video-list-content > div,
 .video-list-content > div > div {
   overflow: hidden;
-  border-bottom: 1px solid #ececed;
+  /*border-bottom: 1px solid #ececed;*/
 }
 .video-list-content > div > div:last-child {
     border: none;
@@ -2988,4 +2988,11 @@ canvas:focus, canvas:hover {
 .bx-dt-qa .col-md-4 {
     width: 77px;
     padding: 0;
+}
+.modal-add-video .group-item .item .box-detail-play .detail-pl-inner {
+    width: ~"calc(100% - 196px)";
+}
+.video-list-content > div > div.line {
+    border-bottom: 1px solid #ececed;
+    margin-right: 10px;
 }
