@@ -42,7 +42,9 @@ import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.StudentService;
 import com.siblinks.ws.util.CommonUtil;
+import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.SibConstants;
+import com.siblinks.ws.util.StringUtil;
 
 /**
  * {@link StudentService}
@@ -100,7 +102,6 @@ public class StudentServiceImpl implements StudentService {
 
         return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
     }
-
 
     /**
      * {@inheritDoc}
@@ -219,23 +220,52 @@ public class StudentServiceImpl implements StudentService {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * com.siblinks.ws.service.StudentService#getAllInfoMentorSubscribed(long,
      * java.lang.String, java.lang.String)
      */
     @Override
     @RequestMapping(value = "/getAllInfoMentorSubscribed", method = RequestMethod.GET)
-    public ResponseEntity<Response> getAllInfoMentorSubscribed(final long studentId, final String limit, final String offset) {
-        Map<String, String> pageLimit = CommonUtil.getInstance().getOffset(limit, offset);
-        Object[] params = { studentId, Integer.parseInt(pageLimit.get("limit")), Integer.parseInt(pageLimit.get("offset")) };
-        String entityName = SibConstants.SqlMapper.SQL_GET_ALL_INFO_MENTOR_SUBSCRIBED;
+    public ResponseEntity<Response> getAllInfoMentorSubscribed(@RequestParam final long studentId, @RequestParam(
+            value = "keyWord",
+            required = false) final String keyword, @RequestParam final String limit, @RequestParam final String offset,
+            @RequestParam(value = "isCount", required = false, defaultValue = SibConstants.FAILURE) final boolean isCount) {
+
         SimpleResponse response;
         try {
-            List<Object> readObjects = dao.readObjects(entityName, params);
+            Map<String, String> pageLimit = CommonUtil.getInstance().getOffset(limit, offset);
+            List<Object> params = new ArrayList<Object>();
+            List<Object> paramsCount = new ArrayList<Object>();
+            String entityName = "";
+            String entityNameCount = "";
+            params.add(studentId);
+            paramsCount.add(studentId);
+            if (StringUtil.isNull(keyword)) {
+                entityName = SibConstants.SqlMapper.SQL_GET_ALL_INFO_MENTOR_SUBSCRIBED;
+                entityNameCount = SibConstants.SqlMapper.SQL_GET_COUNT_STUDENT_SUBSCRIBED_MENTOR;
+            } else {
+                params.add("%" + keyword + "%");
+                params.add("%" + keyword + "%");
+
+                paramsCount.add("%" + keyword + "%");
+                paramsCount.add("%" + keyword + "%");
+
+                entityName = SibConstants.SqlMapper.SQL_SEARCH_INFO_MENTOR_SUBSCRIBED;
+                entityNameCount = SibConstants.SqlMapper.SQL_SEARCH_COUNT_STUDENT_SUBSCRIBED_MENTOR;
+            }
+            params.add(Integer.parseInt(pageLimit.get("limit")));
+            params.add(Integer.parseInt(pageLimit.get("offset")));
+
+            List<Object> readObjects = dao.readObjects(entityName, params.toArray());
             String count = "0";
             if (!CollectionUtils.isEmpty(readObjects)) {
-                count = String.valueOf(readObjects.size());
+                if (isCount) {
+                    List<Object> countList = dao.readObjects(entityNameCount, paramsCount.toArray());
+                    if (!CollectionUtils.isEmpty(countList)) {
+                        count = "" + ((HashMap<String, Long>) countList.get(0)).get(Parameters.COUNT);
+                    }
+                }
                 response = new SimpleResponse(SibConstants.SUCCESS, "student", "getAllInfoMentorSubscribed", readObjects, count);
             } else {
                 response = new SimpleResponse(

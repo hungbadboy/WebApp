@@ -517,6 +517,7 @@ public class SibConstants {
         public static final String SQL_GET_STUDENT_SUBCRIBE = "GET_STUDENT_SUBCRIBE";
         public static final String SQL_GET_TOTAL_LIKE_VIEW_VIDEO = "GET_TOTAL_LIKE_VIEW_VIDEO";
         public static final String SQL_GET_COUNT_STUDENT_SUBSCRIBED_MENTOR = "GET_COUNT_STUDENT_SUBSCRIBED_MENTOR";
+        public static final String SQL_SEARCH_COUNT_STUDENT_SUBSCRIBED_MENTOR = "SEARCH_COUNT_STUDENT_SUBSCRIBED_MENTOR";
         public static final String SQL_GET_TOTAL_ANSWERS = "GET_TOTAL_ANSWERS";
         public static final String SQL_GET_TOP_MENTORS_BY_LIKE_RATE_SUBS = "GET_TOP_MENTORS_BY_LIKE_RATE_SUBS";
         public static final String SQL_GET_VIDEOS_BY_PLAYLIST = "GET_VIDEOS_BY_PLAYLIST";
@@ -524,6 +525,7 @@ public class SibConstants {
         public static final String SQL_MENTOR_GET_ACTIVITY_STUDENT = "MENTOR_GET_ACTIVITY_OF_STUDENT";
         public static final String SQL_SUBSCRIBED_FROM_MENTOR_VIEW_STUDENT = "GET_SUBSCRIBED_FROM_MENTOR_VIEW_STUDENT";
         public static final String SQL_GET_ALL_INFO_MENTOR_SUBSCRIBED = "GET_ALL_INFO_MENTOR_SUBSCRIBED";
+        public static final String SQL_SEARCH_INFO_MENTOR_SUBSCRIBED = "SEARCH_INFO_MENTOR_SUBSCRIBED";
         // Manager Category
         public static final String SQL_GET_ALL_CATEGORY = "GET_ALL_CATEGORY";
         public static final String SQL_GET_CATEGORY_BY_ID = "GET_CATEGORY_BY_ID";

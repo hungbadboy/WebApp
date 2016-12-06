@@ -269,10 +269,10 @@ brotServices.factory('StudentService', ['$http', function ($http) {
     };
     
     
-    factory.getInfoMentorSubscribed = function (studentId, limit, offset) {
+    factory.getInfoMentorSubscribed = function (studentId, limit, offset, isCount, keyWord) {
         return $http({
             method: 'GET',
-            url: NEW_SERVICE_URL + 'student/getAllInfoMentorSubscribed?studentId='+studentId+'&limit='+limit+'&offset='+offset
+            url: NEW_SERVICE_URL + 'student/getAllInfoMentorSubscribed?studentId='+studentId+'&limit='+limit+'&offset='+offset+'&isCount='+isCount+'&keyWord='+keyWord
         });
     };
     

@@ -54,35 +54,30 @@
                                     <div class="search">
                                         <form class="navbar-form" role="search">
                                             <div class="input-group">
-                                                <input type="text" class="form-control input-search form-control-search" ng-model="query"
-                                                       placeholder="Type your search" name="srch-term" id="srch-term"
-                                                       onfocus="this.placeholder = ''">
+                                                <input type="text" class="form-control input-search form-control-search" ng-model="query" placeholder="Type your search" name="srch-term" id="srch-term" 
+                                                	onfocus="this.placeholder = ''" ng-enter="searchNameMentor(query)" ng-keyup="searchNameMentor(query)">
                                                 <div class="input-group-btn">
-                                                    <button class="btn btn-default" type="submit"><img
-                                                            src="assets/images/icon-search.png" alt=""></button>
+                                                    <button class="btn btn-default" type="submit" ng-click="searchNameMentor(query)">
+                                                    	<img src="assets/images/icon-search.png" alt="">
+                                                    </button>
                                                 </div>
                                             </div>
                                         </form>
-                                        <div class="slide-broswer" ng-hide="listMentorSubsSize == studentInfo.count_subscribe && !isNextPage">
-                                            <a class="btn-prev" ng-click="prevPageMentorSubs()" ng-class="{disabledNextPrev : offset == 0 && newLimit <= defaultLimit}"><span data-icon="&#x34;"></span></a>
-                                            <a class="btn-next" ng-click="nextPageMentorSubs()" ng-class="{disabledNextPrev : listMentorSubsSize == studentInfo.count_subscribe}"><span data-icon="&#x35;"></span></a>
+                                        <div class="slide-broswer">
+                                            <a class="btn-prev" ng-click="prevPageMentorSubs()"><span data-icon="&#x34;"></span></a>
+                                            <a class="btn-next" ng-click="nextPageMentorSubs()"><span data-icon="&#x35;"></span></a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="browser-mentors-infor">
                                     <div class="browser-mentors-infor-wrapper clearfix">
-                                        <div class="col-md-4" ng-show="!listMentorSubs">
-                                            No have mentor subscribed
-                                        </div>
-                                        <div class="col-md-4" ng-show="listMentorSubs"
-                                                 ng-repeat="mentor in listMentorSubs | filterSub:query track by $index " ng-if="$index >= offset && $index < newLimit">
+                                        <div class="col-md-4" ng-show="listMentorSubs" ng-repeat="mentor in listMentorSubs track by $index">
                                             <div class="mentors-infor-img">
                                                 <div class="mentors-infor-img-wrapper" id="{{mentor.userid}}" ng-mouseover="hoverProfileMentor(mentor.userid)" ng-mouseleave="unHoverProfileMentor(mentor.userid)">
                                                 <!--<div class="mentors-infor-img-wrapper" id="{{mentor.userid}}">-->
-                                                    <img ng-src="{{mentor.imageUrl != null ? mentor.imageUrl : 'assets/images/noavartar.jpg'}}">
-                                                    <div class="mentors-img-hover">
-                                                        <a ng-href="{{userId == mentor.userid ?  '#/mentor/mentorProfile' : '#/mentor/mentorProfile/'+mentor.userid}}"><span
-                                                                data-icon="&#x4c;"></span></a>
+                                                    <img ng-src="{{mentor.imageUrl != null ? mentor.imageUrl : 'assets/images/noavartar.jpg'}}" ng-click="goToProfileMentor(mentor.userid)">
+                                                    <div class="mentors-img-hover" ng-click="goToProfileMentor(mentor.userid)">
+                                                        <span data-icon="&#x4c;"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -125,6 +120,9 @@
                                                     </p>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-md-4" ng-show="listMentorSubs.length == 0">
+                                            No have mentor subscribed
                                         </div>
                                     </div>
                                 </div><!-- /End information of mentors -->

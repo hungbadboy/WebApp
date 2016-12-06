@@ -57,7 +57,7 @@
                                             <span data-icon="&#x42;"> {{dashboard.count_videos_today != null ? dashboard.count_videos_today : 0}}</span>
                                         </div>
                                     </div>
-                                </div>                                            
+                                </div>
                             </div>
                         </div>
                         <div class="dashboard-content-bottom-left">
@@ -144,7 +144,8 @@
                                 </div>
                                 <div class="video-wrapper dashboard-top">
                                     <div class="videos-title">
-                                        <a href="#/mentor/video/detail/{{vTopViewed.vid}}/{{vTopViewed.plid}}" style="color: #fff;"><h5>{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5></a>
+                                        <a href="#/mentor/video/detail/{{vTopViewed.vid}}/{{vTopViewed.plid}}" style="color: #fff;">
+                                        	<h5 title="{{vTopViewed.title}}">{{vTopViewed.title | limitTo : 20}}{{vTopViewed.title.length > 20 ? '...' : ''}}</h5></a>
                                         <h5 ng-show="!videosTopViewed">No video</h5>
                                     </div>
                                     <div class="videos-rate">

@@ -50,13 +50,6 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
         }
         $scope.isSubscribe = 0;
 
-        $scope.searchMentor = function(query) {
-        	$scope.listTopFilter = $filter('fillterTeam')(query);
-        	if($scope.listTopFilter.length == 0) {
-        		$scope.noData = "No results for '"+query+"'"
-        	}
-        };
-        
         $scope.hoverSubcribe = function (isSubs,userid) {
             if(isSubs != '1'||isEmpty(userid))
             {
@@ -103,6 +96,9 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
 		                        	$scope.listTopmentors[i].numsub = ($scope.isSubscribe == 0)?$scope.listTopmentors[i].numsub -1:$scope.listTopmentors[i].numsub +1;
 		                        }
 	                        }
+	                    }
+	                    if($scope.listTopmentors.length == 0) {
+	                    	$scope.noData = DATA_ERROR.noDataFound;
 	                    }
 	                }
 	            });
