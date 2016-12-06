@@ -21,7 +21,8 @@ brotControllers.controller('TeamCtrl', ['$scope', '$rootScope', '$log', '$locati
 
         var limit = "500";
         var offset = "0";
-        $scope.type = "subs";
+        $scope.type = $location.search().type||"subs";
+        alert($scope.type);
         brot.signin.statusStorageHtml();
         var LIMIT_SUBJECT = 4;
         $scope.login = 0;

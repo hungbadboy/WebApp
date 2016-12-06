@@ -69,7 +69,7 @@
                                                                   rating-define="star"
                                                                   rating-stars="{{v.averageRating}}"
                                                                   star-radius="7" sel-color="gold"
-                                                                  back-color="white" title="{{v.averageRating}}"></div>
+                                                                  back-color="{{($index%2 == 1)? '#f0f3f4':'white'}}" title="{{v.averageRating}}"></div>
                                                                   <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}})</span>
                                                         </ul>
                                                         <p class="list-view">
@@ -107,7 +107,7 @@
 						                                          rating-define="star"
 						                                          rating-stars="{{v.averageRating}}"
 						                                          star-radius="7" sel-color="gold"
-						                                          back-color="white" title="{{v.averageRating}}"
+						                                          back-color="{{($index%2 == 1)? '#f0f3f4':'white'}}" title="{{v.averageRating}}"
 						                                          readonly ="true"></span>
                                                                   <span> {{v.averageRating != null ? v.averageRating : 0}} ({{ (!v.numRatings)? '0' : v.numRatings}})</span>
                                                         </ul>

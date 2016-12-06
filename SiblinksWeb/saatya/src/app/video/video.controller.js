@@ -281,7 +281,16 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         $scope.subsWithIndex = -1;
         var hasLoadMore = false;
         $scope.isMoreSubject = false;
-        $scope.longNumberLimit = 9;
+        $scope.isChangeItemSubject = false;
+        
+        $scope.longNumberLimit =function() {
+        	var longNumberLimit = ($scope.windowWidth >1024)? 9 : ($scope.windowWidth >= 1024 && $scope.windowWidth > 768)? 6 : 7;
+        	console.log(longNumberLimit);
+        	if(!$scope.isChangeItemSubject) {
+        		$scope.toSubIndex = longNumberLimit;
+        	}
+        	return longNumberLimit;
+        };
         $scope.listSubjectsSize = 0;
         $scope.countSearchResults = 0;
         var isLoadMoreSearch = false;
@@ -391,7 +400,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
                     if (subjects) {
                         $scope.listSubjects = subjects;
                         $scope.listSubjectsSize = $scope.listSubjects.length;
-                        $scope.isMoreSubject = $scope.listSubjects.length > $scope.longNumberLimit;
+                        $scope.isMoreSubject = $scope.listSubjects.length > $scope.longNumberLimit();
                     }
                 }
             });
@@ -1065,8 +1074,10 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         }
 
         $scope.fromSubIndex = 0;
-        $scope.toSubIndex = $scope.longNumberLimit;
+        $scope.toSubIndex = $scope.longNumberLimit();
+        
         $scope.nextSubject = function () {
+        	$scope.isChangeItemSubject = true;
             var currentIndex = 0;
             if ($scope.isMoreSubject) {
                 currentIndex += 1;
@@ -1079,9 +1090,10 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         };
 
         $scope.prevSubject = function () {
+        	$scope.isChangeItemSubject = true;
             var currentIndex = $scope.fromSubIndex;
             currentIndex -= 1;
-            if (currentIndex >= 0 && $scope.toSubIndex - 1 >= 9) {
+            if (currentIndex >= 0 && $scope.toSubIndex - 1 >= $scope.longNumberLimit()) {
                 $scope.fromSubIndex -= 1;
                 $scope.toSubIndex -= 1;
             }

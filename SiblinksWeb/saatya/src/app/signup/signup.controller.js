@@ -34,7 +34,7 @@ brotControllers.controller('SignUpController', ['$scope','$rootScope', '$locatio
         return;
      }
     if(user.confirmpassword != user.password) {
-        $scope.error = 'Confirm passowrd confirm is not match password';
+        $scope.error = 'Confirm passowrd dose not match Password';
         $("#confirmpassword").focus();
         return;
      }
@@ -92,7 +92,7 @@ brotControllers.controller('SignUpController', ['$scope','$rootScope', '$locatio
 	      $rootScope.$broadcast('open');
 	      StudentService.loginFacebook($scope.userName, 'S', $scope.firstName, $scope.lastName, $scope.image, $scope.facebookId, token).then(function(data) {
 	    	  $rootScope.$broadcast('close');
-	    	  if(data.status == 'true') {
+	    	  if(data.data.status == 'true') {
 	    		  var dataUser = data.data.request_data_result[0];
 	    		  setStorage('userName', dataUser['userName'], 30);
 	    		  setStorage('userId', dataUser['userid'], 30);
@@ -104,10 +104,8 @@ brotControllers.controller('SignUpController', ['$scope','$rootScope', '$locatio
 	    		  setStorage('nameHome', nameHome, 30);
 	              $window.location.href='#/student/studentProfile';
 	              $window.location.reload();
-
-	    		  
 	    	  } else {
-	    		  $scope.loginMess = 'Your email is already exists';
+	    		  $scope.error = 'Email of account Facebook is already registered by account other ';
 	    	  }
 	      });
 	    });

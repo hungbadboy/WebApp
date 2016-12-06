@@ -147,7 +147,7 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
             uploadEssayService.updateEssayStudent(fd).then(function (data) {
                 if (data.data.status ==  'true') {
                     $scope.essayErrorMsg = "";
-                    $scope.essaySusscesMsg = "You essay has been updated for review.";
+                    $scope.essaySusscesMsg = "Your essay has been updated for review.";
                     $scope.selectSchool = 0;
                     $scope.selectMajor = 0;
                     $scope.fileName = "Drop file (word, excel, pdf....) here or click to upload.";
@@ -176,22 +176,22 @@ brotControllers.controller('uploadEssayController', ['$scope', '$rootScope', '$l
                 return false;
             }
             if(isEmpty($scope.txtTitle)){
-                $scope.essayErrorMsg = "Please input title essay.";
+                $scope.essayErrorMsg = "Please input an Essay title.";
                 $('#txtTitle').focus();
                 return false;
             }
             if($scope.selectSchool == 0){
-            	$scope.essayErrorMsg = "Please select school.";
+            	$scope.essayErrorMsg = "Please choose University.";
             	$('#listSchools').focus();
             	return false;
             }
             if($scope.selectMajor == 0){
-                $scope.essayErrorMsg = "Please select major.";
+                $scope.essayErrorMsg = "Please choose Major.";
                 $('#listMajors').focus();
                 return false;
             }
             if(isEmpty($scope.txtDesc)){
-            	$scope.essayErrorMsg = "Please input description essay.";
+            	$scope.essayErrorMsg = "Please input is a description.";
             	$('#txtDesc').focus();
             	return false;
             }

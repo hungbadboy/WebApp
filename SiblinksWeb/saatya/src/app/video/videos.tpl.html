@@ -1,4 +1,4 @@
-<div class="content ask-a-question" id="videos"> <!-- Add class "unlogin" to hide sidebar left -->
+<div class="content ask-a-question" id="videos" notifier="{{longNumberLimit()}}" resize> <!-- Add class "unlogin" to hide sidebar left -->
     <!-- Breadcrum -->
     <div class="breadcrum">
         <div class="container">
@@ -75,7 +75,7 @@
                                 <h4 style="font-size: 19px !important;">Subscriptions</h4>
                             </div>
                             <div class="see-more">
-            					<p><a href="#/team">See more</a></p>
+            					<p><a href="#/team?type=subscribed">See more</a></p>
         					</div>
                             <!--<div class="setting-profile"><span data-icon="&#xe037;"></span></div>-->
                         </div><!-- /End top-mentor-header -->
@@ -614,7 +614,7 @@
                     <div class="tab-pane" id="favourite" ng-if="!listVideoSearchResults && !isSearchAction">
                         <h4>Favorite Tutorials</h4>
                         <span class="number-media number-subscrip" ng-bind="listVideoFavourite.length"></span>
-                        <div class="clear-history"><p ng-click="deleteFavouriteVideo('')">Clear favorite</p></div>
+                        <div class="clear-history"><p ng-click="deleteFavouriteVideo('')">Clear favorites</p></div>
                         <div class="video-list-content">
                             <ul>
                                 <li ng-repeat="videoFavourite in listVideoFavourite | limitTo: numberOfFavouriteVideo"
