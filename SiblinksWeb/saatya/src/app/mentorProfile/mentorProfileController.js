@@ -30,12 +30,18 @@ brotControllers.controller('MentorProfileController',
             var dob = "";
             $scope.currentPageStudentSubs = 1;
             $scope.isLoadMoreStudentSubs = false;
+            
             var totalPageStudentSubs=0
             $scope.defaultLimit = 6;
             var hasLoadMore = false;
             $scope.listMentorSubsSize = 0;
             $scope.disableNext = true;
             var LIMIT_SUBJECT = 3;
+            //
+            $scope.listStudentSubscribed = [];
+            $scope.totalPageStudentSubscribed = 0;
+            $scope.pageStudentSubscribed = 1;
+            
             init();
 
             function init() {
@@ -209,31 +215,48 @@ brotControllers.controller('MentorProfileController',
                 }
             }
 
-
+            /**
+             *  getStudentSubscribed
+             * @param userId
+             * @param defaultLimit
+             * @param offset
+             */
             function getStudentSubscribed(userId, defaultLimit, offset) {
-                MentorService.getStudentSubscribed(userId, defaultLimit, offset).then(function (data) {
-                    if (data.data.status) {
+                MentorService.getStudentSubscribed(userId, defaultLimit, offset, offset==0, $scope.query.trim()).then(function (data) {
+                    if (data.data.status == 'true') {
                         var response = data.data.request_data_result;
                         if (response && response != "Found no data") {
-                            var students = [];
-                            for (var i = 0; i < response.length; i++) {
-                                var obj = {};
-                                obj.userId = response[i].userid;
-                                obj.userName = displayUserName(response[i].firstName, response[i].lastName, response[i].userName);
-                                obj.avatar = response[i].imageUrl;
-                                obj.defaultSubjectId = response[i].defaultSubjectId;
-                                obj.schoolId = response[i].school;
-                                obj.schoolName = response[i].schoolName;
-                                students.push(obj);
+                            $scope.listStudentSubscribed = (!$scope.isLoadMoreStudentSubs)? response : $scope.listStudentSubscribed.concat(response);
+                            if(offset==0) {
+                            	$scope.countAll = data.data.count;
+                            	$scope.totalPageStudentSubscribed = Math.ceil($scope.countAll / $scope.defaultLimit);
+                            	$scope.isLoadMoreStudentSubs = $scope.totalPageStudentSubscribed > 1;
                             }
-                            $scope.listStudentSubscribed = hasLoadMore ? $scope.listStudentSubscribed.concat(students) : students;
-                            $scope.totalStudentSubs = $scope.listStudentSubscribed.length;
-                            $scope.isLoadMoreStudentSubs = $scope.listStudentSubscribed.length < defaultLimit;
+                        } else {
+                        	$scope.listStudentSubscribed = [];
+                        	$scope.totalStudentSubs = 0;
+                        	$scope.isLoadMoreStudentSubs = false;
                         }
+                    } else {
+                    	$scope.listStudentSubscribed = [];
+                    	$scope.totalStudentSubs = 0;
+                    	$scope.isLoadMoreStudentSubs = false;
                     }
                 });
             }
-
+            
+            /**
+             * loadMoreStudentSubscribed
+             */
+            $scope.loadMoreStudentSubscribed = function() {
+            	if ($scope.pageStudentSubscribed >= $scope.totalPageStudentSubscribed) {
+            		return;
+            	}
+            	$scope.isLoadMoreStudentSubs = true;
+            	getStudentSubscribed(userId, $scope.defaultLimit, $scope.defaultLimit * $scope.pageStudentSubscribed);
+            	$scope.pageStudentSubscribed = $scope.pageStudentSubscribed + 1;
+            }
+            
             function getTimeZone() {
                 var offset = new Date().getTimezoneOffset(), o = Math.abs(offset);
                 return (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
@@ -545,8 +568,15 @@ brotControllers.controller('MentorProfileController',
             }
 
             $scope.isReadyLoadPointSubscribed = false;
+            
+            /**
+             * Methhod getMentorSubscribed
+             * @param studentId
+             * @param limit
+             * @param offset
+             */
             function getMentorSubscribed(studentId, limit, offset) {
-            	StudentService.getInfoMentorSubscribed(studentId, limit, offset, offset == 0, $scope.query).then(function (data) {
+            	StudentService.getInfoMentorSubscribed(studentId, limit, offset, offset == 0, $scope.query.trim()).then(function (data) {
                     if (data.data.status = "true" && data.data.request_data_result != StatusError.MSG_DATA_NOT_FOUND) {
                         var result = data.data.request_data_result;
                         $scope.isReadyLoadPointSubscribed = true;
@@ -555,6 +585,8 @@ brotControllers.controller('MentorProfileController',
                         if(offset == 0) {
                         	totalPageStudentSubs = Math.ceil(data.data.count / limit);
                         }
+                    } else {
+                    	$scope.listMentorSubs = [];
                     }
                 });
             }
@@ -716,20 +748,6 @@ brotControllers.controller('MentorProfileController',
                 return masterSubjects;
             }
 
-
-            $scope.loadMoreStudentSubscribed = function () {
-                hasLoadMore = true;
-                currentPageStudentSubs++;
-                if ($scope.isLoadMoreStudentSubs)
-                    return;
-                var newoffset = defaultLimit * currentPageStudentSubs;
-                if (newoffset > $scope.totalStudentSubs) {
-                    $scope.totalStudentSubs = newoffset;
-                } else {
-                    getStudentSubscribed(userId, $scope.defaultLimit, newoffset);
-                }
-            };
-            
             /**
              * Next page
              */
@@ -757,9 +775,19 @@ brotControllers.controller('MentorProfileController',
             /**
              * Search mentor subcribed 
              */
-            $scope.searchNameMentor = function (keyword) {
+            $scope.searchNameMentor = function () {
             	$scope.currentPageStudentSubs = 1;
-            	getMentorSubscribed(studentId, $scope.defaultLimit, ($scope.currentPageStudentSubs-1) * $scope.defaultLimit);
+            	getMentorSubscribed(studentId, $scope.defaultLimit, 0);
+            };
+            
+            
+            /**
+             * Search student subcribed 
+             */
+            $scope.searchNameStudent = function () {
+            	$scope.isLoadMoreStudentSubs = false;
+            	$scope.currentPageStudentSubs = 1;
+            	getStudentSubscribed(userId, $scope.defaultLimit, 0);
             };
             
             $scope.disabledNextPrev = function () {

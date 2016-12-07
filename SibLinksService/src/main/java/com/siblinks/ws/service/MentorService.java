@@ -94,4 +94,14 @@ public interface MentorService {
      ResponseEntity<Response> getAllSubjects(long uid);
 
     ResponseEntity<Response> getAllStudentSubscribed(long uid);
+    
+    /**
+     * @param mentorId
+     * @param keyWord
+     * @param isTotalCount
+     * @param limit
+     * @param offset
+     * @return
+     */
+    ResponseEntity<Response> getStudentSubscribed(long mentorId, String keyWord, boolean isTotalCount, String limit, String offset);
 }

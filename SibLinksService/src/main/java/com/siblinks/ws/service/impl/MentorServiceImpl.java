@@ -32,6 +32,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -698,7 +699,7 @@ public class MentorServiceImpl implements MentorService {
                 String keySearch = "%" + content + "%";
                 listParam.add(keySearch);
                 listParam.add(keySearch);
-                whereClause += " WHERE ((firstName is null AND lastName is null AND SUBSTRING_INDEX(X.loginName,'@',1) LIKE (?)) OR concat(firstname,' ',lastName) like (?))";
+                whereClause += " WHERE ((firstName is null AND lastName is null AND SUBSTRING_INDEX(X.loginName,'@',1) LIKE (?)) OR concat(IFNULL(firstname,''),' ',IFNULL(lastName,'')) like (?))";
 
             }
             if (!StringUtil.isNull(subjectId)) {
@@ -788,20 +789,56 @@ public class MentorServiceImpl implements MentorService {
     /**
      * {@inheritDoc}
      */
+    @Override
     @RequestMapping(value = "/getStudentSubscribed", method = RequestMethod.GET)
-    public ResponseEntity<Response> getStudentSubscribed(@RequestParam final long mentorId, @RequestParam final String limit,
+    public ResponseEntity<Response> getStudentSubscribed(@RequestParam final long mentorId, @RequestParam(
+            value = "keyWord",
+            required = false) final String keyWord, @RequestParam(
+            value = "isTotalCount",
+            required = false,
+            defaultValue = SibConstants.FAILURE) final boolean isTotalCount, @RequestParam final String limit,
             @RequestParam final String offset) {
         SimpleResponse simpleResponse = null;
         try {
             CommonUtil utils = CommonUtil.getInstance();
             Map<String, String> limitObject = utils.getOffset(limit, offset);
+            List<Object> queryParams = new ArrayList<Object>();
+            queryParams.add(mentorId);
 
-            Object[] params = { mentorId, Integer.parseInt(limitObject.get("limit")), Integer.parseInt(limitObject.get("offset")) };
+            String whereClause = "";
+            String count = "0";
 
-            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_STUDENT_SUBSCRIBED, params);
+            if (!StringUtil.isNull(keyWord)) {
+                queryParams.add("%" + keyWord + "%");
+                queryParams.add("%" + keyWord + "%");
+                whereClause += " AND ((U.firstName is null AND U.lastName is null AND SUBSTRING_INDEX(U.userName,'@',1) LIKE (?)) OR concat(IFNULL(U.firstname,''),' ',IFNULL(U.lastName,'')) like (?))";
+            }
+            if (isTotalCount) {
+                List<Object> countStudentSubscribed = dao.readObjectsWhereClause(
+                    SibConstants.SqlMapper.SQL_GET_COUNT_STUDENT_SUBSCRIBED_FOR_MENTOR,
+                    whereClause,
+                    queryParams.toArray());
+                if (!CollectionUtils.isEmpty(countStudentSubscribed)) {
+                    count = "" + ((HashMap<String, Long>) countStudentSubscribed.get(0)).get(Parameters.COUNT);
+                }
+            }
 
+            if (!StringUtil.isNull(limit)) {
+                whereClause += " LIMIT ?";
+                queryParams.add(Integer.parseInt(limitObject.get("limit")));
+            }
+
+            if (!StringUtil.isNull(offset)) {
+                whereClause += " OFFSET ?";
+                queryParams.add(Integer.parseInt(limitObject.get("offset")));
+            }
+
+            List<Object> readObject = dao.readObjectsWhereClause(
+                SibConstants.SqlMapper.SQL_GET_STUDENT_SUBSCRIBED,
+                whereClause,
+                queryParams.toArray());
             if (readObject != null && readObject.size() > 0) {
-                simpleResponse = new SimpleResponse("" + true, "mentor", "getStudentSubscribed", readObject);
+                simpleResponse = new SimpleResponse("" + true, "mentor", "getStudentSubscribed", readObject, count);
             } else {
                 simpleResponse = new SimpleResponse("" + true, "mentor", "getStudentSubscribed", SibConstants.NO_DATA);
             }

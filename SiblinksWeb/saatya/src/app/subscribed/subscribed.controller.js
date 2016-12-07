@@ -61,7 +61,7 @@ brotControllers.controller('StudentSubcribedCtrl',['$scope', 'VideoService',func
         });
     };
     
-    $scope.loadMoreSubscribed = function loadMoreSubscribed() {
+    $scope.loadMoreSubscribed = function() {
     	$scope.pageSubscribed = $scope.pageSubscribed + 1;
     	var newOffset = $scope.defaultLimit * $scope.pageSubscribed;
     	if ($scope.pageSubscribed > $scope.totalPageSubscribed) {
