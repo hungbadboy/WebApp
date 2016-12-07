@@ -83,7 +83,7 @@ brotControllers.controller('SignUpController', ['$scope','$rootScope', '$locatio
   // Sign Up Facebook
   $scope.loginFacebook = function() {
 	    loginFBService(function(data) {
-	      $scope.userName = data.email;
+	      $scope.userName = data.id||data.email;
 	      $scope.firstName = data.first_name;
 	      $scope.lastName = data.last_name;
 	      $scope.facebookId = data.id;
