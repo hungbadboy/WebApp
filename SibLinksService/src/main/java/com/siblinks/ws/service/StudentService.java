@@ -51,8 +51,10 @@ public interface StudentService {
      * @param studentId
      * @param limit
      * @param offset
+     * @param isCount
      * @return
      */
-    ResponseEntity<Response> getAllInfoMentorSubscribed(final long studentId, final String limit, final String offset);
+    ResponseEntity<Response> getAllInfoMentorSubscribed(final long studentId, final String limit, final String keyword,
+            final String offset, boolean isCount);
 
 }

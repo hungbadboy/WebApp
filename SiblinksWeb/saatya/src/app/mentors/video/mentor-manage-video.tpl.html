@@ -37,7 +37,7 @@
                                     <a href="#/mentor/video/detail/{{v.vid}}/{{v.plid}}"><span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span></a>
                                 </div>
                                 <div class="detail-vd">
-                                    <a href="#/mentor/video/detail/{{v.vid}}/{{v.plid}}"><h5 ng-show="videos">{{v.title | limitTo : 15}}{{v.title.length > 15 ? '...' : ''}}</h5></a>
+                                    <a href="#/mentor/video/detail/{{v.vid}}/{{v.plid}}"><h5 ng-show="videos" title="{{v.title}}">{{v.title | limitTo : 15}}{{v.title.length > 15 ? '...' : ''}}</h5></a>
                                     <h5 ng-show="!videos">No video</h5>
                                     <div class="clearfix">
                                         <div class="average">
@@ -63,7 +63,8 @@
                                     <a href="#/mentor/video/detail/{{vTopRated.vid}}/{{vTopRated.plid}}"><span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span></a>
                                 </div>
                                 <div class="detail-vd detail-vd-2">
-                                    <a href="#/mentor/video/detail/{{vTopRated.vid}}/{{vTopRated.plid}}"><h5 ng-show="videosTopRated">{{vTopRated.title | limitTo : 15}}{{vTopRated.title.length > 15 ? '...' : ''}}</h5></a>
+                                    <a href="#/mentor/video/detail/{{vTopRated.vid}}/{{vTopRated.plid}}">
+                                    <h5 ng-show="videosTopRated" title="{{vTopRated.title}}">{{vTopRated.title | limitTo : 15}}{{vTopRated.title.length > 15 ? '...' : ''}}</h5></a>
                                     <h5 ng-show="!videosTopRated">No video</h5>
                                     <div class="clearfix">
                                         <div class="average">
@@ -89,7 +90,7 @@
                                     <a href="#/mentor/video/detail/{{vTopViewed.vid}}/{{vTopViewed.plid}}"><span class="icon-play-video"><img src="assets/images/icon-play-video.png" alt=""></span></a>
                                 </div>
                                 <div class="detail-vd detail-vd-3">
-                                    <a href="#/mentor/video/detail/{{vTopViewed.vid}}/{{vTopViewed.plid}}"><h5 ng-show="videosTopViewed">{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5></a>
+                                    <a href="#/mentor/video/detail/{{vTopViewed.vid}}/{{vTopViewed.plid}}"><h5 ng-show="videosTopViewed" title="{{vTopViewed.title}}">{{vTopViewed.title | limitTo : 15}}{{vTopViewed.title.length > 15 ? '...' : ''}}</h5></a>
                                     <h5 ng-show="!videosTopViewed">No video</h5>
                                     <div class="clearfix">
                                         <div class="average">
@@ -130,9 +131,9 @@
                                                           back-color="white" title="{{r.rating ? r.rating : 0}}"></div>
                                                      </span>
                                                 </div>
-                                                <span>video <a href="#/mentor/video/detail/{{r.vid}}" style="font-weight: 500;">{{r.title | limitTo : 60}}{{r.title.length > 60 ? '...' : ''}}</a></span>                                                
+                                                <span>video <a href="#/mentor/video/detail/{{r.vid}}" style="font-weight: 500;" title="r.title">{{r.title | limitTo : 60}}{{r.title.length > 60 ? '...' : ''}}</a></span>                                                
                                             </div>
-                                        </li>                                           
+                                        </li>
                                     </ul>
                                     <div ng-show="!ratings">No data</div>
                                 </div>
@@ -148,7 +149,7 @@
                                                 <ul class="top-name">
                                                     <li><a href="" ng-click="goToProfile(c.authorid)">{{displayName(c.firstName, c.lastName, c.userName)}}</a></li>
                                                     <li><span class="time">{{convertUnixTimeToTime(c.timestamp)}} on</span></li>
-                                                    <li><span class="">{{c.title | limitTo : 25}} {{c.title.length > 25 ? '...' : ''}}</span></li>
+                                                    <li><span class="" title="{{c.title}}">{{c.title | limitTo : 25}} {{c.title.length > 25 ? '...' : ''}}</span></li>
                                                 </ul>
                                                 <p>{{c.content | limitTo: 135}}{{c.content.length > 135 ? '...' : ''}}</p>
                                             </div>
@@ -156,7 +157,7 @@
                                         </div>   
                                     </div>
                                     <div ng-show="!comments">No comments</div>
-                                </div>                                    
+                                </div>
                             </div>
                         </div>
                     </div>

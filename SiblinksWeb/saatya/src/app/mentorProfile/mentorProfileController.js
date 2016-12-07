@@ -1,21 +1,3 @@
-brotControllers.filter('filterSub', function () {
-    return function (items, name) {
-        var filtered = [];
-        var fullName = "";
-        var nameSearch = name;
-        if (!isEmpty(name)) {
-            nameSearch = name.toLowerCase();
-        }
-        angular.forEach(items, function (el) {
-            fullName = checkNameToTrim(el.firstName) + ' ' + checkNameToTrim(el.lastName);
-            if ((!isEmpty(fullName) && fullName.toLowerCase().indexOf(nameSearch) > -1)
-                || isEmpty(name)) {
-                filtered.push(el);
-            }
-        });
-        return filtered;
-    }
-});
 brotControllers.controller('MentorProfileController',
     ['$sce', '$scope', '$modal', '$routeParams', '$rootScope', '$http', '$location', 'MentorService', 'TeamMentorService', 'VideoService', 'StudentService', 'myCache', 'uploadEssayService', '$window', '$timeout',
         function ($sce, $scope, $modal, $routeParams, $rootScope, $http, $location, MentorService, TeamMentorService, VideoService, StudentService, myCache, uploadEssayService, $window, $timeout) {
@@ -27,7 +9,7 @@ brotControllers.controller('MentorProfileController',
             $scope.baseIMAGEQ = NEW_SERVICE_URL + '/comments/getImageQuestion/';
 
             $scope.isLogged = userId !== undefined && userId != null;
-
+            $scope.query = "";
 
             var mentorId = $routeParams.mentorId;
 
@@ -46,9 +28,9 @@ brotControllers.controller('MentorProfileController',
             var defaultSubjectChecked = [];
             var defaultFavouriteChecked = [];
             var dob = "";
-            var currentPageStudentSubs = 0;
+            $scope.currentPageStudentSubs = 1;
             $scope.isLoadMoreStudentSubs = false;
-
+            var totalPageStudentSubs=0
             $scope.defaultLimit = 6;
             var hasLoadMore = false;
             $scope.listMentorSubsSize = 0;
@@ -564,12 +546,15 @@ brotControllers.controller('MentorProfileController',
 
             $scope.isReadyLoadPointSubscribed = false;
             function getMentorSubscribed(studentId, limit, offset) {
-                StudentService.getInfoMentorSubscribed(studentId, limit, offset).then(function (data) {
+            	StudentService.getInfoMentorSubscribed(studentId, limit, offset, offset == 0, $scope.query).then(function (data) {
                     if (data.data.status = "true" && data.data.request_data_result != StatusError.MSG_DATA_NOT_FOUND) {
                         var result = data.data.request_data_result;
                         $scope.isReadyLoadPointSubscribed = true;
                         $scope.listMentorSubs = $scope.isNextPage ? $scope.listMentorSubs.concat(result) : result;
-                        $scope.listMentorSubsSize = $scope.listMentorSubs.length;
+                        // Total page
+                        if(offset == 0) {
+                        	totalPageStudentSubs = Math.ceil(data.data.count / limit);
+                        }
                     }
                 });
             }
@@ -637,9 +622,12 @@ brotControllers.controller('MentorProfileController',
                     if (data.data.status == "true") {
                         if (data.data.request_data_type == "subs") {
                             $scope.isSubscribe = 1;
+                            $("#subscribers_" + mentorId).attr("data-icon", "L");
+                            $('#subscribers_' + mentorId).addClass('subcribed');
                         } else {
                             $scope.isSubscribe = 0;
                             $("#subscribers_" + mentorId).attr("data-icon", "N");
+                            $('#subscribers_' + mentorId).addClass('subcribe');
                             $('#subscribers_' + mentorId).removeClass('unsubcrib');
                         }
                         for (var i = 0; i < $scope.listMentorSubscribed.length; i++) {
@@ -741,42 +729,56 @@ brotControllers.controller('MentorProfileController',
                     getStudentSubscribed(userId, $scope.defaultLimit, newoffset);
                 }
             };
-
-            var currentMentorSubPage = 0;
-            $scope.isNextPage = false;
-            $scope.offset = 0;
-            $scope.newLimit = $scope.defaultLimit;
-            var newOffset = 0;
+            
+            /**
+             * Next page
+             */
             $scope.nextPageMentorSubs = function () {
-                currentMentorSubPage++;
-                newOffset = $scope.defaultLimit * currentMentorSubPage;
-                if (newOffset > $scope.listMentorSubsSize) {
-                    return;
-                }
-                $scope.isNextPage = true;
-                $scope.offset = newOffset;
-                $scope.newLimit = newOffset + $scope.defaultLimit;
-                getMentorSubscribed(studentId, $scope.defaultLimit, newOffset);
+            	if ($scope.currentPageStudentSubs +1 > totalPageStudentSubs) {
+            		return;
+            	} else {
+            		getMentorSubscribed(studentId, $scope.defaultLimit, $scope.currentPageStudentSubs * $scope.defaultLimit);
+            		$scope.currentPageStudentSubs ++;
+            	}
             };
-
+            
+            /**
+             * Previous page 
+             */
             $scope.prevPageMentorSubs = function () {
-                currentMentorSubPage--;
-                if (currentMentorSubPage < 0) {
-                    return;
-                }
-                $scope.listMentorSubs.splice(newOffset, $scope.newLimit);
-                $scope.offset = $scope.listMentorSubs.length - $scope.defaultLimit;
-                newOffset = $scope.offset;
-                $scope.newLimit = $scope.newLimit - $scope.defaultLimit;
-                $scope.listMentorSubsSize = $scope.listMentorSubs.length;
+            	if ($scope.currentPageStudentSubs == 1) {
+            		return;
+            	} else {
+            		$scope.currentPageStudentSubs --;
+            		getMentorSubscribed(studentId, $scope.defaultLimit, ($scope.currentPageStudentSubs-1) * $scope.defaultLimit);
+            	}
             };
 
+            /**
+             * Search mentor subcribed 
+             */
+            $scope.searchNameMentor = function (keyword) {
+            	$scope.currentPageStudentSubs = 1;
+            	getMentorSubscribed(studentId, $scope.defaultLimit, ($scope.currentPageStudentSubs-1) * $scope.defaultLimit);
+            };
+            
             $scope.disabledNextPrev = function () {
                 if ($scope.offset == 0 && $scope.newLimit <= $scope.defaultLimit) {
                     return true;
                 }
             };
 
+            /**
+             * goToProfileMentor 
+             */
+            $scope.goToProfileMentor = function (uid){
+            	if(uid == userId) {
+            		$location.path('/mentor/mentorProfile');
+            	} else {
+            		$location.path('/mentor/mentorProfile/'+uid);
+            	}
+            }
+            
             /**
              * @param firstName
              * @param lastName
@@ -822,5 +824,5 @@ brotControllers.controller('MentorProfileController',
             		 });
             	});
             }
-
+            
         }]);

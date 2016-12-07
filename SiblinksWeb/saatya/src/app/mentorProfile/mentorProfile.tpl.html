@@ -164,28 +164,29 @@
                                 <div class="search search-mentor-student">
                                     <form class="navbar-form" role="search">
                                         <div class="input-group">
-                                            <input type="text" class="form-control input-search form-control-search"
-                                                   ng-model="query" placeholder="Type your search" name="srch-term"
-                                                   id="srch-term" onfocus="this.placeholder = ''">
+                                            <input type="text" class="form-control input-search form-control-search" ng-model="query" placeholder="Type your search" name="srch-term" id="srch-term" onfocus="this.placeholder = ''">
                                             <div class="input-group-btn">
-                                                <button class="btn btn-default" type="submit"><img
-                                                        src="assets/images/icon-search.png" alt=""></button>
+                                                <button class="btn btn-default" type="submit">
+                                                	<img src="assets/images/icon-search.png" alt="">
+                                               	</button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                                 <ul class="list-std" ng-show="listStudentSubscribed">
-                                    <li class="clearfix"
-                                        ng-repeat="s in listStudentSubscribed | filter:query track by $index">
-                                        <span class="pull-left"><a href="#/mentor/studentProfile/{{s.userId}}"><img
-                                                src="{{s.avatar}}" alt=""></a></span>
+                                    <li class="clearfix" ng-repeat="s in data = (listStudentSubscribed | filter:query) track by $index">
+                                        <span class="pull-left">
+                                        	<a href="#/mentor/studentProfile/{{s.userId}}"><img src="{{s.avatar}}" alt=""></a>
+                                        </span>
                                         <div class="txt-ifm pull-left">
                                             <a href="#/mentor/studentProfile/{{s.userId}}"><h5>{{s.userName}}</h5></a>
                                             <p>High school: {{s.schoolName ? s.schoolName : 'Unknown'}}</p>
                                         </div>
                                     </li>
+                                    <li ng-show = "data.length == 0">
+                                		<span>No subscriber</span>
+                                    </li>
                                 </ul>
-                                <span ng-show="!listStudentSubscribed">No subscriber</span>
                             </div>
                         </div>
                     </div>
