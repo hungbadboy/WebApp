@@ -67,6 +67,7 @@
                                             <div class="list-view pull-right">
                                                 <span><i class="fa fa-play-circle-o" aria-hidden="true"></i> {{showNumberFormat(video.numViews)}}</span>&nbsp;&nbsp;
                                                 <span><i class="fa fa-comments" aria-hidden="true"></i> {{comments.length > 0 ? showNumberFormat(comments.length) : 0}}</span>&nbsp;&nbsp;
+                                                <span class="divTotalRate">
                                                 <span  star-rating stars="5" id="divTotalRate"
 			                                          outer-star-selection="stars"
 			                                          outer-percent="rating"
@@ -75,7 +76,7 @@
 			                                          star-radius="7" sel-color="gold"
 			                                          back-color="white" title="{{video.averageRating}}"
 			                                          readonly ="true"></span>
-                                                <span> {{video.averageRating != null ? video.averageRating : 0}} ({{ (!video.numRatings)? '0' : video.numRatings}})</span>
+                                                <span> {{video.averageRating != null ? video.averageRating : 0}} ({{ (!video.numRatings)? '0' : video.numRatings}})</span></span>
                                                 
                                                     
                                                 
