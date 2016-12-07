@@ -93,11 +93,11 @@ brotServices.factory('MentorService', ['$http', function ($http) {
         return promise;
     };
 
-    factory.getStudentSubscribed = function (mentorId, limit, offset) {
+    factory.getStudentSubscribed = function (mentorId, limit, offset, isTotalCount, keyWord) {
         var rs;
         var promise = $http({
             method: 'GET',
-            url: NEW_SERVICE_URL + 'mentor/getStudentSubscribed?mentorId=' + mentorId + '&limit=' + limit + '&offset=' + offset
+            url: NEW_SERVICE_URL + 'mentor/getStudentSubscribed?mentorId=' + mentorId + '&limit=' + limit + '&offset=' + offset+'&isTotalCount='+isTotalCount+'&keyWord='+keyWord
         }).success(function (response) {
             rs = response;
             return rs;
