@@ -910,7 +910,6 @@
         width: 360px;
     }
     .manager-detail-video .ctn-main .top-cm .btn-count .list-view {
-        width: 115px;
         text-align: right;
         line-height: 24px;
         margin-top: 0;
@@ -919,9 +918,9 @@
     }
     .manager-detail-video .ctn-main .top-cm .btn-count .list-view span:nth-child(2) {
         margin-right: 0;
-        top: 4px;
         position: relative;
-        padding-left: 3px;
+        margin-left: 0;
+        top: 0;
     }
     #videos-details p.videos-rate-infor span,
     #videos-details p.videos-rate-infor span.videoRate {
@@ -1200,16 +1199,18 @@
     .center-content.showsidebar {
         width: ~"calc(100% - 320px)";
     }
-    #videos .videos-thumnail {
-        height: 185px;
-        width: 100%;
-    }
+    
     .videos-thumnail img {
         height: 100%;
         width: 100%;
     }
     .videos-thumnail .box-all-vd {
         padding-top: 15%;
+    }
+    #videos #history .videos-thumnail, #videos #favourite .videos-thumnail {
+        height: auto;
+        width: 42%;
+        float: left;
     }
 
     
@@ -1356,6 +1357,10 @@
     }
     .number-video>h4 {
         font-size: 24px;
+    }
+    #videos .videos-thumnail {
+        height: 185px;
+        width: 100%;
     }
 
     /*======College======*/
@@ -1904,6 +1909,12 @@
         top: 38%;
         left: 45%;
     }
+    .box-main-replied .slider-rpl .group-item-sl .item-sl-rpl .bt-item p.list-view {
+        padding-top: 12px;
+    }
+    #history .video-list-content li:before, #favourite .video-list-content li:before {
+        margin-left: 42px;
+    }
         
 
 }
@@ -2135,6 +2146,7 @@
         margin-top: 0px;
         margin-bottom: 15px;
     }
+
     
 
 

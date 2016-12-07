@@ -93,15 +93,15 @@
 
                                         <div class="bx-detail-rpl">
                                             <div class="top-rpl clearfix">
-                                                <div class="col-md-2">
+                                                <div class="col-md-2 col-xs-2">
                                                     <a href="#/mentor/studentProfile/{{questionDetail.authorId}}"><img class="avatar-fix-max-size60" ng-src="{{questionDetail.avatar}}" alt="avatar"></a>
                                                 </div>
-                                                <div class="col-md-6 bx-dt-qa">
+                                                <div class="col-md-6 col-xs-6 bx-dt-qa">
                                                     <h5> <a href="#/mentor/studentProfile/{{questionDetail.authorId}}">{{displayName(questionDetail.firstName,questionDetail.lastName,questionDetail.userName)}}</a></h5>
                                                     <span class="time">asked {{questionDetail.timeStamp}}</span>
                                                     <p class="txt-category"><b style="cursor: pointer;" ng-click="clickSubject(questionDetail.subjectId,questionDetail.subject)">{{questionDetail.subject}}</b></p>
                                                 </div>
-                                                <div class="col-md-4 bt-item">
+                                                <div class="col-md-4 col-xs-4 bt-item">
                                                     <p class="list-view">
                                                         <a href="javascript:void(0)">{{questionDetail.numview}} <i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp;&nbsp;
                                                     </p>
@@ -295,10 +295,10 @@
             <div class="col-xs-6 left-question">
                 <h5><span><img src="assets/images/icon-h5-l-qa.png" alt=""></span>Question</h5>
                 <div class="top-user clearfix">
-                    <div class="col-md-2 img-avarta">
+                    <div class="col-md-2 col-xs-2 img-avarta">
                         <a ng-click="transferPage('/mentor/studentProfile/',questionDetail.authorId)"><img ng-src="{{questionDetail.avatar}}" alt=""></a>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-10 col-xs-10">
                         <h6> <a ng-click="transferPage('/mentor/studentProfile/',questionDetail.authorId)">{{displayName(questionDetail.firstName,questionDetail.lastName,question.userName)}}</a></h6>
                         <span class="time">asked {{questionDetail.timeStamp}}</span>
                         <p class="list-view">
