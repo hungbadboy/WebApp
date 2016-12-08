@@ -286,7 +286,7 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
         
         $scope.longNumberLimit =function() {
         	var longNumberLimit = ($scope.windowWidth >1024)? 9 : ($scope.windowWidth >= 1024 && $scope.windowWidth > 768)? 6 : 7;
-        	console.log(longNumberLimit);
+        	// console.log(longNumberLimit);
         	if(!$scope.isChangeItemSubject) {
         		$scope.toSubIndex = longNumberLimit;
         	}
@@ -395,16 +395,24 @@ brotControllers.controller('VideoCtrl', ['$scope', '$http', '$location', '$rootS
 
 
         function getSubjects() {
-            VideoService.getSubjects().then(function (response) {
-                if (response.data.status) {
-                    var subjects = response.data.request_data_result;
-                    if (subjects) {
-                        $scope.listSubjects = subjects;
-                        $scope.listSubjectsSize = $scope.listSubjects.length;
-                        $scope.isMoreSubject = $scope.listSubjects.length > $scope.longNumberLimit();
-                    }
-                }
-            });
+			//            VideoService.getSubjects().then(function (response) {
+			//                if (response.data.status) {
+			//                    var subjects = response.data.request_data_result;
+			//                    if (subjects) {
+			//                        $scope.listSubjects = subjects;
+			//                        $scope.listSubjectsSize = $scope.listSubjects.length;
+			//                        $scope.isMoreSubject = $scope.listSubjects.length > $scope.longNumberLimit();
+			//                    }
+			//                }
+			//            });
+        	$scope.listSubjects = [];
+        	for(var i=0; i < masterSubjects.length; i++) {
+        		if(masterSubjects[i].level == 0 && masterSubjects[i].isForum == false) {
+        			$scope.listSubjects.push(masterSubjects[i]);
+        		}
+        	}
+        	$scope.listSubjectsSize = $scope.listSubjects.length;
+			$scope.isMoreSubject = $scope.listSubjects.length > $scope.longNumberLimit();
         }
 
 

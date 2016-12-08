@@ -1833,6 +1833,8 @@ public class UserServiceImpl implements UserService {
             }
             boolean status = false;
             String username = request.getRequest_data().getUsername();
+            String facebookId = request.getRequest_data().getFacebookid();
+            username = (StringUtil.isNull(username)) ? facebookId : username;
             // Check user
             List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { username });
 
@@ -1874,8 +1876,7 @@ public class UserServiceImpl implements UserService {
                                                         request.getRequest_data_type(),
                                                         request.getRequest_data_method(),
                                                         "Your Facebook's email is already registered by the Siblinks account.");
-                } else if (mapUser.get(Parameters.ID_FACEBOOK) != null &&
-                           mapUser.get(Parameters.ID_FACEBOOK).equals(request.getRequest_data().getFacebookid())) {// Registered
+                } else if (mapUser.get(Parameters.ID_FACEBOOK) != null && mapUser.get(Parameters.ID_FACEBOOK).equals(facebookId)) {// Registered
                     // Set parameter
                     Object[] queryParams = { request.getRequest_data().getToken(), request.getRequest_data().getFacebookid() };
                     status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_FACEBOOK, queryParams);
@@ -1949,7 +1950,7 @@ public class UserServiceImpl implements UserService {
                                                   request.getRequest_data_method(),
                                                   "Your Google's email is already registered by the Siblinks account.");
                 } else if (mapUser.get(Parameters.ID_GOOGLE) != null &&
-                    mapUser.get(Parameters.ID_GOOGLE).equals(request.getRequest_data().getGoogleid())) {// Registered
+                           mapUser.get(Parameters.ID_GOOGLE).equals(request.getRequest_data().getGoogleid())) {// Registered
                     // Update token
                     dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_GOOGLE, new Object[] { request
                         .getRequest_data()

@@ -249,6 +249,7 @@ brotControllers.controller('MentorProfileController',
              * loadMoreStudentSubscribed
              */
             $scope.loadMoreStudentSubscribed = function() {
+            	
             	if ($scope.pageStudentSubscribed >= $scope.totalPageStudentSubscribed) {
             		return;
             	}
@@ -374,7 +375,7 @@ brotControllers.controller('MentorProfileController',
                                 localStorage.setItem('defaultSubjectId', strSubs);
                                 localStorage.setItem('firstName', mentor.firstName);
                                 localStorage.setItem('lastname', mentor.lastName);
-                                localStorage.setItem('school', $scope.schoolSelect.id);
+                                localStorage.setItem('school', ($scope.schoolSelect != null && ($scope.schoolSelect.id !=null && $scope.schoolSelect.id !== undefined)) ? $scope.schoolSelect.id : '');
                                 $rootScope.firstName = mentor.firstName;
                                 updateDefaultFavsSubs();
                             }
@@ -786,7 +787,7 @@ brotControllers.controller('MentorProfileController',
              */
             $scope.searchNameStudent = function () {
             	$scope.isLoadMoreStudentSubs = false;
-            	$scope.currentPageStudentSubs = 1;
+            	$scope.pageStudentSubscribed = 1;
             	getStudentSubscribed(userId, $scope.defaultLimit, 0);
             };
             
