@@ -109,6 +109,7 @@ public class SibConstants {
         public static final String SQL_GET_USER_BY_ID = "GET_USER_BY_ID";
         public static final String SQL_GET_TOKEN_BY_USERID = "GET_TOKEN_BY_USERID";
         public static final String SQL_CHECK_USER = "CHECK_USER";
+        public static final String SQL_CHECK_USER_FACEBOOK = "CHECK_USER_FACEBOOK";
         public static final String SQL_CREATE_USER_FACEBOOK = "CREATE_USER_FACEBOOK";
         public static final String SQL_UPDATE_INFO_FACEBOOK = "UPDATE_INFO_FACEBOOK";
         public static final String SQL_CREATE_USER_GOOGLE = "CREATE_USER_GOOGLE";
