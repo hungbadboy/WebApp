@@ -211,7 +211,7 @@ function validateFormAdmin(isEditAdmin) {
 		message = "Email not valid !,";
 	}
 	var firstName = isEditAdmin ? $("input[name=firstnameAdmin]").val() : $("input[name=firstname]").val();
-	var	bod = formatOutputDatePicker(isEditAdmin ? "#datepickerAdmin" : "#datepicker");
+	var	dob = formatOutputDatePicker(isEditAdmin ? "#datepickerAdmin" : "#datepicker");
 	var lastName = isEditAdmin ? $("input[name=lastnameAdmin]").val() : $("input[name=lastname]").val();
 	var statusActive;
 	if(isEditAdmin){
@@ -247,7 +247,7 @@ function validateFormAdmin(isEditAdmin) {
 			lastName : lastName,
 			role : Role.Admin,
 			password : password,
-			bod : bod,
+			dob : dob,
 			active : statusActive
 		};
 		return jsonRegister;
@@ -257,7 +257,7 @@ function validateFormAdmin(isEditAdmin) {
 				firstName : firstName,
 				lastName : lastName,
 				role : Role.Admin,
-				bod : bod,
+				dob : dob,
 				active : statusActive
 		};
 		return jsonEdit;
@@ -280,7 +280,7 @@ function validateFormRegisterMentor(isAddNew, userId) {
 		message = "Email not valid !,";
 	}
 	var firstName = $("input[name=firstnameMentor]").val();
-	var bod = formatOutputDatePicker("#datepickerMentor");
+	var dob = formatOutputDatePicker("#datepickerMentor");
 	var lastName = $("input[name=lastnameMentor]").val();
 	var school = $("input[name=school]").val();
 	var accomplishments = $("input[name=achievement]").val();
@@ -312,7 +312,7 @@ function validateFormRegisterMentor(isAddNew, userId) {
 			lastName : lastName,
 			role : Role.Mentor,
 			accomplishment : accomplishments,
-			bod : bod,
+			dob : dob,
 			school : school,
 			defaultSubjectId : defaultSubjectId,
 			bio : bio,
@@ -327,7 +327,7 @@ function validateFormRegisterMentor(isAddNew, userId) {
 				lastName : lastName,
 				role : Role.Mentor,
 				accomplishment : accomplishments,
-				bod : bod,
+				dob : dob,
 				school : school,
 				defaultSubjectId : defaultSubjectId,
 				bio : bio,
@@ -405,7 +405,7 @@ function addNewAdminMentor(jsonRegister) {
 
 function clearFormRegAdmin(){
 	var firstName = $("input[name=firstname]").val("");
-	var bod = $("input[name=birthday]").val("");
+	var dob = $("input[name=birthday]").val("");
 	var lastName = $("input[name=lastname]").val("");
 	var password = $("input[name=password]").val("");
 	var confirmPwd = $("input[name=confirmPwd]").val("");
@@ -915,14 +915,14 @@ function setDataFormEditAdmin(userId){
 	var email = userMgr.jqGrid('getCell',userId,'email');
 	var firstName = userMgr.jqGrid('getCell',userId,'firstName');
 	var lastName = userMgr.jqGrid('getCell',userId,'lastName');
-	var bod = formatDate(userMgr.jqGrid('getCell',userId,'timeStamp'));
+	var dob = formatDate(userMgr.jqGrid('getCell',userId,'timeStamp'));
 	var enableFlag = userMgr.jqGrid('getCell',userId,'enableFlag');
 	$("input[name=emailAdmin]").val(email);
 	$("input[name=firstnameAdmin]").val(firstName);
-	if(bod == 0){
+	if(dob == 0){
 		$("#datepickerAdmin").val("");
 	}else{
-		$("#datepickerAdmin").val(bod);
+		$("#datepickerAdmin").val(dob);
 	}
 	$("input[name=lastnameAdmin]").val(lastName);
 	if(enableFlag == "N"){
@@ -1043,11 +1043,11 @@ function tabProfileDialog(){
 function setDataFormUpdateProfile(){
 	$("input[name=emailProfile]").val(UserInfo.email);
 	$("input[name=firstnameProfile]").val(UserInfo.firstName);
-	var bod = formatDate(UserInfo.bod);
-	if(bod == 0){
+	var dob = formatDate(UserInfo.dob);
+	if(dob == 0){
 		$("#datepickerProfile").val("");
 	}else{
-		$("#datepickerProfile").val(bod);
+		$("#datepickerProfile").val(dob);
 	}
 	$("input[name=lastnameProfile]").val(UserInfo.lastName);
 	if(UserInfo.status == "N"){
@@ -1098,7 +1098,7 @@ function validateUpdateProfile(){
 	}
 	var firstName = $("input[name=firstnameProfile]").val();
 	var lastName = $("input[name=lastnameProfile]").val();
-	var bod = formatOutputDatePicker("#datepickerProfile");
+	var dob = formatOutputDatePicker("#datepickerProfile");
 	var statusActive;
 	if ($("#chkProfile").prop("checked") == true) {
 			statusActive = 'Y';
@@ -1114,7 +1114,7 @@ function validateUpdateProfile(){
 				firstName : firstName,
 				lastName : lastName,
 				role : Role.Admin,
-				bod : bod,
+				dob : dob,
 				active : statusActive
 		};
 		return jsonProfile;
@@ -1130,7 +1130,7 @@ function setUserInfoAfterUpdate(json){
 	UserInfo.lastName = json.lastName;
 	UserInfo.status = json.active;
 	UserInfo.email = json.username;
-	UserInfo.bod = json.bod;
+	UserInfo.dob = json.dob;
 }
 
 function clearDataChangePwd(){

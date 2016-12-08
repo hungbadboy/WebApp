@@ -10,7 +10,7 @@
 	var lastName = '<s:property value="#session.user_info.getLastname()"/>';
 	var status = '<s:property value="#session.user_info.getActiveFlag()"/>';
 	var email = '<s:property value="#session.user_info.getEmail()"/>';
-	var bod = '<s:property value="#session.user_info.getBirthDay()"/>';
+	var dob = '<s:property value="#session.user_info.getBirthDay()"/>';
 	var UserInfo = {
 		userId : userId,
 		userName : userName,
@@ -19,7 +19,7 @@
 		status : status,
 		email : email,
 		type : type,
-		bod : bod
+		dob : dob
 	}
 </script>
 </head>
