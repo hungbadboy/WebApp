@@ -10,9 +10,9 @@ var Role = {
 };
 
 var UserInfo;
-
+var userMgr;
 $(document).ready(function() {
-	var userMgr = $("#userMgr");
+	userMgr = $("#userMgr");
 	init();
 	var userType = type;
 	UserInfo = UserInfo; 
@@ -29,7 +29,7 @@ $(document).ready(function() {
 			}
 		}
 	});
-	$("#userMgr").jqGrid({
+	userMgr.jqGrid({
 		url : endPointUrl + 'user/getAllUsers',
 		editurl : 'clientArray',
 		mtype : "GET",
@@ -107,7 +107,7 @@ $(document).ready(function() {
 		height : 250,
 		rowNum : 10,
 		gridComplete: function(){
-			var ids = $("#userMgr").jqGrid('getDataIDs');
+			var ids = userMgr.jqGrid('getDataIDs');
 			for(var i= 0 ;i < ids.length;i++){
 				var clId = ids[i];
 				var role = userMgr.jqGrid('getCell',clId,'userType');
@@ -121,7 +121,7 @@ $(document).ready(function() {
 					edt = "<div title='Edit User' style='display:inline-block;cursor:pointer;' class='ui-pg-div ui-inline-edit' " +
 							"onmouseover='hoverIconActions("+clId+", true)' onmouseout='unHoverIconActions("+clId+", true)'" +
 							"onclick=\"getInfoUser("+clId+");\"><span class='ui-icon ui-icon-pencil'></span></div>";
-					$("#userMgr").jqGrid('setRowData',ids[i],{Actions:edt});
+					userMgr.jqGrid('setRowData',ids[i],{Actions:edt});
 				}else if(userType == Role.SuperAdmin && hasEditPermission){
 					edt = "<div title='Edit User' style='display:inline-block;cursor:pointer;' class='ui-pg-div ui-inline-edit' " +
 					"onmouseover='hoverIconActions("+clId+", true)' onmouseout='unHoverIconActions("+clId+", true)'" +
@@ -129,7 +129,7 @@ $(document).ready(function() {
 					del = "<div title='"+title+"' style='display:inline-block;' class='ui-pg-div ui-inline-del' " +
 							"onmouseover='hoverIconActions("+clId+", false)' onmouseout='unHoverIconActions("+clId+", false)'" +
 							"onclick=\"confirmDelete("+clId+");\"><span class='"+icon+"'></span></div>"; 
-					$("#userMgr").jqGrid('setRowData',ids[i],{Actions:edt+del});
+					userMgr.jqGrid('setRowData',ids[i],{Actions:edt+del});
 				}
 			}	
 		},
@@ -598,13 +598,13 @@ function updateProfileUser(json, userId){
 				if(role==Role.Mentor || role == Role.Student){
 					if(data.status == "true"){
 						$("#msgRegisterMentor").text(data.request_data_result).css('color', 'yellowgreen');	
-						$("#userMgr").GridUnload();
+						//$.jgrid.gridUnload('#userMgr');
 					}else{
 						$("#msgRegisterMentor").text(data.request_data_result).css('color', 'red');
 					}
 					showDialogLoading(Role.Mentor, false);
 				}
-				$("#userMgr").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
+				userMgr.jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');
 				disableButtonSubmitForm(false);
 			},
 			error : function(data) {
@@ -796,9 +796,9 @@ function isEmpty(str) {
  */
 function checkShowHideActions(userType, filterSelected){
 	if(userType == Role.Admin && filterSelected == Role.Admin){
-		$("#userMgr").hideCol("Actions");
+		userMgr.hideCol("Actions");
 	}else{
-		$("#userMgr").showCol("Actions");
+		userMgr.showCol("Actions");
 	}
 }
 
@@ -830,7 +830,6 @@ function unHoverIconActions(userId, isEdit){
  * @param userId 
  */
 function confirmDelete(userId) {
-	var userMgr = $("#userMgr");
 	var userName = userMgr.jqGrid('getCell',userId,'userName');
 	var enableFlag = userMgr.jqGrid('getCell',userId,'enableFlag');
 	var status  = enableFlag == "Y" ? "disable" : "enable";
@@ -859,7 +858,6 @@ function changeStatusUser(status, userId){
 			active : status
 	}
 	disableButtonSubmitForm(true);
-	var userMgr = $("#userMgr");
 	$.ajax({
 		url : endPointUrl + 'user/setStatusUser',
 		type : "POST",
@@ -911,7 +909,6 @@ function showDialogEditAdmin(userId){
 }
 
 function setDataFormEditAdmin(userId){
-	var userMgr = $("#userMgr");
 	var email = userMgr.jqGrid('getCell',userId,'email');
 	var firstName = userMgr.jqGrid('getCell',userId,'firstName');
 	var lastName = userMgr.jqGrid('getCell',userId,'lastName');
@@ -986,8 +983,8 @@ function changePassword(json){
 }
 
 function reload(pageIndex){
-	   var page = $("#userMgr").getGridParam("page");    //Add this
-	   $("#userMgr").setGridParam({
+	   var page = userMgr.getGridParam("page");    //Add this
+	   userMgr.setGridParam({
 		   
 	       datatype : 'json',
 	       page : pageIndex            //Replace the '1' here
