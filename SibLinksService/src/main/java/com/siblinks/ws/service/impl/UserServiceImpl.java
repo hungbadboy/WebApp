@@ -1851,9 +1851,7 @@ public class UserServiceImpl implements UserService {
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_USER_FACEBOOK, queryParamsFB);
                 if (status) {
                     
-                    List<Object> readObject = dao.readObjects(
-                        SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME,
-                        new Object[] { username });
+                    List<Object>  readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { username });
                     
                     simpleResponse = new SimpleResponse(
                                                         SibConstants.SUCCESS,
@@ -1886,7 +1884,7 @@ public class UserServiceImpl implements UserService {
                 } else if (mapUser.get(Parameters.ID_FACEBOOK) != null && mapUser.get(Parameters.ID_FACEBOOK).equals(facebookId)) {// Registered
                     // Set parameter
                     String email = mapUser.get(Parameters.EMAIL);
-                    email = (StringUtil.isNull(email) && username.indexOf("@") >= 0) ? username : email;
+                    email = (StringUtil.isNull(email) && (!StringUtil.isNull(username) && username.indexOf("@") >= 0)) ? username : email;
                     Object[] queryParams = { request.getRequest_data().getToken(), email, request
                         .getRequest_data()
                         .getFacebookid() };
