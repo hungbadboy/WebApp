@@ -91,7 +91,8 @@ module.exports = {
             'ckeditor/ckeditor.js',
             'vendor/moment.min.js',
             'vendor/css_browser_selector.js',
-            'vendor/ngMask.min.js'
+            'vendor/ngMask.min.js',
+            'vendor/autotrack.js'
             ],
         css: [
         ],

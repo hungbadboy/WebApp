@@ -1834,12 +1834,15 @@ public class UserServiceImpl implements UserService {
             boolean status = false;
             String username = request.getRequest_data().getUsername();
             String facebookId = request.getRequest_data().getFacebookid();
-            username = (StringUtil.isNull(username)) ? facebookId : username;
+
             // Check user
-            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { username });
+            List<Object> userFacebookObject = dao.readObjects(
+                SibConstants.SqlMapper.SQL_CHECK_USER_FACEBOOK,
+                new Object[] { username, facebookId });
 
             // User is already exists
-            if (CollectionUtils.isEmpty(readObject)) {
+            if (CollectionUtils.isEmpty(userFacebookObject)) {
+                username = (StringUtil.isNull(username)) ? facebookId : username;
                 Object[] queryParamsFB = { username, request.getRequest_data().getUsertype(), request
                     .getRequest_data()
                     .getFirstname(), request.getRequest_data().getLastname(), request.getRequest_data().getImage(), request
@@ -1847,7 +1850,11 @@ public class UserServiceImpl implements UserService {
                     .getFacebookid(), request.getRequest_data().getToken(), (username.indexOf("@") == -1) ? null : username };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_USER_FACEBOOK, queryParamsFB);
                 if (status) {
-                    readObject = dao.readObjects(SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME, new Object[] { username });
+                    
+                    List<Object> readObject = dao.readObjects(
+                        SibConstants.SqlMapper.SQL_GET_USER_BY_USERNAME,
+                        new Object[] { username });
+                    
                     simpleResponse = new SimpleResponse(
                                                         SibConstants.SUCCESS,
                                                         request.getRequest_data_type(),
@@ -1862,7 +1869,7 @@ public class UserServiceImpl implements UserService {
                 }
 
             } else {
-                Map<String, String> mapUser = (HashMap<String, String>) readObject.get(SibConstants.NUMBER.ZERO);
+                Map<String, String> mapUser = (HashMap<String, String>) userFacebookObject.get(SibConstants.NUMBER.ZERO);
                 if (mapUser.get(Parameters.ID_GOOGLE) != null && !mapUser.get(Parameters.ID_GOOGLE).equals("")) {
                     simpleResponse = new SimpleResponse(
                                                         SibConstants.FAILURE,
@@ -1878,13 +1885,17 @@ public class UserServiceImpl implements UserService {
                                                         "Your Facebook's email is already registered by the Siblinks account.");
                 } else if (mapUser.get(Parameters.ID_FACEBOOK) != null && mapUser.get(Parameters.ID_FACEBOOK).equals(facebookId)) {// Registered
                     // Set parameter
-                    Object[] queryParams = { request.getRequest_data().getToken(), request.getRequest_data().getFacebookid() };
+                    String email = mapUser.get(Parameters.EMAIL);
+                    email = (StringUtil.isNull(email) && username.indexOf("@") >= 0) ? username : email;
+                    Object[] queryParams = { request.getRequest_data().getToken(), email, request
+                        .getRequest_data()
+                        .getFacebookid() };
                     status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_FACEBOOK, queryParams);
                     simpleResponse = new SimpleResponse(
                                                         SibConstants.SUCCESS,
                                                         request.getRequest_data_type(),
                                                         request.getRequest_data_method(),
-                                                        readObject);
+                                                        userFacebookObject);
                 } else {
                     simpleResponse = new SimpleResponse(
                                                         SibConstants.FAILURE,
@@ -1918,7 +1929,10 @@ public class UserServiceImpl implements UserService {
                 return new ResponseEntity<Response>(response, HttpStatus.FORBIDDEN);
             }
             String username = request.getRequest_data().getUsername();
-            List<Object> readObject = dao.readObjects(SibConstants.SqlMapper.SQL_CHECK_USER, new Object[] { username });
+            String googleId = request.getRequest_data().getGoogleid();
+            List<Object> readObject = dao.readObjects(
+                SibConstants.SqlMapper.SQL_CHECK_USER_GOOGLE,
+                new Object[] { username, googleId });
             if (CollectionUtils.isEmpty(readObject)) {// For register
                 Object[] queryParamsGG = { username, request.getRequest_data().getUsertype(), request
                     .getRequest_data()
@@ -1949,12 +1963,11 @@ public class UserServiceImpl implements UserService {
                                                   request.getRequest_data_type(),
                                                   request.getRequest_data_method(),
                                                   "Your Google's email is already registered by the Siblinks account.");
-                } else if (mapUser.get(Parameters.ID_GOOGLE) != null &&
-                           mapUser.get(Parameters.ID_GOOGLE).equals(request.getRequest_data().getGoogleid())) {// Registered
+                } else if (mapUser.get(Parameters.ID_GOOGLE) != null && mapUser.get(Parameters.ID_GOOGLE).equals(googleId)) {// Registered
                     // Update token
                     dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_INFO_GOOGLE, new Object[] { request
                         .getRequest_data()
-                        .getToken(), request.getRequest_data().getGoogleid() });
+                        .getToken(), googleId });
                     response = new SimpleResponse(
                                                   SibConstants.SUCCESS,
                                                   request.getRequest_data_type(),
