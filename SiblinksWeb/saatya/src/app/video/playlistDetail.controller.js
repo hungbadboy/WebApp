@@ -9,6 +9,8 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         var pid = $routeParams.playlistid;
         var index = $routeParams.index;
         $scope.index = 0;
+        $scope.videoInfo = {};
+        
         if(!isEmpty(index)){
             $scope.index = parseInt(index);
         }
@@ -31,6 +33,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
         $scope.currentvid = 0;
         var idRemove, editCommentId;
         var player;
+        
         init();
 
         function init() {
@@ -67,7 +70,10 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                             if (videoid != null) {
                                 onYouTubeIframeAPIReady(videoid[1]);
-                                getCommentVideo($scope.currentvid);
+                                
+                                getVideoInfo($scope.currentvid, $scope.videoInfo.userid);
+                                
+                                // Get Relate video
                                 videoDetailService.getVideoByCategoryId($scope.videoInfo.subjectId, LIMIT_VIDEO, OFFSET).then(function (data) {
                                     if (data.data.status == 'true') {
                                         if (data.data.request_data_result.length == 0) {
@@ -76,52 +82,18 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                                         else {
                                             $scope.videosRelated = data.data.request_data_result;
                                         }
-
-                                    }
-
-                                });
-
-                                videoDetailService.checkSubscribe($scope.videoInfo.userid, $scope.userId).then(function (data) {
-                                    if (data.data.status == 'true') {
-                                        if (data.data.request_data_result[0].isSubs == '0') {
-                                            $scope.isSubscribe = 0;
-                                        }
-                                        else {
-                                            $scope.isSubscribe = 1;
-                                        }
                                     }
                                 });
-                                VideoService.checkFavouriteVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
-                                    if (data.data.status == 'true') {
-                                        $scope.isFavorite = 1;
-                                    }
-                                    else {
-                                        $scope.isFavorite = 0;
-                                    }
-                                });
-                                
-                             // Get User Rate
-                                if ($scope.userId != null && $scope.userId !== undefined) {
-                              	  VideoService.getUserRatingVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
-                              		  if (data.data.status == 'true') {
-                              			  if (data.data.request_data_result.length > 0) {
-                              				  	$scope.numRating = data.data.request_data_result[0].rating;
-                                          } else {
-                                          	$scope.numRating = 0;
-                                          }
-                              		  }
-                              	  });
-                              }
                             }
                         }
                     });
                 }
             });
-
         }
 
-        function getCommentVideo(videoid) {
-        	$scope.comments = {};
+        function getVideoInfo(videoid, authorIdVideo) {
+            
+            // Update history
             if (!isEmpty($scope.userId)) {
                 videoDetailService.updateVideoHistory(videoid, $scope.userId).then(function (data) {
                     if (data.status == 'false') {
@@ -129,6 +101,42 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                     }
                 });
             }
+         // Get subscribe
+            videoDetailService.checkSubscribe(authorIdVideo, $scope.userId).then(function (data) {
+                if (data.data.status == 'true') {
+                    if (data.data.request_data_result[0].isSubs == '0') {
+                        $scope.isSubscribe = 0;
+                    }
+                    else {
+                        $scope.isSubscribe = 1;
+                    }
+                }
+            });
+            
+            // Get favorite
+            VideoService.checkFavouriteVideo($scope.userId, videoid).then(function (data) {
+                if (data.data.status == 'true') {
+                    $scope.isFavorite = 1;
+                }
+                else {
+                    $scope.isFavorite = 0;
+                }
+            });
+            
+	         // Get User Rate
+	            if ($scope.userId != null && $scope.userId !== undefined) {
+	          	  VideoService.getUserRatingVideo($scope.userId, videoid).then(function (data) {
+	          		  if (data.data.status == 'true') {
+	          			  if (data.data.request_data_result.length > 0) {
+	          				  	$scope.numRating = data.data.request_data_result[0].rating;
+	                      } else {
+	                      	$scope.numRating = 0;
+	                      }
+	          		  }
+	          	  });
+	          }
+            // Get comment
+        	$scope.comments = {};
             videoDetailService.getCommentVideoById(videoid).then(function (data) {
                 if (data.data.status == 'true') {
                     if (data.data.request_data_result.length == 0) {
@@ -137,13 +145,13 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                     else {
                         $scope.comments = data.data.request_data_result;
                     }
-
                 }
-
             });
-
-        }
-
+        } // End function
+        
+        /**
+         * This function click view detail a video 
+         */
         $scope.viewVideo = function (vid) {
             videoDetailService.getVideoDetailById(vid + '').then(function (data) {
                 if (data.data.status == 'true') {
@@ -152,22 +160,8 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                     } else {
                         $scope.videoInfo = data.data.request_data_result[0];
                         $scope.rateNum = $scope.videoInfo.averageRating;
-                        videoDetailService.checkSubscribe($scope.videoInfo.userid, $scope.userId).then(function (data) {
-                            if (data.data.status == 'true') {
-                                if (data.data.request_data_result[0].isSubs == '0') {
-                                    $scope.isSubscribe = 0;
-                                } else {
-                                    $scope.isSubscribe = 1;
-                                }
-                            }
-                        });
-                        VideoService.checkFavouriteVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
-                            if (data.data.status == 'true') {
-                                $scope.isFavorite = 1;
-                            } else {
-                                $scope.isFavorite = 0;
-                            }
-                        });
+                        getVideoInfo(videoid, $scope.videoInfo.userid);
+                        
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
@@ -182,29 +176,20 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                 }
             });
 
-
-            videoDetailService.getCommentVideoById(vid + '').then(function (data) {
-                if (data.data.status == 'true') {
-                    if (data.data.request_data_result.length == 0) {
-                        $scope.nocommentInfo = "Have no comment";
-                    }
-                    else {
-                        $scope.comments = data.data.request_data_result;
-                    }
-
-                }
-
-            });
-
-        }
+        } // End view Video
+        
         $scope.clickTxtComent = function(){
             $(".comment-action").show();
         };
+        
         $scope.cencelComment = function(){
             $("#add-comment").val('');
             $(".comment-action").hide();
         };
 
+        /**
+         * This function click select a Video
+         */
         $scope.selectVideo = function (index) {
             if (index > $scope.videosList.length) {
                 index = 0;
@@ -223,24 +208,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             $scope.videoInfo.description = "No description";
                         }
                         $scope.rateNum = $scope.videoInfo.averageRating;
-                        videoDetailService.checkSubscribe($scope.videoInfo.userid, $scope.userId).then(function (data) {
-                            if (data.data.status == 'true') {
-                                if (data.data.request_data_result[0].isSubs == '0') {
-                                    $scope.isSubscribe = 0;
-                                }
-                                else {
-                                    $scope.isSubscribe = 1;
-                                }
-                            }
-                        });
-                        VideoService.checkFavouriteVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
-                            if (data.data.status == 'true') {
-                                $scope.isFavorite = 1;
-                            }
-                            else {
-                                $scope.isFavorite = 0;
-                            }
-                        });
+                        getVideoInfo(newvid, $scope.videoInfo.userid);
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
@@ -252,40 +220,9 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                             }
                             $location.path('/videos/detailPlaylist/' + pid + '/' + $scope.index,false);
                         }
-
                     }
-
                 }
-
             });
-
-
-            videoDetailService.getCommentVideoById(newvid).then(function (data) {
-                if (data.data.status == 'true') {
-                    if (data.data.request_data_result.length == 0) {
-                        $scope.nocommentInfo = "Have no comment";
-                        $scope.comments={};
-                    }
-                    else {
-                        $scope.comments = data.data.request_data_result;
-                    }
-
-                }
-
-            });
-            
-         // Get User Rate
-            if ($scope.userId != null && $scope.userId !== undefined) {
-          	  VideoService.getUserRatingVideo($scope.userId, newvid).then(function (data) {
-          		  if (data.data.status == 'true') {
-          			  if (data.data.request_data_result.length > 0) {
-          				  	$scope.numRating = data.data.request_data_result[0].rating;
-                      } else {
-                      	$scope.numRating = 0;
-                      }
-          		  }
-          	  });
-          }
         };
         $scope.decodeContent= function (str) {
             return decodeURIComponent(str);
@@ -329,22 +266,7 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                         }
                         
                         $scope.rateNum = $scope.videoInfo.averageRating;
-                        VideoService.checkFavouriteVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
-                            if (data.data.status == 'true') {
-                                $scope.isFavorite = 1;
-                            } else {
-                                $scope.isFavorite = 0;
-                            }
-                        });
-                        VideoService.checkFavouriteVideo($scope.userId, $scope.videoInfo.vid).then(function (data) {
-                            if (data.data.status == 'true') {
-                                if (data.data.status == 'true') {
-                                    $scope.isFavorite = 1;
-                                } else {
-                                    $scope.isFavorite = 0;
-                                }
-                            }
-                        });
+                        getVideoInfo(newvid, $scope.videoInfo.userid);
                         var url = data.data.request_data_result[0].url;
                         var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
                         if (videoid != null) {
@@ -358,34 +280,6 @@ brotControllers.controller('PlaylistDetailCtrl', ['$scope', '$rootScope', '$rout
                     }
                 }
             });
-
-
-            videoDetailService.getCommentVideoById(newvid).then(function (data) {
-                if (data.data.status == 'true') {
-                    if (data.data.request_data_result.length == 0) {
-                        $scope.nocommentInfo = "Have no comment";
-                        $scope.comments = {};
-                    }
-                    else {
-                        $scope.comments = data.data.request_data_result;
-                    }
-
-                }
-
-            });
-            
-         // Get User Rate
-            if ($scope.userId != null && $scope.userId !== undefined) {
-          	  VideoService.getUserRatingVideo($scope.userId, newvid).then(function (data) {
-          		  if (data.data.status == 'true') {
-          			  if (data.data.request_data_result.length > 0) {
-          				  	$scope.numRating = data.data.request_data_result[0].rating;
-                      } else {
-                      	$scope.numRating = 0;
-                      }
-          		  }
-          	  });
-          }
         }
 
         function checkVideoInListToNext(videosRelated, currentVid) {
