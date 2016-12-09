@@ -9,7 +9,7 @@
        <div class="container">                
            <!-- Content -->
            <section class="ask-a-question-content" id="contact">
-               <!-- Question of user -->                                
+               <!-- Question of user -->
                <div class="content-contact">
                    <div class="content-contact-wrapper">
                        <div class="map-contact">
@@ -19,22 +19,23 @@
                        </div>
                        <div class="send-contact-form">
                            <h4>Send us an Email</h4>
-                           <form action="" method="">
+                           <form name="contactUs">
                                <div ng-if="msgError!==undefined && msgError!=''" class="validate_error">
-						          <span >{{ msgError }}</span>
+						          <span>{{ msgError }}</span>
 						       </div>
 						       <div ng-if="msgSuccess" class="succesful">
 							          <span>{{msgSuccess}}</span>
 							    </div>
+							    
                                <div class="contact-form-body">
                                    <p class="contact-subject">
                                    	<input id="txtName" type="text" placeholder="{{contact.name ? contact.name : 'Name'}}" ng-model="contact.name" name="name" ng-enter="btnSubmit(contact)"/>
                                    </p>
                                    <p class="contact-email">
-                                   	<input id="txtEmail" type="email" placeholder="Email" ng-model="contact.email" name="email" ng-enter="btnSubmit(contact)"/>
+                                   	<input id="txtEmail" type="text" placeholder="Email" ng-model="contact.email" ng-keyup="validateEmail(contact.email)" name="email" ng-enter="btnSubmit(contact)"/>
                                    	</p>
                                    <p class="contact-phone">
-                                   	<input id="txtPhone" mask="(888) 888-8888" restrict="reject" type="text" placeholder="Ex: (888) 888-8888" ng-model="contact.phone" name="phone" ng-enter="btnSubmit(contact)"/>
+                                   	<input id="txtPhone" mask="(999) 999-9999" restrict="reject" type="text" placeholder="Ex: (888) 888-8888" ng-model="contact.phone" name="phone" ng-enter="btnSubmit(contact)"/>
                                    	</p>
                                    <p class="contact-subject">
                                    	<input id="txtSubject" type="text" placeholder="Subject" ng-model="contact.subject" name="subject" ng-enter="btnSubmit(contact)"/>

@@ -8,7 +8,6 @@ brotControllers.controller('ContactCtrl', ['$scope', '$rootScope', '$http','Ment
 	var userId = localStorage.getItem('userId');
 	
 	$scope.contact={};
-	
 	// initial get top mentor
 	init();
 	
@@ -21,28 +20,29 @@ brotControllers.controller('ContactCtrl', ['$scope', '$rootScope', '$http','Ment
 	$scope.validate = function(contact){
 		
 		if(contact.name == null || contact.name === undefined || contact.name.length === 0){
-			$scope.msgError = "Name can not be empty";
+			$scope.msgError = "Please enter your Name.";
+			name.val('');
 			name.focus();
 			return false;
-
-		} else if(contact.email == null || contact.email === undefined ||contact.email.length === 0){
-			$scope.msgError = "Please input a valid email";
-			email.focus();
-			return false;
-		} else if($scope.validateEmail(contact.email) === false){
-				$scope.msgError = "Email is invalid";
-				email.focus();
-				return false;
-		} else if(contact.subject == null || contact.subject === undefined ||contact.subject.length === 0){
-			$scope.msgError = "Subject can not be empty";
-			subject.focus();
+		} else if(!$scope.validateEmail(contact.email)){
 			return false;
 		} else if(contact.phone == null || contact.phone === undefined ||contact.phone.length === 0){
-			$scope.msgError = "Phone can not be empty";
+			$scope.msgError = "Please enter a your phone number.";
 			phone.focus();
 			return false;
+		} else if(contact.subject == null || contact.subject === undefined ||contact.subject.length === 0){
+			$scope.msgError = "Please enter a Subject.";
+			subject.val('');
+			subject.focus();
+			return false;
+		} else if(contact.subject != null && contact.subject.trim().length < 20){
+			$scope.msgError = "Subject should be enter more than 20 characters";
+			subject.val('');
+			subject.focus();
+			return false;
 		} else if(contact.message == null || contact.message === undefined ||contact.message.length === 0){
-			$scope.msgError = "Message can not be empty";
+			$scope.msgError = "Please enter a Message.";
+			message.val('');
 			message.focus();
 			return false;
 		}
@@ -50,14 +50,26 @@ brotControllers.controller('ContactCtrl', ['$scope', '$rootScope', '$http','Ment
 	};
 	
 	
-	//Author: Nhut Nguyen;
 	//Validation email address;
-	$scope.validateEmail =  function(email) { 
-		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		return re.test(email);
+	$scope.validateEmail =  function(emailValue) {
+		if(emailValue == null || emailValue === undefined || emailValue.trim().length === 0){
+			$scope.msgError = "Please enter your email address.";
+			email.val('');
+			email.focus();
+			return false;
+		} else {
+			var re = /^(([^<>()[\]\\~`^*&/'|{}.,;:+=!%$#_\s@\"]+(\.[^<>()[\]\\~`^*&/|{}.,;:+=!%$#_\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			if(!re.test(emailValue)) {
+				$scope.msgError = "Your email address is invalid.";
+				email.focus();
+				return false;
+			} else {
+				$scope.msgError = "";
+				return true;
+			}
+		}
 	};
 
-	//Author: Nhut Nguyen;
 	//event click on "Submit" button;
 	$scope.btnSubmit = function(contact){
 		$scope.msgError = "";
