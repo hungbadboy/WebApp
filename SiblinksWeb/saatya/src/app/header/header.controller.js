@@ -253,6 +253,7 @@ brotControllers.controller('UserHeaderController',
             angular.element($document).on('click', function (el) {
                 var elem = $(el.target).closest('.notification'),
                     userLogin = $(el.target).closest('.profile-user'),
+                    userImg = $(el.target).closest('.user-img'),
                     boxUserinfo = $(el.target).closest('#user-info'),
                     box = $(el.target).closest('.notification-content'),
                     navbarToggle = $(el.target).closest('.navbar-toggle'),
@@ -265,7 +266,7 @@ brotControllers.controller('UserHeaderController',
                     $('.notification-content').hide();
                 }
                 //
-                if (userLogin.length) {
+                if (userLogin.length || userImg.length) {
                     el.preventDefault();
                     $('#user-info').toggle();
                 } else if (!boxUserinfo.length) {

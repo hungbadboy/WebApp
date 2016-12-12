@@ -132,7 +132,7 @@ public class VideoAdmissionServiceImpl implements VideoAdmissionService {
         try {
             VideoAdmission videoObj = request.getRequest_data_videoAdmission();
             Object[] queryParams = { videoObj.getTitle(), videoObj.getDescription(), videoObj.getImage(), videoObj
-                .getYoutubeUrl(), videoObj.getActive(), videoObj.getvId() };
+                .getYoutubeUrl(), videoObj.getActive(), videoObj.getRunningTime(), videoObj.getvId() };
 
             boolean flag = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_VIDEO_ADMISSION, queryParams);
 

@@ -64,34 +64,8 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                             getVideoDetailRelateUser($scope.videoInfo.vid, $scope.videoInfo.userid);
                         }
                     }
-
                 }
-
             });
-
-
-//            videoDetailService.getCommentVideoById(videoid).then(function (data) {
-//                if (data.data.status == 'true') {
-//                    if (data.data.request_data_result.length == 0) {
-//                        $scope.nocommentInfo = "Have no comment";
-//                    }
-//                    else {
-//                        $scope.comments = data.data.request_data_result;
-//                    }
-//
-//                }
-//
-//            });
-//            
-//            // Update history
-//            if (!isEmpty($scope.userId)) {
-//                videoDetailService.updateVideoHistory(videoid, $scope.userId).then(function (data) {
-//                    if (data.status == 'false') {
-//                        console.log("Update view error");
-//                    }
-//                });
-//            }
-
         }
         
         /**
@@ -229,7 +203,7 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
                             } else {
                                 player.loadVideoById(videoid[1]);
                             }
-                            $location.path('/videos/detailVideo/' + data.data.request_data_result[0].vid,false);
+                            $location.path('/videos/detailVideo/' + data.data.request_data_result[0].vid);
                         }
                     }
                 }
@@ -285,7 +259,8 @@ brotControllers.controller('VideoDetailCtrl', ['$scope', '$rootScope', '$routePa
             
             try {
 	            $rootScope.$broadcast('open');
-	            videoid = $routeParams.videoid;
+	            //console.log(videoid);
+	            //videoid = $routeParams.videoid;
 		        VideoService.rateVideo($scope.userId, videoid, parseInt(rate)).then(function (data) {
 		            if (data.data.status == 'true') {
 		            	var averageRatingOld = $scope.videoInfo.averageRating == null ? 0: $scope.videoInfo.averageRating;

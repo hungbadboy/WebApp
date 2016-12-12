@@ -334,13 +334,16 @@ brotControllers.controller('UploadTutorialController',
       if (videoid != null) {
         $scope.error = null;
         $scope.vid = videoid[1];
-        if (!$scope.editVideo)
+        if (!$scope.editVideo) {
           getVideoInfo($scope.vid);
-        if (player === undefined){          
-          onYouTubeIframeAPIReady($scope.vid);             
-        }          
-        else
+        }
+        
+        if (player === undefined) {
+          onYouTubeIframeAPIReady($scope.vid);
+        } else {
           player.cueVideoById($scope.vid);
+        }
+        
       } else{
         $scope.error = "Please input valid link.";
         angular.element('#txtTutorialUrl').trigger('focus');

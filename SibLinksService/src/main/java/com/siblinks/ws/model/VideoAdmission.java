@@ -35,6 +35,8 @@ public class VideoAdmission {
     private String title;
     private String description;
     private String image;
+    private String runningTime;
+
     private String active;
 
     public String getvId() {
@@ -108,5 +110,12 @@ public class VideoAdmission {
     public void setActive(final String active) {
         this.active = active;
     }
-	
+
+    public String getRunningTime() {
+        return runningTime;
+    }
+
+    public void setRunningTime(final String runningTime) {
+        this.runningTime = runningTime;
+    }
 }
