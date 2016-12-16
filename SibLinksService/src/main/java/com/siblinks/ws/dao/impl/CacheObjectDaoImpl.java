@@ -57,6 +57,7 @@ public class CacheObjectDaoImpl implements CacheObjectDao {
         List<Map<String, Object>> listWordFilter = null;
         try {
             String query = env.getProperty(SibConstants.SqlMapper.SQL_GET_ALL_WORD_FILTER);
+            logger.debug("GET_ALL_WORD_FILTER");
             listWordFilter = jdbcTemplate.queryForList(query);
         } catch (NullPointerException | DataAccessException e) {
             throw new DAOException(e.getCause(), e.getMessage(), null, ErrorLevel.ERROR);

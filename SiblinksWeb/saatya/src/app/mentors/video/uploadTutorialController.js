@@ -165,10 +165,12 @@ brotControllers.controller('UploadTutorialController',
       }
       $rootScope.$broadcast('open');
       VideoService.updateTutorial(request).then(function(data){
-        if (data.data.request_data_result === "Success") {
+        if (data.data.status == "true") {
           if (!isNaN(v_id) && v_id > 0) {
              request['playlistname'] = plPos > 0 ? getPlaylistName($scope.playlists[plPos].plid) : null;
              request['subject'] = getSubjectName($scope.uploadSubjects[subjectPos].subjectId);
+             request['title'] = data.data.request_data_result.title;
+             request['description'] = data.data.request_data_result.description;
              $rootScope.$broadcast('passing', request);
 
              $modalInstance.dismiss('cancel');

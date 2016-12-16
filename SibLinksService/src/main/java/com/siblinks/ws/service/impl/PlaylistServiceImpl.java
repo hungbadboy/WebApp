@@ -51,6 +51,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.siblinks.ws.common.DAOException;
+import com.siblinks.ws.dao.CacheObjectDao;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.model.ActivityLogData;
 import com.siblinks.ws.model.RequestData;
@@ -58,6 +59,7 @@ import com.siblinks.ws.response.Response;
 import com.siblinks.ws.response.SimpleResponse;
 import com.siblinks.ws.service.ActivityLogService;
 import com.siblinks.ws.service.PlaylistService;
+import com.siblinks.ws.util.CommonUtil;
 import com.siblinks.ws.util.Parameters;
 import com.siblinks.ws.util.RandomString;
 import com.siblinks.ws.util.SibConstants;
@@ -78,6 +80,9 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Autowired
     private ObjectDao dao;
+
+    @Autowired
+    private CacheObjectDao cachedDao;
 
     @Autowired
     private Environment environment;
@@ -119,28 +124,6 @@ public class PlaylistServiceImpl implements PlaylistService {
     /**
      * {@inheritDoc}
      */
-    private long getCountVideos(final String plid) throws DAOException {
-        long numVideos = 0;
-        try {
-            Object[] params = new Object[] { plid };
-            List<Object> readObject = dao.readObjects(SibConstants.SqlMapperBROT163.SQL_GET_COUNT_VIDEOS_IN_PLAYLIST, params);
-            if (readObject != null && readObject.size() > 0) {
-                for (Object object : readObject) {
-                    Map<String, Object> map = (Map<String, Object>) object;
-                    numVideos = (long) map.get("numVideos");
-                }
-            } else {
-                numVideos = 0;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return numVideos;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @RequestMapping(value = "/insertPlaylist", method = RequestMethod.POST)
     public ResponseEntity<Response> insertPlaylist(@RequestParam final MultipartFile image, @RequestParam final String title,
@@ -152,7 +135,11 @@ public class PlaylistServiceImpl implements PlaylistService {
             String fullPath = uploadPlaylistThumbnail(image);
             if (fullPath.length() > 0) {
                 // insert playlist
-                Object[] queryParams = { title, description, fullPath, url, subjectId, createBy };
+                List<Map<String, String>> allWordFilter = cachedDao.getAllWordFilter();
+                String strDescription = CommonUtil.filterWord(description, allWordFilter);
+                String strTitle = CommonUtil.filterWord(title, allWordFilter);
+
+                Object[] queryParams = { strTitle, strDescription, fullPath, url, subjectId, createBy };
                 entityName = SibConstants.SqlMapperBROT44.SQL_INSERT_PLAYLIST;
                 long plid = dao.insertObject(entityName, queryParams);
 
@@ -451,6 +438,10 @@ public class PlaylistServiceImpl implements PlaylistService {
         } else {
 
             try {
+                List<Map<String, String>> allWordFilter = cachedDao.getAllWordFilter();
+                String strDescription = CommonUtil.filterWord(description, allWordFilter);
+                String strTitle = CommonUtil.filterWord(title, allWordFilter);
+
                 String newImage = null;
                 Object[] queryParams = null;
                 entityName = SibConstants.SqlMapperBROT44.SQL_UPDATE_PLAYLIST;
@@ -459,9 +450,9 @@ public class PlaylistServiceImpl implements PlaylistService {
                 }
 
                 if (newImage != null) {
-                    queryParams = new Object[] { title, description, newImage, subjectId, plid, createBy };
+                    queryParams = new Object[] { strTitle, strDescription, newImage, subjectId, plid, createBy };
                 } else {
-                    queryParams = new Object[] { title, description, oldImage, subjectId, plid, createBy };
+                    queryParams = new Object[] { strTitle, strDescription, oldImage, subjectId, plid, createBy };
                 }
 
                 updateObject = dao.insertUpdateObject(entityName, queryParams);
@@ -473,6 +464,10 @@ public class PlaylistServiceImpl implements PlaylistService {
                     } else {
                         map.put("newImage", oldImage);
                     }
+
+                    map.put("title", strTitle);
+                    map.put("description", strDescription);
+
                     activiLogService.insertActivityLog(new ActivityLogData(SibConstants.TYPE_PLAYLIST, "U", "You have updated playlist", String
                         .valueOf(createBy), String.valueOf(plid)));
 

@@ -69,7 +69,7 @@ brotControllers.controller('AddUpdatePlaylistController',
       }
     }
 
-    $scope.add = function(){      
+    $scope.add = function(){
       var title = $('#txtUpdateTitle').val();
 
       if (title == null || title.length == 0) {
@@ -139,12 +139,12 @@ brotControllers.controller('AddUpdatePlaylistController',
               var subject = $scope.updateSubjects[index];
               var pl = {
                 'plid': pl_id,
-                'name': $('#txtUpdateTitle').val(),
-                'description': $('#txtUpdateDescription').val(),
+                'name': result.title,
+                'description': result.description,
                 'subject': subject.subject,
                 'newImage' : result.newImage
               }
-              $rootScope.$broadcast('updatePlaylist', pl);     
+              $rootScope.$broadcast('updatePlaylist', pl);
               $modalInstance.dismiss('cancel');   
             }
                 

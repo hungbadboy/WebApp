@@ -58,6 +58,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.siblinks.ws.common.DAOException;
 import com.siblinks.ws.common.LoggedInChecker;
+import com.siblinks.ws.dao.CacheObjectDao;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.ActivityLogData;
@@ -91,6 +92,9 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired
     private ObjectDao dao;
+
+    @Autowired
+    private CacheObjectDao cachedDao;
 
     @Autowired
     private PlatformTransactionManager transactionManager;
@@ -2304,6 +2308,7 @@ public class VideoServiceImpl implements VideoService {
             boolean status = true;
             String message = "";
             String description = request.getRequest_data().getDescription();
+            String strTitle = request.getRequest_data().getTitle();
             if (description != null && description.length() > 1024) {
                 response = new SimpleResponse(
                                               SibConstants.SUCCESS,
@@ -2311,11 +2316,12 @@ public class VideoServiceImpl implements VideoService {
                                               request.getRequest_data_method(),
                                               "Description cannot longer than 1024 characters");
             } else {
+                List<Map<String, String>> allWordFilter = cachedDao.getAllWordFilter();
+                description = CommonUtil.filterWord(description, allWordFilter);
+                strTitle = CommonUtil.filterWord(strTitle, allWordFilter);
 
                 String vid = request.getRequest_data().getVid();
-                Object[] queryParams = new Object[] { request.getRequest_data().getTitle(), request
-                    .getRequest_data()
-                    .getDescription(), request.getRequest_data().getSubjectId(), vid };
+                Object[] queryParams = new Object[] { strTitle, description, request.getRequest_data().getSubjectId(), vid };
                 status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_VIDEO, queryParams);
                 if (status) {
                     String plid = request.getRequest_data().getPlid();
@@ -2341,16 +2347,23 @@ public class VideoServiceImpl implements VideoService {
                                                                            request.getRequest_data().getAuthorID(),
                                                                            String.valueOf(vid)));
                     transactionManager.commit(statusDao);
-                    message = "Success";
+                    Map<String, String> dataChange = new HashMap<String, String>();
+                    dataChange.put("title", strTitle);
+                    dataChange.put("description", description);
+                    response = new SimpleResponse(
+                                                  SibConstants.SUCCESS,
+                                                  request.getRequest_data_type(),
+                                                  request.getRequest_data_method(),
+                                                  dataChange);
                 } else {
                     transactionManager.rollback(statusDao);
-                    message = "Fail";
+                    response = new SimpleResponse(
+                                                  SibConstants.FAILURE,
+                                                  request.getRequest_data_type(),
+                                                  request.getRequest_data_method(),
+                                                  message);
                 }
-                response = new SimpleResponse(
-                                              "" + status,
-                                              request.getRequest_data_type(),
-                                              request.getRequest_data_method(),
-                                              message);
+
             }
         } catch (Exception e) {
             if (statusDao != null) {
@@ -2969,17 +2982,17 @@ public class VideoServiceImpl implements VideoService {
         try {
             CommonUtil cmUtil = CommonUtil.getInstance();
             Map<String, String> map = cmUtil.getLimit(pageno, limit);
-            
+
             Object[] params = { userId, Integer.parseInt(map.get("from")), Integer.parseInt(map.get("to")) };
             List<Object> dataResult = dao.readObjects(SibConstants.SqlMapper.SQL_GET_ALL_MENTOR_SUBSCRIBED, params);
-            
+
             long count = 0L;
             if (isTotalCount) {
-            List<Object> dataCount = dao.readObjects(
-                SibConstants.SqlMapper.SQL_GET_COUNT_STUDENT_SUBSCRIBED_MENTOR,
-                new Object[] { userId });
-            Map<String, Long> mapCount = (Map<String, Long>) dataCount.get(0);
-            count = mapCount.get(Parameters.COUNT);
+                List<Object> dataCount = dao.readObjects(
+                    SibConstants.SqlMapper.SQL_GET_COUNT_STUDENT_SUBSCRIBED_MENTOR,
+                    new Object[] { userId });
+                Map<String, Long> mapCount = (Map<String, Long>) dataCount.get(0);
+                count = mapCount.get(Parameters.COUNT);
             }
             response = new SimpleResponse(SibConstants.SUCCESS, "video", "getMentorSubscribe", dataResult, "" + count);
         } catch (Exception e) {
@@ -3121,19 +3134,19 @@ public class VideoServiceImpl implements VideoService {
     @Override
     @RequestMapping(value = "/insertVideo", method = RequestMethod.POST)
     public ResponseEntity<Response> insertVideo(@RequestBody final RequestData request) {
-        String description = request.getRequest_data().getDescription();
         SimpleResponse response = null;
         try {
-            String title = request.getRequest_data().getTitle();
+            String strDescription = request.getRequest_data().getDescription();
+            String strTitle = request.getRequest_data().getTitle();
             String duration = request.getRequest_data().getRunningTime();
             String subjectId = request.getRequest_data().getSubjectId();
-            if (title == null || title.isEmpty()) {
+            if (strTitle == null || strTitle.isEmpty()) {
                 response = new SimpleResponse(SibConstants.FAILURE, "videos", "insertVideo", "Title can not be empty");
             } else if (duration == null || duration.isEmpty()) {
                 response = new SimpleResponse(SibConstants.FAILURE, "videos", "insertVideo", "Running time can not be empty");
             } else if (subjectId == null || subjectId.isEmpty() || Integer.parseInt(subjectId) == 0) {
                 response = new SimpleResponse(SibConstants.FAILURE, "videos", "insertVideo", "Subject is required");
-            } else if (description != null && description.length() > 1024) {
+            } else if (strDescription != null && strDescription.length() > 1024) {
                 response = new SimpleResponse(
                                               SibConstants.FAILURE,
                                               "videos",
@@ -3151,13 +3164,16 @@ public class VideoServiceImpl implements VideoService {
 
                 List<Object> readObject = null;
                 try {
+
+                    List<Map<String, String>> allWordFilter = cachedDao.getAllWordFilter();
+                    strDescription = CommonUtil.filterWord(strDescription, allWordFilter);
+                    strTitle = CommonUtil.filterWord(strTitle, allWordFilter);
+
                     // insert video
                     entityName = SibConstants.SqlMapperBROT43.SQL_INSERT_VIDEO;
-                    queryParams = new Object[] { request.getRequest_data().getTitle(), request.getRequest_data().getDescription(), request
+                    queryParams = new Object[] { strTitle, strDescription, request.getRequest_data().getUrl(), request
                         .getRequest_data()
-                        .getUrl(), request.getRequest_data().getRunningTime(), request.getRequest_data().getImage(), request
-                        .getRequest_data()
-                        .getSubjectId(), authorId };
+                        .getRunningTime(), request.getRequest_data().getImage(), request.getRequest_data().getSubjectId(), authorId };
                     long vid = dao.insertObject(entityName, queryParams);
 
                     if (plid != null && plid.length() > 0) {
@@ -3504,9 +3520,9 @@ public class VideoServiceImpl implements VideoService {
             } else if (!StringUtils.isEmpty(subjectId)) {
                 entityName = SibConstants.SqlMapper.SQL_GET_NEWEST_VIDEO_SUBJECT;
                 List<Map<String, Object>> readObjectNoCondition = dao
-                        .readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC);
-                    String allChildSubject = CommonUtil.getAllChildCategory(subjectId, readObjectNoCondition);
-                    
+                    .readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC);
+                String allChildSubject = CommonUtil.getAllChildCategory(subjectId, readObjectNoCondition);
+
                 String whereClause = "V.subjectId IN(" + allChildSubject + ") ORDER BY timeStamp DESC LIMIT ? OFFSET ?;";
                 List<Object> readObjects = dao.readObjectsWhereClause(entityName, whereClause, params);
                 if (readObjects != null && readObjects.size() > 0) {
@@ -3687,7 +3703,7 @@ public class VideoServiceImpl implements VideoService {
                         List<Map<String, Object>> readObjectNoCondition = dao
                             .readObjectNoCondition(SibConstants.SqlMapper.SQL_GET_ALL_CATEGORY_TOPIC);
                         String allChildSubject = CommonUtil.getAllChildCategory(subjectId, readObjectNoCondition);
-                            whereClause += " AND sp.subjectId in (" + allChildSubject + ")";
+                        whereClause += " AND sp.subjectId in (" + allChildSubject + ")";
                     }
                     if (!StringUtil.isNull(keyword)) {
                         listParam.add("%" + keyword + "%");

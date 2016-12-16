@@ -334,7 +334,7 @@ public class CommonUtil {
      * @return
      */
     public static String filterWord(final String content, final List<Map<String, String>> wordFitler) {
-        if (CollectionUtils.isEmpty(wordFitler)) {
+        if (CollectionUtils.isEmpty(wordFitler) || content == null) {
             return content;
         } else {
             StringBuffer stringBuffer = new StringBuffer(content);

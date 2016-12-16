@@ -416,11 +416,17 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             }
             boolean msgs = false;
             if (StringUtil.isNull(statusMessage)) {
+                List<Map<String, String>> allWordFilter = cachedDao.getAllWordFilter();
+                String strContent = CommonUtil.filterWord(desc, allWordFilter);
+                String strTitle = CommonUtil.filterWord(title, allWordFilter);
+                String strFileName = CommonUtil.filterWord(fileName, allWordFilter);
+
                 if (validateEssay(file).equals("File is empty")) {
-                    Object[] queryParams = { desc, title, schoolId, majorId, essayId };
+                    Object[] queryParams = { strContent, strTitle, schoolId, majorId, essayId };
                     msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_STUDENT_UPDATE_ESSAY_NOFILE, queryParams);
                 } else {
-                    Object[] queryParams = { file.getInputStream(), desc, file.getContentType(), fileName, title, file.getSize(), schoolId, majorId, essayId };
+                    Object[] queryParams = { file.getInputStream(), strContent, file.getContentType(), strFileName, strTitle, file
+                        .getSize(), schoolId, majorId, essayId };
                     msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_STUDENT_UPDATE_ESSAY, queryParams);
                 }
                 if (msgs) {
@@ -1109,13 +1115,18 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 } else if (statusMsg.equals("File name is not valid")) {
                     reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "File name is not valid.");
                 } else {
+                    // Word filter content
+                    List<Map<String, String>> allWordFilter = cachedDao.getAllWordFilter();
+                    String strContent = CommonUtil.filterWord(comment, allWordFilter);
+                    String strFileName = CommonUtil.filterWord(file.getOriginalFilename(), allWordFilter);
+
                     if (!isUpdate) {
-                        params = new Object[] { "", mentorId, comment };
+                        params = new Object[] { "", mentorId, strContent };
                         long cid = dao.insertObject(SibConstants.SqlMapper.SQL_SIB_ADD_COMMENT, params);
                         params = new Object[] { essayId, cid };
                         flag = dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_FK, params);
                         if (StringUtil.isNull(statusMsg)) {
-                            params = new Object[] { mentorId, file.getInputStream(), file.getSize(), file.getOriginalFilename(), essayId };
+                            params = new Object[] { mentorId, file.getInputStream(), file.getSize(), strFileName, essayId };
                             flag = dao.insertUpdateObject(
                                 SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITH_FILE,
                                 params);
@@ -1126,9 +1137,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                                 params);
                         }
                         if (flag) {
-                            String contentNofi = comment;
-                            if (!StringUtil.isNull(comment) && comment.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
-                                contentNofi = comment.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
+                            String contentNofi = strContent;
+                            if (!StringUtil.isNull(strContent) && strContent.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
+                                contentNofi = strContent.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
                             }
                             Object[] queryParamsIns3 = { mentorId, studentId, SibConstants.NOTIFICATION_TYPE_REPLY_ESSAY, SibConstants.NOTIFICATION_TITLE_REPLY_ESSAY, contentNofi, null, essayId };
                             dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParamsIns3);
@@ -1154,14 +1165,14 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                                                                                    String.valueOf(essayId)));
                         } else {
                             transactionManager.rollback(status);
-                            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertCommentEssay", "Failed");
+                            reponse = new SimpleResponse(SibConstants.FAILURE, "essay", "insertComstrContentay", "Failed");
                         }
                     } else {
-                        params = new Object[] { comment, commentId };
+                        params = new Object[] { strContent, commentId };
                         dao.insertUpdateObject(SibConstants.SqlMapper.SQL_SIB_EDIT_COMMENT, params);
 
                         if (StringUtil.isNull(statusMsg)) {
-                            params = new Object[] { mentorId, file.getInputStream(), file.getSize(), file.getOriginalFilename(), essayId };
+                            params = new Object[] { mentorId, file.getInputStream(), file.getSize(), strFileName, essayId };
                             dao.insertUpdateObject(SibConstants.SqlMapperBROT163.SQL_INSERT_COMMENT_ESSAY_WITH_FILE, params);
                         } else {
                             if (fileOld == null || fileOld.equals("null")) {
