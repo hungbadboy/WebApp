@@ -3,7 +3,7 @@
 
 	<service>
 		<jsr107:defaults>
-			<jsr107:cache name="readObjects" template="heap-cache" />
+			<jsr107:cache name="wordFilter" template="heap-cache" />
 		</jsr107:defaults>
 	</service>
 	<cache-template name="heap-cache">

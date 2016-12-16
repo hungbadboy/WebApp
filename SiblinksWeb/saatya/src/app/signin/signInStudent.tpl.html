@@ -10,7 +10,7 @@
   <!-- Right side -->
   <div class="account-user-form signin-form col-md-4">
       <!-- Form Sign in -->
-      <form action="" method="">
+      <form action="">
           <div class="account-header-logo signin-logo">
               <img src="assets/images/login.png">
           </div>
@@ -23,10 +23,10 @@
           </div>
           <div class="account-info sign-in-info">
               <p class="email-signin">
-                  <input type="email" id="userName" ng-enter="nextFocus()" placeholder="Your email"/>
+                  <input type="email" ng-enter="nextFocus()" placeholder="Your email" id="userName"/>
               </p>
               <p class="pass-signin">
-                  <input  id="passWord" type="password" ng-enter="login()" placeholder="Password"/>
+                  <input type="password" ng-enter="login()" placeholder="Password" id="passWord"/>
               </p>
               <p class="rememberme">
                   <input type="checkbox" value="Remember me" name="Remember Me"/>Remember Me
@@ -43,8 +43,8 @@
               <div class="signin-another-way">
                   <span>or sign in with</span>
                   <p>
-                      <a href="" ng-click="loginFacebook()" class="facebook-account"><span data-icon="&#xe093;"></span></a>
-                      <a href="" ng-click="loginGoogle()" class="google-account"><span data-icon="&#xe096;"></span></a>
+                      <a href="javascript:void(0)" ng-click="loginFacebook()" class="facebook-account"><span data-icon="&#xe093;"></span></a>
+                      <a href="javascript:void(0)" ng-click="loginGoogle()" class="google-account"><span data-icon="&#xe096;"></span></a>
                   </p>
               </div>
               <div class="no-account">Don't have an account?<a href="#/signup"> Register</a></div>

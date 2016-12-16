@@ -3,7 +3,10 @@ brotControllers.controller('SignUpController', ['$scope','$rootScope', '$locatio
   $scope.user = {};
 
   // $('#signUpEmail .field .dob').mask('99/99/9999');
-
+	init();
+	function init() {
+        angular.element('#email').trigger('focus');
+    }
   function IsEmail(email) {
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
     return emailReg.test(email);

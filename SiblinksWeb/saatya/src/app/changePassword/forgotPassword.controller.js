@@ -4,14 +4,15 @@ brotControllers.controller('ChangePasswordCtrl',
 
   var token = $routeParams.token;
   $scope.show = 0;
-  $scope.notFound = 0;
   $scope.msgError="";
   $scope.msgSuccess="";
-  
+
   StudentService.confirmToken(token).then(function(data) {
-    if(data.data.request_data_result[0].count == 1) {
-      $scope.notFound = 1;
-    }
+    if(data.data.status == 'true' && data.data.request_data_result.length == 0) {
+        $scope.errorLink = 'The link does not exist, please retrieve your password!'
+	} else {
+        angular.element('#newPassword1').trigger('focus');
+	}
   });
 
   $scope.changePassword = function(newPass, confirmPass) {

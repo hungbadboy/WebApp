@@ -14,8 +14,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -324,4 +327,28 @@ public class CommonUtil {
         return pwd;
     }
 
+    /**
+     * 
+     * @param content
+     * @param wordFitler
+     * @return
+     */
+    public static String filterWord(final String content, final List<Map<String, String>> wordFitler) {
+        if (CollectionUtils.isEmpty(wordFitler)) {
+            return content;
+        } else {
+            StringBuffer stringBuffer = new StringBuffer(content);
+            for (Map<String, String> mapContent : wordFitler) {
+                StringBuffer sb = new StringBuffer();
+                Pattern p = Pattern.compile("(?i)" + mapContent.get("word"));
+                Matcher m = p.matcher(stringBuffer);
+                while (m.find()) {
+                    m.appendReplacement(sb, "****");
+                }
+                m.appendTail(sb);
+                stringBuffer = sb;
+            }
+            return stringBuffer.toString();
+        }
+    }
 }

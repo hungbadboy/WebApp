@@ -62,6 +62,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.siblinks.ws.Notification.Helper.FireBaseNotification;
+import com.siblinks.ws.dao.CacheObjectDao;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.ActivityLogData;
@@ -97,6 +98,9 @@ public class UploadEssayServiceImpl implements UploadEssayService {
 
     @Autowired
     private ObjectDao dao;
+
+    @Autowired
+    private CacheObjectDao cachedDao;
 
     @Autowired
     private Environment env;
@@ -344,7 +348,12 @@ public class UploadEssayServiceImpl implements UploadEssayService {
             if (StringUtil.isNull(statusMessage)) {
 
                 boolean msgs = true;
-                Object[] queryParams = { userId, file.getInputStream(), desc, file.getContentType(), fileName, title, file
+                List<Map<String, String>> allWordFilter = cachedDao.getAllWordFilter();
+                String strContent = CommonUtil.filterWord(desc, allWordFilter);
+                String strTitle = CommonUtil.filterWord(title, allWordFilter);
+                String strFileName = CommonUtil.filterWord(fileName, allWordFilter);
+
+                Object[] queryParams = { userId, file.getInputStream(), strContent, file.getContentType(), strFileName, strTitle, file
                     .getSize(), schoolId, majorId };
                 msgs = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_STUDENT_UPLOAD_ESSAY, queryParams);
                 if (msgs) {

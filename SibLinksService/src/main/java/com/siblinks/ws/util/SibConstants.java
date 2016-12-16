@@ -596,6 +596,9 @@ public class SibConstants {
         public static final String SQL_SET_ENABLE_FLAG_USER = "SET_ENABLE_USER";
         public static final String SQL_UPDATE_ADMIN_INFO = "UPDATE_ADMIN_INFO";
         public static final String SQL_GET_MENTOR_ESSAY = "GET_MENTOR_ESSAY";
+
+        // Word filter
+        public static final String SQL_GET_ALL_WORD_FILTER = "GET_ALL_WORD_FILTER";
     }
 
     public class SqlMapperBROT4 {

@@ -22,6 +22,7 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
     };
 
     init();
+
     $scope.nextFocus = function () {
     	angular.element('#passWord').trigger('focus');
     }
@@ -29,6 +30,7 @@ brotControllers.controller('SignInCtrl', function ($scope, $location, $rootScope
     function init() {
         $scope.username = 'Username*';
         $scope.password = 'Password*';
+        angular.element('#userName').trigger('focus');
     }
 
     $scope.showForgotPassword = function () {

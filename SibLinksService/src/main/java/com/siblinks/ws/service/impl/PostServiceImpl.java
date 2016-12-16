@@ -56,6 +56,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.siblinks.ws.Notification.Helper.FireBaseNotification;
+import com.siblinks.ws.dao.CacheObjectDao;
 import com.siblinks.ws.dao.ObjectDao;
 import com.siblinks.ws.filter.AuthenticationFilter;
 import com.siblinks.ws.model.ActivityLogData;
@@ -88,6 +89,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     ObjectDao dao;
+
+    @Autowired
+    CacheObjectDao cachedDao;
 
     @Autowired
     private PlatformTransactionManager transactionManager;
@@ -134,6 +138,8 @@ public class PostServiceImpl implements PostService {
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
 
+            String strContent = CommonUtil.filterWord(content, cachedDao.getAllWordFilter());
+
             if (!StringUtil.isNull(error)) {
                 // Return is not exist image
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "createPost", error);
@@ -155,7 +161,7 @@ public class PostServiceImpl implements PostService {
             // Insert question
             id = dao.insertObject(
                 SibConstants.SqlMapper.SQL_CREATE_QUESTION,
-                new Object[] { userId, subjectId, content, filePath });
+                new Object[] { userId, subjectId, strContent, filePath });
             simpleResponse = new SimpleResponse("" + (id > 0), "post", "createPost", id);
 
         } catch (Exception e) {
@@ -217,14 +223,15 @@ public class PostServiceImpl implements PostService {
                     }
                 }
             }
+            String strContent = CommonUtil.filterWord(content, cachedDao.getAllWordFilter());
 
-            Object[] queryParamsAnswer = { pid, mentorId, content, filePath };
-            String contentNofi = content;
-            if (!StringUtil.isNull(content) && content.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
-                contentNofi = content.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
+            Object[] queryParamsAnswer = { pid, mentorId, strContent, filePath };
+            String strContentNofi = strContent;
+            if (!StringUtil.isNull(strContent) && strContent.length() > Parameters.MAX_LENGTH_TO_NOFICATION) {
+                strContentNofi = strContent.substring(0, Parameters.MAX_LENGTH_TO_NOFICATION);
             }
             id = dao.insertObject(SibConstants.SqlMapper.SQL_CREATE_ANSWER, queryParamsAnswer);
-            Object[] queryParams = { mentorId, studentId, SibConstants.NOTIFICATION_TYPE_ANSWER_QUESTION, SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION, contentNofi, subjectId, pid };
+            Object[] queryParams = { mentorId, studentId, SibConstants.NOTIFICATION_TYPE_ANSWER_QUESTION, SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION, strContentNofi, subjectId, pid };
             dao.insertUpdateObject(SibConstants.SqlMapper.SQL_UPDATE_NUMREPLIES_QUESTION, new Object[] { pid });
 
             status = dao.insertUpdateObject(SibConstants.SqlMapper.SQL_CREATE_NOTIFICATION, queryParams);
@@ -237,7 +244,7 @@ public class PostServiceImpl implements PostService {
                     SibConstants.NOTIFICATION_TITLE_ANSWER_QUESTION,
                     SibConstants.TYPE_QUENSION_ANSWER,
                     pid,
-                    content,
+                    strContent,
                     SibConstants.NOTIFICATION_ICON,
                     SibConstants.NOTIFICATION_PRIPORITY_HIGH);
             }
@@ -341,10 +348,10 @@ public class PostServiceImpl implements PostService {
                 }
                 // remove file when edit question
                 removeFileEdit(oldImagePathEdited, "directoryImageQuestion");
-
+                String strContent = CommonUtil.filterWord(content, cachedDao.getAllWordFilter());
                 dao.insertUpdateObject(
                     SibConstants.SqlMapper.SQL_POST_EDIT,
-                    new Object[] { fixFilePath(filePathEdited + filePath), content, subjectId, qid });
+                    new Object[] { fixFilePath(filePathEdited + filePath), strContent, subjectId, qid });
 
                 // TODO can add user edit
                 // activityLogSerservice.insertActivityLog(new
@@ -947,7 +954,6 @@ public class PostServiceImpl implements PostService {
                 return new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
             }
 
-
             String error = validateFileImage(files);
             if (!StringUtil.isNull(error)) {
                 simpleResponse = new SimpleResponse(SibConstants.FAILURE, "post", "editAnswer", error);
@@ -996,12 +1002,13 @@ public class PostServiceImpl implements PostService {
                         filePath += ";";
                     }
                 }
-            // remove file when edit question
-            removeFileEdit(oldImagePathEdited, "directoryImageAnswer");
-
-            dao.insertUpdateObject(SibConstants.SqlMapper.SQL_ANSWER_EDIT, new Object[] { content, fixFilePath(filePathEdited +
-                                                                                                               filePath), aid });
-            simpleResponse = new SimpleResponse("" + status, "Post", "editAnswer", "");
+                // remove file when edit question
+                removeFileEdit(oldImagePathEdited, "directoryImageAnswer");
+                String strContent = CommonUtil.filterWord(content, cachedDao.getAllWordFilter());
+                dao.insertUpdateObject(
+                    SibConstants.SqlMapper.SQL_ANSWER_EDIT,
+                    new Object[] { strContent, fixFilePath(filePathEdited + filePath), aid });
+                simpleResponse = new SimpleResponse("" + status, "Post", "editAnswer", "");
             }
 
         } catch (Exception e) {
