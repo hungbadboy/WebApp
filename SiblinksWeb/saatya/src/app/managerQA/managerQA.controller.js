@@ -26,7 +26,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         $scope.isLoadMore = true;
         $scope.isLoadMoreAnswer =true;
         $scope.currentIndexAnswer = 0;
-        var allSubjects = JSON.parse(localStorage.getItem('subjects'));
+        const allSubjects = JSON.parse(localStorage.getItem('subjects'));
         $scope.subjectsParent = [];
         var oldImagePathEdited="";
         var aidEdit;
@@ -39,7 +39,11 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         function init() {
 
             var offset = 0;
-            listDefaultSubjectId = getSubjectNameByIdQA(defaultSubjectId, allSubjects);
+            var listDefaultSubjectId=[]; 
+            var list = defaultSubjectId.split(',');
+            for (var i = 0; i < list.length; i++) {
+            	getSubjectNameByIdQA(listDefaultSubjectId, list[i], allSubjects);
+            }
             listSubject = "";
             // get child subjectID from default subject
             for (var i = 0; i < listDefaultSubjectId.length; i++) {
@@ -727,48 +731,24 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
         };
 
+        
         // get subject from default subject
-        function getSubjectNameByIdQA(strSubjectId, listcate) {
+        function  getSubjectNameByIdQA (listSubject, strSubjectId, listcate) {
             if (strSubjectId == null || strSubjectId === undefined) {
                 return;
             }
-            var subject = {};
-            var listSubject = [];
-            if (isEmpty(strSubjectId)) {
-                listSubject.push(subject);
-                return listSubject;
+            var tmp = listcate.slice(); 
+            for (var y = 0; y < tmp.length; y++) {
+              if (tmp[y].subjectId == strSubjectId || tmp[y].parentId == strSubjectId) {
+                  subject = [];
+                  subject.name = tmp[y].subject;
+                  subject.id = tmp[y].subjectId;
+                  subject.level = tmp[y].level;
+                  subject.parentId = tmp[y].parentId;
+                  listSubject.push(subject);
+                  tmp.splice(y,1);
+                  getSubjectNameByIdQA(listSubject, strSubjectId, tmp);
+              }
             }
-            if (strSubjectId.indexOf(',') < 0) {
-                for (var y = 0; y < listcate.length; y++) {
-                    if (listcate[y].subjectId == strSubjectId || listcate[y].parentId == strSubjectId) {
-                        subject.id = strSubjectId;
-                        subject.name = listcate[y].subject;
-                        subject.level = listcate[y].level;
-                        subject.parentId = listcate[y].parentId;
-                        listSubject.push(subject);
-
-                    }
-                    return listSubject;
-                }
-            }
-            else {
-                var list = strSubjectId.split(',');
-                for (var i = 0; i < list.length; i++) {
-                    for (var y = 0; y < listcate.length; y++) {
-                        if (listcate[y].subjectId == list[i] || listcate[y].parentId == list[i]) {
-                            subject = [];
-                            subject.name = listcate[y].subject;
-                            subject.id = listcate[y].subjectId;
-                            subject.level = listcate[y].level;
-                            subject.parentId = listcate[y].parentId;
-                            listSubject.push(subject);
-                        }
-
-                    }
-                }
-            }
-
-            return listSubject;
         }
-
     }]);

@@ -1118,7 +1118,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                     // Word filter content
                     List<Map<String, String>> allWordFilter = cachedDao.getAllWordFilter();
                     String strContent = CommonUtil.filterWord(comment, allWordFilter);
-                    String strFileName = CommonUtil.filterWord(file.getOriginalFilename(), allWordFilter);
+                    String strFileName = CommonUtil.filterWord((file != null) ? file.getOriginalFilename() : null, allWordFilter);
 
                     if (!isUpdate) {
                         params = new Object[] { "", mentorId, strContent };
@@ -1188,7 +1188,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 }
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(), e.getCause());
+            e.printStackTrace();
             if (status != null) {
                 transactionManager.rollback(status);
             }
