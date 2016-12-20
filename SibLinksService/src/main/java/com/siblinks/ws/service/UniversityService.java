@@ -22,6 +22,7 @@ package com.siblinks.ws.service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.siblinks.ws.model.SibUniversity;
 import com.siblinks.ws.response.Response;
 
 
@@ -34,5 +35,25 @@ public interface UniversityService {
      */
 
     ResponseEntity<Response> getAllUniversities(String search, String nd, int rows, int page, String sidx, String sord);
-    
+
+    public ResponseEntity<Response> registerSchool(SibUniversity data);
+
+    /**
+     * @param data
+     * @return
+     */
+    ResponseEntity<Response> getSchoolInfo(long schoolid);
+
+    /**
+     * @param data
+     * @return
+     */
+    ResponseEntity<Response> updateSchoolInfo(SibUniversity data);
+
+    /**
+     * @param data
+     * @return
+     */
+    ResponseEntity<Response> deleteSChool(SibUniversity data);
+
 }

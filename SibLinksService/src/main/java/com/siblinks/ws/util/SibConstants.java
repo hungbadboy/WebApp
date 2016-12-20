@@ -20,8 +20,8 @@
 package com.siblinks.ws.util;
 
 /**
- *
- *
+ * 
+ * 
  * @author hungpd
  * @version 1.0
  */
@@ -77,7 +77,7 @@ public class SibConstants {
 
     /**
      * Intercept request HTTP
-     *
+     * 
      * @author hungpd
      * @version 1.0
      */
@@ -89,7 +89,7 @@ public class SibConstants {
 
     /**
      * Declare constant SQL Mapper
-     *
+     * 
      * @author hungpd
      * @version 1.0
      */
@@ -594,6 +594,14 @@ public class SibConstants {
 
         // University
         public static final String SQL_GET_ALL_UNIVERSITIES = "GET_ALL_UNIVERSITIES";
+        public static final String SQL_ADD_ANOTHER_SCHOOL = "SIB_ADD_ANOTHER_SCHOOL";
+        public static final String SQL_REGISTER_EXIST_SCHOOL = "SIB_REGISTER_SCHOOL_EXIST";
+        public static final String SQL_GET_SCHOOL_INFO = "GET_SCHOOL_INFO";
+        public static final String SQL_UPDATE_SCHOOL_INFO = "UPDATE_SCHOOL_INFO";
+        public static final String SQL_CHECK_SCHOOL_EXISTS_BY_ID = "CHECK_SCHOOL_EXISTS_BY_ID";
+        public static final String SQL_DELETE_SCHOOL = "DELETE_SCHOOL";
+        public static final String SQL_GET_STATES = "GET_STATES";
+        public static final String SQL_GET_CITIES = "GET_CITIES";
     }
 
     public class SqlMapperBROT4 {
