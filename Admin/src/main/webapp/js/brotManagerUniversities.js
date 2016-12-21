@@ -6,19 +6,36 @@ $(document).ready(function() {
 		var container = $(".form-group.list-state > select");
 		if(response){
 			for(var i=0;i<response.length;i++){
-				container.append('<option value="'+response[i].name+'">'+response[i].name+': '+response[i].state_code+'</option>');
+				container.append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
 			}
 		}
 	});
-//	getCities(function(response){
-//		localStorage.setItem("states", JSON.stringify(response));
-//		var container = $(".form-group.list-city > select");
-//		if(response){
-//			for(var i=0;i<response.length;i++){
-//				container.append('<option value="'+response[i].name+'">'+response[i].name+', '+response[i].state_code+'</option>');
-//			}
-//		}
-//	});
+	$(".list-state select").change(function(){
+        $(".list-city input").attr("readonly", false);
+        $(".list-city input").removeAttr('placeholder');
+        getCities(function(response){
+    		var Cities = [];
+    		localStorage.setItem("cities", JSON.stringify(response));
+    		if(response){
+    			for(var i=0;i<response.length;i++){
+    			Cities.push(response[i].name);
+    			}
+    		}	
+    		$("#list-cities").autocomplete({
+    	      source: Cities
+    	    });
+    	});
+    });
+	
+	$("#type").change(function(){
+		$("#type").css("color","black");
+	})
+	
+	$("#state").change(function(){
+		$("#state").css("color","black");
+	})	
+	
+	
 	$("#universityMgr").jqGrid({
 		url : endPointUrl + 'university/getAllUniversities',
 		editurl : 'clientArray',
@@ -45,21 +62,21 @@ $(document).ready(function() {
 		}, {
 			label : 'First Address',
 			name : 'address1',
-			width : 225,
+			width : 200,
 			editable : true,
 			edittype : "text"
 		}, {
 			label : 'Second Address',
 			name : 'address2',
-			width : 225,
+			width : 200,
 			editable : true,
 			edittype : "text"
 		}, {
 			label : 'City',
 			name : 'city',
-			width : 100,
+			width : 150,
 			editable : true,
-			edittype : "select"
+			edittype : "text"
 		}, {
 			label : 'State',
 			name : 'state',
@@ -137,7 +154,7 @@ function validateFormRegisterSchool(isAddNew, schoolId) {
 	var type = $("select[name=typeSchool]").val();
 	var address1 = $("input[name=firstAddress]").val();
 	var address2 = $("input[name=secondAddress]").val();
-	var city = $("select[name=city]").val();
+	var city = $("input[name=city]").val();
 	var state = $("select[name=state]").val();
 	var zip = $("input[name=zipcode]").val();
 	
@@ -199,7 +216,7 @@ function clearFormRegSchool(){
 	$("select[name=typeSchool]").val("");
 	$("input[name=firstAddress]").val("");
 	$("input[name=secondAddress]").val("");
-	$("select[name=city]").val("");
+	$("input[name=city]").val("");
 	$("select[name=state]").val("");
 	$("input[name=zipcode]").val("");
 
@@ -221,8 +238,9 @@ function getStates(callback){
 }
 
 function getCities(callback){
+    var state_id = $("select[name=state]").val();
 	$.ajax({
-		url : endPointUrl + 'university/getCities',
+		url : endPointUrl + 'university/getCities?state_id='+state_id,
 		type : "GET",
 		success : function(data){
 			var cities = data.request_data_result;
@@ -257,7 +275,7 @@ function setValueFormSchool(data){
 	$("select[name=typeSchool]").val(data.type);
 	$("input[name=firstAddress]").val(data.address1);
 	$("input[name=secondAddress]").val(data.address2);
-	$("select[name=city]").val(data.city);
+	$("input[name=city]").val(data.city);
 	$("select[name=state]").val(data.state);
 	$("input[name=zipcode]").val(data.zip);
 }

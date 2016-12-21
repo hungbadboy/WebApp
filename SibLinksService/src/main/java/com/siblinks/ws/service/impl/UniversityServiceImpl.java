@@ -202,11 +202,12 @@ public class UniversityServiceImpl implements UniversityService {
 
     @RequestMapping(value = "/getCities")
     @ResponseBody
-    public ResponseEntity<Response> getCities() {
+    public ResponseEntity<Response> getCities(@RequestParam final long state_id) {
         SimpleResponse response = null;
         try {
-            String entityName = SibConstants.SqlMapper.SQL_GET_CITIES;
-            List<Object> cities = dao.readObjects(entityName, new Object[] {});
+            Map<String, Object> result = null;
+            Object[] queryParams = { state_id };
+            List<Object> cities = dao.readObjects(SibConstants.SqlMapper.SQL_GET_CITIES, queryParams);
             response = new SimpleResponse(SibConstants.SUCCESS, "cities", "getCities", cities);
         } catch (DAOException e) {
             logger.debug(e.getMessage());

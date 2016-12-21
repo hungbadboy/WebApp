@@ -3,10 +3,9 @@
 <head>
 <script type="text/javascript" src="js/brotManagerUniversities.js"></script>
 <script type="text/javascript">
-	
 </script>
 </head>
-<body>
+<body id="univervisty-manage">
 	<div>
 		<h2>Manager University</h2>
 	</div>
@@ -41,24 +40,24 @@
 						</div>
 						<div class="form-group clearfix">
 							<label>Type:</label> 
-							<select name="typeSchool" tabindex="7" style="width:220px;height:34px;padding:6px 12px; border-color:black;">
+							<select id="type" name="typeSchool" tabindex="7">
 							 	<option value="" disabled selected>School's type</option>
 								<option value="U">UNIVERSITY</option>
 								<option value="C">COLLEGE</option>
 							</select>
 						</div>
 					</div>
-					<div class="right-site">
+					<div class="right-site">	
+						<div class="form-group list-state clearfix">
+							<label>State:</label> 
+							<select id="state" name="state" tabindex="4">
+								<option disabled selected >State</option>
+							</select>
+						</div>	
 						<div class="form-group list-city clearfix">
 							<label>City:</label> 
-							<select name="city" tabindex="4" style="width:220px;height:34px;padding:6px 12px; border-color:black;">
-							</select>
-						</div>
-						<div class="form-group list-state clearfix">
-							<label>State:</label>
-							<select name="state" tabindex="5" style="width:220px;height:34px;padding:6px 12px; border-color:black;">
-							</select>
-						</div>
+							<input id="list-cities" type="text" placeholder="City ( Choose a State first )" name="city" tabindex="5" readonly>
+						</div>						
 						<div class="form-group clearfix" id="zipcode">
 							<label>Zip code:</label> <input type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');"  placeholder="Zip code" name="zipcode" tabindex="6">
 						</div>
@@ -70,7 +69,7 @@
 		<div id="confirmDelete" title="Delete School ?"></div> 
 		
 		<div class="col-md-2">
-			<select id="selectUniversity" style="width: 200px; margin-top: 10px">
+			<select id="selectUniversity">
 				<option value="All" selected>Select One</option>
 				<option value="U">UNIVERSITY</option>
 				<option value="C">COLLEGE</option>

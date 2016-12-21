@@ -1073,3 +1073,35 @@ ul, li {
 .ui-jqgrid tr.ui-row-ltr td {
 	text-align : center !important;
 }
+
+.ui-autocomplete.ui-widget{
+	z-index:99999999999 !important;
+	height:170px;
+	overflow-x:hidden;
+	overflow-y:scroll;
+}
+
+.ui-autocomplete.ui-widget a{
+	text-decoration:none;
+}
+
+#box-add-school form input:read-only{
+	background-color:#ddd;
+}
+
+#box-add-school form #type,#box-add-school form #state{
+	width:220px;
+	height:34px;
+	padding:6px 8px; 
+	border-color:black;
+	color:#a9a9a9;
+}
+
+#box-add-school form option:not(:first-child){
+	color:black;
+}
+
+#univervisty-manage .col-md-2 #selectUniversity{
+	width: 200px; 
+	margin-top: 10px;
+}
