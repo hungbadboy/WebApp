@@ -6,13 +6,13 @@ $(document).ready(function() {
 		var container = $(".form-group.list-state > select");
 		if(response){
 			for(var i=0;i<response.length;i++){
-				container.append('<option value="'+response[i].id+'">'+response[i].name+'</option>');
+				container.append('<option value="'+response[i].name+'">'+response[i].name+'</option>');
 			}
 		}
 	});
 	$(".list-state select").change(function(){
         $(".list-city input").attr("readonly", false);
-        $(".list-city input").removeAttr('placeholder');
+        $('select#state').css('color','black');
         getCities(function(response){
     		var Cities = [];
     		localStorage.setItem("cities", JSON.stringify(response));
@@ -30,11 +30,6 @@ $(document).ready(function() {
 	$("#type").change(function(){
 		$("#type").css("color","black");
 	})
-	
-	$("#state").change(function(){
-		$("#state").css("color","black");
-	})	
-	
 	
 	$("#universityMgr").jqGrid({
 		url : endPointUrl + 'university/getAllUniversities',
@@ -200,9 +195,12 @@ function addNewSchool(jsonRegister) {
 				showDialogLoading(false);
 				clearFormRegSchool();
 				disableButtonSubmitForm(false);
+				console.log(1);
 			}else{
 				$("#msgRegisterSchool").text("Please Enter the correct form !!!").css({"color": "red", "font-size": "24px", "padding-left": "250px"});
+				disableButtonSubmitForm(false);
 			}
+			location.reload();
 		},
 		error : function(data) {
 			showDialogLoading(false);
@@ -238,9 +236,9 @@ function getStates(callback){
 }
 
 function getCities(callback){
-    var state_id = $("select[name=state]").val();
+    var state_name = $("select[name=state]").val();
 	$.ajax({
-		url : endPointUrl + 'university/getCities?state_id='+state_id,
+		url : endPointUrl + 'university/getCities?state_name='+state_name,
 		type : "GET",
 		success : function(data){
 			var cities = data.request_data_result;
@@ -313,6 +311,7 @@ function updateSchoolInfo(json,schoolId){
 			}
 			$("#universityMgr").jqGrid('setGridParam',{datatype:'json'}).trigger('reloadGrid');	
 			disableButtonSubmitForm(false);	
+			location.reload();
 		},
 		error : function(data) {
 			$("#msgRegisterSchool").text("Plz check again !!!").css({"color": "red", "font-size": "24px", "padding-left": "250px"});
@@ -324,6 +323,20 @@ function updateSchoolInfo(json,schoolId){
 
 function showDialogFormAddSchool(type,id){
 	var isUpdateProfile = id != null ? true : false;
+	if($('select#type').val() != null){
+		$('select#type').css('color','black');
+	}else{
+		$('select#type').css('color','#a9a9ab');
+	}
+	
+	if($('select#state').val() != null){
+		$('select#state').css('color','black');
+		$('.list-city input').attr('readonly', false);
+	}else{
+		$('select#state').css('color','#a9a9ab');
+		$('.list-city input').attr('readonly', true);
+	}
+	
 	$('#box-add-school').dialog({
 		dialogClass: 'no-close',
 		display : 'block',

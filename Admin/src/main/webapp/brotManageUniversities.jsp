@@ -51,7 +51,7 @@
 						<div class="form-group list-state clearfix">
 							<label>State:</label> 
 							<select id="state" name="state" tabindex="4">
-								<option disabled selected >State</option>
+								<option value="" disabled selected >State</option>
 							</select>
 						</div>	
 						<div class="form-group list-city clearfix">

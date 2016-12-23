@@ -99,10 +99,17 @@ public class UniversityServiceImpl implements UniversityService {
             String message = "";
             boolean status = false;
             if (CollectionUtils.isEmpty(schoolResponse) || schoolResponse == null) {
-                status = dao.insertUpdateObject(
-                    SibConstants.SqlMapper.SQL_ADD_ANOTHER_SCHOOL,
-                    new Object[] { data.getName(), data.getType(), data.getAddress1(), data.getAddress2(), data.getCity(), data
-                        .getState(), data.getZip() });
+                if (data.getName() != "") {
+                    status = dao
+                        .insertUpdateObject(
+                            SibConstants.SqlMapper.SQL_ADD_ANOTHER_SCHOOL,
+                            new Object[] { data.getName(), data.getType(), data.getAddress1(), data.getAddress2(), data.getCity(), data
+                                .getState(), data.getZip() });
+                } else {
+                    status = false;
+                    message = "Name can't blank";
+                }
+
             } else {
                 status = false;
                 message = "Name is already registered";
@@ -202,11 +209,11 @@ public class UniversityServiceImpl implements UniversityService {
 
     @RequestMapping(value = "/getCities")
     @ResponseBody
-    public ResponseEntity<Response> getCities(@RequestParam final long state_id) {
+    public ResponseEntity<Response> getCities(@RequestParam final String state_name) {
         SimpleResponse response = null;
         try {
             Map<String, Object> result = null;
-            Object[] queryParams = { state_id };
+            Object[] queryParams = { state_name };
             List<Object> cities = dao.readObjects(SibConstants.SqlMapper.SQL_GET_CITIES, queryParams);
             response = new SimpleResponse(SibConstants.SUCCESS, "cities", "getCities", cities);
         } catch (DAOException e) {
