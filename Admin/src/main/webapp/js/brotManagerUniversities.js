@@ -327,8 +327,7 @@ function showDialogFormAddSchool(type,id){
 		$('select#type').css('color','black');
 	}else{
 		$('select#type').css('color','#a9a9ab');
-	}
-	
+	}	
 	if($('select#state').val() != null){
 		$('select#state').css('color','black');
 		$('.list-city input').attr('readonly', false);
@@ -337,6 +336,7 @@ function showDialogFormAddSchool(type,id){
 		$('.list-city input').attr('readonly', true);
 	}
 	
+	$(".ui-dialog-title").text(type == "Add" ? "Add New School" : "Edit School");
 	$('#box-add-school').dialog({
 		dialogClass: 'no-close',
 		display : 'block',
@@ -370,6 +370,19 @@ function showDialogFormAddSchool(type,id){
 				$(this).dialog("close");
 			}
 		}
+	});
+	
+	getCities(function(response){
+		var Cities = [];
+		localStorage.setItem("cities", JSON.stringify(response));
+		if(response){
+			for(var i=0;i<response.length;i++){
+			Cities.push(response[i].name);
+			}
+		}	
+		$("#list-cities").autocomplete({
+	      source: Cities
+	    });
 	});
 }
 

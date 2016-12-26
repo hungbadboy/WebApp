@@ -9,8 +9,8 @@
 	<div>
 		<h2>Manager University</h2>
 	</div>
-	<div style="padding: 30px">
-		<div class="col-md-4">
+	<div style="padding:30px">
+		<div class="col-md-4" style="margin-bottom:10px;">
 			<button id="btnAddSchool" type="button" class="btn btn-info">
 				<span class="glyphicon glyphicon-plus"></span> Add School
 			</button>
