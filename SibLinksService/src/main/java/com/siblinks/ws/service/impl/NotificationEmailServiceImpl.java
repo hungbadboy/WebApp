@@ -193,7 +193,7 @@ public class NotificationEmailServiceImpl implements NotificationEmailService {
                                                     SibConstants.FAILURE,
                                                     request.getRequest_data_type(),
                                                     request.getRequest_data_method(),
-                                                    email + " is not exits");
+                                                    email + " is not exist");
             }
         } catch (Exception e) {
             logger.error(e);

@@ -80,7 +80,8 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
 
                 }
             });
-
+            
+            getCountQuestionAnswerByMentor(selectedSubsId, userId, $scope.textSearch, listSubject);
         }
         $timeout(function () {
             $('#autocompleteSubsQA_dropdown').width($('#autocompleteSubsQA').width());
@@ -214,6 +215,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         }
         $scope.searchQuestion = function () {
             getListQuestionAndDetail(selectedSubsId,$scope.textSearch);
+            
+            // Get count question answer by search content and subject
+            getCountQuestionAnswerByMentor(selectedSubsId, userId, $scope.textSearch, listSubject);
         }
 
 
@@ -472,6 +476,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $scope.isLoadMore = true;
             selectedSubsId = selected.originalObject.id;
             getListQuestionAndDetail(selectedSubsId,$scope.textSearch);
+            
+            // Get count question answer by search content and subject
+            getCountQuestionAnswerByMentor(selectedSubsId, userId, $scope.textSearch, listSubject);
         };
 
         $scope.changeWidth = function () {
@@ -750,5 +757,25 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                   getSubjectNameByIdQA(listSubject, strSubjectId, tmp);
               }
             }
+        }
+        
+        function getCountQuestionAnswerByMentor(selectedSubsId, userId, textSearch, listSubject) {
+        	// Get count question answer of mentor
+            managerQAService.getCountQuestionAnswerByMentor(selectedSubsId, userId, textSearch, listSubject).then(function(data){
+            	if (data.data.status == 'true') {
+            		var result = data.data.request_data_result;
+            		$scope.countTotalQuestion = 0;
+            		$scope.countTotalQuestionUnAnswer=0;
+            		$scope.countTotalQuestionAnswered=0;
+            		for(var i =0; i< result.length; i ++) {
+            			if(result[i].numReplies == '0') {
+                			$scope.countTotalQuestionUnAnswer = result[i].total;
+                		} else {
+                			$scope.countTotalQuestionAnswered = result[i].total;
+                		}
+            			$scope.countTotalQuestion += result[i].total;
+            		}
+            	}
+            });
         }
     }]);

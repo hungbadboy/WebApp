@@ -19,6 +19,7 @@
  */
 package com.siblinks.ws.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siblinks.ws.common.DAOException;
@@ -145,4 +147,52 @@ public class ManagerQAServiceImpl implements managerQAService {
         return entity;
     }
 
+    @Override
+    @RequestMapping(value = "/getCountQuestionAnswerByMentor", method = RequestMethod.GET)
+    public ResponseEntity<Response> getCountQuestionAnswerByMentor(@RequestParam(required = false) final String subjectId,
+            @RequestParam final String uid, @RequestParam(required = false) final String content,
+            @RequestParam(required = false) final String subjects) {
+        SimpleResponse simpleResponse = null;
+        try {
+            if (!AuthenticationFilter.isAuthed(context)) {
+                simpleResponse = new SimpleResponse(SibConstants.FAILURE, "Authentication required.");
+                return new ResponseEntity<Response>(simpleResponse, HttpStatus.FORBIDDEN);
+            }
+
+            List<Object> queryParams = new ArrayList<Object>();
+            String whereClause = "";
+            if (!StringUtil.isNull(subjectId) && !"-1".equals(subjectId)) {
+                whereClause += " AND x.subjectId = ? ";
+                queryParams.add(subjectId);
+            } else {
+                if (StringUtil.isNull(subjects)) {
+                    whereClause += " AND FIND_IN_SET(x.subjectId , (SELECT defaultSubjectId FROM Sib_Users where userid = ?)) ";
+                    queryParams.add(uid);
+                } else {
+                    whereClause += " AND FIND_IN_SET(x.subjectId , '" + subjects + "') ";
+
+                }
+            }
+
+            if (!StringUtil.isNull(content)) {
+                whereClause += " AND x.content like(?) ";
+                queryParams.add("%" + content + "%");
+            }
+            whereClause += " GROUP BY x.numReplies";
+
+            List<Object> readObject = dao.readObjectsWhereClause(
+                SibConstants.SqlMapper.SQL_GET_COUNT_ALL_QUESTION_BY_SUBJ,
+                whereClause,
+                queryParams.toArray());
+            simpleResponse = new SimpleResponse(SibConstants.SUCCESS, "managerQA", "getCountQuestionAnswerByMentor", readObject);
+        } catch (DAOException e) {
+            simpleResponse = new SimpleResponse(
+                                                SibConstants.FAILURE,
+                                                "managerQA",
+                                                "getCountQuestionAnswerByMentor",
+                                                e.getMessage());
+        }
+        ResponseEntity<Response> entity = new ResponseEntity<Response>(simpleResponse, HttpStatus.OK);
+        return entity;
+    }
 }

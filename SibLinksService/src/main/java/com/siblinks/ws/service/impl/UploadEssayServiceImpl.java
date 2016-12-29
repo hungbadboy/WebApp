@@ -432,7 +432,7 @@ public class UploadEssayServiceImpl implements UploadEssayService {
                 if (msgs) {
                     statusMessage = "You updated successfull essay.";
                 } else {
-                    statusMessage = "This essay is already not exits.";
+                    statusMessage = "This essay is already not exist.";
                 }
 
             }

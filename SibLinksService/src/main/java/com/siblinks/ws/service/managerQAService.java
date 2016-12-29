@@ -19,4 +19,13 @@ public interface managerQAService {
 	 */
 	public ResponseEntity<Response> getListQuestionQA(RequestData video);
 
+    /**
+     * @param subjectId
+     * @param userId
+     * @param search
+     * @param subjects
+     * @return
+     */
+    ResponseEntity<Response> getCountQuestionAnswerByMentor(String subjectId, String userId, String search, String subjects);
+
 }
