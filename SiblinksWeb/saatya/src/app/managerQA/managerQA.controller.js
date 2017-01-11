@@ -71,9 +71,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                             $scope.currentPid = question_id;
                         }
                         getQuestionById($scope.currentPid);
+                        $scope.listQuestions[0].numViews = $scope.listQuestions[0].numViews +1; 
                         $scope.notFound = "";
-                    }
-                    else {
+                    } else {
                         $scope.questionDetail = null;
                         $scope.notFound = "Not found";
                     }
@@ -221,12 +221,13 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         }
 
 
-        $scope.selectQuestion = function (qid) {
+        $scope.selectQuestion = function (qid, index) {
             if($scope.currentPid == qid){
                 return;
             }
             cleanContentEdit();
             getQuestionById(qid);
+            $scope.listQuestions[index].numViews = $scope.listQuestions[index].numViews +1;
         }
 
         $scope.loadTo = function () {
@@ -514,9 +515,8 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
             var index = 0;
             var len = $scope.listQuestions.length;
-            for (var i = 0 ; i< len; i++){
-                if($scope.currentPid ==  $scope.listQuestions[i].pid)
-                {
+            for (var i = 0 ; i< len; i++) {
+                if($scope.currentPid ==  $scope.listQuestions[i].pid) {
                     index = i;
                     $scope.currentPid = $scope.listQuestions[i].pid;
                     break;
@@ -526,20 +526,21 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 if(index == len){
                     $scope.currentPid = $scope.listQuestions[0].pid;
                     getQuestionById($scope.currentPid);
-                }
-                else{
+                    $scope.listQuestions[0].numViews = $scope.listQuestions[0].numViews +1;
+                } else {
                     $scope.currentPid = $scope.listQuestions[index+1].pid;
                     getQuestionById($scope.currentPid);
+                    $scope.listQuestions[index+1].numViews = $scope.listQuestions[index+1].numViews +1;
                 }
-            }
-            else {
+            } else {
                 if(index == 0){
                     $scope.currentPid = $scope.listQuestions[len-1].pid;
                     getQuestionById($scope.currentPid);
-                }
-                else{
+                    $scope.listQuestions[len-1].numViews = $scope.listQuestions[len-1].numViews +1;
+                } else {
                     $scope.currentPid = $scope.listQuestions[index-1].pid;
                     getQuestionById($scope.currentPid);
+                    $scope.listQuestions[index-1].numViews = $scope.listQuestions[index-1].numViews +1;
                 }
             }
             cleanContentEdit();
@@ -556,6 +557,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                         lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].qid;
                         $scope.currentPid = $scope.listQuestions[0].pid;
                         getQuestionById($scope.currentPid);
+                        $scope.listQuestions[0].numViews = $scope.listQuestions[0].numViews +1;
                         $scope.notFound = "";
                     }
                     else {
