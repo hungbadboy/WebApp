@@ -302,7 +302,10 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                         $scope.isLoadMoreAnswer = true;
                         $scope.listAnswer = answers;
                         angular.element(document.getElementById('answer-detail')).modal('hide');
-
+                        if (answers != null && answers.length == 0) {
+                        	$scope.countTotalQuestionAnswered = $scope.countTotalQuestionAnswered +1;
+                        	$scope.countTotalQuestionUnAnswer = $scope.countTotalQuestionUnAnswer -1;
+                        }
                         if($scope.isEdit){
                             if(aid == aidEdit){
                                 cleanContentEdit();
@@ -448,6 +451,10 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 if (data.data.status == "true") {
                     QuestionsService.getAnswerByQid($scope.currentPid, typeOrderAnswer, "", "",userId).then(function (data) {
                         var answers = data.data.request_data_result;
+                        if (answers != null && answers.length == 1) {
+                        	$scope.countTotalQuestionAnswered = ($scope.countTotalQuestionAnswered<=1)? 0 : $scope.countTotalQuestionAnswered -1;
+                        	$scope.countTotalQuestionUnAnswer = $scope.countTotalQuestionUnAnswer +1;
+                        }
                         $scope.isLoadMoreAnswer = true;
                         $scope.listAnswer = answers;
                         cleanContentEdit();
