@@ -47,7 +47,19 @@ brotControllers.controller('SideLeftRightController', ['$scope', '$http', '$root
      * Show small left side bar
      */
     $scope.showFullLeftSideBar = function showFullLeftSideBar(path) {
-    	$rootScope.isMiniMenu = false;
+    	if (!path){
+    		return;
+    	}
+      	$rootScope.isMiniMenu = false;
     	$rootScope.isMiniSideRightBar = true;
+    	var sidebarCol = $('.center-content')
+    	if (sidebarCol.hasClass('in')) {
+        	$(".center-content.in").css({"width":"calc(100% - 500px)","margin-left":"250px","transition":"margin-left 1s"}).one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                    function(event) {       
+        		window.location.href = path;
+        	  });		
+    	} else {
+    		window.location.href = path;
+    	}  
     }
 }]);

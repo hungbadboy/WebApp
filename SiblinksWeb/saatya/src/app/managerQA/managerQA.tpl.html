@@ -43,16 +43,16 @@
                             <div role="tabpanel tab-all" class="tab-answered">
                                 <!-- Nav tabs -->
                                 <div class="t-panel">
-                                    <p ng-click="selectTab('all')" ng-class="{'active':currentTab == 'all'}">All<span class="sup sup1">{{listQuestions.length}}</span></p>
-                                    <p ng-click="selectTab('answered')" ng-class="{'active':currentTab == 'answered'}">Answered<span class="sup sup2">{{listAnswer.length}}</span></p>
-                                    <p ng-click="selectTab('unanswered')" ng-class="{'active':currentTab == 'unanswered'}">Unanswered<span class="sup sup3">{{}}</span></p>
+                                    <p ng-click="selectTab('all')" ng-class="{'active':currentTab == 'all'}">All<span ng-if="countTotalQuestion != null && countTotalQuestion != '0'" class="sup sup1">{{countTotalQuestion}}</span></p>
+                                    <p ng-click="selectTab('answered')" ng-class="{'active':currentTab == 'answered'}">Answered<span ng-if="countTotalQuestionAnswered != null && countTotalQuestionAnswered != '0'" class="sup sup2">{{countTotalQuestionAnswered}}</span></p>
+                                    <p ng-click="selectTab('unanswered')" ng-class="{'active':currentTab == 'unanswered'}">Unanswered<span ng-if="countTotalQuestionUnAnswer != null && countTotalQuestionUnAnswer != '0'" class="sup sup3">{{countTotalQuestionUnAnswer}}</span></p>
                                 </div>
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active tab-answered-tab" id="tab-1">
                                         <div ng-cloak id="listQA" class="group-item-qa" ng-if="listQuestions" scroller="askQuestion" data-on-total-scroll="loadMorePost" on-init="loadTo">
-                                            <div ng-repeat="question in listQuestions | unique:'pid'" class="item-qa clearfix" ng-class="{'active':question.pid == currentPid}"
-                                                 ng-click="selectQuestion(question.pid)" id="qa{{question.pid}}">
+                                            <div ng-repeat="question in listQuestions | unique:'pid' track by $index" class="item-qa clearfix" ng-class="{'active':question.pid == currentPid}"
+                                                 ng-click="selectQuestion(question.pid, $index)" id="qa{{question.pid}}">
                                                 <div class="col-xs-3">
                                                     <a><img class="avatar-fix-max-size60" ng-src="{{question.imageUrl}}" alt="avatar"></a>
                                                 </div>

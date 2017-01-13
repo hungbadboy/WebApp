@@ -22,6 +22,19 @@ brotServices.factory('managerQAService', ['$http', function ($http) {
         });
         return promise;
     };
+    
+    factory.getCountQuestionAnswerByMentor = function (subjectId, userId, content, subjects) {
+        var promise = $http({
+            method: 'GET',
+            headers: {
+                "Accept": "application/json;charset=utf-8",
+                "Accept-Charset":"charset=utf-8"
+            },
+            url: NEW_SERVICE_URL + 'managerQA/getCountQuestionAnswerByMentor?subjectId='+ subjectId+'&uid='+userId+'&content='+content+'&subjects='+subjects
+        });
+        return promise;
+    };
+    
     factory.postAnswer = function (fd) {
         var url = NEW_SERVICE_URL + 'post/createAnswer';
         var promise = $http({

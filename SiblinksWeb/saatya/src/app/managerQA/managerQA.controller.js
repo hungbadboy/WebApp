@@ -71,16 +71,17 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                             $scope.currentPid = question_id;
                         }
                         getQuestionById($scope.currentPid);
+                        $scope.listQuestions[0].numViews = $scope.listQuestions[0].numViews +1; 
                         $scope.notFound = "";
-                    }
-                    else {
+                    } else {
                         $scope.questionDetail = null;
                         $scope.notFound = "Not found";
                     }
 
                 }
             });
-
+            
+            getCountQuestionAnswerByMentor(selectedSubsId, userId, $scope.textSearch, listSubject);
         }
         $timeout(function () {
             $('#autocompleteSubsQA_dropdown').width($('#autocompleteSubsQA').width());
@@ -214,15 +215,19 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
         }
         $scope.searchQuestion = function () {
             getListQuestionAndDetail(selectedSubsId,$scope.textSearch);
+            
+            // Get count question answer by search content and subject
+            getCountQuestionAnswerByMentor(selectedSubsId, userId, $scope.textSearch, listSubject);
         }
 
 
-        $scope.selectQuestion = function (qid) {
+        $scope.selectQuestion = function (qid, index) {
             if($scope.currentPid == qid){
                 return;
             }
             cleanContentEdit();
             getQuestionById(qid);
+            $scope.listQuestions[index].numViews = $scope.listQuestions[index].numViews +1;
         }
 
         $scope.loadTo = function () {
@@ -297,7 +302,10 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                         $scope.isLoadMoreAnswer = true;
                         $scope.listAnswer = answers;
                         angular.element(document.getElementById('answer-detail')).modal('hide');
-
+                        if (answers != null && answers.length == 0) {
+                        	$scope.countTotalQuestionAnswered = $scope.countTotalQuestionAnswered +1;
+                        	$scope.countTotalQuestionUnAnswer = $scope.countTotalQuestionUnAnswer -1;
+                        }
                         if($scope.isEdit){
                             if(aid == aidEdit){
                                 cleanContentEdit();
@@ -443,6 +451,10 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 if (data.data.status == "true") {
                     QuestionsService.getAnswerByQid($scope.currentPid, typeOrderAnswer, "", "",userId).then(function (data) {
                         var answers = data.data.request_data_result;
+                        if (answers != null && answers.length == 1) {
+                        	$scope.countTotalQuestionAnswered = ($scope.countTotalQuestionAnswered<=1)? 0 : $scope.countTotalQuestionAnswered -1;
+                        	$scope.countTotalQuestionUnAnswer = $scope.countTotalQuestionUnAnswer +1;
+                        }
                         $scope.isLoadMoreAnswer = true;
                         $scope.listAnswer = answers;
                         cleanContentEdit();
@@ -472,6 +484,9 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             $scope.isLoadMore = true;
             selectedSubsId = selected.originalObject.id;
             getListQuestionAndDetail(selectedSubsId,$scope.textSearch);
+            
+            // Get count question answer by search content and subject
+            getCountQuestionAnswerByMentor(selectedSubsId, userId, $scope.textSearch, listSubject);
         };
 
         $scope.changeWidth = function () {
@@ -507,9 +522,8 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
             }
             var index = 0;
             var len = $scope.listQuestions.length;
-            for (var i = 0 ; i< len; i++){
-                if($scope.currentPid ==  $scope.listQuestions[i].pid)
-                {
+            for (var i = 0 ; i< len; i++) {
+                if($scope.currentPid ==  $scope.listQuestions[i].pid) {
                     index = i;
                     $scope.currentPid = $scope.listQuestions[i].pid;
                     break;
@@ -519,20 +533,21 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                 if(index == len){
                     $scope.currentPid = $scope.listQuestions[0].pid;
                     getQuestionById($scope.currentPid);
-                }
-                else{
+                    $scope.listQuestions[0].numViews = $scope.listQuestions[0].numViews +1;
+                } else {
                     $scope.currentPid = $scope.listQuestions[index+1].pid;
                     getQuestionById($scope.currentPid);
+                    $scope.listQuestions[index+1].numViews = $scope.listQuestions[index+1].numViews +1;
                 }
-            }
-            else {
+            } else {
                 if(index == 0){
                     $scope.currentPid = $scope.listQuestions[len-1].pid;
                     getQuestionById($scope.currentPid);
-                }
-                else{
+                    $scope.listQuestions[len-1].numViews = $scope.listQuestions[len-1].numViews +1;
+                } else {
                     $scope.currentPid = $scope.listQuestions[index-1].pid;
                     getQuestionById($scope.currentPid);
+                    $scope.listQuestions[index-1].numViews = $scope.listQuestions[index-1].numViews +1;
                 }
             }
             cleanContentEdit();
@@ -549,6 +564,7 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                         lastQId = $scope.listQuestions[$scope.listQuestions.length - 1].qid;
                         $scope.currentPid = $scope.listQuestions[0].pid;
                         getQuestionById($scope.currentPid);
+                        $scope.listQuestions[0].numViews = $scope.listQuestions[0].numViews +1;
                         $scope.notFound = "";
                     }
                     else {
@@ -750,5 +766,25 @@ brotControllers.controller('managerQAController', ['$scope', '$http', '$location
                   getSubjectNameByIdQA(listSubject, strSubjectId, tmp);
               }
             }
+        }
+        
+        function getCountQuestionAnswerByMentor(selectedSubsId, userId, textSearch, listSubject) {
+        	// Get count question answer of mentor
+            managerQAService.getCountQuestionAnswerByMentor(selectedSubsId, userId, textSearch, listSubject).then(function(data){
+            	if (data.data.status == 'true') {
+            		var result = data.data.request_data_result;
+            		$scope.countTotalQuestion = 0;
+            		$scope.countTotalQuestionUnAnswer=0;
+            		$scope.countTotalQuestionAnswered=0;
+            		for(var i =0; i< result.length; i ++) {
+            			if(result[i].numReplies == '0') {
+                			$scope.countTotalQuestionUnAnswer = result[i].total;
+                		} else {
+                			$scope.countTotalQuestionAnswered = result[i].total;
+                		}
+            			$scope.countTotalQuestion += result[i].total;
+            		}
+            	}
+            });
         }
     }]);

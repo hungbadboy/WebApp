@@ -144,4 +144,11 @@ public interface ObjectDao {
      */
     List readObjectNamedParameter(String dsConfigName, MapSqlParameterSource parameterSource)
             throws DAOException;
+
+    /**
+     * @param query
+     * @param params
+     * @return
+     */
+    List readObjectsBySQL(String query, Object[] params) throws DAOException;
 }

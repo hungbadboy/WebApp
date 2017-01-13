@@ -296,6 +296,20 @@ public class ObjectDaoImpl implements ObjectDao {
      * {@inheritDoc}
      */
     @Override
+    public List readObjectsBySQL(final String query, final Object[] params) {
+        List<Map<String, Object>> listUser = null;
+        try {
+            listUser = jdbcTemplate.queryForList(query, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listUser;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void insertUpdateBatch(final String dsConfigName, final List<Object[]> listParams) {
         logger.info("ssn " + dsConfigName + " not found in cache. TimeStamp: {}", new Date());
         try {
